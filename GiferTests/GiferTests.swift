@@ -11,7 +11,7 @@ import XCTest
 import UIKit
 import ImageIO
 import MobileCoreServices
-
+import Photos
 
 
 extension UIImage {
@@ -55,28 +55,27 @@ class GiferTests: XCTestCase {
         UIImage.animatedGif(from: [img1, img2])
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        let img1 = #imageLiteral(resourceName: "IMG_0009.PNG")
-        let img2 = #imageLiteral(resourceName: "IMG_0010.PNG")
+    func getTestVideo() -> PHAsset {
+        let asset = PHAsset.fetchAssets(with: .video, options: nil).firstObject!
+        return asset
+    }
+    
+    func testParseVideo() {
+        let expect = expectation(description: "parse video")
+        let video = getTestVideo()
+        let manager = PHImageManager.default()
+        print("video: \(video)")
+        manager.requestAVAsset(forVideo: video, options: nil) { (avAsset, _, info) in
+            if let avAsset = avAsset {
+                print("requestAVAsset \(avAsset) \(info)")
+                let time = CMTimeMakeWithSeconds(1, preferredTimescale: 1)
+                try! AVAssetImageGenerator(asset: avAsset).generateCGImagesAsynchronously(forTimes: [NSValue(time: time)], completionHandler: { (_, image, _, _, error) in
+                    print("image: \(image)")
+                    expect.fulfill()
+                })
+            }
+        }
         
-        let temporaryFile = (NSTemporaryDirectory() as NSString).appendingPathComponent("test.gif")
-        let fileURL = URL(fileURLWithPath: temporaryFile)
-        let destination  = CGImageDestinationCreateWithURL(fileURL as CFURL, kUTTypeGIF, 2, nil)!
-        let frameProperties = [
-            kCGImagePropertyGIFDictionary as String:[
-                kCGImagePropertyGIFDelayTime as String:1
-            ]
-        ]
-        CGImageDestinationAddImage(destination, img1.cgImage!, frameProperties as CFDictionary)
-        
-        let fileProperties = [kCGImagePropertyGIFDictionary as String:[
-            kCGImagePropertyGIFLoopCount as String: NSNumber(value: Int32(10) as Int32)],
-                              kCGImagePropertyGIFHasGlobalColorMap as String: NSValue(nonretainedObject: true)
-            ] as [String : Any]
-        CGImageDestinationSetProperties(destination, fileProperties as CFDictionary)
-        
-        CGImageDestinationFinalize(destination)
+        wait(for: [expect], timeout: 1000*20)
     }
 }
