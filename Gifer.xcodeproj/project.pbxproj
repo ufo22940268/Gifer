@@ -13,18 +13,10 @@
 		42F2D578219403B300113A10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D577219403B300113A10 /* Assets.xcassets */; };
 		42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D579219403B300113A10 /* LaunchScreen.storyboard */; };
 		42F2D586219403B300113A10 /* GiferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2D585219403B300113A10 /* GiferTests.swift */; };
-		42F2D591219403B300113A10 /* GiferUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2D590219403B300113A10 /* GiferUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		42F2D582219403B300113A10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 42F2D565219403B100113A10 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 42F2D56C219403B100113A10;
-			remoteInfo = Gifer;
-		};
-		42F2D58D219403B300113A10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 42F2D565219403B100113A10 /* Project object */;
 			proxyType = 1;
@@ -44,7 +36,6 @@
 		42F2D581219403B300113A10 /* GiferTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiferTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F2D585219403B300113A10 /* GiferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiferTests.swift; sourceTree = "<group>"; };
 		42F2D587219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		42F2D58C219403B300113A10 /* GiferUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiferUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F2D590219403B300113A10 /* GiferUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiferUITests.swift; sourceTree = "<group>"; };
 		42F2D592219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,13 +49,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		42F2D57E219403B300113A10 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42F2D589219403B300113A10 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -89,7 +73,6 @@
 			children = (
 				42F2D56D219403B100113A10 /* Gifer.app */,
 				42F2D581219403B300113A10 /* GiferTests.xctest */,
-				42F2D58C219403B300113A10 /* GiferUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,24 +146,6 @@
 			productReference = 42F2D581219403B300113A10 /* GiferTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		42F2D58B219403B300113A10 /* GiferUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 42F2D59B219403B300113A10 /* Build configuration list for PBXNativeTarget "GiferUITests" */;
-			buildPhases = (
-				42F2D588219403B300113A10 /* Sources */,
-				42F2D589219403B300113A10 /* Frameworks */,
-				42F2D58A219403B300113A10 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				42F2D58E219403B300113A10 /* PBXTargetDependency */,
-			);
-			name = GiferUITests;
-			productName = GiferUITests;
-			productReference = 42F2D58C219403B300113A10 /* GiferUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -195,10 +160,6 @@
 						CreatedOnToolsVersion = 10.1;
 					};
 					42F2D580219403B300113A10 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = 42F2D56C219403B100113A10;
-					};
-					42F2D58B219403B300113A10 = {
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = 42F2D56C219403B100113A10;
 					};
@@ -219,7 +180,6 @@
 			targets = (
 				42F2D56C219403B100113A10 /* Gifer */,
 				42F2D580219403B300113A10 /* GiferTests */,
-				42F2D58B219403B300113A10 /* GiferUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,13 +196,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		42F2D57F219403B300113A10 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42F2D58A219403B300113A10 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,14 +222,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		42F2D588219403B300113A10 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				42F2D591219403B300113A10 /* GiferUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -284,11 +229,6 @@
 			isa = PBXTargetDependency;
 			target = 42F2D56C219403B100113A10 /* Gifer */;
 			targetProxy = 42F2D582219403B300113A10 /* PBXContainerItemProxy */;
-		};
-		42F2D58E219403B300113A10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 42F2D56C219403B100113A10 /* Gifer */;
-			targetProxy = 42F2D58D219403B300113A10 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -506,46 +446,6 @@
 			};
 			name = Release;
 		};
-		42F2D59C219403B300113A10 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S833P2K5YV;
-				INFOPLIST_FILE = GiferUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.GiferUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Gifer;
-			};
-			name = Debug;
-		};
-		42F2D59D219403B300113A10 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S833P2K5YV;
-				INFOPLIST_FILE = GiferUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bettycc.GiferUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Gifer;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -572,15 +472,6 @@
 			buildConfigurations = (
 				42F2D599219403B300113A10 /* Debug */,
 				42F2D59A219403B300113A10 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		42F2D59B219403B300113A10 /* Build configuration list for PBXNativeTarget "GiferUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				42F2D59C219403B300113A10 /* Debug */,
-				42F2D59D219403B300113A10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
