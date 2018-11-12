@@ -15,12 +15,8 @@ import Photos
 class VideoViewController: AVPlayerViewController {
     
     override func viewDidLoad() {
-        let videoAsset = getTestVideo()
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestPlayerItem(forVideo: videoAsset, options: options) { (playerItem, info) in
-//            self.player = AVPlayer(playerItem: playerItem)
-//            self.player?.play()
-        }
+    }
+    
+    func load(playerItem: AVPlayerItem) -> Void {        
     }
 }
