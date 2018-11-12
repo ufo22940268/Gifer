@@ -23,11 +23,6 @@ class GiferTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
         
-    func getTestVideo() -> PHAsset {
-        let asset = PHAsset.fetchAssets(with: .video, options: nil).firstObject!
-        return asset
-    }
-    
     func buildDestinationOfGif(frameCount: Int) -> CGImageDestination {
         let fileProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: 0]]  as CFDictionary
         let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
