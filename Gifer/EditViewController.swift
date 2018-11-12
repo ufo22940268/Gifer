@@ -1,27 +1,21 @@
 //
-//  EditingViewController.swift
+//  EditViewController.swift
 //  Gifer
 //
-//  Created by Frank Cheng on 2018/11/10.
+//  Created by Frank Cheng on 2018/11/12.
 //  Copyright © 2018 Frank Cheng. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import AVFoundation
-import AVKit
-import Photos
 
-class EditViewController: AVPlayerViewController {
+class EditViewController: UIViewController {
     
-    override func viewDidLoad() {
-        let videoAsset = getTestVideo()
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestPlayerItem(forVideo: videoAsset, options: options) { (playerItem, info) in
-            print(info, playerItem)
-            self.player = AVPlayer(playerItem: playerItem)
-            self.player?.play()
+    var videoVC: VideoViewController!
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        
+        if segue.identifier == "emberVideo" {
+            videoVC = segue.destination as? VideoViewController
         }
     }
 }

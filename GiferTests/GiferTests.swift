@@ -47,4 +47,18 @@ class GiferTests: XCTestCase {
         }
         wait(for: [expect], timeout: 1000*10)
     }
+    
+    func testExtractVideoThumbernails() {
+        let expect = expectation(description: "testExtractVideoThumbernails")
+        let asset = getTestVideo()
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestPlayerItem(forVideo: asset, options: options) { (playerItem, info) in
+            let thumernails = playerItem!.asset.extractThumbernails()
+            assert(thumernails.count > 0)
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 10)
+    }
 }
+

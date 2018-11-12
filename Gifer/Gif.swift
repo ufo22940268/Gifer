@@ -12,6 +12,22 @@ import ImageIO
 import MobileCoreServices
 import Photos
 
+extension AVAsset {
+    
+    func extractThumbernails() -> [UIImage] {
+        var images = [UIImage]()
+        
+        let imageCount = 10
+        let generator = AVAssetImageGenerator(asset: self)
+        for i in 0..<imageCount {
+            let time = CMTime(value: CMTimeValue(Float(self.duration.value)/Float(imageCount)*Float(i)), timescale: 1)
+            let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
+            images.append(UIImage(cgImage: cgImage))
+        }
+        return images
+    }
+}
+
 class GifGenerator {
     
     let fileName = "animated.gif"
