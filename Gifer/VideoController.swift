@@ -108,6 +108,8 @@ class VideoController: UIView {
     }
     
     override func awakeFromNib() {
+        UIView.appearance(for: traitCollection).backgroundColor = UIColor.black
+
         galleryView = VideoGallery(frame: CGRect.zero)
         addSubview(galleryView)
         NSLayoutConstraint.activate([
