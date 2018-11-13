@@ -60,7 +60,6 @@ class VideoProgressSlider: UIControl {
     }
 }
 
-
 class VideoController: UIView {
     
     var galleryView: VideoGallery!
