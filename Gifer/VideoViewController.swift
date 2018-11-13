@@ -28,6 +28,7 @@ extension VideoViewController: VideoProgressDelegate {
             return
         }
         
-        player.seek(to: CMTime(seconds: Double(progress*CGFloat(currentItem.duration.value))/1000, preferredTimescale: 1))
+        let time = CMTime(value: CMTimeValue(Double(progress*CGFloat(currentItem.duration.value))), timescale: 600)
+        player.seek(to: time)
     }
 }

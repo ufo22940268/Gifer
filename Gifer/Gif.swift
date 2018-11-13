@@ -20,7 +20,7 @@ extension AVAsset {
         let imageCount = 10
         let generator = AVAssetImageGenerator(asset: self)
         for i in 0..<imageCount {
-            let time = CMTime(value: CMTimeValue(Float(self.duration.value)/Float(imageCount)*Float(i)), timescale: 1)
+            let time = CMTime(value: CMTimeValue(Double(self.duration.value)/Double(imageCount)*Double(i)), timescale: 600)
             let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
             images.append(UIImage(cgImage: cgImage))
         }
