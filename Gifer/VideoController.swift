@@ -40,14 +40,17 @@ class VideoProgressSlider: UIControl {
         let layer = CAShapeLayer()
         return layer
     }()
+    
+    var leadingConstraint: NSLayoutConstraint!
 
     func setup() -> Void {
         translatesAutoresizingMaskIntoConstraints = false
+        leadingConstraint = leadingAnchor.constraint(equalTo: superview!.leadingAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: superview!.heightAnchor, multiplier: 1/CGFloat(5)),
             heightAnchor.constraint(equalTo: superview!.heightAnchor),
             topAnchor.constraint(equalTo: superview!.topAnchor),
-            leadingAnchor.constraint(equalTo: superview!.leadingAnchor)
+            leadingConstraint
             ])
         
         self.layer.addSublayer(shapeLayer)
@@ -57,6 +60,26 @@ class VideoProgressSlider: UIControl {
         let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
         shapeLayer.path = path.cgPath
         shapeLayer.fillColor = UIColor.yellow.cgColor
+    }
+    
+    func updateProgress(_ progress: CGFloat) -> Void {
+        let halfWidth = bounds.width/2
+        var leading: CGFloat
+        let progress = progress*superview!.bounds.width
+        if progress < halfWidth {
+            leading = 0
+        } else if progress > superview!.bounds.width - halfWidth*2 {
+            leading = superview!.bounds.width - halfWidth*2
+        } else {
+            leading = progress + halfWidth
+        }
+        leadingConstraint.constant = leading
+    }
+    
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        let position = touch.location(in: superview)
+        updateProgress(CGFloat(position.x)/superview!.bounds.width)
+        return true
     }
 }
 
