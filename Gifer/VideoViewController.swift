@@ -17,6 +17,17 @@ class VideoViewController: AVPlayerViewController {
     override func viewDidLoad() {
     }
     
-    func load(playerItem: AVPlayerItem) -> Void {        
+    func load(playerItem: AVPlayerItem) -> Void {
+        self.player = AVPlayer(playerItem: playerItem)
+    }
+}
+
+extension VideoViewController: VideoProgressDelegate {    
+    func onProgressChanged(progress: CGFloat) {
+        guard let player = self.player, let currentItem = player.currentItem else {
+            return
+        }
+        
+        player.seek(to: CMTime(seconds: Double(progress*CGFloat(currentItem.duration.value))/1000, preferredTimescale: 1))
     }
 }

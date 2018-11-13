@@ -34,8 +34,18 @@ class VideoGallery: UIStackView {
     }
 }
 
+protocol VideoProgressDelegate: class {
+    func onProgressChanged(progress: CGFloat)
+}
+
 class VideoProgressSlider: UIControl {
     
+    var delegate: VideoProgressDelegate?
+    var progress: CGFloat = 0 {
+        didSet {
+            delegate?.onProgressChanged(progress: progress)
+        }
+    }
     lazy var shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
@@ -52,7 +62,6 @@ class VideoProgressSlider: UIControl {
             topAnchor.constraint(equalTo: superview!.topAnchor),
             leadingConstraint
             ])
-        
         self.layer.addSublayer(shapeLayer)
     }
     
@@ -74,6 +83,8 @@ class VideoProgressSlider: UIControl {
             leading = progress + halfWidth
         }
         leadingConstraint.constant = leading
+        
+        self.progress = leading/(superview!.bounds.width - halfWidth*2)
     }
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
@@ -84,9 +95,17 @@ class VideoProgressSlider: UIControl {
 }
 
 class VideoController: UIView {
-    
     var galleryView: VideoGallery!
     var progressSlider: VideoProgressSlider!
+    
+    var slideDelegate: VideoProgressDelegate? {
+        get {
+            return progressSlider.delegate
+        }
+        set {
+            progressSlider.delegate = newValue
+        }
+    }
     
     override func awakeFromNib() {
         galleryView = VideoGallery(frame: CGRect.zero)
@@ -102,7 +121,6 @@ class VideoController: UIView {
         addSubview(progressSlider)
         progressSlider.setup()
     }
-    
     
     fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
         for image in images {

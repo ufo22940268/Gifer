@@ -24,11 +24,9 @@ class EditViewController: UIViewController {
         PHImageManager.default().requestPlayerItem(forVideo: videoAsset, options: options) { (playerItem, info) in
             DispatchQueue.main.async {
                 if let playerItem = playerItem {
-                    //            self.player = AVPlayer(playerItem: playerItem)
-                    //            self.player?.play()
-                    
                     self.videoVC.load(playerItem: playerItem)
                     self.videoController.load(playerItem: playerItem)
+                    self.videoController.slideDelegate = self.videoVC
                 }
             }
         }
