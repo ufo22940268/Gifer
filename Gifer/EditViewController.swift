@@ -18,6 +18,8 @@ class EditViewController: UIViewController {
     @IBOutlet weak var videoController: VideoController!
     
     override func viewDidLoad() {
+        UIView.appearance(for: traitCollection).backgroundColor = UIColor.darkGray
+        
         let videoAsset = getTestVideo()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true

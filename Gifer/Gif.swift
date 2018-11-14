@@ -28,7 +28,7 @@ extension AVAsset {
     func extractThumbernails() -> [UIImage] {
         var images = [UIImage]()
 
-        let imageCount = 10
+        let imageCount = 20
         let generator = AVAssetImageGenerator(asset: self)
         for i in 0..<imageCount {
             let time = CMTime(value: CMTimeValue(Double(self.duration.value)/Double(imageCount)*Double(i)), timescale: 600)

@@ -21,14 +21,24 @@ class VideoGallery: UIStackView {
         super.init(coder: coder)
     }
     
+    func setup() {
+        alignment = .center
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: superview!.layoutMarginsGuide.leadingAnchor),
+            trailingAnchor.constraint(equalTo: superview!.layoutMarginsGuide.trailingAnchor),
+            topAnchor.constraint(equalTo: superview!.layoutMarginsGuide.topAnchor),
+            bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor)
+            ])
+    }
+    
     func addImage(_ image: UIImage, totalCount: Int) -> Void {
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: heightAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/CGFloat(totalCount))
+            imageView.heightAnchor.constraint(equalTo: heightAnchor, constant: -VideoControllerConstants.topAndBottomInset*2),
+            imageView.widthAnchor.constraint(equalToConstant: self.bounds.width/CGFloat(totalCount)),
             ])
         imageView.contentMode = .scaleAspectFill
     }
@@ -68,7 +78,7 @@ class VideoProgressSlider: UIControl {
     override func layoutSublayers(of layer: CALayer) {
         let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
         shapeLayer.path = path.cgPath
-        shapeLayer.fillColor = UIColor.yellow.cgColor
+        shapeLayer.fillColor = UIColor.white.cgColor
     }
     
     func updateProgress(_ progress: CGFloat) -> Void {
@@ -94,6 +104,11 @@ class VideoProgressSlider: UIControl {
     }
 }
 
+struct VideoControllerConstants {
+    static var trimWidth = CGFloat(20)
+    static var topAndBottomInset = CGFloat(2)
+}
+
 class VideoController: UIView {
     var galleryView: VideoGallery!
     var progressSlider: VideoProgressSlider!
@@ -108,19 +123,17 @@ class VideoController: UIView {
     }
     
     override func awakeFromNib() {
-        UIView.appearance(for: traitCollection).backgroundColor = UIColor.black
+        layoutMargins.top = 0
+        layoutMargins.bottom = 0
+        layoutMargins.left = VideoControllerConstants.trimWidth
+        layoutMargins.right = VideoControllerConstants.trimWidth
 
         galleryView = VideoGallery(frame: CGRect.zero)
         addSubview(galleryView)
-        NSLayoutConstraint.activate([
-            galleryView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            galleryView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            galleryView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            galleryView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-            ])
+        galleryView.setup()
         
         progressSlider = VideoProgressSlider()
-        addSubview(progressSlider)
+        galleryView.addSubview(progressSlider)
         progressSlider.setup()
     }
     
@@ -128,6 +141,8 @@ class VideoController: UIView {
         for image in images {
             galleryView.addImage(image, totalCount: images.count)
         }
+        
+        galleryView.bringSubviewToFront(progressSlider)
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
