@@ -12,16 +12,27 @@ import ImageIO
 import MobileCoreServices
 import Photos
 
+extension CGImage {
+    func thumbernail() -> CGImage {
+        let cgData = UIImage(cgImage: self).pngData()
+        let source = CGImageSourceCreateWithData(cgData! as CFData, nil)!
+        return CGImageSourceCreateThumbnailAtIndex(source, 0, [
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceThumbnailMaxPixelSize: 200] as CFDictionary)!
+    }
+}
+
 extension AVAsset {
     
     func extractThumbernails() -> [UIImage] {
         var images = [UIImage]()
-        
+
         let imageCount = 10
         let generator = AVAssetImageGenerator(asset: self)
         for i in 0..<imageCount {
             let time = CMTime(value: CMTimeValue(Double(self.duration.value)/Double(imageCount)*Double(i)), timescale: 600)
-            let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
+            let cgImage = (try! generator.copyCGImage(at: time, actualTime: nil)).thumbernail()
             images.append(UIImage(cgImage: cgImage))
         }
         return images
