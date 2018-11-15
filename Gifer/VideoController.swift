@@ -65,6 +65,11 @@ class VideoTrim: UIControl {
         return #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
     }()
     
+    var leftTrim: UIView!
+    var mainColor: UIColor {
+        return UIColor.yellow
+    }
+    
     func setup() {
         guard let superview = superview else {
             return
@@ -77,6 +82,16 @@ class VideoTrim: UIControl {
             topAnchor.constraint(equalTo: superview.topAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
+        
+        leftTrim = UIView()
+        leftTrim.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(leftTrim)
+        NSLayoutConstraint.activate([
+            leftTrim.leadingAnchor.constraint(equalTo: leadingAnchor),
+            leftTrim.topAnchor.constraint(equalTo: topAnchor),
+            leftTrim.heightAnchor.constraint(equalTo: heightAnchor),
+            leftTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
+        leftTrim.backgroundColor = UIColor.yellow
     }
     
     override func draw(_ rect: CGRect) {
@@ -88,10 +103,10 @@ class VideoTrim: UIControl {
 
         //Arrow icon is not properly, change later.
         color.setFill()
-        let leftTrimRect: CGRect = CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
-        let leftTrimPath = UIBezierPath(rect: leftTrimRect)
-        leftTrimPath.fill()
-        leftArrow.draw(centerIn: leftTrimRect)
+//        let leftTrimRect: CGRect = CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
+//        let leftTrimPath = UIBezierPath(rect: leftTrimRect)
+//        leftTrimPath.fill()
+//        leftArrow.draw(centerIn: leftTrimRect)
         
         let rightTrimRect: CGRect = CGRect(origin: rect.origin.applying(CGAffineTransform(translationX: rect.width - VideoControllerConstants.trimWidth, y: 0)), size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
         let rightTrimPath = UIBezierPath(rect: rightTrimRect)
