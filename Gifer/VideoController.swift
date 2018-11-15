@@ -48,6 +48,37 @@ protocol VideoProgressDelegate: class {
     func onProgressChanged(progress: CGFloat)
 }
 
+class VideoTrim: UIControl {
+    
+    func setup() {
+        guard let superview = superview else {
+            return
+        }
+        
+        isOpaque = false
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            topAnchor.constraint(equalTo: superview.topAnchor),
+            trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let color = UIColor.yellow
+        color.setStroke()
+        let framePath = UIBezierPath(rect: rect)
+        framePath.lineWidth = VideoControllerConstants.topAndBottomInset
+        framePath.stroke()
+        
+        color.setFill()
+        let leftTrimPath = UIBezierPath(rect: CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height)))
+        leftTrimPath.fill()
+        let rightTrimPath = UIBezierPath(rect: CGRect(origin: rect.origin.applying(CGAffineTransform(translationX: rect.width - VideoControllerConstants.trimWidth, y: 0)), size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height)))
+        rightTrimPath.fill()
+    }
+}
+
 class VideoProgressSlider: UIControl {
     
     var delegate: VideoProgressDelegate?
@@ -56,6 +87,7 @@ class VideoProgressSlider: UIControl {
             delegate?.onProgressChanged(progress: progress)
         }
     }
+    
     lazy var shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
@@ -65,6 +97,8 @@ class VideoProgressSlider: UIControl {
 
     func setup() -> Void {
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.clear
+        isOpaque = false
         leadingConstraint = leadingAnchor.constraint(equalTo: superview!.leadingAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: superview!.heightAnchor, multiplier: 1/CGFloat(5)),
@@ -105,13 +139,14 @@ class VideoProgressSlider: UIControl {
 }
 
 struct VideoControllerConstants {
-    static var trimWidth = CGFloat(20)
+    static var trimWidth = CGFloat(10)
     static var topAndBottomInset = CGFloat(2)
 }
 
 class VideoController: UIView {
     var galleryView: VideoGallery!
     var progressSlider: VideoProgressSlider!
+    var videoTrim: VideoTrim!
     
     var slideDelegate: VideoProgressDelegate? {
         get {
@@ -135,6 +170,10 @@ class VideoController: UIView {
         progressSlider = VideoProgressSlider()
         galleryView.addSubview(progressSlider)
         progressSlider.setup()
+        
+        videoTrim = VideoTrim()
+        addSubview(videoTrim)
+        videoTrim.setup()
     }
     
     fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
@@ -143,6 +182,9 @@ class VideoController: UIView {
         }
         
         galleryView.bringSubviewToFront(progressSlider)
+        
+        //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
+        videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
