@@ -65,7 +65,24 @@ class VideoTrim: UIControl {
         return #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
     }()
     
-    var leftTrim: UIView!
+    var leftTrim: UIImageView! = {
+        let leftTrim = UIImageView()
+        leftTrim.translatesAutoresizingMaskIntoConstraints = false
+        leftTrim.backgroundColor = UIColor.yellow
+        leftTrim.image = #imageLiteral(resourceName: "arrow-ios-back-outline.png")
+        leftTrim.contentMode = .center
+        return leftTrim
+    }()
+    
+    var rightTrim: UIImageView! = {
+        let rightTrim = UIImageView()
+        rightTrim.translatesAutoresizingMaskIntoConstraints = false
+        rightTrim.backgroundColor = UIColor.yellow
+        rightTrim.image = #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
+        rightTrim.contentMode = .center
+        return rightTrim
+    }()
+
     var mainColor: UIColor {
         return UIColor.yellow
     }
@@ -83,15 +100,19 @@ class VideoTrim: UIControl {
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
         
-        leftTrim = UIView()
-        leftTrim.translatesAutoresizingMaskIntoConstraints = false
         addSubview(leftTrim)
         NSLayoutConstraint.activate([
             leftTrim.leadingAnchor.constraint(equalTo: leadingAnchor),
             leftTrim.topAnchor.constraint(equalTo: topAnchor),
             leftTrim.heightAnchor.constraint(equalTo: heightAnchor),
             leftTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
-        leftTrim.backgroundColor = UIColor.yellow
+        
+        addSubview(rightTrim)
+        NSLayoutConstraint.activate([
+            rightTrim.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightTrim.topAnchor.constraint(equalTo: topAnchor),
+            rightTrim.heightAnchor.constraint(equalTo: heightAnchor),
+            rightTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
     }
     
     override func draw(_ rect: CGRect) {
