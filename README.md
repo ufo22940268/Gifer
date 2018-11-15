@@ -8,3 +8,13 @@ Let your convert video to gif. And you can use this gif to share to WeChat or We
 3. Video can be replay after trimed.
 4. Export to GIF.
 5. GIF file can be shared to Wechat and webo.
+
+## Copy resources
+
+### Icon ###
+
+https://akveo.github.io/eva-icons/#/
+
+### Design ###
+
+- iOS photo app.
