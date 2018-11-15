@@ -140,7 +140,7 @@ class VideoProgressSlider: UIControl {
 
 struct VideoControllerConstants {
     static var trimWidth = CGFloat(10)
-    static var topAndBottomInset = CGFloat(2)
+    static var topAndBottomInset = CGFloat(4)
 }
 
 class VideoController: UIView {

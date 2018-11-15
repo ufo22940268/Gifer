@@ -25,7 +25,7 @@
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="8" y="623" width="359" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -34,10 +34,10 @@
                             <constraint firstItem="rTk-3P-78Y" firstAttribute="top" secondItem="jX4-i4-5ip" secondAttribute="top" id="9jA-C0-yw0"/>
                             <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="jX4-i4-5ip" secondAttribute="bottom" id="Udw-zp-Vxm"/>
                             <constraint firstItem="jX4-i4-5ip" firstAttribute="bottom" secondItem="rTk-3P-78Y" secondAttribute="bottom" constant="44" id="cSd-4H-s2n"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="rTk-3P-78Y" secondAttribute="leading" id="dhN-aA-LWv"/>
+                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="rTk-3P-78Y" secondAttribute="leadingMargin" id="dhN-aA-LWv"/>
                             <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="rTk-3P-78Y" secondAttribute="bottom" id="mf2-OG-1AT"/>
                             <constraint firstItem="rTk-3P-78Y" firstAttribute="leading" secondItem="ftF-yN-3cp" secondAttribute="leading" id="qeO-f4-Zdt"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="rTk-3P-78Y" secondAttribute="trailing" id="tlv-BZ-h4E"/>
+                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="rTk-3P-78Y" secondAttribute="trailingMargin" id="tlv-BZ-h4E"/>
                             <constraint firstAttribute="trailing" secondItem="rTk-3P-78Y" secondAttribute="trailing" id="yIE-Js-LGR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jX4-i4-5ip"/>
