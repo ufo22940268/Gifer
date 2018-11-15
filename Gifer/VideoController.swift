@@ -121,18 +121,20 @@ class VideoTrim: UIControl {
         let framePath = UIBezierPath(rect: rect)
         framePath.lineWidth = VideoControllerConstants.topAndBottomInset
         framePath.stroke()
-
-        //Arrow icon is not properly, change later.
-        color.setFill()
-//        let leftTrimRect: CGRect = CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
-//        let leftTrimPath = UIBezierPath(rect: leftTrimRect)
-//        leftTrimPath.fill()
-//        leftArrow.draw(centerIn: leftTrimRect)
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if point.x > leftTrim.frame.maxX && point.x < rightTrim.frame.minX {
+            return nil
+        } else {
+            for v in subviews.reversed() {
+                if let v = v.hitTest(v.convert(point, from: self), with: event) {
+                    return v
+                }
+            }
+        }
         
-        let rightTrimRect: CGRect = CGRect(origin: rect.origin.applying(CGAffineTransform(translationX: rect.width - VideoControllerConstants.trimWidth, y: 0)), size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
-        let rightTrimPath = UIBezierPath(rect: rightTrimRect)
-        rightTrimPath.fill()
-        rightArrow.draw(centerIn: rightTrimRect)
+        return nil
     }
 }
 
@@ -165,6 +167,7 @@ class VideoProgressSlider: UIControl {
             ])
         self.layer.addSublayer(shapeLayer)
     }
+    
     
     override func layoutSublayers(of layer: CALayer) {
         let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
