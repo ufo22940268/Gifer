@@ -127,14 +127,12 @@ class VideoTrim: UIControl {
         if point.x > leftTrim.frame.maxX && point.x < rightTrim.frame.minX {
             return nil
         } else {
-            for v in subviews.reversed() {
-                if let v = v.hitTest(v.convert(point, from: self), with: event) {
-                    return v
-                }
-            }
+            return super.hitTest(point, with: event)
         }
-        
-        return nil
+    }
+    
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        return true
     }
 }
 
