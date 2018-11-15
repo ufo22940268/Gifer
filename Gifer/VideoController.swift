@@ -40,6 +40,24 @@ class VideoGallery: UIStackView {
         super.init(coder: coder)
     }
     
+    let faderBackgroundColor = UIColor(white: 0.7, alpha: 0.4)
+    
+    lazy var leftFader: UIView = {
+        let left = UIView()
+        left.translatesAutoresizingMaskIntoConstraints = false
+        left.backgroundColor = faderBackgroundColor
+        return left
+    }()
+    
+    lazy var rightFader: UIView = {
+        let right = UIView()
+        right.translatesAutoresizingMaskIntoConstraints = false
+        right.backgroundColor = faderBackgroundColor
+        return right
+    }()
+    var leftFaderWidthConstraint: NSLayoutConstraint!
+    var rightFaderWidthConstraint: NSLayoutConstraint!
+
     func setup() {
         alignment = .center
         NSLayoutConstraint.activate([
@@ -48,6 +66,22 @@ class VideoGallery: UIStackView {
             topAnchor.constraint(equalTo: superview!.layoutMarginsGuide.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor)
             ])
+        
+        addSubview(leftFader)
+        leftFaderWidthConstraint = leftFader.widthAnchor.constraint(equalToConstant: 0)
+        NSLayoutConstraint.activate([
+            leftFaderWidthConstraint,
+            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor),
+            leftFader.topAnchor.constraint(equalTo: topAnchor),
+            leftFader.heightAnchor.constraint(equalTo: heightAnchor)])
+        
+        addSubview(rightFader)
+        rightFaderWidthConstraint = rightFader.widthAnchor.constraint(equalToConstant: 0)
+        NSLayoutConstraint.activate([
+            rightFaderWidthConstraint,
+            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightFader.topAnchor.constraint(equalTo: topAnchor),
+            rightFader.heightAnchor.constraint(equalTo: heightAnchor)])
     }
     
     func addImage(_ image: UIImage, totalCount: Int) -> Void {
@@ -61,10 +95,24 @@ class VideoGallery: UIStackView {
             ])
         imageView.contentMode = .scaleAspectFill
     }
+    
+    func updateByTrim(trimPosition position: VideoTrimPosition) {
+        leftFaderWidthConstraint.constant = position.leftTrim*bounds.width
+        rightFaderWidthConstraint.constant = bounds.width - position.rightTrim*bounds.width
+    }
 }
 
 protocol VideoProgressDelegate: class {
     func onProgressChanged(progress: CGFloat)
+}
+
+protocol VideoTrimDelegate: class {
+    func onTrimChanged(position: VideoTrimPosition)
+}
+
+struct VideoTrimPosition {
+    var leftTrim: CGFloat
+    var rightTrim: CGFloat
 }
 
 class VideoTrim: UIControl {
@@ -83,6 +131,8 @@ class VideoTrim: UIControl {
     
     var topLine: UIView!
     var bottomLine: UIView!
+    
+    weak var trimDelegate: VideoTrimDelegate?
 
     var leftTrim: UIImageView! = {
         let leftTrim = UIImageView()
@@ -165,10 +215,12 @@ class VideoTrim: UIControl {
     
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
-        let maxLeftLeading = bounds.width - minimunGapBetweenLeftTrimAndRightTrim - rightTrimTrailingConstraint.constant
+        let maxLeftLeading = bounds.width - minimunGapBetweenLeftTrimAndRightTrim - abs(rightTrimTrailingConstraint.constant)
         let newConstant = leftTrimLeadingConstraint.constant + translate.x
         leftTrimLeadingConstraint.constant = newConstant.clamped(to: 0...maxLeftLeading)
         recognizer.setTranslation(CGPoint.zero, in: self)
+        
+        triggerTrimDelegate()
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
@@ -177,6 +229,17 @@ class VideoTrim: UIControl {
         let newConstant = rightTrimTrailingConstraint.constant + translate.x
         rightTrimTrailingConstraint.constant = newConstant.clamped(to: minRightTrailing...0)
         recognizer.setTranslation(CGPoint.zero, in: self)
+        
+        triggerTrimDelegate()
+    }
+    
+    var trimRange: CGFloat {
+        return bounds.width - VideoControllerConstants.trimWidth
+    }
+    
+    func triggerTrimDelegate() {
+        let trimPosition = VideoTrimPosition(leftTrim: leftTrimLeadingConstraint.constant/trimRange, rightTrim: (trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange)
+        trimDelegate?.onTrimChanged(position: trimPosition)
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -279,6 +342,7 @@ class VideoController: UIView {
         videoTrim = VideoTrim()
         addSubview(videoTrim)
         videoTrim.setup()
+        videoTrim.trimDelegate = self
     }
     
     fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
@@ -287,13 +351,23 @@ class VideoController: UIView {
         }
         
         galleryView.bringSubviewToFront(progressSlider)
-        
+        galleryView.bringSubviewToFront(galleryView.leftFader)
+        galleryView.bringSubviewToFront(galleryView.rightFader)
+
         //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
         videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+        
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
         let thumbernails = playerItem.asset.extractThumbernails()
         loadGallery(withImages: thumbernails)
+    }
+}
+
+extension VideoController: VideoTrimDelegate {
+    
+    func onTrimChanged(position: VideoTrimPosition) {
+        galleryView.updateByTrim(trimPosition: position)
     }
 }
