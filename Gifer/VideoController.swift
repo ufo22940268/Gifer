@@ -10,6 +10,13 @@ import Foundation
 import UIKit
 import AVKit
 
+extension UIImage {
+    func draw(centerIn rect: CGRect) {
+        let origin = CGPoint(x: rect.midX - size.width/2, y: rect.midY - size.height/2)
+        return draw(in: CGRect(origin: origin, size: size))
+    }
+}
+
 class VideoGallery: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,6 +56,14 @@ protocol VideoProgressDelegate: class {
 }
 
 class VideoTrim: UIControl {
+
+    var leftArrow: UIImage = {
+        return #imageLiteral(resourceName: "arrow-ios-back-outline.png")
+    }()
+    
+    var rightArrow: UIImage = {
+        return #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
+    }()
     
     func setup() {
         guard let superview = superview else {
@@ -70,12 +85,18 @@ class VideoTrim: UIControl {
         let framePath = UIBezierPath(rect: rect)
         framePath.lineWidth = VideoControllerConstants.topAndBottomInset
         framePath.stroke()
-        
+
+        //Arrow icon is not properly, change later.
         color.setFill()
-        let leftTrimPath = UIBezierPath(rect: CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height)))
+        let leftTrimRect: CGRect = CGRect(origin: rect.origin, size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
+        let leftTrimPath = UIBezierPath(rect: leftTrimRect)
         leftTrimPath.fill()
-        let rightTrimPath = UIBezierPath(rect: CGRect(origin: rect.origin.applying(CGAffineTransform(translationX: rect.width - VideoControllerConstants.trimWidth, y: 0)), size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height)))
+        leftArrow.draw(centerIn: leftTrimRect)
+        
+        let rightTrimRect: CGRect = CGRect(origin: rect.origin.applying(CGAffineTransform(translationX: rect.width - VideoControllerConstants.trimWidth, y: 0)), size: CGSize(width: VideoControllerConstants.trimWidth, height: rect.height))
+        let rightTrimPath = UIBezierPath(rect: rightTrimRect)
         rightTrimPath.fill()
+        rightArrow.draw(centerIn: rightTrimRect)
     }
 }
 
