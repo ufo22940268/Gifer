@@ -80,6 +80,9 @@ class VideoTrim: UIControl {
     var leftTrimLeadingConstraint: NSLayoutConstraint!
     var rightTrimTrailingConstraint: NSLayoutConstraint!
     let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(50)
+    
+    var topLine: UIView!
+    var bottomLine: UIView!
 
     var leftTrim: UIImageView! = {
         let leftTrim = UIImageView()
@@ -116,6 +119,7 @@ class VideoTrim: UIControl {
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
         
+        //Setup trims
         addSubview(leftTrim)
         leftTrimLeadingConstraint = leftTrim.leadingAnchor.constraint(equalTo: leadingAnchor)
         NSLayoutConstraint.activate([
@@ -135,6 +139,28 @@ class VideoTrim: UIControl {
             rightTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
         rightTrim.isUserInteractionEnabled = true
         rightTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onRightTrimDragged(recognizer:))))
+        
+        //Setup top line and bottom line
+        topLine = UIView()
+        topLine.translatesAutoresizingMaskIntoConstraints = false
+        topLine.backgroundColor = mainColor
+        addSubview(topLine)
+        NSLayoutConstraint.activate([
+            topLine.topAnchor.constraint(equalTo: topAnchor),
+            topLine.heightAnchor.constraint(equalToConstant: VideoControllerConstants.topAndBottomInset),
+            topLine.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor),
+            topLine.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor)])
+
+        
+        bottomLine = UIView()
+        bottomLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomLine.backgroundColor = mainColor
+        addSubview(bottomLine)
+        NSLayoutConstraint.activate([
+            bottomLine.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomLine.heightAnchor.constraint(equalToConstant: VideoControllerConstants.topAndBottomInset),
+            bottomLine.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor),
+            bottomLine.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor)])
     }
     
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
@@ -151,14 +177,6 @@ class VideoTrim: UIControl {
         let newConstant = rightTrimTrailingConstraint.constant + translate.x
         rightTrimTrailingConstraint.constant = newConstant.clamped(to: minRightTrailing...0)
         recognizer.setTranslation(CGPoint.zero, in: self)
-    }
-    
-    override func draw(_ rect: CGRect) {
-        let color = UIColor.yellow
-        color.setStroke()
-        let framePath = UIBezierPath(rect: rect)
-        framePath.lineWidth = VideoControllerConstants.topAndBottomInset
-        framePath.stroke()
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -227,7 +245,7 @@ class VideoProgressSlider: UIControl {
 
 struct VideoControllerConstants {
     static var trimWidth = CGFloat(10)
-    static var topAndBottomInset = CGFloat(4)
+    static var topAndBottomInset = CGFloat(2)
 }
 
 class VideoController: UIView {
@@ -247,8 +265,8 @@ class VideoController: UIView {
     override func awakeFromNib() {
         layoutMargins.top = 0
         layoutMargins.bottom = 0
-        layoutMargins.left = VideoControllerConstants.trimWidth
-        layoutMargins.right = VideoControllerConstants.trimWidth
+        layoutMargins.left = 0
+        layoutMargins.right = 0
 
         galleryView = VideoGallery(frame: CGRect.zero)
         addSubview(galleryView)
