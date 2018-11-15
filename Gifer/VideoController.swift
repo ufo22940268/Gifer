@@ -10,6 +10,18 @@ import Foundation
 import UIKit
 import AVKit
 
+extension Comparable {
+    func clamped(to limits: ClosedRange<Self>) -> Self {
+        return min(max(self, limits.lowerBound), limits.upperBound)
+    }
+}
+
+extension Strideable where Stride: SignedInteger {
+    func clamped(to limits: CountableClosedRange<Self>) -> Self {
+        return min(max(self, limits.lowerBound), limits.upperBound)
+    }
+}
+
 extension UIImage {
     func draw(centerIn rect: CGRect) {
         let origin = CGPoint(x: rect.midX - size.width/2, y: rect.midY - size.height/2)
@@ -153,6 +165,9 @@ class VideoProgressSlider: UIControl {
     var leadingConstraint: NSLayoutConstraint!
 
     func setup() -> Void {
+        let slideGesture = UIPanGestureRecognizer(target: self, action: #selector(onDrag(gesture:)))
+        addGestureRecognizer(slideGesture)
+        
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.clear
         isOpaque = false
@@ -166,6 +181,12 @@ class VideoProgressSlider: UIControl {
         self.layer.addSublayer(shapeLayer)
     }
     
+    @objc func onDrag(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: superview)
+        updateProgress(translationX: translation.x)
+        gesture.setTranslation(CGPoint.zero, in: superview)
+    }
+    
     
     override func layoutSublayers(of layer: CALayer) {
         let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
@@ -173,26 +194,11 @@ class VideoProgressSlider: UIControl {
         shapeLayer.fillColor = UIColor.white.cgColor
     }
     
-    func updateProgress(_ progress: CGFloat) -> Void {
-        let halfWidth = bounds.width/2
-        var leading: CGFloat
-        let progress = progress*superview!.bounds.width
-        if progress < halfWidth {
-            leading = 0
-        } else if progress > superview!.bounds.width - halfWidth*2 {
-            leading = superview!.bounds.width - halfWidth*2
-        } else {
-            leading = progress + halfWidth
-        }
-        leadingConstraint.constant = leading
-        
-        self.progress = leading/(superview!.bounds.width - halfWidth*2)
-    }
-    
-    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        let position = touch.location(in: superview)
-        updateProgress(CGFloat(position.x)/superview!.bounds.width)
-        return true
+    func updateProgress(translationX: CGFloat) -> Void {
+        let rightThreshold = (superview!.bounds.width - bounds.width)
+        let newConstant = leadingConstraint.constant + translationX
+        leadingConstraint.constant = newConstant.clamped(to: 0...rightThreshold)
+        self.progress = leadingConstraint.constant/rightThreshold
     }
 }
 
