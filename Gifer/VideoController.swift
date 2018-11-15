@@ -77,6 +77,10 @@ class VideoTrim: UIControl {
         return #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
     }()
     
+    var leftTrimLeadingConstraint: NSLayoutConstraint!
+    var rightTrimTrailingConstraint: NSLayoutConstraint!
+    let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(50)
+
     var leftTrim: UIImageView! = {
         let leftTrim = UIImageView()
         leftTrim.translatesAutoresizingMaskIntoConstraints = false
@@ -113,18 +117,40 @@ class VideoTrim: UIControl {
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
         
         addSubview(leftTrim)
+        leftTrimLeadingConstraint = leftTrim.leadingAnchor.constraint(equalTo: leadingAnchor)
         NSLayoutConstraint.activate([
-            leftTrim.leadingAnchor.constraint(equalTo: leadingAnchor),
+            leftTrimLeadingConstraint,
             leftTrim.topAnchor.constraint(equalTo: topAnchor),
             leftTrim.heightAnchor.constraint(equalTo: heightAnchor),
             leftTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
+        leftTrim.isUserInteractionEnabled = true
+        leftTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onLeftTrimDragged(recognizer:))))
         
         addSubview(rightTrim)
+        rightTrimTrailingConstraint = rightTrim.trailingAnchor.constraint(equalTo: trailingAnchor)
         NSLayoutConstraint.activate([
-            rightTrim.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightTrimTrailingConstraint,
             rightTrim.topAnchor.constraint(equalTo: topAnchor),
             rightTrim.heightAnchor.constraint(equalTo: heightAnchor),
             rightTrim.widthAnchor.constraint(equalToConstant: VideoControllerConstants.trimWidth)])
+        rightTrim.isUserInteractionEnabled = true
+        rightTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onRightTrimDragged(recognizer:))))
+    }
+    
+    @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
+        let translate = recognizer.translation(in: self)
+        let maxLeftLeading = bounds.width - minimunGapBetweenLeftTrimAndRightTrim - rightTrimTrailingConstraint.constant
+        let newConstant = leftTrimLeadingConstraint.constant + translate.x
+        leftTrimLeadingConstraint.constant = newConstant.clamped(to: 0...maxLeftLeading)
+        recognizer.setTranslation(CGPoint.zero, in: self)
+    }
+    
+    @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
+        let translate = recognizer.translation(in: self)
+        let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
+        let newConstant = rightTrimTrailingConstraint.constant + translate.x
+        rightTrimTrailingConstraint.constant = newConstant.clamped(to: minRightTrailing...0)
+        recognizer.setTranslation(CGPoint.zero, in: self)
     }
     
     override func draw(_ rect: CGRect) {
@@ -139,12 +165,9 @@ class VideoTrim: UIControl {
         if point.x > leftTrim.frame.maxX && point.x < rightTrim.frame.minX {
             return nil
         } else {
-            return super.hitTest(point, with: event)
+            let v = super.hitTest(point, with: event)
+            return v
         }
-    }
-    
-    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        return true
     }
 }
 
