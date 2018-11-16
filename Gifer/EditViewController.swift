@@ -12,10 +12,15 @@ import AVFoundation
 import AVKit
 import Photos
 
+enum VideoPlayState {
+    case playing, stopped
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
+    var playState: VideoPlayState = .stopped
     
     @IBOutlet var toolbar: UIToolbar!
     override func loadView() {
@@ -45,5 +50,25 @@ class EditViewController: UIViewController {
         if segue.identifier == "emberVideo" {
             videoVC = segue.destination as? VideoViewController
         }
+    }
+    
+    @IBAction func onPlay(_ sender: UIBarButtonItem) {
+        guard let toolbarItems = toolbarItems else {
+            return
+        }
+
+        let itemIndex = toolbarItems.firstIndex(of: sender)!
+        var newItem: UIBarButtonItem
+        switch playState {
+        case .playing:
+            playState = .stopped
+            newItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(onPlay(_:)))
+        case .stopped:
+            playState = .playing
+            newItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(onPlay(_:)))
+        }
+        var newToolbarItems = toolbarItems
+        newToolbarItems[itemIndex] = newItem
+        setToolbarItems(newToolbarItems, animated: false)
     }
 }
