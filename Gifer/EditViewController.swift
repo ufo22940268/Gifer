@@ -17,12 +17,16 @@ class EditViewController: UIViewController {
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
     
+    @IBOutlet var toolbar: UIToolbar!
     override func loadView() {
-        UIView.appearance(for: traitCollection).backgroundColor = UIColor.darkGray
+        self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
+        UIView.appearance(for: traitCollection).backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         super.loadView()
     }
     
     override func viewDidLoad() {
+        setToolbarItems(toolbar.items, animated: false)
+
         let videoAsset = getTestVideo()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true

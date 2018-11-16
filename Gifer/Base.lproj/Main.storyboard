@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dvh-Lh-bNF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,6 +10,26 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="zJ4-14-LlL">
+            <objects>
+                <navigationController toolbarHidden="NO" id="sHl-ZP-FEy" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yrp-4z-FUM">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JKS-Py-Oxb">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Dvh-Lh-bNF" kind="relationship" relationship="rootViewController" id="MPR-Uk-VWH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p0U-CX-2S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1560" y="-860"/>
+        </scene>
         <!--Edit View Controller-->
         <scene sceneID="62a-J1-d3d">
             <objects>
@@ -19,13 +39,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
-                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="515"/>
                                 <connections>
                                     <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="8" y="623" width="359" height="44"/>
+                                <rect key="frame" x="8" y="579" width="359" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -42,11 +62,25 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jX4-i4-5ip"/>
                     </view>
+                    <navigationItem key="navigationItem" id="3Bk-jO-jWT"/>
                     <connections>
+                        <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="dTn-58-Uxg">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
+                        <barButtonItem systemItem="play" id="NtN-Bp-pnl"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
+                    </items>
+                    <connections>
+                        <outlet property="delegate" destination="Dvh-Lh-bNF" id="26I-AQ-Hfg"/>
+                    </connections>
+                </toolbar>
             </objects>
             <point key="canvasLocation" x="120.8" y="-463.71814092953525"/>
         </scene>
