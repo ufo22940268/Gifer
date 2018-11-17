@@ -18,6 +18,9 @@ class EditViewController: UIViewController {
     @IBOutlet weak var videoController: VideoController!
     
     @IBOutlet var toolbar: UIToolbar!
+    
+    var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
+    
     override func loadView() {
         self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         super.loadView()
@@ -35,8 +38,10 @@ class EditViewController: UIViewController {
                 if let playerItem = playerItem {
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.progressDelegator = self
+                    
                     self.videoController.load(playerItem: playerItem)
                     self.videoController.slideDelegate = self.videoVC
+                    self.videoController.videoTrim.trimDelegate = self
                 }
             }
         }
@@ -65,6 +70,7 @@ class EditViewController: UIViewController {
         case .waitingToPlayAtSpecifiedRate:
             break
         }
+        
         if let newItem = newItem {
             var newToolbarItems = toolbarItems
             newToolbarItems[itemIndex] = newItem
@@ -85,5 +91,14 @@ class EditViewController: UIViewController {
 extension EditViewController: VideoProgressDelegate {
     func onProgressChanged(progress: CGFloat) {
         videoController.updateSliderProgress(progress)
+    }
+}
+
+extension EditViewController: VideoTrimDelegate {
+    
+    func onTrimChanged(position: VideoTrimPosition) {
+        trimPosition = position
+        videoController.onTrimChanged(position: position)
+        videoVC.onTrimChanged(position: position)
     }
 }

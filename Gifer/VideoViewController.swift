@@ -12,6 +12,12 @@ import AVFoundation
 import AVKit
 import Photos
 
+extension AVPlayer {
+    func seek(toProgress progress: CGFloat) {
+        seek(to: progress*self.currentItem!.duration)
+    }
+}
+
 class VideoViewController: AVPlayerViewController {
     
     override func viewDidLoad() {
@@ -58,6 +64,10 @@ class VideoViewController: AVPlayerViewController {
 
 }
 
+func *(progress: CGFloat, duration: CMTime) -> CMTime {
+    return CMTime(value: CMTimeValue(progress*CGFloat(duration.value)), timescale: duration.timescale)
+}
+
 extension VideoViewController: VideoProgressDelegate {    
     func onProgressChanged(progress: CGFloat) {
         guard let player = self.player, let currentItem = player.currentItem else {
@@ -66,5 +76,12 @@ extension VideoViewController: VideoProgressDelegate {
         
         let time = CMTime(value: CMTimeValue(Double(progress*CGFloat(currentItem.duration.value))), timescale: 600)
         player.seek(to: time)
+    }
+}
+
+extension VideoViewController: VideoTrimDelegate {
+    
+    func onTrimChanged(position: VideoTrimPosition) {
+        player?.seek(toProgress: position.leftTrim)
     }
 }

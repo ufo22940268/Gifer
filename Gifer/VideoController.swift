@@ -111,7 +111,11 @@ protocol VideoTrimDelegate: class {
 }
 
 struct VideoTrimPosition {
+    
+    /// Propotional to video duration. Ranged from 0 to 1
     var leftTrim: CGFloat
+    
+    /// Propotional to video duration. Ranged from 0 to 1
     var rightTrim: CGFloat
 }
 
@@ -302,6 +306,7 @@ class VideoProgressSlider: UIControl {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: 0...maximunLeadingConstant)
         self.progress = leadingConstraint.constant/maximunLeadingConstant
+        slideVideo()
     }
     
     func updateProgress(progress: CGFloat) {
@@ -353,7 +358,6 @@ class VideoController: UIView {
         videoTrim = VideoTrim()
         addSubview(videoTrim)
         videoTrim.setup()
-        videoTrim.trimDelegate = self
     }
     
     fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
@@ -367,7 +371,6 @@ class VideoController: UIView {
 
         //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
         videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
-        
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
@@ -378,9 +381,6 @@ class VideoController: UIView {
     func updateSliderProgress(_ progress: CGFloat) {
         progressSlider.updateProgress(progress: progress)
     }
-}
-
-extension VideoController: VideoTrimDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
         galleryView.updateByTrim(trimPosition: position)
