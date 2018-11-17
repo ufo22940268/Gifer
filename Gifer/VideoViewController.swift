@@ -82,6 +82,9 @@ extension VideoViewController: VideoProgressDelegate {
 extension VideoViewController: VideoTrimDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
-        player?.seek(toProgress: position.leftTrim)
+        guard let player = player, let currentItem = player.currentItem else { return }
+
+        player.seek(toProgress: position.leftTrim)
+        currentItem.forwardPlaybackEndTime = position.rightTrim*currentItem.duration
     }
 }
