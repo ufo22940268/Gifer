@@ -326,6 +326,8 @@ class VideoController: UIView {
     }
     
     override func awakeFromNib() {
+        backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
+
         layoutMargins.top = 0
         layoutMargins.bottom = 0
         layoutMargins.left = 0

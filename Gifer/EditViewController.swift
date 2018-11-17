@@ -13,24 +13,24 @@ import AVKit
 import Photos
 
 enum VideoPlayState {
-    case playing, stopped
+    case playing, paused
 }
 
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
-    var playState: VideoPlayState = .stopped
+    var playState: VideoPlayState = .paused
     
     @IBOutlet var toolbar: UIToolbar!
     override func loadView() {
         self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
-        UIView.appearance(for: traitCollection).backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         super.loadView()
     }
     
     override func viewDidLoad() {
         setToolbarItems(toolbar.items, animated: false)
+        view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
         let videoAsset = getTestVideo()
         let options = PHVideoRequestOptions()
@@ -61,14 +61,24 @@ class EditViewController: UIViewController {
         var newItem: UIBarButtonItem
         switch playState {
         case .playing:
-            playState = .stopped
+            playState = .paused
             newItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(onPlay(_:)))
-        case .stopped:
+            pause()
+        case .paused:
             playState = .playing
             newItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(onPlay(_:)))
+            play()
         }
         var newToolbarItems = toolbarItems
         newToolbarItems[itemIndex] = newItem
         setToolbarItems(newToolbarItems, animated: false)
+    }
+    
+    fileprivate func play() {
+        videoVC.play()
+    }
+    
+    fileprivate func pause() {
+        videoVC.pause()
     }
 }
