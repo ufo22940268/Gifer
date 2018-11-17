@@ -12,15 +12,10 @@ import AVFoundation
 import AVKit
 import Photos
 
-enum VideoPlayState {
-    case playing, paused
-}
-
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
-    var playState: VideoPlayState = .paused
     
     @IBOutlet var toolbar: UIToolbar!
     override func loadView() {
@@ -54,25 +49,27 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onPlay(_ sender: UIBarButtonItem) {
-        guard let toolbarItems = toolbarItems else {
+        guard let toolbarItems = toolbarItems, let playState = videoVC.player?.timeControlStatus else {
             return
         }
 
         let itemIndex = toolbarItems.firstIndex(of: sender)!
-        var newItem: UIBarButtonItem
+        var newItem: UIBarButtonItem? = nil
         switch playState {
         case .playing:
-            playState = .paused
             newItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(onPlay(_:)))
             pause()
         case .paused:
-            playState = .playing
             newItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(onPlay(_:)))
             play()
+        case .waitingToPlayAtSpecifiedRate:
+            break
         }
-        var newToolbarItems = toolbarItems
-        newToolbarItems[itemIndex] = newItem
-        setToolbarItems(newToolbarItems, animated: false)
+        if let newItem = newItem {
+            var newToolbarItems = toolbarItems
+            newToolbarItems[itemIndex] = newItem
+            setToolbarItems(newToolbarItems, animated: false)
+        }
     }
     
     fileprivate func play() {
@@ -87,7 +84,6 @@ class EditViewController: UIViewController {
 
 extension EditViewController: VideoProgressDelegate {
     func onProgressChanged(progress: CGFloat) {
-        print("progress: \(progress)")
         videoController.updateSliderProgress(progress)
     }
 }
