@@ -255,11 +255,7 @@ class VideoTrim: UIControl {
 class VideoProgressSlider: UIControl {
     
     var delegate: VideoProgressDelegate?
-    var progress: CGFloat = 0 {
-        didSet {
-            delegate?.onProgressChanged(progress: progress)
-        }
-    }
+    var progress: CGFloat = 0
     
     lazy var shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
@@ -287,7 +283,7 @@ class VideoProgressSlider: UIControl {
     
     @objc func onDrag(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: superview)
-        updateProgress(translationX: translation.x)
+        shiftProgress(translationX: translation.x)
         gesture.setTranslation(CGPoint.zero, in: superview)
     }
     
@@ -298,11 +294,24 @@ class VideoProgressSlider: UIControl {
         shapeLayer.fillColor = UIColor.white.cgColor
     }
     
-    func updateProgress(translationX: CGFloat) -> Void {
-        let rightThreshold = (superview!.bounds.width - bounds.width)
+    var maximunLeadingConstant:CGFloat {
+        return superview!.bounds.width - bounds.width
+    }
+    
+    fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
-        leadingConstraint.constant = newConstant.clamped(to: 0...rightThreshold)
-        self.progress = leadingConstraint.constant/rightThreshold
+        leadingConstraint.constant = newConstant.clamped(to: 0...maximunLeadingConstant)
+        self.progress = leadingConstraint.constant/maximunLeadingConstant
+    }
+    
+    func updateProgress(progress: CGFloat) {
+        let progress = progress.clamped(to: 0...CGFloat(1))
+        leadingConstraint.constant = maximunLeadingConstant*progress
+        self.progress = progress
+    }
+    
+    func slideVideo() {
+        delegate?.onProgressChanged(progress: progress)
     }
 }
 
@@ -364,6 +373,10 @@ class VideoController: UIView {
     func load(playerItem: AVPlayerItem) -> Void {
         let thumbernails = playerItem.asset.extractThumbernails()
         loadGallery(withImages: thumbernails)
+    }
+    
+    func updateSliderProgress(_ progress: CGFloat) {
+        progressSlider.updateProgress(progress: progress)
     }
 }
 

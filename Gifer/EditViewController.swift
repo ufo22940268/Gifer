@@ -39,6 +39,7 @@ class EditViewController: UIViewController {
             DispatchQueue.main.async {
                 if let playerItem = playerItem {
                     self.videoVC.load(playerItem: playerItem)
+                    self.videoVC.progressDelegator = self
                     self.videoController.load(playerItem: playerItem)
                     self.videoController.slideDelegate = self.videoVC
                 }
@@ -80,5 +81,13 @@ class EditViewController: UIViewController {
     
     fileprivate func pause() {
         videoVC.pause()
+    }
+}
+
+
+extension EditViewController: VideoProgressDelegate {
+    func onProgressChanged(progress: CGFloat) {
+        print("progress: \(progress)")
+        videoController.updateSliderProgress(progress)
     }
 }
