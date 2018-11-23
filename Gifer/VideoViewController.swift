@@ -47,7 +47,7 @@ class VideoViewController: AVPlayerViewController {
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time,
                                                            queue: .main) {
                                                             [weak self] time in
-                                                            if let currentItem = self?.player?.currentItem {
+                                                            if let currentItem = self?.player?.currentItem, self!.player!.timeControlStatus == .playing {
                                                                 let timeValue = CGFloat(time.value)/CGFloat(time.timescale)*CGFloat(currentItem.duration.timescale)
                                                                 // update player transport UI
                                                                 self?.progressDelegator?.onProgressChanged(progress: timeValue/CGFloat(currentItem.duration.value))
