@@ -106,6 +106,10 @@ protocol VideoProgressDelegate: class {
     func onProgressChanged(progress: CGFloat)
 }
 
+protocol SlideVideoProgressDelegate: class {
+    func onSlideVideo(progress: CGFloat)
+}
+
 protocol VideoTrimDelegate: class {
     func onTrimChanged(position: VideoTrimPosition)
 }
@@ -258,7 +262,7 @@ class VideoTrim: UIControl {
 
 class VideoProgressSlider: UIControl {
     
-    var delegate: VideoProgressDelegate?
+    var delegate: SlideVideoProgressDelegate?
     var progress: CGFloat = 0
     
     lazy var shapeLayer: CAShapeLayer = {
@@ -267,22 +271,33 @@ class VideoProgressSlider: UIControl {
     }()
     
     var leadingConstraint: NSLayoutConstraint!
+    var sliderGuide: UILayoutGuide!
 
     func setup() -> Void {
+        guard let superview = superview else { return  }
+        
+        sliderGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderGuide)
+        NSLayoutConstraint.activate([
+            sliderGuide.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            sliderGuide.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -VideoControllerConstants.trimWidth),
+            ])
+        
         let slideGesture = UIPanGestureRecognizer(target: self, action: #selector(onDrag(gesture:)))
         addGestureRecognizer(slideGesture)
         
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.clear
         isOpaque = false
-        leadingConstraint = leadingAnchor.constraint(equalTo: superview!.leadingAnchor)
+        leadingConstraint = leadingAnchor.constraint(equalTo: sliderGuide.leadingAnchor)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalTo: superview!.heightAnchor, multiplier: 1/CGFloat(5)),
-            heightAnchor.constraint(equalTo: superview!.heightAnchor),
-            topAnchor.constraint(equalTo: superview!.topAnchor),
+            widthAnchor.constraint(equalTo: superview.heightAnchor, multiplier: 1/CGFloat(5)),
+            heightAnchor.constraint(equalTo: superview.heightAnchor),
+            topAnchor.constraint(equalTo: superview.topAnchor),
             leadingConstraint
             ])
         self.layer.addSublayer(shapeLayer)
+        
     }
     
     @objc func onDrag(gesture: UIPanGestureRecognizer) {
@@ -299,9 +314,9 @@ class VideoProgressSlider: UIControl {
     }
     
     var maximunLeadingConstant:CGFloat {
-        return superview!.bounds.width - bounds.width
+        return sliderGuide.layoutFrame.width - bounds.width
     }
-    
+
     fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: 0...maximunLeadingConstant)
@@ -316,7 +331,7 @@ class VideoProgressSlider: UIControl {
     }
     
     func slideVideo() {
-        delegate?.onProgressChanged(progress: progress)
+        delegate?.onSlideVideo(progress: progress)
     }
 }
 
@@ -330,7 +345,7 @@ class VideoController: UIView {
     var progressSlider: VideoProgressSlider!
     var videoTrim: VideoTrim!
     
-    var slideDelegate: VideoProgressDelegate? {
+    var slideDelegate: SlideVideoProgressDelegate? {
         get {
             return progressSlider.delegate
         }
@@ -382,7 +397,7 @@ class VideoController: UIView {
         progressSlider.updateProgress(progress: progress)
     }
     
-    func onTrimChanged(position: VideoTrimPosition) {
+    func updateTrim(position: VideoTrimPosition) {
         galleryView.updateByTrim(trimPosition: position)
     }
 }

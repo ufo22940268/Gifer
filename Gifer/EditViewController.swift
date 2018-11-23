@@ -40,7 +40,7 @@ class EditViewController: UIViewController {
                     self.videoVC.progressDelegator = self
                     
                     self.videoController.load(playerItem: playerItem)
-                    self.videoController.slideDelegate = self.videoVC
+                    self.videoController.slideDelegate = self
                     self.videoController.videoTrim.trimDelegate = self
                 }
             }
@@ -87,7 +87,6 @@ class EditViewController: UIViewController {
     }
 }
 
-
 extension EditViewController: VideoProgressDelegate {
     func onProgressChanged(progress: CGFloat) {
         videoController.updateSliderProgress(progress)
@@ -98,7 +97,13 @@ extension EditViewController: VideoTrimDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
         trimPosition = position
-        videoController.onTrimChanged(position: position)
-        videoVC.onTrimChanged(position: position)
+        videoController.updateTrim(position: position)
+        videoVC.updateTrim(position: position)
+    }
+}
+
+extension EditViewController: SlideVideoProgressDelegate {
+    func onSlideVideo(progress: CGFloat) {
+        self.videoVC.seek(toProgress: progress)
     }
 }

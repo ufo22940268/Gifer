@@ -61,15 +61,8 @@ class VideoViewController: AVPlayerViewController {
             self.timeObserverToken = nil
         }
     }
-
-}
-
-func *(progress: CGFloat, duration: CMTime) -> CMTime {
-    return CMTime(value: CMTimeValue(progress*CGFloat(duration.value)), timescale: duration.timescale)
-}
-
-extension VideoViewController: VideoProgressDelegate {    
-    func onProgressChanged(progress: CGFloat) {
+    
+    func seek(toProgress progress: CGFloat) {
         guard let player = self.player, let currentItem = player.currentItem else {
             return
         }
@@ -77,13 +70,18 @@ extension VideoViewController: VideoProgressDelegate {
         let time = CMTime(value: CMTimeValue(Double(progress*CGFloat(currentItem.duration.value))), timescale: 600)
         player.seek(to: time)
     }
+
 }
 
-extension VideoViewController: VideoTrimDelegate {
-    
-    func onTrimChanged(position: VideoTrimPosition) {
-        guard let player = player, let currentItem = player.currentItem else { return }
+func *(progress: CGFloat, duration: CMTime) -> CMTime {
+    return CMTime(value: CMTimeValue(progress*CGFloat(duration.value)), timescale: duration.timescale)
+}
 
+extension VideoViewController {
+    
+    func updateTrim(position: VideoTrimPosition) {
+        guard let player = player, let currentItem = player.currentItem else { return }
+        
         player.seek(toProgress: position.leftTrim)
         currentItem.forwardPlaybackEndTime = position.rightTrim*currentItem.duration
     }
