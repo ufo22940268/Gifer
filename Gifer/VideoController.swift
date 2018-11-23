@@ -121,6 +121,10 @@ struct VideoTrimPosition {
     
     /// Propotional to video duration. Ranged from 0 to 1
     var rightTrim: CGFloat
+    
+    static var initialState: VideoTrimPosition {
+        return VideoTrimPosition(leftTrim: 0, rightTrim: 1)
+    }
 }
 
 class VideoTrim: UIControl {
@@ -264,24 +268,39 @@ class VideoProgressSlider: UIControl {
     
     var delegate: SlideVideoProgressDelegate?
     var progress: CGFloat = 0
-    
+
     lazy var shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
     }()
     
     var leadingConstraint: NSLayoutConstraint!
-    var sliderGuide: UILayoutGuide!
+    var activeLeadingConstraint: NSLayoutConstraint!
+    var activeTrailingConstraint: NSLayoutConstraint!
+    var sliderRangeGuide: UILayoutGuide!
+    var sliderActiveRangeGuide: UILayoutGuide!
 
-    func setup() -> Void {
+    fileprivate func setupGuides(trimView: VideoTrim) {
+        guard let superview = superview else { return }
+        sliderRangeGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderRangeGuide)
+        NSLayoutConstraint.activate([
+            sliderRangeGuide.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            sliderRangeGuide.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -VideoControllerConstants.trimWidth - VideoControllerConstants.sliderWidth),
+            ])
+        
+        sliderActiveRangeGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderActiveRangeGuide)
+        activeLeadingConstraint = sliderActiveRangeGuide.leadingAnchor.constraint(equalTo: trimView.leftTrim.trailingAnchor)
+        activeLeadingConstraint.isActive = true
+        activeTrailingConstraint = sliderActiveRangeGuide.trailingAnchor.constraint(equalTo: trimView.rightTrim.leadingAnchor, constant: -VideoControllerConstants.sliderWidth)
+        activeTrailingConstraint.isActive = true
+    }
+    
+    func setup(trimView: VideoTrim) -> Void {
         guard let superview = superview else { return  }
         
-        sliderGuide = UILayoutGuide()
-        superview.addLayoutGuide(sliderGuide)
-        NSLayoutConstraint.activate([
-            sliderGuide.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: VideoControllerConstants.trimWidth),
-            sliderGuide.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -VideoControllerConstants.trimWidth),
-            ])
+        setupGuides(trimView: trimView)
         
         let slideGesture = UIPanGestureRecognizer(target: self, action: #selector(onDrag(gesture:)))
         addGestureRecognizer(slideGesture)
@@ -289,9 +308,9 @@ class VideoProgressSlider: UIControl {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.clear
         isOpaque = false
-        leadingConstraint = leadingAnchor.constraint(equalTo: sliderGuide.leadingAnchor)
+        leadingConstraint = leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: VideoControllerConstants.trimWidth)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalTo: superview.heightAnchor, multiplier: 1/CGFloat(5)),
+            widthAnchor.constraint(equalToConstant: VideoControllerConstants.sliderWidth),
             heightAnchor.constraint(equalTo: superview.heightAnchor),
             topAnchor.constraint(equalTo: superview.topAnchor),
             leadingConstraint
@@ -313,20 +332,28 @@ class VideoProgressSlider: UIControl {
         shapeLayer.fillColor = UIColor.white.cgColor
     }
     
-    var maximunLeadingConstant:CGFloat {
-        return sliderGuide.layoutFrame.width - bounds.width
+    var slidableRange:CGFloat {
+        return sliderRangeGuide.layoutFrame.width
+    }
+    
+    var maxLeading: CGFloat {
+        return sliderActiveRangeGuide.layoutFrame.maxX
+    }
+    
+    var minLeading: CGFloat {
+        return sliderActiveRangeGuide.layoutFrame.minX
     }
 
     fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
-        leadingConstraint.constant = newConstant.clamped(to: 0...maximunLeadingConstant)
-        self.progress = leadingConstraint.constant/maximunLeadingConstant
+        leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
+        self.progress = leadingConstraint.constant/slidableRange
         slideVideo()
     }
     
     func updateProgress(progress: CGFloat) {
         let progress = progress.clamped(to: 0...CGFloat(1))
-        leadingConstraint.constant = maximunLeadingConstant*progress
+        leadingConstraint.constant = slidableRange*progress
         self.progress = progress
     }
     
@@ -338,6 +365,7 @@ class VideoProgressSlider: UIControl {
 struct VideoControllerConstants {
     static var trimWidth = CGFloat(10)
     static var topAndBottomInset = CGFloat(2)
+    static var sliderWidth = CGFloat(10)
 }
 
 class VideoController: UIView {
@@ -366,13 +394,13 @@ class VideoController: UIView {
         addSubview(galleryView)
         galleryView.setup()
         
-        progressSlider = VideoProgressSlider()
-        galleryView.addSubview(progressSlider)
-        progressSlider.setup()
-        
         videoTrim = VideoTrim()
         addSubview(videoTrim)
         videoTrim.setup()
+        
+        progressSlider = VideoProgressSlider()
+        galleryView.addSubview(progressSlider)
+        progressSlider.setup(trimView: videoTrim)
     }
     
     fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
