@@ -116,9 +116,11 @@ class VideoController: UIView {
     
     func updateSliderProgress(_ progress: CGFloat) {
         progressSlider.updateProgress(progress: progress)
+        progressSlider.show(true)
     }
     
     func updateTrim(position: VideoTrimPosition) {
         galleryView.updateByTrim(trimPosition: position)
+        progressSlider.show(false)
     }
 }

@@ -24,7 +24,7 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
-//        self.player = AVPlayer(playerItem: playerItem)
+        self.player = AVPlayer(playerItem: playerItem)
     }
     
     func play() {

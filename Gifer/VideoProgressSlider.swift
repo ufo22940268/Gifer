@@ -43,6 +43,7 @@ class VideoProgressSlider: UIControl {
         activeTrailingConstraint.isActive = true
     }
     
+    
     func setup(trimView: VideoTrim) -> Void {
         guard let superview = superview else { return  }
         
@@ -62,7 +63,10 @@ class VideoProgressSlider: UIControl {
             leadingConstraint
             ])
         self.layer.addSublayer(shapeLayer)
-        
+    }
+    
+    func show(_ show: Bool) {
+        isHidden = !show
     }
     
     @objc func onDrag(gesture: UIPanGestureRecognizer) {
@@ -70,7 +74,6 @@ class VideoProgressSlider: UIControl {
         shiftProgress(translationX: translation.x)
         gesture.setTranslation(CGPoint.zero, in: superview)
     }
-    
     
     override func layoutSublayers(of layer: CALayer) {
         let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
