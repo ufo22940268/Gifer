@@ -16,7 +16,7 @@ class VideoLibrary {
         return VideoLibrary()
     }()
 
-    class func shared() -> VideoLibrary {
+    class func shared() -> VideoLibrary {        
         return instance
     }
     

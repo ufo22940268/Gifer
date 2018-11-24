@@ -10,6 +10,16 @@ import UIKit
 import Photos
 
 private let reuseIdentifier = "Cell"
+private let galleryGap = CGFloat(8)
+
+extension TimeInterval {
+    func formatTime() -> String? {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: self)
+    }
+}
 
 class VideoGalleryViewController: UICollectionViewController {
     
@@ -24,12 +34,11 @@ class VideoGalleryViewController: UICollectionViewController {
         // Register cell classes
         self.collectionView!.register(VideoGalleryCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         let flowLayout = UICollectionViewFlowLayout()
-        let itemWidth = self.view.bounds.width / 3 - 10
+        let itemWidth = self.collectionView.bounds.width/3 - galleryGap
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         self.collectionView.collectionViewLayout = flowLayout
         
         // Do any additional setup after loading the view.
-        
         videoResult = VideoLibrary.shared().getVideos()
     }
 
@@ -65,10 +74,12 @@ class VideoGalleryViewController: UICollectionViewController {
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: options) { (uiImage, config) in
             cell.imageView.image = uiImage
+            cell.durationView.text = asset.duration.formatTime()
         }
         
         return cell
     }
+    
 
     // MARK: UICollectionViewDelegate
 
@@ -78,6 +89,7 @@ class VideoGalleryViewController: UICollectionViewController {
         return true
     }
     */
+    
 
     /*
     // Uncomment this method to specify if the specified item should be selected
