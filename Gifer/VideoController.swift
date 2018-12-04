@@ -110,8 +110,12 @@ class VideoController: UIView {
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
-        let thumbernails = playerItem.asset.extractThumbernails()
-        loadGallery(withImages: thumbernails)
+        DispatchQueue.global().async {
+            let thumbernails = playerItem.asset.extractThumbernails()
+            DispatchQueue.main.async {
+                self.loadGallery(withImages: thumbernails)
+            }
+        }
     }
     
     func updateSliderProgress(_ progress: CGFloat) {

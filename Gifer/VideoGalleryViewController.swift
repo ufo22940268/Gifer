@@ -27,6 +27,8 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.isToolbarHidden = true
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -84,9 +86,13 @@ class VideoGalleryViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("click at \(indexPath.row)")
-        let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-        editVC.videoAsset = videoResult.object(at: indexPath.row)
-        present(editVC, animated: true, completion: nil)
+        performSegue(withIdentifier: "editVideo", sender: indexPath)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? EditViewController, let indexPath = sender as? IndexPath {
+            destination.videoAsset = videoResult.object(at: indexPath.row)
+        }
     }
 
     // MARK: UICollectionViewDelegate

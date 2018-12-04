@@ -27,21 +27,29 @@ class EditViewController: UIViewController {
         super.loadView()
     }
     
+    
     override func viewDidLoad() {
         setToolbarItems(toolbar.items, animated: false)
         view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
+        loadVideo()
+    }
+    
+    fileprivate func loadVideo() {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestPlayerItem(forVideo: videoAsset, options: options) { (playerItem, info) in
-            DispatchQueue.main.async {
-                if let playerItem = playerItem {
-                    self.videoVC.load(playerItem: playerItem)
-                    self.videoVC.progressDelegator = self
-                    
-                    self.videoController.load(playerItem: playerItem)
-                    self.videoController.slideDelegate = self
-                    self.videoController.videoTrim.trimDelegate = self
+        options.deliveryMode = .fastFormat
+        DispatchQueue.global().async {
+            PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
+                DispatchQueue.main.async {
+                    if let playerItem = playerItem {
+                        self.videoVC.load(playerItem: playerItem)
+                        self.videoVC.progressDelegator = self
+                        
+                        self.videoController.load(playerItem: playerItem)
+                        self.videoController.slideDelegate = self
+                        self.videoController.videoTrim.trimDelegate = self
+                    }
                 }
             }
         }
