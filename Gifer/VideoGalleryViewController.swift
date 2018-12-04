@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 private let reuseIdentifier = "Cell"
-private let galleryGap = CGFloat(8)
+private let galleryGap = CGFloat(0.5)
 
 extension TimeInterval {
     func formatTime() -> String? {
@@ -34,7 +34,9 @@ class VideoGalleryViewController: UICollectionViewController {
         // Register cell classes
         self.collectionView!.register(VideoGalleryCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         let flowLayout = UICollectionViewFlowLayout()
-        let itemWidth = self.collectionView.bounds.width/3 - galleryGap
+        flowLayout.minimumInteritemSpacing = galleryGap
+        flowLayout.minimumLineSpacing = galleryGap*4
+        let itemWidth = self.collectionView.bounds.width/3 - 2*galleryGap
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         self.collectionView.collectionViewLayout = flowLayout
         
@@ -78,6 +80,12 @@ class VideoGalleryViewController: UICollectionViewController {
         }
         
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("click at \(indexPath.row)")
+        let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController")
+        present(editVC, animated: true, completion: nil)
     }
     
 

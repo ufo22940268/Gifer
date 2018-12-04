@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bz0-X4-CgO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="Dvh-Lh-bNF" kind="relationship" relationship="rootViewController" id="MPR-Uk-VWH"/>
+                        <segue destination="bz0-X4-CgO" kind="relationship" relationship="rootViewController" id="YvY-EI-hEF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p0U-CX-2S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -33,19 +33,19 @@
         <!--Edit View Controller-->
         <scene sceneID="62a-J1-d3d">
             <objects>
-                <viewController id="Dvh-Lh-bNF" customClass="EditViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="editViewController" id="Dvh-Lh-bNF" customClass="EditViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ftF-yN-3cp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
-                                <rect key="frame" x="0.0" y="64" width="375" height="515"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <connections>
                                     <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="8" y="579" width="359" height="44"/>
+                                <rect key="frame" x="8" y="623" width="359" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -98,10 +98,10 @@
             </objects>
             <point key="canvasLocation" x="1343" y="-462"/>
         </scene>
-        <!--Video Gallery View Controller-->
+        <!--Gifer-->
         <scene sceneID="UpH-Xu-b0G">
             <objects>
-                <collectionViewController id="bz0-X4-CgO" customClass="VideoGalleryViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController title="Gifer" id="bz0-X4-CgO" customClass="VideoGalleryViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="egG-b7-Xsy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -127,6 +127,7 @@
                             <outlet property="delegate" destination="bz0-X4-CgO" id="siW-uz-k1l"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" title="相册" id="X0g-Vx-SJc"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50B-eb-NUp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
