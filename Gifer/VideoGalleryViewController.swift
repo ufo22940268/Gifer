@@ -84,10 +84,10 @@ class VideoGalleryViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("click at \(indexPath.row)")
-        let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController")
+        let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+        editVC.videoAsset = videoResult.object(at: indexPath.row)
         present(editVC, animated: true, completion: nil)
     }
-    
 
     // MARK: UICollectionViewDelegate
 

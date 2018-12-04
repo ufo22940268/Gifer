@@ -20,6 +20,7 @@ class EditViewController: UIViewController {
     @IBOutlet var toolbar: UIToolbar!
     
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
+    var videoAsset: PHAsset!
     
     override func loadView() {
         self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
@@ -30,7 +31,6 @@ class EditViewController: UIViewController {
         setToolbarItems(toolbar.items, animated: false)
         view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
-        let videoAsset = getTestVideo()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestPlayerItem(forVideo: videoAsset, options: options) { (playerItem, info) in
