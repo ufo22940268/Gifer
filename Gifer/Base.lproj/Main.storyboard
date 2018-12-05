@@ -38,27 +38,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
-                                <connections>
-                                    <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
-                                </connections>
-                            </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="8" y="623" width="359" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kUt-Bn-rUc">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="509"/>
+                                        <connections>
+                                            <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
+                                        </connections>
+                                    </containerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="509" width="375" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="lQa-Xe-IqX"/>
+                                        </constraints>
+                                    </view>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
+                                        <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                        <items>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
+                                            <barButtonItem systemItem="play" id="NtN-Bp-pnl">
+                                                <connections>
+                                                    <action selector="onPlay:" destination="Dvh-Lh-bNF" id="mFA-dc-fth"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
+                                        </items>
+                                        <connections>
+                                            <outlet property="delegate" destination="Dvh-Lh-bNF" id="26I-AQ-Hfg"/>
+                                        </connections>
+                                    </toolbar>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="rTk-3P-78Y" firstAttribute="top" secondItem="jX4-i4-5ip" secondAttribute="top" id="9jA-C0-yw0"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="jX4-i4-5ip" secondAttribute="bottom" id="Udw-zp-Vxm"/>
-                            <constraint firstItem="jX4-i4-5ip" firstAttribute="bottom" secondItem="rTk-3P-78Y" secondAttribute="bottom" constant="44" id="cSd-4H-s2n"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="rTk-3P-78Y" secondAttribute="leadingMargin" id="dhN-aA-LWv"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="rTk-3P-78Y" secondAttribute="bottom" id="mf2-OG-1AT"/>
-                            <constraint firstItem="rTk-3P-78Y" firstAttribute="leading" secondItem="ftF-yN-3cp" secondAttribute="leading" id="qeO-f4-Zdt"/>
-                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="rTk-3P-78Y" secondAttribute="trailingMargin" id="tlv-BZ-h4E"/>
-                            <constraint firstAttribute="trailing" secondItem="rTk-3P-78Y" secondAttribute="trailing" id="yIE-Js-LGR"/>
+                            <constraint firstItem="jX4-i4-5ip" firstAttribute="trailing" secondItem="kUt-Bn-rUc" secondAttribute="trailing" id="0ui-HN-OQA"/>
+                            <constraint firstItem="kUt-Bn-rUc" firstAttribute="bottom" secondItem="jX4-i4-5ip" secondAttribute="bottom" id="CoH-gm-P58"/>
+                            <constraint firstItem="kUt-Bn-rUc" firstAttribute="top" secondItem="jX4-i4-5ip" secondAttribute="top" id="ODl-Ng-7rS"/>
+                            <constraint firstItem="kUt-Bn-rUc" firstAttribute="leading" secondItem="jX4-i4-5ip" secondAttribute="leading" id="WHX-9B-ZTI"/>
+                            <constraint firstItem="kUt-Bn-rUc" firstAttribute="leading" secondItem="jX4-i4-5ip" secondAttribute="leading" id="tKi-Vw-gNQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jX4-i4-5ip"/>
                     </view>
@@ -69,24 +89,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="dTn-58-Uxg">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
-                        <barButtonItem systemItem="play" id="NtN-Bp-pnl">
-                            <connections>
-                                <action selector="onPlay:" destination="Dvh-Lh-bNF" id="mFA-dc-fth"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
-                    </items>
-                    <connections>
-                        <outlet property="delegate" destination="Dvh-Lh-bNF" id="26I-AQ-Hfg"/>
-                    </connections>
-                </toolbar>
             </objects>
-            <point key="canvasLocation" x="420" y="-860"/>
+            <point key="canvasLocation" x="420" y="-860.41979010494754"/>
         </scene>
         <!--AV Player View Controller-->
         <scene sceneID="Wqv-k4-dLb">
