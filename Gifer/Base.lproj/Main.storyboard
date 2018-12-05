@@ -57,6 +57,11 @@
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
                                         <rect key="frame" x="0.0" y="559" width="375" height="44"/>
                                         <items>
+                                            <barButtonItem systemItem="cancel" id="nuO-Xq-arh">
+                                                <connections>
+                                                    <action selector="onCancel:" destination="Dvh-Lh-bNF" id="9ZM-uH-Qul"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
                                             <barButtonItem systemItem="play" id="NtN-Bp-pnl">
                                                 <connections>

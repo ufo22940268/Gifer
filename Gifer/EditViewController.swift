@@ -29,7 +29,6 @@ class EditViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        setToolbarItems(toolbar.items, animated: false)
         view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
         loadVideo()
@@ -92,6 +91,10 @@ class EditViewController: UIViewController {
     
     fileprivate func pause() {
         videoVC.pause()
+    }
+    
+    @IBAction func onCancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
