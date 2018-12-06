@@ -46,18 +46,6 @@ class VideoGalleryViewController: UICollectionViewController {
         videoResult = VideoLibrary.shared().getVideos()
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    // MARK: UICollectionViewDataSource
-
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -76,7 +64,8 @@ class VideoGalleryViewController: UICollectionViewController {
         let asset = videoResult.object(at: indexPath.row)
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: options) { (uiImage, config) in
+        
+        PHImageManager.default().requestImage(for: asset, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFill, options: options) { (uiImage, config) in
             cell.imageView.image = uiImage
             cell.durationView.text = asset.duration.formatTime()
         }
@@ -84,27 +73,26 @@ class VideoGalleryViewController: UICollectionViewController {
         return cell
     }
     
+    var selectedIndexPath: IndexPath!
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("click at \(indexPath.row)")
-//        performSegue(withIdentifier: "editVideo", sender: indexPath)
+        selectedIndexPath = indexPath
         
         let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
         editVC.videoAsset = videoResult.object(at: indexPath.row)
         editVC.transitioningDelegate = self
         present(editVC, animated: true, completion: nil)
-//        show(editVC, sender: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? EditViewController, let indexPath = sender as? IndexPath {
-            destination.transitioningDelegate = self
-            destination.videoAsset = videoResult.object(at: indexPath.row)
-        }
-    }
-
 }
 
 
 extension VideoGalleryViewController: UIViewControllerTransitioningDelegate {
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ShowEditViewControllerAnimator(selectedCell: collectionView.cellForItem(at: selectedIndexPath) as! VideoGalleryCell)
+    }
     
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DismissEditViewControllerAnimator()
+    }
 }

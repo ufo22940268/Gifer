@@ -90,6 +90,7 @@
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT"/>
                     <connections>
                         <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
+                        <outlet property="videoContainer" destination="rTk-3P-78Y" id="JBK-cy-MD1"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                     </connections>
                 </viewController>
