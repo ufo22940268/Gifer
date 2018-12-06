@@ -45,6 +45,10 @@ class VideoGalleryViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
         videoResult = VideoLibrary.shared().getVideos()
     }
+    
+    func getSelectedCell() -> VideoGalleryCell? {
+        return collectionView.cellForItem(at: selectedIndexPath) as? VideoGalleryCell
+    }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections

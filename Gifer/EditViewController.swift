@@ -23,8 +23,6 @@ class EditViewController: UIViewController {
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
     var videoAsset: PHAsset!
     
-    var previewImage: UIImage!
-    
     override func loadView() {
         self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         super.loadView()
@@ -55,6 +53,15 @@ class EditViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func getPreviewImage() -> UIImage? {
+        let snapshotView = videoContainer.snapshotView(afterScreenUpdates: false)!
+        let renderer = UIGraphicsImageRenderer(size: snapshotView.bounds.size)
+        let image = renderer.image { ctx in
+            snapshotView.drawHierarchy(in: snapshotView.bounds, afterScreenUpdates: true)
+        }
+        return image
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -158,7 +165,6 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }, completion: {completed in
             animateImageView.removeFromSuperview()
             transitionContext.containerView.addSubview(toView)
-            toVC.previewImage = image
             transitionContext.completeTransition(true)
         })
     }
@@ -171,10 +177,22 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let editVC = transitionContext.viewController(forKey: .from) as! EditViewController
+        let galleryVC = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! VideoGalleryViewController
+
+        let animatedImageView = UIImageView()
+        animatedImageView.image = editVC.getPreviewImage()
+        animatedImageView.frame = editVC.videoContainer.frame
+        transitionContext.containerView.addSubview(animatedImageView)
+        let cell = galleryVC.getSelectedCell()!
+        let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
+        
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-            transitionContext.viewController(forKey: .to)?.view.alpha = 1.0
-            transitionContext.viewController(forKey: .from)?.view.alpha = 0.0
+            animatedImageView.frame = toRect
+            transitionContext.view(forKey: .from)?.alpha = 0.0
+            transitionContext.view(forKey: .to)?.alpha = 1.0
         }, completion: {success in
+            animatedImageView.removeFromSuperview()
             transitionContext.completeTransition(true)
         })
     }
