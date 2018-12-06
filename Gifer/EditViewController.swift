@@ -146,7 +146,9 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         animateImageView.image = image
         animateImageView.contentMode = .scaleAspectFit
         
-        let finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
+        var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
+        
+        finalImageViewFrame.origin.y = finalImageViewFrame.origin.y + UIApplication.shared.statusBarFrame.height
         
         transitionContext.containerView.addSubview(animateImageView)
         

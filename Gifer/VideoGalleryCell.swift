@@ -27,7 +27,6 @@ class VideoGalleryCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor)])
         
-        
         durationView = UILabel()
         durationView.translatesAutoresizingMaskIntoConstraints = false
         durationView.textColor = UIColor.white
@@ -42,3 +41,4 @@ class VideoGalleryCell: UICollectionViewCell {
     }
     
 }
+
