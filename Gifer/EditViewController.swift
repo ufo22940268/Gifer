@@ -161,7 +161,8 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             fromView.alpha = 0
             animateView.frame = finalImageViewFrame
-            animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: finalImageViewFrame.size.width, height: image.size.height/image.size.width*finalImageViewFrame.size.width))
+            let imageSize = CGSize(width: finalImageViewFrame.size.width, height: image.size.height/image.size.width*finalImageViewFrame.size.width)
+            animateView.imageView.frame = CGRect(origin: CGPoint(x: 0, y: (finalImageViewFrame.height - imageSize.height)/2), size: imageSize)
             animateView.layoutIfNeeded()
         }, completion: {completed in
             animateView.removeFromSuperview()

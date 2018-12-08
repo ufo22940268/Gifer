@@ -18,16 +18,8 @@ class AspectView: UIView {
         clipsToBounds = true
         imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
         addSubview(imageView)
-        
-//        NSLayoutConstraint.activate([
-//            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1.0),
-//            imageView.widthAnchor.constraint(equalTo: heightAnchor, multiplier: image.size.width/image.size.height),
-//            imageView.centerYAnchor.constraint(equalTo: centerYAnchor)])
-                
     }
     
     required init?(coder aDecoder: NSCoder) {
