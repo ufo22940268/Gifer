@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		4285BF9D21A8C34600913466 /* VideoTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* VideoTrim.swift */; };
 		4285BF9F21A8C37A00913466 /* VideoProgressSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9E21A8C37A00913466 /* VideoProgressSlider.swift */; };
 		4285BFA121A8C3AE00913466 /* VideoGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA021A8C3AE00913466 /* VideoGallery.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* VideoTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTrim.swift; sourceTree = "<group>"; };
 		4285BF9E21A8C37A00913466 /* VideoProgressSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressSlider.swift; sourceTree = "<group>"; };
 		4285BFA021A8C3AE00913466 /* VideoGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGallery.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */,
 				4285BFA421A8D4DE00913466 /* VideoLibrary.swift */,
 				428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */,
+				4233DD6921B91441009A757C /* AspectView.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoProgressSlider.swift in Sources */,
+				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				4285BF9D21A8C34600913466 /* VideoTrim.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,

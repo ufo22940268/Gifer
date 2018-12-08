@@ -37,6 +37,12 @@ extension AVAsset {
         }
         return images
     }
+    
+    func extractThumbernail(on time: CMTime) -> UIImage {
+        let generator = AVAssetImageGenerator(asset: self)
+        let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
+        return UIImage(cgImage: cgImage)
+    }
 }
 
 class GifGenerator {
