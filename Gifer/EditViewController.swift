@@ -55,6 +55,9 @@ class EditViewController: UIViewController {
         }
     }
     
+    func showPreview(_ show: Bool) {
+    }
+    
     func getPreviewImage() -> UIImage? {
         if let player = videoVC.player, let snapshot = player.currentItem?.asset.extractThumbernail(on: player.currentTime()) {
             return snapshot
@@ -66,6 +69,7 @@ class EditViewController: UIViewController {
     func setPreviewImage(_ image: UIImage)  {
         videoVC.setPreviewImage(image)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberVideo" {
@@ -156,26 +160,30 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let initialFrame: CGRect = fromView.convert(selectedCell.frame, from: selectedCell.superview!)
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
-        toVC.setPreviewImage(image)
         var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
         
         finalImageViewFrame.origin.y = finalImageViewFrame.origin.y + UIApplication.shared.statusBarFrame.height
         
-        transitionContext.containerView.addSubview(animateView)
         animateView.layoutIfNeeded()
+        toVC.showPreview(false)
         
+        toView.alpha = 0
+        transitionContext.containerView.addSubview(toView)
+        transitionContext.containerView.addSubview(animateView)
         UIView.animate(withDuration: editVCTransitionShortDuration) {
             fromView.alpha = 0
         }
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+            toView.alpha = 1
             animateView.frame = finalImageViewFrame
             let imageSize = CGSize(width: finalImageViewFrame.size.width, height: image.size.height/image.size.width*finalImageViewFrame.size.width)
             animateView.imageView.frame = CGRect(origin: CGPoint(x: 0, y: (finalImageViewFrame.height - imageSize.height)/2), size: imageSize)
             animateView.layoutIfNeeded()
         }, completion: {completed in
             animateView.removeFromSuperview()
-            transitionContext.containerView.addSubview(toView)
+            toVC.showPreview(true)
+            toVC.setPreviewImage(image)
             transitionContext.completeTransition(true)
         })        
     }
@@ -198,20 +206,23 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
         animatedView.makeImageViewFillContainerAspect()
-        transitionContext.containerView.addSubview(animatedView)
         let cell = galleryVC.getSelectedCell()!
         let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
         
+        galleryView.alpha = 0
         UIView.animate(withDuration: editVCTransitionShortDuration, animations: {
             editView.alpha = 0
-            galleryView.alpha = 1
         })
         
+        cell.isHidden = true
+        transitionContext.containerView.addSubview(galleryView)
+        transitionContext.containerView.addSubview(animatedView)
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             animatedView.frame = toRect
             animatedView.makeImageViewFillContainer()
             galleryView.alpha = 1
         }, completion: {success in
+            cell.isHidden = false
             animatedView.removeFromSuperview()
             transitionContext.completeTransition(true)
         })

@@ -45,6 +45,7 @@ class VideoViewController: AVPlayerViewController {
                 previewView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
                 previewView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
                 ])
+            previewView.backgroundColor = UIColor.black 
         }
     }
     
