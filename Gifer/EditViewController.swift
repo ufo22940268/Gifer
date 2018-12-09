@@ -63,6 +63,10 @@ class EditViewController: UIViewController {
         return nil
     }
     
+    func setPreviewImage(_ image: UIImage)  {
+        videoVC.setPreviewImage(image)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberVideo" {
             videoVC = segue.destination as? VideoViewController
@@ -129,6 +133,7 @@ extension EditViewController: SlideVideoProgressDelegate {
 }
 
 private var editVCTransitionDuration: TimeInterval = 0.5
+private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
@@ -151,6 +156,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let initialFrame: CGRect = fromView.convert(selectedCell.frame, from: selectedCell.superview!)
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
+        toVC.setPreviewImage(image)
         var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
         
         finalImageViewFrame.origin.y = finalImageViewFrame.origin.y + UIApplication.shared.statusBarFrame.height
@@ -158,8 +164,11 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         transitionContext.containerView.addSubview(animateView)
         animateView.layoutIfNeeded()
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+        UIView.animate(withDuration: editVCTransitionShortDuration) {
             fromView.alpha = 0
+        }
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             animateView.frame = finalImageViewFrame
             let imageSize = CGSize(width: finalImageViewFrame.size.width, height: image.size.height/image.size.width*finalImageViewFrame.size.width)
             animateView.imageView.frame = CGRect(origin: CGPoint(x: 0, y: (finalImageViewFrame.height - imageSize.height)/2), size: imageSize)
@@ -168,7 +177,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animateView.removeFromSuperview()
             transitionContext.containerView.addSubview(toView)
             transitionContext.completeTransition(true)
-        })
+        })        
     }
 }
 
@@ -184,20 +193,26 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let editView = transitionContext.view(forKey: .from)!
         let galleryView = transitionContext.view(forKey: .to)!
 
-        let animatedImageView = UIImageView()
-        animatedImageView.contentMode = .scaleAspectFit
-        animatedImageView.image = editVC.getPreviewImage()
-        animatedImageView.frame = editVC.videoContainer.frame
-        transitionContext.containerView.addSubview(animatedImageView)
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        var initialFrame = editVC.videoContainer.frame
+        initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
+        let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
+        animatedView.makeImageViewFillContainerAspect()
+        transitionContext.containerView.addSubview(animatedView)
         let cell = galleryVC.getSelectedCell()!
         let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-            animatedImageView.frame = toRect
+        UIView.animate(withDuration: editVCTransitionShortDuration, animations: {
             editView.alpha = 0
             galleryView.alpha = 1
+        })
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+            animatedView.frame = toRect
+            animatedView.makeImageViewFillContainer()
+            galleryView.alpha = 1
         }, completion: {success in
-            animatedImageView.removeFromSuperview()
+            animatedView.removeFromSuperview()
             transitionContext.completeTransition(true)
         })
     }

@@ -18,13 +18,42 @@ extension AVPlayer {
     }
 }
 
+class VideoPreviewView: UIImageView {
+
+    init() {
+        super.init(frame: CGRect.zero)
+        contentMode = .scaleAspectFit
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
 class VideoViewController: AVPlayerViewController {
     
+    var previewView: VideoPreviewView!
+    
     override func viewDidLoad() {
+        if let contentOverlayView = contentOverlayView {
+            previewView = VideoPreviewView()
+            previewView.translatesAutoresizingMaskIntoConstraints = false
+            contentOverlayView.addSubview(previewView);
+            NSLayoutConstraint.activate([
+                previewView.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
+                previewView.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
+                previewView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
+                previewView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
+                ])
+        }
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
         self.player = AVPlayer(playerItem: playerItem)        
+    }
+    
+    func setPreviewImage(_ image: UIImage) {
+        previewView.image = image
     }
     
     func play() {
