@@ -46,11 +46,11 @@ class VideoViewController: AVPlayerViewController {
                 previewView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
                 ])
             previewView.backgroundColor = UIColor.black 
-        }
+        }    
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
-        self.player = AVPlayer(playerItem: playerItem)        
+        self.player = AVPlayer(playerItem: playerItem)
     }
     
     func setPreviewImage(_ image: UIImage) {

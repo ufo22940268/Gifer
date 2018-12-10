@@ -89,7 +89,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT"/>
                     <connections>
+                        <outlet property="controlToolbar" destination="dTn-58-Uxg" id="4Lm-3p-0TM"/>
                         <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
+                        <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
                         <outlet property="videoContainer" destination="rTk-3P-78Y" id="JBK-cy-MD1"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                     </connections>

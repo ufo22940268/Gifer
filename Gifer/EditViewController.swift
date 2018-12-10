@@ -20,6 +20,7 @@ class EditViewController: UIViewController {
     @IBOutlet weak var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
+    @IBOutlet weak var controlToolbar: UIToolbar!
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
     var videoAsset: PHAsset!
     
@@ -78,7 +79,7 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onPlay(_ sender: UIBarButtonItem) {
-        guard let toolbarItems = toolbarItems, let playState = videoVC.player?.timeControlStatus else {
+        guard let toolbarItems = controlToolbar.items, let playState = videoVC.player?.timeControlStatus else {
             return
         }
 
@@ -98,12 +99,13 @@ class EditViewController: UIViewController {
         if let newItem = newItem {
             var newToolbarItems = toolbarItems
             newToolbarItems[itemIndex] = newItem
-            setToolbarItems(newToolbarItems, animated: false)
+            controlToolbar.setItems(newToolbarItems, animated: false)
         }
     }
     
     fileprivate func play() {
         videoVC.play()
+        videoVC.previewView.isHidden = true
     }
     
     fileprivate func pause() {
