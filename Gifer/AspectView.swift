@@ -26,13 +26,22 @@ class AspectView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func makeImageViewFillContainerAspect() {
+    func makeImageViewFitContainer() {
         guard let imageSize = imageView.image?.size else {
             return
         }
         
-        let imageViewSize = CGSize(width: frame.width, height: imageSize.height/imageSize.width*frame.width)
-        let imageViewOrigin = CGPoint(x: 0, y: (frame.height - imageViewSize.height)/2)
+        let imageRatio = imageSize.width/imageSize.height
+        let containerRatio = bounds.width/bounds.height
+        var imageViewSize: CGSize
+        var imageViewOrigin: CGPoint
+        if imageRatio > containerRatio {
+            imageViewSize = CGSize(width: frame.width, height: imageSize.height/imageSize.width*frame.width)
+            imageViewOrigin = CGPoint(x: 0, y: (frame.height - imageViewSize.height)/2)
+        } else {
+            imageViewSize = CGSize(width: frame.height*(imageSize.width/imageSize.height), height: frame.height)
+            imageViewOrigin = CGPoint(x: (frame.width - imageViewSize.width)/2, y: 0)
+        }
         imageView.frame = CGRect(origin: imageViewOrigin, size: imageViewSize)
     }
     

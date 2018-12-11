@@ -159,12 +159,12 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let toView = transitionContext.view(forKey: .to)!
         
         let image = selectedCell.imageView.image!
+        toView.layoutIfNeeded()
         let initialFrame: CGRect = fromView.convert(selectedCell.frame, from: selectedCell.superview!)
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
         var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
-        
-        finalImageViewFrame.origin.y = finalImageViewFrame.origin.y + UIApplication.shared.statusBarFrame.height
+        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - 50 - 44
         
         animateView.layoutIfNeeded()
         toVC.showPreview(false)
@@ -179,8 +179,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             toView.alpha = 1
             animateView.frame = finalImageViewFrame
-            let imageSize = CGSize(width: finalImageViewFrame.size.width, height: image.size.height/image.size.width*finalImageViewFrame.size.width)
-            animateView.imageView.frame = CGRect(origin: CGPoint(x: 0, y: (finalImageViewFrame.height - imageSize.height)/2), size: imageSize)
+            animateView.makeImageViewFitContainer()
             animateView.layoutIfNeeded()
         }, completion: {completed in
             animateView.removeFromSuperview()
@@ -207,7 +206,7 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         var initialFrame = editVC.videoContainer.frame
         initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
-        animatedView.makeImageViewFillContainerAspect()
+        animatedView.makeImageViewFitContainer()
         let cell = galleryVC.getSelectedCell()!
         let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
         

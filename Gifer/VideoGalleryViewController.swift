@@ -85,6 +85,7 @@ class VideoGalleryViewController: UICollectionViewController {
         let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
         editVC.videoAsset = videoResult.object(at: indexPath.row)
         editVC.transitioningDelegate = self
+        editVC.modalPresentationCapturesStatusBarAppearance = true
         present(editVC, animated: true, completion: nil)
     }
 }
