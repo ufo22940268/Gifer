@@ -25,13 +25,12 @@ class EditViewController: UIViewController {
     var videoAsset: PHAsset!
     
     override func loadView() {
-        self.navigationController?.toolbar.barTintColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         super.loadView()
     }
     
     
     override func viewDidLoad() {
-        view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
+        view.backgroundColor = UIColor.black
 
         loadVideo()
     }
@@ -60,11 +59,7 @@ class EditViewController: UIViewController {
     }
     
     func getPreviewImage() -> UIImage? {
-        if let player = videoVC.player, let snapshot = player.currentItem?.asset.extractThumbernail(on: player.currentTime()) {
-            return snapshot
-        }
-        
-        return nil
+        return videoVC.previewView.image
     }
     
     func setPreviewImage(_ image: UIImage)  {
