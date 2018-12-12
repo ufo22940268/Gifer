@@ -81,11 +81,6 @@ class VideoProgressSlider: UIControl {
         shapeLayer.fillColor = UIColor.white.cgColor
     }
     
-    var slidableRange:CGFloat {
-//        return sliderRangeGuide.layoutFrame.width
-        return sliderRangeGuide.layoutFrame.maxX
-    }
-    
     var maxLeading: CGFloat {
         return sliderActiveRangeGuide.layoutFrame.maxX
     }
@@ -97,13 +92,13 @@ class VideoProgressSlider: UIControl {
     fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
-        self.progress = leadingConstraint.constant/slidableRange
+        self.progress = leadingConstraint.constant/sliderRangeGuide.layoutFrame.maxX
         slideVideo()
     }
     
     func updateProgress(progress: CGFloat) {
         let progress = progress.clamped(to: 0...CGFloat(1))
-        leadingConstraint.constant = slidableRange*progress
+        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX + sliderRangeGuide.layoutFrame.width*progress
         self.progress = progress
     }
     
