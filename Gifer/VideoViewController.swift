@@ -51,6 +51,7 @@ class VideoViewController: AVPlayerViewController {
     
     func load(playerItem: AVPlayerItem) -> Void {
         self.player = AVPlayer(playerItem: playerItem)
+        addPeriodicTimeObserver()
     }
     
     func setPreviewImage(_ image: UIImage) {
@@ -59,11 +60,13 @@ class VideoViewController: AVPlayerViewController {
     
     func play() {
         self.player?.play()
-        addPeriodicTimeObserver()
     }
     
     func pause() {
         self.player?.pause()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
         removePeriodicTimeObserver()
     }
     
@@ -83,6 +86,10 @@ class VideoViewController: AVPlayerViewController {
                                                                 self?.progressDelegator?.onProgressChanged(progress: timeValue/CGFloat(currentItem.duration.value))
                                                             }
         }
+        
+        player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: timeScale))], queue: DispatchQueue.main, using: {
+            self.previewView.isHidden = true
+        })
     }
     
     func removePeriodicTimeObserver() {

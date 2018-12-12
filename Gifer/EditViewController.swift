@@ -39,6 +39,7 @@ class EditViewController: UIViewController {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
+
         DispatchQueue.global().async {
             PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
                 DispatchQueue.main.async {
@@ -100,7 +101,6 @@ class EditViewController: UIViewController {
     
     fileprivate func play() {
         videoVC.play()
-        videoVC.previewView.isHidden = true
     }
     
     fileprivate func pause() {
