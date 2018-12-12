@@ -82,7 +82,8 @@ class VideoProgressSlider: UIControl {
     }
     
     var slidableRange:CGFloat {
-        return sliderRangeGuide.layoutFrame.width
+//        return sliderRangeGuide.layoutFrame.width
+        return sliderRangeGuide.layoutFrame.maxX
     }
     
     var maxLeading: CGFloat {

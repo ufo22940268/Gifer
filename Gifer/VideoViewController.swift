@@ -71,6 +71,7 @@ class VideoViewController: AVPlayerViewController {
     }
     
     var timeObserverToken: Any?
+    var boundaryObserverToken: Any?
     weak var progressDelegator: VideoProgressDelegate?
     
     func addPeriodicTimeObserver() {
@@ -80,22 +81,32 @@ class VideoViewController: AVPlayerViewController {
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time,
                                                            queue: .main) {
                                                             [weak self] time in
-                                                            if let currentItem = self?.player?.currentItem, self!.player!.timeControlStatus == .playing {
+                                                            guard let currentItem = self?.player?.currentItem else {return}
+                                                            if self!.player!.timeControlStatus == .playing {
                                                                 let timeValue = CGFloat(time.value)/CGFloat(time.timescale)*CGFloat(currentItem.duration.timescale)
                                                                 // update player transport UI
                                                                 self?.progressDelegator?.onProgressChanged(progress: timeValue/CGFloat(currentItem.duration.value))
                                                             }
         }
         
-        player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: timeScale))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: timeScale))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
+    }
+    
+    func showLoading(_ show: Bool) {
+        print("showLoading: \(show)")
     }
     
     func removePeriodicTimeObserver() {
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
+        }
+        
+        if let observer = boundaryObserverToken {
+            player?.removeTimeObserver(observer)
+            self.boundaryObserverToken = nil
         }
     }
     
