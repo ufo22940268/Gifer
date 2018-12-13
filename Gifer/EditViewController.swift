@@ -100,8 +100,13 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onShare(_ sender: Any) {
+        guard let asset = videoVC.player?.currentItem?.asset else {
+            return
+        }
         showLoading(true)
-//        ShareManager().share()
+        let startProgress = trimPosition.leftTrim
+        let endProgress = trimPosition.rightTrim
+        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share()
         showLoading(false)
     }
     

@@ -16,12 +16,18 @@ import Photos
 class ShareManager {
     
     var asset: AVAsset!
+    var startProgress: CGFloat!
+    var endProgress: CGFloat!
     
-    init(asset: AVAsset) {
+    init(asset: AVAsset, startProgress: CGFloat, endProgress: CGFloat) {
         self.asset = asset
+        self.startProgress = startProgress
+        self.endProgress = endProgress
     }
     
     func share() {
-//        GifGenerator(video: asset).run()
+        GifGenerator(video: asset).run(start: self.startProgress, end: self.endProgress) {
+            
+        }
     }
 }

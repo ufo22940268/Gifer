@@ -66,6 +66,7 @@ struct VideoControllerConstants {
 }
 
 class VideoController: UIView {
+    
     var galleryView: VideoGallery!
     var progressSlider: VideoProgressSlider!
     var videoTrim: VideoTrim!
