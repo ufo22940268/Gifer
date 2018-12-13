@@ -123,6 +123,7 @@ class VideoController: UIView {
     }
     
     func updateSliderProgress(_ progress: CGFloat) {
+        print(progress)
         progressSlider.updateProgress(progress: progress)
         progressSlider.show(true)
     }

@@ -135,7 +135,7 @@ extension EditViewController: SlideVideoProgressDelegate {
         case .slide:
             self.videoVC.seek(toProgress: progress)
         case .end:
-            play()
+            break
         }
     }
 }

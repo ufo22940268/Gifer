@@ -72,26 +72,29 @@ class VideoViewController: AVPlayerViewController {
     
     var timeObserverToken: Any?
     var boundaryObserverToken: Any?
+    let observeInterval = CMTime(seconds: 0.02, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     weak var progressDelegator: VideoProgressDelegate?
     
     func addPeriodicTimeObserver() {
-        let timeScale = CMTimeScale(NSEC_PER_SEC)
-        let time = CMTime(seconds: 0.02, preferredTimescale: timeScale)
-        
-        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time,
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
                                                             [weak self] time in
-                                                            guard let currentItem = self?.player?.currentItem else {return}
-                                                            if self!.player!.timeControlStatus == .playing {
-                                                                let timeValue = CGFloat(time.value)/CGFloat(time.timescale)*CGFloat(currentItem.duration.timescale)
-                                                                // update player transport UI
-                                                                self?.progressDelegator?.onProgressChanged(progress: timeValue/CGFloat(currentItem.duration.value))
-                                                            }
+                                                            self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: timeScale))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
+    }
+    
+    func observePlaybackStatus(currentTime: CMTime) {
+        guard let currentItem = self.player?.currentItem else {return}
+        if self.player!.timeControlStatus == .playing {
+            let timeValue = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)*CGFloat(currentItem.duration.timescale)
+            // update player transport UI
+            self.progressDelegator?.onProgressChanged(progress:
+                timeValue/CGFloat(currentItem.duration.value))
+        }
     }
     
     func showLoading(_ show: Bool) {
