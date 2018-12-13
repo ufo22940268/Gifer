@@ -128,8 +128,15 @@ extension EditViewController: VideoTrimDelegate {
 }
 
 extension EditViewController: SlideVideoProgressDelegate {
-    func onSlideVideo(progress: CGFloat) {
-        self.videoVC.seek(toProgress: progress)
+    func onSlideVideo(state: SlideState, progress: CGFloat!) {
+        switch state {
+        case .begin:
+            pause()
+        case .slide:
+            self.videoVC.seek(toProgress: progress)
+        case .end:
+            play()
+        }
     }
 }
 

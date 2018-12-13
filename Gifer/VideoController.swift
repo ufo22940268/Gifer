@@ -34,8 +34,12 @@ protocol VideoProgressDelegate: class {
     func onProgressChanged(progress: CGFloat)
 }
 
+enum SlideState {
+    case begin, slide, end
+}
+
 protocol SlideVideoProgressDelegate: class {
-    func onSlideVideo(progress: CGFloat)
+    func onSlideVideo(state: SlideState, progress: CGFloat!)
 }
 
 protocol VideoTrimDelegate: class {

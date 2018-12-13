@@ -70,9 +70,15 @@ class VideoProgressSlider: UIControl {
     }
     
     @objc func onDrag(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: superview)
-        shiftProgress(translationX: translation.x)
-        gesture.setTranslation(CGPoint.zero, in: superview)
+        if gesture.state == .began {
+            delegate?.onSlideVideo(state: .begin, progress: nil)
+        } else if gesture.state == .changed {
+            let translation = gesture.translation(in: superview)
+            shiftProgress(translationX: translation.x)
+            gesture.setTranslation(CGPoint.zero, in: superview)
+        } else if gesture.state == .ended {
+            delegate?.onSlideVideo(state: .end, progress: nil)
+        }
     }
     
     override func layoutSublayers(of layer: CALayer) {
@@ -103,6 +109,6 @@ class VideoProgressSlider: UIControl {
     }
     
     func slideVideo() {
-        delegate?.onSlideVideo(progress: progress)
+        delegate?.onSlideVideo(state: .slide, progress: progress)
     }
 }
