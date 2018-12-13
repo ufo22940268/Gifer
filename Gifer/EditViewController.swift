@@ -99,6 +99,16 @@ class EditViewController: UIViewController {
         }
     }
     
+    @IBAction func onShare(_ sender: Any) {
+        showLoading(true)
+//        ShareManager().share()
+        showLoading(false)
+    }
+    
+    func showLoading(_ show: Bool) {
+        
+    }
+    
     fileprivate func play() {
         videoVC.play()
     }

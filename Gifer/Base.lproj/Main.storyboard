@@ -69,6 +69,11 @@
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
+                                            <barButtonItem systemItem="action" id="0Ye-w1-Lyn">
+                                                <connections>
+                                                    <action selector="onShare:" destination="Dvh-Lh-bNF" id="KWV-kV-4Y9"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </items>
                                         <connections>
                                             <outlet property="delegate" destination="Dvh-Lh-bNF" id="26I-AQ-Hfg"/>
@@ -109,10 +114,10 @@
             </objects>
             <point key="canvasLocation" x="1610" y="-889.00000000000011"/>
         </scene>
-        <!--Gifer-->
+        <!--Gallery-->
         <scene sceneID="UpH-Xu-b0G">
             <objects>
-                <collectionViewController title="Gifer" id="bz0-X4-CgO" customClass="VideoGalleryViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController title="Gifer" id="bz0-X4-CgO" userLabel="Gallery" customClass="VideoGalleryViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="egG-b7-Xsy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

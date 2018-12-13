@@ -48,9 +48,9 @@ extension AVAsset {
 class GifGenerator {
     
     let fileName = "animated.gif"
-    var videoAsset: PHAsset
+    var videoAsset: AVAsset
     
-    init(video: PHAsset) {
+    init(video: AVAsset) {
         self.videoAsset = video
     }
     
@@ -69,34 +69,31 @@ class GifGenerator {
         fatalError()
     }
     
-    func run(complete: @escaping () -> Void) {
-        let manager = PHImageManager.default()
-        manager.requestAVAsset(forVideo: videoAsset, options: nil) { (avAsset, _, info) in
-            if let avAsset = avAsset {
-                var times = [NSValue]()
-                let frameCounts: Int = Int(avAsset.duration.seconds)
-                let group = DispatchGroup()
-                for second in 0..<frameCounts {
-                    times.append(NSValue(time: CMTimeMakeWithSeconds(Float64(second), preferredTimescale: 1)))
-                    group.enter()
-                }
-                let destination = self.buildDestinationOfGif(frameCount: Int(avAsset.duration.seconds))
-                AVAssetImageGenerator(asset: avAsset).generateCGImagesAsynchronously(forTimes: times, completionHandler: { (_, image, _, _, error) in
-                    let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFDelayTime as String): 0.01]] as CFDictionary
-                    CGImageDestinationAddImage(destination, image!, frameProperties)
-                    group.leave()
-                })
-                
-                
-                group.notify(queue: .global()) {
-                    if !CGImageDestinationFinalize(destination) {
-                        print("Failed to finalize the image destination")
-                    }
-                    print("finish")
-                    complete()
-                }
+    func run(start startProgress: CGFloat, end endProgress: CGFloat, complete: @escaping () -> Void) {
+        
+        var times = [NSValue]()
+        let startSecond: Int = Int(CGFloat(videoAsset.duration.seconds)*startProgress)
+        let endSecond: Int = Int(CGFloat(videoAsset.duration.seconds)*endProgress)
+        let group = DispatchGroup()
+        for second in startSecond..<endSecond {
+            times.append(NSValue(time: CMTimeMakeWithSeconds(Float64(second), preferredTimescale: 1)))
+            group.enter()
+        }
+        let destination = self.buildDestinationOfGif(frameCount: Int(videoAsset.duration.seconds))
+        AVAssetImageGenerator(asset: videoAsset).generateCGImagesAsynchronously(forTimes: times, completionHandler: { (_, image, _, _, error) in
+            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFDelayTime as String): 0.01]] as CFDictionary
+            CGImageDestinationAddImage(destination, image!, frameProperties)
+            group.leave()
+        })
+        
+        
+        group.notify(queue: .global()) {
+            if !CGImageDestinationFinalize(destination) {
+                print("Failed to finalize the image destination")
             }
+            print("finish")
+            complete()
         }
     }
-
+    
 }

@@ -42,6 +42,9 @@
                   Identifier = "GiferTests/testExample()">
                </Test>
                <Test
+                  Identifier = "GiferTests/testExtractVideoThumbernails()">
+               </Test>
+               <Test
                   Identifier = "GiferTests/testGenerateGif()">
                </Test>
                <Test
