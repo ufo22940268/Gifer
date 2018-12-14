@@ -30,9 +30,17 @@ class EditViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
+        toolbar.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
-        loadVideo()
+        if !isDebug {            
+            loadVideo()
+        }
+    }
+    var isDebug: Bool {
+        get {
+            return videoAsset == nil
+        }
     }
     
     fileprivate func loadVideo() {

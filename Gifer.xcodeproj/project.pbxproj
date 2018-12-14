@@ -14,6 +14,7 @@
 		4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */; };
 		4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA421A8D4DE00913466 /* VideoLibrary.swift */; };
 		428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */; };
+		429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429CE3E021C22F360004D3F2 /* MonkeyKing.framework */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42EE13D62195C22900724611 /* Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* Gif.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
@@ -45,6 +46,7 @@
 		4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryViewController.swift; sourceTree = "<group>"; };
 		4285BFA421A8D4DE00913466 /* VideoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLibrary.swift; sourceTree = "<group>"; };
 		428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryCell.swift; sourceTree = "<group>"; };
+		429CE3E021C22F360004D3F2 /* MonkeyKing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyKing.framework; path = Carthage/Build/iOS/MonkeyKing.framework; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gif.swift; sourceTree = "<group>"; };
 		42EE13D721963FBB00724611 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +85,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		429CE3DF21C22F350004D3F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				429CE3E021C22F360004D3F2 /* MonkeyKing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		42F2D564219403B100113A10 = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +100,7 @@
 				42F2D584219403B300113A10 /* GiferTests */,
 				42F2D58F219403B300113A10 /* GiferUITests */,
 				42F2D56E219403B100113A10 /* Products */,
+				429CE3DF21C22F350004D3F2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +166,7 @@
 				42F2D569219403B100113A10 /* Sources */,
 				42F2D56A219403B100113A10 /* Frameworks */,
 				42F2D56B219403B100113A10 /* Resources */,
+				429CE3DE21C22D260004D3F2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -239,6 +252,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		429CE3DE21C22D260004D3F2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MonkeyKing.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		42F2D569219403B100113A10 /* Sources */ = {
@@ -423,6 +458,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S833P2K5YV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Gifer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,6 +482,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S833P2K5YV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Gifer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

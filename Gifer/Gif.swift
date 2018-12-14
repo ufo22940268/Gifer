@@ -54,10 +54,16 @@ class GifGenerator {
         self.videoAsset = video
     }
     
+    var gifFilePath: URL? {
+        get {
+            let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            return documentsDirectoryURL?.appendingPathComponent("animated.gif")
+        }
+    }
+    
     func buildDestinationOfGif(frameCount: Int) -> CGImageDestination {
         let fileProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: 0]]  as CFDictionary
-        let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let fileURL: URL? = documentsDirectoryURL?.appendingPathComponent("animated.gif")
+        let fileURL: URL? = gifFilePath
         
         if let url = fileURL as CFURL? {
             if let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, frameCount, nil) {
@@ -69,7 +75,7 @@ class GifGenerator {
         fatalError()
     }
     
-    func run(start startProgress: CGFloat, end endProgress: CGFloat, complete: @escaping () -> Void) {
+    func run(start startProgress: CGFloat, end endProgress: CGFloat, complete: @escaping (URL) -> Void) {
         
         var times = [NSValue]()
         let startSecond: Int = Int(CGFloat(videoAsset.duration.seconds)*startProgress)
@@ -91,9 +97,8 @@ class GifGenerator {
             if !CGImageDestinationFinalize(destination) {
                 print("Failed to finalize the image destination")
             }
-            print("finish")
-            complete()
+            print("gif file \(self.gifFilePath!.path) generated")
+            complete(self.gifFilePath!)
         }
     }
-    
 }

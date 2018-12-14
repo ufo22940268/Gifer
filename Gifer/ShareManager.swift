@@ -11,7 +11,7 @@ import UIKit
 import ImageIO
 import MobileCoreServices
 import Photos
-
+import MonkeyKing
 
 class ShareManager {
     
@@ -26,7 +26,7 @@ class ShareManager {
     }
     
     func share() {
-        GifGenerator(video: asset).run(start: self.startProgress, end: self.endProgress) {
+        GifGenerator(video: asset).run(start: self.startProgress, end: self.endProgress) { path in
             
         }
     }
