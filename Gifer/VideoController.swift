@@ -98,7 +98,7 @@ class VideoController: UIView {
         videoTrim.setup()
         
         progressSlider = VideoProgressSlider()
-        galleryView.addSubview(progressSlider)
+        addSubview(progressSlider)
         progressSlider.setup(trimView: videoTrim)
     }
     
