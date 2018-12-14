@@ -15,7 +15,7 @@ class VideoProgressSlider: UIControl {
     var delegate: SlideVideoProgressDelegate?
     var progress: CGFloat = 0
     
-    lazy var shapeLayer: CAShapeLayer = {
+    lazy var sliderLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
     }()
@@ -26,7 +26,7 @@ class VideoProgressSlider: UIControl {
     var sliderRangeGuide: UILayoutGuide!
     var sliderActiveRangeGuide: UILayoutGuide!
     
-    fileprivate func setupGuides(trimView: VideoTrim) {
+    fileprivate func setupGuides(trimView: VideoControllerTrim) {
         guard let superview = superview else { return }
         sliderRangeGuide = UILayoutGuide()
         superview.addLayoutGuide(sliderRangeGuide)
@@ -44,7 +44,7 @@ class VideoProgressSlider: UIControl {
     }
     
     
-    func setup(trimView: VideoTrim) -> Void {
+    func setup(trimView: VideoControllerTrim) -> Void {
         guard let superview = superview else { return  }
         
         setupGuides(trimView: trimView)
@@ -62,7 +62,7 @@ class VideoProgressSlider: UIControl {
             topAnchor.constraint(equalTo: superview.topAnchor),
             leadingConstraint
             ])
-        self.layer.addSublayer(shapeLayer)
+        self.layer.addSublayer(sliderLayer)                
     }
     
     func show(_ show: Bool) {
@@ -82,9 +82,10 @@ class VideoProgressSlider: UIControl {
     }
     
     override func layoutSublayers(of layer: CALayer) {
-        let path = UIBezierPath(roundedRect: layer.bounds, cornerRadius: layer.bounds.width/2)
-        shapeLayer.path = path.cgPath
-        shapeLayer.fillColor = UIColor.white.cgColor
+        let sliderRect = layer.bounds.insetBy(dx: 0, dy: -4)
+        let path = UIBezierPath(roundedRect: sliderRect, cornerRadius: layer.bounds.width/2)
+        sliderLayer.path = path.cgPath
+        sliderLayer.fillColor = UIColor.white.cgColor
     }
     
     var maxLeading: CGFloat {

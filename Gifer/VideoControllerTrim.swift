@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVKit
 
-class VideoTrim: UIControl {
+class VideoControllerTrim: UIControl {
     
     var leftArrow: UIImage = {
         return #imageLiteral(resourceName: "arrow-ios-back-outline.png")

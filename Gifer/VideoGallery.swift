@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVKit
 
-class VideoGallery: UIStackView {
+class VideoControllerGallery: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false

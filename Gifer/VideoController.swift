@@ -60,16 +60,17 @@ struct VideoTrimPosition {
 }
 
 struct VideoControllerConstants {
-    static var trimWidth = CGFloat(10)
+    static var trimWidth = CGFloat(16)
     static var topAndBottomInset = CGFloat(2)
     static var sliderWidth = CGFloat(10)
+    static let height = CGFloat(40)
 }
 
 class VideoController: UIView {
     
-    var galleryView: VideoGallery!
+    var galleryView: VideoControllerGallery!
     var progressSlider: VideoProgressSlider!
-    var videoTrim: VideoTrim!
+    var videoTrim: VideoControllerTrim!
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
@@ -88,11 +89,11 @@ class VideoController: UIView {
         layoutMargins.left = 0
         layoutMargins.right = 0
 
-        galleryView = VideoGallery(frame: CGRect.zero)
+        galleryView = VideoControllerGallery(frame: CGRect.zero)
         addSubview(galleryView)
         galleryView.setup()
         
-        videoTrim = VideoTrim()
+        videoTrim = VideoControllerTrim()
         addSubview(videoTrim)
         videoTrim.setup()
         

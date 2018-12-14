@@ -33,10 +33,12 @@ class EditViewController: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         toolbar.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
-        if !isDebug {            
-            loadVideo()
+        if isDebug {
+            videoAsset = getTestVideo()
         }
+        loadVideo()
     }
+    
     var isDebug: Bool {
         get {
             return videoAsset == nil
@@ -189,7 +191,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
         var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
-        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - 50 - 44
+        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - VideoControllerConstants.height - 44
         
         animateView.layoutIfNeeded()
         toVC.showPreview(false)
