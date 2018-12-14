@@ -12,13 +12,31 @@ import AVKit
 
 class VideoControllerTrim: UIControl {
     
-    var leftArrow: UIImage = {
-        return #imageLiteral(resourceName: "arrow-ios-back-outline.png")
-    }()
+    enum Status {
+        case initial, changed
+
+        func applyTheme(to view: VideoControllerTrim) {
+            var frameColor: UIColor
+            var arrowColor: UIColor
+            switch self {
+            case .initial:
+                frameColor = UIColor.black
+                arrowColor = UIColor.white
+            case .changed:
+                frameColor = UIColor.yellow
+                arrowColor = UIColor.black
+            }
+
+            view.setArrowColor(arrowColor)
+            view.setFrameColor(frameColor)
+        }
+    }
     
-    var rightArrow: UIImage = {
-        return #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
-    }()
+    var status: Status! {
+        didSet {
+            status.applyTheme(to:self)
+        }
+    }
     
     var leftTrimLeadingConstraint: NSLayoutConstraint!
     var rightTrimTrailingConstraint: NSLayoutConstraint!
@@ -50,6 +68,7 @@ class VideoControllerTrim: UIControl {
     var mainColor: UIColor {
         return UIColor.yellow
     }
+    
     
     func setup() {
         guard let superview = superview else {
@@ -106,6 +125,21 @@ class VideoControllerTrim: UIControl {
             bottomLine.heightAnchor.constraint(equalToConstant: VideoControllerConstants.topAndBottomInset),
             bottomLine.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor),
             bottomLine.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor)])
+        
+        status = .initial
+    }
+    
+    func setFrameColor(_ color: UIColor) {
+        topLine.backgroundColor = color
+        bottomLine.backgroundColor = color
+        leftTrim.backgroundColor = color
+        rightTrim.backgroundColor = color
+    }
+    
+    func setArrowColor(_ color: UIColor) {
+        [leftTrim, rightTrim].forEach { (view) in
+            view?.tintColor = color
+        }
     }
     
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
@@ -116,6 +150,7 @@ class VideoControllerTrim: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
+        status = .changed
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
@@ -126,6 +161,7 @@ class VideoControllerTrim: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
+        status = .changed
     }
     
     var trimRange: CGFloat {
