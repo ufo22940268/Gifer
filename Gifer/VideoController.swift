@@ -62,14 +62,14 @@ struct VideoTrimPosition {
 struct VideoControllerConstants {
     static var trimWidth = CGFloat(16)
     static var topAndBottomInset = CGFloat(2)
-    static var sliderWidth = CGFloat(10)
+    static var sliderWidth = CGFloat(8)
     static let height = CGFloat(40)
 }
 
 class VideoController: UIView {
     
     var galleryView: VideoControllerGallery!
-    var progressSlider: VideoProgressSlider!
+    var progressSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
     
     var slideDelegate: SlideVideoProgressDelegate? {
@@ -97,7 +97,7 @@ class VideoController: UIView {
         addSubview(videoTrim)
         videoTrim.setup()
         
-        progressSlider = VideoProgressSlider()
+        progressSlider = VideoControllerSlider()
         addSubview(progressSlider)
         progressSlider.setup(trimView: videoTrim)
     }
@@ -125,7 +125,6 @@ class VideoController: UIView {
     }
     
     func updateSliderProgress(_ progress: CGFloat) {
-        print(progress)
         progressSlider.updateProgress(progress: progress)
         progressSlider.show(true)
     }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVKit
 
-class VideoProgressSlider: UIControl {
+class VideoControllerSlider: UIControl {
     
     var delegate: SlideVideoProgressDelegate?
     var progress: CGFloat = 0
@@ -99,17 +99,15 @@ class VideoProgressSlider: UIControl {
     fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
-        self.progress = leadingConstraint.constant/sliderRangeGuide.layoutFrame.maxX
-        slideVideo()
+        self.progress = (leadingConstraint.constant - sliderRangeGuide.layoutFrame.minX)/sliderRangeGuide.layoutFrame.width
+        delegate?.onSlideVideo(state: .slide, progress: progress)
+        print("shift updateProgress: \(self.progress)")
     }
     
     func updateProgress(progress: CGFloat) {
+        print("updateProgress: \(progress)")
         let progress = progress.clamped(to: 0...CGFloat(1))
-        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX + sliderRangeGuide.layoutFrame.width*progress
+        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX +  sliderRangeGuide.layoutFrame.width*progress
         self.progress = progress
-    }
-    
-    func slideVideo() {
-        delegate?.onSlideVideo(state: .slide, progress: progress)
     }
 }

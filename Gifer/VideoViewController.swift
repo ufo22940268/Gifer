@@ -92,6 +92,7 @@ class VideoViewController: AVPlayerViewController {
         if self.player!.timeControlStatus == .playing {
             let timeValue = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)*CGFloat(currentItem.duration.timescale)
             // update player transport UI
+            print("duration: \(timeValue)")
             self.progressDelegator?.onProgressChanged(progress:
                 timeValue/CGFloat(currentItem.duration.value))
         }
@@ -118,7 +119,10 @@ class VideoViewController: AVPlayerViewController {
             return
         }
         
-        let time = CMTime(value: CMTimeValue(Double(progress*CGFloat(currentItem.duration.value))), timescale: 600)
+        print("seek progress: \(progress)")
+        let newTimeValue: CMTimeValue = CMTimeValue(Double(progress*CGFloat(currentItem.duration.value)) + 0.5)
+        let time = CMTime(value: newTimeValue, timescale: 600)
+        print("seek progress after: \(CGFloat(newTimeValue)/CGFloat(currentItem.duration.value))")
         player.seek(to: time)
     }
 
