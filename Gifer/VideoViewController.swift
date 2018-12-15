@@ -90,11 +90,9 @@ class VideoViewController: AVPlayerViewController {
     func observePlaybackStatus(currentTime: CMTime) {
         guard let currentItem = self.player?.currentItem else {return}
         if self.player!.timeControlStatus == .playing {
-            let timeValue = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)*CGFloat(currentItem.duration.timescale)
-            // update player transport UI
-            print("duration: \(timeValue)")
+            let progress = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)/(CGFloat(currentItem.duration.value)/CGFloat(currentItem.duration.timescale))
             self.progressDelegator?.onProgressChanged(progress:
-                timeValue/CGFloat(currentItem.duration.value))
+                progress)
         }
     }
     
@@ -119,10 +117,8 @@ class VideoViewController: AVPlayerViewController {
             return
         }
         
-        print("seek progress: \(progress)")
         let newTimeValue: CMTimeValue = CMTimeValue(Double(progress*CGFloat(currentItem.duration.value)) + 0.5)
         let time = CMTime(value: newTimeValue, timescale: 600)
-        print("seek progress after: \(CGFloat(newTimeValue)/CGFloat(currentItem.duration.value))")
         player.seek(to: time)
     }
 

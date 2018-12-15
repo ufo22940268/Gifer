@@ -142,9 +142,14 @@ class VideoControllerTrim: UIControl {
         }
     }
     
+    var maxLeftLeading: CGFloat {
+        get {
+            return self.bounds.width - minimunGapBetweenLeftTrimAndRightTrim - abs(rightTrimTrailingConstraint.constant)
+        }
+    }
+
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
-        let maxLeftLeading = bounds.width - minimunGapBetweenLeftTrimAndRightTrim - abs(rightTrimTrailingConstraint.constant)
         let newConstant = leftTrimLeadingConstraint.constant + translate.x
         leftTrimLeadingConstraint.constant = newConstant.clamped(to: 0...maxLeftLeading)
         recognizer.setTranslation(CGPoint.zero, in: self)
@@ -169,7 +174,7 @@ class VideoControllerTrim: UIControl {
     }
     
     func triggerTrimDelegate() {
-        let trimPosition = VideoTrimPosition(leftTrim: leftTrimLeadingConstraint.constant/trimRange, rightTrim: (trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange)
+        let trimPosition = VideoTrimPosition(leftTrim: leftTrimLeadingConstraint.constant/maxLeftLeading, rightTrim: (trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange)
         trimDelegate?.onTrimChanged(position: trimPosition)
     }
     

@@ -100,12 +100,11 @@ class VideoControllerSlider: UIControl {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
         self.progress = (leadingConstraint.constant - sliderRangeGuide.layoutFrame.minX)/sliderRangeGuide.layoutFrame.width
+        print("shift progress: \(self.progress)")
         delegate?.onSlideVideo(state: .slide, progress: progress)
-        print("shift updateProgress: \(self.progress)")
     }
     
     func updateProgress(progress: CGFloat) {
-        print("updateProgress: \(progress)")
         let progress = progress.clamped(to: 0...CGFloat(1))
         leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX +  sliderRangeGuide.layoutFrame.width*progress
         self.progress = progress
