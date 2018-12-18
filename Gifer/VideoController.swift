@@ -64,6 +64,7 @@ struct VideoControllerConstants {
     static var topAndBottomInset = CGFloat(2)
     static var sliderWidth = CGFloat(8)
     static let height = CGFloat(40)
+    static let heightWithMargin = CGFloat(72)
 }
 
 class VideoController: UIView {

@@ -191,7 +191,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
         var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
-        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - VideoControllerConstants.height - 44
+        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - VideoControllerConstants.heightWithMargin - 44
         
         animateView.layoutIfNeeded()
         toVC.showPreview(false)
