@@ -25,6 +25,7 @@ extension CGImage {
 
 extension AVAsset {
     
+    @available(*, deprecated)
     func extractThumbernails() -> [UIImage] {
         var images = [UIImage]()
 
@@ -42,7 +43,7 @@ extension AVAsset {
         let generator = AVAssetImageGenerator(asset: self)
         let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
         return UIImage(cgImage: cgImage)
-    }
+    }    
 }
 
 class GifGenerator {

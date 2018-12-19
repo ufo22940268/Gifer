@@ -72,6 +72,7 @@ class VideoController: UIView {
     var galleryView: VideoControllerGallery!
     var progressSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
+    static let galleryThumbernailCount = 20
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
@@ -102,26 +103,36 @@ class VideoController: UIView {
         addSubview(progressSlider)
         progressSlider.setup(trimView: videoTrim)
     }
-    
-    fileprivate func loadGallery(withImages images: [UIImage]) -> Void {
-        for image in images {
-            galleryView.addImage(image, totalCount: images.count)
-        }
         
-        galleryView.bringSubviewToFront(progressSlider)
-        galleryView.bringSubviewToFront(galleryView.leftFader)
-        galleryView.bringSubviewToFront(galleryView.rightFader)
-
-        //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
-        videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+    fileprivate func loadGallery(withImage image: UIImage) -> Void {
+        galleryView.addImage(image, totalCount: VideoController.galleryThumbernailCount)
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
-        DispatchQueue.global().async {
-            let thumbernails = playerItem.asset.extractThumbernails()
-            DispatchQueue.main.async {
-                self.loadGallery(withImages: thumbernails)
+        guard playerItem.asset.duration.value > 0 else {
+            return
+        }
+        
+        let group = DispatchGroup()
+        for i in 1...VideoController.galleryThumbernailCount {
+            let time = playerItem.asset.duration/VideoController.galleryThumbernailCount*i
+            group.enter()
+            DispatchQueue.global().async {
+                let thumbernail = playerItem.asset.extractThumbernail(on: time)
+                DispatchQueue.main.async {
+                    self.loadGallery(withImage: thumbernail)
+                    group.leave()
+                }
             }
+        }
+        
+        group.notify(queue: DispatchQueue.main) {
+            self.galleryView.bringSubviewToFront(self.progressSlider)
+            self.galleryView.bringSubviewToFront(self.galleryView.leftFader)
+            self.galleryView.bringSubviewToFront(self.galleryView.rightFader)
+            
+            //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
+            self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
         }
     }
     
@@ -134,4 +145,14 @@ class VideoController: UIView {
         galleryView.updateByTrim(trimPosition: position)
         progressSlider.show(false)
     }
+}
+
+func / (time: CMTime, divider: Int) -> CMTime {
+    print("timescale: \(time.timescale)")
+    return CMTime(value: CMTimeValue(CGFloat(time.value)/CGFloat(divider)), timescale: time.timescale)
+}
+
+func * (time: CMTime, factor: Int) -> CMTime {
+    print("timescale *: \(time.timescale)")
+    return CMTime(value: CMTimeValue(CGFloat(time.value)*CGFloat(factor)), timescale: time.timescale)
 }
