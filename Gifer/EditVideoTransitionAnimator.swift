@@ -49,8 +49,8 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: editVCTransitionShortDuration) {
             fromView.alpha = 0
         }
-        
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveLinear, animations: {
             toView.alpha = 1
             animateView.frame = finalImageViewFrame
             animateView.makeImageViewFitContainer()
