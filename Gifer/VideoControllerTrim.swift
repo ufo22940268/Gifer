@@ -65,6 +65,22 @@ class VideoControllerTrim: UIControl {
         return rightTrim
     }()
     
+    let faderBackgroundColor = UIColor(white: 0.7, alpha: 0.4)
+    
+    lazy var leftFader: UIView = {
+        let left = UIView()
+        left.translatesAutoresizingMaskIntoConstraints = false
+        left.backgroundColor = faderBackgroundColor
+        return left
+    }()
+    
+    lazy var rightFader: UIView = {
+        let right = UIView()
+        right.translatesAutoresizingMaskIntoConstraints = false
+        right.backgroundColor = faderBackgroundColor
+        return right
+    }()
+    
     var mainColor: UIColor {
         return UIColor.yellow
     }
@@ -126,6 +142,23 @@ class VideoControllerTrim: UIControl {
             bottomLine.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor),
             bottomLine.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor)])
         
+        //Faders
+        addSubview(leftFader)
+        NSLayoutConstraint.activate([
+            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor),
+            leftFader.topAnchor.constraint(equalTo: topAnchor),
+            leftFader.bottomAnchor.constraint(equalTo: bottomAnchor),
+            leftFader.trailingAnchor.constraint(equalTo: leftTrim.leadingAnchor)
+            ])
+        
+        addSubview(rightFader)
+        NSLayoutConstraint.activate([
+            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightFader.topAnchor.constraint(equalTo: topAnchor),
+            rightFader.bottomAnchor.constraint(equalTo: bottomAnchor),
+            rightFader.leadingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
+            ])
+
         status = .initial
     }
     

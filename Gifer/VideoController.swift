@@ -128,8 +128,6 @@ class VideoController: UIView {
         
         group.notify(queue: DispatchQueue.main) {
             self.galleryView.bringSubviewToFront(self.progressSlider)
-            self.galleryView.bringSubviewToFront(self.galleryView.leftFader)
-            self.galleryView.bringSubviewToFront(self.galleryView.rightFader)
             
             //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
             self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
