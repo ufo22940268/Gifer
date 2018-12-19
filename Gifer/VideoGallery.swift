@@ -11,8 +11,13 @@ import UIKit
 import AVKit
 
 class VideoControllerGallery: UIStackView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    var totalImageCount: Int!
+    var galleryImages = [UIImageView]()
+    
+    init(totalImageCount: Int) {
+        super.init(frame: CGRect.zero)
+        self.totalImageCount = totalImageCount
         translatesAutoresizingMaskIntoConstraints = false
         axis = .horizontal
     }
@@ -63,18 +68,28 @@ class VideoControllerGallery: UIStackView {
             rightFader.trailingAnchor.constraint(equalTo: trailingAnchor),
             rightFader.topAnchor.constraint(equalTo: topAnchor),
             rightFader.heightAnchor.constraint(equalTo: heightAnchor)])
+        
+        distribution = .fillEqually
+        for _ in 0..<totalImageCount {
+            galleryImages.append(addImageView())
+        }
     }
     
-    func addImage(_ image: UIImage, totalCount: Int) -> Void {
-        let imageView = UIImageView(image: image)
+    fileprivate func addImageView() -> UIImageView {
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: heightAnchor, constant: -VideoControllerConstants.topAndBottomInset*2),
-            imageView.widthAnchor.constraint(equalToConstant: self.bounds.width/CGFloat(totalCount)),
             ])
         imageView.contentMode = .scaleAspectFill
+        return imageView
+    }
+
+    
+    func setImage(_ image: UIImage, on index: Int) -> Void {
+        galleryImages[index].image = image
     }
     
     func updateByTrim(trimPosition position: VideoTrimPosition) {

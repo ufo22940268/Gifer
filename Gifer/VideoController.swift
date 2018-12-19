@@ -72,7 +72,7 @@ class VideoController: UIView {
     var galleryView: VideoControllerGallery!
     var progressSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
-    static let galleryThumbernailCount = 20
+    static let galleryThumbernailCount = 15
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
@@ -91,7 +91,7 @@ class VideoController: UIView {
         layoutMargins.left = 0
         layoutMargins.right = 0
 
-        galleryView = VideoControllerGallery(frame: CGRect.zero)
+        galleryView = VideoControllerGallery(totalImageCount: VideoController.galleryThumbernailCount)
         addSubview(galleryView)
         galleryView.setup()
         
@@ -103,9 +103,9 @@ class VideoController: UIView {
         addSubview(progressSlider)
         progressSlider.setup(trimView: videoTrim)
     }
-        
-    fileprivate func loadGallery(withImage image: UIImage) -> Void {
-        galleryView.addImage(image, totalCount: VideoController.galleryThumbernailCount)
+    
+    fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
+        galleryView.setImage(image, on: index)
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
@@ -114,13 +114,13 @@ class VideoController: UIView {
         }
         
         let group = DispatchGroup()
-        for i in 1...VideoController.galleryThumbernailCount {
+        for i in 0..<VideoController.galleryThumbernailCount {
             let time = playerItem.asset.duration/VideoController.galleryThumbernailCount*i
             group.enter()
             DispatchQueue.global().async {
                 let thumbernail = playerItem.asset.extractThumbernail(on: time)
                 DispatchQueue.main.async {
-                    self.loadGallery(withImage: thumbernail)
+                    self.loadGallery(withImage: thumbernail, index: i)
                     group.leave()
                 }
             }
@@ -148,11 +148,9 @@ class VideoController: UIView {
 }
 
 func / (time: CMTime, divider: Int) -> CMTime {
-    print("timescale: \(time.timescale)")
     return CMTime(value: CMTimeValue(CGFloat(time.value)/CGFloat(divider)), timescale: time.timescale)
 }
 
 func * (time: CMTime, factor: Int) -> CMTime {
-    print("timescale *: \(time.timescale)")
     return CMTime(value: CMTimeValue(CGFloat(time.value)*CGFloat(factor)), timescale: time.timescale)
 }
