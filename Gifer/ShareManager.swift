@@ -27,6 +27,24 @@ class ShareManager {
     
     func share() {
         GifGenerator(video: asset).run(start: self.startProgress, end: self.endProgress) { path in
+            print("path: \(path)")
+            self.shareToWechat(video: path)
+        }
+    }
+    
+    func shareToWechat(video: URL) {
+        let gifData = try! Data(contentsOf: video)
+        DispatchQueue.main.async {
+            let monkeyMessage = MonkeyKing.Message.weChat(.session(info: (
+                title: nil,
+                description: nil,
+                thumbnail: #imageLiteral(resourceName: "arrow-ios-back-outline.png"),
+                media: .gif(gifData)
+            )))
+
+            MonkeyKing.deliver(monkeyMessage) { (result) in
+                print("result: \(result)")
+            }
             
         }
     }

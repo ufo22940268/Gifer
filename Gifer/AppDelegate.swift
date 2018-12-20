@@ -8,16 +8,15 @@
 
 import UIKit
 import Photos
+import MonkeyKing
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        PHAsset.fetchAssets(with: .image, options: nil)
-
+        MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
         // Override point for customization after application launch.
         return true
     }
