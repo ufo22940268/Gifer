@@ -44,8 +44,8 @@ class GiferTests: XCTestCase {
         let video = getTestVideo()
         PHImageManager.default().requestAVAsset(forVideo: video, options: nil) { (asset, _, _) in
             let start = CGFloat(0.0)
-            let end = CGFloat(0.5)
-            GifGenerator(video: asset!).run(start: start, end: end) {
+            let end = CGFloat(1.0)
+            GifGenerator(video: asset!).run(start: start, end: end) { _ in
                 expect.fulfill()
             }
         }
