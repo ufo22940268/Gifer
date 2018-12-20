@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		422E0E2221CB616500192B37 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E0E2121CB616500192B37 /* Debug.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		4285BF9D21A8C34600913466 /* VideoControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */; };
 		4285BF9F21A8C37A00913466 /* VideoProgressSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9E21A8C37A00913466 /* VideoProgressSlider.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		422E0E2121CB616500192B37 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerTrim.swift; sourceTree = "<group>"; };
 		4285BF9E21A8C37A00913466 /* VideoProgressSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressSlider.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				4233DD6921B91441009A757C /* AspectView.swift */,
 				42C54D2C21C1F5D100BECC5C /* ShareManager.swift */,
 				42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */,
+				422E0E2121CB616500192B37 /* Debug.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,
 				42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */,
 				42F2D571219403B100113A10 /* AppDelegate.swift in Sources */,
+				422E0E2221CB616500192B37 /* Debug.swift in Sources */,
 				42EE13D62195C22900724611 /* Gif.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
 			);

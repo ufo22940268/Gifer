@@ -83,12 +83,12 @@ class GifGenerator {
         let endSecond: Int = Int(CGFloat(videoAsset.duration.seconds)*endProgress)
         let group = DispatchGroup()
         for second in startSecond..<endSecond {
-            times.append(NSValue(time: CMTimeMakeWithSeconds(Float64(second), preferredTimescale: 1)))
+            times.append(NSValue(time: CMTimeMakeWithSeconds(Float64(second), preferredTimescale: 600)))
             group.enter()
         }
         let destination = self.buildDestinationOfGif(frameCount: Int(videoAsset.duration.seconds))
         AVAssetImageGenerator(asset: videoAsset).generateCGImagesAsynchronously(forTimes: times, completionHandler: { (_, image, _, _, error) in
-            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFDelayTime as String): 0.01]] as CFDictionary
+            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFDelayTime as String): 0.1]] as CFDictionary
             CGImageDestinationAddImage(destination, image!, frameProperties)
             group.leave()
         })
