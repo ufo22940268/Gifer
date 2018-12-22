@@ -25,16 +25,20 @@ class ShareManager {
         self.endProgress = endProgress
     }
     
-    func share() {
-        GifGenerator(video: asset).run(start: self.startProgress, end: self.endProgress) { path in
-            print("path: \(path)")
-            if !UIDevice.isSimulator {
-                self.shareToWechat(video: path)
+    func share(complete: @escaping () -> Void) {
+        DispatchQueue.global().async {
+            GifGenerator(video: self.asset).run(start: self.startProgress, end: self.endProgress) { path in
+                print("path: \(path)")
+                if !UIDevice.isSimulator {
+                    self.shareToWechat(video: path, complete: complete)
+                } else {
+                    complete()
+                }
             }
         }
     }
     
-    func shareToWechat(video: URL) {
+    func shareToWechat(video: URL, complete: @escaping () -> Void) {
         let gifData = try! Data(contentsOf: video)
         DispatchQueue.main.async {
             let monkeyMessage = MonkeyKing.Message.weChat(.session(info: (
@@ -45,6 +49,7 @@ class ShareManager {
             )))
 
             MonkeyKing.deliver(monkeyMessage) { (result) in
+                complete()
                 print("result: \(result)")
             }
             

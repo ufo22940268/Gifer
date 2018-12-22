@@ -23,11 +23,11 @@ class EditViewController: UIViewController {
     @IBOutlet weak var controlToolbar: UIToolbar!
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
     var videoAsset: PHAsset!
+    var loadingDialog: LoadingDialog?
     
     override func loadView() {
         super.loadView()
     }
-    
     
     override func viewDidLoad() {
         view.backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
@@ -116,12 +116,22 @@ class EditViewController: UIViewController {
         showLoading(true)
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
-        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share()
-        showLoading(false)
+        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share() {
+            DispatchQueue.main.async {
+                self.showLoading(false)
+            }
+        }
     }
     
     func showLoading(_ show: Bool) {
-        
+        print("showLoading: \(show)")
+        if (show) {
+            loadingDialog = LoadingDialog()
+            loadingDialog!.show(by: self)
+        } else {
+            loadingDialog?.dismiss()
+        }
+
     }
     
     fileprivate func play() {
