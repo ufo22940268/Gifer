@@ -126,12 +126,11 @@ class EditViewController: UIViewController {
     
     private func prompt(_ text: String) {
         let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))    
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
     func showLoading(_ show: Bool) {
-        print("showLoading: \(show)")
         if (show) {
             loadingDialog = LoadingDialog(label: "导出中...")
             loadingDialog!.show(by: self)
