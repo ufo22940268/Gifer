@@ -17,30 +17,60 @@ protocol Dialog {
 
 class LoadingViewController: UIViewController {
     
-    convenience init() {
-        self.init(nibName: nil, bundle: nil)
-    }
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        self.modalPresentationStyle = .overCurrentContext
+        self.modalPresentationStyle = .custom
         self.modalTransitionStyle = .crossDissolve
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.red
-        self.view.addSubview(view)
-        NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 200),
-            view.heightAnchor.constraint(equalToConstant: 200),
-            view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
+        self.transitioningDelegate = self
+    }
+    
+    override func viewDidLoad() {        
+        super.viewDidLoad()
+        self.view.backgroundColor = UIColor.yellow
+        self.view.layer.cornerRadius = 10
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        super.init(coder: aDecoder)
     }
 }
 
+extension LoadingViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return LoadingViewPresentationConstroller(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+class LoadingViewPresentationConstroller: UIPresentationController {
+    
+    private let frameSize = CGSize(width: 100, height: 100)
+    
+    override var frameOfPresentedViewInContainerView: CGRect {
+        return CGRect(origin: presentingViewController.view.center.applying(CGAffineTransform(translationX: -frameSize.width/2, y: -frameSize.height/2)), size: frameSize)
+    }
+    
+    lazy var dimmingView: UIView = {
+        let view = UIView()
+        view.alpha = 0.0
+        view.frame = self.containerView!.bounds
+        return view
+    }()
+    
+    override func presentationTransitionWillBegin() {
+        self.containerView?.addSubview(dimmingView)
+        dimmingView.addSubview(presentedView!)
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
+            self.dimmingView.alpha = 1.0
+        }, completion: nil)
+    }
+    
+    override func presentationTransitionDidEnd(_ completed: Bool) {
+        if !completed {
+            dimmingView.removeFromSuperview()
+        }
+    }
+}
 
 class LoadingDialog: Dialog {
     
@@ -56,10 +86,12 @@ class LoadingDialog: Dialog {
     }
 
     func show(by viewController: UIViewController) {
-        let vc: LoadingViewController = LoadingViewController()
+        let vc: LoadingViewController = LoadingViewController(nibName: "LoadingViewController", bundle: nil) as LoadingViewController
         viewController.present(vc, animated: true) {
-            
+
         }
+        
+//        alertController = UIAlertController(title: "adsff", message: nil, preferredStyle: .alert)
 //        viewController.present(alertController, animated: true) {
 //
 //        }
