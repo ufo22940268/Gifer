@@ -16,7 +16,16 @@ protocol Dialog {
 
 class LoadingViewController: UIViewController {
     
-    var loadingView = LoadingView()
+    var label: String!
+    
+    lazy var loadingView: LoadingView = {
+        return LoadingView(label: self.label)
+    }()
+    
+    convenience init(label: String) {
+        self.init(nibName: "LoadingViewController", bundle: nil)
+        self.label = label
+    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -27,7 +36,7 @@ class LoadingViewController: UIViewController {
     
     override func viewDidLoad() {        
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.gray
+        self.view.backgroundColor = UIColor.black
         self.view.layer.cornerRadius = 10
         self.view.addSubview(loadingView)
     }
@@ -50,10 +59,12 @@ extension LoadingViewController: UIViewControllerTransitioningDelegate {
 
 class LoadingView: UIStackView {
     
+    var label: String!
+    
     lazy var promptView: UILabel = {
         var label = UILabel()
         label.textColor = .white
-        label.text = "iwjefiwje"
+        label.text = self.label
         label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
@@ -64,8 +75,9 @@ class LoadingView: UIStackView {
         return view
     }()
     
-    convenience init() {
+    convenience init(label: String) {
         self.init(frame: CGRect.zero)
+        self.label = label
         translatesAutoresizingMaskIntoConstraints = false
         addArrangedSubview(loadingIndicator)
         addArrangedSubview(promptView)
@@ -115,7 +127,12 @@ class LoadingViewPresentationConstroller: UIPresentationController {
 
 class LoadingDialog: Dialog {
     
-    var alertController: UIViewController!
+    var label: String!
+    
+    lazy var alertController: UIViewController = {
+        let vc: LoadingViewController = LoadingViewController(label: label) as LoadingViewController
+        return vc
+    }()
     
     lazy var activityIndicator: UIView = {
         let indicator = UIActivityIndicatorView()
@@ -123,24 +140,18 @@ class LoadingDialog: Dialog {
         return indicator
     }()
     
-    init() {
+    init(label: String) {
+        self.label = label
     }
 
     func show(by viewController: UIViewController) {
-        let vc: LoadingViewController = LoadingViewController(nibName: "LoadingViewController", bundle: nil) as LoadingViewController
-        viewController.present(vc, animated: true) {
-
+        viewController.present(alertController, animated: true) {
         }
-        
-//        alertController = UIAlertController(title: "adsff", message: nil, preferredStyle: .alert)
-//        viewController.present(alertController, animated: true) {
-//
-//        }
     }
     
     func dismiss() {
-//        alertController.dismiss(animated: true) {
-//
-//        }
+        alertController.dismiss(animated: true) {
+
+        }
     }
 }

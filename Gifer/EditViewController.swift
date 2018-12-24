@@ -119,14 +119,21 @@ class EditViewController: UIViewController {
         ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share() {
             DispatchQueue.main.async {
                 self.showLoading(false)
+                self.prompt("导出成功")
             }
         }
+    }
+    
+    private func prompt(_ text: String) {
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))    
+        present(alert, animated: true, completion: nil)
     }
     
     func showLoading(_ show: Bool) {
         print("showLoading: \(show)")
         if (show) {
-            loadingDialog = LoadingDialog()
+            loadingDialog = LoadingDialog(label: "导出中...")
             loadingDialog!.show(by: self)
         } else {
             loadingDialog?.dismiss()
