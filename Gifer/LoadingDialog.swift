@@ -14,8 +14,9 @@ protocol Dialog {
     func dismiss()
 }
 
-
 class LoadingViewController: UIViewController {
+    
+    var loadingView = LoadingView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -26,13 +27,19 @@ class LoadingViewController: UIViewController {
     
     override func viewDidLoad() {        
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.yellow
+        self.view.backgroundColor = UIColor.gray
         self.view.layer.cornerRadius = 10
+        self.view.addSubview(loadingView)
+    }
+    
+    var estimateSize: CGSize {
+        return loadingView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
 }
 
 extension LoadingViewController: UIViewControllerTransitioningDelegate {
@@ -41,11 +48,45 @@ extension LoadingViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
+class LoadingView: UIStackView {
+    
+    lazy var promptView: UILabel = {
+        var label = UILabel()
+        label.textColor = .white
+        label.text = "iwjefiwje"
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    lazy var loadingIndicator: UIView = {
+        let view = UIActivityIndicatorView(style: .whiteLarge)
+        view.startAnimating()
+        return view
+    }()
+    
+    convenience init() {
+        self.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        addArrangedSubview(loadingIndicator)
+        addArrangedSubview(promptView)
+        layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        isLayoutMarginsRelativeArrangement = true
+        spacing = 8
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class LoadingViewPresentationConstroller: UIPresentationController {
     
-    private let frameSize = CGSize(width: 100, height: 100)
-    
     override var frameOfPresentedViewInContainerView: CGRect {
+        let frameSize = (presentedViewController as! LoadingViewController).estimateSize
         return CGRect(origin: presentingViewController.view.center.applying(CGAffineTransform(translationX: -frameSize.width/2, y: -frameSize.height/2)), size: frameSize)
     }
     
