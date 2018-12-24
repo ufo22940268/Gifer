@@ -51,7 +51,9 @@ class EditViewController: UIViewController {
         options.deliveryMode = .fastFormat
 
         DispatchQueue.global().async {
+            print("start \(Date().timeIntervalSince1970/1000)")
             PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
+                print("end \(Date().timeIntervalSince1970/1000)")
                 DispatchQueue.main.async {
                     if let playerItem = playerItem {
                         self.videoVC.load(playerItem: playerItem)
