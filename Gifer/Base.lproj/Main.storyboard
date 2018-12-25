@@ -51,6 +51,10 @@
                                                     <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
                                                 </connections>
                                             </containerView>
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
+                                                <rect key="frame" x="169" y="271" width="37" height="37"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="rTk-3P-78Y" firstAttribute="trailing" secondItem="FsJ-7O-eCM" secondAttribute="trailingMargin" id="D6N-q5-Jxr"/>
@@ -125,6 +129,7 @@
                         <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
                         <outlet property="videoContainer" destination="rTk-3P-78Y" id="JBK-cy-MD1"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
+                        <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>

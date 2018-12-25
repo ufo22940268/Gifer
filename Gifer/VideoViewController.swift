@@ -82,7 +82,7 @@ class VideoViewController: AVPlayerViewController {
                                                             self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.00001, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
     }
@@ -94,10 +94,15 @@ class VideoViewController: AVPlayerViewController {
             self.progressDelegator?.onProgressChanged(progress:
                 progress)
         }
+        
+//        print("s1: \(currentItem.status.rawValue) s2: \(currentItem.isPlaybackLikelyToKeepUp)")
+        if currentItem.status == .readyToPlay {
+            showLoading(!currentItem.isPlaybackLikelyToKeepUp)
+        }
     }
     
     func showLoading(_ show: Bool) {
-        print("showLoading: \(show)")
+        self.progressDelegator?.onBuffering(show)
     }
     
     func removePeriodicTimeObserver() {

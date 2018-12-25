@@ -128,6 +128,9 @@ class LoadingViewPresentationConstroller: UIPresentationController {
 class LoadingDialog: Dialog {
     
     var label: String!
+    var isShowing: Bool {
+        return alertController.isBeingDismissed
+    }
     
     lazy var alertController: UIViewController = {
         let vc: LoadingViewController = LoadingViewController(label: label) as LoadingViewController

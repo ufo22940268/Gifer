@@ -21,6 +21,7 @@ class EditViewController: UIViewController {
     @IBOutlet var toolbar: UIToolbar!
     
     @IBOutlet weak var controlToolbar: UIToolbar!
+    @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
@@ -51,9 +52,7 @@ class EditViewController: UIViewController {
         options.deliveryMode = .fastFormat
 
         DispatchQueue.global().async {
-            print("start \(Date().timeIntervalSince1970/1000)")
             PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
-                print("end \(Date().timeIntervalSince1970/1000)")
                 DispatchQueue.main.async {
                     if let playerItem = playerItem {
                         self.videoVC.load(playerItem: playerItem)
@@ -115,12 +114,12 @@ class EditViewController: UIViewController {
         guard let asset = videoVC.player?.currentItem?.asset else {
             return
         }
-        showLoading(true)
+        showLoadingWhenExporting(true)
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
         ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share() {
             DispatchQueue.main.async {
-                self.showLoading(false)
+                self.showLoadingWhenExporting(false)
                 self.prompt("导出成功")
             }
         }
@@ -132,14 +131,23 @@ class EditViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showLoading(_ show: Bool) {
+    private func showLoadingWhenExporting(_ show: Bool) {
+        showLoading(show, label: "导出中...")
+    }
+
+    private func showLoading(_ show: Bool, label: String) {
         if (show) {
-            loadingDialog = LoadingDialog(label: "导出中...")
-            loadingDialog!.show(by: self)
+            if loadingDialog == nil || !(loadingDialog!.isShowing)  {
+                loadingDialog = LoadingDialog(label: label)
+                loadingDialog!.show(by: self)
+            }
         } else {
             loadingDialog?.dismiss()
         }
-
+    }
+    
+    func showLoadingWhenBuffering(_ show: Bool) {
+        videoLoadingIndicator.isHidden = !show
     }
     
     fileprivate func play() {
@@ -156,6 +164,11 @@ class EditViewController: UIViewController {
 }
 
 extension EditViewController: VideoProgressDelegate {
+    func onBuffering(_ inBuffering: Bool) {
+        print("inBuffering: \(inBuffering)")
+        showLoadingWhenBuffering(inBuffering)
+    }
+    
     func onProgressChanged(progress: CGFloat) {
         videoController.updateSliderProgress(progress)
     }

@@ -31,7 +31,10 @@ extension UIImage {
 
 
 protocol VideoProgressDelegate: class {
+
     func onProgressChanged(progress: CGFloat)
+    
+    func onBuffering(_ inBuffering: Bool)
 }
 
 enum SlideState {
