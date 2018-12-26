@@ -26,7 +26,7 @@ class EditViewController: UIViewController {
     
     @IBOutlet weak var controlToolbar: UIToolbar!
     @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
-    var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
+    var trimPosition: VideoTrimPosition!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     lazy var playButtons: [AVPlayer.TimeControlStatus: UIBarButtonItem] = {
@@ -196,13 +196,13 @@ class EditViewController: UIViewController {
     }
 }
 
-extension EditViewController: VideoViewControllerDelegate {
+extension EditViewController: VideoViewControllerDelegate {    
     
     func onBuffering(_ inBuffering: Bool) {
         showLoadingWhenBuffering(inBuffering)
     }
     
-    func onProgressChanged(progress: CGFloat) {
+    func onProgressChanged(progress: CMTime) {
         videoController.updateSliderProgress(progress)
     }
     
@@ -221,7 +221,7 @@ extension EditViewController: VideoTrimDelegate {
 }
 
 extension EditViewController: SlideVideoProgressDelegate {
-    func onSlideVideo(state: SlideState, progress: CGFloat!) {
+    func onSlideVideo(state: SlideState, progress: CMTime!) {
         switch state {
         case .begin:
             pause()

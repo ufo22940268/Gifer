@@ -16,10 +16,10 @@ import MonkeyKing
 class ShareManager {
     
     var asset: AVAsset!
-    var startProgress: CGFloat!
-    var endProgress: CGFloat!
+    var startProgress: CMTime!
+    var endProgress: CMTime!
     
-    init(asset: AVAsset, startProgress: CGFloat, endProgress: CGFloat) {
+    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime) {
         self.asset = asset
         self.startProgress = startProgress
         self.endProgress = endProgress

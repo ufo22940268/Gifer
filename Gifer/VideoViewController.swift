@@ -12,10 +12,14 @@ import AVFoundation
 import AVKit
 import Photos
 
-extension AVPlayer {
-    func seek(toProgress progress: CGFloat) {
-        seek(to: progress*self.currentItem!.duration)
-    }
+typealias progress = CMTime
+
+func / (_ l: CMTime, _ r: CMTime) -> Double {
+    return Double(l.value)/Double(r.value)
+}
+
+func * (_ l: CMTime, _ r: Double) -> CMTime {
+    return CMTime(value: CMTimeValue(Double(l.value)*r), timescale: l.timescale)
 }
 
 class VideoPreviewView: UIImageView {
@@ -32,7 +36,7 @@ class VideoPreviewView: UIImageView {
 
 protocol VideoViewControllerDelegate: class {
     
-    func onProgressChanged(progress: CGFloat)
+    func onProgressChanged(progress: CMTime)
     
     func onBuffering(_ inBuffering: Bool)
     
@@ -81,7 +85,7 @@ class VideoViewController: AVPlayerViewController {
     
     var timeObserverToken: Any?
     var boundaryObserverToken: Any?
-    let observeInterval = CMTime(seconds: 0.02, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+    let observeInterval = CMTime(seconds: 0.02, preferredTimescale: 600)
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
     
     func addPeriodicTimeObserver() {
@@ -91,19 +95,20 @@ class VideoViewController: AVPlayerViewController {
                                                             self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
     }
     
     func observePlaybackStatus(currentTime: CMTime) {
         guard let currentItem = self.player?.currentItem else {return}
+        let currentTime = currentTime.convertScale(600, method: .default)
+        print("currentTime: \(currentTime)")
         self.videoViewControllerDelegate?.updatePlaybackStatus(self.player!.timeControlStatus)
         
         if self.player!.timeControlStatus == .playing {
-            let progress = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)/(CGFloat(currentItem.duration.value)/CGFloat(currentItem.duration.timescale))
             self.videoViewControllerDelegate?.onProgressChanged(progress:
-                progress)
+                currentTime)
         }
         
         if currentItem.status == .readyToPlay {
@@ -127,14 +132,12 @@ class VideoViewController: AVPlayerViewController {
         }
     }
     
-    func seek(toProgress progress: CGFloat) {
-        guard let player = self.player, let currentItem = player.currentItem else {
+    func seek(toProgress progress: CMTime) {
+        guard let player = self.player else {
             return
         }
         
-        let newTimeValue: CMTimeValue = CMTimeValue(Double(progress*CGFloat(currentItem.duration.value)) + 0.5)
-        let time = CMTime(value: newTimeValue, timescale: 600)
-        player.seek(to: time)
+        player.seek(to: progress)
     }
 
 }
@@ -148,7 +151,7 @@ extension VideoViewController {
     func updateTrim(position: VideoTrimPosition) {
         guard let player = player, let currentItem = player.currentItem else { return }
         
-        player.seek(toProgress: position.leftTrim)
-        currentItem.forwardPlaybackEndTime = position.rightTrim*currentItem.duration
+        player.seek(to: position.leftTrim)
+        currentItem.forwardPlaybackEndTime = position.rightTrim
     }
 }

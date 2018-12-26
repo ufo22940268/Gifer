@@ -78,23 +78,21 @@ class GifGenerator {
     
     private let extractedImageCountPerSecond = 10
     
-    func calGifFrameCount(start: CGFloat, end: CGFloat) -> Int {
-        return Int((end - start)/(600/CGFloat(extractedImageCountPerSecond)))
+    func calGifFrameCount(start: CMTime, end: CMTime) -> Int {
+        return Int(Double(end.value - start.value)/(600/Double(extractedImageCountPerSecond)))
     }
 
     enum GifSize: Int, RawRepresentable {
         case middle = 500
     }
     
-    func run(start startProgress: CGFloat, end endProgress: CGFloat, complete: @escaping (URL) -> Void) {
+    func run(start startProgress: CMTime, end endProgress: CMTime, complete: @escaping (URL) -> Void) {
         var times = [NSValue]()
-        let startFrame = CGFloat(videoAsset.duration.value)*startProgress
-        let endFrame = CGFloat(videoAsset.duration.value)*endProgress
         let group = DispatchGroup()
-        let gifFrameCount = calGifFrameCount(start: startFrame, end: endFrame)
-        let frameRangeOfSingleImage = (endFrame - startFrame)/CGFloat(gifFrameCount)
+        let gifFrameCount = calGifFrameCount(start: startProgress, end: endProgress)
+        let frameRangeOfSingleImage = CGFloat(endProgress.value - startProgress.value)/CGFloat(gifFrameCount)
         for index in 0..<gifFrameCount {
-            let time = CMTime(value: CMTimeValue(Double(startFrame) + Double(index)*Double(frameRangeOfSingleImage)), timescale: 600)
+            let time = CMTime(value: CMTimeValue(Double(startProgress.value) + Double(index)*Double(frameRangeOfSingleImage)), timescale: 600)
             times.append(NSValue(time: time))
             group.enter()
         }

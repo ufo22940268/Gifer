@@ -44,6 +44,7 @@ class VideoControllerTrim: UIControl {
     
     var topLine: UIView!
     var bottomLine: UIView!
+    var duration: CMTime!
     
     weak var trimDelegate: VideoTrimDelegate?
     
@@ -207,7 +208,7 @@ class VideoControllerTrim: UIControl {
     }
     
     func triggerTrimDelegate() {
-        let trimPosition = VideoTrimPosition(leftTrim: leftTrimLeadingConstraint.constant/maxLeftLeading, rightTrim: (trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange)
+        let trimPosition = VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/maxLeftLeading, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )
         trimDelegate?.onTrimChanged(position: trimPosition)
     }
     
@@ -219,4 +220,9 @@ class VideoControllerTrim: UIControl {
             return v
         }
     }
+}
+
+
+func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {
+    return duration*Double(percentage)
 }

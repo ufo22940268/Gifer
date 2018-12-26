@@ -36,7 +36,7 @@ enum SlideState {
 }
 
 protocol SlideVideoProgressDelegate: class {
-    func onSlideVideo(state: SlideState, progress: CGFloat!)
+    func onSlideVideo(state: SlideState, progress: CMTime!)
 }
 
 protocol VideoTrimDelegate: class {
@@ -46,14 +46,10 @@ protocol VideoTrimDelegate: class {
 struct VideoTrimPosition {
     
     /// Propotional to video duration. Ranged from 0 to 1
-    var leftTrim: CGFloat
+    var leftTrim: CMTime
     
     /// Propotional to video duration. Ranged from 0 to 1
-    var rightTrim: CGFloat
-    
-    static var initialState: VideoTrimPosition {
-        return VideoTrimPosition(leftTrim: 0, rightTrim: 1)
-    }
+    var rightTrim: CMTime    
 }
 
 struct VideoControllerConstants {
@@ -67,16 +63,16 @@ struct VideoControllerConstants {
 class VideoController: UIView {
     
     var galleryView: VideoControllerGallery!
-    var progressSlider: VideoControllerSlider!
+    var vidoeSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
     static let galleryThumbernailCount = 15
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
-            return progressSlider.delegate
+            return vidoeSlider.delegate
         }
         set {
-            progressSlider.delegate = newValue
+            vidoeSlider.delegate = newValue
         }
     }
     
@@ -96,9 +92,9 @@ class VideoController: UIView {
         addSubview(videoTrim)
         videoTrim.setup()
         
-        progressSlider = VideoControllerSlider()
-        addSubview(progressSlider)
-        progressSlider.setup(trimView: videoTrim)
+        vidoeSlider = VideoControllerSlider()
+        addSubview(vidoeSlider)
+        vidoeSlider.setup(trimView: videoTrim)
     }
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
@@ -109,6 +105,10 @@ class VideoController: UIView {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
+        
+        let duration = playerItem.asset.duration
+        videoTrim.duration = duration
+        vidoeSlider.duration = duration
         
         let group = DispatchGroup()
         for i in 0..<VideoController.galleryThumbernailCount {
@@ -124,21 +124,21 @@ class VideoController: UIView {
         }
         
         group.notify(queue: DispatchQueue.main) {
-            self.galleryView.bringSubviewToFront(self.progressSlider)
+            self.galleryView.bringSubviewToFront(self.vidoeSlider)
             
             //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
             self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
         }
     }
     
-    func updateSliderProgress(_ progress: CGFloat) {
-        progressSlider.updateProgress(progress: progress)
-        progressSlider.show(true)
+    func updateSliderProgress(_ progress: CMTime) {
+        vidoeSlider.updateProgress(progress: progress)
+        vidoeSlider.show(true)
     }
     
     func updateTrim(position: VideoTrimPosition) {
         galleryView.updateByTrim(trimPosition: position)
-        progressSlider.show(false)
+        vidoeSlider.show(false)
     }    
 }
 

@@ -13,7 +13,8 @@ import AVKit
 class VideoControllerSlider: UIControl {
     
     var delegate: SlideVideoProgressDelegate?
-    var progress: CGFloat = 0
+    var progress: CMTime!
+    var duration: CMTime!
     
     lazy var sliderLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
@@ -99,15 +100,15 @@ class VideoControllerSlider: UIControl {
     fileprivate func shiftProgress(translationX: CGFloat) -> Void {
         let newConstant = leadingConstraint.constant + translationX
         leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
-        self.progress = (leadingConstraint.constant - sliderRangeGuide.layoutFrame.minX)/sliderRangeGuide.layoutFrame.width
+        let percentage = (leadingConstraint.constant - sliderRangeGuide.layoutFrame.minX)/sliderRangeGuide.layoutFrame.width
+        self.progress = duration*Double(percentage)
         print("shifted to progress: \(self.progress)")
-        delegate?.onSlideVideo(state: .slide, progress: progress)
+        delegate?.onSlideVideo(state: .slide, progress: self.progress)
     }
     
-    func updateProgress(progress: CGFloat) {
+    func updateProgress(progress: CMTime) {
         print("playing progress: \(progress)")
-        let progress = progress.clamped(to: 0...CGFloat(1))
-        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX +  sliderRangeGuide.layoutFrame.width*progress
+        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX +  sliderRangeGuide.layoutFrame.width*CGFloat(progress/duration)
         self.progress = progress
     }
 }
