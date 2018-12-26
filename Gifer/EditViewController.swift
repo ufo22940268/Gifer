@@ -30,9 +30,13 @@ class EditViewController: UIViewController {
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     lazy var playButtons: [AVPlayer.TimeControlStatus: UIBarButtonItem] = {
+        let play = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(self.onPlay(_:)))
+        play.tag = AVPlayer.TimeControlStatus.playing.rawValue
+        let pause = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(self.onPlay(_:)))
+        pause.tag = AVPlayer.TimeControlStatus.paused.rawValue
         return [
-            AVPlayer.TimeControlStatus.paused: UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(self.onPlay(_:))),
-            AVPlayer.TimeControlStatus.playing: UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(self.onPlay(_:)))
+            AVPlayer.TimeControlStatus.paused: play,
+            AVPlayer.TimeControlStatus.playing: pause
         ]
     }()
     
@@ -110,8 +114,16 @@ class EditViewController: UIViewController {
         }
     }
     
+    func isPlayButtonStatusChanged(controlStatus: AVPlayer.TimeControlStatus) -> Bool {
+        let buttonStatus = controlToolbar.items![ToolbarItemIndex.play.rawValue].tag
+        return buttonStatus != controlStatus.rawValue
+    }
+    
     fileprivate func updatePlaybackToolbarItem(by status: AVPlayer.TimeControlStatus) {
         guard let toolbarItems = controlToolbar.items else { return }
+        
+        //Is status changed
+        guard isPlayButtonStatusChanged(controlStatus: status) else { return }
         
         let itemIndex = ToolbarItemIndex.play.rawValue
         var newItem: UIBarButtonItem? = nil
