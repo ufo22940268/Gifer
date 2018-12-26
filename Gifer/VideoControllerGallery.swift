@@ -34,23 +34,7 @@ class VideoControllerGallery: UIStackView {
             topAnchor.constraint(equalTo: superview!.layoutMarginsGuide.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor)
             ])
-        
-//        addSubview(leftFader)
-//        leftFaderWidthConstraint = leftFader.widthAnchor.constraint(equalToConstant: 0)
-//        NSLayoutConstraint.activate([
-//            leftFaderWidthConstraint,
-//            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            leftFader.topAnchor.constraint(equalTo: topAnchor),
-//            leftFader.heightAnchor.constraint(equalTo: heightAnchor)])
-//
-//        addSubview(rightFader)
-//        rightFaderWidthConstraint = rightFader.widthAnchor.constraint(equalToConstant: 0)
-//        NSLayoutConstraint.activate([
-//            rightFaderWidthConstraint,
-//            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            rightFader.topAnchor.constraint(equalTo: topAnchor),
-//            rightFader.heightAnchor.constraint(equalTo: heightAnchor)])
-        
+                
         distribution = .fillEqually
         for _ in 0..<totalImageCount {
             galleryImages.append(addImageView())

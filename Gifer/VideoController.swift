@@ -76,16 +76,16 @@ class VideoController: UIView {
         }
     }
     
+    var scrollView: UIScrollView!
+    
+    
     override func awakeFromNib() {
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
 
-        layoutMargins.top = 0
-        layoutMargins.bottom = 0
-        layoutMargins.left = 0
-        layoutMargins.right = 0
+        setupScrollView()
 
         galleryView = VideoControllerGallery(totalImageCount: VideoController.galleryThumbernailCount)
-        addSubview(galleryView)
+        scrollView.addSubview(galleryView)
         galleryView.setup()
         
         videoTrim = VideoControllerTrim()
@@ -95,6 +95,22 @@ class VideoController: UIView {
         vidoeSlider = VideoControllerSlider()
         addSubview(vidoeSlider)
         vidoeSlider.setup(trimView: videoTrim)
+    }
+    
+    func setupScrollView() {
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.layoutMargins.top = 0
+        scrollView.layoutMargins.bottom = 0
+        scrollView.layoutMargins.left = 0
+        scrollView.layoutMargins.right = 0
+        
+        addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.heightAnchor.constraint(equalTo: heightAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.widthAnchor.constraint(equalTo: widthAnchor)])
     }
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dvh-Lh-bNF">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -42,8 +42,28 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kUt-Bn-rUc">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="16" width="343" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="lQa-Xe-IqX"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" name="darkBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailingMargin" id="Eeh-u9-1UH"/>
+                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottomMargin" id="HQ3-rB-Cku"/>
+                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="topMargin" id="fPG-4n-XnW"/>
+                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="MxJ-Sz-8yt" secondAttribute="leadingMargin" id="ziF-DU-PmU"/>
+                                        </constraints>
+                                        <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="579.66666666666663"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="579.66666666666663"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="579.66666666666663"/>
@@ -62,26 +82,6 @@
                                             <constraint firstItem="rTk-3P-78Y" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="aG2-5x-gYv"/>
                                             <constraint firstAttribute="bottom" secondItem="rTk-3P-78Y" secondAttribute="bottom" id="pUb-ib-vcS"/>
                                         </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container">
-                                        <rect key="frame" x="0.0" y="579.66666666666663" width="375" height="72"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="16" width="343" height="40"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="lQa-Xe-IqX"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <color key="backgroundColor" name="darkBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailingMargin" id="Eeh-u9-1UH"/>
-                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottomMargin" id="HQ3-rB-Cku"/>
-                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="topMargin" id="fPG-4n-XnW"/>
-                                            <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="MxJ-Sz-8yt" secondAttribute="leadingMargin" id="ziF-DU-PmU"/>
-                                        </constraints>
-                                        <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                     </view>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
                                         <rect key="frame" x="0.0" y="651.66666666666663" width="375" height="38.333333333333371"/>
@@ -111,6 +111,10 @@
                                         </connections>
                                     </toolbar>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="MxJ-Sz-8yt" firstAttribute="leading" secondItem="kUt-Bn-rUc" secondAttribute="leading" id="U6d-qp-PVe"/>
+                                    <constraint firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailing" id="mc7-LJ-vBn"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
