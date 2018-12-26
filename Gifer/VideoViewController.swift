@@ -85,7 +85,7 @@ class VideoViewController: AVPlayerViewController {
     
     var timeObserverToken: Any?
     var boundaryObserverToken: Any?
-    let observeInterval = CMTime(seconds: 0.02, preferredTimescale: 600)
+    let observeInterval = CMTime(seconds: 0.01, preferredTimescale: 600)
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
     
     func addPeriodicTimeObserver() {
@@ -103,7 +103,6 @@ class VideoViewController: AVPlayerViewController {
     func observePlaybackStatus(currentTime: CMTime) {
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
-        print("currentTime: \(currentTime)")
         self.videoViewControllerDelegate?.updatePlaybackStatus(self.player!.timeControlStatus)
         
         if self.player!.timeControlStatus == .playing {

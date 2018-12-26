@@ -44,7 +44,6 @@ class VideoControllerSlider: UIControl {
         activeTrailingConstraint.isActive = true
     }
     
-    
     func setup(trimView: VideoControllerTrim) -> Void {
         guard let superview = superview else { return  }
         
@@ -102,13 +101,11 @@ class VideoControllerSlider: UIControl {
         leadingConstraint.constant = newConstant.clamped(to: minLeading...maxLeading)
         let percentage = (leadingConstraint.constant - sliderRangeGuide.layoutFrame.minX)/sliderRangeGuide.layoutFrame.width
         self.progress = duration*Double(percentage)
-        print("shifted to progress: \(self.progress)")
         delegate?.onSlideVideo(state: .slide, progress: self.progress)
     }
     
     func updateProgress(progress: CMTime) {
-        print("playing progress: \(progress)")
-        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX +  sliderRangeGuide.layoutFrame.width*CGFloat(progress/duration)
+        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX + sliderRangeGuide.layoutFrame.width*CGFloat(progress/duration)
         self.progress = progress
     }
 }
