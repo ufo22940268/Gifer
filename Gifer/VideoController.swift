@@ -30,12 +30,6 @@ extension UIImage {
 }
 
 
-protocol VideoProgressDelegate: class {
-
-    func onProgressChanged(progress: CGFloat)
-    
-    func onBuffering(_ inBuffering: Bool)
-}
 
 enum SlideState {
     case begin, slide, end
@@ -145,7 +139,7 @@ class VideoController: UIView {
     func updateTrim(position: VideoTrimPosition) {
         galleryView.updateByTrim(trimPosition: position)
         progressSlider.show(false)
-    }
+    }    
 }
 
 func / (time: CMTime, divider: Int) -> CMTime {

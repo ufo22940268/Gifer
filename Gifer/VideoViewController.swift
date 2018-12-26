@@ -30,6 +30,15 @@ class VideoPreviewView: UIImageView {
     }
 }
 
+protocol VideoViewControllerDelegate: class {
+    
+    func onProgressChanged(progress: CGFloat)
+    
+    func onBuffering(_ inBuffering: Bool)
+    
+    func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus)
+}
+
 class VideoViewController: AVPlayerViewController {
     
     var previewView: VideoPreviewView!
@@ -73,7 +82,7 @@ class VideoViewController: AVPlayerViewController {
     var timeObserverToken: Any?
     var boundaryObserverToken: Any?
     let observeInterval = CMTime(seconds: 0.02, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-    weak var progressDelegator: VideoProgressDelegate?
+    weak var videoViewControllerDelegate: VideoViewControllerDelegate?
     
     func addPeriodicTimeObserver() {
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
@@ -82,27 +91,28 @@ class VideoViewController: AVPlayerViewController {
                                                             self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.0001, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
     }
     
     func observePlaybackStatus(currentTime: CMTime) {
         guard let currentItem = self.player?.currentItem else {return}
+        self.videoViewControllerDelegate?.updatePlaybackStatus(self.player!.timeControlStatus)
+        
         if self.player!.timeControlStatus == .playing {
             let progress = CGFloat(currentTime.value)/CGFloat(currentTime.timescale)/(CGFloat(currentItem.duration.value)/CGFloat(currentItem.duration.timescale))
-            self.progressDelegator?.onProgressChanged(progress:
+            self.videoViewControllerDelegate?.onProgressChanged(progress:
                 progress)
         }
         
-//        print("s1: \(currentItem.status.rawValue) s2: \(currentItem.isPlaybackLikelyToKeepUp)")
         if currentItem.status == .readyToPlay {
             showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         }
     }
     
     func showLoading(_ show: Bool) {
-        self.progressDelegator?.onBuffering(show)
+        self.videoViewControllerDelegate?.onBuffering(show)
     }
     
     func removePeriodicTimeObserver() {

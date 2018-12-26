@@ -12,6 +12,10 @@ import AVFoundation
 import AVKit
 import Photos
 
+private enum ToolbarItemIndex: Int {
+    case play = 2
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
@@ -25,6 +29,12 @@ class EditViewController: UIViewController {
     var trimPosition: VideoTrimPosition = VideoTrimPosition(leftTrim: 0, rightTrim: 1)
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
+    lazy var playButtons: [AVPlayer.TimeControlStatus: UIBarButtonItem] = {
+        return [
+            AVPlayer.TimeControlStatus.paused: UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(self.onPlay(_:))),
+            AVPlayer.TimeControlStatus.playing: UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(self.onPlay(_:)))
+        ]
+    }()
     
     override func loadView() {
         super.loadView()
@@ -56,7 +66,7 @@ class EditViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let playerItem = playerItem {
                         self.videoVC.load(playerItem: playerItem)
-                        self.videoVC.progressDelegator = self
+                        self.videoVC.videoViewControllerDelegate = self
                         
                         self.videoController.load(playerItem: playerItem)
                         self.videoController.slideDelegate = self
@@ -86,19 +96,30 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onPlay(_ sender: UIBarButtonItem) {
-        guard let toolbarItems = controlToolbar.items, let playState = videoVC.player?.timeControlStatus else {
+        guard let playState = videoVC.player?.timeControlStatus else {
             return
         }
 
-        let itemIndex = toolbarItems.firstIndex(of: sender)!
-        var newItem: UIBarButtonItem? = nil
         switch playState {
         case .playing:
-            newItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(onPlay(_:)))
             pause()
         case .paused:
-            newItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(onPlay(_:)))
             play()
+        case .waitingToPlayAtSpecifiedRate:
+            break
+        }
+    }
+    
+    fileprivate func updatePlaybackToolbarItem(by status: AVPlayer.TimeControlStatus) {
+        guard let toolbarItems = controlToolbar.items else { return }
+        
+        let itemIndex = ToolbarItemIndex.play.rawValue
+        var newItem: UIBarButtonItem? = nil
+        switch status {
+        case .playing:
+            newItem = playButtons[.paused]
+        case .paused:
+            newItem = playButtons[.playing]
         case .waitingToPlayAtSpecifiedRate:
             break
         }
@@ -163,14 +184,18 @@ class EditViewController: UIViewController {
     }
 }
 
-extension EditViewController: VideoProgressDelegate {
+extension EditViewController: VideoViewControllerDelegate {
+    
     func onBuffering(_ inBuffering: Bool) {
-        print("inBuffering: \(inBuffering)")
         showLoadingWhenBuffering(inBuffering)
     }
     
     func onProgressChanged(progress: CGFloat) {
         videoController.updateSliderProgress(progress)
+    }
+    
+    func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus) {
+        updatePlaybackToolbarItem(by: status)
     }
 }
 
@@ -179,7 +204,7 @@ extension EditViewController: VideoTrimDelegate {
     func onTrimChanged(position: VideoTrimPosition) {
         trimPosition = position
         videoController.updateTrim(position: position)
-        videoVC.updateTrim(position: position)
+        videoVC.updateTrim(position: position)        
     }
 }
 
