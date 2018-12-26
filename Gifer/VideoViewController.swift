@@ -91,7 +91,7 @@ class VideoViewController: AVPlayerViewController {
                                                             self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.0001, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
     }
