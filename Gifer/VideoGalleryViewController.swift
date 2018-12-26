@@ -23,7 +23,7 @@ extension TimeInterval {
 
 class VideoGalleryViewController: UICollectionViewController {
     
-    var videoResult:PHFetchResult<PHAsset>!
+    var videoResult:PHFetchResult<PHAsset>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +42,14 @@ class VideoGalleryViewController: UICollectionViewController {
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         self.collectionView.collectionViewLayout = flowLayout
         
-        // Do any additional setup after loading the view.
-        videoResult = VideoLibrary.shared().getVideos()
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == PHAuthorizationStatus.authorized {
+                DispatchQueue.main.async {
+                    self.videoResult = VideoLibrary.shared().getVideos()
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
     
     func getSelectedCell() -> VideoGalleryCell? {
@@ -57,11 +63,17 @@ class VideoGalleryViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let videoResult = videoResult else {
+            return 0
+        }
         // #warning Incomplete implementation, return the number of items
         return videoResult.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let videoResult = videoResult else {
+            fatalError()
+        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoGalleryCell
     
         // Configure the cell
@@ -80,6 +92,9 @@ class VideoGalleryViewController: UICollectionViewController {
     var selectedIndexPath: IndexPath!
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let videoResult = videoResult else {
+            fatalError()
+        }
         selectedIndexPath = indexPath
         
         let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
