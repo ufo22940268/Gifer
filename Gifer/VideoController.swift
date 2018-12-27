@@ -153,7 +153,6 @@ class VideoController: UIView {
     }
     
     func updateTrim(position: VideoTrimPosition) {
-        galleryView.updateByTrim(trimPosition: position)
         vidoeSlider.show(false)
     }    
 }

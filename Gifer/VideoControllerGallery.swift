@@ -14,6 +14,7 @@ class VideoControllerGallery: UIStackView {
 
     var totalImageCount: Int!
     var galleryImages = [UIImageView]()
+    var duration: CMTime!
     
     init(totalImageCount: Int) {
         super.init(frame: CGRect.zero)
@@ -29,13 +30,12 @@ class VideoControllerGallery: UIStackView {
     func setup() {
         alignment = .center
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: superview!.layoutMarginsGuide.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superview!.layoutMarginsGuide.trailingAnchor),
+            leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
             topAnchor.constraint(equalTo: superview!.layoutMarginsGuide.topAnchor),
-            bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor)
+            bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor),
+            trailingAnchor.constraint(equalTo: superview!.trailingAnchor)
             ])
-                
-        distribution = .fillEqually
+        
         for _ in 0..<totalImageCount {
             galleryImages.append(addImageView())
         }
@@ -48,6 +48,7 @@ class VideoControllerGallery: UIStackView {
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: heightAnchor, constant: -VideoControllerConstants.topAndBottomInset*2),
+            imageView.widthAnchor.constraint(equalToConstant: 40)
             ])
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -56,11 +57,6 @@ class VideoControllerGallery: UIStackView {
     
     func setImage(_ image: UIImage, on index: Int) -> Void {
         galleryImages[index].image = image
-    }
-    
-    func updateByTrim(trimPosition position: VideoTrimPosition) {
-//        leftFaderWidthConstraint.constant = position.leftTrim*bounds.width
-//        rightFaderWidthConstraint.constant = bounds.width - position.rightTrim*bounds.width
     }
 }
 
