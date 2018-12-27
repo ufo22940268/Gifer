@@ -65,7 +65,6 @@ class VideoController: UIView {
     var galleryView: VideoControllerGallery!
     var vidoeSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
-    static let galleryThumbernailCount = 15
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
@@ -84,7 +83,7 @@ class VideoController: UIView {
 
         setupScrollView()
 
-        galleryView = VideoControllerGallery(totalImageCount: VideoController.galleryThumbernailCount)
+        galleryView = VideoControllerGallery()
         scrollView.addSubview(galleryView)
         galleryView.setup()
         
@@ -117,6 +116,15 @@ class VideoController: UIView {
         galleryView.setImage(image, on: index)
     }
     
+    
+    /// Every 20s video should have 8 thumbernails
+    ///
+    /// - Parameter duration: video duration
+    /// - Returns: thumbernail count
+    private func calThumbernailCount(by duration: CMTime) -> Int {
+        return max(Int(duration.seconds/20.0 * Double(videoControllerGalleryImageCountPerGroup)), videoControllerGalleryImageCountPerGroup)
+    }
+    
     func load(playerItem: AVPlayerItem) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
@@ -127,8 +135,10 @@ class VideoController: UIView {
         vidoeSlider.duration = duration
         
         let group = DispatchGroup()
-        for i in 0..<VideoController.galleryThumbernailCount {
-            let time = playerItem.asset.duration/VideoController.galleryThumbernailCount*i
+        let thumbernailCount = calThumbernailCount(by: duration)
+        galleryView.prepareImageViews(thumbernailCount)
+        for i in 0..<thumbernailCount {
+            let time = playerItem.asset.duration/thumbernailCount*i
             group.enter()
             DispatchQueue.global().async {
                 let thumbernail = playerItem.asset.extractThumbernail(on: time)

@@ -13,7 +13,7 @@ import AVKit
 class VideoControllerTrim: UIControl {
     
     enum Status {
-        case initial, changed
+        case initial, highlight
 
         func applyTheme(to view: VideoControllerTrim) {
             var frameColor: UIColor
@@ -22,7 +22,7 @@ class VideoControllerTrim: UIControl {
             case .initial:
                 frameColor = UIColor.black
                 arrowColor = UIColor.white
-            case .changed:
+            case .highlight:
                 frameColor = UIColor.yellow
                 arrowColor = UIColor.black
             }
@@ -160,7 +160,7 @@ class VideoControllerTrim: UIControl {
             rightFader.leadingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
             ])
 
-        status = .initial
+        status = .highlight
     }
     
     func setFrameColor(_ color: UIColor) {
@@ -189,7 +189,7 @@ class VideoControllerTrim: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
-        status = .changed
+        status = .highlight
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
@@ -200,7 +200,7 @@ class VideoControllerTrim: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
-        status = .changed
+        status = .highlight
     }
     
     var trimRange: CGFloat {

@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import AVKit
 
+let videoControllerGalleryImageCountPerGroup = 8
+
 class VideoControllerGallery: UIStackView {
 
-    var totalImageCount: Int!
     var galleryImages = [UIImageView]()
     var duration: CMTime!
     
-    init(totalImageCount: Int) {
+    init() {
         super.init(frame: CGRect.zero)
-        self.totalImageCount = totalImageCount
         translatesAutoresizingMaskIntoConstraints = false
         axis = .horizontal
     }
@@ -36,9 +36,20 @@ class VideoControllerGallery: UIStackView {
             trailingAnchor.constraint(equalTo: superview!.trailingAnchor)
             ])
         
-        for _ in 0..<totalImageCount {
+    }
+    
+    func prepareImageViews(_ count: Int) {
+        for _ in 0..<count {
             galleryImages.append(addImageView())
         }
+    }
+    
+    var imageViewCount: Int {
+        return galleryImages.count
+    }
+    
+    var imageViewWidth: CGFloat {
+        return superview!.bounds.width/CGFloat(videoControllerGalleryImageCountPerGroup)
     }
     
     fileprivate func addImageView() -> UIImageView {
@@ -48,12 +59,11 @@ class VideoControllerGallery: UIStackView {
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: heightAnchor, constant: -VideoControllerConstants.topAndBottomInset*2),
-            imageView.widthAnchor.constraint(equalToConstant: 40)
+            imageView.widthAnchor.constraint(equalToConstant: imageViewWidth)
             ])
         imageView.contentMode = .scaleAspectFill
         return imageView
     }
-
     
     func setImage(_ image: UIImage, on index: Int) -> Void {
         galleryImages[index].image = image
