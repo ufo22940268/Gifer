@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVKit
 
-let videoControllerGalleryImageCountPerGroup = 8
+let videoControllerGalleryImageCountPerGroup = 12
 
 class VideoControllerGallery: UIStackView {
 
@@ -35,7 +35,6 @@ class VideoControllerGallery: UIStackView {
             bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor),
             trailingAnchor.constraint(equalTo: superview!.trailingAnchor)
             ])
-        
     }
     
     func prepareImageViews(_ count: Int) {
@@ -50,7 +49,7 @@ class VideoControllerGallery: UIStackView {
     
     var imageViewWidth: CGFloat {
         return superview!.bounds.width/CGFloat(videoControllerGalleryImageCountPerGroup)
-    }    
+    }
     
     fileprivate func addImageView() -> UIImageView {
         let imageView = UIImageView()
