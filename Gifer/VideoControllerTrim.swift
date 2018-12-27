@@ -213,15 +213,14 @@ class VideoControllerTrim: UIControl {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if point.x > leftTrim.frame.maxX && point.x < rightTrim.frame.minX {
-            return nil
+        let hitView = super.hitTest(point, with: event)
+        if hitView == leftTrim || hitView == rightTrim {
+            return super.hitTest(point, with: event)
         } else {
-            let v = super.hitTest(point, with: event)
-            return v
+            return nil
         }
     }
 }
-
 
 func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {
     return duration*Double(percentage)
