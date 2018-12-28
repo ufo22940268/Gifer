@@ -110,6 +110,8 @@ class PlaySpeedView: UIStackView {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var speedView: UILabel!
+    let minSpeed: CGFloat = 0.5
+    let maxSpeed: CGFloat = 2
 
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -128,16 +130,23 @@ class PlaySpeedView: UIStackView {
         
         scrollView.delegate = self
     }
+
+    fileprivate func updateSpeedView() {
+        speedView.text = String(format: "%.1fx", currentSpeed)
+    }
 }
 
 extension PlaySpeedView: UIScrollViewDelegate {
     
     var currentSpeed: CGFloat {
-        return 1.33
+        let progress = scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
+        let speed = minSpeed + (maxSpeed - minSpeed)*progress
+        return max(min(speed, maxSpeed), minSpeed)
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        speedView.text = String(format: "%.1fx", currentSpeed)
+        updateSpeedView()
     }
 }
 
