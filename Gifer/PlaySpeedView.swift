@@ -11,7 +11,6 @@ import UIKit
 private let triangleHeight: CGFloat = 8
 private let triangleWidth: CGFloat = 16
 
-
 class PlaySpeedRulerView: UIView {
     
     enum Indicator {
@@ -138,7 +137,7 @@ class PlaySpeedCoverView: UIView {
         points.append(CGPoint(x: rect.width/2 - triangleWidth/2, y: rect.maxY))
         points.append(CGPoint(x: rect.width/2 + triangleWidth/2, y: rect.maxY))
         
-        UIColor.yellow.setFill()
+        #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1).setFill()
         let path = UIBezierPath()
         path.move(to: points.first!)
         for point in points[1..<points.count] {
