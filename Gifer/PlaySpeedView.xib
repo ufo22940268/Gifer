@@ -19,12 +19,16 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zYU-f2-RVT" userLabel="Info">
                     <rect key="frame" x="0.0" y="0.0" width="260" height="30"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="速度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1Z-oz-FYq">
-                            <rect key="frame" x="16" y="7" width="57" height="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="速度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1Z-oz-FYq" userLabel="Title">
+                            <rect key="frame" x="16" y="7" width="27" height="16"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="57" id="jea-32-lvY"/>
-                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0x" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ag7-Hy-pEw" userLabel="Speed">
+                            <rect key="frame" x="118" y="7" width="24" height="16"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -33,7 +37,9 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Dbp-cM-hWa"/>
+                        <constraint firstItem="Ag7-Hy-pEw" firstAttribute="baseline" secondItem="h1Z-oz-FYq" secondAttribute="baseline" id="gkd-Ru-hqM"/>
                         <constraint firstItem="h1Z-oz-FYq" firstAttribute="centerY" secondItem="zYU-f2-RVT" secondAttribute="centerY" id="nwz-zT-rlo"/>
+                        <constraint firstItem="Ag7-Hy-pEw" firstAttribute="centerX" secondItem="zYU-f2-RVT" secondAttribute="centerX" id="oIW-ca-dhG"/>
                         <constraint firstItem="h1Z-oz-FYq" firstAttribute="leading" secondItem="zYU-f2-RVT" secondAttribute="leadingMargin" constant="8" id="pbE-XX-Q8t"/>
                     </constraints>
                 </view>
@@ -46,6 +52,7 @@
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="OJ2-dj-x3E" secondAttribute="bottom" id="1hd-ak-C0j"/>
                         <constraint firstItem="OJ2-dj-x3E" firstAttribute="top" secondItem="g6z-6a-nYD" secondAttribute="top" id="5bT-Vs-rd8"/>
@@ -58,6 +65,7 @@
             <viewLayoutGuide key="safeArea" id="x6d-Qq-zuL"/>
             <connections>
                 <outlet property="scrollView" destination="g6z-6a-nYD" id="he2-Bc-FGI"/>
+                <outlet property="speedView" destination="Ag7-Hy-pEw" id="Rrp-Fb-v8d"/>
             </connections>
             <point key="canvasLocation" x="225.59999999999999" y="179.91004497751126"/>
         </stackView>

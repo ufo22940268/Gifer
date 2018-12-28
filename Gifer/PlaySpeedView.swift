@@ -100,7 +100,8 @@ class PlaySpeedRulerView: UIView {
 class PlaySpeedView: UIStackView {
     
     @IBOutlet weak var scrollView: UIScrollView!
-    
+    @IBOutlet weak var speedView: UILabel!
+
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -115,8 +116,21 @@ class PlaySpeedView: UIStackView {
             coverView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             coverView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             coverView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)])
+        
+        scrollView.delegate = self
+    }
+}
+
+extension PlaySpeedView: UIScrollViewDelegate {
+    
+    var currentSpeed: CGFloat {
+        return 1.33
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollViewDidScroll")
+        speedView.text = String(format: "%.1fx", currentSpeed)
+    }
 }
 
 class PlaySpeedCoverView: UIView {
