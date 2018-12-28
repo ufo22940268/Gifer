@@ -8,6 +8,10 @@
 
 import UIKit
 
+private let triangleHeight: CGFloat = 8
+private let triangleWidth: CGFloat = 16
+
+
 class PlaySpeedRulerView: UIView {
     
     enum Indicator {
@@ -19,13 +23,15 @@ class PlaySpeedRulerView: UIView {
             var size: CGSize
             switch self {
             case .short:
+                UIColor.darkGray.setFill()
                 size = CGSize(width: Indicator.width, height: 15)
             case .long:
+                UIColor.gray.setFill()
                 size = CGSize(width: Indicator.width, height: 20)
             case .middle:
+                UIColor.lightGray.setFill()
                 size = CGSize(width: Indicator.width, height: 25)
             }
-            UIColor.gray.setFill()
             UIRectFill(CGRect(origin: CGPoint(x: left, y: (containerRect.height - size.height)/2), size: size))
         }
     }
@@ -37,7 +43,7 @@ class PlaySpeedRulerView: UIView {
         let indicatorCount: Int = 9 + 1 + 9
         var indicators: [Indicator]
         var indicatorGap: CGFloat {
-            return (width - sideSpace*2)/CGFloat(indicatorCount)
+            return (width - sideSpace*2)/CGFloat(indicatorCount - 1)
         }
         
         init(width: CGFloat) {
@@ -71,7 +77,7 @@ class PlaySpeedRulerView: UIView {
     
     var rulerWidth: CGFloat = UIScreen.main.bounds.width*2
     var rulerRange: RulerRange!
-    
+
     override func awakeFromNib() {
         rulerRange = RulerRange(width: rulerWidth)
         translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +89,8 @@ class PlaySpeedRulerView: UIView {
         super.draw(rect)
         
         var left = rulerRange.left
+        var indicatorContainerRect = rect
+        indicatorContainerRect.size.height = indicatorContainerRect.height - triangleHeight
         for indicator in rulerRange.createIndicators() {
             indicator.draw(left: left, in: rect)
             left = left + rulerRange.indicatorGap
@@ -92,9 +100,52 @@ class PlaySpeedRulerView: UIView {
 
 class PlaySpeedView: UIStackView {
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 65)])
+        
+        let coverView = PlaySpeedCoverView()
+        coverView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(coverView)
+        coverView.isUserInteractionEnabled = false
+        NSLayoutConstraint.activate([
+            coverView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            coverView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            coverView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            coverView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)])
+    }
+    
+}
+
+class PlaySpeedCoverView: UIView {
+    
+    convenience init() {
+        self.init(frame: CGRect.zero)
+        backgroundColor = .clear
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        drawTriangle(in: rect)
+    }
+    
+    func drawTriangle(in rect: CGRect) {
+        var points = [CGPoint]()
+        points.append(CGPoint(x: rect.width/2, y: rect.maxY - triangleHeight))
+        points.append(CGPoint(x: rect.width/2 - triangleWidth/2, y: rect.maxY))
+        points.append(CGPoint(x: rect.width/2 + triangleWidth/2, y: rect.maxY))
+        
+        UIColor.yellow.setFill()
+        let path = UIBezierPath()
+        path.move(to: points.first!)
+        for point in points[1..<points.count] {
+            path.addLine(to: point)
+        }
+        path.close()
+        
+        path.fill()
     }
 }
