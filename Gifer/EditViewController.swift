@@ -24,21 +24,12 @@ class EditViewController: UIViewController {
     @IBOutlet weak var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
+    @IBOutlet weak var optionMenu: UIView!
     @IBOutlet weak var controlToolbar: UIToolbar!
     @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
     var trimPosition: VideoTrimPosition!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
-    lazy var playButtons: [AVPlayer.TimeControlStatus: UIBarButtonItem] = {
-        let play = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(self.onPlay(_:)))
-        play.tag = AVPlayer.TimeControlStatus.playing.rawValue
-        let pause = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(self.onPlay(_:)))
-        pause.tag = AVPlayer.TimeControlStatus.paused.rawValue
-        return [
-            AVPlayer.TimeControlStatus.paused: play,
-            AVPlayer.TimeControlStatus.playing: pause
-        ]
-    }()
     
     override func loadView() {
         super.loadView()
@@ -52,12 +43,25 @@ class EditViewController: UIViewController {
             videoAsset = getTestVideo()
         }
         loadVideo()
+        setupOptionMenu()
     }
     
     var isDebug: Bool {
         get {
             return videoAsset == nil
         }
+    }
+    
+    fileprivate func setupOptionMenu() {
+        optionMenu.isHidden = false
+        
+        let playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+        optionMenu.addSubview(playSpeedView)
+        NSLayoutConstraint.activate([
+            playSpeedView.leadingAnchor.constraint(equalTo: optionMenu.leadingAnchor),
+            playSpeedView.trailingAnchor.constraint(equalTo: optionMenu.trailingAnchor),
+            playSpeedView.topAnchor.constraint(equalTo: optionMenu.topAnchor),
+            playSpeedView.bottomAnchor.constraint(equalTo: optionMenu.bottomAnchor)])        
     }
     
     fileprivate func loadVideo() {
@@ -96,50 +100,6 @@ class EditViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberVideo" {
             videoVC = segue.destination as? VideoViewController
-        }
-    }
-    
-    @IBAction func onPlay(_ sender: UIBarButtonItem) {
-        guard let playState = videoVC.player?.timeControlStatus else {
-            return
-        }
-
-        switch playState {
-        case .playing:
-            pause()
-        case .paused:
-            play()
-        case .waitingToPlayAtSpecifiedRate:
-            break
-        }
-    }
-    
-    func isPlayButtonStatusChanged(controlStatus: AVPlayer.TimeControlStatus) -> Bool {
-        let buttonStatus = controlToolbar.items![ToolbarItemIndex.play.rawValue].tag
-        return buttonStatus != controlStatus.rawValue
-    }
-    
-    fileprivate func updatePlaybackToolbarItem(by status: AVPlayer.TimeControlStatus) {
-        guard let toolbarItems = controlToolbar.items else { return }
-        
-        //Is status changed
-        guard isPlayButtonStatusChanged(controlStatus: status) else { return }
-        
-        let itemIndex = ToolbarItemIndex.play.rawValue
-        var newItem: UIBarButtonItem? = nil
-        switch status {
-        case .playing:
-            newItem = playButtons[.paused]
-        case .paused:
-            newItem = playButtons[.playing]
-        case .waitingToPlayAtSpecifiedRate:
-            break
-        }
-        
-        if let newItem = newItem {
-            var newToolbarItems = toolbarItems
-            newToolbarItems[itemIndex] = newItem
-            controlToolbar.setItems(newToolbarItems, animated: false)
         }
     }
     
@@ -191,6 +151,10 @@ class EditViewController: UIViewController {
         videoVC.pause()
     }
     
+    @IBAction func onSpeedBarItemClicked(_ sender: Any) {
+        
+    }
+    
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -207,7 +171,6 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus) {
-        updatePlaybackToolbarItem(by: status)
     }
 }
 
