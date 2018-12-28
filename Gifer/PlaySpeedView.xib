@@ -43,7 +43,7 @@
                         <constraint firstItem="h1Z-oz-FYq" firstAttribute="leading" secondItem="zYU-f2-RVT" secondAttribute="leadingMargin" constant="8" id="pbE-XX-Q8t"/>
                     </constraints>
                 </view>
-                <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6z-6a-nYD">
+                <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6z-6a-nYD" customClass="PlaySpeedScrollView" customModule="Gifer" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="30" width="260" height="170"/>
                     <subviews>
                         <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJ2-dj-x3E" customClass="PlaySpeedRulerView" customModule="Gifer" customModuleProvider="target">

@@ -23,13 +23,13 @@ class PlaySpeedRulerView: UIView {
             switch self {
             case .short:
                 UIColor.darkGray.setFill()
-                size = CGSize(width: Indicator.width, height: 15)
+                size = CGSize(width: Indicator.width, height: 10)
             case .long:
                 UIColor.gray.setFill()
-                size = CGSize(width: Indicator.width, height: 20)
+                size = CGSize(width: Indicator.width, height: 15)
             case .middle:
                 UIColor.lightGray.setFill()
-                size = CGSize(width: Indicator.width, height: 25)
+                size = CGSize(width: Indicator.width, height: 20)
             }
             UIRectFill(CGRect(origin: CGPoint(x: left, y: (containerRect.height - size.height)/2), size: size))
         }
@@ -86,13 +86,22 @@ class PlaySpeedRulerView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        
         var left = rulerRange.left
         var indicatorContainerRect = rect
         indicatorContainerRect.size.height = indicatorContainerRect.height - triangleHeight
         for indicator in rulerRange.createIndicators() {
             indicator.draw(left: left, in: rect)
             left = left + rulerRange.indicatorGap
+        }
+    }
+}
+
+class PlaySpeedScrollView: UIScrollView {
+    
+    override var contentSize: CGSize {
+        didSet {
+            let initScrollX = (contentSize.width - bounds.width)/2
+            contentOffset = CGPoint(x: initScrollX, y: 0)
         }
     }
 }
@@ -128,7 +137,6 @@ extension PlaySpeedView: UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrollViewDidScroll")
         speedView.text = String(format: "%.1fx", currentSpeed)
     }
 }
