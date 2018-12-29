@@ -11,6 +11,6 @@ import Photos
 import UIKit
 
 func getTestVideo() -> PHAsset {
-    let asset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 1)
+    let asset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
     return asset
 }

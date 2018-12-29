@@ -39,18 +39,18 @@ class GiferTests: XCTestCase {
     }
 
     
-    func testParseVideo() {
-        let expect = expectation(description: "parse video")
-        let video = getTestVideo()
-        PHImageManager.default().requestAVAsset(forVideo: video, options: nil) { (asset, _, _) in
-            let start = CGFloat(0.0)
-            let end = CGFloat(1.0)
-            GifGenerator(video: asset!).run(start: start, end: end) { _ in
-                expect.fulfill()
-            }
-        }
-        wait(for: [expect], timeout: 1000*10)
-    }
+//    func testParseVideo() {
+//        let expect = expectation(description: "parse video")
+//        let video = getTestVideo()
+//        PHImageManager.default().requestAVAsset(forVideo: video, options: nil) { (asset, _, _) in
+//            let start = CGFloat(0.0)
+//            let end = CGFloat(1.0)
+//            GifGenerator(video: asset!).run(start: start, end: end) { _ in
+//                expect.fulfill()
+//            }
+//        }
+//        wait(for: [expect], timeout: 1000*10)
+//    }
     
     func testExtractVideoThumbernails() {
         let expect = expectation(description: "testExtractVideoThumbernails")

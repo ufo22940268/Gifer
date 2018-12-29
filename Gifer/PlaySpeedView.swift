@@ -111,7 +111,7 @@ class PlaySpeedView: UIStackView {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var speedView: UILabel!
     let minSpeed: CGFloat = 0.5
-    let maxSpeed: CGFloat = 2
+    let maxSpeed: CGFloat = 1.5
 
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false

@@ -65,6 +65,7 @@ class VideoViewController: AVPlayerViewController {
     func load(playerItem: AVPlayerItem) -> Void {
         self.player = AVPlayer(playerItem: playerItem)
         addPeriodicTimeObserver()
+        play()
     }
     
     func setPreviewImage(_ image: UIImage) {
