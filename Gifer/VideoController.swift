@@ -63,20 +63,19 @@ struct VideoControllerConstants {
 class VideoController: UIView {
     
     var galleryView: VideoControllerGallery!
-    var vidoeSlider: VideoControllerSlider!
+    var videoSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
     
     var slideDelegate: SlideVideoProgressDelegate? {
         get {
-            return vidoeSlider.delegate
+            return videoSlider.delegate
         }
         set {
-            vidoeSlider.delegate = newValue
+            videoSlider.delegate = newValue
         }
     }
     
     var scrollView: UIScrollView!
-    
     
     override func awakeFromNib() {
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
@@ -91,9 +90,9 @@ class VideoController: UIView {
         addSubview(videoTrim)
         videoTrim.setup()
         
-        vidoeSlider = VideoControllerSlider()
-        addSubview(vidoeSlider)
-        vidoeSlider.setup(trimView: videoTrim)
+        videoSlider = VideoControllerSlider()
+        addSubview(videoSlider)
+        videoSlider.setup(trimView: videoTrim)
     }
     
     func setupScrollView() {
@@ -132,7 +131,7 @@ class VideoController: UIView {
         
         let duration = playerItem.asset.duration
         videoTrim.duration = duration
-        vidoeSlider.duration = duration
+        videoSlider.duration = duration
         
         let group = DispatchGroup()
         let thumbernailCount = calThumbernailCount(by: duration)
@@ -150,7 +149,7 @@ class VideoController: UIView {
         }
         
         group.notify(queue: DispatchQueue.main) {
-            self.galleryView.bringSubviewToFront(self.vidoeSlider)
+            self.galleryView.bringSubviewToFront(self.videoSlider)
             
             //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
             self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
@@ -158,12 +157,12 @@ class VideoController: UIView {
     }
     
     func updateSliderProgress(_ progress: CMTime) {
-        vidoeSlider.updateProgress(progress: progress)
-        vidoeSlider.show(true)
+        videoSlider.updateProgress(progress: progress)
+        videoSlider.show(true)
     }
     
     func updateTrim(position: VideoTrimPosition) {
-        vidoeSlider.show(false)
+        videoSlider.show(false)
     }    
 }
 

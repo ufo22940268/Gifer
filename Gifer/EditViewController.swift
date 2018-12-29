@@ -56,6 +56,7 @@ class EditViewController: UIViewController {
         optionMenu.isHidden = false
         
         let playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+        playSpeedView.delegate = self
         optionMenu.addSubview(playSpeedView)
         NSLayoutConstraint.activate([
             playSpeedView.leadingAnchor.constraint(equalTo: optionMenu.leadingAnchor),
@@ -194,4 +195,11 @@ extension EditViewController: SlideVideoProgressDelegate {
             break
         }
     }
+}
+
+extension EditViewController: PlaySpeedViewDelegate {
+    func onRateChanged(_ rate: Float) {
+        videoVC.setRate(rate)
+    }
+    
 }

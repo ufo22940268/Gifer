@@ -72,6 +72,10 @@ class VideoViewController: AVPlayerViewController {
         previewView.image = image
     }
     
+    func setRate(_ rate: Float) {
+        player?.rate = rate
+    }
+    
     func play() {
         self.player?.play()
     }
