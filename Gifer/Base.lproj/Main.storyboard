@@ -99,7 +99,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
                                             <barButtonItem title="Item" image="clock-outline" id="NtN-Bp-pnl" userLabel="Speed">
                                                 <connections>
-                                                    <action selector="onSpeedBarItemClicked:" destination="Dvh-Lh-bNF" id="aEZ-wI-MM5"/>
+                                                    <action selector="onSpeedBarItemClicked:" destination="Dvh-Lh-bNF" id="wLT-U4-jam"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>

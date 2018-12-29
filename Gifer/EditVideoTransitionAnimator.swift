@@ -41,8 +41,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - VideoControllerConstants.heightWithMargin - 44
         
         animateView.layoutIfNeeded()
-        toVC.showPreview(false)
-        
+    
         toView.alpha = 0
         transitionContext.containerView.addSubview(toView)
         transitionContext.containerView.addSubview(animateView)
@@ -57,7 +56,6 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animateView.layoutIfNeeded()
         }, completion: {completed in
             animateView.removeFromSuperview()
-            toVC.showPreview(true)
             toVC.setPreviewImage(image)
             transitionContext.completeTransition(true)
         })

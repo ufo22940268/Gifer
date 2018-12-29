@@ -13,7 +13,39 @@ import AVKit
 import Photos
 
 private enum ToolbarItemIndex: Int {
-    case play = 2
+    case speed = 2
+    
+}
+
+struct ToolbarItemStyle {
+    enum State {
+        case normal, highlight
+        
+    }
+    
+    let highlightBackground: UIImage = #imageLiteral(resourceName: "bar-item-background.png")
+    let highlightTint: UIColor = UIColor.black
+    var normalBackground: UIImage? = nil
+    let normalTint: UIColor = UIColor.white
+    
+    init() {
+        let renderer: UIGraphicsImageRenderer = UIGraphicsImageRenderer(size: CGSize(width: 30, height: 50))
+        normalBackground = renderer.image { (context) in
+            #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1).setFill()
+            context.fill(renderer.format.bounds)
+        }
+    }
+    
+    func setup(_ barItem: UIBarButtonItem, state: State) {
+        switch state {
+        case .normal:
+            barItem.tintColor = self.normalTint
+            barItem.setBackgroundImage(self.normalBackground, for: .normal, barMetrics: .default)
+        case .highlight:
+            barItem.tintColor = self.highlightTint
+            barItem.setBackgroundImage(self.highlightBackground, for: .normal, barMetrics: .default)
+        }
+    }
 }
 
 class EditViewController: UIViewController {
@@ -30,6 +62,8 @@ class EditViewController: UIViewController {
     var trimPosition: VideoTrimPosition!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
+    var predefinedToolbarItemStyle = ToolbarItemStyle()
+    var playItemState: ToolbarItemStyle.State = .normal
     
     override func loadView() {
         super.loadView()
@@ -44,6 +78,7 @@ class EditViewController: UIViewController {
         }
         loadVideo()
         setupOptionMenu()
+        setupControlToolbar()
     }
     
     var isDebug: Bool {
@@ -63,6 +98,11 @@ class EditViewController: UIViewController {
             playSpeedView.trailingAnchor.constraint(equalTo: optionMenu.trailingAnchor),
             playSpeedView.topAnchor.constraint(equalTo: optionMenu.topAnchor),
             playSpeedView.bottomAnchor.constraint(equalTo: optionMenu.bottomAnchor)])        
+    }
+    
+    fileprivate func setupControlToolbar() {
+        let speedBarItem = toolbar.items![ToolbarItemIndex.speed.rawValue]
+        predefinedToolbarItemStyle.setup(speedBarItem, state: .normal)
     }
     
     fileprivate func loadVideo() {
@@ -86,9 +126,6 @@ class EditViewController: UIViewController {
         }
     }
     
-    func showPreview(_ show: Bool) {
-    }
-    
     func getPreviewImage() -> UIImage? {
         return videoVC.previewView.image
     }
@@ -96,7 +133,6 @@ class EditViewController: UIViewController {
     func setPreviewImage(_ image: UIImage)  {
         videoVC.setPreviewImage(image)
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberVideo" {
@@ -152,8 +188,14 @@ class EditViewController: UIViewController {
         videoVC.pause()
     }
     
-    @IBAction func onSpeedBarItemClicked(_ sender: Any) {
+    @IBAction func onSpeedBarItemClicked(_ barItem: UIBarButtonItem) {
+        if playItemState == .normal {
+            playItemState = .highlight
+        } else {
+            playItemState = .normal
+        }
         
+        predefinedToolbarItemStyle.setup(barItem, state: playItemState)
     }
     
     @IBAction func onCancel(_ sender: Any) {
