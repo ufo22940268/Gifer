@@ -20,7 +20,15 @@ private enum ToolbarItemIndex: Int {
 struct ToolbarItemStyle {
     enum State {
         case normal, highlight
-        
+
+        func animateAdjuster(container: UIView) {
+            switch self {
+            case .normal:
+                container.isHidden = true
+            case .highlight:
+                container.isHidden = false
+            }
+        }
     }
     
     let highlightBackground: UIImage = #imageLiteral(resourceName: "bar-item-background.png")
@@ -65,6 +73,7 @@ class EditViewController: UIViewController {
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var playItemState: ToolbarItemStyle.State = .normal
     
+    @IBOutlet weak var stackView: UIStackView!
     override func loadView() {
         super.loadView()
     }
@@ -87,17 +96,20 @@ class EditViewController: UIViewController {
         }
     }
     
-    fileprivate func setupOptionMenu() {
-        optionMenu.isHidden = false
-        
-        let playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
-        playSpeedView.delegate = self
+    var playSpeedView: PlaySpeedView!
+    fileprivate func addPlaySpeedView() {
         optionMenu.addSubview(playSpeedView)
         NSLayoutConstraint.activate([
             playSpeedView.leadingAnchor.constraint(equalTo: optionMenu.leadingAnchor),
             playSpeedView.trailingAnchor.constraint(equalTo: optionMenu.trailingAnchor),
             playSpeedView.topAnchor.constraint(equalTo: optionMenu.topAnchor),
-            playSpeedView.bottomAnchor.constraint(equalTo: optionMenu.bottomAnchor)])        
+            playSpeedView.bottomAnchor.constraint(equalTo: optionMenu.bottomAnchor)])
+    }
+    
+    fileprivate func setupOptionMenu() {
+        playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+        playSpeedView.delegate = self
+        self.addPlaySpeedView()
     }
     
     fileprivate func setupControlToolbar() {
@@ -189,13 +201,16 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onSpeedBarItemClicked(_ barItem: UIBarButtonItem) {
-        if playItemState == .normal {
-            playItemState = .highlight
-        } else {
-            playItemState = .normal
-        }
+        UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
+            if self.playItemState == .normal {
+                self.playItemState = .highlight
+            } else {
+                self.playItemState = .normal
+            }
+            self.playItemState.animateAdjuster(container: self.optionMenu)
+            self.predefinedToolbarItemStyle.setup(barItem, state: self.playItemState)
+        }, completion: nil)
         
-        predefinedToolbarItemStyle.setup(barItem, state: playItemState)
     }
     
     @IBAction func onCancel(_ sender: Any) {
