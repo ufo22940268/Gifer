@@ -64,7 +64,7 @@ class VideoViewController: AVPlayerViewController {
     
     func load(playerItem: AVPlayerItem) -> Void {
         self.player = AVPlayer(playerItem: playerItem)
-        addPeriodicTimeObserver()
+        addObservers()
         play()
     }
     
@@ -81,15 +81,16 @@ class VideoViewController: AVPlayerViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        removePeriodicTimeObserver()
+        removeObservers()
     }
     
     var timeObserverToken: Any?
     var boundaryObserverToken: Any?
     let observeInterval = CMTime(seconds: 0.01, preferredTimescale: 600)
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
+    var loopObserver: NSObjectProtocol?
     
-    func addPeriodicTimeObserver() {
+    func addObservers() {
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
                                                             [weak self] time in
@@ -99,6 +100,11 @@ class VideoViewController: AVPlayerViewController {
         boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: {
             self.previewView.isHidden = true
         })
+        
+        loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
+            self.player?.seek(to: CMTime.zero)
+            self.play()
+        }
     }
     
     func observePlaybackStatus(currentTime: CMTime) {
@@ -120,7 +126,7 @@ class VideoViewController: AVPlayerViewController {
         self.videoViewControllerDelegate?.onBuffering(show)
     }
     
-    func removePeriodicTimeObserver() {
+    func removeObservers() {
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
@@ -129,6 +135,10 @@ class VideoViewController: AVPlayerViewController {
         if let observer = boundaryObserverToken {
             player?.removeTimeObserver(observer)
             self.boundaryObserverToken = nil
+        }
+        
+        if let observer = loopObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     
