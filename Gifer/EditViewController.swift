@@ -130,8 +130,7 @@ class EditViewController: UIViewController {
                         self.videoVC.videoViewControllerDelegate = self
                         
                         self.videoController.load(playerItem: playerItem)
-                        self.videoController.slideDelegate = self
-                        self.videoController.videoTrim.trimDelegate = self
+                        self.videoController.delegate = self
                     }
                 }
             }
@@ -232,16 +231,14 @@ extension EditViewController: VideoViewControllerDelegate {
     }
 }
 
-extension EditViewController: VideoTrimDelegate {
+extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
         trimPosition = position
         videoController.updateTrim(position: position)
         videoVC.updateTrim(position: position)        
     }
-}
-
-extension EditViewController: SlideVideoProgressDelegate {
+    
     func onSlideVideo(state: SlideState, progress: CMTime!) {
         switch state {
         case .begin:

@@ -46,6 +46,7 @@ protocol VideoViewControllerDelegate: class {
 class VideoViewController: AVPlayerViewController {
     
     var previewView: VideoPreviewView!
+    var trimPosition: VideoTrimPosition!
     
     override func viewDidLoad() {
         if let contentOverlayView = contentOverlayView {
@@ -64,6 +65,7 @@ class VideoViewController: AVPlayerViewController {
     
     func load(playerItem: AVPlayerItem) -> Void {
         self.player = AVPlayer(playerItem: playerItem)
+        trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
         addObservers()
         play()
     }
@@ -106,7 +108,7 @@ class VideoViewController: AVPlayerViewController {
         })
         
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
-            self.player?.seek(to: CMTime.zero)
+            self.player?.seek(to: self.trimPosition.leftTrim)
             self.play()
         }
     }
@@ -165,7 +167,9 @@ extension VideoViewController {
     func updateTrim(position: VideoTrimPosition) {
         guard let player = player, let currentItem = player.currentItem else { return }
         
+        trimPosition = position
         player.seek(to: position.leftTrim)
+        print("seek progress: \(position.leftTrim)")
         currentItem.forwardPlaybackEndTime = position.rightTrim
     }
 }

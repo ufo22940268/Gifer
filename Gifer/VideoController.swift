@@ -1,6 +1,6 @@
 //
 //  VideoController.swift
-//  Gifer
+ //  Gifer
 //
 //  Created by Frank Cheng on 2018/11/12.
 //  Copyright © 2018 Frank Cheng. All rights reserved.
@@ -49,7 +49,11 @@ struct VideoTrimPosition {
     var leftTrim: CMTime
     
     /// Propotional to video duration. Ranged from 0 to 1
-    var rightTrim: CMTime    
+    var rightTrim: CMTime
+    
+    var range: CMTime {
+        return rightTrim - leftTrim
+    }
 }
 
 struct VideoControllerConstants {
@@ -60,18 +64,23 @@ struct VideoControllerConstants {
     static let heightWithMargin = CGFloat(72)
 }
 
+protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate {
+}
+
 class VideoController: UIView {
     
     var galleryView: VideoControllerGallery!
     var videoSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
     
-    var slideDelegate: SlideVideoProgressDelegate? {
+    var delegate: VideoControllerDelegate {
         get {
-            return videoSlider.delegate
+            return delegate
         }
+        
         set {
             videoSlider.delegate = newValue
+            videoTrim.trimDelegate = newValue
         }
     }
     
@@ -156,14 +165,14 @@ class VideoController: UIView {
         }
     }
     
+    func updateTrim(position: VideoTrimPosition) {
+        videoSlider.show(false)
+    }
+
     func updateSliderProgress(_ progress: CMTime) {
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
     }
-    
-    func updateTrim(position: VideoTrimPosition) {
-        videoSlider.show(false)
-    }    
 }
 
 func / (time: CMTime, divider: Int) -> CMTime {

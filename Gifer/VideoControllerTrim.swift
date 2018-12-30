@@ -207,8 +207,10 @@ class VideoControllerTrim: UIControl {
         return bounds.width - VideoControllerConstants.trimWidth
     }
     
+    var trimPosition: VideoTrimPosition {
+        return VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/maxLeftLeading, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
+    
     func triggerTrimDelegate() {
-        let trimPosition = VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/maxLeftLeading, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )
         trimDelegate?.onTrimChanged(position: trimPosition)
     }
     
