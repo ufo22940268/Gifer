@@ -40,7 +40,7 @@ class VideoControllerTrim: UIControl {
     
     var leftTrimLeadingConstraint: NSLayoutConstraint!
     var rightTrimTrailingConstraint: NSLayoutConstraint!
-    let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(50)
+    let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(80)
     
     var topLine: UIView!
     var bottomLine: UIView!
@@ -185,39 +185,22 @@ class VideoControllerTrim: UIControl {
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
         let newConstant = (leftTrimLeadingConstraint.constant + translate.x).clamped(to: 0...maxLeftLeading)
-        let originConstant = leftTrimLeadingConstraint.constant
         leftTrimLeadingConstraint.constant = newConstant
-        
-        if lessThanMinRange() {
-            leftTrimLeadingConstraint.constant = originConstant
-            return
-        }
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
-        status = .highlight
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
         let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
-        let originConstant = rightTrimTrailingConstraint.constant
         rightTrimTrailingConstraint.constant = newConstant
-        
-        if lessThanMinRange() {
-            rightTrimTrailingConstraint.constant = originConstant
-        }
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
-        status = .highlight
-    }
-    
-    func lessThanMinRange() -> Bool {
-        return (rightTrim.frame.minX - leftTrim.frame.maxX) < 100
     }
     
     var trimRange: CGFloat {
@@ -225,9 +208,10 @@ class VideoControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
-        return VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/maxLeftLeading, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
+        return VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/trimRange, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
     
     func triggerTrimDelegate() {
+        print("trim position: \(trimPosition)")
         trimDelegate?.onTrimChanged(position: trimPosition)
     }
     
