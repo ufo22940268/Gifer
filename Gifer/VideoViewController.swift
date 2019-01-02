@@ -169,7 +169,6 @@ extension VideoViewController {
         
         trimPosition = position
         player.seek(to: position.leftTrim)
-        print("seek progress: \(position.leftTrim)")
         currentItem.forwardPlaybackEndTime = position.rightTrim
     }
 }
