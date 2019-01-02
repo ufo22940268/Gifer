@@ -183,11 +183,16 @@ class VideoControllerTrim: UIControl {
     }
 
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
-        if lessThanMinRange() { return }
-
         let translate = recognizer.translation(in: self)
-        let newConstant = leftTrimLeadingConstraint.constant + translate.x
-        leftTrimLeadingConstraint.constant = newConstant.clamped(to: 0...maxLeftLeading)
+        let newConstant = (leftTrimLeadingConstraint.constant + translate.x).clamped(to: 0...maxLeftLeading)
+        let originConstant = leftTrimLeadingConstraint.constant
+        leftTrimLeadingConstraint.constant = newConstant
+        
+        if lessThanMinRange() {
+            leftTrimLeadingConstraint.constant = originConstant
+            return
+        }
+        
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
@@ -195,12 +200,16 @@ class VideoControllerTrim: UIControl {
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
-        if lessThanMinRange() { return }
-
         let translate = recognizer.translation(in: self)
         let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
-        let newConstant = rightTrimTrailingConstraint.constant + translate.x
-        rightTrimTrailingConstraint.constant = newConstant.clamped(to: minRightTrailing...0)
+        let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
+        let originConstant = rightTrimTrailingConstraint.constant
+        rightTrimTrailingConstraint.constant = newConstant
+        
+        if lessThanMinRange() {
+            rightTrimTrailingConstraint.constant = originConstant
+        }
+        
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         triggerTrimDelegate()
