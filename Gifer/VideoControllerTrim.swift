@@ -208,7 +208,8 @@ class VideoControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
-        return VideoTrimPosition(leftTrim: percentageToProgress(leftTrimLeadingConstraint.constant/trimRange, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
+        //Don't know why. But minus an tirmWidth to left trim leading will fix the gap between left trim and slider after dragged.
+        return VideoTrimPosition(leftTrim: percentageToProgress((leftTrimLeadingConstraint.constant - VideoControllerConstants.trimWidth)/trimRange, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
     
     func triggerTrimDelegate() {
         print("trim position: \(trimPosition)")
