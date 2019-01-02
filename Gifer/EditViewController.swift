@@ -255,5 +255,4 @@ extension EditViewController: PlaySpeedViewDelegate {
     func onRateChanged(_ rate: Float) {
         videoVC.setRate(rate)
     }
-    
 }

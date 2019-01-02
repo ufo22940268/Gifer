@@ -24,17 +24,17 @@ class VideoControllerSlider: UIControl {
     var leadingConstraint: NSLayoutConstraint!
     var activeLeadingConstraint: NSLayoutConstraint!
     var activeTrailingConstraint: NSLayoutConstraint!
-    var sliderActiveRangeGuide: UILayoutGuide!
+    var sliderRangeGuide: UILayoutGuide!
     var trimView: VideoControllerTrim!
     
     fileprivate func setupGuides(trimView: VideoControllerTrim) {
         guard let superview = superview else { return }
         
-        sliderActiveRangeGuide = UILayoutGuide()
-        superview.addLayoutGuide(sliderActiveRangeGuide)
-        activeLeadingConstraint = sliderActiveRangeGuide.leadingAnchor.constraint(equalTo: trimView.leftTrim.trailingAnchor)
+        sliderRangeGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderRangeGuide)
+        activeLeadingConstraint = sliderRangeGuide.leadingAnchor.constraint(equalTo: trimView.leftTrim.trailingAnchor)
         activeLeadingConstraint.isActive = true
-        activeTrailingConstraint = sliderActiveRangeGuide.trailingAnchor.constraint(equalTo: trimView.rightTrim.leadingAnchor, constant:-VideoControllerConstants.sliderWidth)
+        activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: trimView.rightTrim.leadingAnchor, constant:-VideoControllerConstants.sliderWidth)
         activeTrailingConstraint.isActive = true
     }
     
@@ -46,13 +46,14 @@ class VideoControllerSlider: UIControl {
         
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.white
-        leadingConstraint = leadingAnchor.constraint(equalTo: sliderActiveRangeGuide.leadingAnchor, constant: 0)
+        leadingConstraint = leadingAnchor.constraint(equalTo: sliderRangeGuide.leadingAnchor, constant: 0)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: VideoControllerConstants.sliderWidth),
-            heightAnchor.constraint(equalTo: superview.heightAnchor),
-            topAnchor.constraint(equalTo: superview.topAnchor),
+            heightAnchor.constraint(equalTo: superview.heightAnchor, constant: 8),
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor),
             leadingConstraint
             ])
+        layer.cornerRadius = 4
     }
     
     func show(_ show: Bool) {
@@ -60,17 +61,18 @@ class VideoControllerSlider: UIControl {
     }
     
     var maxLeading: CGFloat {
-        return sliderActiveRangeGuide.layoutFrame.maxX
+        return sliderRangeGuide.layoutFrame.maxX
     }
     
     var minLeading: CGFloat {
-        return sliderActiveRangeGuide.layoutFrame.minX
+        return sliderRangeGuide.layoutFrame.minX
     }
     
     func updateProgress(progress: CMTime) {
         let trimPosition = trimView.trimPosition
-        let percentageProgress: Double = (progress - trimPosition.leftTrim)/trimPosition.range
-        leadingConstraint.constant = (sliderActiveRangeGuide.layoutFrame.width)*CGFloat(percentageProgress)
+        let percentageProgress: Double = ((progress - trimPosition.leftTrim)/trimPosition.range).clamped(to: 0...1)
+        leadingConstraint.constant = (sliderRangeGuide.layoutFrame.width)*CGFloat(percentageProgress)
         self.progress = progress
     }
 }
+
