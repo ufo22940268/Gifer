@@ -39,7 +39,7 @@ struct ToolbarItemStyle {
     init() {
         let renderer: UIGraphicsImageRenderer = UIGraphicsImageRenderer(size: CGSize(width: 30, height: 50))
         normalBackground = renderer.image { (context) in
-            #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1).setFill()
+            UIColor.clear.setFill()
             context.fill(renderer.format.bounds)
         }
     }
@@ -165,6 +165,7 @@ class EditViewController: UIViewController {
             }
         }
     }
+    
     
     private func prompt(_ text: String) {
         let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)

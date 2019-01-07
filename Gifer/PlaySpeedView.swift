@@ -115,7 +115,7 @@ class PlaySpeedView: UIStackView {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var speedView: UILabel!
     let minSpeed: CGFloat = 0.5
-    let maxSpeed: CGFloat = 1.5
+    let maxSpeed: CGFloat = 3
     var delegate: PlaySpeedViewDelegate?
 
     override func awakeFromNib() {
@@ -145,9 +145,12 @@ extension PlaySpeedView: UIScrollViewDelegate {
     
     var currentSpeed: CGFloat {
         let progress = scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
-        let speed = minSpeed + (maxSpeed - minSpeed)*progress
-        return max(min(speed, maxSpeed), minSpeed)
-        
+        let delta = progress - 0.5
+        if delta >= 0 {
+            return (maxSpeed - 1)*(delta/0.5) + 1
+        } else {
+            return 1 - (1 - minSpeed)*(abs(delta)/0.5)
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

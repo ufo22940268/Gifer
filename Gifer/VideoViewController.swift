@@ -47,6 +47,7 @@ class VideoViewController: AVPlayerViewController {
     
     var previewView: VideoPreviewView!
     var trimPosition: VideoTrimPosition!
+    var currentRate: Float = 1
     
     override func viewDidLoad() {
         if let contentOverlayView = contentOverlayView {
@@ -76,6 +77,7 @@ class VideoViewController: AVPlayerViewController {
     
     func setRate(_ rate: Float) {
         player?.rate = rate
+        currentRate = rate
     }
     
     func play() {
@@ -109,6 +111,7 @@ class VideoViewController: AVPlayerViewController {
         
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             self.player?.seek(to: self.trimPosition.leftTrim)
+//            self.player?.rate = self.currentRate
             self.play()
         }
     }
