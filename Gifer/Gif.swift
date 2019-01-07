@@ -48,11 +48,24 @@ extension AVAsset {
 
 class GifGenerator {
     
+    struct Options {
+        var start: CMTime
+        var end: CMTime
+        var speed: Float
+    }
+    
     let fileName = "animated.gif"
     var videoAsset: AVAsset
+    var options: Options
     
-    init(video: AVAsset) {
+    init(video: AVAsset, options: Options) {
         self.videoAsset = video
+        self.options = options
+      
+        let defaultCount = 10
+        extractedImageCountPerSecond = defaultCount
+        let normalDelay = 1/Float(extractedImageCountPerSecond)
+        gifDelayTime = normalDelay/options.speed
     }
     
     var gifFilePath: URL? {
@@ -76,7 +89,8 @@ class GifGenerator {
         fatalError()
     }
     
-    private let extractedImageCountPerSecond = 10
+    private var extractedImageCountPerSecond: Int
+    private let gifDelayTime: Float
     
     func calGifFrameCount(start: CMTime, end: CMTime) -> Int {
         return Int(Double(end.value - start.value)/(600/Double(extractedImageCountPerSecond)))
@@ -86,7 +100,9 @@ class GifGenerator {
         case middle = 500
     }
     
-    func run(start startProgress: CMTime, end endProgress: CMTime, complete: @escaping (URL) -> Void) {
+    func run(complete: @escaping (URL) -> Void) {
+        let startProgress = options.start
+        let endProgress = options.end
         var times = [NSValue]()
         let group = DispatchGroup()
         let gifFrameCount = calGifFrameCount(start: startProgress, end: endProgress)
@@ -102,8 +118,8 @@ class GifGenerator {
         generator.maximumSize = CGSize(width: gifSize.rawValue, height: gifSize.rawValue)
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
-        generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, _, error) in
-            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFDelayTime as String): 0.1]] as CFDictionary
+        generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
+            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             CGImageDestinationAddImage(destination, image!, frameProperties)
             group.leave()
         })

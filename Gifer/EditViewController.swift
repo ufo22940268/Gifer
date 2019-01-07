@@ -158,7 +158,8 @@ class EditViewController: UIViewController {
         showLoadingWhenExporting(true)
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
-        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress).share() {
+        let speed = Float(playSpeedView.currentSpeed)
+        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed).share() {
             DispatchQueue.main.async {
                 self.showLoadingWhenExporting(false)
                 self.prompt("导出成功")
