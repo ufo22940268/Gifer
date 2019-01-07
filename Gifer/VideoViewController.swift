@@ -76,8 +76,10 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func setRate(_ rate: Float) {
-        player?.rate = rate
-        currentRate = rate
+        player?.preroll(atRate: rate, completionHandler: { (success) in
+            self.player?.rate = rate
+            self.currentRate = rate
+        })
     }
     
     func play() {
@@ -110,13 +112,14 @@ class VideoViewController: AVPlayerViewController {
         })
         
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
-            self.player?.seek(to: self.trimPosition.leftTrim)
-//            self.player?.rate = self.currentRate
-            self.play()
+            guard let player = self.player else { return }
+            player.seek(to: self.trimPosition.leftTrim)
+            player.playImmediately(atRate: self.currentRate)
         }
     }
     
     func observePlaybackStatus(currentTime: CMTime) {
+        print("rate: \(player?.rate)")
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
         self.videoViewControllerDelegate?.updatePlaybackStatus(self.player!.timeControlStatus)
