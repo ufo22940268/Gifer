@@ -76,10 +76,8 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func setRate(_ rate: Float) {
-        player?.preroll(atRate: rate, completionHandler: { (success) in
-            self.player?.rate = rate
-            self.currentRate = rate
-        })
+        self.player?.rate = rate
+        self.currentRate = rate
     }
     
     func play() {
@@ -119,7 +117,6 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func observePlaybackStatus(currentTime: CMTime) {
-        print("rate: \(player?.rate)")
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
         self.videoViewControllerDelegate?.updatePlaybackStatus(self.player!.timeControlStatus)

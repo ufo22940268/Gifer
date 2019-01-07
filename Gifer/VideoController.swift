@@ -145,6 +145,8 @@ class VideoController: UIView {
         let group = DispatchGroup()
         let thumbernailCount = calThumbernailCount(by: duration)
         galleryView.prepareImageViews(thumbernailCount)
+        print("duration: \(duration)")
+        print("thumbernailCount: \(thumbernailCount)")
         for i in 0..<thumbernailCount {
             let time = playerItem.asset.duration/thumbernailCount*i
             group.enter()

@@ -107,7 +107,7 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func setupOptionMenu() {
-        playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+        playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as? PlaySpeedView
         playSpeedView.delegate = self
         self.addPlaySpeedView()
     }

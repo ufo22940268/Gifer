@@ -49,7 +49,7 @@ class VideoControllerGallery: UIStackView {
     }
     
     var imageViewWidth: CGFloat {
-        return superview!.bounds.width/CGFloat(videoControllerGalleryImageCountPerGroup)
+        return (UIScreen.main.bounds.width - 16*2)/CGFloat(videoControllerGalleryImageCountPerGroup)
     }
     
     fileprivate func addImageView() -> UIImageView {
