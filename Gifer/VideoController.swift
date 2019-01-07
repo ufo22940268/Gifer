@@ -152,6 +152,7 @@ class VideoController: UIView {
                 let thumbernail = playerItem.asset.extractThumbernail(on: time)
                 DispatchQueue.main.async {
                     self.loadGallery(withImage: thumbernail, index: i)
+                    self.videoTrim.onVideoLoaded()
                     group.leave()
                 }
             }
