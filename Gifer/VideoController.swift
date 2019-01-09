@@ -72,6 +72,7 @@ class VideoController: UIView {
     var galleryView: VideoControllerGallery!
     var videoSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
+    var dismissed = false
     
     var delegate: VideoControllerDelegate {
         get {
@@ -122,7 +123,7 @@ class VideoController: UIView {
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
         galleryView.setImage(image, on: index)
-    }
+    }        
     
     
     /// Every 20s video should have 8 thumbernails
@@ -142,7 +143,7 @@ class VideoController: UIView {
         self.videoSlider.duration = duration
         
         let group = DispatchGroup()
-        let workerQueue = DispatchQueue(label: "loader")
+        let workerQueue = DispatchQueue(label: "loader", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
         var thumbernails = [UIImage]()
         let thumbernailCount = calThumbernailCount(by: duration)
         
@@ -154,6 +155,10 @@ class VideoController: UIView {
         }
         
         for i in 0..<thumbernailCount {
+            if dismissed {
+                return
+            }
+            
             let time = playerItem.asset.duration/thumbernailCount*i
             group.enter()
             workerQueue.async {
@@ -173,6 +178,7 @@ class VideoController: UIView {
             
             //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
             self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+            print("finish load video \(Date())")
         }
     }
     

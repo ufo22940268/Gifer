@@ -80,6 +80,7 @@ class EditViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        kdebug_signpost_start(10, 0, 0, 0, 0)
         view.backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
         toolbar.backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
 
@@ -213,8 +214,12 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onCancel(_ sender: Any) {
-        print("onCancel")
+        kdebug_signpost_end(10, 0, 0, 0, 0)
         dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        videoController.dismissed = true
     }
 }
 
@@ -235,14 +240,12 @@ extension EditViewController: VideoViewControllerDelegate {
 extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
-        print("ontrimChanged: \(position)")
         trimPosition = position
         videoController.updateTrim(position: position)
         videoVC.updateTrim(position: position)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
-        print("onSlideVideo")
         switch state {
         case .begin:
             pause()

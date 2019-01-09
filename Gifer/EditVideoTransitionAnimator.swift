@@ -12,7 +12,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-private var editVCTransitionDuration: TimeInterval = 0.15
+private var editVCTransitionDuration: TimeInterval = 0.3
 private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
