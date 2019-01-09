@@ -69,3 +69,4 @@ class VideoControllerGallery: UIStackView {
         galleryImages[index].image = image
     }
 }
+

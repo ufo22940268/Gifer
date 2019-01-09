@@ -106,7 +106,7 @@ class PlaySpeedScrollView: UIScrollView {
     }
 }
 
-protocol PlaySpeedViewDelegate {
+protocol PlaySpeedViewDelegate: class {
     func onRateChanged(_ rate: Float)
 }
 
@@ -116,7 +116,7 @@ class PlaySpeedView: UIStackView {
     @IBOutlet weak var speedView: UILabel!
     let minSpeed: CGFloat = 0.5
     let maxSpeed: CGFloat = 2
-    var delegate: PlaySpeedViewDelegate?
+    weak var delegate: PlaySpeedViewDelegate?
 
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false

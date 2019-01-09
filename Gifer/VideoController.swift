@@ -75,7 +75,7 @@ class VideoController: UIView {
     
     var delegate: VideoControllerDelegate {
         get {
-            return delegate
+            return self.delegate
         }
         
         set {
@@ -137,30 +137,38 @@ class VideoController: UIView {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
-        
         let duration = playerItem.asset.duration
-        videoTrim.duration = duration
-        videoSlider.duration = duration
+        self.videoTrim.duration = duration
+        self.videoSlider.duration = duration
         
         let group = DispatchGroup()
+        let workerQueue = DispatchQueue(label: "loader")
+        var thumbernails = [UIImage]()
         let thumbernailCount = calThumbernailCount(by: duration)
-        galleryView.prepareImageViews(thumbernailCount)
-        print("duration: \(duration)")
-        print("thumbernailCount: \(thumbernailCount)")
+        
+        group.enter()
+        DispatchQueue.main.async {
+            self.galleryView.prepareImageViews(thumbernailCount)
+            group.leave()
+            group.wait()
+        }
+        
         for i in 0..<thumbernailCount {
             let time = playerItem.asset.duration/thumbernailCount*i
             group.enter()
-            DispatchQueue.global().async {
+            workerQueue.async {
                 let thumbernail = playerItem.asset.extractThumbernail(on: time)
-                DispatchQueue.main.async {
-                    self.loadGallery(withImage: thumbernail, index: i)
-                    self.videoTrim.onVideoLoaded()
-                    group.leave()
-                }
+                thumbernails.append(thumbernail)
+                group.leave()
             }
         }
         
         group.notify(queue: DispatchQueue.main) {
+            for (i, thumb) in thumbernails.enumerated() {
+                self.loadGallery(withImage: thumb, index: i)
+            }
+            
+            self.videoTrim.onVideoLoaded()
             self.galleryView.bringSubviewToFront(self.videoSlider)
             
             //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.

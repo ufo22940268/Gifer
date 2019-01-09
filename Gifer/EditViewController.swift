@@ -72,7 +72,8 @@ class EditViewController: UIViewController {
     var loadingDialog: LoadingDialog?
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var playItemState: ToolbarItemStyle.State = .normal
-    
+    var playSpeedView: PlaySpeedView!
+
     @IBOutlet weak var stackView: UIStackView!
     override func loadView() {
         super.loadView()
@@ -96,7 +97,6 @@ class EditViewController: UIViewController {
         }
     }
     
-    var playSpeedView: PlaySpeedView!
     fileprivate func addPlaySpeedView() {
         optionMenu.addSubview(playSpeedView)
         NSLayoutConstraint.activate([
@@ -121,19 +121,17 @@ class EditViewController: UIViewController {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
-
-        DispatchQueue.global().async {
-            PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
-                DispatchQueue.main.async {
-                    if let playerItem = playerItem {
+        
+        PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
+                if let playerItem = playerItem {
+                    self.videoController.load(playerItem: playerItem)
+                    self.videoController.delegate = self
+                    
+                    DispatchQueue.main.async {                        
                         self.videoVC.load(playerItem: playerItem)
                         self.videoVC.videoViewControllerDelegate = self
-                        
-                        self.videoController.load(playerItem: playerItem)
-                        self.videoController.delegate = self
                     }
                 }
-            }
         }
     }
     
@@ -215,6 +213,7 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onCancel(_ sender: Any) {
+        print("onCancel")
         dismiss(animated: true, completion: nil)
     }
 }
@@ -236,12 +235,14 @@ extension EditViewController: VideoViewControllerDelegate {
 extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition) {
+        print("ontrimChanged: \(position)")
         trimPosition = position
         videoController.updateTrim(position: position)
-        videoVC.updateTrim(position: position)        
+        videoVC.updateTrim(position: position)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
+        print("onSlideVideo")
         switch state {
         case .begin:
             pause()

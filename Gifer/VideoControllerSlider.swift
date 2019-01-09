@@ -12,7 +12,7 @@ import AVKit
 
 class VideoControllerSlider: UIControl {
     
-    var delegate: SlideVideoProgressDelegate?
+    weak var delegate: SlideVideoProgressDelegate?
     var progress: CMTime!
     var duration: CMTime!
     
