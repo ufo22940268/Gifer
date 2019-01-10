@@ -32,8 +32,8 @@ class VideoControllerGallery: UIStackView {
         alignment = .center
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
-            topAnchor.constraint(equalTo: superview!.layoutMarginsGuide.topAnchor),
-            bottomAnchor.constraint(equalTo: superview!.layoutMarginsGuide.bottomAnchor),
+            topAnchor.constraint(equalTo: superview!.topAnchor),
+            heightAnchor.constraint(equalToConstant: 40),
             trailingAnchor.constraint(equalTo: superview!.trailingAnchor)
             ])
     }

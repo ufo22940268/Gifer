@@ -162,12 +162,6 @@ class VideoController: UIView {
             let time = playerItem.asset.duration/thumbernailCount*i
             thumbernailTimes.append(NSValue(time: time))
             group.enter()
-//            group.enter()
-//            workerQueue.async {
-//                let thumbernail = playerItem.asset.extractThumbernail(on: time)
-//                thumbernails.append(thumbernail)
-//                group.leave()
-//            }
         }
         
         let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)

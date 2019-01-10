@@ -64,6 +64,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
 
 class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return editVCTransitionDuration
     }
@@ -75,8 +76,9 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let galleryView = transitionContext.view(forKey: .to)!
         
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        var initialFrame = editVC.videoContainer.frame
-        initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
+        var initialFrame = editVC.videoController.convert(editVC.videoContainer.frame, to: editVC.view) 
+        
+//        initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
         animatedView.makeImageViewFitContainer()
         let cell = galleryVC.getSelectedCell()!
