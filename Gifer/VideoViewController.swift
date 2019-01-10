@@ -96,7 +96,7 @@ class VideoViewController: AVPlayerViewController {
     var boundaryObserverToken: Any?
     let observeInterval = CMTime(seconds: 0.01, preferredTimescale: 600)
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
-    var loopObserver: NSObjectProtocol?
+    weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
@@ -105,7 +105,8 @@ class VideoViewController: AVPlayerViewController {
                                                             self?.observePlaybackStatus(currentTime: time)
         }
         
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: {
+        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: { [weak self] in
+            guard let self = self else { return }
             self.previewView.isHidden = true
         })
         
