@@ -75,10 +75,8 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let editView = transitionContext.view(forKey: .from)!
         let galleryView = transitionContext.view(forKey: .to)!
         
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        var initialFrame = editVC.videoController.convert(editVC.videoContainer.frame, to: editVC.view) 
+        let initialFrame = editVC.videoContainer.superview!.convert(editVC.videoContainer.frame, to: editVC.view)
         
-//        initialFrame.origin.y = initialFrame.origin.y + statusBarHeight
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
         animatedView.makeImageViewFitContainer()
         let cell = galleryVC.getSelectedCell()!
