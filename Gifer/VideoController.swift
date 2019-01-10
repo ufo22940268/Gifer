@@ -144,7 +144,6 @@ class VideoController: UIView {
         
         let group = DispatchGroup()
         _ = DispatchQueue(label: "loader", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
-        var thumbernails = [UIImage]()
         let thumbernailCount = calThumbernailCount(by: duration)
         
         group.enter()
@@ -173,8 +172,11 @@ class VideoController: UIView {
             
             guard image != nil else { return }
             
-            let thumbernail: UIImage = UIImage(cgImage: image!)
+            var thumbernail: UIImage = UIImage(cgImage: image!)
             DispatchQueue.main.async {
+                thumbernail = UIGraphicsImageRenderer(size: CGSize(width: 50, height: 50)).image(actions: { (context) in
+                    thumbernail.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
+                })
                 self.loadGallery(withImage: thumbernail, index: index)
                 index = index + 1
                 
