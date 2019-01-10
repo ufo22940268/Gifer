@@ -143,7 +143,7 @@ class VideoController: UIView {
         self.videoSlider.duration = duration
         
         let group = DispatchGroup()
-        let workerQueue = DispatchQueue(label: "loader", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
+        _ = DispatchQueue(label: "loader", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
         var thumbernails = [UIImage]()
         let thumbernailCount = calThumbernailCount(by: duration)
         
@@ -151,28 +151,45 @@ class VideoController: UIView {
         DispatchQueue.main.async {
             self.galleryView.prepareImageViews(thumbernailCount)
             group.leave()
-            group.wait()
         }
         
+        var thumbernailTimes = [NSValue]()
         for i in 0..<thumbernailCount {
             if dismissed {
                 return
             }
             
             let time = playerItem.asset.duration/thumbernailCount*i
+            thumbernailTimes.append(NSValue(time: time))
             group.enter()
-            workerQueue.async {
-                let thumbernail = playerItem.asset.extractThumbernail(on: time)
-                thumbernails.append(thumbernail)
+//            group.enter()
+//            workerQueue.async {
+//                let thumbernail = playerItem.asset.extractThumbernail(on: time)
+//                thumbernails.append(thumbernail)
+//                group.leave()
+//            }
+        }
+        
+        let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)
+        var index = 0
+        generator.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { (_, image, _, _, _) in
+            if self.dismissed {
+                generator.cancelAllCGImageGeneration()
+            }
+            
+            guard image != nil else { return }
+            
+            let thumbernail: UIImage = UIImage(cgImage: image!)
+            DispatchQueue.main.async {
+                self.loadGallery(withImage: thumbernail, index: index)
+                index = index + 1
+                
                 group.leave()
             }
         }
         
-        group.notify(queue: DispatchQueue.main) {
-            for (i, thumb) in thumbernails.enumerated() {
-                self.loadGallery(withImage: thumb, index: i)
-            }
-            
+        
+        group.notify(queue: DispatchQueue.main) {            
             self.videoTrim.onVideoLoaded()
             self.galleryView.bringSubviewToFront(self.videoSlider)
             
