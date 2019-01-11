@@ -128,7 +128,8 @@ class EditViewController: UIViewController {
                     self.videoController.load(playerItem: playerItem)
                     self.videoController.delegate = self
                     
-                    DispatchQueue.main.async {                        
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self = self else { return }
                         self.videoVC.load(playerItem: playerItem)
                         self.videoVC.videoViewControllerDelegate = self
                     }

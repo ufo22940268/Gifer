@@ -72,7 +72,14 @@ class VideoController: UIView {
     var galleryView: VideoControllerGallery!
     var videoSlider: VideoControllerSlider!
     var videoTrim: VideoControllerTrim!
-    var dismissed = false
+    var dismissed = false {
+        didSet {
+            if dismissed {
+                print("cancel all")
+                generator?.cancelAllCGImageGeneration()
+            }
+        }
+    }
     
     var delegate: VideoControllerDelegate {
         get {
@@ -86,6 +93,7 @@ class VideoController: UIView {
     }
     
     var scrollView: UIScrollView!
+    var generator: AVAssetImageGenerator?
     
     override func awakeFromNib() {
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
@@ -147,7 +155,8 @@ class VideoController: UIView {
         let thumbernailCount = calThumbernailCount(by: duration)
         
         group.enter()
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.galleryView.prepareImageViews(thumbernailCount)
             group.leave()
         }
@@ -163,29 +172,29 @@ class VideoController: UIView {
             group.enter()
         }
         
-        let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)
+        self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
-        generator.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { (_, image, _, _, _) in
-            if self.dismissed {
-                generator.cancelAllCGImageGeneration()
-            }
+        self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
+
+            print("generateCGImagesAsynchronously \(Date())")
+            guard let self = self else { return }
             
             guard image != nil else { return }
             
             var thumbernail: UIImage = UIImage(cgImage: image!)
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 thumbernail = UIGraphicsImageRenderer(size: CGSize(width: 50, height: 50)).image(actions: { (context) in
                     thumbernail.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
                 })
                 self.loadGallery(withImage: thumbernail, index: index)
                 index = index + 1
-                
                 group.leave()
             }
         }
         
-        
-        group.notify(queue: DispatchQueue.main) {            
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
             self.videoTrim.onVideoLoaded()
             self.galleryView.bringSubviewToFront(self.videoSlider)
             
