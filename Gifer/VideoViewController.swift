@@ -48,6 +48,7 @@ class VideoViewController: AVPlayerViewController {
     var previewView: VideoPreviewView!
     var trimPosition: VideoTrimPosition!
     var currentRate: Float = 1
+    var dismissed: Bool = false
     
     override func viewDidLoad() {
         if let contentOverlayView = contentOverlayView {
@@ -65,6 +66,9 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
+        guard !dismissed else {
+            return
+        }
         self.player = AVPlayer(playerItem: playerItem)
         trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
         addObservers()

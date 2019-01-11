@@ -123,17 +123,18 @@ class EditViewController: UIViewController {
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         
-        PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { (playerItem, info) in
-                if let playerItem = playerItem {
-                    self.videoController.load(playerItem: playerItem)
-                    self.videoController.delegate = self
-                    
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self = self else { return }
-                        self.videoVC.load(playerItem: playerItem)
-                        self.videoVC.videoViewControllerDelegate = self
-                    }
+        PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
+            guard let self = self else { return }
+            if let playerItem = playerItem {
+                self.videoController.load(playerItem: playerItem)
+                self.videoController.delegate = self
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.videoVC.load(playerItem: playerItem)
+                    self.videoVC.videoViewControllerDelegate = self
                 }
+            }
         }
     }
     
@@ -166,7 +167,6 @@ class EditViewController: UIViewController {
             }
         }
     }
-    
     
     private func prompt(_ text: String) {
         let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
@@ -221,6 +221,7 @@ class EditViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         videoController.dismissed = true
+        videoVC.dismissed = true
     }
 }
 
