@@ -138,6 +138,7 @@ class EditViewController: UIViewController {
         }
     }
     
+    
     func getPreviewImage() -> UIImage? {
         return videoVC.previewView.image
     }

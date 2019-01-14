@@ -192,7 +192,7 @@ class VideoControllerTrim: UIControl {
         triggerTrimDelegate()
     }
     
-    @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
+    @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {        
         let translate = recognizer.translation(in: self)
         let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)

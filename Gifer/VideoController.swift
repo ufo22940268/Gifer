@@ -75,7 +75,6 @@ class VideoController: UIView {
     var dismissed = false {
         didSet {
             if dismissed {
-                print("cancel all")
                 generator?.cancelAllCGImageGeneration()
             }
         }
@@ -120,6 +119,8 @@ class VideoController: UIView {
         scrollView.layoutMargins.bottom = 0
         scrollView.layoutMargins.left = 0
         scrollView.layoutMargins.right = 0
+        scrollView.alwaysBounceVertical = false
+
         
         addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -175,8 +176,6 @@ class VideoController: UIView {
         self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
         self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
-
-            print("generateCGImagesAsynchronously \(Date())")
             guard let self = self else { return }
             
             guard image != nil else { return }

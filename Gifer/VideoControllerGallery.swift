@@ -33,8 +33,9 @@ class VideoControllerGallery: UIStackView {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
             topAnchor.constraint(equalTo: superview!.topAnchor),
+            bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
             heightAnchor.constraint(equalToConstant: 40),
-            trailingAnchor.constraint(equalTo: superview!.trailingAnchor)
+            superview!.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
     }
     
@@ -58,7 +59,7 @@ class VideoControllerGallery: UIStackView {
         imageView.clipsToBounds = true
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: heightAnchor, constant: -VideoControllerConstants.topAndBottomInset*2),
+            imageView.heightAnchor.constraint(equalTo: heightAnchor),
             imageView.widthAnchor.constraint(equalToConstant: imageViewWidth)
             ])
         imageView.contentMode = .scaleAspectFill
