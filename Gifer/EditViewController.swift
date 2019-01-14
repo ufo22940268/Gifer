@@ -157,7 +157,7 @@ class EditViewController: UIViewController {
             return
         }
         showLoadingWhenExporting(true)
-//        videoVC.pause()
+        videoVC.pause()
         let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
