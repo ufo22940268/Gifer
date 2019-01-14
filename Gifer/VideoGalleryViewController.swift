@@ -21,6 +21,8 @@ extension TimeInterval {
     }
 }
 
+
+
 class VideoGalleryViewController: UICollectionViewController {
     
     var videoResult:PHFetchResult<PHAsset>?
