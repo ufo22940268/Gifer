@@ -197,7 +197,16 @@ class VideoControllerTrim: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        triggerTrimDelegate()
+        trimDelegate?.onTrimChanged(position: trimPosition, state: getTrimState(from: recognizer))
+    }
+    
+    private func getTrimState(from gesture: UIPanGestureRecognizer) -> VideoTrimState {
+        switch gesture.state {
+        case .ended:
+            return .finished
+        default:
+            return .moving
+        }
     }
     
     @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {        
@@ -208,8 +217,8 @@ class VideoControllerTrim: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        triggerTrimDelegate()
-    }
+        trimDelegate?.onTrimChanged(position: trimPosition, state: getTrimState(from: recognizer))
+   }
     
     var trimRange: CGFloat {
         return bounds.width - VideoControllerConstants.trimWidth
@@ -217,14 +226,16 @@ class VideoControllerTrim: UIControl {
     
     var trimPosition: VideoTrimPosition {
         //Don't know why. But minus an tirmWidth to left trim leading will fix the gap between left trim and slider after dragged.
-        return VideoTrimPosition(leftTrim: percentageToProgress((leftTrimLeadingConstraint.constant - VideoControllerConstants.trimWidth)/trimRange, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration) )    }
-    
-    func triggerTrimDelegate() {
-        trimDelegate?.onTrimChanged(position: trimPosition)
+        return VideoTrimPosition(leftTrim: percentageToProgress((leftTrimLeadingConstraint.constant - VideoControllerConstants.trimWidth)/trimRange, inDuration: duration) , rightTrim: percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: duration))
     }
     
+//    func triggerTrimDelegate() {
+//        trimDelegate?.onTrimChanged(position: trimPosition)
+//    }
+    
+    
     func onVideoLoaded() {
-        triggerTrimDelegate()
+//        triggerTrimDelegate()
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

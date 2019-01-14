@@ -242,10 +242,10 @@ extension EditViewController: VideoViewControllerDelegate {
 
 extension EditViewController: VideoControllerDelegate {
     
-    func onTrimChanged(position: VideoTrimPosition) {
+    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
         trimPosition = position
-        videoController.updateTrim(position: position)
-        videoVC.updateTrim(position: position)
+        videoController.updateTrim(position: position, state: state)
+        videoVC.updateTrim(position: position, state: state)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {

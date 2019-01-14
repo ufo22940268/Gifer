@@ -171,11 +171,13 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 
 extension VideoViewController {
     
-    func updateTrim(position: VideoTrimPosition) {
+    func updateTrim(position: VideoTrimPosition, state: VideoTrimState) {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
-//        player.seek(to: position.leftTrim)
         currentItem.forwardPlaybackEndTime = position.rightTrim
+        if state == .finished {
+            player.seek(to: position.leftTrim)
+        }
     }
 }

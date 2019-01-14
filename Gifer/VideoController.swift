@@ -40,11 +40,16 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChanged(position: VideoTrimPosition)
+    
+    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState)
 }
 
+enum VideoTrimState {
+    case moving, finished
+}
 struct VideoTrimPosition {
     
+
     /// Propotional to video duration. Ranged from 0 to 1
     var leftTrim: CMTime
     
@@ -203,8 +208,8 @@ class VideoController: UIView {
         }
     }
     
-    func updateTrim(position: VideoTrimPosition) {
-        videoSlider.show(false)
+    func updateTrim(position: VideoTrimPosition, state: VideoTrimState) {
+//        videoSlider.show(false)
     }
 
     func updateSliderProgress(_ progress: CMTime) {
