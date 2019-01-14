@@ -50,7 +50,7 @@ class ShareManager {
                 media: .gif(gifData)
             )))
 
-            complete() 
+            complete()  
             MonkeyKing.deliver(monkeyMessage) { (result) in
                 print("result: \(result)")
             }
