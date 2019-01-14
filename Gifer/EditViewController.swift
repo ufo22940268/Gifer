@@ -67,7 +67,6 @@ class EditViewController: UIViewController {
     @IBOutlet weak var optionMenu: UIView!
     @IBOutlet weak var controlToolbar: UIToolbar!
     @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
-    var trimPosition: VideoTrimPosition!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     var predefinedToolbarItemStyle = ToolbarItemStyle()
@@ -158,6 +157,8 @@ class EditViewController: UIViewController {
             return
         }
         showLoadingWhenExporting(true)
+//        videoVC.pause()
+        let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeed)
@@ -243,7 +244,6 @@ extension EditViewController: VideoViewControllerDelegate {
 extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
-        trimPosition = position
         videoController.updateTrim(position: position, state: state)
         videoVC.updateTrim(position: position, state: state)
     }

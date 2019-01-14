@@ -98,6 +98,11 @@ class VideoController: UIView {
     
     var scrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
+    var trimPosition: VideoTrimPosition {
+        get {
+            return videoTrim.trimPosition
+        }
+    }
     
     override func awakeFromNib() {
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
