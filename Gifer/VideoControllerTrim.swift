@@ -10,6 +10,14 @@ import Foundation
 import UIKit
 import AVKit
 
+class LargeImageView: UIImageView {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let increaseWidth = CGFloat(30)
+        let newArea = CGRect(origin: bounds.origin.applying(CGAffineTransform(translationX: -increaseWidth/2, y: 0)), size: CGSize(width: bounds.width + increaseWidth, height: bounds.height))
+        return newArea.contains(point)
+    }
+}
+
 class VideoControllerTrim: UIControl {
     
     enum Status {
@@ -49,7 +57,7 @@ class VideoControllerTrim: UIControl {
     weak var trimDelegate: VideoTrimDelegate?
     
     var leftTrim: UIImageView! = {
-        let leftTrim = UIImageView()
+        let leftTrim = LargeImageView()
         leftTrim.translatesAutoresizingMaskIntoConstraints = false
         leftTrim.backgroundColor = UIColor.yellow
         leftTrim.image = #imageLiteral(resourceName: "arrow-ios-back-outline.png")
@@ -58,7 +66,7 @@ class VideoControllerTrim: UIControl {
     }()
     
     var rightTrim: UIImageView! = {
-        let rightTrim = UIImageView()
+        let rightTrim = LargeImageView()
         rightTrim.translatesAutoresizingMaskIntoConstraints = false
         rightTrim.backgroundColor = UIColor.yellow
         rightTrim.image = #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
