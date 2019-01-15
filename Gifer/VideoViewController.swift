@@ -85,7 +85,7 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func play() {
-        self.player?.play()
+//        self.player?.play()
     }
     
     func pause() {
