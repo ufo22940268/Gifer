@@ -9,7 +9,7 @@
 import UIKit
 
 private let gridStrokeColor: UIColor = UIColor.white
-private let frameWidth = CGFloat(2)
+private let frameWidth = CGFloat(1)
 private let cornerStrokeWidth = CGFloat(4)
 
 
@@ -46,10 +46,11 @@ class RulerCornerView: UIView {
         }
         
         func drawCornerSymbol(in rect: CGRect) {
-            let left = (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: rect.maxY))
-            let top = (CGPoint(x: 0, y: 0), CGPoint(x: rect.maxX, y: 0))
-            let right = (CGPoint(x: rect.maxX, y: 0), CGPoint(x: rect.maxX, y: rect.maxY))
-            let bottom = (CGPoint(x: 0, y: rect.maxY), CGPoint(x: rect.maxX, y: rect.maxY))
+            let halfStrokeWidth = cornerStrokeWidth/2
+            let left = (CGPoint(x: halfStrokeWidth, y: 0), CGPoint(x: halfStrokeWidth, y: rect.maxY))
+            let top = (CGPoint(x: 0, y: halfStrokeWidth), CGPoint(x: rect.maxX, y: halfStrokeWidth))
+            let right = (CGPoint(x: rect.maxX - halfStrokeWidth, y: 0), CGPoint(x: rect.maxX - halfStrokeWidth, y: rect.maxY))
+            let bottom = (CGPoint(x: 0, y: rect.maxY - halfStrokeWidth), CGPoint(x: rect.maxX, y: rect.maxY - halfStrokeWidth))
 
             var lines = [(CGPoint, CGPoint)]()
             switch self {
@@ -69,7 +70,7 @@ class RulerCornerView: UIView {
             
             let path = UIBezierPath()
             gridStrokeColor.setStroke()
-            path.lineWidth = cornerStrokeWidth*2
+            path.lineWidth = cornerStrokeWidth
             for line in lines {
                 path.move(to: line.0)
                 path.addLine(to: line.1)
@@ -108,24 +109,45 @@ class RulerCornerView: UIView {
     }
 }
 
+class GridFrameView: UIView {
+    
+    init() {
+        super.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        layer.borderColor = gridStrokeColor.cgColor
+        layer.borderWidth = frameWidth
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class GridRulerView: UIView {
     
     override func awakeFromNib() {
         backgroundColor = UIColor.black
         
+        let frameView = GridFrameView()
+        addSubview(frameView)
+        
         for position in RulerCornerView.Position.allCases {
             let cornerView = RulerCornerView(position: position)
             addSubview(cornerView)
             cornerView.setupLayout()
+            
+            if position == .leftTop {
+                NSLayoutConstraint.activate([
+                    frameView.leftAnchor.constraint(equalTo: cornerView.leftAnchor, constant: cornerStrokeWidth),
+                    frameView.topAnchor.constraint(equalTo: cornerView.topAnchor, constant: cornerStrokeWidth)
+                    ])
+            } else if position == .rightBottom {
+                NSLayoutConstraint.activate([
+                    frameView.rightAnchor.constraint(equalTo: cornerView.rightAnchor, constant: -cornerStrokeWidth),
+                    frameView.bottomAnchor.constraint(equalTo: cornerView.bottomAnchor, constant: -cornerStrokeWidth)])
+            }
         }
+        
     }
     
-    override func draw(_ rect: CGRect) {
-        //Draw frame
-        let framePath = UIBezierPath(rect: rect.insetBy(dx: cornerStrokeWidth, dy: cornerStrokeWidth))
-        UIColor.white.setStroke()
-//        framePath.lineWidth = frameWidth
-        framePath.stroke()
-    }
-
 }
