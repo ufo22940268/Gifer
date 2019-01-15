@@ -42,14 +42,20 @@ class VideoGalleryViewController: UICollectionViewController {
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         self.collectionView.collectionViewLayout = flowLayout
         
+        PHPhotoLibrary.shared().register(self)
+        
         PHPhotoLibrary.requestAuthorization { (status) in
             if status == PHAuthorizationStatus.authorized {
                 DispatchQueue.main.async {
-                    self.videoResult = VideoLibrary.shared().getVideos()
-                    self.collectionView.reloadData()
+                    self.reload()
                 }
             }
         }
+    }
+    
+    func reload() {
+        self.videoResult = VideoLibrary.shared().getVideos()
+        self.collectionView.reloadData()
     }
     
     func getSelectedCell() -> VideoGalleryCell? {
@@ -114,5 +120,30 @@ extension VideoGalleryViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return DismissEditViewControllerAnimator()
+    }
+}
+
+extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
+    
+    private func containsVideo(changes: [PHAsset]) -> Bool {
+        return changes.contains { (asset) -> Bool in
+            return asset.mediaType == .video
+        }
+    }
+    
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        var needReload = false
+        if videoResult == nil {
+            needReload = true
+        } else {
+            let changes = changeInstance.changeDetails(for: videoResult!)
+            if let changes = changes, containsVideo(changes: changes.insertedObjects) || containsVideo(changes: changes.removedObjects) {
+                needReload = true
+            }
+        }
+        
+        if needReload {
+            self.reload()
+        }
     }
 }

@@ -197,7 +197,7 @@
                             <outlet property="delegate" destination="bz0-X4-CgO" id="siW-uz-k1l"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="相册" id="X0g-Vx-SJc"/>
+                    <navigationItem key="navigationItem" title="Gifer" id="X0g-Vx-SJc"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="Dvh-Lh-bNF" kind="show" identifier="editVideo" id="Dk3-Gl-eiE"/>
