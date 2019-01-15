@@ -21,6 +21,10 @@ class RulerCornerView: UIView {
         case leftTop, rightTop, leftBottom, rightBottom
 
         func setupLayout(child: UIView, parent: UIView) {
+//            let left = child.leftAnchor.constraint(equalTo: parent.leftAnchor)
+//            let top = child.topAnchor.constraint(equalTo: parent.topAnchor)
+//            let right = child.rightAnchor.constraint(equalTo: parent.rightAnchor)
+//            let bottom = child.bottomAnchor.constraint(equalTo: parent.bottomAnchor)
             switch self {
             case .leftTop:
                 NSLayoutConstraint.activate([
@@ -77,6 +81,10 @@ class RulerCornerView: UIView {
             }
             path.stroke()
         }
+        
+        func isValidTransition(_ point: CGPoint) -> Bool {
+            return true
+        }
     }
     
     var position: Position!
@@ -87,6 +95,17 @@ class RulerCornerView: UIView {
         isUserInteractionEnabled = true
         self.position = position
         backgroundColor = .clear
+        
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(_:))))
+    }
+    
+    
+    @objc func onPan(_ sender: UIPanGestureRecognizer) {
+        let point = sender.translation(in: self)
+        if position.isValidTransition(point) {
+            
+        }
+        sender.setTranslation(CGPoint.zero, in: self)
     }
     
     func setupLayout() {
