@@ -12,21 +12,34 @@ class CropContainer: UIScrollView {
 
     var gridRulerView: GridRulerView!
     var contentView: UIView!
+    var scrollView: UIScrollView!
     
     override func awakeFromNib() {
         clipsToBounds = true
         
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.widthAnchor.constraint(equalTo: widthAnchor),
+            scrollView.heightAnchor.constraint(equalTo: heightAnchor)])
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.5
+        scrollView.maximumZoomScale = 2
+        
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(imageView)
+        scrollView.addSubview(imageView)
         imageView.image = #imageLiteral(resourceName: "IMG_3415.JPG")
         imageView.contentMode = .center
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: heightAnchor)])
-        contentView = imageView        
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)])
+        contentView = imageView
 
         gridRulerView = GridRulerView()
         addSubview(gridRulerView)
@@ -41,7 +54,13 @@ class CropContainer: UIScrollView {
         height.identifier = "height"
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
+    }
         
-        
+}
+
+extension CropContainer: UIScrollViewDelegate {
+ 
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return contentView
     }
 }

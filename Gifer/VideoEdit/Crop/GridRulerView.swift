@@ -149,6 +149,15 @@ class RulerCornerView: UIView {
 
 class GridFrameDivider: UIView {
     
+    init() {
+        super.init(frame: CGRect.zero)
+        backgroundColor = .clear
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func draw(_ rect: CGRect) {
         let path = UIBezierPath()
         gridRulerStrokeColor.setStroke()
