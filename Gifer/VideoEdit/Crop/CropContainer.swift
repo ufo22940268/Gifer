@@ -28,7 +28,7 @@ class CropContainer: UIScrollView {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.5
         scrollView.maximumZoomScale = 2
-        
+
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(imageView)
@@ -55,11 +55,6 @@ class CropContainer: UIScrollView {
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
     }
-    
-    
-//    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-//        return scrollView
-//    }
 }
 
 extension CropContainer: UIScrollViewDelegate {
