@@ -26,8 +26,7 @@ class CropContainer: UIScrollView {
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
             imageView.heightAnchor.constraint(equalTo: heightAnchor)])
-        contentView = imageView
-        
+        contentView = imageView        
 
         gridRulerView = GridRulerView()
         addSubview(gridRulerView)
