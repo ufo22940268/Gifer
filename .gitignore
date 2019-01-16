@@ -3,3 +3,5 @@ Gifer.app.dSYM.zip
 Gifer.xcodeproj/project.xcworkspace/xcuserdata/
 Gifer.ipa
 fastlane/report.xml
+.DS_Store
+Gifer/.DS_Store

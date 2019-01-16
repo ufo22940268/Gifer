@@ -8,11 +8,27 @@
 
 import UIKit
 
-class CropContainer: UIView {
+class CropContainer: UIScrollView {
 
     var gridRulerView: GridRulerView!
+    var contentView: UIView!
     
     override func awakeFromNib() {
+        clipsToBounds = true
+        
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        imageView.image = #imageLiteral(resourceName: "IMG_3415.JPG")
+        imageView.contentMode = .center
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.widthAnchor.constraint(equalTo: widthAnchor),
+            imageView.heightAnchor.constraint(equalTo: heightAnchor)])
+        contentView = imageView
+        
+
         gridRulerView = GridRulerView()
         addSubview(gridRulerView)
         gridRulerView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,5 +42,7 @@ class CropContainer: UIView {
         height.identifier = "height"
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
+        
+        
     }
 }

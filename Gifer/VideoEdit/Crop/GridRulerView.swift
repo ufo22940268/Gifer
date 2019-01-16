@@ -8,9 +8,9 @@
 
 import UIKit
 
-private let gridStrokeColor: UIColor = UIColor.white
-private let frameWidth = CGFloat(2)
-private let cornerStrokeWidth = CGFloat(4)
+let gridRulerStrokeColor: UIColor = UIColor.white
+let gridRulerFrameWidth = CGFloat(2)
+let gridRulerCornerStrokeWidth = CGFloat(4)
 
 enum RulerCornerPosition: CaseIterable {
     
@@ -42,7 +42,7 @@ enum RulerCornerPosition: CaseIterable {
     }
     
     func drawCornerSymbol(in rect: CGRect) {
-        let halfStrokeWidth = cornerStrokeWidth/2
+        let halfStrokeWidth = gridRulerCornerStrokeWidth/2
         let left = (CGPoint(x: halfStrokeWidth, y: 0), CGPoint(x: halfStrokeWidth, y: rect.maxY))
         let top = (CGPoint(x: 0, y: halfStrokeWidth), CGPoint(x: rect.maxX, y: halfStrokeWidth))
         let right = (CGPoint(x: rect.maxX - halfStrokeWidth, y: 0), CGPoint(x: rect.maxX - halfStrokeWidth, y: rect.maxY))
@@ -65,8 +65,8 @@ enum RulerCornerPosition: CaseIterable {
         }
         
         let path = UIBezierPath()
-        gridStrokeColor.setStroke()
-        path.lineWidth = cornerStrokeWidth
+        gridRulerStrokeColor.setStroke()
+        path.lineWidth = gridRulerCornerStrokeWidth
         for line in lines {
             path.move(to: line.0)
             path.addLine(to: line.1)
@@ -151,7 +151,7 @@ class GridFrameDivider: UIView {
     
     override func draw(_ rect: CGRect) {
         let path = UIBezierPath()
-        gridStrokeColor.setStroke()
+        gridRulerStrokeColor.setStroke()
 
         var lines = [(CGPoint, CGPoint)]()
         lines.append((CGPoint(x: 0, y: rect.height/3), CGPoint(x: rect.width, y: rect.height/3)))
@@ -181,8 +181,8 @@ class GridFrameView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
-        layer.borderColor = gridStrokeColor.cgColor
-        layer.borderWidth = frameWidth
+        layer.borderColor = gridRulerStrokeColor.cgColor
+        layer.borderWidth = gridRulerFrameWidth
         showGrid = true
         
         divider = GridFrameDivider()
@@ -214,7 +214,6 @@ class GridRulerView: UIView {
     var frameView: GridFrameView!
 
     func setup() {
-        backgroundColor = UIColor.black
         
         let findConstraint = {(identifier: String) -> NSLayoutConstraint in
             return [self.constraints, self.superview!.constraints].flatMap { $0 }.first(where: { (constraint) -> Bool in
@@ -235,13 +234,13 @@ class GridRulerView: UIView {
             
             if position == .leftTop {
                 NSLayoutConstraint.activate([
-                    frameView.leftAnchor.constraint(equalTo: cornerView.leftAnchor, constant: cornerStrokeWidth),
-                    frameView.topAnchor.constraint(equalTo: cornerView.topAnchor, constant: cornerStrokeWidth)
+                    frameView.leftAnchor.constraint(equalTo: cornerView.leftAnchor, constant: gridRulerCornerStrokeWidth),
+                    frameView.topAnchor.constraint(equalTo: cornerView.topAnchor, constant: gridRulerCornerStrokeWidth)
                     ])
             } else if position == .rightBottom {
                 NSLayoutConstraint.activate([
-                    frameView.rightAnchor.constraint(equalTo: cornerView.rightAnchor, constant: -cornerStrokeWidth),
-                    frameView.bottomAnchor.constraint(equalTo: cornerView.bottomAnchor, constant: -cornerStrokeWidth)])
+                    frameView.rightAnchor.constraint(equalTo: cornerView.rightAnchor, constant: -gridRulerCornerStrokeWidth),
+                    frameView.bottomAnchor.constraint(equalTo: cornerView.bottomAnchor, constant: -gridRulerCornerStrokeWidth)])
             }
         }
     }
