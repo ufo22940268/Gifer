@@ -111,7 +111,6 @@ class RulerCornerView: UIView {
                 heightVector = 1
             }
          
-            print("direction: \(self) \(translate)")
             parentConstraints.width.constant = parentConstraints.width.constant + widthVector*translate.x
             parentConstraints.height.constant = parentConstraints.height.constant + heightVector*translate.y
         }
