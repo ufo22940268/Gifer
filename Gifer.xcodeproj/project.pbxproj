@@ -22,6 +22,7 @@
 		4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA421A8D4DE00913466 /* VideoLibrary.swift */; };
 		428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */; };
 		429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429CE3E021C22F360004D3F2 /* MonkeyKing.framework */; };
+		42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A1AFE621EF186C00CF8018 /* CropContainer.swift */; };
 		42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42E86E6521CDC996004BB0BC /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E86E6421CDC996004BB0BC /* LoadingViewController.xib */; };
@@ -63,6 +64,7 @@
 		4285BFA421A8D4DE00913466 /* VideoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLibrary.swift; sourceTree = "<group>"; };
 		428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryCell.swift; sourceTree = "<group>"; };
 		429CE3E021C22F360004D3F2 /* MonkeyKing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyKing.framework; path = Carthage/Build/iOS/MonkeyKing.framework; sourceTree = "<group>"; };
+		42A1AFE621EF186C00CF8018 /* CropContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropContainer.swift; sourceTree = "<group>"; };
 		42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVideoTransitionAnimator.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42E86E6421CDC996004BB0BC /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
@@ -109,6 +111,23 @@
 				429CE3E021C22F360004D3F2 /* MonkeyKing.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		42A1AFE421EF182600CF8018 /* VideoEdit */ = {
+			isa = PBXGroup;
+			children = (
+				42A1AFE521EF184100CF8018 /* Crop */,
+			);
+			path = VideoEdit;
+			sourceTree = "<group>";
+		};
+		42A1AFE521EF184100CF8018 /* Crop */ = {
+			isa = PBXGroup;
+			children = (
+				42491E5A21ED7C22002FECDE /* GridRulerView.swift */,
+				42A1AFE621EF186C00CF8018 /* CropContainer.swift */,
+			);
+			path = Crop;
 			sourceTree = "<group>";
 		};
 		42F2D564219403B100113A10 = {
@@ -159,7 +178,7 @@
 				426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */,
 				426C537D21D4C6020018DE80 /* PlaySpeedView.xib */,
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
-				42491E5A21ED7C22002FECDE /* GridRulerView.swift */,
+				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
 			);
 			path = Gifer;
@@ -317,6 +336,7 @@
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
+				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,

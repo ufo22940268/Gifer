@@ -213,7 +213,7 @@ class GridRulerView: UIView {
     var customConstraints: Constraints!
     var frameView: GridFrameView!
 
-    override func awakeFromNib() {
+    func setup() {
         backgroundColor = UIColor.black
         
         let findConstraint = {(identifier: String) -> NSLayoutConstraint in
