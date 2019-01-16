@@ -18,13 +18,10 @@ class RulerCornerView: UIView {
     private let size = CGFloat(40)
     
     enum Position: CaseIterable {
+        
         case leftTop, rightTop, leftBottom, rightBottom
 
         func setupLayout(child: UIView, parent: UIView) {
-//            let left = child.leftAnchor.constraint(equalTo: parent.leftAnchor)
-//            let top = child.topAnchor.constraint(equalTo: parent.topAnchor)
-//            let right = child.rightAnchor.constraint(equalTo: parent.rightAnchor)
-//            let bottom = child.bottomAnchor.constraint(equalTo: parent.bottomAnchor)
             switch self {
             case .leftTop:
                 NSLayoutConstraint.activate([
@@ -85,16 +82,53 @@ class RulerCornerView: UIView {
         func isValidTransition(_ point: CGPoint) -> Bool {
             return true
         }
+        
+        private func roundTranslation(_ value: CGFloat) -> CGFloat {
+            let v = Int(value*10000)
+            return CGFloat(v - v%2)/10000
+        }
+        
+        func adjustFrame(parentConstraints: GridRulerView.Constraints, translate: CGPoint) {
+            
+            let translate = CGPoint(x: roundTranslation(translate.x), y: roundTranslation(translate.y))
+            
+            parentConstraints.centerX.constant = parentConstraints.centerX.constant + translate.x/2
+            parentConstraints.centerY.constant = parentConstraints.centerY.constant + translate.y/2
+            var widthVector: CGFloat
+            var heightVector: CGFloat
+            switch self {
+            case .leftTop:
+                widthVector = -1
+                heightVector = -1
+            case .rightTop:
+                widthVector = 1
+                heightVector = -1
+            case .leftBottom:
+                widthVector = -1
+                heightVector = 1
+            case .rightBottom:
+                widthVector = 1
+                heightVector = 1
+            }
+         
+            print("direction: \(self) \(translate)")
+            parentConstraints.width.constant = parentConstraints.width.constant + widthVector*translate.x
+            parentConstraints.height.constant = parentConstraints.height.constant + heightVector*translate.y
+        }
     }
     
-    var position: Position!
     
-    init(position: Position) {
+    var position: Position!
+    var parentConstraints: GridRulerView.Constraints!
+    
+    init(position: Position, parentConstraints: GridRulerView.Constraints) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
         self.position = position
         backgroundColor = .clear
+        
+        self.parentConstraints = parentConstraints
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(_:))))
     }
@@ -103,7 +137,7 @@ class RulerCornerView: UIView {
     @objc func onPan(_ sender: UIPanGestureRecognizer) {
         let point = sender.translation(in: self)
         if position.isValidTransition(point) {
-            
+            position.adjustFrame(parentConstraints: parentConstraints, translate: point)
         }
         sender.setTranslation(CGPoint.zero, in: self)
     }
@@ -144,14 +178,31 @@ class GridFrameView: UIView {
 
 class GridRulerView: UIView {
     
+    struct Constraints {
+        var centerX: NSLayoutConstraint
+        var centerY: NSLayoutConstraint
+        var width: NSLayoutConstraint
+        var height: NSLayoutConstraint
+    }
+    
+    var customConstraints: Constraints!
+
     override func awakeFromNib() {
         backgroundColor = UIColor.black
+        
+        let findConstraint = {(identifier: String) -> NSLayoutConstraint in
+            return [self.constraints, self.superview!.constraints].flatMap { $0 }.first(where: { (constraint) -> Bool in
+                return constraint.identifier == identifier
+            })!
+        }
+        
+        customConstraints = Constraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
         
         let frameView = GridFrameView()
         addSubview(frameView)
         
         for position in RulerCornerView.Position.allCases {
-            let cornerView = RulerCornerView(position: position)
+            let cornerView = RulerCornerView(position: position, parentConstraints: customConstraints)
             addSubview(cornerView)
             cornerView.setupLayout()
             

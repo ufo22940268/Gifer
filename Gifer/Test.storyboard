@@ -18,17 +18,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zco-8E-rRI" customClass="GridRulerView" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="69" y="148" width="236" height="371"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zco-8E-rRI" customClass="GridRulerView" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="69.5" y="148" width="236" height="371"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="371" identifier="height" id="o9X-N0-yQf"/>
+                                    <constraint firstAttribute="width" constant="236" identifier="width" id="yqa-YM-JY7"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="Zco-8E-rRI" firstAttribute="centerY" secondItem="Gn0-EB-ZJN" secondAttribute="centerY" id="0A8-pI-0OS"/>
-                            <constraint firstItem="Zco-8E-rRI" firstAttribute="centerX" secondItem="Gn0-EB-ZJN" secondAttribute="centerX" id="fmY-Nb-JKX"/>
-                            <constraint firstItem="Zco-8E-rRI" firstAttribute="leading" secondItem="GMK-nZ-S5G" secondAttribute="leading" constant="69" id="hBg-8N-3vJ"/>
-                            <constraint firstItem="Zco-8E-rRI" firstAttribute="top" secondItem="GMK-nZ-S5G" secondAttribute="top" constant="128" id="rTf-JR-UfL"/>
+                            <constraint firstItem="Zco-8E-rRI" firstAttribute="centerY" secondItem="Gn0-EB-ZJN" secondAttribute="centerY" identifier="centerY" id="0A8-pI-0OS"/>
+                            <constraint firstItem="Zco-8E-rRI" firstAttribute="centerX" secondItem="Gn0-EB-ZJN" secondAttribute="centerX" identifier="centerX" id="fmY-Nb-JKX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GMK-nZ-S5G"/>
                     </view>
