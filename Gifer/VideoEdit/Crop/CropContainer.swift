@@ -55,7 +55,11 @@ class CropContainer: UIScrollView {
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
     }
-        
+    
+    
+//    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+//        return scrollView
+//    }
 }
 
 extension CropContainer: UIScrollViewDelegate {

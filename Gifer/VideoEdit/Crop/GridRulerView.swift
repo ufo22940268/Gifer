@@ -273,4 +273,20 @@ class GridRulerView: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let touchEdgeWidth = CGFloat(24)
+        let size = bounds.size
+        let edges = [
+            CGRect(origin: CGPoint.zero, size: CGSize(width: size.width, height: touchEdgeWidth)),
+            CGRect(origin: CGPoint.zero, size: CGSize(width: touchEdgeWidth, height: size.height)),
+            CGRect(origin: CGPoint(x: 0, y: size.height - touchEdgeWidth), size: CGSize(width: size.width, height: touchEdgeWidth)),
+            CGRect(origin: CGPoint(x: size.width - touchEdgeWidth, y: 0), size: CGSize(width: touchEdgeWidth, height: size.height))
+        ]
+        
+        let hit = edges.contains { (rect) -> Bool in
+            rect.contains(point)
+        }
+        
+        return hit ? super.hitTest(point, with: event) : nil
+    }
 }
