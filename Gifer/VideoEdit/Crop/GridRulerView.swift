@@ -240,7 +240,8 @@ class GridRulerView: UIView {
         return hit ? super.hitTest(point, with: event) : nil
     }
     
-    private func makeAspectFit(_ inner: CGRect, in outer: CGRect) -> CGRect {
+    func makeAspectFit(in outer: CGRect) -> CGRect {
+        let inner = self.bounds
         var newSize:CGSize
         if inner.size.width/inner.size.height > outer.size.width/outer.size.height {
             let r = outer.size.width/inner.size.width
@@ -254,7 +255,7 @@ class GridRulerView: UIView {
     }
     
     func restoreFrame(in containerBounds: CGRect) {
-        let rect = makeAspectFit(self.bounds, in: containerBounds)
+        let rect = makeAspectFit(in: containerBounds)
         customConstraints.width.constant = rect.width - containerBounds.width
         customConstraints.height.constant = rect.height - containerBounds.height
         customConstraints.centerX.constant = 0
