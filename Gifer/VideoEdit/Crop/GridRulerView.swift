@@ -76,6 +76,10 @@ class GridFrameView: UIView {
     }
 }
 
+protocol GridRulerViewDelegate: class {
+    func onDragFinished()
+}
+
 class GridRulerView: UIView {
     
     struct Constraints {
@@ -87,6 +91,7 @@ class GridRulerView: UIView {
     
     var customConstraints: Constraints!
     var frameView: GridFrameView!
+    weak var delegate: GridRulerViewDelegate?
 
     func setup() {
         
@@ -139,28 +144,15 @@ class GridRulerView: UIView {
             frameView.showGrid = true
         } else if sender.state == .ended {
             frameView.showGrid = false
+            delegate?.onDragFinished()
+        } else {
+            let point = sender.translation(in: self)
+            let position = controller.controllerPosition
+            position.adjustFrame(parentConstraints: customConstraints, translate: point)
         }
-        
-        let point = sender.translation(in: self)
-        let position = controller.controllerPosition
-        position.adjustFrame(parentConstraints: customConstraints, translate: point)
         sender.setTranslation(CGPoint.zero, in: self)
     }
     
-//    @objc func onEdgePan(_ sender: UIPanGestureRecognizer) {
-//        guard let edgeView = sender.view as? GridRulerEdgeView else { return return }
-//
-//        if sender.state == .began {
-//            frameView.showGrid = true
-//        } else if sender.state == .ended {
-//            frameView.showGrid = false
-//        }
-//
-//        let point = sender.translation(in: self)
-//        let position = edgeView.position!
-//        position.adjustFrame(parentConstraint: customConstraints, translate: point)
-//    }
-
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let touchEdgeWidth = CGFloat(24)
         let size = bounds.size
@@ -176,5 +168,26 @@ class GridRulerView: UIView {
         }
         
         return hit ? super.hitTest(point, with: event) : nil
+    }
+    
+    private func makeAspectFit(_ inner: CGRect, in outer: CGRect) -> CGRect {
+        var newSize:CGSize
+        if inner.size.width/inner.size.height > outer.size.width/outer.size.height {
+            let r = outer.size.width/inner.size.width
+            newSize = inner.size.applying(CGAffineTransform(scaleX: r, y: r))
+            return CGRect(origin: CGPoint(x: 0, y: (outer.size.height - newSize.height)/2), size: newSize)
+        } else {
+            let r = outer.size.height/inner.size.height
+            newSize = inner.size.applying(CGAffineTransform(scaleX: r, y: r))
+            return CGRect(origin: CGPoint(x: (outer.size.width - newSize.width)/2, y: 0), size: newSize)
+        }
+    }
+    
+    func restoreFrame(in containerBounds: CGRect) {
+        let rect = makeAspectFit(self.bounds, in: containerBounds)
+        customConstraints.width.constant = rect.width - containerBounds.width
+        customConstraints.height.constant = rect.height - containerBounds.height
+        customConstraints.centerX.constant = 0
+        customConstraints.centerY.constant = 0
     }
 }

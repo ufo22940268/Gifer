@@ -54,6 +54,18 @@ class CropContainer: UIScrollView {
         height.identifier = "height"
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
+        gridRulerView.delegate = self
+    }
+}
+
+extension CropContainer: GridRulerViewDelegate {
+    
+    func onDragFinished() {
+        print("onDragFinished")
+        UIView.animate(withDuration: 0.3) {
+            self.gridRulerView.restoreFrame(in: self.bounds)
+            self.layoutIfNeeded()
+        }
     }
 }
 
