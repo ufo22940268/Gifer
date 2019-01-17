@@ -219,7 +219,8 @@ class GridRulerView: UIView {
     
     func isGuideLayoutValid() -> Bool {
         let guideFrame = guideLayout.layoutFrame
-        return almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame)
+        let minimunSize = CGFloat(90)
+        return almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame) && guideFrame.width > minimunSize && guideFrame.height > minimunSize
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
