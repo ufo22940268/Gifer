@@ -87,9 +87,49 @@ class GridRulerView: UIView {
         var centerY: NSLayoutConstraint
         var width: NSLayoutConstraint
         var height: NSLayoutConstraint
+        
+        var centerXSnapshot: CGFloat = 0
+        var centerYSnapshot: CGFloat = 0
+        var widthSnapshot: CGFloat = 0
+        var heightSnapshot: CGFloat = 0
+        
+        init(centerX: NSLayoutConstraint, centerY: NSLayoutConstraint, width: NSLayoutConstraint, height: NSLayoutConstraint) {
+            self.centerX = centerX
+            self.centerY = centerY
+            self.width = width
+            self.height = height
+        }
+        
+        mutating func snapshot() {
+            centerXSnapshot = centerX.constant
+            centerYSnapshot = centerY.constant
+            widthSnapshot = width.constant
+            heightSnapshot = height.constant
+        }
+        
+        mutating func rollback() {
+            centerX.constant = centerXSnapshot
+            centerY.constant = centerYSnapshot
+            width.constant = widthSnapshot
+            height.constant = heightSnapshot
+        }
+        
+        mutating func copy(from constraints: Constraints) {
+            centerX.constant = constraints.centerX.constant
+            centerY.constant = constraints.centerY.constant
+            width.constant = constraints.width.constant
+            height.constant = constraints.height.constant
+        }
+        
+        func activeAll() {
+            NSLayoutConstraint.activate([centerX, centerY, width, height])
+        }
     }
     
     var customConstraints: Constraints!
+    var guideConstraints: Constraints!
+    var guideLayout: UILayoutGuide!
+    
     var frameView: GridFrameView!
     weak var delegate: GridRulerViewDelegate?
 
@@ -102,6 +142,7 @@ class GridRulerView: UIView {
         }
         
         customConstraints = Constraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
+        buildGuideConstraints()
         
         frameView = GridFrameView()
         addSubview(frameView)
@@ -135,6 +176,16 @@ class GridRulerView: UIView {
         }
     }
     
+    func buildGuideConstraints() {
+        guard let superview = superview else { fatalError() }
+        let guide = UILayoutGuide()
+        superview.addLayoutGuide(guide)
+        let constraints = Constraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor), centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor), width: guide.widthAnchor.constraint(equalTo: superview.widthAnchor), height: guide.heightAnchor.constraint(equalTo: superview.heightAnchor))
+        constraints.activeAll()
+        guideConstraints = constraints
+        guideLayout = guide
+    }
+    
     @objc func onPan(_ sender: UIPanGestureRecognizer) {
         guard let controller = sender.view as? GridRulerConstroller else {
             return
@@ -142,15 +193,33 @@ class GridRulerView: UIView {
         
         if sender.state == .began {
             frameView.showGrid = true
+            guideConstraints.copy(from: customConstraints)
         } else if sender.state == .ended {
             frameView.showGrid = false
             delegate?.onDragFinished()
         } else {
             let point = sender.translation(in: self)
             let position = controller.controllerPosition
-            position.adjustFrame(parentConstraints: customConstraints, translate: point)
+            guideConstraints.snapshot()
+            position.adjustFrame(parentConstraints: guideConstraints, translate: point)
+            if isGuideLayoutValid() {
+                position.adjustFrame(parentConstraints: customConstraints, translate: point)
+            } else {
+                guideConstraints.rollback()
+            }
         }
         sender.setTranslation(CGPoint.zero, in: self)
+    }
+    
+    private func almostTheSame(_ rect1: CGRect, _ rect2: CGRect) -> Bool {
+        let tolleratableDiffer = CGFloat(0.5)
+        return (abs(rect1.origin.x - rect2.origin.x) < tolleratableDiffer && abs(rect1.origin.y - rect2.origin.y) < tolleratableDiffer && abs(rect1.width - rect2.width) < tolleratableDiffer && abs(rect1.height - rect2.height) < tolleratableDiffer)
+
+    }
+    
+    func isGuideLayoutValid() -> Bool {
+        let guideFrame = guideLayout.layoutFrame
+        return almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame)
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

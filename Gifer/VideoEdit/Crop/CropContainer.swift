@@ -61,7 +61,6 @@ class CropContainer: UIScrollView {
 extension CropContainer: GridRulerViewDelegate {
     
     func onDragFinished() {
-        print("onDragFinished")
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.restoreFrame(in: self.bounds)
             self.layoutIfNeeded()
