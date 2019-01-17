@@ -46,7 +46,27 @@ enum GridRulerEdgePosition: CaseIterable, GridRulerControllerPosition {
     }
     
     func adjustFrame(parentConstraints: GridRulerView.Constraints, translate: CGPoint) {
+        parentConstraints.centerX.constant = parentConstraints.centerX.constant + translate.x/2
+        parentConstraints.centerY.constant = parentConstraints.centerY.constant + translate.y/2
+        var widthVector: CGFloat
+        var heightVector: CGFloat
+        switch self {
+        case .left:
+            widthVector = -1
+            heightVector = 0
+        case .top:
+            widthVector = 0
+            heightVector = -1
+        case .right:
+            widthVector = 1
+            heightVector = 0
+        case .bottom:
+            widthVector = 0
+            heightVector = 1
+        }
         
+        parentConstraints.width.constant = parentConstraints.width.constant + widthVector*translate.x
+        parentConstraints.height.constant = parentConstraints.height.constant + heightVector*translate.y
     }
 }
 
@@ -70,7 +90,6 @@ class GridRulerEdgeView: UIView, GridRulerConstroller {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.position = position
-        backgroundColor = UIColor.yellow
     }
     
     required init?(coder aDecoder: NSCoder) {
