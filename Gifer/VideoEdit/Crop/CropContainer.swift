@@ -27,7 +27,7 @@ class CropContainer: UIScrollView {
             scrollView.heightAnchor.constraint(equalTo: heightAnchor)])
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.5
-        scrollView.maximumZoomScale = 10
+        scrollView.maximumZoomScale = 2
 
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +42,7 @@ class CropContainer: UIScrollView {
             imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)])
         contentView = imageView
 
-        gridRulerView = GridRulerView()
+        gridRulerView = GridRulerView(scrollView: scrollView)
         addSubview(gridRulerView)
         gridRulerView.translatesAutoresizingMaskIntoConstraints = false
         let centerX = gridRulerView.centerXAnchor.constraint(equalTo: centerXAnchor)
@@ -63,7 +63,6 @@ extension CropContainer: GridRulerViewDelegate {
     
     func onDragFinished() {
         let toRect = gridRulerView.convert(gridRulerView.bounds, to: contentView)
-        print(toRect)
         scrollView.zoom(to: toRect, animated: true)
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.restoreFrame(in: self.bounds)
