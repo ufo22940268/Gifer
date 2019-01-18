@@ -61,6 +61,46 @@ class CropContainer: UIScrollView {
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
         gridRulerView.delegate = self
+        
+        setupCover()
+    }
+    
+    func setupCover() {
+        let left = GridRulerCoverView()
+        addSubview(left)
+        NSLayoutConstraint.activate([
+            left.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            left.trailingAnchor.constraint(equalTo: gridRulerView.leadingAnchor),
+            left.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            left.bottomAnchor.constraint(equalTo: gridRulerView.bottomAnchor)
+            ])
+        
+        let top = GridRulerCoverView()
+        addSubview(top)
+        NSLayoutConstraint.activate([
+            top.leadingAnchor.constraint(equalTo: gridRulerView.leadingAnchor),
+            top.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            top.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            top.bottomAnchor.constraint(equalTo: gridRulerView.topAnchor)
+            ])
+        
+        let right = GridRulerCoverView()
+        addSubview(right)
+        NSLayoutConstraint.activate([
+            right.leadingAnchor.constraint(equalTo: gridRulerView.trailingAnchor),
+            right.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            right.topAnchor.constraint(equalTo: gridRulerView.topAnchor),
+            right.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            ])
+        
+        let bottom = GridRulerCoverView()
+        addSubview(bottom)
+        NSLayoutConstraint.activate([
+            bottom.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            bottom.trailingAnchor.constraint(equalTo: gridRulerView.trailingAnchor),
+            bottom.topAnchor.constraint(equalTo: gridRulerView.bottomAnchor),
+            bottom.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+                ])
     }
 }
 
