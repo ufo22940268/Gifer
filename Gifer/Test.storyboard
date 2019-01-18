@@ -21,12 +21,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4SK-Lv-kFl" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="67" y="148" width="241" height="371"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="371" id="nR4-Gf-ChV"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="4SK-Lv-kFl" firstAttribute="centerY" secondItem="Gn0-EB-ZJN" secondAttribute="centerY" id="571-CF-wIn"/>
-                            <constraint firstItem="4SK-Lv-kFl" firstAttribute="top" secondItem="GMK-nZ-S5G" secondAttribute="top" constant="128" id="EjD-jf-Pwj"/>
                             <constraint firstItem="4SK-Lv-kFl" firstAttribute="leading" secondItem="GMK-nZ-S5G" secondAttribute="leading" constant="67" id="dka-3B-VbL"/>
                             <constraint firstItem="4SK-Lv-kFl" firstAttribute="centerX" secondItem="Gn0-EB-ZJN" secondAttribute="centerX" id="h4Y-tx-H9c"/>
                         </constraints>

@@ -234,8 +234,12 @@ class GridRulerView: UIView {
         
         var zoomScale = scrollView.zoomScale
         zoomScale = zoomScale*max(bounds.width/guideFrame.width, bounds.height/guideFrame.height)
-        return almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame)
-            && guideFrame.width > minimunSize && guideFrame.height > minimunSize
+        
+        let insideContainer = almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame)
+        let largeEnough = guideFrame.width > minimunSize && guideFrame.height > minimunSize
+        let valid = insideContainer && largeEnough
+        print("valid: \(valid)")
+        return valid
 //            && zoomScale < scrollView.maximumZoomScale
     }
     

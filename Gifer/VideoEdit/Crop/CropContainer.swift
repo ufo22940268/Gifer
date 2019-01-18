@@ -33,13 +33,18 @@ class CropContainer: UIScrollView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         scrollView.addSubview(imageView)
-        imageView.image = #imageLiteral(resourceName: "IMG_3415.JPG")
+        scrollView.layoutIfNeeded()
+        let image = UIGraphicsImageRenderer(size: scrollView.frame.size).image { (context) in
+            #imageLiteral(resourceName: "IMG_3415.JPG").draw(centerIn: CGRect(origin: CGPoint.zero, size: scrollView.frame.size))            
+        }
+        imageView.image = image
         imageView.contentMode = .center
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)])
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            ])
         contentView = imageView
 
         gridRulerView = GridRulerView(scrollView: scrollView)
