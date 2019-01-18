@@ -26,7 +26,7 @@ class CropContainer: UIScrollView {
             scrollView.widthAnchor.constraint(equalTo: widthAnchor),
             scrollView.heightAnchor.constraint(equalTo: heightAnchor)])
         scrollView.delegate = self
-        scrollView.minimumZoomScale = 0.5
+        scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 2
 
         let imageView = UIImageView()
@@ -63,6 +63,7 @@ extension CropContainer: GridRulerViewDelegate {
     
     func onDragFinished() {
         let toRect = gridRulerView.convert(gridRulerView.bounds, to: contentView)
+        print("toRect: \(toRect)")
         scrollView.zoom(to: toRect, animated: true)
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.restoreFrame(in: self.bounds)
