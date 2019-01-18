@@ -45,7 +45,7 @@ enum GridRulerEdgePosition: CaseIterable, GridRulerControllerPosition {
         }
     }
     
-    func adjustFrame(parentConstraints: GridRulerView.Constraints, translate: CGPoint) {
+    func adjustFrame(parentConstraints: CommonConstraints, translate: CGPoint) {
         parentConstraints.centerX.constant = parentConstraints.centerX.constant + translate.x/2
         parentConstraints.centerY.constant = parentConstraints.centerY.constant + translate.y/2
         var widthVector: CGFloat
@@ -71,7 +71,7 @@ enum GridRulerEdgePosition: CaseIterable, GridRulerControllerPosition {
 }
 
 protocol GridRulerControllerPosition {
-    func adjustFrame(parentConstraints: GridRulerView.Constraints, translate: CGPoint)
+    func adjustFrame(parentConstraints: CommonConstraints, translate: CGPoint)
 }
 
 protocol GridRulerConstroller {

@@ -80,7 +80,7 @@ enum GridRulerCornerPosition: CaseIterable, GridRulerControllerPosition {
         return CGFloat(v - v%2)/10000
     }
     
-    func adjustFrame(parentConstraints: GridRulerView.Constraints, translate: CGPoint) {
+    func adjustFrame(parentConstraints: CommonConstraints, translate: CGPoint) {
         
         let translate = CGPoint(x: roundTranslation(translate.x), y: roundTranslation(translate.y))
         
@@ -115,8 +115,8 @@ class GridRulerCornerView: UIView, GridRulerConstroller {
     }
     
     var position: GridRulerCornerPosition!
-    var parentConstraints: GridRulerView.Constraints!
-    init(position: GridRulerCornerPosition, parentConstraints: GridRulerView.Constraints) {
+    var parentConstraints: CommonConstraints!
+    init(position: GridRulerCornerPosition, parentConstraints: CommonConstraints) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true

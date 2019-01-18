@@ -68,10 +68,12 @@ extension CropContainer: GridRulerViewDelegate {
     
     func onDragFinished() {
         let toRect = gridRulerView.convert(gridRulerView.bounds, to: contentView)
-        print("toRect: \(toRect)")
         scrollView.zoom(to: toRect, animated: true)
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.restoreFrame(in: self.bounds)
+            let restoreToRect = self.gridRulerView.makeAspectFit(in: self.bounds)
+            self.scrollView.contentInset = restoreToRect.getEdgeInsets(withContainer: self.bounds)
+            
             self.layoutIfNeeded()
         }
     }
@@ -81,5 +83,11 @@ extension CropContainer: UIScrollViewDelegate {
  
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return contentView
+    }
+}
+
+extension CGRect {
+    func getEdgeInsets(withContainer container: CGRect) -> UIEdgeInsets {
+        return UIEdgeInsets(top: minY, left: minX, bottom: container.maxY - maxY, right: container.maxX - maxX)
     }
 }

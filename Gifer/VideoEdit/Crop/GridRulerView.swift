@@ -82,50 +82,6 @@ protocol GridRulerViewDelegate: class {
 
 class GridRulerView: UIView {
     
-    struct Constraints {
-        var centerX: NSLayoutConstraint
-        var centerY: NSLayoutConstraint
-        var width: NSLayoutConstraint
-        var height: NSLayoutConstraint
-        
-        var centerXSnapshot: CGFloat = 0
-        var centerYSnapshot: CGFloat = 0
-        var widthSnapshot: CGFloat = 0
-        var heightSnapshot: CGFloat = 0
-        
-        init(centerX: NSLayoutConstraint, centerY: NSLayoutConstraint, width: NSLayoutConstraint, height: NSLayoutConstraint) {
-            self.centerX = centerX
-            self.centerY = centerY
-            self.width = width
-            self.height = height
-        }
-        
-        mutating func snapshot() {
-            centerXSnapshot = centerX.constant
-            centerYSnapshot = centerY.constant
-            widthSnapshot = width.constant
-            heightSnapshot = height.constant
-        }
-        
-        mutating func rollback() {
-            centerX.constant = centerXSnapshot
-            centerY.constant = centerYSnapshot
-            width.constant = widthSnapshot
-            height.constant = heightSnapshot
-        }
-        
-        mutating func copy(from constraints: Constraints) {
-            centerX.constant = constraints.centerX.constant
-            centerY.constant = constraints.centerY.constant
-            width.constant = constraints.width.constant
-            height.constant = constraints.height.constant
-        }
-        
-        func activeAll() {
-            NSLayoutConstraint.activate([centerX, centerY, width, height])
-        }
-    }
-    
     var scrollView: UIScrollView!
     
     init(scrollView: UIScrollView) {
@@ -137,8 +93,8 @@ class GridRulerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var customConstraints: Constraints!
-    var guideConstraints: Constraints!
+    var customConstraints: CommonConstraints!
+    var guideConstraints: CommonConstraints!
     var guideLayout: UILayoutGuide!
     
     var frameView: GridFrameView!
@@ -152,7 +108,7 @@ class GridRulerView: UIView {
             })!
         }
         
-        customConstraints = Constraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
+        customConstraints = CommonConstraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
         buildGuideConstraints()
         
         frameView = GridFrameView()
@@ -191,7 +147,7 @@ class GridRulerView: UIView {
         guard let superview = superview else { fatalError() }
         let guide = UILayoutGuide()
         superview.addLayoutGuide(guide)
-        let constraints = Constraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor), centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor), width: guide.widthAnchor.constraint(equalTo: superview.widthAnchor), height: guide.heightAnchor.constraint(equalTo: superview.heightAnchor))
+        let constraints = CommonConstraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor), centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor), width: guide.widthAnchor.constraint(equalTo: superview.widthAnchor), height: guide.heightAnchor.constraint(equalTo: superview.heightAnchor))
         constraints.activeAll()
         guideConstraints = constraints
         guideLayout = guide
@@ -238,7 +194,6 @@ class GridRulerView: UIView {
         let insideContainer = almostTheSame(guideFrame.intersection(superview!.bounds), guideFrame)
         let largeEnough = guideFrame.width > minimunSize && guideFrame.height > minimunSize
         let valid = insideContainer && largeEnough
-        print("valid: \(valid)")
         return valid
 //            && zoomScale < scrollView.maximumZoomScale
     }
