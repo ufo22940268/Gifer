@@ -16,6 +16,8 @@ class GridRulerCoverView: UIView {
         backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
     
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
