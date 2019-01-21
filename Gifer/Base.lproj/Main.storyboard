@@ -66,32 +66,31 @@
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container">
-                                                <rect key="frame" x="0.0" y="72" width="375" height="583.66666666666663"/>
+                                                <rect key="frame" x="0.0" y="72" width="375" height="584"/>
                                                 <subviews>
-                                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTk-3P-78Y">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="583.66666666666663"/>
-                                                        <connections>
-                                                            <segue destination="cMm-0R-3ut" kind="embed" identifier="emberVideo" id="51b-ri-9Bf"/>
-                                                        </connections>
-                                                    </containerView>
-                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="584"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
                                                         <rect key="frame" x="169" y="271" width="37" height="37"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="rTk-3P-78Y" firstAttribute="trailing" secondItem="FsJ-7O-eCM" secondAttribute="trailing" id="D6N-q5-Jxr"/>
-                                                    <constraint firstItem="rTk-3P-78Y" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="PqQ-WP-Reo"/>
-                                                    <constraint firstItem="rTk-3P-78Y" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="aG2-5x-gYv"/>
-                                                    <constraint firstAttribute="bottom" secondItem="rTk-3P-78Y" secondAttribute="bottom" id="pUb-ib-vcS"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="0MD-lv-Yok"/>
+                                                    <constraint firstAttribute="bottom" secondItem="doM-YV-IAQ" secondAttribute="bottom" id="Hsk-bU-kKl"/>
+                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" constant="271" id="M5y-mz-Scq"/>
+                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="doM-YV-IAQ" secondAttribute="centerX" id="ObG-H3-0vx"/>
+                                                    <constraint firstAttribute="trailing" secondItem="doM-YV-IAQ" secondAttribute="trailing" id="Sen-ZM-r98"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="txr-dm-W7s"/>
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu">
-                                                <rect key="frame" x="0.0" y="655.66666666666663" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="656" width="375" height="0.0"/>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
                                             </view>
                                             <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
-                                                <rect key="frame" x="0.0" y="655.66666666666663" width="375" height="34.333333333333371"/>
+                                                <rect key="frame" x="0.0" y="656" width="375" height="34"/>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
                                                 <items>
                                                     <barButtonItem systemItem="cancel" id="nuO-Xq-arh">
@@ -145,11 +144,11 @@
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT"/>
                     <connections>
                         <outlet property="controlToolbar" destination="dTn-58-Uxg" id="4Lm-3p-0TM"/>
+                        <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
                         <outlet property="optionMenu" destination="f3C-v6-RYP" id="5US-6W-WfL"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
                         <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
-                        <outlet property="videoContainer" destination="rTk-3P-78Y" id="JBK-cy-MD1"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
                     </connections>
@@ -161,12 +160,12 @@
         <!--AV Player View Controller-->
         <scene sceneID="Wqv-k4-dLb">
             <objects>
-                <avPlayerViewController showsPlaybackControls="NO" videoGravity="AVLayerVideoGravityResizeAspect" id="cMm-0R-3ut" customClass="VideoViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <avPlayerViewController storyboardIdentifier="videoViewController" showsPlaybackControls="NO" videoGravity="AVLayerVideoGravityResizeAspect" id="cMm-0R-3ut" customClass="VideoViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="1fN-ZB-oRY"/>
                 </avPlayerViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2L2-6N-yLx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1610" y="-889.00000000000011"/>
+            <point key="canvasLocation" x="1649" y="-845"/>
         </scene>
         <!--Gallery-->
         <scene sceneID="UpH-Xu-b0G">

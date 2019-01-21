@@ -61,7 +61,7 @@ class EditViewController: UIViewController {
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
     
-    @IBOutlet weak var videoContainer: UIView!
+    var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
     @IBOutlet weak var optionMenu: UIView!
@@ -73,6 +73,7 @@ class EditViewController: UIViewController {
     var playItemState: ToolbarItemStyle.State = .normal
     var playSpeedView: PlaySpeedView!
 
+    @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
     override func loadView() {
         super.loadView()
@@ -86,9 +87,30 @@ class EditViewController: UIViewController {
         if isDebug {
             videoAsset = getTestVideo()
         }
+        setupVideoContainer()
         loadVideo()
         setupOptionMenu()
         setupControlToolbar()
+    }
+    
+    func setupVideoContainer() {
+        videoContainer = UIView()
+        videoContainer.translatesAutoresizingMaskIntoConstraints = false
+        cropContainer.addContentView(videoContainer)
+        
+        videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
+        addChild(videoVC)
+        videoContainer.addSubview(videoVC.view)
+        videoVC.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            videoVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),
+            videoVC.view.topAnchor.constraint(equalTo: videoContainer.topAnchor),
+            videoVC.view.trailingAnchor.constraint(equalTo: videoContainer.trailingAnchor),
+            videoVC.view.bottomAnchor.constraint(equalTo: videoContainer.bottomAnchor),
+            videoVC.view.widthAnchor.constraint(equalTo: cropContainer.widthAnchor),
+            videoVC.view.heightAnchor.constraint(equalTo: cropContainer.heightAnchor)
+            ])
+        videoVC.didMove(toParent: self)
     }
     
     var isDebug: Bool {
@@ -118,6 +140,8 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func loadVideo() {
+        videoVC.showLoading(true)
+        
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
@@ -227,7 +251,11 @@ class EditViewController: UIViewController {
     }
 }
 
-extension EditViewController: VideoViewControllerDelegate {    
+extension EditViewController: VideoViewControllerDelegate {
+    
+    func onVideoReady(controller: AVPlayerViewController) {
+        cropContainer.setupVideo(frame: controller.videoBounds)
+    }
     
     func onBuffering(_ inBuffering: Bool) {
         showLoadingWhenBuffering(inBuffering)

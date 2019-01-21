@@ -41,6 +41,8 @@ protocol VideoViewControllerDelegate: class {
     func onBuffering(_ inBuffering: Bool)
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus)
+    
+    func onVideoReady(controller: AVPlayerViewController)
 }
 
 class VideoViewController: AVPlayerViewController {
@@ -49,6 +51,7 @@ class VideoViewController: AVPlayerViewController {
     var trimPosition: VideoTrimPosition!
     var currentRate: Float = 1
     var dismissed: Bool = false
+    var videoInited: Bool = false
     
     override func viewDidLoad() {
         if let contentOverlayView = contentOverlayView {
@@ -61,7 +64,7 @@ class VideoViewController: AVPlayerViewController {
                 previewView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
                 previewView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
                 ])
-            previewView.backgroundColor = UIColor.black 
+            previewView.backgroundColor = UIColor.black                        
         }
     }
     
@@ -125,6 +128,11 @@ class VideoViewController: AVPlayerViewController {
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
         
+        if videoInited == false && currentItem.status == .readyToPlay {
+            setupWhenVideoIsReadyToPlay()
+            videoInited = true
+        }
+        
         if self.player!.timeControlStatus == .playing {
             self.videoViewControllerDelegate?.onProgressChanged(progress:
                 currentTime)
@@ -133,6 +141,12 @@ class VideoViewController: AVPlayerViewController {
         if currentItem.status == .readyToPlay {
             showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         }
+    }
+    
+    func setupWhenVideoIsReadyToPlay() {
+        showLoading(false)
+        
+        self.videoViewControllerDelegate?.onVideoReady(controller: self)
     }
     
     func showLoading(_ show: Bool) {

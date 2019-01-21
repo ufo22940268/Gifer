@@ -8,10 +8,10 @@
 
 import UIKit
 
-class CropContainer: UIScrollView {
+class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
-    var contentView: UIView!
+    @objc weak var contentView: UIView!
     var scrollView: UIScrollView!
     
     override func awakeFromNib() {
@@ -28,25 +28,7 @@ class CropContainer: UIScrollView {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 2
-
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        scrollView.addSubview(imageView)
-        scrollView.layoutIfNeeded()
-        let image = UIGraphicsImageRenderer(size: scrollView.frame.size).image { (context) in
-            #imageLiteral(resourceName: "IMG_3415.JPG").draw(centerIn: CGRect(origin: CGPoint.zero, size: scrollView.frame.size))            
-        }
-        imageView.image = image
-        imageView.contentMode = .center
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-            ])
-        contentView = imageView
-
+        
         gridRulerView = GridRulerView(scrollView: scrollView)
         addSubview(gridRulerView)
         gridRulerView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,15 +36,63 @@ class CropContainer: UIScrollView {
         centerX.identifier = "centerX"
         let centerY = gridRulerView.centerYAnchor.constraint(equalTo: centerYAnchor)
         centerY.identifier = "centerY"
-        let width = gridRulerView.widthAnchor.constraint(equalTo: widthAnchor)
+        let width = gridRulerView.widthAnchor.constraint(equalToConstant: 0)
+        width.priority = .defaultLow
         width.identifier = "width"
-        let height = gridRulerView.heightAnchor.constraint(equalTo: heightAnchor)
+        let height = gridRulerView.heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
         height.identifier = "height"
         NSLayoutConstraint.activate([centerX, centerY, width, height])
         gridRulerView.setup()
         gridRulerView.delegate = self
         
         setupCover()
+        
+        gridRulerView.isHidden = true
+    }
+    
+    func addContentView(_ contentView: UIView) {
+        self.contentView = contentView
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            ])
+    }
+    
+    func setupVideo(frame videoFrame: CGRect) {
+        gridRulerView.isHidden = false
+        
+        gridRulerView.customConstraints.width.constant = videoFrame.width
+        gridRulerView.customConstraints.height.constant = videoFrame.height
+        gridRulerView.subviews.forEach { (child) in
+            child.setNeedsDisplay()
+        }
+    }
+    
+    func createTestContentView() -> UIView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        scrollView.layoutIfNeeded()
+        let image = UIGraphicsImageRenderer(size: scrollView.frame.size).image { (context) in
+            #imageLiteral(resourceName: "IMG_3415.JPG").draw(centerIn: CGRect(origin: CGPoint.zero, size: scrollView.frame.size))
+        }
+        imageView.image = image
+        imageView.contentMode = .center
+        return imageView
+    }
+    
+    func setupContentView() {
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            ])
     }
     
     func setupCover() {
