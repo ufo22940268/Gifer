@@ -11,7 +11,7 @@ import UIKit
 let gridRulerStrokeColor: UIColor = UIColor.white
 let gridRulerFrameWidth = CGFloat(2)
 let gridRulerCornerStrokeWidth = CGFloat(4)
-let gridRulerTouchEdgeWidth = CGFloat(50)
+let gridRulerTouchEdgeWidth = CGFloat(20)
 
 class GridFrameDivider: UIView {
     
@@ -109,7 +109,6 @@ class GridRulerView: UIView {
         }
         
         customConstraints = CommonConstraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
-        buildGuideConstraints()
         
         frameView = GridFrameView()
         addSubview(frameView)
@@ -143,11 +142,14 @@ class GridRulerView: UIView {
         }
     }
     
-    func buildGuideConstraints() {
+    func buildGuideConstraints(videoFrame: CGRect) {
         guard let superview = superview else { fatalError() }
         let guide = UILayoutGuide()
         superview.addLayoutGuide(guide)
-        let constraints = CommonConstraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor), centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor), width: guide.widthAnchor.constraint(equalTo: superview.widthAnchor), height: guide.heightAnchor.constraint(equalTo: superview.heightAnchor))
+        let constraints = CommonConstraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+                                            centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+                                            width: guide.widthAnchor.constraint(equalToConstant: videoFrame.width),
+                                            height: guide.heightAnchor.constraint(equalToConstant: videoFrame.height))
         constraints.activeAll()
         guideConstraints = constraints
         guideLayout = guide
@@ -231,8 +233,8 @@ class GridRulerView: UIView {
     
     func restoreFrame(in containerBounds: CGRect) {
         let rect = makeAspectFit(in: containerBounds)
-        customConstraints.width.constant = rect.width - containerBounds.width
-        customConstraints.height.constant = rect.height - containerBounds.height
+        customConstraints.width.constant = rect.width
+        customConstraints.height.constant = rect.height
         customConstraints.centerX.constant = 0
         customConstraints.centerY.constant = 0
     }

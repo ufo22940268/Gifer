@@ -66,11 +66,14 @@ class CropContainer: UIView {
     func setupVideo(frame videoFrame: CGRect) {
         gridRulerView.isHidden = false
         
+        gridRulerView.buildGuideConstraints(videoFrame: videoFrame)
+        
         gridRulerView.customConstraints.width.constant = videoFrame.width
         gridRulerView.customConstraints.height.constant = videoFrame.height
         gridRulerView.subviews.forEach { (child) in
             child.setNeedsDisplay()
         }
+        gridRulerView.frameView.divider.setNeedsDisplay()
     }
     
     func createTestContentView() -> UIView {
