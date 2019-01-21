@@ -14,20 +14,29 @@ class CropContainer: UIView {
     @objc weak var contentView: UIView!
     var scrollView: UIScrollView!
     
+    var scrollViewWidthConstraint: NSLayoutConstraint!
+    var scrollViewHeightConstraint: NSLayoutConstraint!
+    
     override func awakeFromNib() {
-        clipsToBounds = true
-        
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
+        scrollViewWidthConstraint = scrollView.widthAnchor.constraint(equalToConstant: bounds.width)
+        scrollViewHeightConstraint = scrollView.heightAnchor.constraint(equalToConstant: bounds.height)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.widthAnchor.constraint(equalTo: widthAnchor),
-            scrollView.heightAnchor.constraint(equalTo: heightAnchor)])
+            scrollViewWidthConstraint,
+            scrollViewHeightConstraint
+            ])
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 2
+        
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            ])
         
         gridRulerView = GridRulerView(scrollView: scrollView)
         addSubview(gridRulerView)
@@ -66,16 +75,10 @@ class CropContainer: UIView {
     }
     
     func setupVideo(frame videoFrame: CGRect) {
-        gridRulerView.isHidden = false
-        
-        gridRulerView.buildGuideConstraints(videoFrame: videoFrame)
-        
-        gridRulerView.customConstraints.width.constant = videoFrame.width
-        gridRulerView.customConstraints.height.constant = videoFrame.height
-        gridRulerView.subviews.forEach { (child) in
-            child.setNeedsDisplay()
-        }
-        gridRulerView.frameView.divider.setNeedsDisplay()
+        gridRulerView.setupVideo(frame: videoFrame)
+                
+        scrollViewWidthConstraint.constant = videoFrame.width
+        scrollViewHeightConstraint.constant = videoFrame.height
     }
     
     func createTestContentView() -> UIView {

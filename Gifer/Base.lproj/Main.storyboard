@@ -65,7 +65,7 @@
                                                 </constraints>
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
-                                            <view contentMode="scaleToFill" horizontalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container">
+                                            <view contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container">
                                                 <rect key="frame" x="0.0" y="72" width="375" height="584"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
@@ -73,16 +73,17 @@
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="271" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="273.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="0MD-lv-Yok"/>
-                                                    <constraint firstAttribute="bottom" secondItem="doM-YV-IAQ" secondAttribute="bottom" id="Hsk-bU-kKl"/>
-                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" constant="271" id="M5y-mz-Scq"/>
-                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="doM-YV-IAQ" secondAttribute="centerX" id="ObG-H3-0vx"/>
-                                                    <constraint firstAttribute="trailing" secondItem="doM-YV-IAQ" secondAttribute="trailing" id="Sen-ZM-r98"/>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="txr-dm-W7s"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" identifier="height" id="FOf-kR-snz"/>
+                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="XLH-2P-TAG"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="hqR-xR-aPI"/>
+                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu">

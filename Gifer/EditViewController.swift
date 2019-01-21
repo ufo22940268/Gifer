@@ -254,6 +254,16 @@ class EditViewController: UIViewController {
 extension EditViewController: VideoViewControllerDelegate {
     
     func onVideoReady(controller: AVPlayerViewController) {
+        ["width", "height"].forEach { (id) in
+            cropContainer.superview!.constraints.filter({ (ns) -> Bool in
+                ns.identifier == id
+            }).forEach({ (ns) in
+                ns.isActive = false
+            })
+        }
+        
+        cropContainer.widthAnchor.constraint(equalToConstant: controller.videoBounds.width)
+        cropContainer.heightAnchor.constraint(equalToConstant: controller.videoBounds.height)
         cropContainer.setupVideo(frame: controller.videoBounds)
     }
     
