@@ -55,6 +55,8 @@ class GridFrameView: UIView {
 
     init() {
         super.init(frame: CGRect.zero)
+        backgroundColor = .clear
+        
         translatesAutoresizingMaskIntoConstraints = false
         layer.borderColor = gridRulerStrokeColor.cgColor
         layer.borderWidth = gridRulerFrameWidth
@@ -87,6 +89,7 @@ class GridRulerView: UIView {
     init(scrollView: UIScrollView) {
         super.init(frame: CGRect.zero)
         self.scrollView = scrollView
+        backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {

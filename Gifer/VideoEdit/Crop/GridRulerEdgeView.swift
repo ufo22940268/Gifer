@@ -89,6 +89,7 @@ class GridRulerEdgeView: UIView, GridRulerConstroller {
     init(position: GridRulerEdgePosition) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .clear
         self.position = position
     }
     
