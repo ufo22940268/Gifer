@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */; };
 		422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BC3B221F1B9F400948A32 /* CommonConstraints.swift */; };
 		422E0E2221CB616500192B37 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E0E2121CB616500192B37 /* Debug.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSection.swift; sourceTree = "<group>"; };
 		422BC3B221F1B9F400948A32 /* CommonConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstraints.swift; sourceTree = "<group>"; };
 		422E0E2121CB616500192B37 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
+				4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */,
+				4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4285BF9D21A8C34600913466 /* VideoControllerTrim.swift in Sources */,
