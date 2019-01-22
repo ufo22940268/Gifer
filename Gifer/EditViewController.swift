@@ -96,6 +96,7 @@ class EditViewController: UIViewController {
     func setupVideoContainer() {
         videoContainer = UIView()
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
+        cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
         
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
@@ -111,8 +112,6 @@ class EditViewController: UIViewController {
             videoVC.view.heightAnchor.constraint(equalTo: cropContainer.heightAnchor)
             ])
         videoVC.didMove(toParent: self)
-        
-        cropContainer.setupCover()
     }
     
     var isDebug: Bool {

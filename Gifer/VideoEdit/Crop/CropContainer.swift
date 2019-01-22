@@ -57,9 +57,6 @@ class CropContainer: UIView {
         gridRulerView.setup()
         gridRulerView.delegate = self
         
-//        setupCover()
-//        setupCover1()
-        
         bringSubviewToFront(gridRulerView)
         
         gridRulerView.isHidden = true
@@ -112,45 +109,48 @@ class CropContainer: UIView {
             return hitView
         } else {
             return scrollView
-        }        
+        }
     }
     
     func setupCover() {
-//         let left = GridRulerCoverView()
-//        addSubview(left)
-//        NSLayoutConstraint.activate([
-//            left.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            left.trailingAnchor.constraint(equalTo: gridRulerView.leadingAnchor, constant: gridRulerCornerStrokeWidth),
-//            left.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            left.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//            ])
+         let left = GridRulerCoverView()
+        addSubview(left)
+        let contentView = superview!
+        NSLayoutConstraint.activate([
+            left.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            left.trailingAnchor.constraint(equalTo: gridRulerView.leadingAnchor, constant: gridRulerCornerStrokeWidth),
+            left.topAnchor.constraint(equalTo: contentView.topAnchor),
+            left.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            ])
         
-//        let top = GridRulerCoverView()
-//        addSubview(top)
-//        NSLayoutConstraint.activate([
-//            top.leadingAnchor.constraint(equalTo: left.trailingAnchor),
-//            top.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            top.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            top.bottomAnchor.constraint(equalTo: gridRulerView.topAnchor, constant: gridRulerCornerStrokeWidth)
-//            ])
-//
-//        let right = GridRulerCoverView()
-//        addSubview(right)
-//        NSLayoutConstraint.activate([
-//            right.leadingAnchor.constraint(equalTo: gridRulerView.trailingAnchor, constant: -gridRulerCornerStrokeWidth),
-//            right.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            right.topAnchor.constraint(equalTo: top.bottomAnchor),
-//            right.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//            ])
-//
-//        let bottom = GridRulerCoverView()
-//        addSubview(bottom)
-//        NSLayoutConstraint.activate([
-//            bottom.leadingAnchor.constraint(equalTo: left.trailingAnchor),
-//            bottom.trailingAnchor.constraint(equalTo: right.leadingAnchor),
-//            bottom.topAnchor.constraint(equalTo: gridRulerView.bottomAnchor, constant: -gridRulerCornerStrokeWidth),
-//            bottom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//                ])
+        let top = GridRulerCoverView()
+        addSubview(top)
+        NSLayoutConstraint.activate([
+            top.leadingAnchor.constraint(equalTo: left.trailingAnchor),
+            top.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            top.topAnchor.constraint(equalTo: contentView.topAnchor),
+            top.bottomAnchor.constraint(equalTo: gridRulerView.topAnchor, constant: gridRulerCornerStrokeWidth)
+            ])
+
+        let right = GridRulerCoverView()
+        addSubview(right)
+        NSLayoutConstraint.activate([
+            right.leadingAnchor.constraint(equalTo: gridRulerView.trailingAnchor, constant: -gridRulerCornerStrokeWidth),
+            right.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            right.topAnchor.constraint(equalTo: top.bottomAnchor),
+            right.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            ])
+
+        let bottom = GridRulerCoverView()
+        addSubview(bottom)
+        NSLayoutConstraint.activate([
+            bottom.leadingAnchor.constraint(equalTo: left.trailingAnchor),
+            bottom.trailingAnchor.constraint(equalTo: right.leadingAnchor),
+            bottom.topAnchor.constraint(equalTo: gridRulerView.bottomAnchor, constant: -gridRulerCornerStrokeWidth),
+            bottom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+                ])
+        
+        bringSubviewToFront(gridRulerView)
     }
 }
 
