@@ -111,6 +111,8 @@ class EditViewController: UIViewController {
             videoVC.view.heightAnchor.constraint(equalTo: cropContainer.heightAnchor)
             ])
         videoVC.didMove(toParent: self)
+        
+        cropContainer.setupCover()
     }
     
     var isDebug: Bool {

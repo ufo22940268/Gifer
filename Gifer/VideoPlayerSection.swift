@@ -13,9 +13,9 @@ class VideoPlayerSection: UIView {
 
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let r = subviews.filter({ (view) -> Bool in
+        let cropContainer = subviews.filter({ (view) -> Bool in
             view is CropContainer
         }).first!
-        return r.subviews.first!
+        return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
     }
 }
