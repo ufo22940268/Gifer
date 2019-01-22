@@ -20,6 +20,8 @@ class CropContainer: UIView {
     override func awakeFromNib() {
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.clipsToBounds = false
+        scrollView.backgroundColor = UIColor.black
         addSubview(scrollView)
         scrollViewWidthConstraint = scrollView.widthAnchor.constraint(equalToConstant: bounds.width)
         scrollViewHeightConstraint = scrollView.heightAnchor.constraint(equalToConstant: bounds.height)
