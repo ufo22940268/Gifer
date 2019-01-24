@@ -226,7 +226,7 @@ class EditViewController: UIViewController {
         return .playSpeed
     }
     
-    @IBAction func onSpeedBarItemClicked(_ barItem: UIBarButtonItem) {
+    @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
         let type = getOptionType(barItem: barItem)
         UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
             switch type {
