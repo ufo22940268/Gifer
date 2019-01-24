@@ -64,14 +64,16 @@ class EditViewController: UIViewController {
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
-    @IBOutlet weak var optionMenu: UIView!
+    @IBOutlet weak var optionMenu: OptionMenu!
     @IBOutlet weak var controlToolbar: UIToolbar!
     @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var playItemState: ToolbarItemStyle.State = .normal
-    var playSpeedView: PlaySpeedView!
+    var playSpeedView: PlaySpeedView {
+        return optionMenu.playSpeedView
+    }
 
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
@@ -87,9 +89,9 @@ class EditViewController: UIViewController {
         if isDebug {
             videoAsset = getTestVideo()
         }
+        optionMenu.delegate = self
         setupVideoContainer()
         loadVideo()
-        setupOptionMenu()
         setupControlToolbar()
     }
     
@@ -125,21 +127,6 @@ class EditViewController: UIViewController {
         get {
             return videoAsset == nil
         }
-    }
-    
-    fileprivate func addPlaySpeedView() {
-        optionMenu.addSubview(playSpeedView)
-        NSLayoutConstraint.activate([
-            playSpeedView.leadingAnchor.constraint(equalTo: optionMenu.leadingAnchor),
-            playSpeedView.trailingAnchor.constraint(equalTo: optionMenu.trailingAnchor),
-            playSpeedView.topAnchor.constraint(equalTo: optionMenu.topAnchor),
-            playSpeedView.bottomAnchor.constraint(equalTo: optionMenu.bottomAnchor)])
-    }
-    
-    fileprivate func setupOptionMenu() {
-        playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as? PlaySpeedView
-        playSpeedView.delegate = self
-        self.addPlaySpeedView()
     }
     
     fileprivate func setupControlToolbar() {
@@ -312,7 +299,7 @@ extension EditViewController: VideoControllerDelegate {
     }
 }
 
-extension EditViewController: PlaySpeedViewDelegate {
+extension EditViewController: OptionMenuDelegate {
     func onRateChanged(_ rate: Float) {
         videoVC.setRate(rate)
     }

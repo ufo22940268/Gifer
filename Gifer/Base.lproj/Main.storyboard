@@ -39,7 +39,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RiW-qn-5H2" userLabel="Clip View">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RiW-qn-5H2">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <subviews>
                                     <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kUt-Bn-rUc">
@@ -86,7 +86,7 @@
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
-                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu">
+                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="656" width="375" height="0.0"/>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
                                             </view>
