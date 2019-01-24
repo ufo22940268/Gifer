@@ -13,7 +13,11 @@ protocol OptionMenuDelegate: PlaySpeedViewDelegate {
 }
 
 class OptionMenu: UIView {
-
+    
+    enum MenuType {
+        case playSpeed
+    }
+    
     weak var delegate: OptionMenuDelegate?
     var playSpeedView: PlaySpeedView!
     
@@ -21,16 +25,27 @@ class OptionMenu: UIView {
         setupPlaySpeedView()
     }
     
+    func attach(menuType: MenuType) {
+        subviews.forEach { (subview) in
+            subview.removeFromSuperview()
+        }
+        
+        let contentView: UIView!
+        switch menuType {
+        case .playSpeed:
+            playSpeedView.delegate = delegate
+            contentView = playSpeedView
+        }
+        
+        addSubview(contentView)
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)])
+    }
+    
     func setupPlaySpeedView() {
         playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
-        playSpeedView.delegate = delegate
-        
-        addSubview(playSpeedView)
-        NSLayoutConstraint.activate([
-            playSpeedView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            playSpeedView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            playSpeedView.topAnchor.constraint(equalTo: topAnchor),
-            playSpeedView.bottomAnchor.constraint(equalTo: bottomAnchor)])
     }
-
 }

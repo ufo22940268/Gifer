@@ -222,15 +222,25 @@ class EditViewController: UIViewController {
         videoVC.pause()
     }
     
+    private func getOptionType(barItem: UIBarButtonItem) -> OptionMenu.MenuType {
+        return .playSpeed
+    }
+    
     @IBAction func onSpeedBarItemClicked(_ barItem: UIBarButtonItem) {
+        let type = getOptionType(barItem: barItem)
         UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
-            if self.playItemState == .normal {
-                self.playItemState = .highlight
-            } else {
-                self.playItemState = .normal
+            switch type {
+            case .playSpeed:
+                if self.playItemState == .normal {
+                    self.playItemState = .highlight
+                } else {
+                    self.playItemState = .normal
+                }
+                self.optionMenu.attach(menuType: type)
+                self.playItemState.animateAdjuster(container: self.optionMenu)
+                self.predefinedToolbarItemStyle.setup(barItem, state: self.playItemState)
+                break
             }
-            self.playItemState.animateAdjuster(container: self.optionMenu)
-            self.predefinedToolbarItemStyle.setup(barItem, state: self.playItemState)
         }, completion: nil)
         
     }
