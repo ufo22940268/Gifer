@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */; };
 		42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5C21F95587005D2710 /* OptionMenu.swift */; };
+		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
 		422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BC3B221F1B9F400948A32 /* CommonConstraints.swift */; };
 		422E0E2221CB616500192B37 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E0E2121CB616500192B37 /* Debug.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSection.swift; sourceTree = "<group>"; };
 		42265B5C21F95587005D2710 /* OptionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenu.swift; sourceTree = "<group>"; };
+		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
 		422BC3B221F1B9F400948A32 /* CommonConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstraints.swift; sourceTree = "<group>"; };
 		422E0E2121CB616500192B37 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			children = (
 				42A1AFE521EF184100CF8018 /* Crop */,
 				42265B5C21F95587005D2710 /* OptionMenu.swift */,
+				42265B5E21F98F41005D2710 /* CropMenuView.swift */,
 			);
 			path = VideoEdit;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */,
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,
 				422E0E2221CB616500192B37 /* Debug.swift in Sources */,
+				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				42EE13D62195C22900724611 /* Gif.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
 			);

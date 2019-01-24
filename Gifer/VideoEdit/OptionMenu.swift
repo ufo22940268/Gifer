@@ -8,21 +8,23 @@
 
 import UIKit
 
-protocol OptionMenuDelegate: PlaySpeedViewDelegate {
+protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate {
     
 }
 
 class OptionMenu: UIView {
     
     enum MenuType {
-        case playSpeed
+        case playSpeed, crop
     }
     
     weak var delegate: OptionMenuDelegate?
     var playSpeedView: PlaySpeedView!
+    var cropMenuView: CropMenuView!
     
     override func awakeFromNib() {
         setupPlaySpeedView()
+        setupCropMenuView()
     }
     
     func attach(menuType: MenuType) {
@@ -35,6 +37,9 @@ class OptionMenu: UIView {
         case .playSpeed:
             playSpeedView.delegate = delegate
             contentView = playSpeedView
+        case .crop:
+            cropMenuView.delegate = delegate
+            contentView = cropMenuView
         }
         
         addSubview(contentView)
@@ -43,6 +48,10 @@ class OptionMenu: UIView {
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentView.topAnchor.constraint(equalTo: topAnchor),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)])
+    }
+    
+    func setupCropMenuView() {
+        cropMenuView = CropMenuView()
     }
     
     func setupPlaySpeedView() {

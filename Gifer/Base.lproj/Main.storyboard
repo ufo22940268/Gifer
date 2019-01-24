@@ -105,6 +105,12 @@
                                                             <action selector="onBarItemClicked:" destination="Dvh-Lh-bNF" id="kI6-zj-VXI"/>
                                                         </connections>
                                                     </barButtonItem>
+                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="bKx-Yb-4IN"/>
+                                                    <barButtonItem title="Item" image="crop-outline" id="MRj-yt-GXl" userLabel="Crop">
+                                                        <connections>
+                                                            <action selector="onBarItemClicked:" destination="Dvh-Lh-bNF" id="fP9-6w-rRY"/>
+                                                        </connections>
+                                                    </barButtonItem>
                                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
                                                     <barButtonItem systemItem="action" id="0Ye-w1-Lyn">
                                                         <connections>
@@ -210,6 +216,7 @@
     </scenes>
     <resources>
         <image name="clock-outline" width="20" height="20"/>
+        <image name="crop-outline" width="20" height="20"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.086274509803921567" green="0.090196078431372548" blue="0.094117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

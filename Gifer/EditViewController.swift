@@ -12,16 +12,11 @@ import AVFoundation
 import AVKit
 import Photos
 
-private enum ToolbarItemIndex: Int {
-    case speed = 2
-    
-}
-
 struct ToolbarItemStyle {
     enum State {
         case normal, highlight
 
-        func animateAdjuster(container: UIView) {
+        func updateOptionMenuContainer(container: UIView) {
             switch self {
             case .normal:
                 container.isHidden = true
@@ -56,6 +51,11 @@ struct ToolbarItemStyle {
     }
 }
 
+enum ToolbarItemIndex: Int, CaseIterable {
+    case playSpeed = 2
+    case crop = 4
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
@@ -71,12 +71,19 @@ class EditViewController: UIViewController {
     var loadingDialog: LoadingDialog?
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var playItemState: ToolbarItemStyle.State = .normal
+    var cropItemState: ToolbarItemStyle.State = .normal
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
     }
 
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
+    
+    var controlToolBarFuntionalItems: [UIBarButtonItem] {
+        let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
+        return controlToolbar.items!.enumerated().filter({t in validIndexes.contains(t.0)}).map({$0.1})
+    }
+    
     override func loadView() {
         super.loadView()
     }
@@ -100,10 +107,10 @@ class EditViewController: UIViewController {
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
+        
         let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
         containerWidth.identifier = "width"
         containerWidth.isActive = true
-        
         let containerHeight = videoContainer.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
         containerHeight.identifier = "height"
         containerHeight.isActive = true
@@ -130,8 +137,10 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func setupControlToolbar() {
-        let speedBarItem = toolbar.items![ToolbarItemIndex.speed.rawValue]
-        predefinedToolbarItemStyle.setup(speedBarItem, state: .normal)
+        for index in ToolbarItemIndex.allCases {
+            let barItem = controlToolbar.items![index.rawValue]
+            predefinedToolbarItemStyle.setup(barItem, state: .normal)
+        }
     }
     
     fileprivate func loadVideo() {
@@ -223,30 +232,43 @@ class EditViewController: UIViewController {
     }
     
     private func getOptionType(barItem: UIBarButtonItem) -> OptionMenu.MenuType {
+        let barItemIndex = controlToolbar.items!.firstIndex(of: barItem)!
+        switch barItemIndex {
+        case 2:
+            return .playSpeed
+        case 4:
+            return .crop
+        default:
+            fatalError()
+        }
         return .playSpeed
     }
     
     @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
+        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach {self.predefinedToolbarItemStyle.setup($0, state: .normal)}
         let type = getOptionType(barItem: barItem)
         UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
+            self.optionMenu.attach(menuType: type)
+            var barState: ToolbarItemStyle.State
             switch type {
             case .playSpeed:
-                if self.playItemState == .normal {
-                    self.playItemState = .highlight
-                } else {
-                    self.playItemState = .normal
-                }
-                self.optionMenu.attach(menuType: type)
-                self.playItemState.animateAdjuster(container: self.optionMenu)
-                self.predefinedToolbarItemStyle.setup(barItem, state: self.playItemState)
-                break
+                barState = self.playItemState
+            case .crop:
+                barState = self.cropItemState
             }
+            
+            if barState == .normal {
+                barState = .highlight
+            } else {
+                barState = .normal
+            }
+            barState.updateOptionMenuContainer(container: self.optionMenu)
+            self.predefinedToolbarItemStyle.setup(barItem, state: barState)
         }, completion: nil)
         
     }
     
     @IBAction func onCancel(_ sender: Any) {
-        kdebug_signpost_end(10, 0, 0, 0, 0)
         dismiss(animated: true, completion: nil)
     }
     
@@ -310,6 +332,11 @@ extension EditViewController: VideoControllerDelegate {
 }
 
 extension EditViewController: OptionMenuDelegate {
+    
+    func onResetCrop() {
+        
+    }
+    
     func onRateChanged(_ rate: Float) {
         videoVC.setRate(rate)
     }
