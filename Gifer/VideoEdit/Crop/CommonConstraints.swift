@@ -20,6 +20,13 @@ struct CommonConstraints {
     var widthSnapshot: CGFloat = 0
     var heightSnapshot: CGFloat = 0
     
+    init(child: UIView, parent: UIView) {
+        self.centerX = child.centerXAnchor.constraint(equalTo: parent.centerXAnchor)
+        self.centerY = child.centerYAnchor.constraint(equalTo: parent.centerYAnchor)
+        self.width = child.widthAnchor.constraint(equalTo: parent.widthAnchor)
+        self.height = child.heightAnchor.constraint(equalTo: parent.heightAnchor)
+    }
+    
     init(centerX: NSLayoutConstraint, centerY: NSLayoutConstraint, width: NSLayoutConstraint, height: NSLayoutConstraint) {
         self.centerX = centerX
         self.centerY = centerY

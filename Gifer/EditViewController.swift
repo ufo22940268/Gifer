@@ -98,7 +98,14 @@ class EditViewController: UIViewController {
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
+        let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+        containerWidth.identifier = "width"
+        containerWidth.isActive = true
         
+        let containerHeight = videoContainer.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
+        containerHeight.identifier = "height"
+        containerHeight.isActive = true
+
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
         videoContainer.addSubview(videoVC.view)
@@ -108,8 +115,8 @@ class EditViewController: UIViewController {
             videoVC.view.topAnchor.constraint(equalTo: videoContainer.topAnchor),
             videoVC.view.trailingAnchor.constraint(equalTo: videoContainer.trailingAnchor),
             videoVC.view.bottomAnchor.constraint(equalTo: videoContainer.bottomAnchor),
-            videoVC.view.widthAnchor.constraint(equalTo: cropContainer.widthAnchor),
-            videoVC.view.heightAnchor.constraint(equalTo: cropContainer.heightAnchor)
+            videoVC.view.widthAnchor.constraint(equalTo: videoContainer.widthAnchor),
+            videoVC.view.heightAnchor.constraint(equalTo: videoContainer.heightAnchor)
             ])
         videoVC.didMove(toParent: self)
     }
@@ -257,6 +264,12 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         ["width", "height"].forEach { (id) in
             cropContainer.superview!.constraints.filter({ (ns) -> Bool in
+                ns.identifier == id
+            }).forEach({ (ns) in
+                ns.isActive = false
+            })
+            
+            videoContainer.constraints.filter({ (ns) -> Bool in
                 ns.identifier == id
             }).forEach({ (ns) in
                 ns.isActive = false

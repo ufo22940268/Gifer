@@ -162,6 +162,7 @@ class GridRulerView: UIView {
         isHidden = false
         
         buildGuideConstraints(videoFrame: videoFrame)
+                
         
         customConstraints.width.constant = videoFrame.width
         customConstraints.height.constant = videoFrame.height
@@ -231,27 +232,5 @@ class GridRulerView: UIView {
         }
         
         return hit ? super.hitTest(point, with: event) : nil
-    }
-    
-    func makeAspectFit(in outer: CGRect) -> CGRect {
-        let inner = self.bounds
-        var newSize:CGSize
-        if inner.size.width/inner.size.height > outer.size.width/outer.size.height {
-            let r = outer.size.width/inner.size.width
-            newSize = inner.size.applying(CGAffineTransform(scaleX: r, y: r))
-            return CGRect(origin: CGPoint(x: 0, y: (outer.size.height - newSize.height)/2), size: newSize)
-        } else {
-            let r = outer.size.height/inner.size.height
-            newSize = inner.size.applying(CGAffineTransform(scaleX: r, y: r))
-            return CGRect(origin: CGPoint(x: (outer.size.width - newSize.width)/2, y: 0), size: newSize)
-        }
-    }
-    
-    func restoreFrame(in containerBounds: CGRect) {
-        let rect = makeAspectFit(in: containerBounds)
-        customConstraints.width.constant = rect.width
-        customConstraints.height.constant = rect.height
-        customConstraints.centerX.constant = 0
-        customConstraints.centerY.constant = 0
-    }
+    }    
 }
