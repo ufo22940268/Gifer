@@ -12,19 +12,20 @@ import AVFoundation
 import AVKit
 import Photos
 
-struct ToolbarItemStyle {
-    enum State {
-        case normal, highlight
-
-        func updateOptionMenuContainer(container: UIView) {
-            switch self {
-            case .normal:
-                container.isHidden = true
-            case .highlight:
-                container.isHidden = false
-            }
+enum ToolbarItemState {
+    case normal, highlight
+    
+    func updateOptionMenuContainer(container: UIView) {
+        switch self {
+        case .normal:
+            container.isHidden = true
+        case .highlight:
+            container.isHidden = false
         }
     }
+}
+
+struct ToolbarItemStyle {
     
     let highlightBackground: UIImage = #imageLiteral(resourceName: "bar-item-background.png")
     let highlightTint: UIColor = UIColor.black
@@ -39,7 +40,7 @@ struct ToolbarItemStyle {
         }
     }
     
-    func setup(_ barItem: UIBarButtonItem, state: State) {
+    func setup(_ barItem: UIBarButtonItem, state: ToolbarItemState) {
         switch state {
         case .normal:
             barItem.tintColor = self.normalTint
@@ -56,6 +57,12 @@ enum ToolbarItemIndex: Int, CaseIterable {
     case crop = 4
 }
 
+struct ToolbarItemInfo {
+    var index: ToolbarItemIndex
+    var state: ToolbarItemState
+    var barItem: UIBarButtonItem
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
@@ -69,12 +76,14 @@ class EditViewController: UIViewController {
     @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
+    
     var predefinedToolbarItemStyle = ToolbarItemStyle()
-    var playItemState: ToolbarItemStyle.State = .normal
-    var cropItemState: ToolbarItemStyle.State = .normal
+    var toolbarItemInfos = [ToolbarItemInfo]()
+    
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
     }
+    
 
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
@@ -82,6 +91,10 @@ class EditViewController: UIViewController {
     var controlToolBarFuntionalItems: [UIBarButtonItem] {
         let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
         return controlToolbar.items!.enumerated().filter({t in validIndexes.contains(t.0)}).map({$0.1})
+    }
+    
+    var controlToolbarFunctionalIndexes: [Int] {
+        return ToolbarItemIndex.allCases.map{$0.rawValue}
     }
     
     override func loadView() {
@@ -96,7 +109,6 @@ class EditViewController: UIViewController {
         if isDebug {
             videoAsset = getTestVideo()
         }
-        optionMenu.delegate = self
         setupVideoContainer()
         loadVideo()
         setupControlToolbar()
@@ -137,6 +149,12 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func setupControlToolbar() {
+        optionMenu.delegate = self
+        for (index, item) in controlToolbar.items!.enumerated().filter({controlToolbarFunctionalIndexes.contains($0.offset)}) {
+            let info = ToolbarItemInfo(index: ToolbarItemIndex(rawValue: index)!, state: .normal, barItem: item)
+            toolbarItemInfos.append(info)
+        }
+
         for index in ToolbarItemIndex.allCases {
             let barItem = controlToolbar.items![index.rawValue]
             predefinedToolbarItemStyle.setup(barItem, state: .normal)
@@ -234,9 +252,9 @@ class EditViewController: UIViewController {
     private func getOptionType(barItem: UIBarButtonItem) -> OptionMenu.MenuType {
         let barItemIndex = controlToolbar.items!.firstIndex(of: barItem)!
         switch barItemIndex {
-        case 2:
+        case ToolbarItemIndex.playSpeed.rawValue:
             return .playSpeed
-        case 4:
+        case ToolbarItemIndex.crop.rawValue:
             return .crop
         default:
             fatalError()
@@ -245,25 +263,29 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
-        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach {self.predefinedToolbarItemStyle.setup($0, state: .normal)}
+        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach { barItem in
+            self.predefinedToolbarItemStyle.setup(barItem, state: .normal)
+        }
+        
         let type = getOptionType(barItem: barItem)
         UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
             self.optionMenu.attach(menuType: type)
-            var barState: ToolbarItemStyle.State
-            switch type {
-            case .playSpeed:
-                barState = self.playItemState
-            case .crop:
-                barState = self.cropItemState
+            self.toolbarItemInfos = self.toolbarItemInfos.map {info in
+                var info = info
+                guard info.barItem != barItem else {
+                    info.state = .normal
+                    return info
+                }
+                
+                if info.state == .normal {
+                    info.state = .highlight
+                } else {
+                    info.state = .normal
+                }
+                info.state.updateOptionMenuContainer(container: self.optionMenu)
+                self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
+                return info
             }
-            
-            if barState == .normal {
-                barState = .highlight
-            } else {
-                barState = .normal
-            }
-            barState.updateOptionMenuContainer(container: self.optionMenu)
-            self.predefinedToolbarItemStyle.setup(barItem, state: barState)
         }, completion: nil)
         
     }
