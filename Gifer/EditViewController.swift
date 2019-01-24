@@ -268,8 +268,8 @@ class EditViewController: UIViewController {
         }
         
         let type = getOptionType(barItem: barItem)
+        self.optionMenu.attach(menuType: type)
         UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews], animations: {
-            self.optionMenu.attach(menuType: type)
             self.toolbarItemInfos = self.toolbarItemInfos.map {info in
                 var info = info
                 guard info.barItem != barItem else {
@@ -287,7 +287,6 @@ class EditViewController: UIViewController {
                 return info
             }
         }, completion: nil)
-        
     }
     
     @IBAction func onCancel(_ sender: Any) {
