@@ -311,6 +311,7 @@ class EditViewController: UIViewController {
 extension EditViewController: VideoViewControllerDelegate {
     
     func onVideoReady(controller: AVPlayerViewController) {
+        let videoRect = AVMakeRect(aspectRatio: controller.videoBounds.size, insideRect: cropContainer.frame)
         ["width", "height"].forEach { (id) in
             cropContainer.superview!.constraints.filter({ (ns) -> Bool in
                 ns.identifier == id
@@ -325,9 +326,9 @@ extension EditViewController: VideoViewControllerDelegate {
             })
         }
         
-        cropContainer.widthAnchor.constraint(equalToConstant: controller.videoBounds.width)
-        cropContainer.heightAnchor.constraint(equalToConstant: controller.videoBounds.height)
-        cropContainer.setupVideo(frame: controller.videoBounds)
+        cropContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
+        cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
+        cropContainer.setupVideo(frame: videoRect)
     }
     
     func onBuffering(_ inBuffering: Bool) {

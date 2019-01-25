@@ -69,7 +69,7 @@
                                                 <rect key="frame" x="0.0" y="72" width="375" height="584"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="584"/>
+                                                        <rect key="frame" x="0.0" y="16" width="375" height="552"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
@@ -78,7 +78,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" identifier="height" id="FOf-kR-snz"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" constant="-32" identifier="height" id="FOf-kR-snz"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="XLH-2P-TAG"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="hqR-xR-aPI"/>
@@ -88,7 +88,7 @@
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="656" width="375" height="0.0"/>
-                                                <color key="backgroundColor" name="darkBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
                                                 <rect key="frame" x="0.0" y="656" width="375" height="34"/>

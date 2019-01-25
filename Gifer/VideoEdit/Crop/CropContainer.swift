@@ -39,7 +39,6 @@ class CropContainer: UIView {
         scrollView.backgroundColor = UIColor.black
         addSubview(scrollView)
         
-        
         let widthConstraint: NSLayoutConstraint = scrollView.widthAnchor.constraint(equalToConstant: 500)
         widthConstraint.priority = .defaultHigh
         let heightConstraint: NSLayoutConstraint = scrollView.heightAnchor.constraint(equalToConstant: 600)
