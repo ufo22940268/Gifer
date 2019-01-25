@@ -31,6 +31,7 @@ class CropContainer: UIView {
         let canvasRect = contentView.frame
         return cropRect.applying(CGAffineTransform(scaleX: 1/canvasRect.width, y: 1/canvasRect.height))
     }
+    var restoreTask: DispatchWorkItem?
     
     override func awakeFromNib() {
         scrollView = UIScrollView()
@@ -91,7 +92,6 @@ class CropContainer: UIView {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             ])
-        
     }
     
     func setupVideo(frame videoFrame: CGRect) {
@@ -181,7 +181,8 @@ class CropContainer: UIView {
 
 extension CropContainer: GridRulerViewDelegate {
     
-    func onDragFinished() {
+    
+    fileprivate func restorePosition() {
         let fromRulerFrame = gridRulerView.frame
         let scrollFrame = self.scrollView.convert(scrollView.frame, from: scrollView.superview!)
         let fromScrollContentSize = self.scrollView.contentSize
@@ -194,7 +195,7 @@ extension CropContainer: GridRulerViewDelegate {
         let toHeight = toRulerSize.height
         let toCenterX = CGFloat(0)
         let toCenterY = CGFloat(0)
-
+        
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.customConstraints.width.constant = toWidth
             self.gridRulerView.customConstraints.height.constant = toHeight
@@ -214,7 +215,18 @@ extension CropContainer: GridRulerViewDelegate {
             self.scrollView.contentOffset = CGPoint(x: contentOriginPostition.width, y: contentOriginPostition.height)
         }
     }
+    
+    
+    func onDragFinished() {
+        restoreTask?.cancel()
+        restoreTask = DispatchWorkItem {
+            self.restorePosition()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: restoreTask!)
+    }
 }
+
+
 
 extension CropContainer: UIScrollViewDelegate {
  
