@@ -272,7 +272,7 @@ class EditViewController: UIViewController {
         UIView.transition(with: self.stackView, duration: 0.3, options: [.transitionCrossDissolve], animations: {
             self.toolbarItemInfos = self.toolbarItemInfos.map {info in
                 var info = info
-                guard info.barItem != barItem else {
+                guard info.barItem == barItem else {
                     info.state = .normal
                     return info
                 }
@@ -284,6 +284,13 @@ class EditViewController: UIViewController {
                 }
                 info.state.updateOptionMenuContainer(container: self.optionMenu)
                 self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
+                
+                switch info.index {
+                case .crop:
+                    self.cropContainer.isEnabled = true
+                default:
+                    self.cropContainer.isEnabled = false
+                }
                 return info
             }
         }, completion: nil)

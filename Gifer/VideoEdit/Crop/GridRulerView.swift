@@ -159,8 +159,6 @@ class GridRulerView: UIView {
     }
     
     func setupVideo(frame videoFrame: CGRect) {
-        isHidden = false
-        
         buildGuideConstraints(videoFrame: videoFrame)
                         
         customConstraints.width.constant = videoFrame.width

@@ -16,6 +16,13 @@ class CropContainer: UIView {
     var scrollView: UIScrollView!
     var scrollViewConstraints: CommonConstraints!
     var videoBounds: CGRect?
+    var isEnabled: Bool! {
+        didSet {
+            scrollView.isUserInteractionEnabled = isEnabled
+            gridRulerView.isUserInteractionEnabled = isEnabled
+            gridRulerView.isHidden = !isEnabled
+        }
+    }
     
     override func awakeFromNib() {
         scrollView = UIScrollView()
@@ -64,7 +71,7 @@ class CropContainer: UIView {
         
         bringSubviewToFront(gridRulerView)
         
-        gridRulerView.isHidden = true
+        isEnabled = false
     }
     
     func addContentView(_ contentView: UIView) {
