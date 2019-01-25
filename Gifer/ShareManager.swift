@@ -19,17 +19,19 @@ class ShareManager {
     var startProgress: CMTime!
     var endProgress: CMTime!
     var speed: Float
+    var cropArea: CGRect
     
-    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime, speed: Float) {
+    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime, speed: Float, cropArea: CGRect) {
         self.asset = asset
         self.startProgress = startProgress
         self.endProgress = endProgress
         self.speed = speed
+        self.cropArea = cropArea
     }
     
     func share(complete: @escaping () -> Void) {
         DispatchQueue.global().async {
-            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed)
+            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed, cropArea: self.cropArea)
             GifGenerator(video: self.asset, options: options).run() { path in
                 if !UIDevice.isSimulator {
                     self.shareToWechat(video: path, complete: complete)

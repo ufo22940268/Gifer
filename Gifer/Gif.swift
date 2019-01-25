@@ -52,6 +52,7 @@ class GifGenerator {
         var start: CMTime
         var end: CMTime
         var speed: Float
+        var cropArea: CGRect
     }
     
     let fileName = "animated.gif"
@@ -119,8 +120,10 @@ class GifGenerator {
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
+            guard var image = image else { return }
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
-            CGImageDestinationAddImage(destination, image!, frameProperties)
+            image = self.crop(image: image)
+            CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
         })
         
@@ -132,5 +135,10 @@ class GifGenerator {
             print("gif file \(self.gifFilePath!.path) generated")
             complete(self.gifFilePath!)
         }
+    }
+    
+    func crop(image: CGImage) -> CGImage {
+        let rect = options.cropArea.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height)))
+        return image.cropping(to: rect)!
     }
 }

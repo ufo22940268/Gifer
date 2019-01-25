@@ -16,12 +16,20 @@ class CropContainer: UIView {
     var scrollView: UIScrollView!
     var scrollViewConstraints: CommonConstraints!
     var videoBounds: CGRect?
+    var coverViews = [UIView]()
     var isEnabled: Bool! {
         didSet {
             scrollView.isUserInteractionEnabled = isEnabled
             gridRulerView.isUserInteractionEnabled = isEnabled
             gridRulerView.isHidden = !isEnabled
+            coverViews.forEach({$0.isHidden = !isEnabled})
         }
+    }
+    
+    var cropArea: CGRect {
+        let cropRect = scrollView.convert(gridRulerView.frame, from: gridRulerView.superview)
+        let canvasRect = contentView.frame
+        return cropRect.applying(CGAffineTransform(scaleX: 1/canvasRect.width, y: 1/canvasRect.height))
     }
     
     override func awakeFromNib() {
@@ -155,6 +163,8 @@ class CropContainer: UIView {
             bottom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
                 ])
         
+        coverViews.append(contentsOf: [left, right, top, bottom])
+        coverViews.forEach({$0.isHidden = true})
         bringSubviewToFront(gridRulerView)
     }
     
