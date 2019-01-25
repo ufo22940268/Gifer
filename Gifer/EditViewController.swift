@@ -269,7 +269,7 @@ class EditViewController: UIViewController {
         
         let type = getOptionType(barItem: barItem)
         self.optionMenu.attach(menuType: type)
-        UIView.transition(with: self.stackView, duration: 0.3, options: [.showHideTransitionViews, .transitionCrossDissolve], animations: {
+        UIView.transition(with: self.stackView, duration: 0.3, options: [.transitionCrossDissolve], animations: {
             self.toolbarItemInfos = self.toolbarItemInfos.map {info in
                 var info = info
                 guard info.barItem != barItem else {
@@ -355,7 +355,9 @@ extension EditViewController: VideoControllerDelegate {
 extension EditViewController: OptionMenuDelegate {
     
     func onResetCrop() {
-        
+        UIView.transition(with: cropContainer, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.cropContainer.resetCrop()
+        }, completion: nil)
     }
     
     func onRateChanged(_ rate: Float) {

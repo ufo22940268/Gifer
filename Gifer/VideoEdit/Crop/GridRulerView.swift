@@ -162,8 +162,7 @@ class GridRulerView: UIView {
         isHidden = false
         
         buildGuideConstraints(videoFrame: videoFrame)
-                
-        
+                        
         customConstraints.width.constant = videoFrame.width
         customConstraints.height.constant = videoFrame.height
         subviews.forEach { (child) in

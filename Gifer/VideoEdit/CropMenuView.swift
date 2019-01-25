@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CropMenuViewDelegate {
+@objc protocol CropMenuViewDelegate: class {
     func onResetCrop()
 }
 
@@ -26,9 +26,11 @@ class CropMenuView: UIStackView {
         restoreButton.sizeToFit()
         addArrangedSubview(restoreButton)
         sizeToFit()
-    }    
+
+        restoreButton.addTarget(delegate, action: #selector(CropMenuViewDelegate.onResetCrop), for: .touchUpInside)
+    }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }    
+    }
 }

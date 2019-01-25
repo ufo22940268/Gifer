@@ -15,6 +15,7 @@ class CropContainer: UIView {
     @objc weak var contentView: UIView!
     var scrollView: UIScrollView!
     var scrollViewConstraints: CommonConstraints!
+    var videoBounds: CGRect?
     
     override func awakeFromNib() {
         scrollView = UIScrollView()
@@ -80,11 +81,11 @@ class CropContainer: UIView {
     }
     
     func setupVideo(frame videoFrame: CGRect) {
+        self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
         
         contentView.widthAnchor.constraint(equalToConstant: videoFrame.width).isActive = true
         contentView.heightAnchor.constraint(equalToConstant: videoFrame.height).isActive = true
-        
         scrollViewConstraints.copy(from: gridRulerView.customConstraints)
     }
     
@@ -148,6 +149,17 @@ class CropContainer: UIView {
                 ])
         
         bringSubviewToFront(gridRulerView)
+    }
+    
+    func resetCrop() {
+        guard let videoBounds = videoBounds else { return }
+        scrollView.zoomScale = 1
+        scrollView.contentOffset = CGPoint.zero
+        gridRulerView.customConstraints.width.constant = videoBounds.width
+        gridRulerView.customConstraints.height.constant = videoBounds.height
+        gridRulerView.customConstraints.centerX.constant = 0
+        gridRulerView.customConstraints.centerY.constant = 0
+        scrollViewConstraints.copy(from: gridRulerView.customConstraints)
     }
 }
 
