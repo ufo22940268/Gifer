@@ -290,7 +290,6 @@ class EditViewController: UIViewController {
                     self.cropContainer.isEnabled = true
                 default:
                     self.cropContainer.isEnabled = false
-                    self.cropContainer.resetCrop()
                 }
                 return info
             }
