@@ -98,8 +98,8 @@ class CropContainer: UIView {
         self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
         
-        contentView.widthAnchor.constraint(equalToConstant: videoFrame.width).isActive = true
-        contentView.heightAnchor.constraint(equalToConstant: videoFrame.height).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         scrollViewConstraints.copy(from: gridRulerView.customConstraints)
     }
     
@@ -125,12 +125,15 @@ class CropContainer: UIView {
     }
     
     func setupCover() {
-         let left = GridRulerCoverView()
+        
+        let frameView = gridRulerView.frameView!
+        
+        let left = GridRulerCoverView()
         addSubview(left)
         let contentView = superview!
         NSLayoutConstraint.activate([
             left.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            left.trailingAnchor.constraint(equalTo: gridRulerView.leadingAnchor, constant: gridRulerCornerStrokeWidth),
+            left.trailingAnchor.constraint(equalTo: frameView.leadingAnchor),
             left.topAnchor.constraint(equalTo: contentView.topAnchor),
             left.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
@@ -141,13 +144,13 @@ class CropContainer: UIView {
             top.leadingAnchor.constraint(equalTo: left.trailingAnchor),
             top.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             top.topAnchor.constraint(equalTo: contentView.topAnchor),
-            top.bottomAnchor.constraint(equalTo: gridRulerView.topAnchor, constant: gridRulerCornerStrokeWidth)
+            top.bottomAnchor.constraint(equalTo: frameView.topAnchor)
             ])
 
         let right = GridRulerCoverView()
         addSubview(right)
         NSLayoutConstraint.activate([
-            right.leadingAnchor.constraint(equalTo: gridRulerView.trailingAnchor, constant: -gridRulerCornerStrokeWidth),
+            right.leadingAnchor.constraint(equalTo: frameView.trailingAnchor),
             right.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             right.topAnchor.constraint(equalTo: top.bottomAnchor),
             right.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
@@ -158,7 +161,7 @@ class CropContainer: UIView {
         NSLayoutConstraint.activate([
             bottom.leadingAnchor.constraint(equalTo: left.trailingAnchor),
             bottom.trailingAnchor.constraint(equalTo: right.leadingAnchor),
-            bottom.topAnchor.constraint(equalTo: gridRulerView.bottomAnchor, constant: -gridRulerCornerStrokeWidth),
+            bottom.topAnchor.constraint(equalTo: frameView.bottomAnchor),
             bottom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
                 ])
         
@@ -175,6 +178,14 @@ class CropContainer: UIView {
         gridRulerView.customConstraints.height.constant = videoBounds.height
         gridRulerView.customConstraints.centerX.constant = 0
         gridRulerView.customConstraints.centerY.constant = 0
+        scrollViewConstraints.copy(from: gridRulerView.customConstraints)
+    }
+    
+    func updateWhenVideoSizeChanged(videoSize: CGSize) {
+        gridRulerView.customConstraints.width.constant = videoSize.width
+        gridRulerView.customConstraints.height.constant = videoSize.height
+        gridRulerView.guideConstraints.width.constant = videoSize.width
+        gridRulerView.guideConstraints.height.constant = videoSize.height
         scrollViewConstraints.copy(from: gridRulerView.customConstraints)
     }
 }
@@ -225,8 +236,6 @@ extension CropContainer: GridRulerViewDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: restoreTask!)
     }
 }
-
-
 
 extension CropContainer: UIScrollViewDelegate {
  

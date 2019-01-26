@@ -264,6 +264,13 @@ class EditViewController: UIViewController {
         return .playSpeed
     }
     
+    func onVideoSectionFrameUpdated() {
+        let rect = videoRect
+        cropContainer.constraints.first(where: {$0.identifier == "width"})!.constant = rect.width
+        cropContainer.constraints.first(where: {$0.identifier == "height"})!.constant = rect.height
+        cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
+    }
+    
     @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
         controlToolBarFuntionalItems.filter({$0 != barItem}).forEach { barItem in
             self.predefinedToolbarItemStyle.setup(barItem, state: .normal)
@@ -293,9 +300,14 @@ class EditViewController: UIViewController {
                 default:
                     self.cropContainer.isEnabled = false
                 }
+                
                 return info
             }
-        }, completion: nil)
+            
+            
+        }, completion: {success in
+            self.onVideoSectionFrameUpdated()
+        })
     }
     
     @IBAction func onCancel(_ sender: Any) {
@@ -310,8 +322,11 @@ class EditViewController: UIViewController {
 
 extension EditViewController: VideoViewControllerDelegate {
     
+    var videoRect: CGRect {
+        return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
+    }
+    
     func onVideoReady(controller: AVPlayerViewController) {
-        let videoRect = AVMakeRect(aspectRatio: controller.videoBounds.size, insideRect: cropContainer.frame)
         ["width", "height"].forEach { (id) in
             cropContainer.superview!.constraints.filter({ (ns) -> Bool in
                 ns.identifier == id
@@ -326,8 +341,13 @@ extension EditViewController: VideoViewControllerDelegate {
             })
         }
         
-        cropContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
-        cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
+        let width = cropContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
+        width.identifier = "width"
+        width.isActive = true
+        let height = cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
+        height.identifier = "height"
+        height.isActive = true
+        
         cropContainer.setupVideo(frame: videoRect)
     }
     

@@ -113,6 +113,7 @@ class GridRulerView: UIView {
         
         customConstraints = CommonConstraints(centerX: findConstraint("centerX"), centerY: findConstraint("centerY"), width: findConstraint("width"), height: findConstraint("height"))
         
+        layoutMargins = UIEdgeInsets(top: gridRulerCornerStrokeWidth, left: gridRulerCornerStrokeWidth, bottom: gridRulerCornerStrokeWidth, right: gridRulerCornerStrokeWidth)
         frameView = GridFrameView()
         addSubview(frameView)
         
