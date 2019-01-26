@@ -110,7 +110,6 @@ class EditViewController: UIViewController {
             videoAsset = getTestVideo()
         }
         setupVideoContainer()
-        loadVideo()
         setupControlToolbar()
     }
     
@@ -119,6 +118,7 @@ class EditViewController: UIViewController {
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
+        videoContainer.isHidden = true
         
         let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
         containerWidth.identifier = "width"
@@ -161,7 +161,7 @@ class EditViewController: UIViewController {
         }
     }
     
-    fileprivate func loadVideo() {
+    func loadVideo() {
         videoVC.showLoading(true)
         
         let options = PHVideoRequestOptions()
@@ -327,6 +327,9 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
+        videoVC.previewView.isHidden = true
+        videoContainer.isHidden = false
+        
         ["width", "height"].forEach { (id) in
             cropContainer.superview!.constraints.filter({ (ns) -> Bool in
                 ns.identifier == id

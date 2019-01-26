@@ -58,6 +58,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animateView.removeFromSuperview()
             toVC.setPreviewImage(image)
             transitionContext.completeTransition(true)
+            toVC.loadVideo()
         })
     }
 }
