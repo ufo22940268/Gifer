@@ -66,14 +66,14 @@
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="72" width="375" height="584"/>
+                                                <rect key="frame" x="0.0" y="72" width="375" height="574"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="16" width="375" height="552"/>
+                                                        <rect key="frame" x="0.0" y="16" width="375" height="542"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="273.66666666666669" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="268.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -87,12 +87,15 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="656" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="646" width="375" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
-                                                <rect key="frame" x="0.0" y="656" width="375" height="34"/>
+                                                <rect key="frame" x="0.0" y="646" width="375" height="44"/>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="atM-Bh-q9B"/>
+                                                </constraints>
                                                 <items>
                                                     <barButtonItem systemItem="cancel" id="nuO-Xq-arh">
                                                         <connections>
@@ -156,6 +159,7 @@
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
                         <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
+                        <outlet property="videoContainerSection" destination="FsJ-7O-eCM" id="dif-mV-Aq8"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
                     </connections>

@@ -80,6 +80,7 @@ class EditViewController: UIViewController {
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
     
+    @IBOutlet weak var videoContainerSection: VideoPlayerSection!
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
     }
@@ -111,6 +112,9 @@ class EditViewController: UIViewController {
         }
         setupVideoContainer()
         setupControlToolbar()
+        
+//        print("transition frame post: \(videoContainerSection.convert(videoContainerSection.bounds, to: view))")
+        print("transition root frame post: \(view.frame)")
     }
     
     func setupVideoContainer() {
@@ -327,6 +331,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
+        
         videoVC.previewView.isHidden = true
         videoContainer.isHidden = false
         

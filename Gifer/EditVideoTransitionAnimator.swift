@@ -37,8 +37,6 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let initialFrame: CGRect = fromView.convert(selectedCell.frame, from: selectedCell.superview!)
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
-        var finalImageViewFrame = toVC.view.convert(toVC.videoContainer.frame, from: toVC.videoContainer.superview!)
-        finalImageViewFrame.size.height = fromView.safeAreaLayoutGuide.layoutFrame.height - VideoControllerConstants.heightWithMargin - 44
         
         animateView.layoutIfNeeded()
     
@@ -48,15 +46,21 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: editVCTransitionShortDuration) {
             fromView.alpha = 0
         }
+        
+        toVC.stackView.layoutIfNeeded()
+        toView.layoutIfNeeded()
+        let finalImageViewFrame = toVC.videoContainerSection.convert(toVC.videoContainerSection.bounds, to: toVC.view)
 
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
             toView.alpha = 1
+            animateView.translatesAutoresizingMaskIntoConstraints = false
             animateView.frame = finalImageViewFrame
             animateView.makeImageViewFitContainer()
+            
             animateView.layoutIfNeeded()
         }, completion: {completed in
-            animateView.removeFromSuperview()
             toVC.setPreviewImage(image)
+            animateView.removeFromSuperview()
             transitionContext.completeTransition(true)
             toVC.loadVideo()
         })
