@@ -316,6 +316,7 @@ class EditViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         videoController.dismissed = true
         videoVC.dismissed = true
+        videoVC.stop()
     }
 }
 

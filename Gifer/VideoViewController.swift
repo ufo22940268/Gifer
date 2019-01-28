@@ -95,6 +95,10 @@ class VideoViewController: AVPlayerViewController {
         self.player?.pause()
     }
     
+    func stop() {
+        self.player?.pause()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         removeObservers()
     }

@@ -11,7 +11,6 @@ import UIKit
 
 class VideoPlayerSection: UIView {
     
-    
     var cropContainer: CropContainer?
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -19,5 +18,5 @@ class VideoPlayerSection: UIView {
             view is CropContainer
         }).first!
         return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
-    }
+    }    
 }
