@@ -17,23 +17,23 @@ enum GridRulerCornerPosition: CaseIterable, GridRulerControllerPosition {
         switch self {
         case .leftTop:
             NSLayoutConstraint.activate([
-                child.leftAnchor.constraint(equalTo: parent.layoutMarginsGuide.leftAnchor),
-                child.topAnchor.constraint(equalTo: parent.layoutMarginsGuide.topAnchor)
+                child.leftAnchor.constraint(equalTo: parent.leftAnchor),
+                child.topAnchor.constraint(equalTo: parent.topAnchor)
                 ])
         case .rightTop:
             NSLayoutConstraint.activate([
-                child.rightAnchor.constraint(equalTo: parent.layoutMarginsGuide.rightAnchor),
-                child.topAnchor.constraint(equalTo: parent.layoutMarginsGuide.topAnchor)
+                child.rightAnchor.constraint(equalTo: parent.rightAnchor),
+                child.topAnchor.constraint(equalTo: parent.topAnchor)
                 ])
         case .leftBottom:
             NSLayoutConstraint.activate([
-                child.leftAnchor.constraint(equalTo: parent.layoutMarginsGuide.leftAnchor),
-                child.bottomAnchor.constraint(equalTo: parent.layoutMarginsGuide.bottomAnchor)
+                child.leftAnchor.constraint(equalTo: parent.leftAnchor),
+                child.bottomAnchor.constraint(equalTo: parent.bottomAnchor)
                 ])
         case .rightBottom:
             NSLayoutConstraint.activate([
-                child.rightAnchor.constraint(equalTo: parent.layoutMarginsGuide.rightAnchor),
-                child.bottomAnchor.constraint(equalTo: parent.layoutMarginsGuide.bottomAnchor)
+                child.rightAnchor.constraint(equalTo: parent.rightAnchor),
+                child.bottomAnchor.constraint(equalTo: parent.bottomAnchor)
                 ])
         }
     }

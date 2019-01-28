@@ -88,6 +88,7 @@ class EditViewController: UIViewController {
 
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var shareItem: UIBarButtonItem!
     
     var controlToolBarFuntionalItems: [UIBarButtonItem] {
         let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
@@ -277,7 +278,7 @@ class EditViewController: UIViewController {
         
         let type = getOptionType(barItem: barItem)
         self.optionMenu.attach(menuType: type)
-        UIView.transition(with: self.stackView, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+        UIView.transition(with: self.stackView, duration: 0.3, options: [.layoutSubviews], animations: {
             self.toolbarItemInfos = self.toolbarItemInfos.map {info in
                 var info = info
                 guard info.barItem == barItem else {
@@ -302,10 +303,10 @@ class EditViewController: UIViewController {
                 
                 return info
             }
-            
-            
-        }, completion: {success in
+            self.stackView.layoutIfNeeded()
             self.onVideoSectionFrameUpdated()
+            self.cropContainer.layoutIfNeeded()
+        }, completion: {success in
         })
     }
     
@@ -357,6 +358,7 @@ extension EditViewController: VideoViewControllerDelegate {
     
     private func enableControlOptions() {
         controlToolBarFuntionalItems.forEach({$0.isEnabled = true})
+        shareItem.isEnabled = true
     }
     
     func onBuffering(_ inBuffering: Bool) {
