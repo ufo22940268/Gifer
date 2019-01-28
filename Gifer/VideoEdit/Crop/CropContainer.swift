@@ -97,10 +97,13 @@ class CropContainer: UIView {
     func setupVideo(frame videoFrame: CGRect) {
         self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
-        
+    }
+    
+    override func layoutSubviews() {
+        scrollViewConstraints.width.constant = bounds.size.width
+        scrollViewConstraints.height.constant = bounds.size.height
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
-        scrollViewConstraints.copy(from: gridRulerView.customConstraints)
     }
     
     func createTestContentView() -> UIView {

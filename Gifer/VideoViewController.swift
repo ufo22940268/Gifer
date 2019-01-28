@@ -114,7 +114,6 @@ class VideoViewController: AVPlayerViewController {
         
         boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: { [weak self] in
             guard let self = self else { return }
-            self.previewView.isHidden = true
         })
         
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
