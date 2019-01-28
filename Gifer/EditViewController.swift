@@ -120,6 +120,8 @@ class EditViewController: UIViewController {
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
         
+        videoContainerSection.cropContainer = cropContainer
+        
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
         videoContainer.addSubview(videoVC.view)
@@ -258,9 +260,13 @@ class EditViewController: UIViewController {
     }
     
     func onVideoSectionFrameUpdated() {
+        guard let width = cropContainer.constraints.first(where: {$0.identifier == "width"}),
+            let height = cropContainer.constraints.first(where: {$0.identifier == "height"}) else {
+            return
+        }
         let rect = videoRect
-        cropContainer.constraints.first(where: {$0.identifier == "width"})!.constant = rect.width
-        cropContainer.constraints.first(where: {$0.identifier == "height"})!.constant = rect.height
+        width.constant = rect.width
+        height.constant = rect.height
         cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
     }
     

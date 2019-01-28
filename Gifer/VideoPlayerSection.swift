@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 
 class VideoPlayerSection: UIView {
-
+    
+    
+    var cropContainer: CropContainer?
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let cropContainer = subviews.filter({ (view) -> Bool in
