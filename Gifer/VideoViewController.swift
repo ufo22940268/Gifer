@@ -148,8 +148,6 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func setupWhenVideoIsReadyToPlay() {
-        showLoading(false)
-        
         self.videoViewControllerDelegate?.onVideoReady(controller: self)
     }
     

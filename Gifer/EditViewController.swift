@@ -163,6 +163,7 @@ class EditViewController: UIViewController {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
+        showLoadingWhenBuffering(true)
         
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
             guard let self = self else { return }
