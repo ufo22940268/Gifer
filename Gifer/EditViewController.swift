@@ -123,13 +123,6 @@ class EditViewController: UIViewController {
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
         
-        let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
-        containerWidth.identifier = "width"
-        containerWidth.isActive = true
-        let containerHeight = videoContainer.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
-        containerHeight.identifier = "height"
-        containerHeight.isActive = true
-
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
         videoContainer.addSubview(videoVC.view)
@@ -350,7 +343,7 @@ extension EditViewController: VideoViewControllerDelegate {
         let width = cropContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
         width.identifier = "width"
         width.isActive = true
-        let height = cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
+        let height = cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height - 32)
         height.identifier = "height"
         height.isActive = true
         
