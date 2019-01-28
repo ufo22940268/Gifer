@@ -49,8 +49,8 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         
         toVC.stackView.layoutIfNeeded()
         toView.layoutIfNeeded()
-        let finalImageViewFrame = toVC.videoContainerSection.convert(toVC.videoContainerSection.bounds, to: toVC.view)
-
+        let finalImageViewFrame = toVC.cropContainer.convert(toVC.cropContainer.bounds, to: toVC.view)
+        
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
             toView.alpha = 1
             animateView.translatesAutoresizingMaskIntoConstraints = false

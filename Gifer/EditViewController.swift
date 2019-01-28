@@ -112,9 +112,6 @@ class EditViewController: UIViewController {
         }
         setupVideoContainer()
         setupControlToolbar()
-        
-//        print("transition frame post: \(videoContainerSection.convert(videoContainerSection.bounds, to: view))")
-        print("transition root frame post: \(view.frame)")
     }
     
     func setupVideoContainer() {
