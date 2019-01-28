@@ -329,6 +329,7 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         
         videoVC.previewView.isHidden = true
+        enableControlOptions()
         
         ["width", "height"].forEach { (id) in
             cropContainer.superview!.constraints.filter({ (ns) -> Bool in
@@ -352,6 +353,10 @@ extension EditViewController: VideoViewControllerDelegate {
         height.isActive = true
         
         cropContainer.setupVideo(frame: videoRect)
+    }
+    
+    private func enableControlOptions() {
+        controlToolBarFuntionalItems.forEach({$0.isEnabled = true})
     }
     
     func onBuffering(_ inBuffering: Bool) {
