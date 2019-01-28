@@ -74,6 +74,7 @@ class VideoViewController: AVPlayerViewController {
         }
         self.player = AVPlayer(playerItem: playerItem)
         trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
+        self.player?.isMuted = true
         addObservers()
         play()
     }
