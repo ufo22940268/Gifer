@@ -173,13 +173,16 @@ class EditViewController: UIViewController {
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
             guard let self = self else { return }
             if let playerItem = playerItem {
-                self.videoController.load(playerItem: playerItem)
-                self.videoController.delegate = self
-                
+
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
+                    
+                    self.videoController.delegate = self
+                    self.videoController.load(playerItem: playerItem)
+
+                    self.videoVC.play()
                 }
             }
         }
@@ -318,6 +321,10 @@ class EditViewController: UIViewController {
     
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        videoVC.play()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

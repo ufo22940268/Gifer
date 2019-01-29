@@ -40,7 +40,6 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState)
 }
 
@@ -85,14 +84,10 @@ class VideoController: UIView {
         }
     }
     
-    var delegate: VideoControllerDelegate {
-        get {
-            return self.delegate
-        }
-        
-        set {
-            videoSlider.delegate = newValue
-            videoTrim.trimDelegate = newValue
+    var delegate: VideoControllerDelegate? {
+        didSet {
+            videoSlider.delegate = self.delegate
+            videoTrim.trimDelegate = self.delegate
         }
     }
     
@@ -145,14 +140,6 @@ class VideoController: UIView {
     }        
     
     
-    /// Every 20s video should have 8 thumbernails
-    ///
-    /// - Parameter duration: video duration
-    /// - Returns: thumbernail count
-    private func calThumbernailCount(by duration: CMTime) -> Int {
-        return max(Int(duration.seconds/20.0 * Double(videoControllerGalleryImageCountPerGroup)), videoControllerGalleryImageCountPerGroup)
-    }
-    
     func load(playerItem: AVPlayerItem) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
@@ -162,8 +149,18 @@ class VideoController: UIView {
         self.videoSlider.duration = duration
         
         let group = DispatchGroup()
-        _ = DispatchQueue(label: "loader", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
-        let thumbernailCount = calThumbernailCount(by: duration)
+        
+        let thumbernailCount: Int
+        let galleryDuration: CMTime
+        if Int(duration.seconds) > videoControllerGalleryVideoLengthPerGroup {
+            thumbernailCount = Int(duration.seconds/Double(videoControllerGalleryVideoLengthPerGroup) * Double(videoControllerGalleryImageCountPerGroup))
+            galleryDuration = CMTime(seconds: Double(videoControllerGalleryVideoLengthPerGroup), preferredTimescale: duration.timescale)
+        } else {
+            thumbernailCount = videoControllerGalleryImageCountPerGroup
+            galleryDuration = duration
+        }
+        self.videoTrim.galleryDuration = galleryDuration
+        self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished)
         
         group.enter()
         DispatchQueue.main.async { [weak self] in
@@ -177,25 +174,23 @@ class VideoController: UIView {
             if dismissed {
                 return
             }
-            
+
             let time = playerItem.asset.duration/thumbernailCount*i
             thumbernailTimes.append(NSValue(time: time))
             group.enter()
         }
-        
+
         self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
+        self.generator?.maximumSize = CGSize(width: 50, height: 50)
         self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
             guard let self = self else { return }
-            
+
             guard image != nil else { return }
-            
-            var thumbernail: UIImage = UIImage(cgImage: image!)
+
+            let thumbernail: UIImage = UIImage(cgImage: image!)
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                thumbernail = UIGraphicsImageRenderer(size: CGSize(width: 50, height: 50)).image(actions: { (context) in
-                    thumbernail.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
-                })
                 self.loadGallery(withImage: thumbernail, index: index)
                 index = index + 1
                 group.leave()

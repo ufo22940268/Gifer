@@ -72,7 +72,6 @@ class VideoControllerSlider: UIControl {
         let trimPosition = trimView.trimPosition
         let percentageProgress: Double = ((progress - trimPosition.leftTrim)/trimPosition.range).clamped(to: 0...1)
         leadingConstraint.constant = (sliderRangeGuide.layoutFrame.width)*CGFloat(percentageProgress)
-//        leadingConstraint.constant = CGFloat(progress/duration)*sliderRangeGuide.layoutFrame.width
         self.progress = progress
     }
 }

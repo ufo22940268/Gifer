@@ -76,7 +76,6 @@ class VideoViewController: AVPlayerViewController {
         trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
         self.player?.isMuted = true
         addObservers()
-        play()
     }
     
     func setPreviewImage(_ image: UIImage) {
@@ -87,6 +86,7 @@ class VideoViewController: AVPlayerViewController {
         self.player?.rate = rate
         self.currentRate = rate
     }
+    
     
     func play() {
         self.player?.play()
@@ -105,26 +105,52 @@ class VideoViewController: AVPlayerViewController {
     }
     
     var timeObserverToken: Any?
-    var boundaryObserverToken: Any?
-    let observeInterval = CMTime(seconds: 0.01, preferredTimescale: 600)
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
     weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
+        guard let currentItem = player?.currentItem else { return  }
+        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
-                                                            [weak self] time in
-                                                            self?.observePlaybackStatus(currentTime: time)
+                                                            [weak self] time in                                                                                             self?.observePlaybackStatus(currentTime: time)
         }
-        
-        boundaryObserverToken = player?.addBoundaryTimeObserver(forTimes: [NSValue(time: CMTime(seconds: 0.1, preferredTimescale: 600))], queue: DispatchQueue.main, using: { [weak self] in
-            guard let self = self else { return }
-        })
+//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
+//                                                            queue: .global()) {
+//                                                                [weak self] time in
+//                                                                print(time)
+//        }
         
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             guard let player = self.player else { return }
             player.seek(to: self.trimPosition.leftTrim)
             player.playImmediately(atRate: self.currentRate)
+        }
+        
+        currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let currentItem = player?.currentItem else { return  }
+        if keyPath == #keyPath(AVPlayerItem.status) {
+            let status: AVPlayerItem.Status
+            
+            // Get the status change from the change dictionary
+            if let statusNumber = change?[.newKey] as? NSNumber {
+                status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
+            } else {
+                status = .unknown
+            }
+            
+            if videoInited == false && currentItem.status == .readyToPlay {
+                setupWhenVideoIsReadyToPlay()
+                videoInited = true
+            }
+            
+            showLoading(!currentItem.isPlaybackLikelyToKeepUp)
+
+            
+            print("status: \(status.rawValue)")
         }
     }
     
@@ -132,18 +158,9 @@ class VideoViewController: AVPlayerViewController {
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
         
-        if videoInited == false && currentItem.status == .readyToPlay {
-            setupWhenVideoIsReadyToPlay()
-            videoInited = true
-        }
-        
         if self.player!.timeControlStatus == .playing {
             self.videoViewControllerDelegate?.onProgressChanged(progress:
                 currentTime)
-        }
-        
-        if currentItem.status == .readyToPlay {
-            showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         }
     }
     
@@ -159,11 +176,6 @@ class VideoViewController: AVPlayerViewController {
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
-        }
-        
-        if let observer = boundaryObserverToken {
-            player?.removeTimeObserver(observer)
-            self.boundaryObserverToken = nil
         }
         
         if let observer = loopObserver {
