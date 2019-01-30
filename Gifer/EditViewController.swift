@@ -214,11 +214,9 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        print("cropArea: \(cropArea)")
         ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea).share() {
             DispatchQueue.main.async {
                 self.showLoadingWhenExporting(false)
-                self.prompt("导出成功")
             }
         }
     }
@@ -322,15 +320,26 @@ class EditViewController: UIViewController {
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-        
+    
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(onResume), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @objc func onResume() {
         videoVC.play()
     }
     
+    @objc func onStop() {
+        videoVC.stop()
+    }
+        
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
         videoController.dismissed = true
         videoVC.dismissed = true
-        videoVC.stop()
     }
 }
 

@@ -196,7 +196,7 @@ extension VideoViewController {
         if state == .finished {
             currentItem.forwardPlaybackEndTime = position.rightTrim
             if currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim {
-                player.seek(to: position.leftTrim)                
+                player.seek(to: position.leftTrim)
             }
             play()
         } else if state == .started {
