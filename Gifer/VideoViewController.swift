@@ -14,14 +14,6 @@ import Photos
 
 typealias progress = CMTime
 
-func / (_ l: CMTime, _ r: CMTime) -> Double {
-    return Double(l.value)/Double(r.value)
-}
-
-func * (_ l: CMTime, _ r: Double) -> CMTime {
-    return CMTime(value: CMTimeValue(Double(l.value)*r), timescale: l.timescale)
-}
-
 class VideoPreviewView: UIImageView {
 
     init() {
@@ -148,9 +140,6 @@ class VideoViewController: AVPlayerViewController {
             }
             
             showLoading(!currentItem.isPlaybackLikelyToKeepUp)
-
-            
-            print("status: \(status.rawValue)")
         }
     }
     

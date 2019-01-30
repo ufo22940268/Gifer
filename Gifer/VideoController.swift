@@ -48,11 +48,8 @@ enum VideoTrimState {
 }
 struct VideoTrimPosition {
     
-
-    /// Propotional to video duration. Ranged from 0 to 1
     var leftTrim: CMTime
     
-    /// Propotional to video duration. Ranged from 0 to 1
     var rightTrim: CMTime
     
     var range: CMTime {
@@ -151,7 +148,7 @@ class VideoController: UIView {
         let group = DispatchGroup()
         
         let thumbernailCount: Int
-        let galleryDuration: CMTime
+        var galleryDuration: CMTime
         if Int(duration.seconds) > videoControllerGalleryVideoLengthPerGroup {
             thumbernailCount = Int(duration.seconds/Double(videoControllerGalleryVideoLengthPerGroup) * Double(videoControllerGalleryImageCountPerGroup))
             galleryDuration = CMTime(seconds: Double(videoControllerGalleryVideoLengthPerGroup), preferredTimescale: duration.timescale)
@@ -159,6 +156,7 @@ class VideoController: UIView {
             thumbernailCount = videoControllerGalleryImageCountPerGroup
             galleryDuration = duration
         }
+        galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
         self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished)
         
@@ -175,7 +173,7 @@ class VideoController: UIView {
                 return
             }
 
-            let time = playerItem.asset.duration/thumbernailCount*i
+            let time = CMTimeMultiplyByRatio(playerItem.asset.duration, multiplier: Int32(i), divisor: Int32(thumbernailCount))
             thumbernailTimes.append(NSValue(time: time))
             group.enter()
         }
@@ -218,10 +216,10 @@ class VideoController: UIView {
     }
 }
 
-func / (time: CMTime, divider: Int) -> CMTime {
-    return CMTime(value: CMTimeValue(CGFloat(time.value)/CGFloat(divider)), timescale: time.timescale)
-}
-
-func * (time: CMTime, factor: Int) -> CMTime {
-    return CMTime(value: CMTimeValue(CGFloat(time.value)*CGFloat(factor)), timescale: time.timescale)
-}
+//func / (time: CMTime, divider: Int) -> CMTime {
+//    return CMTime(value: CMTimeValue(CGFloat(time.value)/CGFloat(divider)), timescale: time.timescale)
+//}
+//
+//func * (time: CMTime, factor: Int) -> CMTime {
+//    return CMTime(value: CMTimeValue(CGFloat(time.value)*CGFloat(factor)), timescale: time.timescale)
+//}

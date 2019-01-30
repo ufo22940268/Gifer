@@ -18,6 +18,8 @@ class LargeImageView: UIImageView {
     }
 }
 
+let videoTimeScale = CMTimeScale(600)
+
 class VideoControllerTrim: UIControl {
     
     enum Status {
@@ -245,5 +247,5 @@ class VideoControllerTrim: UIControl {
 }
 
 func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {
-    return duration*Double(percentage)
+    return CMTimeMultiplyByFloat64(duration, multiplier: Float64(percentage))
 }
