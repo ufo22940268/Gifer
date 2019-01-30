@@ -97,11 +97,17 @@ class VideoControllerTrim: UIControl {
         return UIColor.yellow
     }
     
+    var galleryView: UIView!
+    private var sliderThresholdGuide: UILayoutGuide!
+    private var sliderRangeGuide: UILayoutGuide!
     
-    func setup() {
+    func setup(galleryView: UIView) {
         guard let superview = superview else {
             return
         }
+        
+        self.galleryView = galleryView
+        
         
         isOpaque = false
         translatesAutoresizingMaskIntoConstraints = false
@@ -172,6 +178,18 @@ class VideoControllerTrim: UIControl {
             ])
 
         status = .highlight
+        
+        sliderThresholdGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderThresholdGuide)
+        sliderThresholdGuide.leadingAnchor.constraint(equalTo: galleryView.leadingAnchor, constant: VideoControllerConstants.trimWidth).isActive = true
+        sliderThresholdGuide.trailingAnchor.constraint(equalTo: galleryView.trailingAnchor, constant: -VideoControllerConstants.trimWidth).isActive = true
+        
+        sliderRangeGuide = UILayoutGuide()
+        superview.addLayoutGuide(sliderRangeGuide)
+        let activeLeadingConstraint = sliderRangeGuide.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor)
+        activeLeadingConstraint.isActive = true
+        let activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor, constant:-VideoControllerConstants.sliderWidth)
+        activeTrailingConstraint.isActive = true
     }
     
     func setFrameColor(_ color: UIColor) {
@@ -228,10 +246,14 @@ class VideoControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
-        //Don't know why. But minus an tirmWidth to left trim leading will fix the gap between left trim and slider after dragged.
-        let leftTrim = percentageToProgress((leftTrimLeadingConstraint.constant)/trimRange, inDuration: galleryDuration)
-        let rightTrim = percentageToProgress((trimRange - abs(rightTrimTrailingConstraint.constant))/trimRange, inDuration: galleryDuration)
-        print("leftTrim: \(leftTrim)")
+        let outer = sliderThresholdGuide.layoutFrame
+        let inner = sliderRangeGuide.layoutFrame
+        
+        let leftPercent = (inner.minX - outer.minX)/outer.width
+        let leftTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(leftPercent))
+        let rightPercent = (inner.maxX - outer.minX)/outer.width
+        let rightTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(rightPercent))
+        
         return VideoTrimPosition(leftTrim: leftTrim, rightTrim: rightTrim)
     }
     

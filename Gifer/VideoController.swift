@@ -107,7 +107,7 @@ class VideoController: UIView {
         
         videoTrim = VideoControllerTrim()
         addSubview(videoTrim)
-        videoTrim.setup()
+        videoTrim.setup(galleryView: galleryView)
         
         videoSlider = VideoControllerSlider()
         addSubview(videoSlider)
@@ -158,6 +158,7 @@ class VideoController: UIView {
         }
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
+        self.videoSlider.galleryDuration = galleryDuration
         self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished)
         
         group.enter()
@@ -215,11 +216,3 @@ class VideoController: UIView {
         videoSlider.show(true)
     }
 }
-
-//func / (time: CMTime, divider: Int) -> CMTime {
-//    return CMTime(value: CMTimeValue(CGFloat(time.value)/CGFloat(divider)), timescale: time.timescale)
-//}
-//
-//func * (time: CMTime, factor: Int) -> CMTime {
-//    return CMTime(value: CMTimeValue(CGFloat(time.value)*CGFloat(factor)), timescale: time.timescale)
-//}
