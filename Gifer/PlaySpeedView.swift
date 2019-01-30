@@ -117,6 +117,7 @@ class PlaySpeedView: UIStackView {
     let minSpeed: CGFloat = 0.5
     let maxSpeed: CGFloat = 2
     weak var delegate: PlaySpeedViewDelegate?
+    var currentSpeedSnapshot: CGFloat = 1
 
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -153,9 +154,11 @@ extension PlaySpeedView: UIScrollViewDelegate {
         }
     }
     
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.onRateChanged(Float(currentSpeed))
         updateSpeedView()
+        currentSpeedSnapshot = currentSpeed
     }
 }
 

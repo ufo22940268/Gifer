@@ -212,7 +212,7 @@ class EditViewController: UIViewController {
         let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
-        let speed = Float(playSpeedView.currentSpeed)
+        let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
         print("cropArea: \(cropArea)")
         ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea).share() {

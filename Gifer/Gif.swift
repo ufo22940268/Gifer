@@ -64,9 +64,8 @@ class GifGenerator {
         self.options = options
       
         let defaultCount = 10
-        extractedImageCountPerSecond = defaultCount
-        let normalDelay = 1/Float(extractedImageCountPerSecond)
-        gifDelayTime = normalDelay/options.speed
+        extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
+        gifDelayTime = 0.1
     }
     
     var gifFilePath: URL? {
@@ -93,12 +92,8 @@ class GifGenerator {
     private var extractedImageCountPerSecond: Int
     private let gifDelayTime: Float
     
-    func calGifFrameCount(start: CMTime, end: CMTime) -> Int {
-        return Int(Double(end.value - start.value)/(600/Double(extractedImageCountPerSecond)))
-    }
-
     enum GifSize: Int, RawRepresentable {
-        case middle = 500
+        case middle = 250
     }
     
     func run(complete: @escaping (URL) -> Void) {
@@ -106,14 +101,14 @@ class GifGenerator {
         let endProgress = options.end
         var times = [NSValue]()
         let group = DispatchGroup()
-        let gifFrameCount = calGifFrameCount(start: startProgress, end: endProgress)
-        let frameRangeOfSingleImage = CGFloat(endProgress.value - startProgress.value)/CGFloat(gifFrameCount)
-        for index in 0..<gifFrameCount {
-            let time = CMTime(value: CMTimeValue(Double(startProgress.value) + Double(index)*Double(frameRangeOfSingleImage)), timescale: 600)
-            times.append(NSValue(time: time))
+        var currentTime = startProgress
+        while currentTime < endProgress {
+            times.append(NSValue(time: currentTime))
+            currentTime = currentTime + CMTime(seconds: 1/Double(extractedImageCountPerSecond), preferredTimescale: currentTime.timescale)
             group.enter()
         }
-        let destination = self.buildDestinationOfGif(frameCount: gifFrameCount)
+        
+        let destination = self.buildDestinationOfGif(frameCount: times.count)
         let generator = AVAssetImageGenerator(asset: videoAsset)
         let gifSize = GifSize.middle
         generator.maximumSize = CGSize(width: gifSize.rawValue, height: gifSize.rawValue)
