@@ -223,6 +223,8 @@ class VideoControllerTrim: UIControl {
     
     private func getTrimState(from gesture: UIPanGestureRecognizer) -> VideoTrimState {
         switch gesture.state {
+        case .began:
+            return .started
         case .ended:
             return .finished
         default:

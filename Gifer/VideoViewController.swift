@@ -192,9 +192,15 @@ extension VideoViewController {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
-        currentItem.forwardPlaybackEndTime = position.rightTrim
+        
         if state == .finished {
-            player.seek(to: position.leftTrim)
+            currentItem.forwardPlaybackEndTime = position.rightTrim
+            if currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim {
+                player.seek(to: position.leftTrim)                
+            }
+            play()
+        } else if state == .started {
+            pause()
         }
     }
 }

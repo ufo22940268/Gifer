@@ -389,7 +389,6 @@ extension EditViewController: VideoViewControllerDelegate {
 extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
-        videoController.updateTrim(position: position, state: state)
         videoVC.updateTrim(position: position, state: state)
     }
     

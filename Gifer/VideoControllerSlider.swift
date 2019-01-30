@@ -76,4 +76,3 @@ class VideoControllerSlider: UIControl {
         self.progress = progress    
     }
 }
-

@@ -44,7 +44,7 @@ protocol VideoTrimDelegate: class {
 }
 
 enum VideoTrimState {
-    case moving, finished
+    case started, moving, finished
 }
 struct VideoTrimPosition {
     
@@ -207,10 +207,6 @@ class VideoController: UIView {
         }
     }
     
-    func updateTrim(position: VideoTrimPosition, state: VideoTrimState) {
-//        videoSlider.show(false)
-    }
-
     func updateSliderProgress(_ progress: CMTime) {
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
