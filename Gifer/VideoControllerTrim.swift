@@ -226,7 +226,7 @@ class VideoControllerTrim: UIControl {
         case .began:
             return .started
         case .ended:
-            return .finished
+            return .finished(false)
         default:
             return .moving
         }

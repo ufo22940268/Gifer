@@ -187,14 +187,26 @@ extension VideoViewController {
         
         trimPosition = position
         
-        if state == .finished {
+        
+        switch state {
+        case .finished(let forceReset):
             currentItem.forwardPlaybackEndTime = position.rightTrim
-            if currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim {
+
+            var reset:Bool
+            if !forceReset {
+                reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim
+            } else {
+                reset = true
+            }
+            
+            if reset {
                 player.seek(to: position.leftTrim)
             }
             play()
-        } else if state == .started {
+        case .started:
             pause()
+        default:
+            break
         }
     }
 }

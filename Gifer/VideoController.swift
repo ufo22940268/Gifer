@@ -44,7 +44,8 @@ protocol VideoTrimDelegate: class {
 }
 
 enum VideoTrimState {
-    case started, moving, finished
+    case started, moving
+    case finished(Bool)
 }
 struct VideoTrimPosition {
     
@@ -61,8 +62,6 @@ struct VideoControllerConstants {
     static var trimWidth = CGFloat(16)
     static var topAndBottomInset = CGFloat(2)
     static var sliderWidth = CGFloat(8)
-    static let height = CGFloat(40)
-    static let heightWithMargin = CGFloat(72)
 }
 
 protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate {
@@ -122,7 +121,6 @@ class VideoController: UIView {
         scrollView.layoutMargins.left = 0
         scrollView.layoutMargins.right = 0
         scrollView.alwaysBounceVertical = false
-
         
         addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -130,6 +128,7 @@ class VideoController: UIView {
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.widthAnchor.constraint(equalTo: widthAnchor)])
+        scrollView.delegate = self
     }
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
@@ -159,7 +158,7 @@ class VideoController: UIView {
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
         self.videoSlider.galleryDuration = galleryDuration
-        self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished)
+        self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished(false))
         
         group.enter()
         DispatchQueue.main.async { [weak self] in
@@ -210,5 +209,16 @@ class VideoController: UIView {
     func updateSliderProgress(_ progress: CMTime) {
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
+    }
+}
+
+extension VideoController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        delegate?.onTrimChanged(position: trimPosition, state: .started)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        delegate?.onTrimChanged(position: trimPosition, state: .finished(true))
     }
 }

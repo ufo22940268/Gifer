@@ -35,7 +35,7 @@ class VideoControllerGallery: UIStackView {
             leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
             topAnchor.constraint(equalTo: superview!.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
-            heightAnchor.constraint(equalToConstant: 40),
+            heightAnchor.constraint(equalTo: superview!.heightAnchor),
             superview!.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
     }
