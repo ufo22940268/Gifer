@@ -107,12 +107,7 @@ class VideoViewController: AVPlayerViewController {
                                                            queue: .main) {
                                                             [weak self] time in                                                                                             self?.observePlaybackStatus(currentTime: time)
         }
-//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
-//                                                            queue: .global()) {
-//                                                                [weak self] time in
-//                                                                print(time)
-//        }
-        
+
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             guard let player = self.player else { return }
             player.seek(to: self.trimPosition.leftTrim)

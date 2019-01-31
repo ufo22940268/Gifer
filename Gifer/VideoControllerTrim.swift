@@ -181,14 +181,14 @@ class VideoControllerTrim: UIControl {
         
         sliderThresholdGuide = UILayoutGuide()
         superview.addLayoutGuide(sliderThresholdGuide)
-        sliderThresholdGuide.leadingAnchor.constraint(equalTo: galleryView.leadingAnchor, constant: VideoControllerConstants.trimWidth).isActive = true
-        sliderThresholdGuide.trailingAnchor.constraint(equalTo: galleryView.trailingAnchor, constant: -VideoControllerConstants.trimWidth).isActive = true
+        sliderThresholdGuide.leadingAnchor.constraint(equalTo: galleryView.leadingAnchor).isActive = true
+        sliderThresholdGuide.trailingAnchor.constraint(equalTo: galleryView.trailingAnchor).isActive = true
         
         sliderRangeGuide = UILayoutGuide()
         superview.addLayoutGuide(sliderRangeGuide)
-        let activeLeadingConstraint = sliderRangeGuide.leadingAnchor.constraint(equalTo: leftTrim.trailingAnchor)
+        let activeLeadingConstraint = sliderRangeGuide.leadingAnchor.constraint(equalTo: leftTrim.leadingAnchor)
         activeLeadingConstraint.isActive = true
-        let activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: rightTrim.leadingAnchor, constant:-VideoControllerConstants.sliderWidth)
+        let activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
         activeTrailingConstraint.isActive = true
     }
     
