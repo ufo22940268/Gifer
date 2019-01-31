@@ -375,6 +375,7 @@ extension EditViewController: VideoViewControllerDelegate {
         height.isActive = true
         
         cropContainer.setupVideo(frame: videoRect)
+        onTrimChanged(position: videoController.trimPosition, state: .initial)
     }
     
     private func enableControlOptions() {
@@ -397,6 +398,12 @@ extension EditViewController: VideoViewControllerDelegate {
 extension EditViewController: VideoControllerDelegate {
     
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+        guard let currentItem = videoVC.player?.currentItem else { return }
+        if currentItem.duration.seconds > 0 {
+            let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
+            let end: CGFloat = CGFloat(position.rightTrim.seconds/currentItem.duration.seconds)
+            videoController.gallerySlider.updateSlider(begin: begin, end: end)
+        }
         videoVC.updateTrim(position: position, state: state)
     }
     

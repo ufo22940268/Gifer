@@ -44,7 +44,7 @@ protocol VideoTrimDelegate: class {
 }
 
 enum VideoTrimState {
-    case started, moving
+    case started, moving, initial
     case finished(Bool)
 }
 struct VideoTrimPosition {
@@ -67,7 +67,7 @@ struct VideoControllerConstants {
 protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate {
 }
 
-class VideoController: UIView {
+class VideoController: UIStackView {
     
     var galleryView: VideoControllerGallery!
     var videoSlider: VideoControllerSlider!
@@ -94,9 +94,27 @@ class VideoController: UIView {
             return videoTrim.trimPosition
         }
     }
+    var galleryContainer: VideoControllerGalleryContainer!
+    var gallerySlider: VideoControllerGallerySlider!
     
     override func awakeFromNib() {
+        axis = .vertical
+        spacing = 8
+        
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
+        
+        galleryContainer = VideoControllerGalleryContainer()
+        addArrangedSubview(galleryContainer)
+        galleryContainer.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            galleryContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
+            galleryContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            galleryContainer.topAnchor.constraint(equalTo: topAnchor),
+            galleryContainer.heightAnchor.constraint(equalToConstant: 48)])
+        
+        gallerySlider = VideoControllerGallerySlider()
+        addArrangedSubview(gallerySlider)
+        gallerySlider.setup()
 
         setupScrollView()
 
@@ -105,11 +123,11 @@ class VideoController: UIView {
         galleryView.setup()
         
         videoTrim = VideoControllerTrim()
-        addSubview(videoTrim)
+        galleryContainer.addSubview(videoTrim)
         videoTrim.setup(galleryView: galleryView)
         
         videoSlider = VideoControllerSlider()
-        addSubview(videoSlider)
+        galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
     }
     
@@ -122,12 +140,12 @@ class VideoController: UIView {
         scrollView.layoutMargins.right = 0
         scrollView.alwaysBounceVertical = false
         
-        addSubview(scrollView)
+        galleryContainer.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.heightAnchor.constraint(equalTo: heightAnchor),
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.widthAnchor.constraint(equalTo: widthAnchor)])
+            scrollView.heightAnchor.constraint(equalTo: galleryContainer.heightAnchor),
+            scrollView.topAnchor.constraint(equalTo: galleryContainer.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: galleryContainer.leadingAnchor),
+            scrollView.widthAnchor.constraint(equalTo: galleryContainer.widthAnchor)])
         scrollView.delegate = self
     }
     
@@ -220,5 +238,9 @@ extension VideoController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         delegate?.onTrimChanged(position: trimPosition, state: .finished(true))
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.onTrimChanged(position: trimPosition, state: .moving)
     }
 }

@@ -15,6 +15,8 @@
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
+		42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */; };
+		42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */; };
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
@@ -64,6 +66,8 @@
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
+		42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGalleryContainer.swift; sourceTree = "<group>"; };
+		42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallerySlider.swift; sourceTree = "<group>"; };
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
@@ -119,6 +123,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42462B1F2202F70F0064FE56 /* VideoController */ = {
+			isa = PBXGroup;
+			children = (
+				42EEACE221996641009A3BB8 /* VideoController.swift */,
+				4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */,
+				4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */,
+				4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */,
+				42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */,
+				42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */,
+			);
+			path = VideoController;
+			sourceTree = "<group>";
+		};
 		429CE3DF21C22F350004D3F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,10 +199,7 @@
 				42EE13D721963FBB00724611 /* VideoViewController.swift */,
 				42EE13D9219641B400724611 /* Test.swift */,
 				42EEACE021995DEE009A3BB8 /* EditViewController.swift */,
-				42EEACE221996641009A3BB8 /* VideoController.swift */,
-				4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */,
-				4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */,
-				4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */,
+				42462B1F2202F70F0064FE56 /* VideoController */,
 				4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */,
 				4285BFA421A8D4DE00913466 /* VideoLibrary.swift */,
 				428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */,
@@ -351,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */,
+				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
 				42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,
@@ -364,6 +379,7 @@
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */,
 				4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */,
+				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4285BF9D21A8C34600913466 /* VideoControllerTrim.swift in Sources */,
