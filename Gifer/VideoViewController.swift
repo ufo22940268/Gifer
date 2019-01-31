@@ -133,8 +133,6 @@ class VideoViewController: AVPlayerViewController {
                 setupWhenVideoIsReadyToPlay()
                 videoInited = true
             }
-            
-            showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         }
     }
     
@@ -142,6 +140,7 @@ class VideoViewController: AVPlayerViewController {
         guard let currentItem = self.player?.currentItem else {return}
         let currentTime = currentTime.convertScale(600, method: .default)
         
+        showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         if self.player!.timeControlStatus == .playing {
             self.videoViewControllerDelegate?.onProgressChanged(progress:
                 currentTime)

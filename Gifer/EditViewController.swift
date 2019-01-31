@@ -73,7 +73,7 @@ class EditViewController: UIViewController {
     
     @IBOutlet weak var optionMenu: OptionMenu!
     @IBOutlet weak var controlToolbar: UIToolbar!
-    @IBOutlet weak var videoLoadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     
@@ -84,7 +84,6 @@ class EditViewController: UIViewController {
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
     }
-    
 
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
@@ -163,12 +162,11 @@ class EditViewController: UIViewController {
     }
     
     func loadVideo() {
-        videoVC.showLoading(true)
+        videoLoadingIndicator.isHidden = false
         
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
-        showLoadingWhenBuffering(true)
         
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
             guard let self = self else { return }
@@ -246,10 +244,6 @@ class EditViewController: UIViewController {
         }
     }
     
-    func showLoadingWhenBuffering(_ show: Bool) {
-        videoLoadingIndicator.isHidden = !show
-    }
-    
     fileprivate func play() {
         videoVC.play()
     }
@@ -305,7 +299,7 @@ class EditViewController: UIViewController {
             self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
             return info
         }
-        self.stackView.layoutIfNeeded()        
+        self.stackView.layoutIfNeeded()
         UIView.transition(with: self.videoContainer, duration: 0.3, options: [.transitionCrossDissolve], animations: {
             clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
             switch clickedItemInfo.index {
@@ -389,7 +383,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onBuffering(_ inBuffering: Bool) {
-        showLoadingWhenBuffering(inBuffering)
+        videoLoadingIndicator.isHidden = !inBuffering
     }
     
     func onProgressChanged(progress: CMTime) {
