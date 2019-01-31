@@ -214,9 +214,13 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea).share() {
+        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea).share( exportComplete: { (exportSuccess) in
             DispatchQueue.main.async {
                 self.showLoadingWhenExporting(false)
+            }
+        }) { (shareSuccess) in
+            DispatchQueue.main.async {                
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
