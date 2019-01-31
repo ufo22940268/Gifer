@@ -289,31 +289,32 @@ class EditViewController: UIViewController {
         
         let type = getOptionType(barItem: barItem)
         self.optionMenu.attach(menuType: type)
-        UIView.transition(with: self.stackView, duration: 0.3, options: [.layoutSubviews], animations: {
-            self.toolbarItemInfos = self.toolbarItemInfos.map {info in
-                var info = info
-                guard info.barItem == barItem else {
-                    info.state = .normal
-                    return info
-                }
-                
-                if info.state == .normal {
-                    info.state = .highlight
-                } else {
-                    info.state = .normal
-                }
-                info.state.updateOptionMenuContainer(container: self.optionMenu)
-                self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
-                
-                switch info.index {
-                case .crop:
-                    self.cropContainer.isEnabled = true
-                default:
-                    self.cropContainer.isEnabled = false
-                }
-                
+        var clickedItemInfo: ToolbarItemInfo!
+        self.toolbarItemInfos = self.toolbarItemInfos.map {info in
+            var info = info
+            guard info.barItem == barItem else {
+                info.state = .normal
                 return info
             }
+            if info.state == .normal {
+                info.state = .highlight
+            } else {
+                info.state = .normal
+            }
+            clickedItemInfo = info
+            self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
+            return info
+        }
+        self.stackView.layoutIfNeeded()        
+        UIView.transition(with: self.videoContainer, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+            clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
+            switch clickedItemInfo.index {
+            case .crop:
+                self.cropContainer.isEnabled = true
+            default:
+                self.cropContainer.isEnabled = false
+            }
+
             self.stackView.layoutIfNeeded()
             self.onVideoSectionFrameUpdated()
             self.cropContainer.layoutIfNeeded()
