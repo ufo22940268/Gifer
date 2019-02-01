@@ -46,7 +46,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                                 <subviews>
                                                     <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="16" width="343" height="48"/>
@@ -59,21 +59,21 @@
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailingMargin" id="Eeh-u9-1UH"/>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottomMargin" id="HQ3-rB-Cku"/>
+                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottom" id="HQ3-rB-Cku"/>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="topMargin" id="fPG-4n-XnW"/>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="MxJ-Sz-8yt" secondAttribute="leadingMargin" id="ziF-DU-PmU"/>
                                                 </constraints>
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="80" width="375" height="566"/>
+                                                <rect key="frame" x="0.0" y="64" width="375" height="582"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="16" width="375" height="534"/>
+                                                        <rect key="frame" x="0.0" y="16" width="375" height="550"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="264.66666666666669" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="272.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

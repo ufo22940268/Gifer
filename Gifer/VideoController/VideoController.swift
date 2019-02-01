@@ -107,7 +107,6 @@ class VideoController: UIStackView {
     
     override func awakeFromNib() {
         axis = .vertical
-        spacing = 8
         
         backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
         

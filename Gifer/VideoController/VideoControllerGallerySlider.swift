@@ -14,7 +14,7 @@ protocol VideoControllerGallerySliderDelegate: class {
 
 class VideoControllerGallerySlider: UIView {
     
-    let frameHeight = CGFloat(20)
+    let frameHeight = CGFloat(28)
     let dividerHeight = CGFloat(2)
     let sliderHeight = CGFloat(8)
     
