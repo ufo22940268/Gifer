@@ -87,10 +87,17 @@ class VideoGalleryViewController: UICollectionViewController {
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
         
-        PHImageManager.default().requestImage(for: asset, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFill, options: options) { (uiImage, config) in
+        
+        let imageManager: PHImageManager = PHImageManager.default()
+        if cell.tag != 0 {
+            imageManager.cancelImageRequest(PHImageRequestID(cell.tag))
+        }
+        
+        let requestId = imageManager.requestImage(for: asset, targetSize: UIScreen.main.bounds.size.applying(CGAffineTransform(scaleX: 1/4, y: 1/4)), contentMode: .aspectFill, options: options) { (uiImage, config) in
             cell.imageView.image = uiImage
             cell.durationView.text = asset.duration.formatTime()
         }
+        cell.tag = Int(requestId)
         
         return cell
     }

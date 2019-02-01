@@ -206,7 +206,7 @@ class VideoController: UIStackView {
 
         self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
-        self.generator?.maximumSize = CGSize(width: 50, height: 50)
+        self.generator?.maximumSize = CGSize(width: 100, height: 100)
         self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
             guard let self = self else { return }
 
