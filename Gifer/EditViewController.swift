@@ -397,6 +397,37 @@ extension EditViewController: VideoViewControllerDelegate {
 
 extension EditViewController: VideoControllerDelegate {
     
+    /// Change be gallery slider
+    ///
+    /// - Parameters:
+    ///   - begin: Left progress of gallery view.
+    ///   - end: Right progress of gallery view
+    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
+        guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
+
+        let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
+        let right = CMTimeMultiplyByFloat64(duration, multiplier: Float64(end))
+        let position: VideoTrimPosition = VideoTrimPosition(leftTrim: left, rightTrim: right)
+        videoController.scrollTo(position: position)
+        
+        var trimState: VideoTrimState
+        if state == .ended {
+            trimState = .finished(true)
+        } else if state == .began {
+            trimState = .started
+            videoController.scrollReason = .slider
+        } else {
+            trimState = .moving
+        }
+
+        videoVC.updateTrim(position: position, state: trimState)
+        
+        if state == .ended {            
+            videoController.scrollReason = .other
+        }
+    }
+    
+    
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
         guard let currentItem = videoVC.player?.currentItem else { return }
         if currentItem.duration.seconds > 0 {

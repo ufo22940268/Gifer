@@ -28,7 +28,6 @@ class VideoControllerGallery: UIStackView {
         super.init(coder: coder)
     }
     
-    
     func setup() {
         alignment = .center
         NSLayoutConstraint.activate([

@@ -187,10 +187,10 @@ extension VideoViewController {
         
         trimPosition = position
         
+        currentItem.forwardPlaybackEndTime = position.rightTrim
+        
         switch state {
         case .finished(let forceReset):
-            currentItem.forwardPlaybackEndTime = position.rightTrim
-
             var reset:Bool
             if !forceReset {
                 reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim

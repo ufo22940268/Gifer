@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol VideoControllerGallerySliderDelegate: class {
+    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
+}
+
 class VideoControllerGallerySlider: UIView {
     
     let frameHeight = CGFloat(20)
@@ -18,6 +22,8 @@ class VideoControllerGallerySlider: UIView {
     
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
+    
+    weak var delegate: VideoControllerGallerySliderDelegate?
     
     func setup() {
         guard let superview = superview else { return }
@@ -66,5 +72,8 @@ class VideoControllerGallerySlider: UIView {
         let sliderWidth = sliderWidthConstraint.constant
         sliderCenterXConstraint.constant = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
         sender.setTranslation(CGPoint.zero, in: self)
+        
+        let centerX = sliderCenterXConstraint.constant
+        delegate?.onTrimChanged(begin: (centerX - sliderWidth/2)/bounds.width, end: (centerX + sliderWidth/2)/bounds.width, state: sender.state)
     }
 }
