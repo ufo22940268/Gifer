@@ -180,12 +180,12 @@ class EditViewController: UIViewController {
         options.deliveryMode = .fastFormat
         
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             if let playerItem = playerItem {
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    let videoRect = AVMakeRect(aspectRatio: self.videoVC.previewView.image!.size, insideRect: self.cropContainer.bounds)
+                    let videoRect = AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: self.cropContainer.bounds)
                     self.cropContainer.constraints.findById(id: "width").constant = videoRect.width
                     self.cropContainer.constraints.findById(id: "height").constant = videoRect.height
                     self.videoVC.load(playerItem: playerItem)
