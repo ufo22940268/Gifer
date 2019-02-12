@@ -71,6 +71,13 @@ enum VideoControllerScrollReason {
     case other, slider
 }
 
+extension Array where Element: NSLayoutConstraint {
+    func findById(id: String) -> NSLayoutConstraint {
+        print(self.map {$0.identifier})
+        return first {$0.identifier == id}!
+    }
+}
+
 class VideoController: UIStackView {
     
     var galleryView: VideoControllerGallery!

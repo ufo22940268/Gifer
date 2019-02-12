@@ -57,6 +57,13 @@ enum ToolbarItemIndex: Int, CaseIterable {
     case crop = 4
 }
 
+extension NSLayoutConstraint {
+    func with(identifier: String) -> NSLayoutConstraint {
+        self.identifier = identifier
+        return self
+    }
+}
+
 struct ToolbarItemInfo {
     var index: ToolbarItemIndex
     var state: ToolbarItemState
@@ -88,7 +95,7 @@ class EditViewController: UIViewController {
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shareItem: UIBarButtonItem!
-    
+        
     var controlToolBarFuntionalItems: [UIBarButtonItem] {
         let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
         return controlToolbar.items!.enumerated().filter({t in validIndexes.contains(t.0)}).map({$0.1})
@@ -103,7 +110,6 @@ class EditViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        kdebug_signpost_start(10, 0, 0, 0, 0)
         view.backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
         toolbar.backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
 
@@ -124,6 +130,10 @@ class EditViewController: UIViewController {
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
+        NSLayoutConstraint.activate([
+            cropContainer.widthAnchor.constraint(equalToConstant: videoContainerSection.bounds.width).with(identifier: "width"),
+            cropContainer.heightAnchor.constraint(equalToConstant: videoContainerSection.bounds.height).with(identifier: "height")
+            ])
         
         videoContainerSection.cropContainer = cropContainer
         
@@ -159,6 +169,7 @@ class EditViewController: UIViewController {
             let barItem = controlToolbar.items![index.rawValue]
             predefinedToolbarItemStyle.setup(barItem, state: .normal)
         }
+        
     }
     
     func loadVideo() {
@@ -174,6 +185,12 @@ class EditViewController: UIViewController {
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
+                    print(self.cropContainer.frame)
+                    let videoRect = AVMakeRect(aspectRatio: self.videoVC.previewView.image!.size, insideRect: self.cropContainer.bounds)
+                    print(videoRect)
+                    print(self.cropContainer.constraints)
+                    self.cropContainer.constraints.findById(id: "width").constant = videoRect.width
+                    self.cropContainer.constraints.findById(id: "height").constant = videoRect.height
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
                     
@@ -375,6 +392,14 @@ extension EditViewController: VideoViewControllerDelegate {
         height.isActive = true
         
         cropContainer.setupVideo(frame: videoRect)
+        
+        let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
+        containerWidth.identifier = "width"
+        containerWidth.isActive = true
+        let containerHeight = videoContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
+        containerHeight.identifier = "height"
+        containerHeight.isActive = true
+        
         onTrimChanged(position: videoController.trimPosition, state: .initial)
     }
     
@@ -422,7 +447,7 @@ extension EditViewController: VideoControllerDelegate {
 
         videoVC.updateTrim(position: position, state: trimState)
         
-        if state == .ended {            
+        if state == .ended {
             videoController.scrollReason = .other
         }
     }
