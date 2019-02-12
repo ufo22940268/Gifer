@@ -185,10 +185,7 @@ class EditViewController: UIViewController {
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    print(self.cropContainer.frame)
                     let videoRect = AVMakeRect(aspectRatio: self.videoVC.previewView.image!.size, insideRect: self.cropContainer.bounds)
-                    print(videoRect)
-                    print(self.cropContainer.constraints)
                     self.cropContainer.constraints.findById(id: "width").constant = videoRect.width
                     self.cropContainer.constraints.findById(id: "height").constant = videoRect.height
                     self.videoVC.load(playerItem: playerItem)
