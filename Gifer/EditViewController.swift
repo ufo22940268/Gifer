@@ -173,7 +173,9 @@ class EditViewController: UIViewController {
     }
     
     var displayVideoRect: CGRect {
-        return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: self.cropContainer.bounds)
+        var rect = videoContainerSection.bounds
+        rect = rect.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
+        return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
     func loadVideo() {
@@ -189,8 +191,11 @@ class EditViewController: UIViewController {
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
+                    
                     self.cropContainer.constraints.findById(id: "width").constant = self.displayVideoRect.width
                     self.cropContainer.constraints.findById(id: "height").constant = self.displayVideoRect.height
+                    self.cropContainer.setupVideo(frame: self.displayVideoRect)
+                    
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
                     
@@ -368,7 +373,6 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         videoVC.previewView.isHidden = true
         enableControlOptions()
-        cropContainer.setupVideo(frame: videoRect)
         
         onTrimChanged(position: videoController.trimPosition, state: .initial)
     }

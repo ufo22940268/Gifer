@@ -79,30 +79,22 @@ class CropContainer: UIView {
         self.contentView = contentView
         scrollView.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        let width = contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        width.identifier = "width"
-        let height = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        height.identifier = "height"
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            
-            width,
-            height,
+            contentView.widthAnchor.constraint(equalToConstant: scrollView.bounds.width).with(identifier: "width"),
+            contentView.heightAnchor.constraint(equalToConstant: scrollView.bounds.height).with(identifier: "height")
             ])
     }
     
     func setupVideo(frame videoFrame: CGRect) {
         self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
+        contentView.constraints.findById(id: "width").constant = videoFrame.width
+        contentView.constraints.findById(id: "height").constant = videoFrame.height
     }
-    
-//    override func layoutSubviews() {
-//        scrollViewConstraints.width.constant = bounds.size.width
-//        scrollViewConstraints.height.constant = bounds.size.height
-//    }
     
     func createTestContentView() -> UIView {
         let imageView = UIImageView()
@@ -174,6 +166,8 @@ class CropContainer: UIView {
     func resetCrop(videoRect: CGRect) {
         constraints.findById(id: "width").constant = videoRect.width
         constraints.findById(id: "height").constant = videoRect.height
+        contentView.constraints.findById(id: "width").constant = videoRect.width
+        contentView.constraints.findById(id: "height").constant = videoRect.height
         scrollView.zoomScale = 1
         scrollView.contentOffset = CGPoint.zero
         gridRulerView.customConstraints.width.constant = videoRect.width
@@ -187,6 +181,9 @@ class CropContainer: UIView {
         gridRulerView.customConstraints.height.constant = videoSize.height
         gridRulerView.guideConstraints.width.constant = videoSize.width
         gridRulerView.guideConstraints.height.constant = videoSize.height
+        
+        contentView.constraints.findById(id: "width").constant = videoSize.width
+        contentView.constraints.findById(id: "height").constant = videoSize.height
     }
 }
 
