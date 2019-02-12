@@ -363,39 +363,9 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-        
         videoVC.previewView.isHidden = true
         enableControlOptions()
-        
-        ["width", "height"].forEach { (id) in
-            cropContainer.superview!.constraints.filter({ (ns) -> Bool in
-                ns.identifier == id
-            }).forEach({ (ns) in
-                ns.isActive = false
-            })
-            
-            videoContainer.constraints.filter({ (ns) -> Bool in
-                ns.identifier == id
-            }).forEach({ (ns) in
-                ns.isActive = false
-            })
-        }
-        
-        let width = cropContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
-        width.identifier = "width"
-        width.isActive = true
-        let height = cropContainer.heightAnchor.constraint(equalToConstant: videoRect.height - 32)
-        height.identifier = "height"
-        height.isActive = true
-        
         cropContainer.setupVideo(frame: videoRect)
-        
-        let containerWidth = videoContainer.widthAnchor.constraint(equalToConstant: videoRect.width)
-        containerWidth.identifier = "width"
-        containerWidth.isActive = true
-        let containerHeight = videoContainer.heightAnchor.constraint(equalToConstant: videoRect.height)
-        containerHeight.identifier = "height"
-        containerHeight.isActive = true
         
         onTrimChanged(position: videoController.trimPosition, state: .initial)
     }

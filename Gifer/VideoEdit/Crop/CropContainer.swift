@@ -97,18 +97,6 @@ class CropContainer: UIView {
     func setupVideo(frame videoFrame: CGRect) {
         self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
-        
-        ["width", "height"].forEach({id in constraints.first(where: {cons in
-            cons.identifier == id
-        })!.isActive = false})
-        
-        let width = widthAnchor.constraint(equalToConstant: videoFrame.width)
-        width.identifier = "width"
-        width.isActive = true
-        
-        let height = heightAnchor.constraint(equalToConstant: videoFrame.height)
-        height.identifier = "height"
-        height.isActive = true
     }
     
 //    override func layoutSubviews() {
