@@ -172,6 +172,10 @@ class EditViewController: UIViewController {
         
     }
     
+    var displayVideoRect: CGRect {
+        return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: self.cropContainer.bounds)
+    }
+    
     func loadVideo() {
         videoLoadingIndicator.isHidden = false
         
@@ -185,9 +189,8 @@ class EditViewController: UIViewController {
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    let videoRect = AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: self.cropContainer.bounds)
-                    self.cropContainer.constraints.findById(id: "width").constant = videoRect.width
-                    self.cropContainer.constraints.findById(id: "height").constant = videoRect.height
+                    self.cropContainer.constraints.findById(id: "width").constant = self.displayVideoRect.width
+                    self.cropContainer.constraints.findById(id: "height").constant = self.displayVideoRect.height
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
                     
@@ -445,8 +448,8 @@ extension EditViewController: VideoControllerDelegate {
 extension EditViewController: OptionMenuDelegate {
     
     func onResetCrop() {
-        UIView.transition(with: cropContainer, duration: 0.3, options: .transitionCrossDissolve, animations: {
-            self.cropContainer.resetCrop()
+        UIView.transition(with: cropContainer, duration: 0.3, options: .curveEaseInOut, animations: {
+            self.cropContainer.resetCrop(videoRect: self.displayVideoRect)
         }, completion: nil)
     }
     

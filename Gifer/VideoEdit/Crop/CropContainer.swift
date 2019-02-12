@@ -171,12 +171,13 @@ class CropContainer: UIView {
         bringSubviewToFront(gridRulerView)
     }
     
-    func resetCrop() {
-        guard let videoBounds = videoBounds else { return }
+    func resetCrop(videoRect: CGRect) {
+        constraints.findById(id: "width").constant = videoRect.width
+        constraints.findById(id: "height").constant = videoRect.height
         scrollView.zoomScale = 1
         scrollView.contentOffset = CGPoint.zero
-        gridRulerView.customConstraints.width.constant = videoBounds.width
-        gridRulerView.customConstraints.height.constant = videoBounds.height
+        gridRulerView.customConstraints.width.constant = videoRect.width
+        gridRulerView.customConstraints.height.constant = videoRect.height
         gridRulerView.customConstraints.centerX.constant = 0
         gridRulerView.customConstraints.centerY.constant = 0
     }
