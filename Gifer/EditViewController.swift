@@ -87,7 +87,6 @@ class EditViewController: UIViewController {
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
     
-    @IBOutlet weak var cropContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var videoPlayerSection: VideoPlayerSection!
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
@@ -131,11 +130,6 @@ class EditViewController: UIViewController {
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
-        NSLayoutConstraint.activate([
-            cropContainer.widthAnchor.constraint(equalToConstant: videoPlayerSection.bounds.width).with(identifier: "width"),
-            cropContainer.heightAnchor.constraint(equalToConstant: videoPlayerSection.bounds.height).with(identifier: "height")
-            ])
-        
         videoPlayerSection.cropContainer = cropContainer
         
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
@@ -180,7 +174,6 @@ class EditViewController: UIViewController {
     }
     
     func loadVideo(preview previewImage: UIImage? = nil) {
-        cropContainerHeightConstraint.isActive = false
         videoLoadingIndicator.isHidden = false
         
         let options = PHVideoRequestOptions()
@@ -207,8 +200,11 @@ class EditViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
-                    self.cropContainer.constraints.findById(id: "width").constant = self.displayVideoRect.width
-                    self.cropContainer.constraints.findById(id: "height").constant = self.displayVideoRect.height
+                    self.cropContainer.superview!.constraints.findById(id: "width").isActive = false
+                    self.cropContainer.superview!.constraints.findById(id: "height").isActive = false
+                    self.cropContainer.widthAnchor.constraint(equalToConstant: self.displayVideoRect.width).with(identifier: "width").isActive = true
+                    self.cropContainer.heightAnchor.constraint(equalToConstant: self.displayVideoRect.height).with(identifier: "height").isActive = true
+
                     self.cropContainer.setupVideo(frame: self.displayVideoRect)
                     
                     self.videoVC.load(playerItem: playerItem)

@@ -83,7 +83,7 @@
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" identifier="centerXa" id="XLH-2P-TAG"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" identifier="centerY" id="hqR-xR-aPI"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" placeholder="YES" identifier="width" id="zGj-xX-vb0"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
@@ -155,7 +155,6 @@
                     <connections>
                         <outlet property="controlToolbar" destination="dTn-58-Uxg" id="4Lm-3p-0TM"/>
                         <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
-                        <outlet property="cropContainerHeightConstraint" destination="FOf-kR-snz" id="dRV-cC-vxu"/>
                         <outlet property="optionMenu" destination="f3C-v6-RYP" id="5US-6W-WfL"/>
                         <outlet property="shareItem" destination="0Ye-w1-Lyn" id="Myd-3g-3BG"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
