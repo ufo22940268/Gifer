@@ -213,9 +213,9 @@ class EditViewController: UIViewController {
                     self.videoVC.videoViewControllerDelegate = self
                     
                     self.videoController.delegate = self
-                    self.videoController.load(playerItem: playerItem)
-
-                    self.videoVC.play()
+                    self.videoController.load(playerItem: playerItem) {
+                        self.videoVC.play()
+                    }
                 }
             }
         }
@@ -434,6 +434,7 @@ extension EditViewController: VideoControllerDelegate {
     
     
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+        print(state, position.rightTrim.seconds)
         guard let currentItem = videoVC.player?.currentItem else { return }
         if currentItem.duration.seconds > 0 {
             let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)

@@ -93,13 +93,13 @@ class VideoViewController: AVPlayerViewController {
         let observeInterval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
-                                                            [weak self] time in                                                                                             self?.observePlaybackStatus(currentTime: time)
+                                                            [weak self] time in                                                                                             self?.observePlaybackStatus()
         }
 
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             guard let player = self.player, let currentItem = player.currentItem else { return }
-            print("end: \(self.player?.currentItem?.forwardPlaybackEndTime.seconds) \(player.currentItem?.status.rawValue) \(player.currentItem?.isPlaybackLikelyToKeepUp)")
-            if player.timeControlStatus == .playing && currentItem.isPlaybackLikelyToKeepUp {
+            if currentItem.currentTime() == currentItem.forwardPlaybackEndTime {
+                print("seek 2: \(self.trimPosition.leftTrim) \(currentItem.forwardPlaybackEndTime)")
                 player.seek(to: self.trimPosition.leftTrim)
                 player.playImmediately(atRate: self.currentRate)
             }
@@ -127,17 +127,17 @@ class VideoViewController: AVPlayerViewController {
         }
     }
     
-    func observePlaybackStatus(currentTime: CMTime) {
+    func observePlaybackStatus() {
         guard let currentItem = self.player?.currentItem else {return}
-        let currentTime = currentTime.convertScale(600, method: .default)
         
+        let currentTime = currentItem.currentTime()
         showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         if self.player!.timeControlStatus == .playing {
             if currentItem.isPlaybackLikelyToKeepUp {
                 previewView.isHidden = true
+                self.videoViewControllerDelegate?.onProgressChanged(progress:
+                    currentTime)
             }
-            self.videoViewControllerDelegate?.onProgressChanged(progress:
-                currentTime)
         }
     }
     
@@ -165,6 +165,7 @@ class VideoViewController: AVPlayerViewController {
             return
         }
         
+        print("seek 1: \(progress.seconds)")
         player.seek(to: progress)
     }
 
@@ -193,7 +194,7 @@ extension VideoViewController {
             }
             
             if reset {
-                player.seek(to: position.leftTrim)
+                seek(toProgress: position.leftTrim)
             }
             play()
         case .started:

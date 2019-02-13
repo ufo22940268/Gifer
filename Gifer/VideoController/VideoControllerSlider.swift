@@ -70,6 +70,7 @@ class VideoControllerSlider: UIControl {
     }
     
     func updateProgress(progress: CMTime) {
+        print("progress: \(progress.seconds)")
         let trimPosition = trimView.trimPosition
         let percentageProgress: Double = ((progress - trimPosition.leftTrim).seconds/trimPosition.range.seconds).clamped(to: 0...1)
         leadingConstraint.constant = (sliderRangeGuide.layoutFrame.width)*CGFloat(percentageProgress)

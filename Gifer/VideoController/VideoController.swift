@@ -167,7 +167,7 @@ class VideoController: UIStackView {
     }        
     
     
-    func load(playerItem: AVPlayerItem) -> Void {
+    func load(playerItem: AVPlayerItem, completion: @escaping () -> Void) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
@@ -189,12 +189,15 @@ class VideoController: UIStackView {
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
         self.videoSlider.galleryDuration = galleryDuration
-        self.delegate?.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration), state: .finished(false))
         
         group.enter()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.galleryView.prepareImageViews(thumbernailCount)
+            self.videoTrim.onVideoLoaded()
+            self.galleryView.bringSubviewToFront(self.videoSlider)
+            self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+            completion()
             group.leave()
         }
         
@@ -228,12 +231,6 @@ class VideoController: UIStackView {
         
         group.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-            self.videoTrim.onVideoLoaded()
-            self.galleryView.bringSubviewToFront(self.videoSlider)
-            
-            //Not good implementation to change background color. Because the background is set by UIAppearance, so should find better way to overwrite it.
-            self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
-            print("finish load video \(Date())")
         }
     }
     

@@ -260,7 +260,7 @@ class VideoControllerTrim: UIControl {
     }
     
     func onVideoLoaded() {
-        trimDelegate?.onTrimChanged(position: trimPosition, state: .moving)
+        trimDelegate?.onTrimChanged(position: trimPosition, state: .initial)
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
