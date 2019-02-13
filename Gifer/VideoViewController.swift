@@ -45,11 +45,6 @@ class VideoViewController: AVPlayerViewController {
     var dismissed: Bool = false
     var videoInited: Bool = false
     
-    override func viewDidLoad() {
-        guard let view = view else { return  }
-
-    }
-    
     func load(playerItem: AVPlayerItem) -> Void {
         guard !dismissed else {
             return

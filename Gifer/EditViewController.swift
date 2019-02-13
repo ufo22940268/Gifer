@@ -87,6 +87,7 @@ class EditViewController: UIViewController {
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
     
+    @IBOutlet weak var cropContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var videoPlayerSection: VideoPlayerSection!
     var playSpeedView: PlaySpeedView {
         return optionMenu.playSpeedView
@@ -179,6 +180,7 @@ class EditViewController: UIViewController {
     }
     
     func loadVideo(preview previewImage: UIImage? = nil) {
+        cropContainerHeightConstraint.isActive = false
         videoLoadingIndicator.isHidden = false
         
         let options = PHVideoRequestOptions()

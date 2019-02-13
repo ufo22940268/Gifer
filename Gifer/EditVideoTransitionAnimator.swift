@@ -12,7 +12,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-private var editVCTransitionDuration: TimeInterval = 0.3
+private var editVCTransitionDuration: TimeInterval = 3 //0.3
 private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
@@ -49,8 +49,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         
         toVC.stackView.layoutIfNeeded()
         toView.layoutIfNeeded()
-        var finalImageViewFrame = toVC.videoPlayerSection.convert(toVC.cropContainer.bounds, to: toVC.view)
-        finalImageViewFrame = finalImageViewFrame.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
+        let finalImageViewFrame = toVC.cropContainer.convert(toVC.cropContainer.bounds, to: toVC.view)
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
             toView.alpha = 1

@@ -46,13 +46,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
                                                 <subviews>
                                                     <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="16" y="16" width="343" height="48"/>
+                                                        <rect key="frame" x="16" y="16" width="343" height="76"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="48" placeholder="YES" id="1p6-JA-5ko"/>
+                                                            <constraint firstAttribute="height" constant="76" id="1p6-JA-5ko"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -66,19 +66,19 @@
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="64" width="375" height="582"/>
+                                                <rect key="frame" x="0.0" y="92" width="375" height="554"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="16" width="375" height="550"/>
+                                                        <rect key="frame" x="0.0" y="16" width="375" height="522"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="272.66666666666669" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="258.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" constant="-32" placeholder="YES" identifier="height" id="FOf-kR-snz"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" constant="-32" identifier="height" id="FOf-kR-snz"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" identifier="centerXa" id="XLH-2P-TAG"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" identifier="centerY" id="hqR-xR-aPI"/>
@@ -155,6 +155,7 @@
                     <connections>
                         <outlet property="controlToolbar" destination="dTn-58-Uxg" id="4Lm-3p-0TM"/>
                         <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
+                        <outlet property="cropContainerHeightConstraint" destination="FOf-kR-snz" id="dRV-cC-vxu"/>
                         <outlet property="optionMenu" destination="f3C-v6-RYP" id="5US-6W-WfL"/>
                         <outlet property="shareItem" destination="0Ye-w1-Lyn" id="Myd-3g-3BG"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
