@@ -59,10 +59,9 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             
             animateView.layoutIfNeeded()
         }, completion: {completed in
-            toVC.setPreviewImage(image)
             animateView.removeFromSuperview()
             transitionContext.completeTransition(true)
-            toVC.loadVideo()
+            toVC.loadVideo(preview: image)
         })
     }
 }

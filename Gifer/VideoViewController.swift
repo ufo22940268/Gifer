@@ -46,18 +46,8 @@ class VideoViewController: AVPlayerViewController {
     var videoInited: Bool = false
     
     override func viewDidLoad() {
-        if let contentOverlayView = contentOverlayView {
-            previewView = VideoPreviewView()
-            previewView.translatesAutoresizingMaskIntoConstraints = false
-            contentOverlayView.addSubview(previewView);
-            NSLayoutConstraint.activate([
-                previewView.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
-                previewView.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
-                previewView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
-                previewView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
-                ])
-            previewView.backgroundColor = UIColor.black                        
-        }
+        guard let view = view else { return  }
+
     }
     
     func load(playerItem: AVPlayerItem) -> Void {
@@ -69,13 +59,7 @@ class VideoViewController: AVPlayerViewController {
         self.player?.isMuted = true
         videoGravity = .resize
         
-        
-        
         addObservers()
-    }
-    
-    func setPreviewImage(_ image: UIImage) {
-        previewView.image = image
     }
     
     func setRate(_ rate: Float) {
@@ -106,16 +90,19 @@ class VideoViewController: AVPlayerViewController {
     
     func addObservers() {
         guard let currentItem = player?.currentItem else { return  }
-        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        let observeInterval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
                                                             [weak self] time in                                                                                             self?.observePlaybackStatus(currentTime: time)
         }
 
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
-            guard let player = self.player else { return }
-            player.seek(to: self.trimPosition.leftTrim)
-            player.playImmediately(atRate: self.currentRate)
+            guard let player = self.player, let currentItem = player.currentItem else { return }
+            print("end: \(self.player?.currentItem?.forwardPlaybackEndTime.seconds) \(player.currentItem?.status.rawValue) \(player.currentItem?.isPlaybackLikelyToKeepUp)")
+            if player.timeControlStatus == .playing && currentItem.isPlaybackLikelyToKeepUp {
+                player.seek(to: self.trimPosition.leftTrim)
+                player.playImmediately(atRate: self.currentRate)
+            }
         }
         
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
@@ -146,6 +133,9 @@ class VideoViewController: AVPlayerViewController {
         
         showLoading(!currentItem.isPlaybackLikelyToKeepUp)
         if self.player!.timeControlStatus == .playing {
+            if currentItem.isPlaybackLikelyToKeepUp {
+                previewView.isHidden = true
+            }
             self.videoViewControllerDelegate?.onProgressChanged(progress:
                 currentTime)
         }

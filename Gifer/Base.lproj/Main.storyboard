@@ -160,9 +160,9 @@
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
                         <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
-                        <outlet property="videoContainerSection" destination="FsJ-7O-eCM" id="dif-mV-Aq8"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
+                        <outlet property="videoPlayerSection" destination="FsJ-7O-eCM" id="yf5-Yg-0xx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>
