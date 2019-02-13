@@ -99,7 +99,6 @@ class VideoViewController: AVPlayerViewController {
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             guard let player = self.player, let currentItem = player.currentItem else { return }
             if currentItem.currentTime() == currentItem.forwardPlaybackEndTime {
-                print("seek 2: \(self.trimPosition.leftTrim) \(currentItem.forwardPlaybackEndTime)")
                 player.seek(to: self.trimPosition.leftTrim)
                 player.playImmediately(atRate: self.currentRate)
             }
@@ -165,7 +164,6 @@ class VideoViewController: AVPlayerViewController {
             return
         }
         
-        print("seek 1: \(progress.seconds)")
         player.seek(to: progress)
     }
 
