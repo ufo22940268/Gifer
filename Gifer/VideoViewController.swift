@@ -55,6 +55,7 @@ class VideoViewController: AVPlayerViewController {
         self.player?.isMuted = true
         videoGravity = .resize
         
+        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
         addObservers()
     }
     
@@ -85,7 +86,6 @@ class VideoViewController: AVPlayerViewController {
     weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
-        guard let currentItem = player?.currentItem else { return  }
         let observeInterval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
@@ -100,7 +100,6 @@ class VideoViewController: AVPlayerViewController {
             }
         }
         
-        currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

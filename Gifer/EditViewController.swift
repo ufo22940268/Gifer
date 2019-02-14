@@ -385,10 +385,10 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         self.videoController.delegate = self
         self.videoController.load(playerItem: videoVC.player!.currentItem!) {
-            self.videoVC.play()
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
+            self.videoVC.play()
         }
     }
     
