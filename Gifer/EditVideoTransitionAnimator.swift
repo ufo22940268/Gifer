@@ -49,6 +49,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         
         toView.layoutIfNeeded()
         let finalImageViewFrame = toVC.cropContainer.convert(toVC.cropContainer.bounds, to: transitionContext.containerView)
+        toVC.setPreviewImage(image)
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
             toView.alpha = 1
@@ -60,7 +61,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }, completion: {completed in
             animateView.removeFromSuperview()
             transitionContext.completeTransition(true)
-            toVC.loadVideo(preview: image)
+            toVC.loadVideo()
         })
     }
 }
@@ -78,7 +79,8 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let editView = transitionContext.view(forKey: .from)!
         let galleryView = transitionContext.view(forKey: .to)!
         
-        let initialFrame = editVC.videoContainer.superview!.convert(editVC.videoContainer.frame, to: editVC.view)
+        let initialView = editVC.previewView!
+        let initialFrame = initialView.superview!.convert(initialView.frame, to: editVC.view)
         
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
         animatedView.makeImageViewFitContainer()

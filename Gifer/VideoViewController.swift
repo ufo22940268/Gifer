@@ -44,6 +44,7 @@ class VideoViewController: AVPlayerViewController {
     var currentRate: Float = 1
     var dismissed: Bool = false
     var videoInited: Bool = false
+    var previewImage: UIImage?
     
     func load(playerItem: AVPlayerItem) -> Void {
         guard !dismissed else {

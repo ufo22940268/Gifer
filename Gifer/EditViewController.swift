@@ -145,6 +145,18 @@ class EditViewController: UIViewController {
             videoVC.view.heightAnchor.constraint(equalTo: videoContainer.heightAnchor)
             ])
         videoVC.didMove(toParent: self)
+        
+        let previewView = VideoPreviewView()
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
+        NSLayoutConstraint.activate([
+            previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor, constant: -32),
+            previewView.widthAnchor.constraint(equalTo: videoPlayerSection.widthAnchor),
+            previewView.centerXAnchor.constraint(equalTo: videoPlayerSection.centerXAnchor),
+            previewView.centerYAnchor.constraint(equalTo: videoPlayerSection.centerYAnchor)
+            ])
+        previewView.backgroundColor = UIColor.black
+        videoVC.previewView = previewView
     }
     
     var isDebug: Bool {
@@ -164,7 +176,10 @@ class EditViewController: UIViewController {
             let barItem = controlToolbar.items![index.rawValue]
             predefinedToolbarItemStyle.setup(barItem, state: .normal)
         }
-        
+    }
+    
+    var previewView: UIView? {
+        return videoVC.previewView
     }
     
     var displayVideoRect: CGRect {
@@ -173,25 +188,12 @@ class EditViewController: UIViewController {
         return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
-    func loadVideo(preview previewImage: UIImage? = nil) {
+    func loadVideo() {
         videoLoadingIndicator.isHidden = false
         
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
-        
-        let previewView = VideoPreviewView()
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
-        NSLayoutConstraint.activate([
-            previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor, constant: -32),
-            previewView.widthAnchor.constraint(equalTo: videoPlayerSection.widthAnchor),
-            previewView.centerXAnchor.constraint(equalTo: videoPlayerSection.centerXAnchor),
-            previewView.centerYAnchor.constraint(equalTo: videoPlayerSection.centerYAnchor)
-            ])
-        previewView.backgroundColor = UIColor.black
-        previewView.image = previewImage
-        videoVC.previewView = previewView
         
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
             guard let _ = self else { return }
@@ -219,8 +221,13 @@ class EditViewController: UIViewController {
         }
     }
     
+    func setPreviewImage(_ image: UIImage) {
+        videoVC.previewImage = image
+        videoVC.previewView.image = image
+    }
+    
     func getPreviewImage() -> UIImage? {
-        return videoVC.previewView.image
+        return videoVC.previewImage
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -432,7 +439,6 @@ extension EditViewController: VideoControllerDelegate {
     
     
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
-        print(state, position.rightTrim.seconds)
         guard let currentItem = videoVC.player?.currentItem else { return }
         if currentItem.duration.seconds > 0 {
             let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
