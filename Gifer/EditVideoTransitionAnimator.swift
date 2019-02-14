@@ -60,8 +60,9 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animateView.layoutIfNeeded()
         }, completion: {completed in
             animateView.removeFromSuperview()
-            transitionContext.completeTransition(true)
             toVC.loadVideo()
+            kdebug_signpost(2, 0, 0, 0, 1)
+            transitionContext.completeTransition(true)
         })
     }
 }
@@ -74,6 +75,8 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        print("transition start")
+        kdebug_signpost_start(1, 0, 0, 0, 0)
         let editVC = transitionContext.viewController(forKey: .from) as! EditViewController
         let galleryVC = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! VideoGalleryViewController
         let editView = transitionContext.view(forKey: .from)!
@@ -92,14 +95,27 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
             editView.alpha = 0
         })
         
+        
         cell.isHidden = true
         transitionContext.containerView.addSubview(galleryView)
         transitionContext.containerView.addSubview(animatedView)
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+        
+//        animatedView.frame = toRect
+//        animatedView.makeImageViewFillContainer()
+//        galleryView.alpha = 1
+//        print("dismiss finished")
+//        cell.isHidden = false
+//        animatedView.removeFromSuperview()
+//        transitionContext.completeTransition(true)
+        
+        
+        UIView.animate(withDuration: 0.3, animations: {
             animatedView.frame = toRect
             animatedView.makeImageViewFillContainer()
             galleryView.alpha = 1
         }, completion: {success in
+            kdebug_signpost_end(1, 0, 0, 0, 0)
+            print("dismiss finished")
             cell.isHidden = false
             animatedView.removeFromSuperview()
             transitionContext.completeTransition(true)

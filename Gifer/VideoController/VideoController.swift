@@ -175,9 +175,7 @@ class VideoController: UIStackView {
         self.videoTrim.duration = duration
         self.videoSlider.duration = duration
         
-        let group = DispatchGroup()
-        
-        let thumbernailCount: Int
+        var thumbernailCount: Int
         var galleryDuration: CMTime
         if Int(duration.seconds) > videoControllerGalleryVideoLengthPerGroup {
             thumbernailCount = Int(duration.seconds/Double(videoControllerGalleryVideoLengthPerGroup) * Double(videoControllerGalleryImageCountPerGroup))
@@ -190,16 +188,10 @@ class VideoController: UIStackView {
         self.videoTrim.galleryDuration = galleryDuration
         self.videoSlider.galleryDuration = galleryDuration
         
-        group.enter()
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.galleryView.prepareImageViews(thumbernailCount)
-            self.videoTrim.onVideoLoaded()
-            self.galleryView.bringSubviewToFront(self.videoSlider)
-            self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
-            completion()
-            group.leave()
-        }
+        self.galleryView.prepareImageViews(thumbernailCount)
+        self.galleryView.bringSubviewToFront(self.videoSlider)
+        self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+        completion()
         
         var thumbernailTimes = [NSValue]()
         for i in 0..<thumbernailCount {
@@ -209,28 +201,25 @@ class VideoController: UIStackView {
 
             let time = CMTimeMultiplyByRatio(playerItem.asset.duration, multiplier: Int32(i), divisor: Int32(thumbernailCount))
             thumbernailTimes.append(NSValue(time: time))
-            group.enter()
         }
 
         self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
         self.generator?.maximumSize = CGSize(width: 100, height: 100)
-        self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
-            guard let self = self else { return }
-
-            guard image != nil else { return }
-
-            let thumbernail: UIImage = UIImage(cgImage: image!)
-            DispatchQueue.main.async { [weak self] in
+        let queue = DispatchQueue(label: "generate thumbernails")
+        queue.async {
+            self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
                 guard let self = self else { return }
-                self.loadGallery(withImage: thumbernail, index: index)
-                index = index + 1
-                group.leave()
+                
+                guard image != nil else { return }
+                
+                let thumbernail: UIImage = UIImage(cgImage: image!)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.loadGallery(withImage: thumbernail, index: index)
+                    index = index + 1
+                }
             }
-        }
-        
-        group.notify(queue: DispatchQueue.main) { [weak self] in
-            guard let self = self else { return }
         }
     }
     

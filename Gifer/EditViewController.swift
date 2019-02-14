@@ -198,7 +198,6 @@ class EditViewController: UIViewController {
         PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
             guard let _ = self else { return }
             if let playerItem = playerItem {
-
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
@@ -211,11 +210,6 @@ class EditViewController: UIViewController {
                     
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
-                    
-                    self.videoController.delegate = self
-                    self.videoController.load(playerItem: playerItem) {
-                        self.videoVC.play()
-                    }
                 }
             }
         }
@@ -383,9 +377,19 @@ extension EditViewController: VideoViewControllerDelegate {
         return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
     }
     
+    var isVideoReady: Bool {
+        guard let item = videoVC.player?.currentItem else { return false }
+        return item.status == .readyToPlay
+    }
+    
     func onVideoReady(controller: AVPlayerViewController) {
-        enableControlOptions()
-        onTrimChanged(position: videoController.trimPosition, state: .initial)
+        self.videoController.delegate = self
+        self.videoController.load(playerItem: videoVC.player!.currentItem!) {
+            self.videoVC.play()
+            self.enableControlOptions()
+            self.videoController.layoutIfNeeded()
+            self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
+        }
     }
     
     private func enableControlOptions() {
@@ -398,6 +402,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onProgressChanged(progress: CMTime) {
+        guard isVideoReady else { return }
         videoController.updateSliderProgress(progress)
     }
     

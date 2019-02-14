@@ -259,10 +259,6 @@ class VideoControllerTrim: UIControl {
         return VideoTrimPosition(leftTrim: leftTrim, rightTrim: rightTrim)
     }
     
-    func onVideoLoaded() {
-        trimDelegate?.onTrimChanged(position: trimPosition, state: .initial)
-    }
-    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         if hitView == leftTrim || hitView == rightTrim {
