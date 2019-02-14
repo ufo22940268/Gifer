@@ -12,7 +12,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-private var editVCTransitionDuration: TimeInterval = 3 //0.3
+private var editVCTransitionDuration: TimeInterval = 0.5 //0.3
 private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
@@ -48,11 +48,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }
         
         toView.layoutIfNeeded()
-        toVC.stackView.layoutIfNeeded()
-        print("stackview height: \(toVC.stackView.frame.height)")
-        print("child heights: \(toVC.stackView.subviews.map({$0.frame.height}))")
         let finalImageViewFrame = toVC.cropContainer.convert(toVC.cropContainer.bounds, to: transitionContext.containerView)
-
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
             toView.alpha = 1
