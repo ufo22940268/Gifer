@@ -67,4 +67,12 @@ class ShareManager {
             
         }
     }
+    
+    func saveToPhoto(gif: URL, complete: @escaping ShareHandler) {
+        let gifData = try! Data(contentsOf: gif)
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetCreationRequest.forAsset().addResource(with: .photo, data: gifData, options: nil)
+            complete(true)
+        })
+    }
 }

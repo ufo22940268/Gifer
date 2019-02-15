@@ -25,6 +25,9 @@ class ShareDialogController {
         alertController.addAction(UIAlertAction(title: "分享到微信", style: .default, handler: {action in
             shareHandler(.wechat)
         }))
+        alertController.addAction(UIAlertAction(title: "保存到相册", style: .default, handler: { (action) in
+            shareHandler(.photo)
+        }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
     }
     

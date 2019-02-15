@@ -70,6 +70,14 @@ struct ToolbarItemInfo {
     var barItem: UIBarButtonItem
 }
 
+extension UIViewController {
+    func makeToast(message: String, completion: @escaping () -> Void) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {_ in completion()}))
+        present(alertController, animated: true, completion: nil)
+    }
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
@@ -249,7 +257,11 @@ class EditViewController: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                 })
             case .photo:
-                self.dismiss(animated: true, completion: nil)
+                shareManager.saveToPhoto(gif: gif) {success in
+                    self.makeToast(message: "保存成功", completion: {
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                }
             }
         }
     }
