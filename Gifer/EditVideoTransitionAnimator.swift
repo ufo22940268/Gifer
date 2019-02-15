@@ -12,7 +12,8 @@ import AVFoundation
 import AVKit
 import Photos
 
-private var editVCTransitionDuration: TimeInterval = 0.5 //0.3
+//private var editVCTransitionDuration: TimeInterval = 0.5 //0.3
+private var editVCTransitionDuration: TimeInterval = 2 //0.3
 private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
@@ -45,20 +46,22 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         transitionContext.containerView.addSubview(animateView)
         UIView.animate(withDuration: editVCTransitionShortDuration) {
             fromView.alpha = 0
+            toView.alpha = 1
         }
         
         toView.layoutIfNeeded()
         let finalImageViewFrame = toVC.cropContainer.convert(toVC.cropContainer.bounds, to: transitionContext.containerView)
         toVC.setPreviewImage(image)
+        let previewView = toVC.previewView!
+        previewView.isHidden = true
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
-            toView.alpha = 1
             animateView.translatesAutoresizingMaskIntoConstraints = false
             animateView.frame = finalImageViewFrame
             animateView.makeImageViewFitContainer()
-            
             animateView.layoutIfNeeded()
         }, completion: {completed in
+            previewView.isHidden = false
             animateView.removeFromSuperview()
             toVC.loadVideo()
             kdebug_signpost(2, 0, 0, 0, 1)
@@ -88,19 +91,21 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let cell = galleryVC.getSelectedCell()!
         let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
         
-        galleryView.alpha = 0
         UIView.animate(withDuration: editVCTransitionShortDuration, animations: {
             editView.alpha = 0
+            galleryView.alpha = 1
         })
         
         cell.isHidden = true
         transitionContext.containerView.addSubview(galleryView)
         transitionContext.containerView.addSubview(animatedView)
         
-        UIView.animate(withDuration: 0.3, animations: {
+        let cropContainer = editVC.cropContainer
+        cropContainer?.isHidden = true
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             animatedView.frame = toRect
             animatedView.makeImageViewFillContainer()
-            galleryView.alpha = 1
         }, completion: {success in
             cell.isHidden = false
             animatedView.removeFromSuperview()
