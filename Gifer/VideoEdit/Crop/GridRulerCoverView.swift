@@ -13,7 +13,7 @@ class GridRulerCoverView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        backgroundColor = UIColor.black.withAlphaComponent(0.8)
         isHidden = true
     }
     

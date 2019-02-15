@@ -258,9 +258,14 @@ class EditViewController: UIViewController {
                 })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
-                    self.makeToast(message: "保存成功", completion: {
+                    let alert = UIAlertController(title: nil, message: "保存成功", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "前往相册", style: .default, handler: { (_) in
+                        UIApplication.shared.open(URL(string:"photos-redirect://")!)
+                    }))
+                    alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
-                    })
+                    }))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
