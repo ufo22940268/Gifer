@@ -90,9 +90,8 @@
                                                 <rect key="frame" x="0.0" y="646" width="375" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
+                                            <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
                                                 <rect key="frame" x="0.0" y="646" width="375" height="44"/>
-                                                <color key="backgroundColor" name="darkBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="atM-Bh-q9B"/>
                                                 </constraints>

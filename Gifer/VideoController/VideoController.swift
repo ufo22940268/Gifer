@@ -114,8 +114,6 @@ class VideoController: UIStackView {
     override func awakeFromNib() {
         axis = .vertical
         
-        backgroundColor = #colorLiteral(red: 0.262745098, green: 0.262745098, blue: 0.262745098, alpha: 1)
-        
         galleryContainer = VideoControllerGalleryContainer()
         addArrangedSubview(galleryContainer)
         galleryContainer.translatesAutoresizingMaskIntoConstraints = false
