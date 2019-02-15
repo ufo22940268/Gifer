@@ -21,6 +21,25 @@ extension TimeInterval {
     }
 }
 
+extension UICollectionView {
+    
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.font = UIFont(name: "Avenir-Light", size: 18)
+        messageLabel.sizeToFit()
+        
+        self.backgroundView = messageLabel;
+    }
+    
+    func restore() {
+        self.backgroundView = nil
+    }
+}
+
 class VideoGalleryViewController: UICollectionViewController {
     
     var videoResult:PHFetchResult<PHAsset>?
@@ -56,6 +75,12 @@ class VideoGalleryViewController: UICollectionViewController {
     func reload() {
         self.videoResult = VideoLibrary.shared().getVideos()
         self.collectionView.reloadData()
+        
+        if let videoResult = videoResult, videoResult.count > 0 {
+            self.collectionView.restore()
+        } else {
+            self.collectionView.setEmptyMessage("未找到视频")
+        }
     }
     
     func getSelectedCell() -> VideoGalleryCell? {
