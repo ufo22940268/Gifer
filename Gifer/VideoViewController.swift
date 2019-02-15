@@ -55,7 +55,6 @@ class VideoViewController: AVPlayerViewController {
         self.player?.isMuted = true
         videoGravity = .resize
         
-        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
         addObservers()
     }
     
@@ -100,6 +99,7 @@ class VideoViewController: AVPlayerViewController {
             }
         }
         
+        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -152,6 +152,7 @@ class VideoViewController: AVPlayerViewController {
         if let observer = loopObserver {
             NotificationCenter.default.removeObserver(observer)
         }
+        self.player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: nil)
     }
     
     func seek(toProgress progress: CMTime) {
