@@ -23,6 +23,7 @@
 		426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C537D21D4C6020018DE80 /* PlaySpeedView.xib */; };
+		42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42820CF52216A14200C5A99C /* ShareDialogController.swift */; };
 		4285BF9D21A8C34600913466 /* VideoControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */; };
 		4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */; };
 		4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */; };
@@ -74,6 +75,7 @@
 		426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDialog.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426C537D21D4C6020018DE80 /* PlaySpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaySpeedView.xib; sourceTree = "<group>"; };
+		42820CF52216A14200C5A99C /* ShareDialogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDialogController.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* VideoControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerTrim.swift; sourceTree = "<group>"; };
 		4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerSlider.swift; sourceTree = "<group>"; };
 		4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallery.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
 				4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */,
+				42820CF52216A14200C5A99C /* ShareDialogController.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
+				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,

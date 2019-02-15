@@ -132,8 +132,8 @@ class GridRulerCornerView: UIView, GridRulerConstroller {
         }
         position.setupLayout(child: self, parent: superview)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: gridRulerTouchEdgeWidth),
-            heightAnchor.constraint(equalToConstant: gridRulerTouchEdgeWidth)
+            widthAnchor.constraint(equalToConstant: gridRulerCornerWidth),
+            heightAnchor.constraint(equalToConstant: gridRulerCornerWidth)
             ])
     }
     

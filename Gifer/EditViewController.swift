@@ -229,12 +229,11 @@ class EditViewController: UIViewController {
         }
     }
     
-    @IBAction func onShare(_ sender: Any) {
+    private func startSharing(for type: ShareType) {
         guard let asset = videoVC.player?.currentItem?.asset else {
             return
         }
         showLoadingWhenExporting(true)
-        videoVC.pause()
         let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
@@ -245,10 +244,16 @@ class EditViewController: UIViewController {
                 self.showLoadingWhenExporting(false)
             }
         }) { (shareSuccess) in
-            DispatchQueue.main.async {                
+            DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    @IBAction func onShare(_ sender: Any) {
+        videoVC.pause()
+        let shareController = ShareDialogController(shareHandler: startSharing)
+        shareController.present(by: self)
     }
     
     private func prompt(_ text: String) {

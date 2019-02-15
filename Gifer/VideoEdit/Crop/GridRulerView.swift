@@ -11,7 +11,8 @@ import UIKit
 let gridRulerStrokeColor: UIColor = UIColor.white
 let gridRulerFrameWidth = CGFloat(2)
 let gridRulerCornerStrokeWidth = CGFloat(4)
-let gridRulerTouchEdgeWidth = CGFloat(20)
+let gridRulerTouchEdgeWidth = CGFloat(32)
+let gridRulerCornerWidth = CGFloat(32)
 
 class GridFrameDivider: UIView {
     
@@ -212,7 +213,6 @@ class GridRulerView: UIView {
         let largeEnough = guideFrame.width > minimunSize && guideFrame.height > minimunSize
         let valid = insideContainer && largeEnough
         return valid
-//            && zoomScale < scrollView.maximumZoomScale
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
