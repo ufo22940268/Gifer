@@ -239,12 +239,16 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea).share( exportComplete: { (exportSuccess) in
-            DispatchQueue.main.async {
-                self.showLoadingWhenExporting(false)
-            }
-        }) { (shareSuccess) in
-            DispatchQueue.main.async {
+        let shareManager: ShareManager = ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea)
+        shareManager.share { gif in
+            self.showLoadingWhenExporting(false)
+            
+            switch type {
+            case .wechat:
+                shareManager.shareToWechat(video: gif, complete: { (success) in                    
+                    self.dismiss(animated: true, completion: nil)
+                })
+            case .photo:
                 self.dismiss(animated: true, completion: nil)
             }
         }

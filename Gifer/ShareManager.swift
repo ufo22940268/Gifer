@@ -29,22 +29,23 @@ class ShareManager {
         self.cropArea = cropArea
     }
     
-    public typealias ExportHandler = (_ success: Bool) -> Void
+    public typealias ExportHandler = (_ path: URL) -> Void
     public typealias ShareHandler = (_ success: Bool) -> Void
-    
-    func share(exportComplete: @escaping ExportHandler, shareComplete: @escaping ShareHandler) {
+    func share(complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
             let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed, cropArea: self.cropArea)
             GifGenerator(video: self.asset, options: options).run() { path in
-                exportComplete(true)
-                if !UIDevice.isSimulator {
-                    self.shareToWechat(video: path, complete: shareComplete)
+                DispatchQueue.main.async {                    
+                    complete(path)
                 }
             }
         }
     }
     
     func shareToWechat(video: URL, complete: @escaping ShareHandler) {
+        guard !UIDevice.isSimulator else {
+            return
+        }
         let gifData = try! Data(contentsOf: video)
         DispatchQueue.main.async {
             let monkeyMessage = MonkeyKing.Message.weChat(.session(info: (
