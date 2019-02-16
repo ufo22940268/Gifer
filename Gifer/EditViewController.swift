@@ -468,6 +468,7 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     
+    /// Change by gallery container scrolling.
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
         guard let currentItem = videoVC.player?.currentItem else { return }
         if currentItem.duration.seconds > 0 {

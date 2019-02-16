@@ -250,4 +250,12 @@ extension VideoController: UIScrollViewDelegate {
         guard scrollReason != .slider else { return }
         delegate?.onTrimChanged(position: trimPosition, state: .moving)
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate {
+            DispatchQueue.main.async {
+                scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+            }
+        }
+    }
 }
