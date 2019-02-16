@@ -459,6 +459,7 @@ extension EditViewController: VideoControllerDelegate {
         } else {
             trimState = .moving
         }
+        print(trimState)
 
         videoVC.updateTrim(position: position, state: trimState)
         

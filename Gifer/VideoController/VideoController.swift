@@ -234,7 +234,6 @@ extension VideoController: UIScrollViewDelegate {
         let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width)
         scrollView.contentOffset = CGPoint(x: left, y: 0)
     }
-
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
@@ -252,10 +251,9 @@ extension VideoController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if decelerate {
-            DispatchQueue.main.async {
-                scrollView.setContentOffset(scrollView.contentOffset, animated: false)
-            }
+        guard scrollReason != .slider else { return }
+        if !scrollView.isDecelerating {
+            delegate?.onTrimChanged(position: trimPosition, state: .finished(true))
         }
     }
 }
