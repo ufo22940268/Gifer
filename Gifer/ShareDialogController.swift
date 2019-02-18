@@ -32,6 +32,9 @@ class ShareDialogController {
     }
     
     func present(by controller: UIViewController) {
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = controller.view
+        }
         controller.present(alertController, animated: true, completion: nil)
     }
 }
