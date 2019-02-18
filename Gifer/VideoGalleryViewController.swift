@@ -175,7 +175,9 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
         }
         
         if needReload {
-            self.reload()
+            DispatchQueue.main.async {                
+                self.reload()
+            }
         }
     }
 }
