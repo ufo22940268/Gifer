@@ -76,17 +76,31 @@ class FiltersView: UIScrollView {
         stackView.spacing = 8
         
         for filter in AllFilters {
-            appendImageView(filter: filter)
+            appendPreviewView(filter: filter)
         }
     }
     
     
-    func appendImageView(filter: YPFilter) {
+    func appendPreviewView(filter: YPFilter) {
         let previewView = FilterPreviewView()
         previewView.contentMode = .scaleAspectFill
         previewView.clipsToBounds = true
         stackView.addArrangedSubview(previewView)
         previewViews.append(previewView)
+        
+        previewView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewClicked(sender:))))
+    }
+    
+    @objc func onPreviewClicked(sender: UITapGestureRecognizer) {
+        if let target = sender.view as? FilterPreviewView {
+            for previewView in previewViews {
+                if previewView == target {
+                    previewView.isHighlight = true
+                } else {
+                    previewView.isHighlight = false
+                }
+            }
+        }
     }
     
     required init(coder aDecoder: NSCoder) {
