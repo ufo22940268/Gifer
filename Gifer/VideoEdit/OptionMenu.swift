@@ -23,6 +23,10 @@ class OptionMenu: UIView {
     var cropMenuView: CropMenuView!
     var filtersView: FiltersView!
     
+    func setPreviewImage(_ image: UIImage) {
+        filtersView.setPreviewImage(image)
+    }
+    
     override func awakeFromNib() {
         setupPlaySpeedView()
         setupCropMenuView()

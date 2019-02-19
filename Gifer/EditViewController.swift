@@ -184,6 +184,7 @@ class EditViewController: UIViewController {
             let barItem = controlToolbar.items![index.rawValue]
             predefinedToolbarItemStyle.setup(barItem, state: .normal)
         }
+        
     }
     
     var previewView: UIView? {
@@ -209,10 +210,12 @@ class EditViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
-                    if self.isDebug {
+                    if self.getPreviewImage() == nil {
                         let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
                         self.setPreviewImage(UIImage(cgImage: cgImage))
                     }
+                    
+                    self.optionMenu.setPreviewImage(self.getPreviewImage()!)
                     
                     self.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                     self.cropContainer.superview!.constraints.findById(id: "height").isActive = false
