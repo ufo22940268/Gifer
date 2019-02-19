@@ -22,6 +22,7 @@
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
 		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
 		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
+		4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */; };
 		426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C537D21D4C6020018DE80 /* PlaySpeedView.xib */; };
@@ -76,6 +77,7 @@
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
 		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
 		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
+		4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPreviewView.swift; sourceTree = "<group>"; };
 		426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDialog.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426C537D21D4C6020018DE80 /* PlaySpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaySpeedView.xib; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				42265B5C21F95587005D2710 /* OptionMenu.swift */,
 				42265B5E21F98F41005D2710 /* CropMenuView.swift */,
 				4269ADB4221B93540098BA5E /* FiltersView.swift */,
+				4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */,
 			);
 			path = VideoEdit;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */,
 				4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */,
+				4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */,
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
