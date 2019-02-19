@@ -20,6 +20,8 @@
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
+		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
+		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
 		426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C537D21D4C6020018DE80 /* PlaySpeedView.xib */; };
@@ -72,6 +74,8 @@
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
+		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
+		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDialog.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426C537D21D4C6020018DE80 /* PlaySpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaySpeedView.xib; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 				42A1AFE521EF184100CF8018 /* Crop */,
 				42265B5C21F95587005D2710 /* OptionMenu.swift */,
 				42265B5E21F98F41005D2710 /* CropMenuView.swift */,
+				4269ADB4221B93540098BA5E /* FiltersView.swift */,
 			);
 			path = VideoEdit;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
+				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
 				4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */,
 				42820CF52216A14200C5A99C /* ShareDialogController.swift */,
 			);
@@ -371,6 +377,7 @@
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
 				42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */,
+				4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,
 				42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
@@ -391,6 +398,7 @@
 				426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */,
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,
 				42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */,
+				4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */,
 				42F2D571219403B100113A10 /* AppDelegate.swift in Sources */,
 				42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */,
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,

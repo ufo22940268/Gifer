@@ -46,6 +46,17 @@ class VideoViewController: AVPlayerViewController {
     var videoInited: Bool = false
     var previewImage: UIImage?
     
+    func getVideoComposition(videoAsset: AVAsset) -> AVVideoComposition {
+        let ciContext = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES3)!)
+        let composition = AVVideoComposition(asset: videoAsset) { (request) in
+            
+            let outputImage = request.sourceImage.clampedToExtent().applyingFilter("CIGaussianBlur").cropped(to: request.sourceImage.extent)
+            request.finish(with: outputImage, context: ciContext)
+            
+        }
+        return composition
+    }
+    
     func load(playerItem: AVPlayerItem) -> Void {
         guard !dismissed else {
             return

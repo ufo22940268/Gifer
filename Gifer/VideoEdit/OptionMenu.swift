@@ -15,16 +15,18 @@ protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate {
 class OptionMenu: UIView {
     
     enum MenuType {
-        case playSpeed, crop
+        case playSpeed, crop, filters
     }
     
     weak var delegate: OptionMenuDelegate?
     var playSpeedView: PlaySpeedView!
     var cropMenuView: CropMenuView!
+    var filtersView: FiltersView!
     
     override func awakeFromNib() {
         setupPlaySpeedView()
         setupCropMenuView()
+        setupFiltersView()
     }
     
     func attach(menuType: MenuType) {
@@ -40,6 +42,8 @@ class OptionMenu: UIView {
         case .crop:
             cropMenuView.delegate = delegate
             contentView = cropMenuView
+        case .filters:
+            contentView = filtersView
         }
         
         addSubview(contentView)
@@ -56,5 +60,9 @@ class OptionMenu: UIView {
     
     func setupPlaySpeedView() {
         playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+    }
+    
+    func setupFiltersView() {
+        filtersView = FiltersView()
     }
 }

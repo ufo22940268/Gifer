@@ -12,6 +12,7 @@ import UIKit
 import ImageIO
 import MobileCoreServices
 import Photos
+import AVKit
 
 class GiferTests: XCTestCase {
 
@@ -63,6 +64,42 @@ class GiferTests: XCTestCase {
             expect.fulfill()
         }
         wait(for: [expect], timeout: 10)
+    }
+    
+    
+    func testVideoComposition() {
+        
+        let asset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
+        let exp = expectation(description: "export sucess")
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: nil) { (videoAsset, _, _) in
+            guard let videoAsset = videoAsset else { return }
+            
+            let ciContext = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES3)!)
+            let composition = AVVideoComposition(asset: videoAsset) { (request) in
+
+                let outputImage = request.sourceImage.clampedToExtent().applyingFilter("CIGaussianBlur").cropped(to: request.sourceImage.extent)
+                request.finish(with: outputImage, context: ciContext)
+                
+            }
+            
+            let export = AVAssetExportSession(asset: videoAsset, presetName: AVAssetExportPreset640x480)!
+            export.videoComposition = composition
+            export.outputFileType = .m4v
+            export.outputURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("a.m4v")
+            
+            let fileManager = FileManager.default
+            try? fileManager.removeItem(at: export.outputURL!)
+            
+            DispatchQueue.global().async {
+                export.exportAsynchronously {
+                    print("success \(export.error) \(export.status.rawValue)")
+                    exp.fulfill()
+                }
+            }
+        }
+        
+        
+        wait(for: [exp], timeout: 200)
     }
 }
 

@@ -55,6 +55,7 @@ struct ToolbarItemStyle {
 enum ToolbarItemIndex: Int, CaseIterable {
     case playSpeed = 2
     case crop = 4
+    case filters = 6
 }
 
 extension NSLayoutConstraint {
@@ -208,18 +209,28 @@ class EditViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     
+                    if self.isDebug {
+                        let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
+                        self.setPreviewImage(UIImage(cgImage: cgImage))
+                    }
+                    
                     self.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                     self.cropContainer.superview!.constraints.findById(id: "height").isActive = false
                     self.cropContainer.widthAnchor.constraint(equalToConstant: self.displayVideoRect.width).with(identifier: "width").isActive = true
                     self.cropContainer.heightAnchor.constraint(equalToConstant: self.displayVideoRect.height).with(identifier: "height").isActive = true
-
+                    
                     self.cropContainer.setupVideo(frame: self.displayVideoRect)
                     
                     self.videoVC.load(playerItem: playerItem)
                     self.videoVC.videoViewControllerDelegate = self
+                    self.setupFiltersSection()
                 }
             }
         }
+    }
+    
+    func setupFiltersSection() {
+        
     }
     
     func setPreviewImage(_ image: UIImage) {
@@ -313,6 +324,8 @@ class EditViewController: UIViewController {
             return .playSpeed
         case ToolbarItemIndex.crop.rawValue:
             return .crop
+        case ToolbarItemIndex.filters.rawValue:
+            return .filters
         default:
             fatalError()
         }
@@ -354,7 +367,7 @@ class EditViewController: UIViewController {
             return info
         }
         self.stackView.layoutIfNeeded()
-        UIView.transition(with: self.videoContainer, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+        UIView.transition(with: self.videoContainer, duration: 0.3, options: [], animations: {
             clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
             switch clickedItemInfo.index {
             case .crop:
@@ -467,8 +480,7 @@ extension EditViewController: VideoControllerDelegate {
             videoController.scrollReason = .other
         }
     }
-    
-    
+
     /// Change by gallery container scrolling.
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
         guard let currentItem = videoVC.player?.currentItem else { return }
