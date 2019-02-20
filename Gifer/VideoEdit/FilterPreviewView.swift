@@ -59,6 +59,8 @@ class FilterPreviewView: UIStackView {
         isLayoutMarginsRelativeArrangement = true
         
         imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: 56),
             imageView.heightAnchor.constraint(equalToConstant: 56)])

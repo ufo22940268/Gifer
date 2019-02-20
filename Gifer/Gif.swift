@@ -48,12 +48,20 @@ extension AVAsset {
 
 class GifGenerator {
     
-    struct Options {
+    struct Options: Equatable {
         var start: CMTime
         var end: CMTime
         var speed: Float
         var cropArea: CGRect
         var filter: YPFilter?
+
+        static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
+            return lhs.start.seconds == rhs.start.seconds
+            && lhs.end.seconds == rhs.end.seconds
+            && lhs.speed == rhs.speed
+            && lhs.cropArea == rhs.cropArea
+        }
+        
     }
     
     let fileName = "animated.gif"

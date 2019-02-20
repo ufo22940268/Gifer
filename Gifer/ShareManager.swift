@@ -22,13 +22,13 @@ class ShareManager {
     var cropArea: CGRect
     var filter: YPFilter?
     
-    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?) {
+    init(asset: AVAsset, options: GifGenerator.Options) {
         self.asset = asset
-        self.startProgress = startProgress
-        self.endProgress = endProgress
-        self.speed = speed
-        self.cropArea = cropArea
-        self.filter = filter
+        self.startProgress = options.start
+        self.endProgress = options.end
+        self.speed = options.speed
+        self.cropArea = options.cropArea
+        self.filter = options.filter
     }
     
     public typealias ExportHandler = (_ path: URL) -> Void

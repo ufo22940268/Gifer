@@ -104,6 +104,8 @@ class EditViewController: UIViewController {
     @IBOutlet weak var cropContainer: CropContainer!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shareItem: UIBarButtonItem!
+    
+    var defaultGifOptions: GifGenerator.Options?
         
     var controlToolBarFuntionalItems: [UIBarButtonItem] {
         let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
@@ -250,17 +252,21 @@ class EditViewController: UIViewController {
         }
     }
     
-    private func startSharing(for type: ShareType) {
-        guard let asset = videoVC.player?.currentItem?.asset else {
-            return
-        }
-        showLoadingWhenExporting(true)
+    var currentGifOption: GifGenerator.Options {
         let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        let shareManager: ShareManager = ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea, filter: videoVC.filter)
+        return GifGenerator.Options(start: startProgress, end: endProgress, speed: speed, cropArea: cropArea, filter: videoVC.filter)
+    }
+    
+    private func startSharing(for type: ShareType) {
+        guard let asset = videoVC.player?.currentItem?.asset else {
+            return
+        }
+        showLoadingWhenExporting(true)
+        let shareManager: ShareManager = ShareManager(asset: asset, options: currentGifOption)
         shareManager.share { gif in
             self.showLoadingWhenExporting(false)
             
@@ -386,7 +392,13 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onCancel(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
+            dismiss(animated: true, completion: nil)
+        } else {
+            ConfirmToDismissDialog().present(by: self) {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -429,6 +441,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
             self.videoVC.play()
+            
+            self.defaultGifOptions = self.currentGifOption
         }
     }
     
