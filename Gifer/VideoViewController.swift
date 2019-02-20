@@ -45,6 +45,7 @@ class VideoViewController: AVPlayerViewController {
     var dismissed: Bool = false
     var videoInited: Bool = false
     var previewImage: UIImage?
+    var filter: YPFilter?
     
     func getVideoComposition(videoAsset: AVAsset) -> AVVideoComposition {
         let ciContext = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES3)!)
@@ -67,6 +68,23 @@ class VideoViewController: AVPlayerViewController {
         videoGravity = .resize
         
         addObservers()
+    }
+    
+    func setFilter(_ filter: YPFilter) {
+        self.filter = filter
+        self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
+    }
+    
+    private func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
+        guard let applier = filter.applier else {
+            return nil
+        }
+
+        let context = CIContext(eaglContext: EAGLContext(api: .openGLES3)!)
+        return AVVideoComposition(asset: player!.currentItem!.asset) { (request) in
+            let source = request.sourceImage
+            request.finish(with: applier(source)!, context: context)
+        }
     }
     
     func setRate(_ rate: Float) {

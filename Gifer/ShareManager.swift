@@ -20,20 +20,23 @@ class ShareManager {
     var endProgress: CMTime!
     var speed: Float
     var cropArea: CGRect
+    var filter: YPFilter?
     
-    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime, speed: Float, cropArea: CGRect) {
+    init(asset: AVAsset, startProgress: CMTime, endProgress: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?) {
         self.asset = asset
         self.startProgress = startProgress
         self.endProgress = endProgress
         self.speed = speed
         self.cropArea = cropArea
+        self.filter = filter
     }
     
     public typealias ExportHandler = (_ path: URL) -> Void
     public typealias ShareHandler = (_ success: Bool) -> Void
+    
     func share(complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
-            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed, cropArea: self.cropArea)
+            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed, cropArea: self.cropArea, filter: self.filter)
             GifGenerator(video: self.asset, options: options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)

@@ -233,7 +233,6 @@ class EditViewController: UIViewController {
     }
     
     func setupFiltersSection() {
-        
     }
     
     func setPreviewImage(_ image: UIImage) {
@@ -261,7 +260,7 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        let shareManager: ShareManager = ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea)
+        let shareManager: ShareManager = ShareManager(asset: asset, startProgress: startProgress, endProgress: endProgress, speed: speed, cropArea: cropArea, filter: videoVC.filter)
         shareManager.share { gif in
             self.showLoadingWhenExporting(false)
             
@@ -508,6 +507,10 @@ extension EditViewController: VideoControllerDelegate {
 }
 
 extension EditViewController: OptionMenuDelegate {
+    
+    func onPreviewSelected(filter: YPFilter) {
+        videoVC.setFilter(filter)
+    }
     
     func onResetCrop() {
         UIView.transition(with: cropContainer, duration: 0.3, options: .curveEaseInOut, animations: {

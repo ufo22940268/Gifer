@@ -53,6 +53,7 @@ class GifGenerator {
         var end: CMTime
         var speed: Float
         var cropArea: CGRect
+        var filter: YPFilter?
     }
     
     let fileName = "animated.gif"
@@ -114,13 +115,23 @@ class GifGenerator {
         generator.maximumSize = CGSize(width: gifSize.rawValue, height: gifSize.rawValue)
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
+        let ciContext = CIContext(options: nil)
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             image = self.crop(image: image)
+            if let filter = self.options.filter {
+                image = applyFilter(image, filter: filter, in: ciContext)
+            }
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
         })
+        
+        func applyFilter(_ image: CGImage, filter: YPFilter, in context: CIContext) -> CGImage {
+            guard let applier = filter.applier else { return image }
+            let ciImage = applier(CIImage(cgImage: image))!
+            return ciContext.createCGImage(ciImage, from: ciImage.extent)!
+        }
         
         
         group.notify(queue: .global()) {

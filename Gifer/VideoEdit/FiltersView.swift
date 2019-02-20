@@ -51,10 +51,15 @@ extension UIImage {
     }
 }
 
+protocol FiltersViewDelegate: class {
+    func onPreviewSelected(filter: YPFilter)
+}
+
 class FiltersView: UIScrollView {
     
     var previewViews: [FilterPreviewView] = [FilterPreviewView]()
     var stackView: UIStackView!
+    weak var customDelegate: FiltersViewDelegate!
     
     init() {
         super.init(frame: CGRect.zero)
@@ -100,6 +105,8 @@ class FiltersView: UIScrollView {
                     previewView.isHighlight = false
                 }
             }
+            
+            customDelegate.onPreviewSelected(filter: target.filter)
         }
     }
     

@@ -8,9 +8,7 @@
 
 import UIKit
 
-protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate {
-    
-}
+protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate, FiltersViewDelegate {}
 
 class OptionMenu: UIView {
     
@@ -47,6 +45,7 @@ class OptionMenu: UIView {
             cropMenuView.delegate = delegate
             contentView = cropMenuView
         case .filters:
+            filtersView.customDelegate = delegate
             contentView = filtersView
         }
         
