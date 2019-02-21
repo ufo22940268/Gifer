@@ -49,9 +49,6 @@ class VideoGalleryViewController: UICollectionViewController {
         
         navigationController?.isToolbarHidden = true
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
         // Register cell classes
         self.collectionView!.register(VideoGalleryCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         let flowLayout = UICollectionViewFlowLayout()
@@ -59,7 +56,11 @@ class VideoGalleryViewController: UICollectionViewController {
         flowLayout.minimumLineSpacing = galleryGap*4
         let itemWidth = self.collectionView.bounds.width/3 - 2*galleryGap
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        flowLayout.footerReferenceSize = CGSize(width: self.collectionView.bounds.width, height: 60)
+
         self.collectionView.collectionViewLayout = flowLayout
+        
+        self.collectionView.register(GalleryBottomInfoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer")
         
         PHPhotoLibrary.shared().register(self)
         
@@ -71,6 +72,15 @@ class VideoGalleryViewController: UICollectionViewController {
             }
         }
     }
+
+    func enableFooterView(_ enable: Bool) {
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        if enable {
+            flowLayout.footerReferenceSize = CGSize(width: self.collectionView.bounds.width, height: 60)
+        } else {
+            flowLayout.footerReferenceSize = CGSize.zero
+        }
+    }
     
     func reload() {
         self.videoResult = VideoLibrary.shared().getVideos()
@@ -78,7 +88,9 @@ class VideoGalleryViewController: UICollectionViewController {
         
         if let videoResult = videoResult, videoResult.count > 0 {
             self.collectionView.restore()
+            enableFooterView(true)
         } else {
+            enableFooterView(false)
             self.collectionView.setEmptyMessage("未找到视频")
         }
     }
@@ -125,6 +137,13 @@ class VideoGalleryViewController: UICollectionViewController {
         cell.tag = Int(requestId)
         
         return cell
+    }
+    
+
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer", for: indexPath) as! GalleryBottomInfoView
+        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0))
+        return footer
     }
     
     var selectedIndexPath: IndexPath!
