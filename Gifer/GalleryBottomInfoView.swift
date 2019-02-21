@@ -10,20 +10,13 @@ import UIKit
 
 class GalleryBottomInfoView: UICollectionReusableView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
     var videoInfoView: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         videoInfoView = UILabel()
+        videoInfoView.textColor = UIColor.darkText
         videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(videoInfoView)
         NSLayoutConstraint.activate([

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 protocol VideoControllerGallerySliderDelegate: class {
     func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
@@ -22,6 +23,8 @@ class VideoControllerGallerySlider: UIView {
     
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
+    var galleryDuration: CMTime?
+    var duration: CMTime?
     
     weak var delegate: VideoControllerGallerySliderDelegate?
     
@@ -62,8 +65,13 @@ class VideoControllerGallerySlider: UIView {
         slider.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onChangeSlider(sender:))))
     }
     
+    func onVideoLoaded(galleryDuration: CMTime, duration: CMTime) {
+        self.galleryDuration = galleryDuration
+        self.duration = duration
+        self.sliderWidthConstraint.constant = CGFloat(galleryDuration.seconds/duration.seconds)*bounds.width
+    }
+    
     func updateSlider(begin: CGFloat, end: CGFloat) {
-        sliderWidthConstraint.constant = (end - begin)*bounds.width
         sliderCenterXConstraint.constant = (end + begin)/2*bounds.width
     }
     
