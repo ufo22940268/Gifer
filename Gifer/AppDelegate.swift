@@ -10,6 +10,12 @@ import UIKit
 import Photos
 import MonkeyKing
 
+
+enum UserDefaultKeys: String {
+    case gifMaxDuration = "gifMaxDuration"
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,8 +23,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
-        // Override point for customization after application launch.        
+        // Override point for customization after application launch.
+        initUserDefaults()
         return true
+    }
+    
+    func initUserDefaults() {
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: UserDefaultKeys.gifMaxDuration.rawValue) == nil {
+            defaults.set(8, forKey: UserDefaultKeys.gifMaxDuration.rawValue)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

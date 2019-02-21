@@ -37,10 +37,10 @@ class SelectGifDurationViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
+        selectedDuration = UserDefaults.standard.integer(forKey: UserDefaultKeys.gifMaxDuration.rawValue)
         for i in stride(from: 8, to: 17, by: 2) {
             durations.append(i)
         }
-        selectedDuration = durations.first!
         tableView.register(SelectGifDurationTableCell.self, forCellReuseIdentifier: "cell")
     }
 
@@ -71,6 +71,9 @@ class SelectGifDurationViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedDuration = durations[indexPath.row]
+        UserDefaults.standard.set(selectedDuration, forKey: UserDefaultKeys.gifMaxDuration.rawValue)
         tableView.reloadData()
+        
+        dismiss(animated: true, completion: nil)
     }
 }

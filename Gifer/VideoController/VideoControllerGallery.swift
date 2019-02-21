@@ -11,7 +11,6 @@ import UIKit
 import AVKit
 
 let videoControllerGalleryImageCountPerGroup = 8
-let videoControllerGalleryVideoLengthPerGroup = 8
 
 class VideoControllerGallery: UIStackView {
 

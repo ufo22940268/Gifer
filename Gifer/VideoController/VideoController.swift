@@ -175,9 +175,10 @@ class VideoController: UIStackView {
         
         var thumbernailCount: Int
         var galleryDuration: CMTime
-        if Int(duration.seconds) > videoControllerGalleryVideoLengthPerGroup {
-            thumbernailCount = Int(duration.seconds/Double(videoControllerGalleryVideoLengthPerGroup) * Double(videoControllerGalleryImageCountPerGroup))
-            galleryDuration = CMTime(seconds: Double(videoControllerGalleryVideoLengthPerGroup), preferredTimescale: duration.timescale)
+        let gifMaxDuration = UserDefaults.standard.integer(forKey: UserDefaultKeys.gifMaxDuration.rawValue)
+        if Int(duration.seconds) > gifMaxDuration {
+            thumbernailCount = Int(duration.seconds/Double(gifMaxDuration) * Double(videoControllerGalleryImageCountPerGroup))
+            galleryDuration = CMTime(seconds: Double(gifMaxDuration), preferredTimescale: duration.timescale)
         } else {
             thumbernailCount = videoControllerGalleryImageCountPerGroup
             galleryDuration = duration

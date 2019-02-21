@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xj0-1L-rrg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -214,7 +214,11 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Gifer" id="X0g-Vx-SJc">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="settings-outline" id="9K3-oG-bay"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="settings-outline" id="9K3-oG-bay">
+                            <connections>
+                                <segue destination="Gsc-MN-Zmx" kind="show" id="cmH-UM-lZV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -271,6 +275,10 @@
                             <outlet property="delegate" destination="Gsc-MN-Zmx" id="01b-sj-MxY"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="V8q-vV-U8P"/>
+                    <connections>
+                        <outlet property="gifMaxDurationView" destination="DEI-oD-1XX" id="tsI-lg-PWd"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kaa-s8-rLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -319,6 +327,22 @@
             </objects>
             <point key="canvasLocation" x="302" y="-157"/>
         </scene>
+        <!--Test Navigation Controller-->
+        <scene sceneID="r4e-iw-iOu">
+            <objects>
+                <navigationController id="1RV-aB-bfW" userLabel="Test Navigation Controller" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ki0-da-QCx">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Gsc-MN-Zmx" kind="relationship" relationship="rootViewController" id="LzV-gR-8nV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6JT-xS-VXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1874" y="-157"/>
+        </scene>
     </scenes>
     <resources>
         <image name="clock-outline" width="20" height="20"/>
@@ -332,4 +356,7 @@
             <color red="0.92156862745098034" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cmH-UM-lZV"/>
+    </inferredMetricsTieBreakers>
 </document>
