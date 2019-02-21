@@ -16,6 +16,7 @@ class VideoControllerGallery: UIStackView {
 
     var galleryImages = [UIImageView]()
     var duration: CMTime!
+    var galleryDuration: CMTime!
     
     init() {
         super.init(frame: CGRect.zero)
@@ -40,7 +41,7 @@ class VideoControllerGallery: UIStackView {
     
     func prepareImageViews(_ count: Int) {
         for _ in 0..<count {
-            galleryImages.append(addImageView())
+            galleryImages.append(addImageView(totalImageCount: count))
         }
     }
     
@@ -48,18 +49,21 @@ class VideoControllerGallery: UIStackView {
         return galleryImages.count
     }
     
-    var imageViewWidth: CGFloat {
-        return (UIScreen.main.bounds.width - 16*2)/CGFloat(videoControllerGalleryImageCountPerGroup)
+    func getImageViewWidth(totalImageCount: Int) -> CGFloat {
+        let superviewWidth = self.superview!.bounds.width
+        let contentWidth = superviewWidth*CGFloat(duration.seconds)/CGFloat(galleryDuration.seconds)
+        
+        return contentWidth/CGFloat(totalImageCount)
     }
     
-    fileprivate func addImageView() -> UIImageView {
+    fileprivate func addImageView(totalImageCount: Int) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         addArrangedSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: heightAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: imageViewWidth)
+            imageView.widthAnchor.constraint(equalToConstant: getImageViewWidth(totalImageCount: totalImageCount))
             ])
         imageView.contentMode = .scaleAspectFill
         return imageView

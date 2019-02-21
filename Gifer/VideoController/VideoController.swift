@@ -183,9 +183,12 @@ class VideoController: UIStackView {
             thumbernailCount = videoControllerGalleryImageCountPerGroup
             galleryDuration = duration
         }
+        
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
         self.videoSlider.galleryDuration = galleryDuration
+        self.galleryView.galleryDuration = galleryDuration
+        self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
         
         self.galleryView.prepareImageViews(thumbernailCount)

@@ -69,6 +69,7 @@ class VideoControllerGallerySlider: UIView {
         self.galleryDuration = galleryDuration
         self.duration = duration
         self.sliderWidthConstraint.constant = CGFloat(galleryDuration.seconds/duration.seconds)*bounds.width
+        layoutIfNeeded()
     }
     
     func updateSlider(begin: CGFloat, end: CGFloat) {
