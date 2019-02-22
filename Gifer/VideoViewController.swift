@@ -94,7 +94,7 @@ class VideoViewController: AVPlayerViewController {
     
     
     func play() {
-        self.player?.play()
+        self.player?.rate = currentRate
     }
     
     func pause() {
