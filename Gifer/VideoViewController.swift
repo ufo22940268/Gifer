@@ -154,7 +154,7 @@ class VideoViewController: AVPlayerViewController {
         guard let currentItem = self.player?.currentItem else {return}
         
         let currentTime = currentItem.currentTime()
-        showLoading(!currentItem.isPlaybackLikelyToKeepUp)
+        showLoading(currentItem.isPlaybackBufferEmpty)
         if self.player!.timeControlStatus == .playing {
             if currentItem.isPlaybackLikelyToKeepUp {
                 previewView.isHidden = true
