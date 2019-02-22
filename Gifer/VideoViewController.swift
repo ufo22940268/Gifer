@@ -192,7 +192,6 @@ class VideoViewController: AVPlayerViewController {
         showLoading(true)
         let tolerance = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(600))
         player.seek(to: progress, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: {success in
-//            self.showLoading(false)
         })
     }
 

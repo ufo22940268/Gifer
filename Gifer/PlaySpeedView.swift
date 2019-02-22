@@ -122,7 +122,7 @@ class PlaySpeedView: UIStackView {
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 65)])
+            heightAnchor.constraint(equalToConstant: 80)])
         
         let coverView = PlaySpeedCoverView()
         coverView.translatesAutoresizingMaskIntoConstraints = false
@@ -172,6 +172,7 @@ class PlaySpeedCoverView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         drawTriangle(in: rect)
+        drawLineIndicator(in: rect)
     }
     
     func drawTriangle(in rect: CGRect) {
@@ -189,5 +190,17 @@ class PlaySpeedCoverView: UIView {
         path.close()
         
         path.fill()
+    }
+    
+    func drawLineIndicator(in rect: CGRect) {
+        let bottom = CGPoint(x: rect.width/2, y: rect.maxY - triangleHeight)
+        let top = CGPoint(x: rect.width/2, y: 8)
+
+        UIColor.red.setStroke()
+        let path = UIBezierPath()
+        path.lineWidth = 1
+        path.move(to: top)
+        path.addLine(to: bottom)
+        path.stroke()
     }
 }
