@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dvh-Lh-bNF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1RV-aB-bfW">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -282,7 +282,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kaa-s8-rLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-643" y="-156"/>
+            <point key="canvasLocation" x="-575" y="-98"/>
         </scene>
         <!--Select Gif Duration View Controller-->
         <scene sceneID="n23-X1-b5G">
@@ -325,7 +325,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojV-Ez-mtl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="302" y="-157"/>
+            <point key="canvasLocation" x="420" y="-98"/>
         </scene>
         <!--Test Navigation Controller-->
         <scene sceneID="r4e-iw-iOu">
@@ -336,12 +336,58 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Gsc-MN-Zmx" kind="relationship" relationship="rootViewController" id="LzV-gR-8nV"/>
+                        <segue destination="7v0-Ru-BEm" kind="relationship" relationship="rootViewController" id="FR2-0C-B4w"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6JT-xS-VXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1874" y="-157"/>
+            <point key="canvasLocation" x="-1561" y="-98"/>
+        </scene>
+        <!--Gif Overlay View Controller-->
+        <scene sceneID="AYo-qc-W0v">
+            <objects>
+                <viewController id="7v0-Ru-BEm" customClass="GifOverlayViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K53-Qd-F7E">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKh-U7-ZeT" customClass="GifOverlayEditView" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mu8-UJ-Ysz" customClass="GifOverlayRenderer" customModule="Gifer" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Mu8-UJ-Ysz" secondAttribute="bottom" id="AhE-th-vTA"/>
+                                    <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="width" secondItem="jKh-U7-ZeT" secondAttribute="width" id="N4O-jG-CEs"/>
+                                    <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="leading" secondItem="jKh-U7-ZeT" secondAttribute="leading" id="bG3-q5-fDZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mu8-UJ-Ysz" secondAttribute="trailing" id="cHA-7v-dh7"/>
+                                    <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="height" secondItem="jKh-U7-ZeT" secondAttribute="height" id="jKY-TQ-EzX"/>
+                                    <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="top" secondItem="jKh-U7-ZeT" secondAttribute="top" id="yk8-CS-wus"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jKh-U7-ZeT" firstAttribute="leading" secondItem="PoR-GK-B9w" secondAttribute="leading" id="0Wr-kl-HKt"/>
+                            <constraint firstItem="jKh-U7-ZeT" firstAttribute="top" secondItem="PoR-GK-B9w" secondAttribute="top" id="OYH-yT-cGJ"/>
+                            <constraint firstItem="PoR-GK-B9w" firstAttribute="bottom" secondItem="jKh-U7-ZeT" secondAttribute="bottom" id="lmm-j6-TU0"/>
+                            <constraint firstItem="PoR-GK-B9w" firstAttribute="trailing" secondItem="jKh-U7-ZeT" secondAttribute="trailing" id="xZ6-7p-g72"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PoR-GK-B9w"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Z3w-BE-ld4"/>
+                    <connections>
+                        <outlet property="overlayEditView" destination="jKh-U7-ZeT" id="wWY-TA-h5f"/>
+                        <outlet property="overlayRenderer" destination="Mu8-UJ-Ysz" id="HBS-3c-AS0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Ew-Fl-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1561" y="867"/>
         </scene>
     </scenes>
     <resources>
@@ -356,7 +402,4 @@
             <color red="0.92156862745098034" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="cmH-UM-lZV"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -42,6 +42,10 @@
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
 		42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C34B221E415F00D18CA6 /* GalleryBottomInfoView.swift */; };
+		42E5C34E2220B0D900D18CA6 /* GifOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C34D2220B0D900D18CA6 /* GifOverlayRenderer.swift */; };
+		42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C3502220B14700D18CA6 /* GifOverlayEditView.swift */; };
+		42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C3522220B18100D18CA6 /* GifOverlayViewController.swift */; };
+		42E5C3552220B86100D18CA6 /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C3542220B86100D18CA6 /* StickerView.swift */; };
 		42E86E6521CDC996004BB0BC /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E86E6421CDC996004BB0BC /* LoadingViewController.xib */; };
 		42EE13D62195C22900724611 /* Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* Gif.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
@@ -101,6 +105,10 @@
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
 		42E5C34B221E415F00D18CA6 /* GalleryBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBottomInfoView.swift; sourceTree = "<group>"; };
+		42E5C34D2220B0D900D18CA6 /* GifOverlayRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifOverlayRenderer.swift; sourceTree = "<group>"; };
+		42E5C3502220B14700D18CA6 /* GifOverlayEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifOverlayEditView.swift; sourceTree = "<group>"; };
+		42E5C3522220B18100D18CA6 /* GifOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifOverlayViewController.swift; sourceTree = "<group>"; };
+		42E5C3542220B86100D18CA6 /* StickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
 		42E86E6421CDC996004BB0BC /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gif.swift; sourceTree = "<group>"; };
 		42EE13D721963FBB00724611 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +193,17 @@
 			path = Crop;
 			sourceTree = "<group>";
 		};
+		42E5C34F2220B0F100D18CA6 /* GifOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				42E5C34D2220B0D900D18CA6 /* GifOverlayRenderer.swift */,
+				42E5C3502220B14700D18CA6 /* GifOverlayEditView.swift */,
+				42E5C3522220B18100D18CA6 /* GifOverlayViewController.swift */,
+				42E5C3542220B86100D18CA6 /* StickerView.swift */,
+			);
+			path = GifOverlay;
+			sourceTree = "<group>";
+		};
 		42F2D564219403B100113A10 = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +258,7 @@
 				42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */,
 				42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */,
 				42E5C34B221E415F00D18CA6 /* GalleryBottomInfoView.swift */,
+				42E5C34F2220B0F100D18CA6 /* GifOverlay */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -389,16 +409,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */,
+				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
 				42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */,
 				4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,
 				42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */,
+				42E5C34E2220B0D900D18CA6 /* GifOverlayRenderer.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
+				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
 				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
 				42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
@@ -417,6 +440,7 @@
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,
 				42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */,
 				4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */,
+				42E5C3552220B86100D18CA6 /* StickerView.swift in Sources */,
 				42F2D571219403B100113A10 /* AppDelegate.swift in Sources */,
 				42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */,
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,
