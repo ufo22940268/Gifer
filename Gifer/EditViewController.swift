@@ -498,6 +498,9 @@ extension EditViewController: VideoControllerDelegate {
 
     /// Change by gallery container scrolling.
     func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+        if case .started = state {
+            videoController.hideSlider(true)
+        }
         guard let currentItem = videoVC.player?.currentItem else { return }
         if currentItem.duration.seconds > 0 {
             let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
