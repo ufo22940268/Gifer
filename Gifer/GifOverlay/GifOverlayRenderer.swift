@@ -14,6 +14,7 @@ class GifOverlayRenderer: UIView {
     var backgroundImageView: UIImageView!
 
     override func awakeFromNib() {
+        clipsToBounds = true
         backgroundImageView = UIImageView()
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundImageView)

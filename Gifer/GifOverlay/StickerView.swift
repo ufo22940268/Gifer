@@ -28,6 +28,7 @@ class StickerView: UIImageView {
     
     func registerEditRecognizer() {
         addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(onPinch(sender:))))
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:))))
     }
     
     @objc func onPinch(sender: UIPinchGestureRecognizer) {
@@ -39,7 +40,7 @@ class StickerView: UIImageView {
         if sender.scale > 0 {
             guideConstraints.snapshot()
             applyChange(guideConstraints)
-            if guideOverflow() {
+            if guideOverflow() && isSizeTooSmall() {
                 guideConstraints.rollback()
             } else {
                 applyChange(customConstraints)
@@ -48,9 +49,29 @@ class StickerView: UIImageView {
         sender.scale = 1
     }
     
-    func guideOverflow() -> Bool {
+    @objc func onPan(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self)
+        let applyChange = {(constants: CommonConstraints) in
+            constants.centerX.constant = constants.centerX.constant + translation.x
+            constants.centerY.constant = constants.centerY.constant + translation.y
+        }
+        
+        guideConstraints.snapshot()
+        if guideOverflow() {
+            guideConstraints.rollback()
+        } else {
+            applyChange(customConstraints)
+        }
+        sender.setTranslation(CGPoint.zero, in: self)
+    }
+    
+    private func guideOverflow() -> Bool {
         let intersection = guide.layoutFrame.intersection(superview!.bounds)
         return !(almostEqual(intersection.width, guide.layoutFrame.width) && almostEqual(intersection.height, guide.layoutFrame.height))
+    }
+    
+    private func isSizeTooSmall() -> Bool {
+        return guide.layoutFrame.width < 50
     }
     
     private func almostEqual(_ l: CGFloat, _ r: CGFloat) -> Bool {
