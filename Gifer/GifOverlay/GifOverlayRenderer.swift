@@ -44,6 +44,7 @@ class GifOverlayRenderer: UIView {
         guideConstraints.activeAll()
         sticker.customConstraints = constraints
         sticker.guideConstraints = guideConstraints
+        sticker.guide = layoutGuide
         
         if editable {
             sticker.registerEditRecognizer()
