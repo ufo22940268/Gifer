@@ -358,14 +358,20 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
+                                    <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZJ-6E-Tgn" customClass="TrashView" customModule="Gifer" customModuleProvider="target">
+                                        <rect key="frame" x="67" y="281" width="240" height="128"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Mu8-UJ-Ysz" secondAttribute="bottom" id="AhE-th-vTA"/>
                                     <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="width" secondItem="jKh-U7-ZeT" secondAttribute="width" id="N4O-jG-CEs"/>
+                                    <constraint firstItem="rZJ-6E-Tgn" firstAttribute="centerX" secondItem="Mu8-UJ-Ysz" secondAttribute="centerX" id="OXc-iH-fHz"/>
                                     <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="leading" secondItem="jKh-U7-ZeT" secondAttribute="leading" id="bG3-q5-fDZ"/>
                                     <constraint firstAttribute="trailing" secondItem="Mu8-UJ-Ysz" secondAttribute="trailing" id="cHA-7v-dh7"/>
                                     <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="height" secondItem="jKh-U7-ZeT" secondAttribute="height" id="jKY-TQ-EzX"/>
+                                    <constraint firstAttribute="bottom" secondItem="rZJ-6E-Tgn" secondAttribute="top" id="xt6-nS-rRY"/>
                                     <constraint firstItem="Mu8-UJ-Ysz" firstAttribute="top" secondItem="jKh-U7-ZeT" secondAttribute="top" id="yk8-CS-wus"/>
                                 </constraints>
                             </view>
@@ -383,6 +389,8 @@
                     <connections>
                         <outlet property="overlayEditView" destination="jKh-U7-ZeT" id="wWY-TA-h5f"/>
                         <outlet property="overlayRenderer" destination="Mu8-UJ-Ysz" id="HBS-3c-AS0"/>
+                        <outlet property="trashTopConstraint" destination="xt6-nS-rRY" id="5Vt-2H-5JZ"/>
+                        <outlet property="trashView" destination="rZJ-6E-Tgn" id="kab-lk-piN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ew-Fl-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>

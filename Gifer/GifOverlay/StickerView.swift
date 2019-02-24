@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol StickerViewDelegate: class {
+    func onPanStateChanged(state: UIPanGestureRecognizer.State, sticker: StickerView)
+}
+
 
 class StickerView: UIImageView {
     
     var customConstraints: CommonConstraints!
     var guideConstraints: CommonConstraints!
     var guide: UILayoutGuide!
+    weak var stickerDelegate: StickerViewDelegate?
 
     init(image: UIImage) {
         super.init(frame: CGRect.zero)
@@ -50,6 +55,7 @@ class StickerView: UIImageView {
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
+        stickerDelegate?.onPanStateChanged(state: sender.state, sticker: self)
         let translation = sender.translation(in: self)
         let applyChange = {(constants: CommonConstraints) in
             constants.centerX.constant = constants.centerX.constant + translation.x
@@ -76,5 +82,13 @@ class StickerView: UIImageView {
     
     private func almostEqual(_ l: CGFloat, _ r: CGFloat) -> Bool {
         return abs(l - r) < 1
+    }
+    
+    func hoverOnTrash(_ hover: Bool) {
+        if hover {
+            alpha = 0.3
+        } else {
+            alpha = 1
+        }
     }
 }

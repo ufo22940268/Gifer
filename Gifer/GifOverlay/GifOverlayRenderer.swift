@@ -26,7 +26,8 @@ class GifOverlayRenderer: UIView {
         backgroundImageView.backgroundColor = UIColor.cyan
     }
     
-    func addSticker(image: UIImage, editable: Bool) {
+    @discardableResult
+    func addSticker(image: UIImage, editable: Bool) -> StickerView {
         let sticker = StickerView(image: image)
         let size = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: CGSize(width: 300, height: 300)))
         let constraints = CommonConstraints(centerX: sticker.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -50,6 +51,7 @@ class GifOverlayRenderer: UIView {
         if editable {
             sticker.registerEditRecognizer()
         }
+        return sticker
     }
     
 }
