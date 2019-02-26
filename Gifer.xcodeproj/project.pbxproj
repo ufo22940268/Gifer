@@ -20,6 +20,7 @@
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
+		4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */; };
 		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
 		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
 		4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */; };
@@ -86,6 +87,7 @@
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
+		4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarConfirmPrompt.swift; sourceTree = "<group>"; };
 		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
 		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPreviewView.swift; sourceTree = "<group>"; };
@@ -202,8 +204,11 @@
 		42AC7D8A2223863600AD3681 /* ControlTools */ = {
 			isa = PBXGroup;
 			children = (
+				426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */,
+				426C537D21D4C6020018DE80 /* PlaySpeedView.xib */,
 				42AC7D882223862300AD3681 /* ControlToolbar.swift */,
 				42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */,
+				4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */,
 			);
 			path = ControlTools;
 			sourceTree = "<group>";
@@ -263,8 +268,6 @@
 				422E0E2121CB616500192B37 /* Debug.swift */,
 				426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */,
 				42E86E6421CDC996004BB0BC /* LoadingViewController.xib */,
-				426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */,
-				426C537D21D4C6020018DE80 /* PlaySpeedView.xib */,
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
@@ -441,6 +444,7 @@
 				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
 				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
 				42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */,
+				4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,

@@ -12,12 +12,9 @@ protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate, Filter
 
 class OptionMenu: UIView {
     
-    enum MenuType {
-        case playSpeed, crop, filters
-    }
-    
     weak var delegate: OptionMenuDelegate?
     var playSpeedView: PlaySpeedView!
+    var playSpeedViewContainer: ControlToolbarConfirmPrompt!
     var cropMenuView: CropMenuView!
     var filtersView: FiltersView!
     
@@ -25,13 +22,19 @@ class OptionMenu: UIView {
         filtersView.setPreviewImage(image)
     }
     
-    override func awakeFromNib() {
+    init() {
+        super.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
         setupPlaySpeedView()
         setupCropMenuView()
         setupFiltersView()
     }
     
-    func attach(menuType: MenuType) {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func attach(menuType: ToolbarItem) {
         subviews.forEach { (subview) in
             subview.removeFromSuperview()
         }
@@ -40,7 +43,7 @@ class OptionMenu: UIView {
         switch menuType {
         case .playSpeed:
             playSpeedView.delegate = delegate
-            contentView = playSpeedView
+            contentView = playSpeedViewContainer
         case .crop:
             cropMenuView.delegate = delegate
             contentView = cropMenuView
@@ -63,6 +66,7 @@ class OptionMenu: UIView {
     
     func setupPlaySpeedView() {
         playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
+        playSpeedViewContainer = ControlToolbarConfirmPrompt(contentView: playSpeedView)
     }
     
     func setupFiltersView() {

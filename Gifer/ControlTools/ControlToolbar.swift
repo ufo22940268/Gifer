@@ -10,16 +10,24 @@ import UIKit
 
 class ControlToolbar: UIScrollView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
     var contentView: UIStackView!
     var items = [ToolbarItem: ControlToolbarItemView]()
+    weak var toolbarDelegate: ControlToolbarDelegate? {
+        didSet {
+            for (type, item) in items {
+                var selector: Selector
+                switch type {
+                case .playSpeed:
+                    selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
+                case .crop:
+                    selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
+                case .filters:
+                    selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
+                }
+                item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
+            }
+        }
+    }
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -62,13 +70,13 @@ class ControlToolbar: UIScrollView {
             var selector: Selector
             switch type {
             case .playSpeed:
-                selector = #selector(onCropItemClicked(sender:))
+                selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
             case .crop:
-                selector = #selector(onFiltersItemClicked(sender:))
+                selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
             case .filters:
-                selector = #selector(onPlaySpeedItemClicked(sender:))
+                selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
             }
-            item.addGestureRecognizer(UITapGestureRecognizer(target: self, action: selector))
+            item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
         }
     }
     
@@ -79,17 +87,8 @@ class ControlToolbar: UIScrollView {
     }
 }
 
-extension ControlToolbar {
-    
-    @objc func onCropItemClicked(sender: UIPanGestureRecognizer) {
-        let itemView = sender.view as! ControlToolbarItemView
-    }
-    
-    @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {
-        
-    }
-    
-    @objc func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer) {
-        
-    }
+@objc protocol ControlToolbarDelegate: class {
+    func onCropItemClicked(sender: UIPanGestureRecognizer)
+    func onFiltersItemClicked(sender: UIPanGestureRecognizer)
+    func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer)
 }

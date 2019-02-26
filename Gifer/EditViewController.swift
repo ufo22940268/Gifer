@@ -88,7 +88,9 @@ class EditViewController: UIViewController {
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
-    @IBOutlet weak var optionMenu: OptionMenu!
+    var optionMenu: OptionMenu!
+    var optionMenuTopConstraint: NSLayoutConstraint!
+    var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
@@ -189,7 +191,18 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func setupControlToolbar() {
+        optionMenu = OptionMenu()
+        stackView.addSubview(optionMenu)
+        optionMenu.isHidden = true
+        optionMenuBottomConstraint = optionMenu.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
+        optionMenuTopConstraint = optionMenu.topAnchor.constraint(equalTo: stackView.bottomAnchor)
+        NSLayoutConstraint.activate([
+            optionMenu.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            optionMenu.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            optionMenuTopConstraint
+            ])
         optionMenu.delegate = self
+        controlToolbar.toolbarDelegate = self
     }
     
     var previewView: UIView? {
@@ -523,5 +536,31 @@ extension EditViewController: OptionMenuDelegate {
     
     func onRateChanged(_ rate: Float) {
         videoVC.setRate(rate)
+    }
+}
+
+extension EditViewController: ControlToolbarDelegate {
+    
+    func showOptionMenu(for toolbarItem: ToolbarItem) {
+        optionMenu.isHidden = false
+        optionMenu.attach(menuType: toolbarItem)
+        optionMenu.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+            self.optionMenuTopConstraint.isActive = false
+            self.optionMenuBottomConstraint.isActive = true
+            self.optionMenu.superview!.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    @objc func onCropItemClicked(sender: UIPanGestureRecognizer) {
+    }
+    
+    @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {
+        print("onFiltersItemClicked")
+    }
+    
+    @objc func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer) {
+        print("onPlaySpeedItemClicked")
+        showOptionMenu(for: .playSpeed)
     }
 }

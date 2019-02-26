@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dvh-Lh-bNF">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -86,10 +86,6 @@
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
-                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="618" width="375" height="0.0"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="618" width="375" height="72"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -126,7 +122,6 @@
                     <connections>
                         <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
                         <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
-                        <outlet property="optionMenu" destination="f3C-v6-RYP" id="5US-6W-WfL"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
