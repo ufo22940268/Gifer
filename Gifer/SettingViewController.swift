@@ -15,7 +15,6 @@ class SettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let footView = UIView()
-        footView.backgroundColor = .yellow
         tableView.tableFooterView = footView
     }
 

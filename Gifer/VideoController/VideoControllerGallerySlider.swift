@@ -19,7 +19,7 @@ class VideoControllerGallerySlider: UIView {
     let dividerHeight = CGFloat(2)
     let sliderHeight = CGFloat(8)
     
-    let mainColor = UIColor.yellow
+    let mainColor = UIColor(named: "mainColor")
     
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
@@ -51,7 +51,7 @@ class VideoControllerGallerySlider: UIView {
         let slider = UIView()
         slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
-        slider.backgroundColor = UIColor.yellow
+        slider.backgroundColor = UIColor(named: "mainColor")
         slider.layer.cornerRadius = sliderHeight/3
         sliderWidthConstraint = slider.widthAnchor.constraint(equalToConstant: 0)
         sliderCenterXConstraint = slider.centerXAnchor.constraint(equalTo: leadingAnchor)

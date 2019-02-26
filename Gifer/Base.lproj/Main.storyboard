@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1RV-aB-bfW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -66,14 +66,14 @@
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="92" width="375" height="554"/>
+                                                <rect key="frame" x="0.0" y="92" width="375" height="526"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="16" width="375" height="522"/>
+                                                        <rect key="frame" x="0.0" y="16" width="375" height="494"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="258.66666666666669" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="244.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -87,50 +87,16 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3C-v6-RYP" userLabel="Option Menu" customClass="OptionMenu" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="646" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="618" width="375" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <toolbar clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-58-Uxg">
-                                                <rect key="frame" x="0.0" y="646" width="375" height="44"/>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="618" width="375" height="72"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="atM-Bh-q9B"/>
+                                                    <constraint firstAttribute="height" constant="72" id="vvF-Fl-w1c"/>
                                                 </constraints>
-                                                <items>
-                                                    <barButtonItem systemItem="cancel" id="nuO-Xq-arh">
-                                                        <connections>
-                                                            <action selector="onCancel:" destination="Dvh-Lh-bNF" id="9ZM-uH-Qul"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5tK-ms-RS1"/>
-                                                    <barButtonItem enabled="NO" title="Item" image="clock-outline" id="NtN-Bp-pnl" userLabel="Speed">
-                                                        <connections>
-                                                            <action selector="onBarItemClicked:" destination="Dvh-Lh-bNF" id="kI6-zj-VXI"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="bKx-Yb-4IN"/>
-                                                    <barButtonItem enabled="NO" title="Item" image="crop-outline" id="MRj-yt-GXl" userLabel="Crop">
-                                                        <connections>
-                                                            <action selector="onBarItemClicked:" destination="Dvh-Lh-bNF" id="fP9-6w-rRY"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="UFn-eC-GM1"/>
-                                                    <barButtonItem enabled="NO" title="Item" image="flash-outline" id="2QJ-h6-dIK" userLabel="Filters">
-                                                        <connections>
-                                                            <action selector="onBarItemClicked:" destination="Dvh-Lh-bNF" id="Y90-te-xug"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kXv-lG-n8S"/>
-                                                    <barButtonItem enabled="NO" systemItem="action" id="0Ye-w1-Lyn">
-                                                        <connections>
-                                                            <action selector="onShare:" destination="Dvh-Lh-bNF" id="KWV-kV-4Y9"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                </items>
-                                                <color key="barTintColor" name="darkBackgroundColor"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="Dvh-Lh-bNF" id="26I-AQ-Hfg"/>
-                                                </connections>
-                                            </toolbar>
+                                            </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="MxJ-Sz-8yt" firstAttribute="leading" secondItem="kUt-Bn-rUc" secondAttribute="leading" id="U6d-qp-PVe"/>
@@ -158,13 +124,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT"/>
                     <connections>
-                        <outlet property="controlToolbar" destination="dTn-58-Uxg" id="4Lm-3p-0TM"/>
+                        <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
                         <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
                         <outlet property="optionMenu" destination="f3C-v6-RYP" id="5US-6W-WfL"/>
-                        <outlet property="shareItem" destination="0Ye-w1-Lyn" id="Myd-3g-3BG"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
-                        <outlet property="toolbar" destination="dTn-58-Uxg" id="d79-Fi-A5S"/>
-                        <outlet property="toolbarItems" destination="dTn-58-Uxg" id="vhu-N0-hZ3"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
                         <outlet property="videoPlayerSection" destination="FsJ-7O-eCM" id="yf5-Yg-0xx"/>
@@ -346,7 +309,7 @@
         <!--Gif Overlay View Controller-->
         <scene sceneID="AYo-qc-W0v">
             <objects>
-                <viewController id="7v0-Ru-BEm" customClass="GifOverlayViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gifOverlay" id="7v0-Ru-BEm" customClass="GifOverlayViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K53-Qd-F7E">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -399,9 +362,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="clock-outline" width="20" height="20"/>
-        <image name="crop-outline" width="20" height="20"/>
-        <image name="flash-outline" width="16" height="22"/>
         <image name="settings-outline" width="20" height="20"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.086274509803921567" green="0.090196078431372548" blue="0.094117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -52,7 +52,7 @@ struct ToolbarItemStyle {
     }
 }
 
-enum ToolbarItemIndex: Int, CaseIterable {
+enum ToolbarItem: Int, CaseIterable {
     case playSpeed = 2
     case crop = 4
     case filters = 6
@@ -66,7 +66,7 @@ extension NSLayoutConstraint {
 }
 
 struct ToolbarItemInfo {
-    var index: ToolbarItemIndex
+    var index: ToolbarItem
     var state: ToolbarItemState
     var barItem: UIBarButtonItem
 }
@@ -83,12 +83,12 @@ class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
+    var gifOverlayVC: GifOverlayViewController!
     
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
     @IBOutlet weak var optionMenu: OptionMenu!
-    @IBOutlet weak var controlToolbar: UIToolbar!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
@@ -105,15 +105,11 @@ class EditViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shareItem: UIBarButtonItem!
     
+    @IBOutlet weak var controlToolbar: ControlToolbar!
     var defaultGifOptions: GifGenerator.Options?
-        
-    var controlToolBarFuntionalItems: [UIBarButtonItem] {
-        let validIndexes = ToolbarItemIndex.allCases.map({$0.rawValue})
-        return controlToolbar.items!.enumerated().filter({t in validIndexes.contains(t.0)}).map({$0.1})
-    }
     
     var controlToolbarFunctionalIndexes: [Int] {
-        return ToolbarItemIndex.allCases.map{$0.rawValue}
+        return ToolbarItem.allCases.map{$0.rawValue}
     }
     
     override func loadView() {
@@ -156,6 +152,8 @@ class EditViewController: UIViewController {
             ])
         videoVC.didMove(toParent: self)
         
+        setupGifOverlay()
+        
         let previewView = VideoPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
@@ -175,18 +173,23 @@ class EditViewController: UIViewController {
         }
     }
     
+    private func setupGifOverlay() {
+        gifOverlayVC = storyboard!.instantiateViewController(withIdentifier: "gifOverlay") as! GifOverlayViewController
+        addChild(gifOverlayVC)
+        
+        cropContainer.addSubview(gifOverlayVC.view)
+        gifOverlayVC.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            gifOverlayVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),
+            gifOverlayVC.view.trailingAnchor.constraint(equalTo: videoContainer.trailingAnchor),
+            gifOverlayVC.view.topAnchor.constraint(equalTo: videoContainer.topAnchor),
+            gifOverlayVC.view.bottomAnchor.constraint(equalTo: videoContainer.bottomAnchor)
+            ])
+        didMove(toParent: gifOverlayVC)
+    }
+    
     fileprivate func setupControlToolbar() {
         optionMenu.delegate = self
-        for (index, item) in controlToolbar.items!.enumerated().filter({controlToolbarFunctionalIndexes.contains($0.offset)}) {
-            let info = ToolbarItemInfo(index: ToolbarItemIndex(rawValue: index)!, state: .normal, barItem: item)
-            toolbarItemInfos.append(info)
-        }
-
-        for index in ToolbarItemIndex.allCases {
-            let barItem = controlToolbar.items![index.rawValue]
-            predefinedToolbarItemStyle.setup(barItem, state: .normal)
-        }
-        
     }
     
     var previewView: UIView? {
@@ -210,25 +213,25 @@ class EditViewController: UIViewController {
             guard let _ = self else { return }
             if let playerItem = playerItem {
                 DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
+                    guard let this = self else { return }
                     
-                    if self.getPreviewImage() == nil {
+                    if this.getPreviewImage() == nil {
                         let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
-                        self.setPreviewImage(UIImage(cgImage: cgImage))
+                        this.setPreviewImage(UIImage(cgImage: cgImage))
                     }
                     
-                    self.optionMenu.setPreviewImage(self.getPreviewImage()!)
+                    this.optionMenu.setPreviewImage(this.getPreviewImage()!)
                     
-                    self.cropContainer.superview!.constraints.findById(id: "width").isActive = false
-                    self.cropContainer.superview!.constraints.findById(id: "height").isActive = false
-                    self.cropContainer.widthAnchor.constraint(equalToConstant: self.displayVideoRect.width).with(identifier: "width").isActive = true
-                    self.cropContainer.heightAnchor.constraint(equalToConstant: self.displayVideoRect.height).with(identifier: "height").isActive = true
+                    this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
+                    this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
+                    this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
+                    this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
                     
-                    self.cropContainer.setupVideo(frame: self.displayVideoRect)
+                    this.cropContainer.setupVideo(frame: this.displayVideoRect)
                     
-                    self.videoVC.load(playerItem: playerItem)
-                    self.videoVC.videoViewControllerDelegate = self
-                    self.setupFiltersSection()
+                    this.videoVC.load(playerItem: playerItem)
+                    this.videoVC.videoViewControllerDelegate = this
+                    this.setupFiltersSection()
                 }
             }
         }
@@ -325,21 +328,6 @@ class EditViewController: UIViewController {
         videoVC.pause()
     }
     
-    private func getOptionType(barItem: UIBarButtonItem) -> OptionMenu.MenuType {
-        let barItemIndex = controlToolbar.items!.firstIndex(of: barItem)!
-        switch barItemIndex {
-        case ToolbarItemIndex.playSpeed.rawValue:
-            return .playSpeed
-        case ToolbarItemIndex.crop.rawValue:
-            return .crop
-        case ToolbarItemIndex.filters.rawValue:
-            return .filters
-        default:
-            fatalError()
-        }
-        return .playSpeed
-    }
-    
     func onVideoSectionFrameUpdated() {
         guard let width = cropContainer.constraints.first(where: {$0.identifier == "width"}),
             let height = cropContainer.constraints.first(where: {$0.identifier == "height"}) else {
@@ -352,43 +340,43 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
-        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach { barItem in
-            self.predefinedToolbarItemStyle.setup(barItem, state: .normal)
-        }
-        
-        let type = getOptionType(barItem: barItem)
-        self.optionMenu.attach(menuType: type)
-        var clickedItemInfo: ToolbarItemInfo!
-        self.toolbarItemInfos = self.toolbarItemInfos.map {info in
-            var info = info
-            guard info.barItem == barItem else {
-                info.state = .normal
-                return info
-            }
-            if info.state == .normal {
-                info.state = .highlight
-            } else {
-                info.state = .normal
-            }
-            clickedItemInfo = info
-            self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
-            return info
-        }
-        self.stackView.layoutIfNeeded()
-        UIView.transition(with: self.videoContainer, duration: 0.3, options: [], animations: {
-            clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
-            switch clickedItemInfo.index {
-            case .crop:
-                self.cropContainer.isEnabled = true
-            default:
-                self.cropContainer.isEnabled = false
-            }
-
-            self.stackView.layoutIfNeeded()
-            self.onVideoSectionFrameUpdated()
-            self.cropContainer.layoutIfNeeded()
-        }, completion: {success in
-        })
+//        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach { barItem in
+//            self.predefinedToolbarItemStyle.setup(barItem, state: .normal)
+//        }
+//
+//        let type = getOptionType(barItem: barItem)
+//        self.optionMenu.attach(menuType: type)
+//        var clickedItemInfo: ToolbarItemInfo!
+//        self.toolbarItemInfos = self.toolbarItemInfos.map {info in
+//            var info = info
+//            guard info.barItem == barItem else {
+//                info.state = .normal
+//                return info
+//            }
+//            if info.state == .normal {
+//                info.state = .highlight
+//            } else {
+//                info.state = .normal
+//            }
+//            clickedItemInfo = info
+//            self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
+//            return info
+//        }
+//        self.stackView.layoutIfNeeded()
+//        UIView.transition(with: self.videoContainer, duration: 0.3, options: [], animations: {
+//            clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
+//            switch clickedItemInfo.index {
+//            case .crop:
+//                self.cropContainer.isEnabled = true
+//            default:
+//                self.cropContainer.isEnabled = false
+//            }
+//
+//            self.stackView.layoutIfNeeded()
+//            self.onVideoSectionFrameUpdated()
+//            self.cropContainer.layoutIfNeeded()
+//        }, completion: {success in
+//        })
     }
     
     @IBAction func onCancel(_ sender: Any) {
@@ -447,8 +435,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     private func enableControlOptions() {
-        controlToolBarFuntionalItems.forEach({$0.isEnabled = true})
-        shareItem.isEnabled = true
+        controlToolbar.enableItems(true)
     }
     
     func onBuffering(_ inBuffering: Bool) {

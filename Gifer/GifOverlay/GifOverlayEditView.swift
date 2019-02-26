@@ -11,6 +11,6 @@ import UIKit
 class GifOverlayEditView: UIScrollView {
 
     override func awakeFromNib() {
-        
+        backgroundColor = .clear
     }
 }

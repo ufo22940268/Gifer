@@ -33,7 +33,7 @@ class VideoControllerTrim: UIControl {
                 frameColor = UIColor.black
                 arrowColor = UIColor.white
             case .highlight:
-                frameColor = UIColor.yellow
+                frameColor = UIColor(named: "mainColor")!
                 arrowColor = UIColor.black
             }
 
@@ -62,7 +62,7 @@ class VideoControllerTrim: UIControl {
     var leftTrim: UIImageView! = {
         let leftTrim = LargeImageView()
         leftTrim.translatesAutoresizingMaskIntoConstraints = false
-        leftTrim.backgroundColor = UIColor.yellow
+        leftTrim.backgroundColor = UIColor(named: "mainColor")
         leftTrim.image = #imageLiteral(resourceName: "arrow-ios-back-outline.png")
         leftTrim.contentMode = .center
         return leftTrim
@@ -71,7 +71,7 @@ class VideoControllerTrim: UIControl {
     var rightTrim: UIImageView! = {
         let rightTrim = LargeImageView()
         rightTrim.translatesAutoresizingMaskIntoConstraints = false
-        rightTrim.backgroundColor = UIColor.yellow
+        rightTrim.backgroundColor = UIColor(named: "mainColor")
         rightTrim.image = #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
         rightTrim.contentMode = .center
         return rightTrim
@@ -94,7 +94,7 @@ class VideoControllerTrim: UIControl {
     }()
     
     var mainColor: UIColor {
-        return UIColor.yellow
+        return UIColor(named: "mainColor")!
     }
     
     var galleryView: UIView!

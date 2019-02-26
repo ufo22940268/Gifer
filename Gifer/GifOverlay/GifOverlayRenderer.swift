@@ -11,19 +11,9 @@ import AVKit
 
 class GifOverlayRenderer: UIView {
     
-    var backgroundImageView: UIImageView!
-
     override func awakeFromNib() {
         clipsToBounds = true
-        backgroundImageView = UIImageView()
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(backgroundImageView)
-        NSLayoutConstraint.activate([
-            backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor)])
-        backgroundImageView.backgroundColor = UIColor.cyan
+        backgroundColor = .clear
     }
     
     @discardableResult

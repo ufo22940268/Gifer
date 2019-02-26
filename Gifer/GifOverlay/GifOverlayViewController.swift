@@ -18,8 +18,11 @@ class GifOverlayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sticker = overlayRenderer.addSticker(image: #imageLiteral(resourceName: "01_Cuppy_smile.png"), editable: true)
-        sticker.stickerDelegate = self
+        view.isOpaque = false
+        view.backgroundColor = .clear
+        
+//        let sticker = overlayRenderer.addSticker(image: #imageLiteral(resourceName: "01_Cuppy_smile.png"), editable: true)
+//        sticker.stickerDelegate = self
         
 
         // Do any additional setup after loading the view.
