@@ -526,8 +526,8 @@ extension EditViewController: OptionMenuDelegate {
     
     private func dismissOptionMenu() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.optionMenuTopConstraint.isActive = true
             self.optionMenuBottomConstraint.isActive = false
+            self.optionMenuTopConstraint.isActive = true
             self.optionMenu.superview?.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
