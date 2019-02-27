@@ -193,8 +193,8 @@ class PlaySpeedCoverView: UIView {
     }
     
     func drawLineIndicator(in rect: CGRect) {
-        let bottom = CGPoint(x: rect.width/2, y: rect.maxY - triangleHeight)
-        let top = CGPoint(x: rect.width/2, y: 8)
+        let bottom = CGPoint(x: rect.width/2 + 1, y: rect.maxY - triangleHeight)
+        let top = CGPoint(x: rect.width/2 + 1, y: 8)
 
         UIColor.red.setStroke()
         let path = UIBezierPath()
@@ -202,5 +202,14 @@ class PlaySpeedCoverView: UIView {
         path.move(to: top)
         path.addLine(to: bottom)
         path.stroke()
+    }
+}
+
+extension PlaySpeedView: TransactionView {
+    
+    func commitChange() {
+    }
+    
+    func rollbackChange() {
     }
 }

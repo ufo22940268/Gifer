@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,7 +35,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="darkBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Dbp-cM-hWa"/>
                         <constraint firstItem="Ag7-Hy-pEw" firstAttribute="baseline" secondItem="h1Z-oz-FYq" secondAttribute="baseline" id="gkd-Ru-hqM"/>
@@ -48,10 +49,10 @@
                     <subviews>
                         <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJ2-dj-x3E" customClass="PlaySpeedRulerView" customModule="Gifer" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="260" height="170"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" name="darkBackgroundColor"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="darkBackgroundColor"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="OJ2-dj-x3E" secondAttribute="bottom" id="1hd-ak-C0j"/>
@@ -70,4 +71,9 @@
             <point key="canvasLocation" x="225.59999999999999" y="179.91004497751126"/>
         </stackView>
     </objects>
+    <resources>
+        <namedColor name="darkBackgroundColor">
+            <color red="0.086274509803921567" green="0.090196078431372548" blue="0.094117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

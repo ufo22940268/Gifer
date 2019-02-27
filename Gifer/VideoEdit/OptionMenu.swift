@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate, FiltersViewDelegate {}
+protocol OptionMenuDelegate: PlaySpeedViewDelegate, CropMenuViewDelegate, FiltersViewDelegate, ConfirmPromptDelegate {}
 
 class OptionMenu: UIView {
     
@@ -43,6 +43,7 @@ class OptionMenu: UIView {
         switch menuType {
         case .playSpeed:
             playSpeedView.delegate = delegate
+            playSpeedViewContainer.customDelegate = delegate
             contentView = playSpeedViewContainer
         case .crop:
             cropMenuView.delegate = delegate
@@ -51,6 +52,7 @@ class OptionMenu: UIView {
             filtersView.customDelegate = delegate
             contentView = filtersView
         }
+        
         
         addSubview(contentView)
         NSLayoutConstraint.activate([
