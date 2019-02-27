@@ -86,11 +86,23 @@
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oh6-HI-gqg" userLabel="Bottom Toolbar Container">
                                                 <rect key="frame" x="0.0" y="618" width="375" height="72"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="72" id="vvF-Fl-w1c"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="72" id="vvF-Fl-w1c"/>
+                                                    <constraint firstAttribute="bottom" secondItem="IvV-GZ-4bw" secondAttribute="bottom" id="2O9-0I-MpC"/>
+                                                    <constraint firstItem="IvV-GZ-4bw" firstAttribute="leading" secondItem="oh6-HI-gqg" secondAttribute="leading" id="8p2-RG-xBY"/>
+                                                    <constraint firstItem="IvV-GZ-4bw" firstAttribute="top" secondItem="oh6-HI-gqg" secondAttribute="top" id="K7r-ZT-WYG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="IvV-GZ-4bw" secondAttribute="trailing" id="wyd-zt-q6m"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
