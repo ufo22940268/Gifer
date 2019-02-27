@@ -9,22 +9,24 @@
 import Foundation
 import UIKit
 
-class ConfirmExtraButton: UIImageView {
+class ConfirmExtraButton: UIButton {
     
-    enum ButtonType {
+    enum ActionType {
         case ok, cancel
     }
     
-    init(type: ButtonType) {
+    init(type: ActionType) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
+        var image: UIImage
         switch type {
         case .ok:
             image = #imageLiteral(resourceName: "checkmark-outline.png")
         case .cancel:
             image = #imageLiteral(resourceName: "close-outline.png")
         }
+        setImage(image, for: .normal)
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 44)])
         tintColor = UIColor(named: "mainColor")
