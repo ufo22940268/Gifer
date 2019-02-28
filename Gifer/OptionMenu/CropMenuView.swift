@@ -13,46 +13,32 @@ import AVKit
     func onResetCrop()
 }
 
-class CropMenuView: UIScrollView, Transaction {
+class CropMenuView: UICollectionView, Transaction {
     
     var customDelegate: CropMenuViewDelegate!
-    var contentView: UIStackView!
     
-    var allCropSizes: [CropSize] {
+    lazy var allCropSizes: [CropSize] = {
         var sizes = [CropSize]()
         sizes.append(CropSize(ratioHeight: 1, ratioWidth: 1, type: .ratio))
         sizes.append(CropSize(ratioHeight: 4, ratioWidth: 3, type: .ratio))
         sizes.append(CropSize(ratioHeight: 16, ratioWidth: 9, type: .ratio))
         sizes.append(CropSize(ratioHeight: 3, ratioWidth: 4, type: .ratio))
         return sizes
-    }
+    }()
 
     init() {
-        super.init(frame: CGRect.zero)
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        layout.scrollDirection = .horizontal
+        super.init(frame: CGRect.zero, collectionViewLayout: layout)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 60)])
         
-        contentView = UIStackView()
-        contentView.axis = .horizontal
-        contentView.spacing = 16
-        contentView.isLayoutMarginsRelativeArrangement = true
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
-        contentView.alignment = .center
-        addSubview(contentView)
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            topAnchor.constraint(equalTo: contentView.topAnchor),
-            bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            heightAnchor.constraint(equalTo: contentView.heightAnchor)
-            ])
+        register(CropSizeIcon.self, forCellWithReuseIdentifier: "cell")
         
-        for size in allCropSizes {
-            contentView.addArrangedSubview(CropSizeIcon(size:size))
-        }
+        dataSource = self
     }
     
     required init(coder: NSCoder) {
@@ -64,6 +50,21 @@ class CropMenuView: UIScrollView, Transaction {
     
     func rollbackChange() {
     }
+}
+
+extension CropMenuView: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return allCropSizes.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CropSizeIcon
+        cell.setCropSize(allCropSizes[indexPath.row])
+        return cell
+    }
+    
+    
 }
 
 struct CropSize {
@@ -94,48 +95,58 @@ enum CropSizeType {
 }
 
 
-class CropSizeIcon: UIView {
+class CropSizeIcon: UICollectionViewCell {
     
-    var cropSize: CropSize!
-    
-    init(size: CropSize) {
-        super.init(frame: CGRect.zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        let containerSize = CGSize(width: 44, height: 44)
+    var frameView: UIView!
+    var labelView: UILabel!
+    var frameWidthConstraint: NSLayoutConstraint!
+    var frameHeightConstraint: NSLayoutConstraint!
+    let containerSize = CGSize(width: 44, height: 44)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: containerSize.width),
             heightAnchor.constraint(equalToConstant: containerSize.height)])
         
-        let frameView = UIView()
+        frameView = UIView()
         frameView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(frameView)
-        if let ratioWidth = size.clamp?.width, let ratioHeight = size.clamp?.height {
-            let frameSize = AVMakeRect(aspectRatio: CGSize(width: ratioWidth, height: ratioHeight), insideRect: CGRect(origin: CGPoint.zero, size: containerSize))
-            NSLayoutConstraint.activate([
-                frameView.widthAnchor.constraint(equalToConstant: frameSize.width),
-                frameView.heightAnchor.constraint(equalToConstant: frameSize.height)])
-        }
-        NSLayoutConstraint.activate([
-            frameView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            frameView.centerYAnchor.constraint(equalTo: centerYAnchor)])
+
         frameView.layer.cornerRadius = 4
         frameView.layer.borderColor = UIColor(named: "mainColor")!.cgColor
         frameView.layer.borderWidth = 2
+        NSLayoutConstraint.activate([
+            frameView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            frameView.centerYAnchor.constraint(equalTo: centerYAnchor)])
+        frameWidthConstraint = frameView.widthAnchor.constraint(equalToConstant: 0)
+        frameHeightConstraint = frameView.heightAnchor.constraint(equalToConstant: 0)
         
-        let labelView = UILabel()
+        labelView = UILabel()
         labelView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(labelView)
         NSLayoutConstraint.activate([
             labelView.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelView.centerYAnchor.constraint(equalTo: centerYAnchor)])
-        labelView.text = size.formatString
+   
         labelView.textColor = UIColor(named: "mainColor")
         labelView.font = UIFont.boldSystemFont(ofSize: 9)
         labelView.sizeToFit()
 
         backgroundColor = .clear
-        self.cropSize = size
+    }
+    
+    func setCropSize(_ size: CropSize) {
+        if let ratioWidth = size.clamp?.width, let ratioHeight = size.clamp?.height {
+            let frameSize = AVMakeRect(aspectRatio: CGSize(width: ratioWidth, height: ratioHeight), insideRect: CGRect(origin: CGPoint.zero, size: containerSize))
+            frameWidthConstraint.constant = frameSize.width
+            frameHeightConstraint.constant = frameSize.height
+            frameWidthConstraint.isActive = true
+            frameHeightConstraint.isActive = true
+        }
+
         
+        labelView.text = size.formatString
     }
     
     required init?(coder aDecoder: NSCoder) {
