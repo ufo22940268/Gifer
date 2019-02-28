@@ -52,7 +52,7 @@ struct ToolbarItemStyle {
     }
 }
 
-enum ToolbarItem: Int, CaseIterable {
+@objc enum ToolbarItem: Int, CaseIterable {
     case playSpeed = 2
     case crop = 4
     case filters = 6
@@ -528,14 +528,21 @@ extension EditViewController: OptionMenuDelegate {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.optionMenuBottomConstraint.isActive = false
             self.optionMenuTopConstraint.isActive = true
-            self.optionMenu.superview?.layoutIfNeeded()
+            self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
+            self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
         }
     }
     
-    func onPromptDismiss() {
+    func onPromptDismiss(toolbarItem: ToolbarItem) {
         dismissOptionMenu()
+        switch toolbarItem {
+        case .crop:
+            self.cropContainer.isEnabled = false
+        default:
+            break
+        }
     }
     
     func onPreviewSelected(filter: YPFilter) {
@@ -562,11 +569,15 @@ extension EditViewController: ControlToolbarDelegate {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
             self.optionMenuTopConstraint.isActive = false
             self.optionMenuBottomConstraint.isActive = true
-            self.optionMenu.superview!.layoutIfNeeded()
+            let heightChanges = self.optionMenu.bounds.height - self.controlToolbar.bounds.height
+            self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
+            self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
     
     @objc func onCropItemClicked(sender: UIPanGestureRecognizer) {
+        showOptionMenu(for: .crop)
+        self.cropContainer.isEnabled = true
     }
     
     @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {

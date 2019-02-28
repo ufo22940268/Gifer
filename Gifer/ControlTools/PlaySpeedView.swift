@@ -205,7 +205,7 @@ class PlaySpeedCoverView: UIView {
     }
 }
 
-extension PlaySpeedView: TransactionView {
+extension PlaySpeedView: Transaction {
     
     func commitChange() {
     }

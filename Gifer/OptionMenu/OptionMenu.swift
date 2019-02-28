@@ -15,7 +15,10 @@ class OptionMenu: UIView {
     weak var delegate: OptionMenuDelegate?
     var playSpeedView: PlaySpeedView!
     var playSpeedViewContainer: ControlToolbarConfirmPrompt!
+    
     var cropMenuView: CropMenuView!
+    var cropMenuViewContainer: ControlToolbarConfirmPrompt!
+    
     var filtersView: FiltersView!
     
     func setPreviewImage(_ image: UIImage) {
@@ -46,8 +49,10 @@ class OptionMenu: UIView {
             playSpeedViewContainer.customDelegate = delegate
             contentView = playSpeedViewContainer
         case .crop:
-            cropMenuView.delegate = delegate
-            contentView = cropMenuView
+            cropMenuView.customDelegate = delegate
+            cropMenuViewContainer.customDelegate = delegate
+            contentView = cropMenuViewContainer
+            
         case .filters:
             filtersView.customDelegate = delegate
             contentView = filtersView
@@ -64,11 +69,12 @@ class OptionMenu: UIView {
     
     func setupCropMenuView() {
         cropMenuView = CropMenuView()
+        cropMenuViewContainer = ControlToolbarConfirmPrompt(contentView: cropMenuView, toolbarItem: .crop)
     }
     
     func setupPlaySpeedView() {
         playSpeedView = Bundle.main.loadNibNamed("PlaySpeedView", owner: nil, options: nil)!.first as! PlaySpeedView
-        playSpeedViewContainer = ControlToolbarConfirmPrompt(contentView: playSpeedView)
+        playSpeedViewContainer = ControlToolbarConfirmPrompt(contentView: playSpeedView, toolbarItem: .playSpeed)
     }
     
     func setupFiltersView() {

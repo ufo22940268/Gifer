@@ -9,13 +9,15 @@
 import UIKit
 
 @objc protocol ConfirmPromptDelegate: class {
-    func onPromptDismiss()
+    func onPromptDismiss(toolbarItem: ToolbarItem)
 }
 
-protocol TransactionView {
+protocol Transaction {
     func commitChange()
     func rollbackChange()
 }
+
+typealias TransactionView = UIView&Transaction
 
 class ControlToolbarConfirmPrompt: UIStackView {
     
@@ -24,12 +26,13 @@ class ControlToolbarConfirmPrompt: UIStackView {
     weak var customDelegate: ConfirmPromptDelegate?
     
     var contentView: TransactionView!
+    var toolbarItem: ToolbarItem!
 
-    init(contentView: TransactionView) {
+    init(contentView: TransactionView, toolbarItem: ToolbarItem) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical
-        addArrangedSubview(contentView as! UIView)
+        addArrangedSubview(contentView)
         self.contentView = contentView
         
         let extraView = UIStackView()
@@ -45,16 +48,18 @@ class ControlToolbarConfirmPrompt: UIStackView {
         cancelButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCancelClicked)))
         extraView.addArrangedSubview(cancelButton)
         extraView.addArrangedSubview(okButton)
+        
+        self.toolbarItem = toolbarItem
     }
     
     @objc func onOkClicked() {
         contentView.commitChange()
-        customDelegate?.onPromptDismiss()
+        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem)
     }
     
     @objc func onCancelClicked() {
         contentView.rollbackChange()
-        customDelegate?.onPromptDismiss()
+        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem)
     }
     
     required init(coder: NSCoder) {
