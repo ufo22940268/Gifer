@@ -142,10 +142,4 @@ class CropSizeIcon: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func draw(_ rect: CGRect) {
-//        var path = UIBezierPath(roundedRect: rect, cornerRadius: 4)
-//        path.lineWidth = 4
-//        UIColor(named: "mainColor")?.setStroke()
-//        path.stroke()
-//    }
 }
