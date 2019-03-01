@@ -93,6 +93,11 @@ struct CropSize {
         self.type = type
     }
     
+    var ratio: CGSize {
+        guard let width = ratioWidth, let height = ratioHeight else { fatalError() }
+        return CGSize(width: width, height: height)
+    }
+    
     var formatString: String {
         switch type {
         case .ratio:

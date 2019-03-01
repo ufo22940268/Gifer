@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 
 class CropContainer: UIView {
 
@@ -16,7 +17,14 @@ class CropContainer: UIView {
     var scrollView: UIScrollView!
     var videoBounds: CGRect?
     var coverViews = [UIView]()
-    var videoSize: CGSize?
+    
+    var videoSize: CGSize? {
+        didSet {
+            self.cropRatio = videoSize
+        }
+    }
+    
+    var cropRatio: CGSize!
     var isEnabled: Bool! {
         didSet {
             scrollView.isUserInteractionEnabled = isEnabled
@@ -189,6 +197,13 @@ class CropContainer: UIView {
         gridRulerView.customConstraints.height.constant = videoRect.height
         gridRulerView.customConstraints.centerX.constant = 0
         gridRulerView.customConstraints.centerY.constant = 0
+    }
+    
+    func adjustTo(ratio: CGSize) {
+        cropRatio = ratio
+        let container = self.bounds
+        let targetRect = AVMakeRect(aspectRatio: ratio, insideRect: container)
+        gridRulerView.resizeTo(rect: targetRect)
     }
     
     func updateWhenVideoSizeChanged(videoSize: CGSize) {

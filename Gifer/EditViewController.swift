@@ -530,7 +530,8 @@ extension EditViewController: OptionMenuDelegate {
     func onCropSizeSelected(size: CropSize) {
         switch size.type {
         case .ratio:
-            break
+            cropContainer.isEnabled = true
+            cropContainer.adjustTo(ratio: size.ratio)
         case .free:
             cropContainer.isEnabled = true
         }

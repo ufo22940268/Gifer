@@ -196,6 +196,12 @@ class GridRulerView: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
     }
     
+    func resizeTo(rect: CGRect) {
+        customConstraints.width.constant = rect.width
+        customConstraints.height.constant = rect.height
+        guideConstraints.copy(from: customConstraints)
+    }
+    
     private func almostTheSame(_ rect1: CGRect, _ rect2: CGRect) -> Bool {
         let tolleratableDiffer = CGFloat(0.5)
         return (abs(rect1.origin.x - rect2.origin.x) < tolleratableDiffer && abs(rect1.origin.y - rect2.origin.y) < tolleratableDiffer && abs(rect1.width - rect2.width) < tolleratableDiffer && abs(rect1.height - rect2.height) < tolleratableDiffer)
