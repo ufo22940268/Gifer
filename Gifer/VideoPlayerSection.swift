@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 class VideoPlayerSection: UIView {
     
@@ -22,5 +23,11 @@ class VideoPlayerSection: UIView {
             view is CropContainer
         }).first!
         return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
-    }    
+    }
+    
+    override func layoutSubviews() {
+        if let cropContainer = cropContainer {
+            cropContainer.updateWhenContainerSizeChanged(containerBounds: bounds)
+        }
+    }
 }

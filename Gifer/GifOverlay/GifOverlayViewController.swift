@@ -27,12 +27,15 @@ class GifOverlayViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+        
+    func enableModification(_ enabled: Bool) {
+        view.isUserInteractionEnabled = enabled
+    }
 }
 
 private let trashAnimationDuration = Double(0.3)
 
-extension GifOverlayViewController: StickerViewDelegate {
+extension GifOverlayViewController: StickerViewDelegate {    
     
     private func showTrash(for sticker: StickerView) {
         trashTopConstraint.constant = 0

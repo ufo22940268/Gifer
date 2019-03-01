@@ -19,6 +19,7 @@ class VideoPreviewView: UIImageView {
     init() {
         super.init(frame: CGRect.zero)
         contentMode = .scaleAspectFit
+        isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -16,6 +16,7 @@ class CropContainer: UIView {
     var scrollView: UIScrollView!
     var videoBounds: CGRect?
     var coverViews = [UIView]()
+    var videoSize: CGSize?
     var isEnabled: Bool! {
         didSet {
             scrollView.isUserInteractionEnabled = isEnabled
@@ -94,6 +95,20 @@ class CropContainer: UIView {
         gridRulerView.setupVideo(frame: videoFrame)
         contentView.constraints.findById(id: "width").constant = videoFrame.width
         contentView.constraints.findById(id: "height").constant = videoFrame.height
+    }
+    
+    func updateWhenContainerSizeChanged(containerBounds: CGRect) {
+        guard let videoSize = videoSize else { return }
+        let rect = containerBounds.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
+        let targetSize = AVMakeRect(aspectRatio: videoSize, insideRect: rect).size
+        constraints.findById(id: "height").constant = targetSize.height
+        constraints.findById(id: "width").constant = targetSize.width
+        
+        contentView.constraints.findById(id: "height").constant = targetSize.height
+        contentView.constraints.findById(id: "width").constant = targetSize.width
+        
+        gridRulerView.constraints.findById(id: "height").constant = targetSize.height
+        gridRulerView.constraints.findById(id: "width").constant = targetSize.width
     }
     
     func createTestContentView() -> UIView {

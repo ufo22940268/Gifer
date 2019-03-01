@@ -180,6 +180,7 @@ class EditViewController: UIViewController {
         addChild(gifOverlayVC)
         
         cropContainer.addSubview(gifOverlayVC.view)
+        gifOverlayVC.enableModification(false)
         gifOverlayVC.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             gifOverlayVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),
@@ -237,6 +238,7 @@ class EditViewController: UIViewController {
                     
                     this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                     this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
+                    this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
                     this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
                     this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
                     

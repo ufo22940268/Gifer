@@ -186,7 +186,6 @@ class CropSizeIcon: UICollectionViewCell {
         if case .free = size.type {
         }
 
-        
         labelView.text = size.formatString
     }
     
