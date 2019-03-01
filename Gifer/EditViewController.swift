@@ -525,6 +525,16 @@ extension EditViewController: VideoControllerDelegate {
 
 extension EditViewController: OptionMenuDelegate {
     
+    func onCropSizeSelected(size: CropSize) {
+        switch size.type {
+        case .ratio:
+            break
+        case .free:
+            cropContainer.isEnabled = true
+        }
+    }
+    
+    
     private func dismissOptionMenu() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.optionMenuBottomConstraint.isActive = false

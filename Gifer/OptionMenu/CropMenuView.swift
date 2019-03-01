@@ -9,8 +9,10 @@
 import UIKit
 import AVKit
 
-@objc protocol CropMenuViewDelegate: class {
+protocol CropMenuViewDelegate: class {
     func onResetCrop()
+    
+    func onCropSizeSelected(size: CropSize)
 }
 
 class CropMenuView: UICollectionView, Transaction {
@@ -19,6 +21,7 @@ class CropMenuView: UICollectionView, Transaction {
     
     lazy var allCropSizes: [CropSize] = {
         var sizes = [CropSize]()
+        sizes.append(CropSize(type: .free))
         sizes.append(CropSize(ratioHeight: 1, ratioWidth: 1, type: .ratio))
         sizes.append(CropSize(ratioHeight: 4, ratioWidth: 3, type: .ratio))
         sizes.append(CropSize(ratioHeight: 16, ratioWidth: 9, type: .ratio))
@@ -34,11 +37,14 @@ class CropMenuView: UICollectionView, Transaction {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 60)])
+            heightAnchor.constraint(equalToConstant: 68)])
         
         register(CropSizeIcon.self, forCellWithReuseIdentifier: "cell")
         
         dataSource = self
+        delegate = self
+        
+        selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .left)
     }
     
     required init(coder: NSCoder) {
@@ -63,8 +69,13 @@ extension CropMenuView: UICollectionViewDataSource {
         cell.setCropSize(allCropSizes[indexPath.row])
         return cell
     }
-    
-    
+}
+
+extension CropMenuView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let size = allCropSizes[indexPath.row]
+        customDelegate.onCropSizeSelected(size: size)
+    }
 }
 
 struct CropSize {
@@ -72,16 +83,30 @@ struct CropSize {
     var ratioWidth: Int?
     var type: CropSizeType
     
+    init(type: CropSizeType) {
+        self.type = type
+    }
+    
+    init(ratioHeight: Int, ratioWidth: Int, type: CropSizeType) {
+        self.ratioHeight = ratioHeight
+        self.ratioWidth = ratioWidth
+        self.type = type
+    }
+    
     var formatString: String {
         switch type {
         case .ratio:
             return "\(ratioHeight!):\(ratioWidth!)"
-        default:
-            return ""
+        case .free:
+            return "free"
         }
     }
     
     var clamp: CGSize? {
+        if case .free = type {
+            return CGSize(width: 3, height: 4)
+        }
+        
         if let h = ratioHeight, let w = ratioWidth, CGFloat(h)/CGFloat(w) >= CGFloat(16)/9 {
             return CGSize(width: 9, height: 14)
         } else {
@@ -91,7 +116,7 @@ struct CropSize {
 }
 
 enum CropSizeType {
-    case ratio, free, origin
+    case ratio, free
 }
 
 
@@ -102,6 +127,19 @@ class CropSizeIcon: UICollectionViewCell {
     var frameWidthConstraint: NSLayoutConstraint!
     var frameHeightConstraint: NSLayoutConstraint!
     let containerSize = CGSize(width: 44, height: 44)
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                labelView.textColor = UIColor(named: "mainColor")
+                frameView.layer.borderColor = UIColor(named: "mainColor")!.cgColor
+            } else {
+                let gray = UIColor.gray
+                labelView.textColor = gray
+                frameView.layer.borderColor = gray.cgColor
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -114,7 +152,6 @@ class CropSizeIcon: UICollectionViewCell {
         addSubview(frameView)
 
         frameView.layer.cornerRadius = 4
-        frameView.layer.borderColor = UIColor(named: "mainColor")!.cgColor
         frameView.layer.borderWidth = 2
         NSLayoutConstraint.activate([
             frameView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -129,11 +166,12 @@ class CropSizeIcon: UICollectionViewCell {
             labelView.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelView.centerYAnchor.constraint(equalTo: centerYAnchor)])
    
-        labelView.textColor = UIColor(named: "mainColor")
         labelView.font = UIFont.boldSystemFont(ofSize: 9)
         labelView.sizeToFit()
 
         backgroundColor = .clear
+        
+        isSelected = false
     }
     
     func setCropSize(_ size: CropSize) {
@@ -143,6 +181,9 @@ class CropSizeIcon: UICollectionViewCell {
             frameHeightConstraint.constant = frameSize.height
             frameWidthConstraint.isActive = true
             frameHeightConstraint.isActive = true
+        }
+        
+        if case .free = size.type {
         }
 
         
