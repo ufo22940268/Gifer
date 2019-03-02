@@ -544,6 +544,7 @@ extension EditViewController: OptionMenuDelegate {
             self.optionMenuTopConstraint.isActive = true
             self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
+            self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
         }) { (_) in
             self.optionMenu.isHidden = true
         }
@@ -586,6 +587,7 @@ extension EditViewController: ControlToolbarDelegate {
             let heightChanges = self.optionMenu.bounds.height - self.controlToolbar.bounds.height
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
+            self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
         }, completion: nil)
     }
     

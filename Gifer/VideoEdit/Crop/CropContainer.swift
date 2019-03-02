@@ -52,7 +52,7 @@ class CropContainer: UIView {
         
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 2
+        scrollView.maximumZoomScale = 10
         
         NSLayoutConstraint.activate([
             scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -117,6 +117,17 @@ class CropContainer: UIView {
         
         gridRulerView.constraints.findById(id: "height").constant = targetSize.height
         gridRulerView.constraints.findById(id: "width").constant = targetSize.width
+        gridRulerView.syncConstraintsToGuide()
+    }
+    
+    func changeCropSize(_ targetSize: CGSize) {
+        constraints.findById(id: "height").constant = targetSize.height
+        constraints.findById(id: "width").constant = targetSize.width
+
+        gridRulerView.constraints.findById(id: "height").constant = targetSize.height
+        gridRulerView.constraints.findById(id: "width").constant = targetSize.width
+        gridRulerView.customConstraints.centerY.constant = 0
+        gridRulerView.customConstraints.centerX.constant = 0
     }
     
     func createTestContentView() -> UIView {
@@ -203,7 +214,12 @@ class CropContainer: UIView {
         cropRatio = ratio
         let container = self.bounds
         let targetRect = AVMakeRect(aspectRatio: ratio, insideRect: container)
+        
         gridRulerView.resizeTo(rect: targetRect)
+        constraints.findById(id: "width").constant = targetRect.width
+        constraints.findById(id: "height").constant = targetRect.height
+        
+        scrollView.contentOffset = CGPoint(x: (scrollView.contentSize.width - targetRect.width)/2, y: (scrollView.contentSize.height - targetRect.height)/2)
     }
     
     func updateWhenVideoSizeChanged(videoSize: CGSize) {
@@ -219,35 +235,36 @@ class CropContainer: UIView {
 
 extension CropContainer: GridRulerViewDelegate {
     
+    
     fileprivate func restorePositionWhenDragFinished() {
         let fromRulerFrame = gridRulerView.frame
         let scrollFrame = self.scrollView.convert(scrollView.frame, from: scrollView.superview!)
         let fromScrollContentSize = self.scrollView.contentSize
         let fromRulerFrameInContentCoordinate = self.scrollView.convert(gridRulerView.frame, from: gridRulerView.superview!)
-        
+
         let toRulerSize = AVMakeRect(aspectRatio: fromRulerFrame.size, insideRect: scrollFrame).size
-        
+
         let toWidth = toRulerSize.width
         let toHeight = toRulerSize.height
         let toCenterX = CGFloat(0)
         let toCenterY = CGFloat(0)
-        
+
         UIView.animate(withDuration: 0.3) {
             self.gridRulerView.customConstraints.width.constant = toWidth
             self.gridRulerView.customConstraints.height.constant = toHeight
             self.gridRulerView.customConstraints.centerX.constant = toCenterX
             self.gridRulerView.customConstraints.centerY.constant = toCenterY
             self.layoutIfNeeded()
-            
+
             let toRulerFrame = self.gridRulerView.frame
-            
+
             let newZoomScale = self.scrollView.zoomScale*toRulerFrame.width/fromRulerFrame.width
-            
+
             self.scrollView.zoomScale = newZoomScale
             self.constraints.first(where: {$0.identifier == "width"})!.constant = toWidth
             self.constraints.first(where: {$0.identifier == "height"})!.constant = toHeight
             self.layoutIfNeeded()
-            
+
             let contentOriginPostition = self.scrollView.contentSize.applying(CGAffineTransform(scaleX: fromRulerFrameInContentCoordinate.minX/fromScrollContentSize.width, y: fromRulerFrameInContentCoordinate.minY/fromScrollContentSize.height))
             self.scrollView.contentOffset = CGPoint(x: contentOriginPostition.width, y: contentOriginPostition.height)
         }

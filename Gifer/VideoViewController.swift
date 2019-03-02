@@ -161,6 +161,7 @@ class VideoViewController: AVPlayerViewController {
                 previewView.isHidden = true
                 self.videoViewControllerDelegate?.onProgressChanged(progress:
                     currentTime)
+                pause()
             }
         }
     }
