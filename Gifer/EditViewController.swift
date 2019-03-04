@@ -438,7 +438,6 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-        showOptionMenu(for: .crop)
         self.videoController.delegate = self
         self.videoController.load(playerItem: videoVC.player!.currentItem!) {
             self.enableControlOptions()
