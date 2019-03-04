@@ -10,12 +10,16 @@ import UIKit
 import AVFoundation
 import AVKit
 
+enum CroppingStatus {
+    case normal, adjustCrop
+}
+
 class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
     @objc weak var contentView: UIView!
     var scrollView: UIScrollView!
-    var coverViews = [UIView]()
+    var coverViews = [GridRulerCoverView]()
     
     var videoSize: CGSize? {
         didSet {
@@ -24,12 +28,19 @@ class CropContainer: UIView {
     }
     
     var cropRatio: CGSize!
-    var isEnabled: Bool! {
-        didSet {
-            scrollView.isUserInteractionEnabled = isEnabled
-            gridRulerView.isUserInteractionEnabled = isEnabled
-            gridRulerView.isHidden = !isEnabled
-            coverViews.forEach({$0.isHidden = !isEnabled})
+    
+    func updateCroppingStatus(_ status: CroppingStatus) {
+        switch status {
+        case .normal:
+            scrollView.isUserInteractionEnabled = false
+            gridRulerView.isUserInteractionEnabled = false
+            gridRulerView.isHidden = true
+            coverViews.forEach{$0.updateStatus(.solid)}
+        case .adjustCrop:
+            scrollView.isUserInteractionEnabled = true
+            gridRulerView.isUserInteractionEnabled = true
+            gridRulerView.isHidden = false
+            coverViews.forEach{$0.updateStatus(.adjust)}
         }
     }
     
@@ -79,7 +90,7 @@ class CropContainer: UIView {
         
         bringSubviewToFront(gridRulerView)
         
-        isEnabled = false
+        updateCroppingStatus(.normal)
     }
     
     func addContentView(_ contentView: UIView) {
@@ -195,7 +206,6 @@ class CropContainer: UIView {
                 ])
         
         coverViews.append(contentsOf: [left, right, top, bottom])
-        coverViews.forEach({$0.isHidden = true})
         bringSubviewToFront(gridRulerView)
     }
     

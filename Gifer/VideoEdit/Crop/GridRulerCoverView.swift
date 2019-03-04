@@ -8,16 +8,26 @@
 
 import UIKit
 
-class GridRulerCoverView: UIView {
+enum GridRulerCoverStatus {
+    case solid, adjust
+}
 
+class GridRulerCoverView: UIView {
+    
     init() {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        isHidden = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateStatus(_ status: GridRulerCoverStatus) {
+        if case .solid = status {
+            backgroundColor = UIColor.black
+        } else if case .adjust = status {            
+            backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        }
     }
 }

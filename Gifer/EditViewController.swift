@@ -529,13 +529,13 @@ extension EditViewController: OptionMenuDelegate {
     func onCropSizeSelected(size: CropSize) {
         switch size.type {
         case .ratio:
-            cropContainer.isEnabled = true
+            cropContainer.updateCroppingStatus(.adjustCrop)
             UIView.animate(withDuration: 0.3) {
                 self.cropContainer.adjustTo(ratio: size.ratio)
                 self.videoPlayerSection.layoutIfNeeded()
             }
         case .free:
-            cropContainer.isEnabled = true
+            cropContainer.updateCroppingStatus(.normal)
         }
     }
     
@@ -556,7 +556,8 @@ extension EditViewController: OptionMenuDelegate {
         dismissOptionMenu()
         switch toolbarItem {
         case .crop:
-            self.cropContainer.isEnabled = false
+            self.cropContainer.updateCroppingStatus(.normal)
+            break
         default:
             break
         }
@@ -595,7 +596,7 @@ extension EditViewController: ControlToolbarDelegate {
     
     @objc func onCropItemClicked(sender: UIPanGestureRecognizer) {
         showOptionMenu(for: .crop)
-        self.cropContainer.isEnabled = true
+        self.cropContainer.updateCroppingStatus(.adjustCrop)
     }
     
     @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {
