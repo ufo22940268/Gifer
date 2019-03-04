@@ -225,6 +225,17 @@ class GridRulerView: UIView {
         guideConstraints.copy(from: customConstraints)
     }
     
+    func updateLayout(width: CGFloat, height: CGFloat, resetCenter: Bool = true) {
+        customConstraints.width.constant = width
+        customConstraints.height.constant = height
+        if resetCenter {
+            customConstraints.centerX.constant = 0
+            customConstraints.centerY.constant = 0
+        }
+        
+        syncConstraintsToGuide()
+    }
+    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let touchEdgeWidth = gridRulerTouchEdgeWidth
         let size = bounds.size

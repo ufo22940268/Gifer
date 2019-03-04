@@ -148,9 +148,7 @@ class CropSizeIcon: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: containerSize.width),
-            heightAnchor.constraint(equalToConstant: containerSize.height)])
+        translatesAutoresizingMaskIntoConstraints = false
         
         frameView = UIView()
         frameView.translatesAutoresizingMaskIntoConstraints = false

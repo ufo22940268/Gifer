@@ -531,7 +531,10 @@ extension EditViewController: OptionMenuDelegate {
         switch size.type {
         case .ratio:
             cropContainer.isEnabled = true
-            cropContainer.adjustTo(ratio: size.ratio)
+            UIView.animate(withDuration: 0.3) {
+                self.cropContainer.adjustTo(ratio: size.ratio)
+                self.videoPlayerSection.layoutIfNeeded()
+            }
         case .free:
             cropContainer.isEnabled = true
         }

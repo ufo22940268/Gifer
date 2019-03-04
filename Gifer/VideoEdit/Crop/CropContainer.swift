@@ -15,7 +15,6 @@ class CropContainer: UIView {
     var gridRulerView: GridRulerView!
     @objc weak var contentView: UIView!
     var scrollView: UIScrollView!
-    var videoBounds: CGRect?
     var coverViews = [UIView]()
     
     var videoSize: CGSize? {
@@ -40,7 +39,6 @@ class CropContainer: UIView {
         return cropRect.applying(CGAffineTransform(scaleX: 1/canvasRect.width, y: 1/canvasRect.height))
     }
     var restoreTask: DispatchWorkItem?
-    var cropContainerConstraints: CommonConstraints!
 
     override func awakeFromNib() {
         guard let superview = superview else { return }
@@ -99,16 +97,20 @@ class CropContainer: UIView {
     }
     
     func setupVideo(frame videoFrame: CGRect) {
-        self.videoBounds = videoFrame
         gridRulerView.setupVideo(frame: videoFrame)
         contentView.constraints.findById(id: "width").constant = videoFrame.width
         contentView.constraints.findById(id: "height").constant = videoFrame.height
     }
     
-    func updateWhenContainerSizeChanged(containerBounds: CGRect) {
-        guard let videoSize = videoSize else { return }
-        let rect = containerBounds.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
+    private var layoutSizeAccordingToVideoSize: CGSize? {
+        guard let superview = superview, let videoSize = videoSize else { return nil }
+        let rect = superview.bounds.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
         let targetSize = AVMakeRect(aspectRatio: videoSize, insideRect: rect).size
+        return targetSize
+    }
+    
+    func updateWhenContainerSizeChanged(containerBounds: CGRect) {
+        guard let targetSize = layoutSizeAccordingToVideoSize else { return  }
         constraints.findById(id: "height").constant = targetSize.height
         constraints.findById(id: "width").constant = targetSize.width
         
@@ -210,7 +212,18 @@ class CropContainer: UIView {
         gridRulerView.customConstraints.centerY.constant = 0
     }
     
+    func updateLayout(width: CGFloat, height: CGFloat) {
+        constraints.findById(id: "width").constant = width
+        constraints.findById(id: "height").constant = height
+    }
+    
     func adjustTo(ratio: CGSize) {
+        guard let layoutSize = layoutSizeAccordingToVideoSize else { return }
+        scrollView.zoomScale = 1.0
+        updateLayout(width: layoutSize.width, height: layoutSize.height)
+        gridRulerView.updateLayout(width: layoutSize.width, height: layoutSize.height)
+        superview!.layoutIfNeeded()
+
         cropRatio = ratio
         let container = self.bounds
         let targetRect = AVMakeRect(aspectRatio: ratio, insideRect: container)
