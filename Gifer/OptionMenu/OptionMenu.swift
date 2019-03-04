@@ -20,6 +20,7 @@ class OptionMenu: UIView {
     var cropMenuViewContainer: ControlToolbarConfirmPrompt!
     
     var filtersView: FiltersView!
+    var filtersViewContainer: ControlToolbarConfirmPrompt!
     
     func setPreviewImage(_ image: UIImage) {
         filtersView.setPreviewImage(image)
@@ -52,12 +53,11 @@ class OptionMenu: UIView {
             cropMenuView.customDelegate = delegate
             cropMenuViewContainer.customDelegate = delegate
             contentView = cropMenuViewContainer
-            
         case .filters:
             filtersView.customDelegate = delegate
-            contentView = filtersView
+            filtersViewContainer.customDelegate = delegate
+            contentView = filtersViewContainer
         }
-        
         
         addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -79,5 +79,6 @@ class OptionMenu: UIView {
     
     func setupFiltersView() {
         filtersView = FiltersView()
+        filtersViewContainer = ControlToolbarConfirmPrompt(contentView: filtersView!, toolbarItem: .filters)
     }
 }

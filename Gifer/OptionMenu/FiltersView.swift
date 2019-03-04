@@ -122,3 +122,14 @@ class FiltersView: UIScrollView {
         }
     }
 }
+
+extension FiltersView: Transaction {
+    
+    func commitChange() {
+
+    }
+    
+    func rollbackChange() {
+
+    }
+}

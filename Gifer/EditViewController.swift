@@ -599,11 +599,10 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {
-        print("onFiltersItemClicked")
+        showOptionMenu(for: .filters)
     }
     
     @objc func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer) {
-        print("onPlaySpeedItemClicked")
         showOptionMenu(for: .playSpeed)
     }
 }

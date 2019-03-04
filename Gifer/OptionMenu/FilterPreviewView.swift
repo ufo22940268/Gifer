@@ -8,12 +8,14 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 class FilterPreviewView: UIStackView {
 
     var filter: YPFilter!
     var imageView: UIImageView!
     var nameView: UILabel!
+    var previewSize = CGSize(width: 56, height: 56)
     
     var isHighlight: Bool! {
         didSet {
@@ -37,14 +39,16 @@ class FilterPreviewView: UIStackView {
     func setImage(_ image: UIImage, with filter: YPFilter) {
         self.filter = filter
         if let applier = filter.applier {
-            let ciImage = CIImage(image: image)!
-            imageView.image = UIImage(ciImage: applier(ciImage)!)
+            var ciImage = CIImage(image: image)!
+            ciImage = applier(ciImage)!
+            ciImage = ciImage.cropped(to: AVMakeRect(aspectRatio: previewSize, insideRect: ciImage.extent))
+            let image = UIImage(ciImage: ciImage)
+            imageView.image = image
         } else {
             imageView.image = image
         }
         
         nameView.text = filter.name
-        
         isHighlight = false
     }
 
@@ -62,8 +66,8 @@ class FilterPreviewView: UIStackView {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 56),
-            imageView.heightAnchor.constraint(equalToConstant: 56)])
+            imageView.widthAnchor.constraint(equalToConstant: previewSize.width),
+            imageView.heightAnchor.constraint(equalToConstant: previewSize.height)])
         addArrangedSubview(imageView)
         
         nameView = UILabel()
