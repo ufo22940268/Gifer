@@ -12,22 +12,7 @@ class ControlToolbar: UICollectionView {
 
     var contentView: UIStackView!
     var items = [ToolbarItem: ControlToolbarItemView]()
-    weak var toolbarDelegate: ControlToolbarDelegate? {
-        didSet {
-            for (type, item) in items {
-                var selector: Selector
-                switch type {
-                case .playSpeed:
-                    selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
-                case .crop:
-                    selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
-                case .filters:
-                    selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
-                }
-                item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
-            }
-        }
-    }
+    weak var toolbarDelegate: ControlToolbarDelegate?
     
     let properties = [
         (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
@@ -49,6 +34,7 @@ class ControlToolbar: UICollectionView {
         self.collectionViewLayout = flowLayout
         
         dataSource = self
+        delegate = self
         
         tintColor = UIColor(named: "mainColor")
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
@@ -96,8 +82,23 @@ extension ControlToolbar: UICollectionViewDataSource {
     }
 }
 
-@objc protocol ControlToolbarDelegate: class {
-    func onCropItemClicked(sender: UIPanGestureRecognizer)
-    func onFiltersItemClicked(sender: UIPanGestureRecognizer)
-    func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer)
+extension ControlToolbar: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let (type, _) = properties[indexPath.row]
+        switch type {
+        case .playSpeed:
+            toolbarDelegate?.onPlaySpeedItemClicked()
+        case .crop:
+            toolbarDelegate?.onCropItemClicked()
+        case .filters:
+            toolbarDelegate?.onFiltersItemClicked()
+        }
+    }
+}
+
+protocol ControlToolbarDelegate: class {
+    func onCropItemClicked()
+    func onFiltersItemClicked()
+    func onPlaySpeedItemClicked()
 }

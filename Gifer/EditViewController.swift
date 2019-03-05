@@ -598,16 +598,16 @@ extension EditViewController: ControlToolbarDelegate {
         }, completion: nil)
     }
     
-    @objc func onCropItemClicked(sender: UIPanGestureRecognizer) {
+    func onCropItemClicked() {
         showOptionMenu(for: .crop)
         self.cropContainer.updateCroppingStatus(.adjustCrop)
     }
     
-    @objc func onFiltersItemClicked(sender: UIPanGestureRecognizer) {
+    func onFiltersItemClicked() {
         showOptionMenu(for: .filters)
     }
     
-    @objc func onPlaySpeedItemClicked(sender: UIPanGestureRecognizer) {
+    func onPlaySpeedItemClicked() {
         showOptionMenu(for: .playSpeed)
     }
 }
