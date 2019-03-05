@@ -116,17 +116,25 @@ class CropContainer: UIView {
     private var layoutSizeAccordingToVideoSize: CGSize? {
         guard let superview = superview, let videoSize = videoSize else { return nil }
         let rect = superview.bounds.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
-        let targetSize = AVMakeRect(aspectRatio: videoSize, insideRect: rect).size
-        return targetSize
+        if gridRulerView.isGridChanged {
+            return gridRulerView.bounds.size
+        } else {
+            let targetSize = AVMakeRect(aspectRatio: videoSize, insideRect: rect).size
+            return targetSize
+        }
     }
     
     func updateWhenContainerSizeChanged(containerBounds: CGRect) {
-        guard let targetSize = layoutSizeAccordingToVideoSize else { return  }
+        guard let targetSize = layoutSizeAccordingToVideoSize else { return }
         constraints.findById(id: "height").constant = targetSize.height
         constraints.findById(id: "width").constant = targetSize.width
         
-        contentView.constraints.findById(id: "height").constant = targetSize.height
-        contentView.constraints.findById(id: "width").constant = targetSize.width
+        if gridRulerView.isGridChanged {
+            
+        } else {
+            contentView.constraints.findById(id: "height").constant = targetSize.height
+            contentView.constraints.findById(id: "width").constant = targetSize.width
+        }
         
         gridRulerView.constraints.findById(id: "height").constant = targetSize.height
         gridRulerView.constraints.findById(id: "width").constant = targetSize.width
@@ -228,6 +236,7 @@ class CropContainer: UIView {
     }
     
     func adjustTo(ratio: CGSize) {
+        
         guard let layoutSize = layoutSizeAccordingToVideoSize else { return }
         scrollView.zoomScale = 1.0
         updateLayout(width: layoutSize.width, height: layoutSize.height)
@@ -243,6 +252,8 @@ class CropContainer: UIView {
         constraints.findById(id: "height").constant = targetRect.height
         
         scrollView.contentOffset = CGPoint(x: (scrollView.contentSize.width - targetRect.width)/2, y: (scrollView.contentSize.height - targetRect.height)/2)
+        
+        gridRulerView?.isGridChanged = true
     }
     
     func updateWhenVideoSizeChanged(videoSize: CGSize) {

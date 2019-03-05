@@ -531,6 +531,7 @@ extension EditViewController: OptionMenuDelegate {
         case .ratio:
             cropContainer.updateCroppingStatus(.adjustCrop)
             UIView.animate(withDuration: 0.3) {
+                self.cropContainer.gridRulerView.isGridChanged = false
                 self.cropContainer.adjustTo(ratio: size.ratio)
                 self.videoPlayerSection.layoutIfNeeded()
             }

@@ -86,6 +86,7 @@ protocol GridRulerViewDelegate: class {
 class GridRulerView: UIView {
     
     var scrollView: UIScrollView!
+    var isGridChanged = false
     
     init(scrollView: UIScrollView) {
         super.init(frame: CGRect.zero)
