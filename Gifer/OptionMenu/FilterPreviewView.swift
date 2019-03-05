@@ -41,8 +41,8 @@ class FilterPreviewView: UIStackView {
         if let applier = filter.applier {
             var ciImage = CIImage(image: image)!
             ciImage = applier(ciImage)!
-            ciImage = ciImage.cropped(to: AVMakeRect(aspectRatio: previewSize, insideRect: ciImage.extent))
-            let image = UIImage(ciImage: ciImage)
+            let context = CIContext(options: nil)
+            let image = UIImage(cgImage: context.createCGImage(ciImage, from: ciImage.extent)!)
             imageView.image = image
         } else {
             imageView.image = image
