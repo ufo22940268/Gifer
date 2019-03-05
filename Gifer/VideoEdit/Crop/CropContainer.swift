@@ -216,19 +216,6 @@ class CropContainer: UIView {
         bringSubviewToFront(gridRulerView)
     }
     
-    func resetCrop(videoRect: CGRect) {
-        constraints.findById(id: "width").constant = videoRect.width
-        constraints.findById(id: "height").constant = videoRect.height
-        contentView.constraints.findById(id: "width").constant = videoRect.width
-        contentView.constraints.findById(id: "height").constant = videoRect.height
-        scrollView.zoomScale = 1
-        scrollView.contentOffset = CGPoint.zero
-        gridRulerView.customConstraints.width.constant = videoRect.width
-        gridRulerView.customConstraints.height.constant = videoRect.height
-        gridRulerView.customConstraints.centerX.constant = 0
-        gridRulerView.customConstraints.centerY.constant = 0
-    }
-    
     func updateLayout(width: CGFloat, height: CGFloat) {
         constraints.findById(id: "width").constant = width
         constraints.findById(id: "height").constant = height
@@ -309,6 +296,10 @@ extension CropContainer: GridRulerViewDelegate {
             self.restorePositionWhenDragFinished()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: restoreTask!)
+    }
+    
+    func resetCropArea() {
+        gridRulerView.isGridChanged = false
     }
 }
 

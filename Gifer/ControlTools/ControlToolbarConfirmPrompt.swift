@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol ConfirmPromptDelegate: class {
-    func onPromptDismiss(toolbarItem: ToolbarItem)
+    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool)
 }
 
 protocol Transaction {
@@ -54,12 +54,12 @@ class ControlToolbarConfirmPrompt: UIStackView {
     
     @objc func onOkClicked() {
         contentView.commitChange()
-        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem)
+        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem, commitChange: true)
     }
     
     @objc func onCancelClicked() {
         contentView.rollbackChange()
-        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem)
+        customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem, commitChange: false)
     }
     
     required init(coder: NSCoder) {

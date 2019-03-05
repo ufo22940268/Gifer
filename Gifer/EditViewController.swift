@@ -545,7 +545,6 @@ extension EditViewController: OptionMenuDelegate {
         }
     }
     
-    
     private func dismissOptionMenu() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.optionMenuBottomConstraint.isActive = false
@@ -559,25 +558,22 @@ extension EditViewController: OptionMenuDelegate {
         }
     }
     
-    func onPromptDismiss(toolbarItem: ToolbarItem) {
-        dismissOptionMenu()
+    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool) {
         switch toolbarItem {
         case .crop:
+            if !commitChange {
+                cropContainer.resetCropArea()
+            }
             self.cropContainer.updateCroppingStatus(.normal)
             break
         default:
             break
         }
+        dismissOptionMenu()
     }
     
     func onPreviewSelected(filter: YPFilter) {
         videoVC.setFilter(filter)
-    }
-    
-    func onResetCrop() {
-        UIView.transition(with: cropContainer, duration: 0.3, options: .curveEaseInOut, animations: {
-            self.cropContainer.resetCrop(videoRect: self.displayVideoRect)
-        }, completion: nil)
     }
     
     func onRateChanged(_ rate: Float) {

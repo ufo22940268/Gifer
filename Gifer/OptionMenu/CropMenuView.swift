@@ -9,13 +9,17 @@
 import UIKit
 import AVKit
 
-protocol CropMenuViewDelegate: class {
-    func onResetCrop()
-    
+protocol CropMenuViewDelegate: class {    
     func onCropSizeSelected(size: CropSize)
 }
 
 class CropMenuView: UICollectionView, Transaction {
+    func commitChange() {
+    }
+    
+    func rollbackChange() {
+    }
+    
     
     var customDelegate: CropMenuViewDelegate!
     
@@ -49,12 +53,6 @@ class CropMenuView: UICollectionView, Transaction {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func commitChange() {
-    }
-    
-    func rollbackChange() {
     }
 }
 
