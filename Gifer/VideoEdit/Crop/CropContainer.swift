@@ -130,7 +130,6 @@ class CropContainer: UIView {
         constraints.findById(id: "width").constant = targetSize.width
         
         if gridRulerView.isGridChanged {
-            
         } else {
             contentView.constraints.findById(id: "height").constant = targetSize.height
             contentView.constraints.findById(id: "width").constant = targetSize.width
@@ -236,7 +235,6 @@ class CropContainer: UIView {
     }
     
     func adjustTo(ratio: CGSize) {
-        
         guard let layoutSize = layoutSizeAccordingToVideoSize else { return }
         scrollView.zoomScale = 1.0
         updateLayout(width: layoutSize.width, height: layoutSize.height)

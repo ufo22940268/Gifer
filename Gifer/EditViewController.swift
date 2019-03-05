@@ -536,7 +536,12 @@ extension EditViewController: OptionMenuDelegate {
                 self.videoPlayerSection.layoutIfNeeded()
             }
         case .free:
-            cropContainer.updateCroppingStatus(.normal)
+            cropContainer.updateCroppingStatus(.adjustCrop)
+            UIView.animate(withDuration: 0.3) {
+                self.cropContainer.gridRulerView.isGridChanged = false
+                self.cropContainer.adjustTo(ratio: self.cropContainer.videoSize!)
+                self.videoPlayerSection.layoutIfNeeded()
+            }
         }
     }
     
@@ -548,6 +553,7 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
+            self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
         }
@@ -592,6 +598,7 @@ extension EditViewController: ControlToolbarDelegate {
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
+            self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
     
