@@ -22,22 +22,31 @@ public extension UIButton {
     }
 }
 
-class ControlToolbarItemView: UIButton {
+class ControlToolbarItemView: UICollectionViewCell {
 
     var type: ToolbarItem!
     var icon: UIImageView!
     var titleView: UILabel!
+    
+    let button: UIButton!
 
-    init(type: ToolbarItem, image: UIImage, title: String) {
+    override init(frame: CGRect) {
+        button = UIButton()
         super.init(frame: CGRect.zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        isUserInteractionEnabled = true
-        
-        setImage(image, for: .normal)
-        setTitle(title, for: .normal)
-        setTitleColor(UIColor(named: "mainColor"), for: .normal)
-        titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        alignTextUnderImage()
+        contentView.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(named: "mainColor"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+    }
+    
+    func setup(type: ToolbarItem, image: UIImage, title: String) {
+        button.setImage(image, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.alignTextUnderImage()
+        button.sizeToFit()
     }
 
     required init(coder: NSCoder) {

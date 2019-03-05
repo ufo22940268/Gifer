@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ControlToolbar: UIScrollView {
+class ControlToolbar: UICollectionView {
 
     var contentView: UIStackView!
     var items = [ToolbarItem: ControlToolbarItemView]()
@@ -29,6 +29,12 @@ class ControlToolbar: UIScrollView {
         }
     }
     
+    let properties = [
+        (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
+        (ToolbarItem.crop, (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")),
+        (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜"))
+    ]
+    
     override func awakeFromNib() {
         guard let superview = superview else { return  }
         backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
@@ -36,54 +42,57 @@ class ControlToolbar: UIScrollView {
             leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             ])
-        setupItems()
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: 70, height: 70)
+        self.collectionViewLayout = flowLayout
+        
+        dataSource = self
+        
+        tintColor = UIColor(named: "mainColor")
+        register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
     
     private func setupItems() {
-        tintColor = UIColor(named: "mainColor")
-        contentView = UIStackView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(contentView)
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            contentView.heightAnchor.constraint(equalTo: heightAnchor)
-            ])
-        contentView.axis = .horizontal
-        contentView.spacing = 56
-        contentView.alignment = .center
-        contentView.isLayoutMarginsRelativeArrangement =  true
-        contentView.layoutMargins = UIEdgeInsets(top: 16, left: 56, bottom: 8, right: 0)
+//        contentView.layoutMargins = UIEdgeInsets(top: 16, left: 56, bottom: 8, right: 0)
         
-        let properties = [
-            (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
-            (ToolbarItem.crop, (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")),
-            (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜"))
-        ]
-        for (type, property) in properties {
-            let item = ControlToolbarItemView(type: type, image: property.0, title: property.1)
-            contentView.addArrangedSubview(item)
-            items[type] = item
-            
-            var selector: Selector
-            switch type {
-            case .playSpeed:
-                selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
-            case .crop:
-                selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
-            case .filters:
-                selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
-            }
-            item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
-        }
+//        for (type, property) in properties {
+//            let item = ControlToolbarItemView(type: type, image: property.0, title: property.1)
+//            contentView.addArrangedSubview(item)
+//            items[type] = item
+//
+//            var selector: Selector
+//            switch type {
+//            case .playSpeed:
+//                selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
+//            case .crop:
+//                selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
+//            case .filters:
+//                selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
+//            }
+//            item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
+//        }
     }
     
     func enableItems(_ enable: Bool) {
         for (_, item) in items {
             item.enable(enable)
         }
+    }
+}
+
+extension ControlToolbar: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return properties.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ControlToolbarItemView
+        let (item, (image, title)) = properties[indexPath.row]
+        cell.setup(type: item, image: image, title: title)
+        return cell
     }
 }
 
