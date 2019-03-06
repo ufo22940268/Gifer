@@ -53,9 +53,10 @@ struct ToolbarItemStyle {
 }
 
 @objc enum ToolbarItem: Int, CaseIterable {
-    case playSpeed = 2
-    case crop = 4
-    case filters = 6
+    case playSpeed
+    case crop
+    case filters
+    case sticker
 }
 
 extension NSLayoutConstraint {
@@ -160,7 +161,7 @@ class EditViewController: UIViewController {
         previewView.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
         NSLayoutConstraint.activate([
-            previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor, constant: -32),
+            previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor),
             previewView.widthAnchor.constraint(equalTo: videoPlayerSection.widthAnchor),
             previewView.centerXAnchor.constraint(equalTo: videoPlayerSection.centerXAnchor),
             previewView.centerYAnchor.constraint(equalTo: videoPlayerSection.centerYAnchor)
@@ -212,7 +213,6 @@ class EditViewController: UIViewController {
     
     var displayVideoRect: CGRect {
         var rect = videoPlayerSection.bounds
-        rect = rect.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
         return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
@@ -609,5 +609,9 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onPlaySpeedItemClicked() {
         showOptionMenu(for: .playSpeed)
+    }
+    
+    func onStickerItemClicked() {
+        showOptionMenu(for: .sticker)
     }
 }

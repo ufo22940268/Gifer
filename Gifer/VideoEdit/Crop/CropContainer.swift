@@ -115,7 +115,7 @@ class CropContainer: UIView {
     
     private var layoutSizeAccordingToVideoSize: CGSize? {
         guard let superview = superview, let videoSize = videoSize else { return nil }
-        let rect = superview.bounds.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0))
+        let rect = superview.bounds
         if gridRulerView.isGridChanged {
             return gridRulerView.bounds.size
         } else {

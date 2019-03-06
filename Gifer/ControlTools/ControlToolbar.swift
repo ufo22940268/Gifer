@@ -40,27 +40,6 @@ class ControlToolbar: UICollectionView {
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
     
-    private func setupItems() {
-//        contentView.layoutMargins = UIEdgeInsets(top: 16, left: 56, bottom: 8, right: 0)
-        
-//        for (type, property) in properties {
-//            let item = ControlToolbarItemView(type: type, image: property.0, title: property.1)
-//            contentView.addArrangedSubview(item)
-//            items[type] = item
-//
-//            var selector: Selector
-//            switch type {
-//            case .playSpeed:
-//                selector = #selector(toolbarDelegate?.onPlaySpeedItemClicked(sender:))
-//            case .crop:
-//                selector = #selector(toolbarDelegate?.onCropItemClicked(sender:))
-//            case .filters:
-//                selector = #selector(toolbarDelegate?.onFiltersItemClicked(sender:))
-//            }
-//            item.addGestureRecognizer(UITapGestureRecognizer(target: toolbarDelegate, action: selector))
-//        }
-    }
-    
     func enableItems(_ enable: Bool) {
         for (_, item) in items {
             item.enable(enable)
@@ -93,6 +72,8 @@ extension ControlToolbar: UICollectionViewDelegate {
             toolbarDelegate?.onCropItemClicked()
         case .filters:
             toolbarDelegate?.onFiltersItemClicked()
+        case .sticker:
+            toolbarDelegate?.onStickerItemClicked()
         }
     }
 }
@@ -101,4 +82,5 @@ protocol ControlToolbarDelegate: class {
     func onCropItemClicked()
     func onFiltersItemClicked()
     func onPlaySpeedItemClicked()
+    func onStickerItemClicked()
 }

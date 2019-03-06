@@ -17,7 +17,7 @@ protocol Transaction {
     func rollbackChange()
 }
 
-typealias TransactionView = UIView&Transaction
+typealias TransactionView = UIView
 
 class ControlToolbarConfirmPrompt: UIStackView {
     
@@ -53,12 +53,10 @@ class ControlToolbarConfirmPrompt: UIStackView {
     }
     
     @objc func onOkClicked() {
-        contentView.commitChange()
         customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem, commitChange: true)
     }
     
     @objc func onCancelClicked() {
-        contentView.rollbackChange()
         customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem, commitChange: false)
     }
     

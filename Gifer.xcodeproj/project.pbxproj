@@ -20,6 +20,7 @@
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
+		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */; };
 		4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */; };
 		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
@@ -88,6 +89,7 @@
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
+		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarConfirmPrompt.swift; sourceTree = "<group>"; };
 		4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmExtraButton.swift; sourceTree = "<group>"; };
 		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				42265B5E21F98F41005D2710 /* CropMenuView.swift */,
 				4269ADB4221B93540098BA5E /* FiltersView.swift */,
 				4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */,
+				424F16AE222FB50300F94BCF /* StickerMenuView.swift */,
 			);
 			path = OptionMenu;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
 				4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */,
+				424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */,
 				42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */,
 				4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,

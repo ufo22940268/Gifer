@@ -22,6 +22,9 @@ class OptionMenu: UIView {
     var filtersView: FiltersView!
     var filtersViewContainer: ControlToolbarConfirmPrompt!
     
+    var stickerMenuView: StickerMenuView!
+    var stickerMenuContainer: ControlToolbarConfirmPrompt!
+    
     func setPreviewImage(_ image: UIImage) {
         filtersView.setPreviewImage(image)
     }
@@ -57,6 +60,9 @@ class OptionMenu: UIView {
             filtersView.customDelegate = delegate
             filtersViewContainer.customDelegate = delegate
             contentView = filtersViewContainer
+        case .sticker:
+            stickerMenuContainer.customDelegate = delegate
+            contentView = stickerMenuContainer
         }
         
         addSubview(contentView)
@@ -80,5 +86,10 @@ class OptionMenu: UIView {
     func setupFiltersView() {
         filtersView = FiltersView()
         filtersViewContainer = ControlToolbarConfirmPrompt(contentView: filtersView!, toolbarItem: .filters)
+    }
+    
+    func setupStickerView() {
+        stickerMenuView = StickerMenuView()
+        stickerMenuContainer = ControlToolbarConfirmPrompt(contentView: stickerMenuView, toolbarItem: .sticker)
     }
 }

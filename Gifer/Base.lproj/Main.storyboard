@@ -69,7 +69,7 @@
                                                 <rect key="frame" x="0.0" y="92" width="375" height="526"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="16" width="375" height="494"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="526"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
@@ -78,7 +78,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" constant="-32" identifier="height" id="FOf-kR-snz"/>
+                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" identifier="height" id="FOf-kR-snz"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" identifier="centerXa" id="XLH-2P-TAG"/>
                                                     <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" identifier="centerY" id="hqR-xR-aPI"/>
