@@ -17,7 +17,8 @@ class ControlToolbar: UICollectionView {
     let properties = [
         (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
         (ToolbarItem.crop, (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")),
-        (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜"))
+        (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")),
+        (ToolbarItem.sticker, (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸"))
     ]
     
     override func awakeFromNib() {

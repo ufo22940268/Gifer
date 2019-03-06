@@ -35,6 +35,7 @@ class OptionMenu: UIView {
         setupPlaySpeedView()
         setupCropMenuView()
         setupFiltersView()
+        setupStickerView()
     }
     
     required init?(coder aDecoder: NSCoder) {

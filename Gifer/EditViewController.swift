@@ -354,46 +354,6 @@ class EditViewController: UIViewController {
         cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
     }
     
-    @IBAction func onBarItemClicked(_ barItem: UIBarButtonItem) {
-//        controlToolBarFuntionalItems.filter({$0 != barItem}).forEach { barItem in
-//            self.predefinedToolbarItemStyle.setup(barItem, state: .normal)
-//        }
-//
-//        let type = getOptionType(barItem: barItem)
-//        self.optionMenu.attach(menuType: type)
-//        var clickedItemInfo: ToolbarItemInfo!
-//        self.toolbarItemInfos = self.toolbarItemInfos.map {info in
-//            var info = info
-//            guard info.barItem == barItem else {
-//                info.state = .normal
-//                return info
-//            }
-//            if info.state == .normal {
-//                info.state = .highlight
-//            } else {
-//                info.state = .normal
-//            }
-//            clickedItemInfo = info
-//            self.predefinedToolbarItemStyle.setup(barItem, state: info.state)
-//            return info
-//        }
-//        self.stackView.layoutIfNeeded()
-//        UIView.transition(with: self.videoContainer, duration: 0.3, options: [], animations: {
-//            clickedItemInfo.state.updateOptionMenuContainer(container: self.optionMenu)
-//            switch clickedItemInfo.index {
-//            case .crop:
-//                self.cropContainer.isEnabled = true
-//            default:
-//                self.cropContainer.isEnabled = false
-//            }
-//
-//            self.stackView.layoutIfNeeded()
-//            self.onVideoSectionFrameUpdated()
-//            self.cropContainer.layoutIfNeeded()
-//        }, completion: {success in
-//        })
-    }
-    
     @IBAction func onCancel(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
             dismiss(animated: true, completion: nil)
