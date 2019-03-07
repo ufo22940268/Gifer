@@ -77,6 +77,7 @@ class StickerView: UIView {
     func registerEditRecognizer() {
         addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(onPinch(sender:))))
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:))))
+        addGestureRecognizer(UIRotationGestureRecognizer(target: self, action: #selector(onRotate(sender:))))
     }
     
     @objc func onPinch(sender: UIPinchGestureRecognizer) {
@@ -113,6 +114,11 @@ class StickerView: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
         
         stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
+    }
+    
+    @objc func onRotate(sender: UIRotationGestureRecognizer) {
+        transform = transform.concatenating(CGAffineTransform(rotationAngle: sender.rotation))
+        sender.rotation = 0
     }
     
     private func guideOverflow() -> Bool {
