@@ -164,7 +164,7 @@ class CropContainer: UIView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event) {
+        if let hitView = super.hitTest(point, with: event), !hitView.isHidden {
             return hitView
         } else {
             return scrollView

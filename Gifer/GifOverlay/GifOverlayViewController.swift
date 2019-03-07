@@ -20,16 +20,16 @@ class GifOverlayViewController: UIViewController {
         
         view.isOpaque = false
         view.backgroundColor = .clear
-        
-//        let sticker = overlayRenderer.addSticker(image: #imageLiteral(resourceName: "01_Cuppy_smile.png"), editable: true)
-//        sticker.stickerDelegate = self
-        
-
-        // Do any additional setup after loading the view.
     }
         
     func enableModification(_ enabled: Bool) {
         view.isUserInteractionEnabled = enabled
+    }
+    
+    func addSticker(_ sticker: Sticker) {
+        let sticker = overlayRenderer.addSticker(image: sticker.image
+            , editable: true)
+        sticker.stickerDelegate = self
     }
 }
 

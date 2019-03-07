@@ -23,5 +23,5 @@ class VideoPlayerSection: UIView {
             view is CropContainer
         }).first!
         return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
-    }    
+    }
 }

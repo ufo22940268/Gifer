@@ -212,7 +212,7 @@ class EditViewController: UIViewController {
     }
     
     var displayVideoRect: CGRect {
-        var rect = videoPlayerSection.bounds
+        let rect = videoPlayerSection.bounds
         return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
@@ -398,6 +398,8 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
+        onStickerItemClicked()
+        
         self.videoController.delegate = self
         self.videoController.load(playerItem: videoVC.player!.currentItem!) {
             self.enableControlOptions()
@@ -486,6 +488,10 @@ extension EditViewController: VideoControllerDelegate {
 
 extension EditViewController: OptionMenuDelegate {
     
+    func onSelect(sticker: Sticker) {
+        gifOverlayVC.addSticker(sticker)
+    }
+    
     func onCropSizeSelected(size: CropSize) {
         switch size.type {
         case .ratio:
@@ -526,6 +532,8 @@ extension EditViewController: OptionMenuDelegate {
             }
             self.cropContainer.updateCroppingStatus(.normal)
             break
+        case .sticker:
+            gifOverlayVC.enableModification(false)
         default:
             break
         }
@@ -572,6 +580,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onStickerItemClicked() {
+        gifOverlayVC.enableModification(true)
         showOptionMenu(for: .sticker)
     }
 }
