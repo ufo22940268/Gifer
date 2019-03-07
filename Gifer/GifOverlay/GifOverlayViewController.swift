@@ -44,7 +44,6 @@ extension GifOverlayViewController: StickerViewDelegate {
         UIView.animate(withDuration: trashAnimationDuration, delay: 0, options: .curveEaseIn, animations: {
             self.trashTopConstraint.constant = 100
             self.trashView.superview!.layoutIfNeeded()
-            self.trashView.openTrash()
         }, completion: nil)
     }
     
@@ -68,6 +67,12 @@ extension GifOverlayViewController: StickerViewDelegate {
             showTrash(for: sticker)
         } else if case .ended = state {
             hideTrash(for: sticker)
+        } else {
+            if hover {
+                self.trashView.openTrash()
+            } else {
+                self.trashView.closeTrash()
+            }
         }
     }
 }

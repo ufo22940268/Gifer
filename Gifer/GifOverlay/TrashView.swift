@@ -18,7 +18,7 @@ class TrashView: UIImageView {
     }
     
     func openTrash() {
-        tintColor = UIColor.orange
+        tintColor = UIColor.red
     }
     
     func closeTrash() {

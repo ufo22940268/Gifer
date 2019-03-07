@@ -111,6 +111,7 @@ class StickerMenuItemView: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 62),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0)
             ])
     }

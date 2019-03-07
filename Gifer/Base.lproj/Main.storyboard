@@ -328,9 +328,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
-                                    <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZJ-6E-Tgn" customClass="TrashView" customModule="Gifer" customModuleProvider="target">
-                                        <rect key="frame" x="67" y="281" width="240" height="128"/>
+                                    <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZJ-6E-Tgn" customClass="TrashView" customModule="Gifer" customModuleProvider="target">
+                                        <rect key="frame" x="171.66666666666666" y="690" width="32" height="32"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="OTQ-Kr-CGH"/>
+                                            <constraint firstAttribute="width" constant="32" id="qFW-fZ-MwU"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

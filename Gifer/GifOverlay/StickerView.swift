@@ -12,23 +12,66 @@ protocol StickerViewDelegate: class {
     func onPanStateChanged(state: UIPanGestureRecognizer.State, sticker: StickerView)
 }
 
+extension Int {
+    func degreeToRadians() -> CGFloat {
+        return CGFloat(self) * .pi/180
+    }
+}
 
-class StickerView: UIImageView {
+class StickerView: UIView {
     
     var customConstraints: CommonConstraints!
     var guideConstraints: CommonConstraints!
     var guide: UILayoutGuide!
     weak var stickerDelegate: StickerViewDelegate?
+    var imageView: UIImageView!
+    
+    var frameColor = UIColor.white
 
     init(image: UIImage) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
-        self.image = image
+        layoutMargins = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
+        backgroundColor = .clear
+        
+        imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            ])
+        imageView.image = image
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let frameRect: CGRect = rect.inset(by: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4))
+        let framePath = UIBezierPath(rect: frameRect)
+        frameColor.setStroke()
+        framePath.lineWidth = 2
+        framePath.stroke()
+        
+        let dotPositions = [
+            CGPoint(x: frameRect.minX, y: frameRect.minY),
+            CGPoint(x: frameRect.maxX, y: frameRect.minY),
+            CGPoint(x: frameRect.minX, y: frameRect.maxY),
+            CGPoint(x: frameRect.maxX, y: frameRect.maxY)
+        ]
+        for position in dotPositions {
+            let dotSize = CGFloat(10)
+            let dotRect = CGRect(origin: position.applying(CGAffineTransform(translationX: -dotSize/2, y: -dotSize/2)), size: CGSize(width: dotSize, height: dotSize))
+            frameColor.setFill()
+            UIBezierPath(rect: dotRect).fill()
+        }
     }
     
     func registerEditRecognizer() {
