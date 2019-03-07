@@ -53,4 +53,7 @@ class GifOverlayRenderer: UIView {
         return sticker
     }
     
+    func removeSticker(_ stickerView: StickerView) {
+        stickerView.removeFromSuperview()
+    }
 }

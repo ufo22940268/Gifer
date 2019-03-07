@@ -40,7 +40,8 @@ extension GifOverlayViewController: StickerViewDelegate {
     private func showTrash(for sticker: StickerView) {
         trashTopConstraint.constant = 0
         trashView.superview!.layoutIfNeeded()
-        trashView.isHidden = false        
+        trashView.isHidden = false
+        trashView.closeTrash()
         UIView.animate(withDuration: trashAnimationDuration, delay: 0, options: .curveEaseIn, animations: {
             self.trashTopConstraint.constant = 100
             self.trashView.superview!.layoutIfNeeded()
@@ -48,11 +49,7 @@ extension GifOverlayViewController: StickerViewDelegate {
     }
     
     private func hideTrash(for sticker: StickerView) {
-        UIView.animate(withDuration: trashAnimationDuration, delay: 0, options: .curveEaseOut, animations: {
-            self.trashTopConstraint.constant = 0
-            self.trashView.superview!.layoutIfNeeded()
-            self.trashView.closeTrash()
-        }, completion: { _ in self.trashView.isHidden = true })
+        self.trashView.isHidden = true
     }
     
     func isStickerOverTrash(sticker: StickerView) -> Bool {
@@ -60,15 +57,20 @@ extension GifOverlayViewController: StickerViewDelegate {
         return stickerRect.intersects(trashView.frame)
     }
     
-    func onPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {
-        let hover = isStickerOverTrash(sticker: sticker)
-        sticker.hoverOnTrash(hover)
+    func onStickerPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {
+        let hoverOnTrash = isStickerOverTrash(sticker: sticker)
+        sticker.hoverOnTrash(hoverOnTrash)
         if case .began = state {
             showTrash(for: sticker)
         } else if case .ended = state {
-            hideTrash(for: sticker)
+            UIView.animate(withDuration: 0.175) {
+                self.hideTrash(for: sticker)
+                if hoverOnTrash {
+                    self.overlayRenderer.removeSticker(sticker)
+                }
+            }
         } else {
-            if hover {
+            if hoverOnTrash {
                 self.trashView.openTrash()
             } else {
                 self.trashView.closeTrash()

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol StickerViewDelegate: class {
-    func onPanStateChanged(state: UIPanGestureRecognizer.State, sticker: StickerView)
+    func onStickerPanStateChanged(state: UIPanGestureRecognizer.State, sticker: StickerView)
 }
 
 extension Int {
@@ -98,7 +98,6 @@ class StickerView: UIView {
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
-        stickerDelegate?.onPanStateChanged(state: sender.state, sticker: self)
         let translation = sender.translation(in: self)
         let applyChange = {(constants: CommonConstraints) in
             constants.centerX.constant = constants.centerX.constant + translation.x
@@ -112,6 +111,8 @@ class StickerView: UIView {
             applyChange(customConstraints)
         }
         sender.setTranslation(CGPoint.zero, in: self)
+        
+        stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
     }
     
     private func guideOverflow() -> Bool {
