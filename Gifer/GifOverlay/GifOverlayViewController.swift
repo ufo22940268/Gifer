@@ -8,12 +8,16 @@
 
 import UIKit
 
+private let trashAnimationDuration = Double(0.3)
+
 class GifOverlayViewController: UIViewController {
     
     @IBOutlet weak var overlayEditView: GifOverlayEditView!
     @IBOutlet weak var overlayRenderer: GifOverlayRenderer!
     @IBOutlet weak var trashView: TrashView!
     @IBOutlet weak var trashTopConstraint: NSLayoutConstraint!
+    
+    var stickerViews = [StickerView]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +34,17 @@ class GifOverlayViewController: UIViewController {
         let sticker = overlayRenderer.addSticker(image: sticker.image
             , editable: true)
         sticker.stickerDelegate = self
+        stickerViews.append(sticker)
+    }
+    
+    func removeAllStickers() {
+        for stickerView in stickerViews {
+            removeSticker(stickerView)
+        }
     }
 }
 
-private let trashAnimationDuration = Double(0.3)
-
-extension GifOverlayViewController: StickerViewDelegate {    
+extension GifOverlayViewController: StickerViewDelegate {
     
     private func showTrash(for sticker: StickerView) {
         trashTopConstraint.constant = 0
@@ -43,7 +52,7 @@ extension GifOverlayViewController: StickerViewDelegate {
         trashView.isHidden = false
         trashView.closeTrash()
         UIView.animate(withDuration: trashAnimationDuration, delay: 0, options: .curveEaseIn, animations: {
-            self.trashTopConstraint.constant = 100
+            self.trashTopConstraint.constant = 50
             self.trashView.superview!.layoutIfNeeded()
         }, completion: nil)
     }
@@ -57,6 +66,14 @@ extension GifOverlayViewController: StickerViewDelegate {
         return stickerRect.intersects(trashView.frame)
     }
     
+    func removeSticker(_ sticker: StickerView) {
+        if let index = stickerViews.firstIndex(of: sticker) {
+            stickerViews.remove(at: index)
+        }
+        
+        self.overlayRenderer.removeSticker(sticker)
+    }
+    
     func onStickerPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {
         let hoverOnTrash = isStickerOverTrash(sticker: sticker)
         sticker.hoverOnTrash(hoverOnTrash)
@@ -66,7 +83,7 @@ extension GifOverlayViewController: StickerViewDelegate {
             UIView.animate(withDuration: 0.175) {
                 self.hideTrash(for: sticker)
                 if hoverOnTrash {
-                    self.overlayRenderer.removeSticker(sticker)
+                    self.removeSticker(sticker)
                 }
             }
         } else {

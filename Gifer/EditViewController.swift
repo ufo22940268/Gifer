@@ -534,6 +534,9 @@ extension EditViewController: OptionMenuDelegate {
             break
         case .sticker:
             gifOverlayVC.enableModification(false)
+            if !commitChange {
+                gifOverlayVC.removeAllStickers()
+            }
         default:
             break
         }
