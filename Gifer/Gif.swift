@@ -162,7 +162,7 @@ class GifGenerator {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
-                sticker.image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)))
+                sticker.image.draw(in: sticker.frame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
         }
         return image.cgImage!

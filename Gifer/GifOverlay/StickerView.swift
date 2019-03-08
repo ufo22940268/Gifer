@@ -34,7 +34,8 @@ class StickerView: UIView {
         }
     }
 
-    init(image: UIImage) {
+    init(image: UIImage, sticker: Sticker) {
+        self.sticker = sticker
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
@@ -55,6 +56,16 @@ class StickerView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateStickerFrame()
+    }
+    
+    private func updateStickerFrame() {
+        guard let superview = superview else { return }
+        sticker.frame = frame.applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
     }
     
     override func draw(_ rect: CGRect) {
@@ -103,6 +114,7 @@ class StickerView: UIView {
                 applyChange(customConstraints)
             }
         }
+        updateStickerFrame()
         sender.scale = 1
     }
     
@@ -120,7 +132,7 @@ class StickerView: UIView {
             applyChange(customConstraints)
         }
         sender.setTranslation(CGPoint.zero, in: self)
-        
+        updateStickerFrame()
         stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
     }
     

@@ -25,7 +25,8 @@ class GifOverlayRenderer: UIView {
     
     @discardableResult
     func addSticker(image: UIImage, editable: Bool) -> StickerView {
-        let stickerView = StickerView(image: image)
+        let sticker = Sticker(image: image)
+        let stickerView = StickerView(image: image, sticker: sticker)
         var stickerSize: CGSize
         if bounds.contains(CGRect(origin: CGPoint.zero, size: preferredStickerSize)) {
             stickerSize = preferredStickerSize
@@ -55,8 +56,6 @@ class GifOverlayRenderer: UIView {
             stickerView.registerEditRecognizer()
         }
         
-        let sticker = Sticker(image: image)
-        stickerView.sticker = sticker
         stickerViews.append(stickerView)
         return stickerView
     }
