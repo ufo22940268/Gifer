@@ -160,10 +160,9 @@ class GifGenerator {
     
     func addSticker(image: CGImage) -> CGImage {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
-            let frame = CGRect(origin: CGPoint.zero, size: CGSize(width: image.width, height: image.height))
-            context.cgContext.draw(image, in: frame)
+            UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
-                context.cgContext.draw(sticker.image.cgImage!, in: CGRect(origin: CGPoint.zero, size: sticker.image.size))
+                sticker.image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)))
             }
         }
         return image.cgImage!
