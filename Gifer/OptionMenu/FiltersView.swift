@@ -55,41 +55,30 @@ protocol FiltersViewDelegate: class {
     func onPreviewSelected(filter: YPFilter)
 }
 
-class FiltersView: UIScrollView {
+class FiltersView: UICollectionView {
     
     var previewViews: [FilterPreviewView] = [FilterPreviewView]()
     var stackView: UIStackView!
     weak var customDelegate: FiltersViewDelegate!
+    var previewImage: UIImage?
     
     init() {
-        super.init(frame: CGRect.zero)
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: 80, height: 80)
+        super.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
         
-        stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
+        self.dataSource = self
+        self.delegate = self
+        register(FilterPreviewView.self, forCellWithReuseIdentifier: "cell")
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
-            ])
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 8
-        
-        for filter in AllFilters {
-            appendPreviewView(filter: filter)
-        }
+            heightAnchor.constraint(equalToConstant: 80)])
     }
-    
     
     func appendPreviewView(filter: YPFilter) {
         let previewView = FilterPreviewView()
-        previewView.contentMode = .scaleAspectFill
-        previewView.clipsToBounds = true
         stackView.addArrangedSubview(previewView)
         previewViews.append(previewView)
         
@@ -113,12 +102,39 @@ class FiltersView: UIScrollView {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
 
-    func setPreviewImage(_ image: UIImage) {
-        for (index, previewView) in previewViews.enumerated() {
-            previewView.setImage(image, with: AllFilters[index])
+extension FiltersView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return AllFilters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FilterPreviewView
+        if let previewImage = previewImage {            
+            cell.setImage(previewImage, with: AllFilters[indexPath.row])
         }
+        
+        if let selected = collectionView.indexPathsForSelectedItems?.contains(indexPath) {
+            cell.isHighlight = selected
+        }
+        
+        return cell
+    }
+}
+
+extension FiltersView: UICollectionViewDelegate {
+    
+    func filter(at index: Int) -> YPFilter {
+        return AllFilters[index]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let previewView = cellForItem(at: indexPath) as? FilterPreviewView {
+            previewView.isHighlight = true
+        }
+        
+        customDelegate.onPreviewSelected(filter: filter(at: indexPath.row))
     }
 }
 

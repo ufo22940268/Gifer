@@ -26,7 +26,8 @@ class OptionMenu: UIView {
     var stickerMenuContainer: ControlToolbarConfirmPrompt!
     
     func setPreviewImage(_ image: UIImage) {
-        filtersView.setPreviewImage(image)
+        filtersView.previewImage = image
+        filtersView.reloadData()
     }
     
     init() {

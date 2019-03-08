@@ -10,12 +10,13 @@ import Foundation
 import UIKit
 import AVKit
 
-class FilterPreviewView: UIStackView {
+class FilterPreviewView: UICollectionViewCell {
 
     var filter: YPFilter!
     var imageView: UIImageView!
     var nameView: UILabel!
     var previewSize = CGSize(width: 56, height: 56)
+    var stackView: UIStackView!
     
     var isHighlight: Bool! {
         didSet {
@@ -51,16 +52,25 @@ class FilterPreviewView: UIStackView {
         nameView.text = filter.name
         isHighlight = false
     }
+    
 
-    init() {
-        super.init(frame: CGRect.zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
+        contentMode = .scaleAspectFill
+        clipsToBounds = true
         
-        axis = .vertical
-        spacing = 4
-        alignment = .center
-        layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
-        isLayoutMarginsRelativeArrangement = true
+        stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        stackView.alignment = .center
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         
         imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -68,10 +78,10 @@ class FilterPreviewView: UIStackView {
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: previewSize.width),
             imageView.heightAnchor.constraint(equalToConstant: previewSize.height)])
-        addArrangedSubview(imageView)
+        stackView.addArrangedSubview(imageView)
         
         nameView = UILabel()
-        addArrangedSubview(nameView)
+        stackView.addArrangedSubview(nameView)
         nameView.font = UIFont.systemFont(ofSize: 12)
     }
     

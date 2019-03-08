@@ -558,7 +558,7 @@ extension EditViewController: ControlToolbarDelegate {
         optionMenu.isHidden = false
         optionMenu.attach(menuType: toolbarItem)
         optionMenu.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn, .transitionCrossDissolve], animations: {
+        UIView.animate(withDuration: 0.175, delay: 0, options: [.curveEaseIn, .transitionCrossDissolve], animations: {
             self.optionMenuTopConstraint.isActive = false
             self.optionMenuBottomConstraint.isActive = true
             let heightChanges = self.optionMenu.bounds.height - self.controlToolbar.bounds.height
