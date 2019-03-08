@@ -398,8 +398,6 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-        onStickerItemClicked()
-        
         self.videoController.delegate = self
         self.videoController.load(playerItem: videoVC.player!.currentItem!) {
             self.enableControlOptions()
