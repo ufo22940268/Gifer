@@ -12,6 +12,10 @@ import AVKit
 class GifOverlayRenderer: UIView {
 
     let preferredStickerSize = CGSize(width: 180, height: 180)
+    var stickerViews = [StickerView]()
+    var stickers: [Sticker] {
+        return stickerViews.map {$0.sticker}
+    }
     
     override func awakeFromNib() {
         clipsToBounds = true
@@ -21,7 +25,7 @@ class GifOverlayRenderer: UIView {
     
     @discardableResult
     func addSticker(image: UIImage, editable: Bool) -> StickerView {
-        let sticker = StickerView(image: image)
+        let stickerView = StickerView(image: image)
         var stickerSize: CGSize
         if bounds.contains(CGRect(origin: CGPoint.zero, size: preferredStickerSize)) {
             stickerSize = preferredStickerSize
@@ -29,31 +33,36 @@ class GifOverlayRenderer: UIView {
             stickerSize = bounds.size
         }
         stickerSize = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: stickerSize)).size
-        let constraints = CommonConstraints(centerX: sticker.centerXAnchor.constraint(equalTo: centerXAnchor),
-                                            centerY: sticker.centerYAnchor.constraint(equalTo: centerYAnchor),
-                                            width: sticker.widthAnchor.constraint(equalToConstant: stickerSize.width),
-                                            height: sticker.heightAnchor.constraint(equalToConstant: stickerSize.height))
+        let constraints = CommonConstraints(centerX: stickerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                                            centerY: stickerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                                            width: stickerView.widthAnchor.constraint(equalToConstant: stickerSize.width),
+                                            height: stickerView.heightAnchor.constraint(equalToConstant: stickerSize.height))
         let layoutGuide = UILayoutGuide()
         let guideConstraints = CommonConstraints(centerX: layoutGuide.centerXAnchor.constraint(equalTo: centerXAnchor),
                                             centerY: layoutGuide.centerYAnchor.constraint(equalTo: centerYAnchor),
                                             width: layoutGuide.widthAnchor.constraint(equalToConstant: stickerSize.width),
                                             height: layoutGuide.heightAnchor.constraint(equalToConstant: stickerSize.height))
 
-        addSubview(sticker)
+        addSubview(stickerView)
         addLayoutGuide(layoutGuide)
         constraints.activeAll()
         guideConstraints.activeAll()
-        sticker.customConstraints = constraints
-        sticker.guideConstraints = guideConstraints
-        sticker.guide = layoutGuide
+        stickerView.customConstraints = constraints
+        stickerView.guideConstraints = guideConstraints
+        stickerView.guide = layoutGuide
         
         if editable {
-            sticker.registerEditRecognizer()
+            stickerView.registerEditRecognizer()
         }
-        return sticker
+        
+        let sticker = Sticker(image: image)
+        stickerView.sticker = sticker
+        stickerViews.append(stickerView)
+        return stickerView
     }
     
     func removeSticker(_ stickerView: StickerView) {
         stickerView.removeFromSuperview()
+        stickerViews.remove(at: stickerViews.firstIndex(of: stickerView)!)
     }
 }

@@ -10,6 +10,12 @@ import UIKit
 
 struct Sticker {
     var image: UIImage
+    var frame: CGRect?
+    var rotation: CGFloat?
+    
+    init(image: UIImage) {
+        self.image = image
+    }
 }
 
 class StickerMenuView: UICollectionView {

@@ -54,6 +54,7 @@ class GifGenerator {
         var speed: Float
         var cropArea: CGRect
         var filter: YPFilter?
+        var stickers: [Sticker]
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
             return lhs.start.seconds == rhs.start.seconds
@@ -131,6 +132,7 @@ class GifGenerator {
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
+            image = self.addSticker(image: image)
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
         })
@@ -154,5 +156,16 @@ class GifGenerator {
     func crop(image: CGImage) -> CGImage {
         let rect = options.cropArea.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height)))
         return image.cropping(to: rect)!
+    }
+    
+    func addSticker(image: CGImage) -> CGImage {
+        let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
+            let frame = CGRect(origin: CGPoint.zero, size: CGSize(width: image.width, height: image.height))
+            context.cgContext.draw(image, in: frame)
+            for sticker in options.stickers {
+                context.cgContext.draw(sticker.image.cgImage!, in: CGRect(origin: CGPoint.zero, size: sticker.image.size))
+            }
+        }
+        return image.cgImage!
     }
 }

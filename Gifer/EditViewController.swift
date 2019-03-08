@@ -276,7 +276,13 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        return GifGenerator.Options(start: startProgress, end: endProgress, speed: speed, cropArea: cropArea, filter: videoVC.filter)
+        return GifGenerator.Options(start: startProgress,
+                                    end: endProgress,
+                                    speed: speed,
+                                    cropArea: cropArea,
+                                    filter: videoVC.filter,
+                                    stickers: gifOverlayVC.stickers
+        )
     }
     
     private func startSharing(for type: ShareType) {
@@ -535,6 +541,7 @@ extension EditViewController: OptionMenuDelegate {
             if !commitChange {
                 gifOverlayVC.removeAllStickers()
             }
+            gifOverlayVC.hideStickerFrames(true)
         default:
             break
         }
@@ -582,6 +589,7 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onStickerItemClicked() {
         gifOverlayVC.enableModification(true)
+        gifOverlayVC.hideStickerFrames(false)
         showOptionMenu(for: .sticker)
     }
 }

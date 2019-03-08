@@ -27,6 +27,12 @@ class StickerView: UIView {
     var imageView: UIImageView!
     
     var frameColor = UIColor.white
+    var sticker: Sticker!
+    var hideFrame: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
     init(image: UIImage) {
         super.init(frame: CGRect.zero)
@@ -53,6 +59,8 @@ class StickerView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
+        guard !hideFrame else { return }
         
         let frameRect: CGRect = rect.inset(by: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4))
         let framePath = UIBezierPath(rect: frameRect)

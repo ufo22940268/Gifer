@@ -42,6 +42,12 @@ class GifOverlayViewController: UIViewController {
             removeSticker(stickerView)
         }
     }
+    
+    func hideStickerFrames(_ hide: Bool) {
+        for stickerView in stickerViews {
+            stickerView.hideFrame = hide
+        }
+    }
 }
 
 extension GifOverlayViewController: StickerViewDelegate {
@@ -72,6 +78,10 @@ extension GifOverlayViewController: StickerViewDelegate {
         }
         
         self.overlayRenderer.removeSticker(sticker)
+    }
+    
+    var stickers: [Sticker] {
+        return overlayRenderer.stickers
     }
     
     func onStickerPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {

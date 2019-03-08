@@ -21,6 +21,7 @@ class ShareManager {
     var speed: Float
     var cropArea: CGRect
     var filter: YPFilter?
+    var stickers: [Sticker]
     
     init(asset: AVAsset, options: GifGenerator.Options) {
         self.asset = asset
@@ -29,6 +30,7 @@ class ShareManager {
         self.speed = options.speed
         self.cropArea = options.cropArea
         self.filter = options.filter
+        self.stickers = options.stickers
     }
     
     public typealias ExportHandler = (_ path: URL) -> Void
@@ -36,7 +38,9 @@ class ShareManager {
     
     func share(complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
-            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress, speed: self.speed, cropArea: self.cropArea, filter: self.filter)
+            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress,
+                                               speed: self.speed, cropArea: self.cropArea, filter: self.filter,
+                                               stickers: self.stickers)
             GifGenerator(video: self.asset, options: options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)
