@@ -234,7 +234,7 @@ class EditViewController: UIViewController {
                         this.setPreviewImage(UIImage(cgImage: cgImage))
                     }
                     
-                    this.optionMenu.setPreviewImage(this.getPreviewImage()!)
+                    this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
                     
                     this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                     this.cropContainer.superview!.constraints.findById(id: "height").isActive = false

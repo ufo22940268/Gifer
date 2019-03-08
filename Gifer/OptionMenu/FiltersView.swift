@@ -116,7 +116,6 @@ class FiltersView: UIScrollView {
     
 
     func setPreviewImage(_ image: UIImage) {
-        let image = image.resizeImage(60, opaque: false)
         for (index, previewView) in previewViews.enumerated() {
             previewView.setImage(image, with: AllFilters[index])
         }

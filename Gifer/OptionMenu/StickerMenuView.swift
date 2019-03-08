@@ -14,7 +14,7 @@ struct Sticker {
 
 class StickerMenuView: UICollectionView {
     
-    lazy var stickerImages: [UIImage] = [
+    lazy var stickerImageNames: [String] = [
         "01_Cuppy_smile",
         "02_Cuppy_lol",
         "03_Cuppy_rofl",
@@ -40,7 +40,7 @@ class StickerMenuView: UICollectionView {
         "23_Cuppy_greentea",
         "24_Cuppy_phone",
         "25_Cuppy_battery"
-        ].map{UIImage(named: $0)!}
+        ]
     
     weak var customDelegate: StickerMenuDelegate?
     
@@ -61,6 +61,10 @@ class StickerMenuView: UICollectionView {
         register(StickerMenuItemView.self, forCellWithReuseIdentifier: "cell")
     }
     
+    private func getImage(at index: Int) -> UIImage {
+        return UIImage(named: stickerImageNames[index])!
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         contentInset.top = (bounds.height - contentSize.height)/2
@@ -74,19 +78,19 @@ class StickerMenuView: UICollectionView {
 extension StickerMenuView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return stickerImages.count
+        return stickerImageNames.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! StickerMenuItemView
-        cell.setImage(stickerImages[indexPath.row])
+        cell.setImage(getImage(at: indexPath.row))
         return cell
     }
 }
 
 extension StickerMenuView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let image = stickerImages[indexPath.row]
+        let image = getImage(at: indexPath.row)
         customDelegate?.onSelect(sticker: Sticker(image: image))
     }
 }
