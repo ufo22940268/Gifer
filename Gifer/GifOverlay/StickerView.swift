@@ -33,6 +33,12 @@ class StickerView: UIView {
             setNeedsDisplay()
         }
     }
+    
+    var validBoundsForDelete: CGRect {
+        let size = CGFloat(80)
+        let preferredBounds = CGRect(origin: CGPoint(x: bounds.midX - size/2, y: bounds.midY - size/2), size: CGSize(width: size, height: size))
+        return bounds.intersection(preferredBounds)
+    }
 
     init(image: UIImage, sticker: Sticker) {
         self.sticker = sticker

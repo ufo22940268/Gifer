@@ -80,7 +80,7 @@ extension GifOverlayViewController: StickerViewDelegate {
     }
     
     func isStickerOverTrash(sticker: StickerView) -> Bool {
-        let stickerRect = sticker.convert(sticker.bounds, to: trashView.superview!)
+        let stickerRect = sticker.convert(sticker.validBoundsForDelete, to: trashView.superview!)
         return stickerRect.intersects(trashView.frame)
     }
     
