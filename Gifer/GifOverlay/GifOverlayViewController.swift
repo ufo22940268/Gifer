@@ -28,6 +28,7 @@ class GifOverlayViewController: UIViewController {
         
     func enableModification(_ enabled: Bool) {
         view.isUserInteractionEnabled = enabled
+        overlayRenderer.editable = true
     }
     
     func addSticker(_ sticker: Sticker) {
@@ -47,6 +48,17 @@ class GifOverlayViewController: UIViewController {
         for stickerView in stickerViews {
             stickerView.hideFrame = hide
         }
+    }
+    
+    func updateWhenContainerSizeChanged() {
+        for stickerView in stickerViews {
+            stickerView.updateLayoutWhenContainerSizeChanged()
+        }
+    }
+    
+    func onShowOptionMenu() {
+        enableModification(true)
+        hideStickerFrames(false)
     }
 }
 

@@ -68,6 +68,24 @@ class StickerView: UIView {
         sticker.frame = frame.applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
     }
     
+    func updateLayoutWhenContainerSizeChanged() {
+        if var stickerFrame = sticker.frame, let containerSize = superview?.bounds.size, let superview = superview {
+            stickerFrame = stickerFrame.applying(CGAffineTransform(scaleX: containerSize.width, y: containerSize.height))
+            customConstraints.width.constant = stickerFrame.width
+            customConstraints.height.constant = stickerFrame.height
+            
+            let superviewCenterPoint = CGPoint(x: superview.bounds.midX, y: superview.bounds.midY)
+            let stickerCenterPoint = CGPoint(x: stickerFrame.midX, y: stickerFrame.midY)
+            customConstraints.centerX.constant = stickerCenterPoint.x - superviewCenterPoint.x
+            customConstraints.centerY.constant = stickerCenterPoint.y - superviewCenterPoint.y
+            syncToGuideConstraints()
+        }
+    }
+    
+    func syncToGuideConstraints() {
+        guideConstraints.copy(from: customConstraints)
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         

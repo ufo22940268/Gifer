@@ -22,6 +22,12 @@ class GifOverlayRenderer: UIView {
         backgroundColor = .clear
     }
     
+    var editable: Bool = false {
+        didSet {
+            stickerViews.forEach {$0.isUserInteractionEnabled = editable}
+        }
+    }
+    
     
     @discardableResult
     func addSticker(image: UIImage, editable: Bool) -> StickerView {
@@ -51,10 +57,9 @@ class GifOverlayRenderer: UIView {
         stickerView.customConstraints = constraints
         stickerView.guideConstraints = guideConstraints
         stickerView.guide = layoutGuide
+        stickerView.registerEditRecognizer()
         
-        if editable {
-            stickerView.registerEditRecognizer()
-        }
+        self.editable = editable
         
         stickerViews.append(stickerView)
         return stickerView

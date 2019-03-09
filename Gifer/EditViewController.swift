@@ -522,6 +522,7 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
+            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
@@ -570,6 +571,7 @@ extension EditViewController: ControlToolbarDelegate {
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
+            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
@@ -588,8 +590,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onStickerItemClicked() {
-        gifOverlayVC.enableModification(true)
-        gifOverlayVC.hideStickerFrames(false)
+        gifOverlayVC.onShowOptionMenu()
         showOptionMenu(for: .sticker)
     }
 }
