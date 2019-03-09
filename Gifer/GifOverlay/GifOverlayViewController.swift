@@ -28,7 +28,7 @@ class GifOverlayViewController: UIViewController {
         
     func enableModification(_ enabled: Bool) {
         view.isUserInteractionEnabled = enabled
-        overlayRenderer.editable = true
+        overlayRenderer.editable = enabled
     }
     
     func addSticker(_ sticker: Sticker) {
@@ -94,6 +94,11 @@ extension GifOverlayViewController: StickerViewDelegate {
     
     var stickers: [Sticker] {
         return overlayRenderer.stickers
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews")
     }
     
     func onStickerPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {

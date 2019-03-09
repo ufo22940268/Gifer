@@ -33,6 +33,12 @@ class StickerView: UIView {
             setNeedsDisplay()
         }
     }
+
+    override var frame: CGRect {
+        didSet {
+            updateStickerFrame()
+        }
+    }
     
     var validBoundsForDelete: CGRect {
         let size = CGFloat(80)
@@ -62,11 +68,6 @@ class StickerView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateStickerFrame()
     }
     
     private func updateStickerFrame() {
@@ -156,8 +157,9 @@ class StickerView: UIView {
             applyChange(customConstraints)
         }
         sender.setTranslation(CGPoint.zero, in: self)
+           stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
+        superview?.layoutIfNeeded()
         updateStickerFrame()
-        stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
     }
     
     @objc func onRotate(sender: UIRotationGestureRecognizer) {
