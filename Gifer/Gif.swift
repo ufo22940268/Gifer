@@ -24,13 +24,14 @@ extension CGImage {
 }
 
 extension UIImage {
+    
     func rotate(by radian: CGFloat) -> UIImage {
         //Calculate the size of the rotated view's containing box for our drawing space
         let rotatedViewBox: UIView = UIView(frame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         let t: CGAffineTransform = CGAffineTransform(rotationAngle: radian)
         rotatedViewBox.transform = t
         let rotatedSize: CGSize = rotatedViewBox.frame.size
-        //Create the bitmap context 
+        //Create the bitmap context
         UIGraphicsBeginImageContext(rotatedSize)
         let bitmap: CGContext = UIGraphicsGetCurrentContext()!
         //Move the origin to the middle of the image so we will rotate and scale around the center.
@@ -186,7 +187,12 @@ class GifGenerator {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
-                sticker.image.rotate(by: sticker.rotation!).draw(in: sticker.imageFrame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
+
+                var stickerImage: UIImage!
+                DispatchQueue.main.sync {
+                    stickerImage = sticker.image.rotate(by: sticker.rotation!)
+                }
+                stickerImage.draw(in: sticker.imageFrame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
         }
         return image.cgImage!
