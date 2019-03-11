@@ -18,6 +18,14 @@ extension Int {
     }
 }
 
+extension CGAffineTransform {
+    var rotation: CGFloat {
+        return atan2(self.b, self.a)
+    }
+}
+
+
+
 class StickerView: UIView {
     
     var customConstraints: CommonConstraints!
@@ -73,6 +81,12 @@ class StickerView: UIView {
     private func updateStickerFrame() {
         guard let superview = superview else { return }
         sticker.frame = frame.applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
+        sticker.imageFrame = imageView.convert(imageView.bounds, to: superview).applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
+    }
+    
+    private func updateStickerRotation() {
+        guard let superview = superview else { return }
+        sticker.rotation = transform.rotation
     }
     
     func updateLayoutWhenContainerSizeChanged() {
@@ -165,6 +179,8 @@ class StickerView: UIView {
     @objc func onRotate(sender: UIRotationGestureRecognizer) {
         transform = transform.concatenating(CGAffineTransform(rotationAngle: sender.rotation))
         sender.rotation = 0
+        
+        updateStickerRotation()
     }
     
     private func guideOverflow() -> Bool {

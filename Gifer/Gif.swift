@@ -23,6 +23,29 @@ extension CGImage {
     }
 }
 
+extension UIImage {
+    func rotate(by radian: CGFloat) -> UIImage {
+        //Calculate the size of the rotated view's containing box for our drawing space
+        let rotatedViewBox: UIView = UIView(frame: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        let t: CGAffineTransform = CGAffineTransform(rotationAngle: radian)
+        rotatedViewBox.transform = t
+        let rotatedSize: CGSize = rotatedViewBox.frame.size
+        //Create the bitmap context 
+        UIGraphicsBeginImageContext(rotatedSize)
+        let bitmap: CGContext = UIGraphicsGetCurrentContext()!
+        //Move the origin to the middle of the image so we will rotate and scale around the center.
+        bitmap.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
+        //Rotate the image context
+        bitmap.rotate(by: (radian))
+        //Now, draw the rotated/scaled image into the context
+        bitmap.scaleBy(x: 1.0, y: -1.0)
+        bitmap.draw(self.cgImage!, in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2, width: self.size.width, height: self.size.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
+
 extension AVAsset {
     
     @available(*, deprecated)
@@ -159,12 +182,14 @@ class GifGenerator {
     }
     
     func addSticker(image: CGImage) -> CGImage {
+        
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
-                sticker.image.draw(in: sticker.frame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
+                sticker.image.rotate(by: sticker.rotation!).draw(in: sticker.imageFrame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
         }
         return image.cgImage!
     }
+    
 }

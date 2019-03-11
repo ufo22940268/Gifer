@@ -11,6 +11,7 @@ import UIKit
 struct Sticker {
     var image: UIImage
     var frame: CGRect?
+    var imageFrame: CGRect!
     var rotation: CGFloat?
     
     init(image: UIImage) {
