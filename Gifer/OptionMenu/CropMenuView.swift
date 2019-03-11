@@ -39,7 +39,7 @@ class CropMenuView: UICollectionView, Transaction {
         layout.scrollDirection = .horizontal
         super.init(frame: CGRect.zero, collectionViewLayout: layout)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
+        backgroundColor = UIColor(named: "darkBackgroundColor")
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 68)])
         

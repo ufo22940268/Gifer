@@ -23,7 +23,7 @@ class ControlToolbar: UICollectionView {
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
-        backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
+        backgroundColor = UIColor(named: "darkBackgroundColor")
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),

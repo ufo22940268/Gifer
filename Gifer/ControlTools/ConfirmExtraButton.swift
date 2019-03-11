@@ -31,7 +31,7 @@ class ConfirmExtraButton: UIButton {
             heightAnchor.constraint(equalToConstant: 44)])
         tintColor = UIColor(named: "mainColor")
         contentMode = .center
-        backgroundColor = #colorLiteral(red: 0.0862745098, green: 0.09019607843, blue: 0.09411764706, alpha: 1)
+        backgroundColor = UIColor(named: "darkBackgroundColor")
     }
     
     required init?(coder aDecoder: NSCoder) {

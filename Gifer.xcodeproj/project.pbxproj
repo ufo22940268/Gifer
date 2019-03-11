@@ -23,6 +23,7 @@
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */; };
 		4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */; };
+		4267BD632236065B006D9F44 /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4267BD622236065B006D9F44 /* DarkMode.swift */; };
 		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
 		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
 		4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */; };
@@ -92,6 +93,7 @@
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarConfirmPrompt.swift; sourceTree = "<group>"; };
 		4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmExtraButton.swift; sourceTree = "<group>"; };
+		4267BD622236065B006D9F44 /* DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
 		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPreviewView.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				42E5C34B221E415F00D18CA6 /* GalleryBottomInfoView.swift */,
 				42E5C34F2220B0F100D18CA6 /* GifOverlay */,
 				42AC7D8A2223863600AD3681 /* ControlTools */,
+				4267BD622236065B006D9F44 /* DarkMode.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4267BD632236065B006D9F44 /* DarkMode.swift in Sources */,
 				4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */,
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
