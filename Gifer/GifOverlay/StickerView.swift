@@ -177,7 +177,7 @@ class StickerView: UIView {
     }
     
     @objc func onRotate(sender: UIRotationGestureRecognizer) {
-        transform = transform.concatenating(CGAffineTransform(rotationAngle: sender.rotation))
+        imageView.transform = imageView.transform.concatenating(CGAffineTransform(rotationAngle: sender.rotation))
         sender.rotation = 0
         
         updateStickerRotation()
