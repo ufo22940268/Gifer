@@ -10,7 +10,6 @@ import UIKit
 
 class ControlToolbar: UICollectionView {
 
-    var contentView: UIStackView!
     var items = [ToolbarItem: ControlToolbarItemView]()
     weak var toolbarDelegate: ControlToolbarDelegate?
     
@@ -33,6 +32,10 @@ class ControlToolbar: UICollectionView {
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = CGSize(width: 70, height: 70)
         self.collectionViewLayout = flowLayout
+        
+        let gap = (bounds.width - flowLayout.itemSize.width*CGFloat(properties.count))/(CGFloat(properties.count) + 1)
+        flowLayout.minimumInteritemSpacing = gap
+        contentInset = UIEdgeInsets(top: 0, left: gap, bottom: 0, right: 0)
         
         dataSource = self
         delegate = self
