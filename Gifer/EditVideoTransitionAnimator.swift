@@ -12,7 +12,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-private var editVCTransitionDuration: TimeInterval = 0.5 //0.3
+private var editVCTransitionDuration: TimeInterval = 0.3 //0.3
 //private var editVCTransitionDuration: TimeInterval = 2 //0.3
 private var editVCTransitionShortDuration: TimeInterval = 0.1
 
@@ -52,7 +52,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let previewView = toVC.previewView!
         previewView.isHidden = true
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.2, options: .curveLinear, animations: {
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveLinear, animations: {
             animateView.translatesAutoresizingMaskIntoConstraints = false
             animateView.frame = finalImageViewFrame
             animateView.makeImageViewFitContainer()
