@@ -23,7 +23,11 @@ class VideoControllerGallerySlider: UIView {
     
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
-    var galleryDuration: CMTime?
+    var galleryDuration: CMTime? {
+        didSet {
+            self.sliderWidthConstraint.constant = CGFloat(galleryDuration!.seconds/duration!.seconds)*bounds.width
+        }
+    }
     var duration: CMTime?
     
     weak var delegate: VideoControllerGallerySliderDelegate?
@@ -66,15 +70,17 @@ class VideoControllerGallerySlider: UIView {
     }
     
     func onVideoLoaded(galleryDuration: CMTime, duration: CMTime) {
-        self.galleryDuration = galleryDuration
         self.duration = duration
-        self.sliderWidthConstraint.constant = CGFloat(galleryDuration.seconds/duration.seconds)*bounds.width
+        self.galleryDuration = galleryDuration
         layoutIfNeeded()
     }
     
-    func updateSlider(begin: CGFloat, end: CGFloat) {
+    func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
+        self.galleryDuration = galleryDuration
+        layoutIfNeeded()
         sliderCenterXConstraint.constant = (end + begin)/2*bounds.width
     }
+    
     
     @objc func onChangeSlider(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self).x

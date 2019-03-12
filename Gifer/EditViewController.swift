@@ -474,7 +474,7 @@ extension EditViewController: VideoControllerDelegate {
         if currentItem.duration.seconds > 0 {
             let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
             let end: CGFloat = CGFloat(position.rightTrim.seconds/currentItem.duration.seconds)
-            videoController.gallerySlider.updateSlider(begin: begin, end: end)
+            videoController.gallerySlider.updateSlider(begin: begin, end: end, galleryDuration: position.galleryDuration)            
         }
         videoVC.updateTrim(position: position, state: state)
     }

@@ -53,7 +53,12 @@ struct VideoTrimPosition {
     
     var rightTrim: CMTime
     
+    @available(*, deprecated, renamed: "galleryDuration")
     var range: CMTime {
+        return rightTrim - leftTrim
+    }
+    
+    var galleryDuration: CMTime {
         return rightTrim - leftTrim
     }
 }
