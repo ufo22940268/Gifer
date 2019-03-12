@@ -363,10 +363,10 @@ class EditViewController: UIViewController {
     
     @IBAction func onCancel(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
-            dismiss(animated: true, completion: nil)
+            navigationController?.popViewController(animated: true)
         } else {
             ConfirmToDismissDialog().present(by: self) {
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
