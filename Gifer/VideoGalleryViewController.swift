@@ -46,9 +46,12 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        DarkMode.enable(in: self)
         
         navigationController?.isToolbarHidden = true
-
+        view.backgroundColor = .black
+        self.collectionView.backgroundColor = .black
+        
         // Register cell classes
         self.collectionView!.register(VideoGalleryCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         let flowLayout = UICollectionViewFlowLayout()
@@ -156,21 +159,26 @@ class VideoGalleryViewController: UICollectionViewController {
         
         let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
         editVC.videoAsset = videoResult.object(at: indexPath.row)
-        editVC.transitioningDelegate = self
-        editVC.modalPresentationCapturesStatusBarAppearance = true
-        present(editVC, animated: true, completion: nil)
+        navigationController?.delegate = self
+        navigationController?.modalPresentationCapturesStatusBarAppearance = true
+        navigationController?.pushViewController(editVC, animated: true)
     }
 }
 
+extension VideoGalleryViewController: UINavigationControllerDelegate {
 
-extension VideoGalleryViewController: UIViewControllerTransitioningDelegate {
-
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ShowEditViewControllerAnimator(selectedCell: collectionView.cellForItem(at: selectedIndexPath) as! VideoGalleryCell)
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if toVC.isKind(of: EditViewController.self) {
+            return ShowEditViewControllerAnimator()
+        } else if(toVC.isKind(of: VideoGalleryViewController.self) && fromVC.isKind(of: EditViewController.self)) {
+            return DismissEditViewControllerAnimator()
+        } else {
+            return nil
+        }
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return DismissEditViewControllerAnimator()
+    var selectedCell: VideoGalleryCell {
+        return collectionView.cellForItem(at: selectedIndexPath) as! VideoGalleryCell
     }
 }
 

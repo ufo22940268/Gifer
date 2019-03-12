@@ -95,12 +95,7 @@ extension GifOverlayViewController: StickerViewDelegate {
     var stickers: [Sticker] {
         return overlayRenderer.stickers
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print("viewDidLayoutSubviews")
-    }
-    
+        
     func onStickerPanStateChanged(state: UIGestureRecognizer.State, sticker: StickerView) {
         let hoverOnTrash = isStickerOverTrash(sticker: sticker)
         sticker.hoverOnTrash(hoverOnTrash)

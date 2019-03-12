@@ -18,20 +18,17 @@ private var editVCTransitionShortDuration: TimeInterval = 0.1
 
 class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    var selectedCell: VideoGalleryCell!
-    
-    init(selectedCell: VideoGalleryCell) {
-        self.selectedCell = selectedCell
-    }
-    
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return editVCTransitionDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let fromView = transitionContext.view(forKey: .from)!
+        let fromVC = transitionContext.viewController(forKey: .from)! as! VideoGalleryViewController
         let toVC = transitionContext.viewController(forKey: .to) as! EditViewController
         let toView = transitionContext.view(forKey: .to)!
+        
+        let selectedCell = fromVC.selectedCell
         
         let image = selectedCell.imageView.image!
         toView.layoutIfNeeded()
@@ -64,7 +61,6 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             previewView.isHidden = false
             animateView.removeFromSuperview()
             toVC.loadVideo()
-            kdebug_signpost(2, 0, 0, 0, 1)
             transitionContext.completeTransition(true)
         })
     }
@@ -79,7 +75,7 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let editVC = transitionContext.viewController(forKey: .from) as! EditViewController
-        let galleryVC = (transitionContext.viewController(forKey: .to) as! UINavigationController).topViewController as! VideoGalleryViewController
+        let galleryVC = transitionContext.viewController(forKey: .to) as! VideoGalleryViewController
         let editView = transitionContext.view(forKey: .from)!
         let galleryView = transitionContext.view(forKey: .to)!
         

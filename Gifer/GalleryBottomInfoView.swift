@@ -16,7 +16,8 @@ class GalleryBottomInfoView: UICollectionReusableView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         videoInfoView = UILabel()
-        videoInfoView.textColor = UIColor.darkText
+        videoInfoView.textColor = UIColor.white
+        videoInfoView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 2, weight: .bold)
         videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(videoInfoView)
         NSLayoutConstraint.activate([
