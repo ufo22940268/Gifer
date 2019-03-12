@@ -16,23 +16,12 @@ class TrimButton: UIView {
         case left, right
     }
     
-    var imageView: UIImageView!
     var backgroundLayer: CALayer!
     var iconLayer: CAShapeLayer!
 
     init(direction: Direction) {
-        imageView = UIImageView()
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)])
-        
-        imageView.contentMode = .center
-        
         backgroundColor = UIColor(named: "darkBackgroundColor")
         
         backgroundLayer = CAShapeLayer()
@@ -53,12 +42,6 @@ class TrimButton: UIView {
         path.fill()
         iconLayer.fillColor = UIColor.darkGray.cgColor
         iconLayer.path = path.cgPath
-    }
-    
-    var image: UIImage? {
-        didSet {
-            imageView.image = image
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {

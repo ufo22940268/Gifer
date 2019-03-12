@@ -74,17 +74,18 @@ class VideoControllerGallerySlider: UIView {
             heightAnchor.constraint(equalToConstant: frameHeight),
             ])
         
-        let divider = UIView()
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(divider)
+        let background = UIView()
+        background.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(background)
         NSLayoutConstraint.activate([
-            divider.heightAnchor.constraint(equalToConstant: dividerHeight),
-            divider.leadingAnchor.constraint(equalTo: leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: trailingAnchor),
-            divider.centerYAnchor.constraint(equalTo: centerYAnchor)
+            background.heightAnchor.constraint(equalToConstant: sliderHeight),
+            background.leadingAnchor.constraint(equalTo: leadingAnchor),
+            background.trailingAnchor.constraint(equalTo: trailingAnchor),
+            background.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         
-        divider.backgroundColor = mainColor
+        background.backgroundColor = .black
+        background.layer.cornerRadius = sliderHeight/2
         
         let slider = VideoControllerGallerySliderButton()
         slider.translatesAutoresizingMaskIntoConstraints = false
