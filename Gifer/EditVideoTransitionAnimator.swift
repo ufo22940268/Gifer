@@ -32,7 +32,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         
         let image = selectedCell.imageView.image!
         toView.layoutIfNeeded()
-        let initialFrame: CGRect = fromView.convert(selectedCell.frame, from: selectedCell.superview!)
+        let initialFrame: CGRect = fromVC.navigationController!.view.convert(selectedCell.frame, from: selectedCell.superview!)
         let animateView = AspectView(frame: initialFrame, image: image)
         animateView.imageView.frame = CGRect(origin: CGPoint.zero, size: initialFrame.size)
         
@@ -80,12 +80,12 @@ class DismissEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTrans
         let galleryView = transitionContext.view(forKey: .to)!
         
         let initialView = editVC.previewView!
-        let initialFrame = initialView.superview!.convert(initialView.frame, to: editVC.view)
+        let initialFrame = initialView.superview!.convert(initialView.frame, to: editVC.navigationController!.view)
         
         let animatedView = AspectView(frame: initialFrame, image: editVC.getPreviewImage()!)
         animatedView.makeImageViewFitContainer()
         let cell = galleryVC.getSelectedCell()!
-        let toRect = galleryVC.view.convert(cell.frame, from: cell.superview!)
+        let toRect = galleryVC.navigationController!.view.convert(cell.frame, from: cell.superview!)
         
         UIView.animate(withDuration: editVCTransitionShortDuration, animations: {
             editView.alpha = 0

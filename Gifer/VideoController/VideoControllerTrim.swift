@@ -10,7 +10,68 @@ import Foundation
 import UIKit
 import AVKit
 
-class LargeImageView: UIImageView {
+class TrimButton: UIView {
+    
+    enum Direction {
+        case left, right
+    }
+    
+    var imageView: UIImageView!
+    var backgroundLayer: CALayer!
+    var iconLayer: CAShapeLayer!
+
+    init(direction: Direction) {
+        imageView = UIImageView()
+        super.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)])
+        
+        imageView.contentMode = .center
+        
+        backgroundColor = UIColor(named: "darkBackgroundColor")
+        
+        backgroundLayer = CAShapeLayer()
+        backgroundLayer.backgroundColor = UIColor(named: "mainColor")?.cgColor
+        if case .left = direction {
+            backgroundLayer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        } else {
+            backgroundLayer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        }
+        backgroundLayer.cornerRadius = 4
+        layer.addSublayer(backgroundLayer)
+        
+        iconLayer = CAShapeLayer()
+        layer.addSublayer(iconLayer)
+        iconLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        let lineSize = CGSize(width: 2, height: 25)
+        let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
+        path.fill()
+        iconLayer.fillColor = UIColor.darkGray.cgColor
+        iconLayer.path = path.cgPath
+    }
+    
+    var image: UIImage? {
+        didSet {
+            imageView.image = image
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var bounds: CGRect {
+        didSet {
+            backgroundLayer.frame = bounds
+            iconLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+        }
+    }
+    
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let increaseWidth = CGFloat(30)
         let newArea = CGRect(origin: bounds.origin.applying(CGAffineTransform(translationX: -increaseWidth/2, y: 0)), size: CGSize(width: bounds.width + increaseWidth, height: bounds.height))
@@ -59,21 +120,13 @@ class VideoControllerTrim: UIControl {
     
     weak var trimDelegate: VideoTrimDelegate?
     
-    var leftTrim: UIImageView! = {
-        let leftTrim = LargeImageView()
-        leftTrim.translatesAutoresizingMaskIntoConstraints = false
-        leftTrim.backgroundColor = UIColor(named: "mainColor")
-        leftTrim.image = #imageLiteral(resourceName: "arrow-ios-back-outline.png")
-        leftTrim.contentMode = .center
+    var leftTrim: TrimButton! = {
+        let leftTrim = TrimButton(direction: .left)
         return leftTrim
     }()
     
-    var rightTrim: UIImageView! = {
-        let rightTrim = LargeImageView()
-        rightTrim.translatesAutoresizingMaskIntoConstraints = false
-        rightTrim.backgroundColor = UIColor(named: "mainColor")
-        rightTrim.image = #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
-        rightTrim.contentMode = .center
+    var rightTrim: TrimButton! = {
+        let rightTrim = TrimButton(direction: .right)
         return rightTrim
     }()
     
@@ -195,8 +248,8 @@ class VideoControllerTrim: UIControl {
     func setFrameColor(_ color: UIColor) {
         topLine.backgroundColor = color
         bottomLine.backgroundColor = color
-        leftTrim.backgroundColor = color
-        rightTrim.backgroundColor = color
+//        leftTrim.backgroundColor = color
+//        rightTrim.backgroundColor = color
     }
     
     func setArrowColor(_ color: UIColor) {

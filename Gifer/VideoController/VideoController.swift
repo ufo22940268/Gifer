@@ -126,6 +126,7 @@ class VideoController: UIStackView {
         gallerySlider = VideoControllerGallerySlider()
         addArrangedSubview(gallerySlider)
         gallerySlider.setup()
+        gallerySlider.alpha = 0
 
         setupScrollView()
 
@@ -175,6 +176,8 @@ class VideoController: UIStackView {
         duration = playerItem.asset.duration
         self.videoTrim.duration = duration
         self.videoSlider.duration = duration
+        
+        gallerySlider.alpha = 1.0
         
         var thumbernailCount: Int
         var galleryDuration: CMTime
