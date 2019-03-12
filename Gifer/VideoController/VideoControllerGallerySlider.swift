@@ -13,11 +13,45 @@ protocol VideoControllerGallerySliderDelegate: class {
     func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
 }
 
+private class VideoControllerGallerySliderButton: UIView {
+    
+    init() {
+        super.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        let leftArrow = UIImageView()
+        leftArrow.translatesAutoresizingMaskIntoConstraints = false
+        leftArrow.image = #imageLiteral(resourceName: "arrow-ios-back-outline.png")
+        leftArrow.contentMode = .scaleAspectFit
+        leftArrow.tintColor = .white
+        addSubview(leftArrow)
+        NSLayoutConstraint.activate([
+            leftArrow.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
+            leftArrow.centerYAnchor.constraint(equalTo: centerYAnchor),
+            leftArrow.heightAnchor.constraint(equalTo: heightAnchor, constant: -4)])
+        
+        let rightArrow = UIImageView()
+        rightArrow.translatesAutoresizingMaskIntoConstraints = false
+        rightArrow.image = #imageLiteral(resourceName: "arrow-ios-forward-outline.png")
+        rightArrow.contentMode = .scaleAspectFit
+        rightArrow.tintColor = .white
+        addSubview(rightArrow)
+        NSLayoutConstraint.activate([
+            rightArrow.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
+            rightArrow.centerYAnchor.constraint(equalTo: centerYAnchor),
+            rightArrow.heightAnchor.constraint(equalTo: heightAnchor, constant: -4)])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class VideoControllerGallerySlider: UIView {
     
     let frameHeight = CGFloat(28)
     let dividerHeight = CGFloat(2)
-    let sliderHeight = CGFloat(8)
+    let sliderHeight = CGFloat(12)
     
     let mainColor = UIColor(named: "mainColor")
     
@@ -52,11 +86,11 @@ class VideoControllerGallerySlider: UIView {
         
         divider.backgroundColor = mainColor
         
-        let slider = UIView()
+        let slider = VideoControllerGallerySliderButton()
         slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
         slider.backgroundColor = UIColor(named: "mainColor")
-        slider.layer.cornerRadius = sliderHeight/3
+        slider.layer.cornerRadius = sliderHeight/2
         sliderWidthConstraint = slider.widthAnchor.constraint(equalToConstant: 0)
         sliderCenterXConstraint = slider.centerXAnchor.constraint(equalTo: leadingAnchor)
         NSLayoutConstraint.activate([
