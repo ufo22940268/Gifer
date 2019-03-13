@@ -526,6 +526,7 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
+            self.stackView.layoutIfNeeded()
             self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }) { (_) in

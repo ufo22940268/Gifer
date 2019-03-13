@@ -44,7 +44,7 @@ class StickerView: UIView {
 
     override var frame: CGRect {
         didSet {
-            updateStickerFrame()
+            syncFrameToStickerInfo()
         }
     }
     
@@ -78,7 +78,7 @@ class StickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func updateStickerFrame() {
+    private func syncFrameToStickerInfo() {
         guard let superview = superview else { return }
         sticker.frame = frame.applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
         sticker.imageFrame = imageView.convert(imageView.bounds, to: superview).applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
@@ -153,7 +153,7 @@ class StickerView: UIView {
                 applyChange(customConstraints)
             }
         }
-        updateStickerFrame()
+        syncFrameToStickerInfo()
         sender.scale = 1
     }
     
@@ -173,7 +173,7 @@ class StickerView: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
            stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
         superview?.layoutIfNeeded()
-        updateStickerFrame()
+        syncFrameToStickerInfo()
     }
     
     @objc func onRotate(sender: UIRotationGestureRecognizer) {
