@@ -8,17 +8,39 @@
 
 import UIKit
 
+enum PlayDirection {
+    case forward, backward
+
+    var info: (UIImage, String) {
+        switch self {
+        case .forward:
+            return ( #imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
+        case .backward:
+            return (#imageLiteral(resourceName: "arrow-back-outline.png"), "反向")
+        }
+    }
+}
+
 class ControlToolbar: UICollectionView {
 
     var items = [ToolbarItem: ControlToolbarItemView]()
     weak var toolbarDelegate: ControlToolbarDelegate?
     
-    let properties = [
+    var properties = [
         (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
         (ToolbarItem.crop, (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")),
         (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")),
-        (ToolbarItem.sticker, (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸"))
+        (ToolbarItem.sticker, (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")),
+        (ToolbarItem.direction, (#imageLiteral(resourceName: "arrow-forward-outline.png"), "正向"))
     ]
+    let displayPropertyCount = 4
+    
+    var direction: PlayDirection! {
+        didSet {
+            let itemIndex = properties.firstIndex {$0.0 == .direction}!
+            properties[itemIndex] = (ToolbarItem.direction, direction.info)
+        }
+    }
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -33,7 +55,7 @@ class ControlToolbar: UICollectionView {
         flowLayout.itemSize = CGSize(width: 70, height: 70)
         self.collectionViewLayout = flowLayout
         
-        let gap = (bounds.width - flowLayout.itemSize.width*CGFloat(properties.count))/(CGFloat(properties.count) + 1)
+        let gap = (bounds.width - flowLayout.itemSize.width*(CGFloat(displayPropertyCount) + 0.3))/(CGFloat(displayPropertyCount) + 1)
         flowLayout.minimumInteritemSpacing = gap
         contentInset = UIEdgeInsets(top: 0, left: gap, bottom: 0, right: 0)
         
@@ -42,6 +64,7 @@ class ControlToolbar: UICollectionView {
         
         tintColor = UIColor(named: "mainColor")
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
+        direction = PlayDirection.forward
     }
     
     func enableItems(_ enable: Bool) {
@@ -67,6 +90,16 @@ extension ControlToolbar: UICollectionViewDataSource {
 
 extension ControlToolbar: UICollectionViewDelegate {
     
+    private func reverseDirection() {
+        switch direction! {
+        case .forward:
+            direction = .backward
+        case .backward:
+            direction = .forward
+        }
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let (type, _) = properties[indexPath.row]
         switch type {
@@ -78,6 +111,10 @@ extension ControlToolbar: UICollectionViewDelegate {
             toolbarDelegate?.onFiltersItemClicked()
         case .sticker:
             toolbarDelegate?.onStickerItemClicked()
+        case .direction:
+            reverseDirection()
+            collectionView.reloadData()
+            toolbarDelegate?.onDirectionItemClicked(direction: direction)
         }
     }
 }
@@ -87,4 +124,5 @@ protocol ControlToolbarDelegate: class {
     func onFiltersItemClicked()
     func onPlaySpeedItemClicked()
     func onStickerItemClicked()
+    func onDirectionItemClicked(direction: PlayDirection)
 }

@@ -57,6 +57,7 @@ struct ToolbarItemStyle {
     case crop
     case filters
     case sticker
+    case direction
 }
 
 extension NSLayoutConstraint {
@@ -178,7 +179,7 @@ class EditViewController: UIViewController {
     }
     
     private func setupGifOverlay() {
-        gifOverlayVC = storyboard!.instantiateViewController(withIdentifier: "gifOverlay") as! GifOverlayViewController
+        gifOverlayVC = storyboard!.instantiateViewController(withIdentifier: "gifOverlay") as? GifOverlayViewController
         addChild(gifOverlayVC)
         
         cropContainer.addSubview(gifOverlayVC.view)
@@ -282,7 +283,8 @@ class EditViewController: UIViewController {
                                     speed: speed,
                                     cropArea: cropArea,
                                     filter: videoVC.filter,
-                                    stickers: gifOverlayVC.stickers
+                                    stickers: gifOverlayVC.stickers,
+                                    direction: videoVC.playDirection
         )
     }
     
@@ -593,5 +595,10 @@ extension EditViewController: ControlToolbarDelegate {
     func onStickerItemClicked() {
         gifOverlayVC.onShowOptionMenu()
         showOptionMenu(for: .sticker)
+    }
+    
+    func onDirectionItemClicked(direction: PlayDirection) {
+        videoVC.playDirection = direction
+        videoVC.play()
     }
 }

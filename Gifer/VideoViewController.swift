@@ -47,6 +47,24 @@ class VideoViewController: AVPlayerViewController {
     var videoInited: Bool = false
     var previewImage: UIImage?
     var filter: YPFilter?
+    var playDirection: PlayDirection = .forward {
+        didSet {
+            updateEndtime()
+        }
+    }
+    
+    private func updateEndtime() {
+        guard let currentItem = player?.currentItem else { return }
+        switch playDirection {
+        case .forward:
+            currentItem.forwardPlaybackEndTime = trimPosition.rightTrim
+            currentItem.reversePlaybackEndTime = .invalid
+        case .backward:
+            currentItem.forwardPlaybackEndTime = .invalid
+            currentItem.reversePlaybackEndTime = trimPosition.leftTrim
+        }
+    }
+    
     
     func getVideoComposition(videoAsset: AVAsset) -> AVVideoComposition {
         let ciContext = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES3)!)
@@ -95,7 +113,7 @@ class VideoViewController: AVPlayerViewController {
     
     
     func play() {
-        self.player?.rate = currentRate
+        self.player?.rate = (playDirection == .forward ? 1 : -1)*currentRate
     }
     
     func pause() {
@@ -123,9 +141,16 @@ class VideoViewController: AVPlayerViewController {
 
         loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
             guard let player = self.player, let currentItem = player.currentItem else { return }
-            if currentItem.currentTime() == currentItem.forwardPlaybackEndTime {
-                player.seek(to: self.trimPosition.leftTrim)
-                player.playImmediately(atRate: self.currentRate)
+            let meetEnds: Bool
+            switch self.playDirection {
+            case .forward:
+                meetEnds = currentItem.currentTime() == currentItem.forwardPlaybackEndTime
+            case .backward:
+                meetEnds = currentItem.currentTime() == currentItem.reversePlaybackEndTime
+            }
+            if meetEnds {
+                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim)
+                self.play()
             }
         }
         
@@ -133,7 +158,7 @@ class VideoViewController: AVPlayerViewController {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let currentItem = player?.currentItem else { return  }
+        guard let currentItem = player?.currentItem else { return }
         if keyPath == #keyPath(AVPlayerItem.status) {
             let status: AVPlayerItem.Status
             
@@ -152,8 +177,7 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func observePlaybackStatus() {
-        guard let currentItem = self.player?.currentItem else {return}
-        
+        guard let currentItem = self.player?.currentItem else { return }
         let currentTime = currentItem.currentTime()
         showLoading(currentItem.isPlaybackBufferEmpty)
         if self.player!.timeControlStatus == .playing {
@@ -208,8 +232,7 @@ extension VideoViewController {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
-        
-        currentItem.forwardPlaybackEndTime = position.rightTrim
+        updateEndtime()
         
         switch state {
         case .finished(let forceReset):

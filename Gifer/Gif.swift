@@ -79,6 +79,7 @@ class GifGenerator {
         var cropArea: CGRect
         var filter: YPFilter?
         var stickers: [Sticker]
+        var direction: PlayDirection
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
             return lhs.start.seconds == rhs.start.seconds

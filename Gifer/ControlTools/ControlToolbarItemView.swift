@@ -45,7 +45,7 @@ class ControlToolbarItemView: UICollectionViewCell {
     
     func setup(type: ToolbarItem, image: UIImage, title: String) {
         button.setImage(image, for: .normal)
-        button.setTitle(title, for: .normal)
+        button.setTitle(title, for: .normal)        
         button.alignTextUnderImage()
         button.sizeToFit()
     }

@@ -22,6 +22,7 @@ class ShareManager {
     var cropArea: CGRect
     var filter: YPFilter?
     var stickers: [Sticker]
+    var direction: PlayDirection
     
     init(asset: AVAsset, options: GifGenerator.Options) {
         self.asset = asset
@@ -31,6 +32,7 @@ class ShareManager {
         self.cropArea = options.cropArea
         self.filter = options.filter
         self.stickers = options.stickers
+        self.direction = options.direction
     }
     
     public typealias ExportHandler = (_ path: URL) -> Void
@@ -40,7 +42,7 @@ class ShareManager {
         DispatchQueue.global().async {
             let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress,
                                                speed: self.speed, cropArea: self.cropArea, filter: self.filter,
-                                               stickers: self.stickers)
+                                               stickers: self.stickers, direction: self.direction)
             GifGenerator(video: self.asset, options: options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)

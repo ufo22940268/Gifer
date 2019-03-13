@@ -66,6 +66,8 @@ class OptionMenu: UIView {
             stickerMenuView.customDelegate = delegate
             stickerMenuContainer.customDelegate = delegate
             contentView = stickerMenuContainer
+        case .direction:
+            return
         }
         
         addSubview(contentView)
