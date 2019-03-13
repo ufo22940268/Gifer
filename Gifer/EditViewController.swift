@@ -310,6 +310,7 @@ class EditViewController: UIViewController {
                     }))
                     alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
+                        self.videoVC.play()
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }

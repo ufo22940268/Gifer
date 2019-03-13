@@ -150,6 +150,7 @@ class GifGenerator {
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
         let ciContext = CIContext(options: nil)
+        times = arrangeTimeByPlayDirection(times)
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
@@ -175,6 +176,15 @@ class GifGenerator {
             }
             print("gif file \(self.gifFilePath!.path) generated")
             complete(self.gifFilePath!)
+        }
+    }
+    
+    func arrangeTimeByPlayDirection(_ times: [NSValue]) -> [NSValue] {
+        switch options.direction {
+        case .forward:
+            return times
+        case .backward:
+            return times.reversed()
         }
     }
     
