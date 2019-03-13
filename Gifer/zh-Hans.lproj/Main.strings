@@ -1,0 +1,18 @@
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "9K3-oG-bay"; */
+"9K3-oG-bay.title" = "Item";
+
+/* Class = "UILabel"; text = "8s"; ObjectID = "DEI-oD-1XX"; */
+"DEI-oD-1XX.text" = "8s";
+
+/* Class = "UINavigationItem"; title = "Gifer"; ObjectID = "X0g-Vx-SJc"; */
+"X0g-Vx-SJc.title" = "Gifer";
+
+/* Class = "UICollectionViewController"; title = "Gifer"; ObjectID = "bz0-X4-CgO"; */
+"bz0-X4-CgO.title" = "Gifer";
+
+/* Class = "UILabel"; text = "8s"; ObjectID = "hXr-fP-c1W"; */
+"hXr-fP-c1W.text" = "8s";
+
+/* Class = "UILabel"; text = "截取最大长度"; ObjectID = "yJw-M9-2b3"; */
+"yJw-M9-2b3.text" = "截取最大长度";

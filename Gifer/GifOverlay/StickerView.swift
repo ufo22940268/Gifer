@@ -165,11 +165,13 @@ class StickerView: UIView {
         }
         
         guideConstraints.snapshot()
-        if guideOverflow() {
-            guideConstraints.rollback()
-        } else {
-            applyChange(customConstraints)
-        }
+        
+        //Disable guide constraints temporary.
+//        if guideOverflow() {
+//            guideConstraints.rollback()
+//        } else {
+        applyChange(customConstraints)
+//        }
         sender.setTranslation(CGPoint.zero, in: self)
            stickerDelegate?.onStickerPanStateChanged(state: sender.state, sticker: self)
         superview?.layoutIfNeeded()
