@@ -71,6 +71,12 @@ class VideoGalleryViewController: UICollectionViewController {
             if status == PHAuthorizationStatus.authorized {
                 DispatchQueue.main.async {
                     self.reload()
+
+                    self.collectionView.layoutIfNeeded()
+                    let totalItemCount: Int = self.collectionView(self.collectionView, numberOfItemsInSection: 0)
+                    if totalItemCount > 0 {
+                        self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+                    }
                 }
             }
         }
