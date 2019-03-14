@@ -231,8 +231,6 @@ class VideoControllerTrim: UIControl {
     func setFrameColor(_ color: UIColor) {
         topLine.backgroundColor = color
         bottomLine.backgroundColor = color
-//        leftTrim.backgroundColor = color
-//        rightTrim.backgroundColor = color
     }
     
     func setArrowColor(_ color: UIColor) {

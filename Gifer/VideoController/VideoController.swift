@@ -105,6 +105,9 @@ class VideoController: UIStackView {
     
     var scrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
+    var galleryDuration: CMTime {
+        return gallerySlider.galleryDuration!
+    }    
     var trimPosition: VideoTrimPosition {
         get {
             return videoTrim.trimPosition

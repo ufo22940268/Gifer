@@ -194,19 +194,16 @@ class GifGenerator {
     }
     
     func addSticker(image: CGImage) -> CGImage {
-        
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
-
                 var stickerImage: UIImage!
                 DispatchQueue.main.sync {
-                    stickerImage = sticker.image.rotate(by: sticker.rotation!)
+                    stickerImage = sticker.image.rotate(by: sticker.rotation)
                 }
                 stickerImage.draw(in: sticker.imageFrame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
         }
         return image.cgImage!
     }
-    
 }

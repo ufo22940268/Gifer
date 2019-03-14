@@ -81,6 +81,33 @@ extension UIViewController {
     }
 }
 
+extension UINavigationItem {
+    @objc func setTwoLineTitle(lineOne: String, lineTwo: String) {
+        let titleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white,
+                               NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)] as [NSAttributedString.Key : Any]
+        let subtitleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white,
+                                  NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12)] as [NSAttributedString.Key : Any]
+        
+        let title:NSMutableAttributedString = NSMutableAttributedString(string: lineOne, attributes: titleParameters)
+        let subtitle:NSAttributedString = NSAttributedString(string: lineTwo, attributes: subtitleParameters)
+        
+        title.append(NSAttributedString(string: "\n"))
+        title.append(subtitle)
+        
+        let size = title.size()
+        
+        let width = size.width
+        let height = CGFloat(44)
+        
+        let titleLabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        titleLabel.attributedText = title
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+        
+        titleView = titleLabel
+    }
+}
+
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
@@ -120,20 +147,38 @@ class EditViewController: UIViewController {
         super.loadView()
     }
     
+    lazy var navigationTitleView: UILabel = {
+        let label = UILabel()
+        label.text = "adsfadf\nadfadf"
+        label.textColor = .white
+        label.sizeToFit()
+        return label
+    }()
+    
     override func viewDidLoad() {
         DarkMode.enable(in: self)
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
+        
 
         let singleLaunched = isDebug
         if singleLaunched {
             videoAsset = getTestVideo()
         }
+        setSubTitle("加载中")
         setupVideoContainer()
         setupControlToolbar()
         
         if singleLaunched {
             loadVideo()
         }
+    }
+    
+    private func setSubTitle(_ text: String) {
+        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: "加载中...")
+    }
+    
+    private func setSubTitle(duration: CMTime) {
+        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒", duration.seconds))
     }
     
     func setupVideoContainer() {
@@ -416,6 +461,7 @@ extension EditViewController: VideoViewControllerDelegate {
             self.videoVC.play()
             
             self.defaultGifOptions = self.currentGifOption
+            self.setSubTitle(duration: self.videoController.galleryDuration)
         }
     }
     
@@ -480,6 +526,8 @@ extension EditViewController: VideoControllerDelegate {
             videoController.gallerySlider.updateSlider(begin: begin, end: end, galleryDuration: position.galleryDuration)            
         }
         videoVC.updateTrim(position: position, state: state)
+        
+        setSubTitle(duration: videoController.galleryDuration)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
