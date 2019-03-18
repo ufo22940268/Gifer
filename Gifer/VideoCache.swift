@@ -13,7 +13,7 @@ import AVKit
 class VideoCache {
     
     var asset: AVAsset!
-    var images: [UIImage]?
+    var images: [CGImage]?
     var preferredImageInterval = CMTime(seconds: 0.1, preferredTimescale: 600)
     var imageInterval: CMTime?
     let tempFilePath: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("k.mov")
@@ -40,20 +40,19 @@ class VideoCache {
         let interval = CMTimeMultiplyByFloat64(totalDuration, multiplier: 1/Double(extractImageCount))
         self.imageInterval = interval
         
-        var images = [UIImage]()
+        var images = [CGImage]()
         for index in 0..<extractImageCount {
             let time = CMTimeMultiply(interval, multiplier: Int32(index))
             let actualtime = UnsafeMutablePointer<CMTime>.allocate(capacity: 1)
             actualtime.initialize(to: time)
             let cgImage = try! generator.copyCGImage(at: time, actualTime: actualtime)
             actualtime.deallocate()
-            images.append(UIImage(cgImage: cgImage))
+            images.append(cgImage)
         }
         self.images = images
     }
     
-    private func composeVideo(with images: [UIImage], completion: @escaping ParseHandler) {
-
+    private func composeVideo(with images: [CGImage], completion: @escaping ParseHandler) {
         try? FileManager.default.removeItem(at: tempFilePath)
         let writer = try! AVAssetWriter(url: tempFilePath, fileType: AVFileType.mov)
         let writerInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: nil)
@@ -99,6 +98,34 @@ extension UIImage {
         
         UIGraphicsPushContext(context!)
         self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        UIGraphicsPopContext()
+        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        return pixelBuffer
+    }
+}
+
+
+extension CGImage {
+    func toPixelBuffer() -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(width), Int(height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard (status == kCVReturnSuccess) else {
+            return nil
+        }
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+        
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: pixelData, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+        
+        context?.translateBy(x: 0, y: CGFloat(height))
+        context?.scaleBy(x: 1.0, y: -1.0)
+        
+        UIGraphicsPushContext(context!)
+        context?.draw(self, in: CGRect(x: 0, y: 0, width: width, height: height))
         UIGraphicsPopContext()
         CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
         
