@@ -293,13 +293,9 @@ class EditViewController: UIViewController {
                     
                     this.videoVC.load(playerItem: playerItem)
                     this.videoVC.videoViewControllerDelegate = this
-                    this.setupFiltersSection()
                 }
             }
         }
-    }
-    
-    func setupFiltersSection() {
     }
     
     func setPreviewImage(_ image: UIImage) {

@@ -101,5 +101,20 @@ class GiferTests: XCTestCase {
         
         wait(for: [exp], timeout: 200)
     }
+    
+    func testReduceVideoFrameRate() {
+        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
+        let exp = expectation(description: "export sucess")
+        
+        PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in
+            
+            VideoCache(asset: videoAsset!).parse {video in
+                print(video)
+                exp.fulfill()
+            }
+        }
+        
+        wait(for: [exp], timeout: 40)
+    }
 }
 

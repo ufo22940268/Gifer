@@ -15,6 +15,7 @@
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
+		424596EE223F693B00FCE599 /* VideoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596ED223F693B00FCE599 /* VideoCache.swift */; };
 		42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */; };
 		42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */; };
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
@@ -85,6 +86,7 @@
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
+		424596ED223F693B00FCE599 /* VideoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCache.swift; sourceTree = "<group>"; };
 		42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGalleryContainer.swift; sourceTree = "<group>"; };
 		42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallerySlider.swift; sourceTree = "<group>"; };
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				42E5C34F2220B0F100D18CA6 /* GifOverlay */,
 				42AC7D8A2223863600AD3681 /* ControlTools */,
 				4267BD622236065B006D9F44 /* DarkMode.swift */,
+				424596ED223F693B00FCE599 /* VideoCache.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 			files = (
 				4267BD632236065B006D9F44 /* DarkMode.swift in Sources */,
 				4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */,
+				424596EE223F693B00FCE599 /* VideoCache.swift in Sources */,
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,

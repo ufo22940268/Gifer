@@ -50,6 +50,9 @@
                <Test
                   Identifier = "GiferTests/testParseVideo()">
                </Test>
+               <Test
+                  Identifier = "GiferTests/testVideoComposition()">
+               </Test>
             </SkippedTests>
          </TestableReference>
          <TestableReference
