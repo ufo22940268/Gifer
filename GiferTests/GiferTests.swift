@@ -103,11 +103,10 @@ class GiferTests: XCTestCase {
     }
     
     func testReduceVideoFrameRate() {
-        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
+        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 1)
         let exp = expectation(description: "export sucess")
         
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in
-            
             VideoCache(asset: videoAsset!).parse {video in
                 print(video)
                 exp.fulfill()
@@ -115,6 +114,25 @@ class GiferTests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 40)
+    }
+    
+    
+    func testAssetExport() {
+        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
+        let exp = expectation(description: "export sucess")
+        PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in
+            let session = AVAssetExportSession(asset: videoAsset!, presetName: AVAssetExportPresetMediumQuality)!
+            session.outputURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("k.mov")
+            session.outputFileType = AVFileType.mov
+            try? FileManager.default.removeItem(at: session.outputURL!)
+            session.exportAsynchronously {
+                print("---------\(session.error)")
+                exp.fulfill()
+            }
+        }
+        
+        
+        wait(for: [exp], timeout: 10)
     }
 }
 

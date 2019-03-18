@@ -51,6 +51,9 @@
                   Identifier = "GiferTests/testParseVideo()">
                </Test>
                <Test
+                  Identifier = "GiferTests/testReduceVideoFrameRate()">
+               </Test>
+               <Test
                   Identifier = "GiferTests/testVideoComposition()">
                </Test>
             </SkippedTests>

@@ -35,7 +35,7 @@ class VideoCache {
         generator.requestedTimeToleranceBefore = .zero
         generator.requestedTimeToleranceAfter = .zero
 //        let totalDuration = videoAsset.duration
-        let totalDuration = CMTime(seconds: 3, preferredTimescale: 600)
+        let totalDuration = CMTime(seconds: 10, preferredTimescale: 600)
         let extractImageCount = Int(totalDuration.seconds/preferredImageInterval.seconds) + 1
         let interval = CMTimeMultiplyByFloat64(totalDuration, multiplier: 1/Double(extractImageCount))
         self.imageInterval = interval
