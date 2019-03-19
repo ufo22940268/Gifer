@@ -431,6 +431,7 @@
                     </view>
                     <connections>
                         <outlet property="stackView" destination="GGQ-Wb-BsU" id="Juz-Vn-EZ3"/>
+                        <outlet property="videoController" destination="nZj-O1-RXN" id="ANb-qe-T0D"/>
                         <outlet property="videoPreviewSection" destination="xfU-cw-0cW" id="2CH-9u-gbG"/>
                     </connections>
                 </viewController>
