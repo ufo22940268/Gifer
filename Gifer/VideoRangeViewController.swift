@@ -24,7 +24,12 @@ class VideoRangeViewController: UIViewController {
     @IBOutlet weak var videoController: VideoController!
     var previewAsset: PHAsset!
     var timeObserverToken: Any?
+    var loopObserverToken: Any?
     
+    var trimPosition: VideoTrimPosition {
+        return videoController.trimPosition
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +53,7 @@ class VideoRangeViewController: UIViewController {
                 self.videoController.load(playerItem: playerItem, completion: {
                     
                 })
+                self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
                 self.registerObservers()
             }
         }
@@ -64,6 +70,13 @@ class VideoRangeViewController: UIViewController {
                                                                 [weak self] time in
                                                                 self?.observePlayProgress(progress: time)
         }
+        
+        loopObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using:observerPlayToTheEnd)
+    }
+    
+    private func observerPlayToTheEnd(notification: Notification) {
+        player.seek(to: trimPosition.leftTrim)
+        player.play()
     }
     
     private func observePlayProgress(progress: CMTime) {
@@ -76,6 +89,10 @@ class VideoRangeViewController: UIViewController {
         self.removeObserver(self.previewController.player!, forKeyPath: #keyPath(AVPlayerItem.status))
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
+        }
+        
+        if let loopObserverToken = loopObserverToken {
+            player.removeTimeObserver(loopObserverToken)
         }
     }
     

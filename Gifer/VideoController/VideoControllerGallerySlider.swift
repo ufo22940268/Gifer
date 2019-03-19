@@ -108,6 +108,7 @@ class VideoControllerGallerySlider: UIView {
         self.duration = duration
         self.galleryDuration = galleryDuration
         layoutIfNeeded()
+        updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), galleryDuration: galleryDuration)
     }
     
     func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
