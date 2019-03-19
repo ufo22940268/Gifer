@@ -29,6 +29,7 @@ class VideoRangeViewController: UIViewController {
         super.viewDidLoad()
 
         setupPreview()
+        setupVideoController()
         previewAsset = getTestVideo()
         loadPreview(phAsset: previewAsset)
     }
@@ -50,6 +51,10 @@ class VideoRangeViewController: UIViewController {
                 self.registerObservers()
             }
         }
+    }
+    
+    private func setupVideoController() {
+        videoController.delegate = self
     }
     
     private func registerObservers() {
@@ -103,16 +108,82 @@ class VideoRangeViewController: UIViewController {
         ])
         didMove(toParent: previewController)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension VideoRangeViewController: VideoControllerDelegate {
+    
+    /// Change be gallery slider
+    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
+        let duration = currentItem.duration
+        let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
+        let right = CMTimeMultiplyByFloat64(duration, multiplier: Float64(end))
+        let position: VideoTrimPosition = VideoTrimPosition(leftTrim: left, rightTrim: right)
+        videoController.scrollTo(position: position)
+        
+        var trimState: VideoTrimState
+        if state == .ended {
+            trimState = .finished(true)
+        } else if state == .began {
+            trimState = .started
+            videoController.scrollReason = .slider
+        } else {
+            trimState = .moving
+        }
+        
+        updateTrimPosition(position: position, state: trimState)
+        
+        if state == .ended {
+            videoController.scrollReason = .other
+        }
+    }
+    
+    private func updateTrimPosition(position: VideoTrimPosition, state: VideoTrimState) {
+        currentItem.forwardPlaybackEndTime = position.rightTrim
+        switch state {
+        case .finished(let forceReset):
+            var reset:Bool
+            if !forceReset {
+                reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim
+            } else {
+                reset = true
+            }
+            
+            if reset {
+                player.seek(to: position.leftTrim)
+            }
+            player.play()
+        case .started:
+            player.pause()
+        default:
+            break
+        }
+    }
+    
+    /// Change by gallery scroller
+    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+        if case .started = state {
+            videoController.hideSlider(true)
+        }
+
+        if currentItem.duration.seconds > 0 {
+            let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
+            let end: CGFloat = CGFloat(position.rightTrim.seconds/currentItem.duration.seconds)
+            videoController.gallerySlider.updateSlider(begin: begin, end: end, galleryDuration: position.galleryDuration)
+        }
+        
+        updateTrimPosition(position: position, state: state)
+    }
+    
+    func onSlideVideo(state: SlideState, progress: CMTime!) {
+        switch state {
+        case .begin:
+            player.pause()
+        case .slide:
+            player.seek(to: progress)
+        case .end:
+            break
+        }
+    }
+}
+
+
