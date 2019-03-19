@@ -103,7 +103,7 @@ class GiferTests: XCTestCase {
     }
     
     func testReduceVideoFrameRate() {
-        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 1)
+        let phAsset = PHAsset.fetchAssets(with: .video, options: nil).object(at: 0)
         let exp = expectation(description: "export sucess")
         
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in

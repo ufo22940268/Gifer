@@ -39,6 +39,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "GiferTests/testAssetExport()">
+               </Test>
+               <Test
                   Identifier = "GiferTests/testExample()">
                </Test>
                <Test
@@ -49,9 +52,6 @@
                </Test>
                <Test
                   Identifier = "GiferTests/testParseVideo()">
-               </Test>
-               <Test
-                  Identifier = "GiferTests/testReduceVideoFrameRate()">
                </Test>
                <Test
                   Identifier = "GiferTests/testVideoComposition()">

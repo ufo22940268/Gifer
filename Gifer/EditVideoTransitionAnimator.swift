@@ -60,7 +60,7 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }, completion: {completed in
             previewView.isHidden = false
             animateView.removeFromSuperview()
-            toVC.loadVideo()
+            toVC.cacheAndLoadVideo()
             transitionContext.completeTransition(true)
         })
     }

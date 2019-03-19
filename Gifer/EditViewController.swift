@@ -169,7 +169,7 @@ class EditViewController: UIViewController {
         setupControlToolbar()
         
         if singleLaunched {
-            loadVideo()
+            cacheAndLoadVideo()
         }
     }
     
@@ -263,38 +263,53 @@ class EditViewController: UIViewController {
         return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
-    func loadVideo() {
+    func cacheAndLoadVideo() {
+        cacheAsset() {url in
+            self.loadVideo(for: url)
+        }
+    }
+    
+    private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .fastFormat
+        
+        PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
+            let videoCache = VideoCache(asset: avAsset!)
+            videoCache.parse(completion: { (url) in
+                completion(url)
+            })
+        }
+    }
+    
+    private func loadVideo(for url: URL) {
         videoLoadingIndicator.isHidden = false
         
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         
-        PHImageManager.default().requestPlayerItem(forVideo: self.videoAsset, options: options) { [weak self] (playerItem, info) in
-            guard let _ = self else { return }
-            if let playerItem = playerItem {
-                DispatchQueue.main.async { [weak self] in
-                    guard let this = self else { return }
-                    
-                    if this.getPreviewImage() == nil {
-                        let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
-                        this.setPreviewImage(UIImage(cgImage: cgImage))
-                    }
-                    
-                    this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
-                    
-                    this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
-                    this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
-                    this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
-                    this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
-                    this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
-                    
-                    this.cropContainer.setupVideo(frame: this.displayVideoRect)
-                    
-                    this.videoVC.load(playerItem: playerItem)
-                    this.videoVC.videoViewControllerDelegate = this
-                }
+        let playerItem = AVPlayerItem(url: url)
+        DispatchQueue.main.async { [weak self] in
+            guard let this = self else { return }
+            
+            if this.getPreviewImage() == nil {
+                let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
+                this.setPreviewImage(UIImage(cgImage: cgImage))
             }
+            
+            this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
+            
+            this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
+            this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
+            this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
+            this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
+            this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
+            
+            this.cropContainer.setupVideo(frame: this.displayVideoRect)
+            
+            this.videoVC.load(playerItem: playerItem)
+            this.videoVC.videoViewControllerDelegate = this
         }
     }
     
