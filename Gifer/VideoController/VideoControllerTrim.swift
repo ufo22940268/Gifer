@@ -282,6 +282,10 @@ class VideoControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
+        if sliderThresholdGuide.layoutFrame.size == CGSize.zero {
+            return VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration)
+        }
+        
         let outer = sliderThresholdGuide.layoutFrame
         let inner = sliderRangeGuide.layoutFrame
         

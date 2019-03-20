@@ -10,6 +10,14 @@ import UIKit
 import AVKit
 import Photos
 
+extension CMTime {
+    func formatTime() -> String {
+        let minutes = Int(self.seconds/60)
+        let seconds = Int(self.seconds)%60
+        return String(format: "%02i:%02i", minutes, seconds)
+    }
+}
+
 class VideoRangeViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
@@ -39,11 +47,18 @@ class VideoRangeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        DarkMode.enable(in: self)
         setupPreview()
         setupVideoController()
         previewAsset = getTestVideo()
         loadPreview(phAsset: previewAsset)
+        
+        setSubtitle("加载中...")
+    }
+    
+    private func setSubtitle(_ subTitle: String) {
+        navigationItem.setTwoLineTitle(lineOne: "修剪", lineTwo: subTitle)
     }
     
     private func loadPreview(phAsset: PHAsset) {
@@ -57,7 +72,7 @@ class VideoRangeViewController: UIViewController {
                 self.previewController.player?.play()
                 self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
                 self.videoController.load(playerItem: playerItem, completion: {
-                    
+                    self.setSubtitle(position: self.trimPosition)
                 })
                 self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
                 self.registerObservers()
@@ -133,12 +148,12 @@ class VideoRangeViewController: UIViewController {
         unregisterObservers()
     }
     
-    
     func setupPreview() {
         previewController = AVPlayerViewController(nibName: nil, bundle: nil)
         previewController.showsPlaybackControls = false
         videoPreviewSection.addSubview(previewController.view)
         videoPreviewSection.backgroundColor = .black
+        previewController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             previewController.view.widthAnchor.constraint(equalToConstant: videoPreviewSection.bounds.width).with(identifier: "width"),
             previewController.view.heightAnchor.constraint(equalToConstant: videoPreviewSection.bounds.height).with(identifier: "height"),
@@ -158,6 +173,11 @@ class VideoRangeViewController: UIViewController {
 }
 
 extension VideoRangeViewController: VideoControllerDelegate {
+    
+    private func setSubtitle(position: VideoTrimPosition) {
+        let text = position.leftTrim.formatTime() + " ~ " + position.rightTrim.formatTime()
+        setSubtitle(text)
+    }
     
     /// Change be gallery slider
     func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
@@ -182,6 +202,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
         if state == .ended {
             videoController.scrollReason = .other
         }
+        
+        setSubtitle(position: position)
     }
     
     private func updateTrimPosition(position: VideoTrimPosition, state: VideoTrimState) {
@@ -205,6 +227,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
         default:
             break
         }
+        
+        setSubtitle(position: position)
     }
     
     /// Change by gallery scroller
