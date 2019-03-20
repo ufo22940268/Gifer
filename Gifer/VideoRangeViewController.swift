@@ -18,6 +18,14 @@ extension CMTime {
     }
 }
 
+extension AVAsset {
+    func copyFirstImage() -> UIImage {
+        let generator = AVAssetImageGenerator(asset: self)
+        generator.maximumSize = UIScreen.main.bounds.size
+        return UIImage(cgImage: try! generator.copyCGImage(at: CMTime.zero, actualTime: nil))
+    }
+}
+
 class VideoRangeViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
@@ -33,7 +41,10 @@ class VideoRangeViewController: UIViewController {
     var previewAsset: PHAsset!
     var timeObserverToken: Any?
     var loopObserverToken: Any?
+    var isDebug:Bool!
+    var previewImage: UIImage!
     
+    @IBOutlet weak var doneItemButton: UIBarButtonItem!
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +58,8 @@ class VideoRangeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isDebug = previewImage == nil
         
         DarkMode.enable(in: self)
         setupPreview()
@@ -69,10 +82,12 @@ class VideoRangeViewController: UIViewController {
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
                 self.previewController.player = AVPlayer(playerItem: playerItem)
+                self.previewImage = playerItem.asset.copyFirstImage()
                 self.previewController.player?.play()
                 self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
-                self.videoController.load(playerItem: playerItem, completion: {
+                self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
                     self.setSubtitle(position: self.trimPosition)
+                    self.doneItemButton.isEnabled = true
                 })
                 self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
                 self.registerObservers()
@@ -85,7 +100,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func registerObservers() {
-        self.previewController.player!.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
+        currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600),
                                                             queue: .main) {
                                                                 [weak self] time in
@@ -123,19 +138,18 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func unregisterObservers() {
-        self.removeObserver(self.previewController.player!, forKeyPath: #keyPath(AVPlayerItem.status))
+        currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
         }
         
         if let loopObserverToken = loopObserverToken {
-            player.removeTimeObserver(loopObserverToken)
+            NotificationCenter.default.removeObserver(loopObserverToken)
         }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
-            let player = object as! AVPlayer
             if case AVPlayer.Status.readyToPlay = player.status {
                 let targetSize = AVMakeRect(aspectRatio: CGSize(width: previewAsset.pixelWidth, height: previewAsset.pixelHeight), insideRect: videoPreviewSection.bounds).size
                 previewController.view.constraints.findById(id: "width").constant = targetSize.width
@@ -254,6 +268,13 @@ extension VideoRangeViewController: VideoControllerDelegate {
             seekToAndPlay(position: progress)
         case .end:
             break
+        }
+    }
+
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
+            editVC.previewImage = previewImage
         }
     }
 }

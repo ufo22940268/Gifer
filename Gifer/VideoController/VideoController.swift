@@ -122,6 +122,9 @@ class VideoController: UIStackView {
     override func awakeFromNib() {
         axis = .vertical
         
+        layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        isLayoutMarginsRelativeArrangement = true
+        
         galleryContainer = VideoControllerGalleryContainer()
         addArrangedSubview(galleryContainer)
         galleryContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -177,7 +180,7 @@ class VideoController: UIStackView {
         videoSlider.isHidden = hide
     }
     
-    func load(playerItem: AVPlayerItem, completion: @escaping () -> Void) -> Void {
+    func load(playerItem: AVPlayerItem, gifMaxDuration: Int = 8, completion: @escaping () -> Void) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
@@ -189,7 +192,6 @@ class VideoController: UIStackView {
         
         var thumbernailCount: Int
         var galleryDuration: CMTime
-        let gifMaxDuration = UserDefaults.standard.integer(forKey: UserDefaultKeys.gifMaxDuration.rawValue)
         if Int(duration.seconds) > gifMaxDuration {
             thumbernailCount = Int(duration.seconds/Double(gifMaxDuration) * Double(videoControllerGalleryImageCountPerGroup))
             galleryDuration = CMTime(seconds: Double(gifMaxDuration), preferredTimescale: duration.timescale)

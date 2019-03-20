@@ -138,6 +138,7 @@ class EditViewController: UIViewController {
     
     @IBOutlet weak var controlToolbar: ControlToolbar!
     var defaultGifOptions: GifGenerator.Options?
+    var previewImage: UIImage!
     
     var controlToolbarFunctionalIndexes: [Int] {
         return ToolbarItem.allCases.map{$0.rawValue}
@@ -164,13 +165,15 @@ class EditViewController: UIViewController {
         if singleLaunched {
             videoAsset = getTestVideo()
         }
+        
         setSubTitle("加载中")
         setupVideoContainer()
+        if previewImage != nil {
+            setPreviewImage(previewImage)
+        }
         setupControlToolbar()
         
-        if singleLaunched {
-            cacheAndLoadVideo()
-        }
+        cacheAndLoadVideo()
     }
     
     private func setSubTitle(_ text: String) {

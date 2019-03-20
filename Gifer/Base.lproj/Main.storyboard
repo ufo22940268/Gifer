@@ -376,6 +376,7 @@
                         <outlet property="overlayRenderer" destination="Mu8-UJ-Ysz" id="HBS-3c-AS0"/>
                         <outlet property="trashTopConstraint" destination="xt6-nS-rRY" id="5Vt-2H-5JZ"/>
                         <outlet property="trashView" destination="rZJ-6E-Tgn" id="kab-lk-piN"/>
+                        <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="iNs-gq-NHO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ew-Fl-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -393,15 +394,12 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GGQ-Wb-BsU">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b7L-Cb-I2U" userLabel="Video Controller Section">
+                                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b7L-Cb-I2U" userLabel="Video Controller Section">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
                                         <subviews>
-                                            <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nZj-O1-RXN" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
+                                            <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nZj-O1-RXN" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="76"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="76" id="5xJ-Af-Ar6"/>
-                                                </constraints>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" name="darkBackgroundColor"/>
@@ -412,7 +410,7 @@
                                             <constraint firstAttribute="bottom" secondItem="nZj-O1-RXN" secondAttribute="bottom" id="f9E-se-qmB"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfU-cw-0cW">
+                                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfU-cw-0cW">
                                         <rect key="frame" x="0.0" y="76" width="375" height="614"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -430,9 +428,14 @@
                         <viewLayoutGuide key="safeArea" id="LcP-ZA-6N2"/>
                     </view>
                     <navigationItem key="navigationItem" id="S5x-0M-hbg">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="TS0-Bl-4XN"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="TS0-Bl-4XN">
+                            <connections>
+                                <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="6tk-uY-oMN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneItemButton" destination="TS0-Bl-4XN" id="6mA-bt-mOa"/>
                         <outlet property="stackView" destination="GGQ-Wb-BsU" id="Juz-Vn-EZ3"/>
                         <outlet property="videoController" destination="nZj-O1-RXN" id="ANb-qe-T0D"/>
                         <outlet property="videoPreviewSection" destination="xfU-cw-0cW" id="2CH-9u-gbG"/>
@@ -440,7 +443,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kpz-Ms-Ulc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1353" y="-111"/>
+            <point key="canvasLocation" x="1649" y="-98"/>
         </scene>
     </scenes>
     <resources>
@@ -452,5 +455,8 @@
             <color red="0.92156862745098034" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="6tk-uY-oMN"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>
