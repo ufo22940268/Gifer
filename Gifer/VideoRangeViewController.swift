@@ -81,18 +81,25 @@ class VideoRangeViewController: UIViewController {
         PHImageManager.default().requestPlayerItem(forVideo: phAsset, options: options) { (playerItem, _) in
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
-                self.previewController.player = AVPlayer(playerItem: playerItem)
-                self.previewImage = playerItem.asset.copyFirstImage()
-                self.previewController.player?.play()
-                self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
-                self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
-                    self.setSubtitle(position: self.trimPosition)
-                    self.doneItemButton.isEnabled = true
-                })
-                self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
-                self.registerObservers()
+                self.onPreviewLoaded(playerItem: playerItem)
             }
+            
         }
+    }
+    
+    private func onPreviewLoaded(playerItem: AVPlayerItem) {
+        self.previewController.player = AVPlayer(playerItem: playerItem)
+        self.previewImage = playerItem.asset.copyFirstImage()
+        self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
+            self.setSubtitle(position: self.trimPosition)
+            self.doneItemButton.isEnabled = true
+        })
+        self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
+        self.registerObservers()
+        
+        player.volume = 0
+        player.play()
     }
     
     private func setupVideoController() {
