@@ -107,6 +107,10 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func registerObservers() {
+        guard previewController.player != nil && timeObserverToken == nil else {
+            return
+        }
+        
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600),
                                                             queue: .main) {
@@ -144,14 +148,17 @@ class VideoRangeViewController: UIViewController {
         }
     }
     
+    
     private func unregisterObservers() {
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
         }
         
         if let loopObserverToken = loopObserverToken {
             NotificationCenter.default.removeObserver(loopObserverToken)
+            self.loopObserverToken = nil
         }
     }
     
@@ -163,6 +170,10 @@ class VideoRangeViewController: UIViewController {
                 previewController.view.constraints.findById(id: "height").constant = targetSize.height
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        registerObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
