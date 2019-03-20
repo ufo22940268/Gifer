@@ -26,6 +26,13 @@ class VideoRangeViewController: UIViewController {
     var timeObserverToken: Any?
     var loopObserverToken: Any?
     
+    var loadingIndicator: VideoLoadingIndicator = {
+        let indicator = VideoLoadingIndicator()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.show()
+        return indicator
+    }()
+    
     var trimPosition: VideoTrimPosition {
         return videoController.trimPosition
     }
@@ -46,7 +53,6 @@ class VideoRangeViewController: UIViewController {
         PHImageManager.default().requestPlayerItem(forVideo: phAsset, options: options) { (playerItem, _) in
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
-                //TODO
                 self.previewController.player = AVPlayer(playerItem: playerItem)
                 self.previewController.player?.play()
                 self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +70,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func registerObservers() {
-        self.previewController.player!.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
+        self.previewController.player!.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600),
                                                             queue: .main) {
                                                                 [weak self] time in
@@ -75,13 +81,29 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func observerPlayToTheEnd(notification: Notification) {
-        player.seek(to: trimPosition.leftTrim)
-        player.play()
+        seekToAndPlay(position: trimPosition.leftTrim)
+    }
+    
+    private func seekToAndPlay(position: CMTime) {
+        loadingIndicator.show()
+        player.seek(to: position, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { (_) in
+            self.player.play()
+        }
     }
     
     private func observePlayProgress(progress: CMTime) {
+        var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
             videoController.updateSliderProgress(progress)
+            showLoading = !currentItem.isPlaybackLikelyToKeepUp
+        } else {
+            showLoading = false
+        }
+        
+        if showLoading {
+            loadingIndicator.show()
+        } else {
+            loadingIndicator.dismiss()
         }
     }
     
@@ -124,6 +146,14 @@ class VideoRangeViewController: UIViewController {
             previewController.view.centerYAnchor.constraint(equalTo: videoPreviewSection.centerYAnchor)
         ])
         didMove(toParent: previewController)
+        
+        videoPreviewSection.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.widthAnchor.constraint(equalTo: videoPreviewSection.widthAnchor),
+            loadingIndicator.heightAnchor.constraint(equalTo: videoPreviewSection.heightAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: videoPreviewSection.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: videoPreviewSection.centerYAnchor)
+            ])
     }
 }
 
@@ -166,9 +196,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
             }
             
             if reset {
-                player.seek(to: position.leftTrim)
+                seekToAndPlay(position: position.leftTrim)
+            } else {
+                player.play()
             }
-            player.play()
         case .started:
             player.pause()
         default:
@@ -196,7 +227,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         case .begin:
             player.pause()
         case .slide:
-            player.seek(to: progress)
+            seekToAndPlay(position: progress)
         case .end:
             break
         }

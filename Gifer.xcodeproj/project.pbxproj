@@ -17,6 +17,7 @@
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
 		424596EE223F693B00FCE599 /* VideoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596ED223F693B00FCE599 /* VideoCache.swift */; };
 		424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596EF22408B7000FCE599 /* VideoRangeViewController.swift */; };
+		424596F22241D39F00FCE599 /* VideoLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */; };
 		42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */; };
 		42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */; };
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
@@ -89,6 +90,7 @@
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
 		424596ED223F693B00FCE599 /* VideoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCache.swift; sourceTree = "<group>"; };
 		424596EF22408B7000FCE599 /* VideoRangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRangeViewController.swift; sourceTree = "<group>"; };
+		424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLoadingIndicator.swift; sourceTree = "<group>"; };
 		42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGalleryContainer.swift; sourceTree = "<group>"; };
 		42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallerySlider.swift; sourceTree = "<group>"; };
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				4267BD622236065B006D9F44 /* DarkMode.swift */,
 				424596ED223F693B00FCE599 /* VideoCache.swift */,
 				424596EF22408B7000FCE599 /* VideoRangeViewController.swift */,
+				424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,
 				42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */,
+				424596F22241D39F00FCE599 /* VideoLoadingIndicator.swift in Sources */,
 				42E5C34E2220B0D900D18CA6 /* GifOverlayRenderer.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,

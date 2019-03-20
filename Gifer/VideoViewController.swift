@@ -154,6 +154,10 @@ class VideoViewController: AVPlayerViewController {
             }
         }
         
+//        NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { (notif) in
+//            print("stalled")
+//        }
+        
         self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
@@ -215,7 +219,7 @@ class VideoViewController: AVPlayerViewController {
         }
 
         showLoading(true)
-        let tolerance = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(600))
+        let tolerance = CMTime.zero
         player.seek(to: progress, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: {success in
         })
     }
