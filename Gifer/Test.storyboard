@@ -18,15 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="04_Cuppy_sad" translatesAutoresizingMaskIntoConstraints="NO" id="L1j-ug-ZbU">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                            </imageView>
                             <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S26-gX-VOD" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="S26-gX-VOD" firstAttribute="centerX" secondItem="GMK-nZ-S5G" secondAttribute="centerX" id="OiI-aM-Uz0"/>
+                            <constraint firstItem="L1j-ug-ZbU" firstAttribute="centerX" secondItem="GMK-nZ-S5G" secondAttribute="centerX" id="mVW-RJ-iao"/>
                             <constraint firstItem="S26-gX-VOD" firstAttribute="centerY" secondItem="GMK-nZ-S5G" secondAttribute="centerY" id="mel-jJ-VYW"/>
+                            <constraint firstItem="L1j-ug-ZbU" firstAttribute="centerY" secondItem="GMK-nZ-S5G" secondAttribute="centerY" id="x4Z-Wo-jon"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GMK-nZ-S5G"/>
                     </view>
@@ -36,4 +39,7 @@
             <point key="canvasLocation" x="0.80000000000000004" y="181.25937031484258"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="04_Cuppy_sad" width="512" height="512"/>
+    </resources>
 </document>
