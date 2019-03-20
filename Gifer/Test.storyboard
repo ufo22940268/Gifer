@@ -18,19 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4SK-Lv-kFl" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="67" y="148" width="241" height="371"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="371" id="nR4-Gf-ChV"/>
-                                </constraints>
+                            <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S26-gX-VOD" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="4SK-Lv-kFl" firstAttribute="centerY" secondItem="Gn0-EB-ZJN" secondAttribute="centerY" id="571-CF-wIn"/>
-                            <constraint firstItem="4SK-Lv-kFl" firstAttribute="leading" secondItem="GMK-nZ-S5G" secondAttribute="leading" constant="67" id="dka-3B-VbL"/>
-                            <constraint firstItem="4SK-Lv-kFl" firstAttribute="centerX" secondItem="Gn0-EB-ZJN" secondAttribute="centerX" id="h4Y-tx-H9c"/>
+                            <constraint firstItem="S26-gX-VOD" firstAttribute="centerX" secondItem="GMK-nZ-S5G" secondAttribute="centerX" id="OiI-aM-Uz0"/>
+                            <constraint firstItem="S26-gX-VOD" firstAttribute="centerY" secondItem="GMK-nZ-S5G" secondAttribute="centerY" id="mel-jJ-VYW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GMK-nZ-S5G"/>
                     </view>
