@@ -22,6 +22,7 @@ class VideoControllerGallery: UIStackView {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         axis = .horizontal
+        
     }
     
     required init(coder: NSCoder) {
@@ -40,8 +41,16 @@ class VideoControllerGallery: UIStackView {
     }
     
     func prepareImageViews(_ count: Int) {
-        for _ in 0..<count {
-            galleryImages.append(addImageView(totalImageCount: count))
+        for index in 0..<count {
+            let imageView: UIImageView = addImageView(totalImageCount: count)
+            galleryImages.append(imageView)
+            if index == 0 {
+                imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+                imageView.layer.cornerRadius = 4
+            } else if index == count - 1 {
+                imageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+                imageView.layer.cornerRadius = 4
+            }
         }
     }
     
@@ -66,6 +75,7 @@ class VideoControllerGallery: UIStackView {
             imageView.widthAnchor.constraint(equalToConstant: getImageViewWidth(totalImageCount: totalImageCount))
             ])
         imageView.contentMode = .scaleAspectFill
+
         return imageView
     }
     

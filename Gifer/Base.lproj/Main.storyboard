@@ -78,7 +78,7 @@
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
                                                         <rect key="frame" x="169" y="252.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
-                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ad-xy-JdS" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
+                                                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ad-xy-JdS" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="67" y="199" width="240" height="128"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
