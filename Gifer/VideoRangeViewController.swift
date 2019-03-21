@@ -64,7 +64,10 @@ class VideoRangeViewController: UIViewController {
         DarkMode.enable(in: self)
         setupPreview()
         setupVideoController()
-        previewAsset = getTestVideo()
+        
+        if isDebug {
+            previewAsset = getTestVideo()
+        }
         loadPreview(phAsset: previewAsset)
         
         setSubtitle("加载中...")

@@ -40,6 +40,8 @@ extension UICollectionView {
     }
 }
 
+let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
+
 class VideoGalleryViewController: UICollectionViewController {
     
     var videoResult:PHFetchResult<PHAsset>?
@@ -163,11 +165,20 @@ class VideoGalleryViewController: UICollectionViewController {
         }
         selectedIndexPath = indexPath
         
-        let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-        editVC.videoAsset = videoResult.object(at: indexPath.row)
-        navigationController?.delegate = self
-        navigationController?.modalPresentationCapturesStatusBarAppearance = true
-        navigationController?.pushViewController(editVC, animated: true)
+        
+        let videoAsset: PHAsset = videoResult.object(at: indexPath.row)
+        let previewImage: UIImage = selectedCell.imageView.image!
+        if videoAsset.duration > EditGalleryDurationThreshold.seconds {
+            let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
+            rangeVC.previewImage = previewImage
+            rangeVC.previewAsset = videoAsset
+            navigationController?.pushViewController(rangeVC, animated: true)
+        } else {
+            let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+            editVC.videoAsset = videoAsset
+            editVC.previewImage = previewImage
+            navigationController?.pushViewController(editVC, animated: true)
+        }
     }
 }
 

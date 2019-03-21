@@ -22,7 +22,6 @@ class TrimButton: UIView {
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
-//        backgroundColor = UIColor(named: "darkBackgroundColor")
         
         backgroundLayer = CAShapeLayer()
         backgroundLayer.backgroundColor = UIColor(named: "mainColor")?.cgColor
