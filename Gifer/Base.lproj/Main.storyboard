@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dvh-Lh-bNF">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -204,13 +204,7 @@
                             <outlet property="delegate" destination="bz0-X4-CgO" id="siW-uz-k1l"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Gifer" id="X0g-Vx-SJc">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="settings-outline" id="9K3-oG-bay">
-                            <connections>
-                                <segue destination="Gsc-MN-Zmx" kind="show" id="cmH-UM-lZV"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Gifer" id="X0g-Vx-SJc"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="Dvh-Lh-bNF" kind="show" identifier="editVideo" id="Dk3-Gl-eiE"/>
@@ -460,7 +454,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="settings-outline" width="20" height="20"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.094117647058823528" green="0.062745098039215685" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -469,7 +462,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6tk-uY-oMN"/>
+        <segue reference="Dk3-Gl-eiE"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>

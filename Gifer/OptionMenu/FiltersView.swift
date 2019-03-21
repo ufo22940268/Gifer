@@ -61,6 +61,7 @@ class FiltersView: UICollectionView {
     var stackView: UIStackView!
     weak var customDelegate: FiltersViewDelegate!
     var previewImage: UIImage?
+    var selectedIndex: Int = 0
     
     init() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -75,28 +76,6 @@ class FiltersView: UICollectionView {
         register(FilterPreviewView.self, forCellWithReuseIdentifier: "cell")
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 80)])
-    }
-    
-    func appendPreviewView(filter: YPFilter) {
-        let previewView = FilterPreviewView()
-        stackView.addArrangedSubview(previewView)
-        previewViews.append(previewView)
-        
-        previewView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewClicked(sender:))))
-    }
-    
-    @objc func onPreviewClicked(sender: UITapGestureRecognizer) {
-        if let target = sender.view as? FilterPreviewView {
-            for previewView in previewViews {
-                if previewView == target {
-                    previewView.isHighlight = true
-                } else {
-                    previewView.isHighlight = false
-                }
-            }
-            
-            customDelegate.onPreviewSelected(filter: target.filter)
-        }
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -115,9 +94,7 @@ extension FiltersView: UICollectionViewDataSource {
             cell.setImage(previewImage, with: AllFilters[indexPath.row])
         }
         
-        if let selected = collectionView.indexPathsForSelectedItems?.contains(indexPath) {
-            cell.isHighlight = selected
-        }
+        cell.isHighlight = indexPath.row == selectedIndex
         
         return cell
     }
@@ -130,11 +107,10 @@ extension FiltersView: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let previewView = cellForItem(at: indexPath) as? FilterPreviewView {
-            previewView.isHighlight = true
-        }
-        
+        selectedIndex = indexPath.row
         customDelegate.onPreviewSelected(filter: filter(at: indexPath.row))
+        
+        reloadData()
     }
 }
 
