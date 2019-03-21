@@ -120,7 +120,8 @@ class EditViewController: UIViewController {
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!    
+    @IBOutlet weak var videoProgressLoadingIndicator: VideoProgressLoadingIndicator!
     var videoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     
@@ -272,22 +273,23 @@ class EditViewController: UIViewController {
         }
     }
     
+    var videoCache: VideoCache!
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
+        
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         
         PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
-            let videoCache = VideoCache(asset: avAsset!)
-            videoCache.parse(completion: { (url) in
+            self.videoCache = VideoCache(asset: avAsset!)
+            self.videoCache.delegate = self
+            self.videoCache.parse(completion: { (url) in
                 completion(url)
             })
         }
     }
     
     private func loadVideo(for url: URL) {
-        videoLoadingIndicator.isHidden = false
-        
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
@@ -467,6 +469,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
+        self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         self.videoController.load(playerItem: videoVC.player!.currentItem!) {
             self.enableControlOptions()
@@ -664,5 +667,12 @@ extension EditViewController: ControlToolbarDelegate {
     func onDirectionItemClicked(direction: PlayDirection) {
         videoVC.playDirection = direction
         videoVC.play()
+    }
+}
+
+extension EditViewController: VideoCacheDelegate {    
+    func onParsingProgressChanged(progress: CGFloat) {
+        print("progress: \(progress)")
+        videoProgressLoadingIndicator.progress = progress
     }
 }
