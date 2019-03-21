@@ -123,7 +123,7 @@ class VideoController: UIStackView {
     override func awakeFromNib() {
         axis = .vertical
         
-        layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         isLayoutMarginsRelativeArrangement = true
         
         galleryContainer = VideoControllerGalleryContainer()

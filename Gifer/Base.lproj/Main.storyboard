@@ -46,10 +46,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
                                                 <subviews>
                                                     <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="16" y="16" width="343" height="76"/>
+                                                        <rect key="frame" x="16" y="0.0" width="343" height="76"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="76" placeholder="YES" id="1p6-JA-5ko"/>
@@ -63,20 +63,20 @@
                                                 <constraints>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailingMargin" id="Eeh-u9-1UH"/>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottom" id="HQ3-rB-Cku"/>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="topMargin" id="fPG-4n-XnW"/>
+                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="top" id="fPG-4n-XnW"/>
                                                     <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="MxJ-Sz-8yt" secondAttribute="leadingMargin" id="ziF-DU-PmU"/>
                                                 </constraints>
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="92" width="375" height="526"/>
+                                                <rect key="frame" x="0.0" y="76" width="375" height="542"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="526"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="542"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="244.66666666666669" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="252.66666666666669" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ad-xy-JdS" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="67" y="199" width="240" height="128"/>
@@ -327,7 +327,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="aqC-5D-Bi7" kind="relationship" relationship="rootViewController" id="Syv-FB-d8J"/>
+                        <segue destination="Dvh-Lh-bNF" kind="relationship" relationship="rootViewController" id="KWc-N9-ZeO"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6JT-xS-VXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -402,10 +402,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GGQ-Wb-BsU">
-                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b7L-Cb-I2U" userLabel="Video Controller Section">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="164"/>
                                         <subviews>
                                             <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nZj-O1-RXN" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="76"/>
@@ -424,7 +424,7 @@
                                         </constraints>
                                     </view>
                                     <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfU-cw-0cW">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="570"/>
+                                        <rect key="frame" x="0.0" y="164" width="375" height="570"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -469,7 +469,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6tk-uY-oMN"/>
+        <segue reference="KWc-N9-ZeO"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>
