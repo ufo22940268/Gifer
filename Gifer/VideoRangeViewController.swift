@@ -147,8 +147,7 @@ class VideoRangeViewController: UIViewController {
             loadingIndicator.dismiss()
         }
     }
-    
-    
+        
     private func unregisterObservers() {
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         if let timeObserverToken = timeObserverToken {
@@ -288,11 +287,11 @@ extension VideoRangeViewController: VideoControllerDelegate {
             break
         }
     }
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
             editVC.previewImage = previewImage
+            editVC.videoAsset = previewAsset
         }
     }
 }

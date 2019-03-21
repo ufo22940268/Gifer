@@ -173,8 +173,12 @@ class EditViewController: UIViewController {
             setPreviewImage(previewImage)
         }
         setupControlToolbar()
+        setupVideoController()
         
         cacheAndLoadVideo()
+    }
+    
+    private func setupVideoController() {
     }
     
     private func setSubTitle(_ text: String) {
@@ -471,7 +475,7 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
-        self.videoController.load(playerItem: videoVC.player!.currentItem!) {
+        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: 20) {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
@@ -672,7 +676,6 @@ extension EditViewController: ControlToolbarDelegate {
 
 extension EditViewController: VideoCacheDelegate {    
     func onParsingProgressChanged(progress: CGFloat) {
-        print("progress: \(progress)")
         videoProgressLoadingIndicator.progress = progress
     }
 }

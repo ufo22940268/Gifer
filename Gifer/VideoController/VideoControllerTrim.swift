@@ -40,7 +40,7 @@ class TrimButton: UIView {
         let lineSize = CGSize(width: 2, height: 25)
         let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
         path.fill()
-        iconLayer.fillColor = UIColor.darkGray.cgColor
+        iconLayer.fillColor = UIColor.white.cgColor
         iconLayer.path = path.cgPath
     }
     

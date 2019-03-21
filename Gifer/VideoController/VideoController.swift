@@ -103,6 +103,7 @@ class VideoController: UIStackView {
         }
     }
     
+    @IBInspectable var from: String = "range"
     var scrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
     var galleryDuration: CMTime {
@@ -151,6 +152,15 @@ class VideoController: UIStackView {
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
+        
+        if from == "edit" {
+            setupForEditViewController()
+        }
+    }
+    
+    private func setupForEditViewController() {
+        scrollView.isScrollEnabled = false
+        gallerySlider.isHidden = true
     }
     
     func setupScrollView() {
@@ -180,6 +190,7 @@ class VideoController: UIStackView {
     }
     
     func load(playerItem: AVPlayerItem, gifMaxDuration: Int = 8, completion: @escaping () -> Void) -> Void {
+        
         guard playerItem.asset.duration.value > 0 else {
             return
         }
