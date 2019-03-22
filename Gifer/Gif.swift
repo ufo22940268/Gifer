@@ -100,9 +100,9 @@ class GifGenerator {
         self.videoAsset = video
         self.options = options
       
-        let defaultCount = 10
+        let defaultCount = 7
         extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
-        gifDelayTime = 0.1
+        gifDelayTime = 1/Float(defaultCount)
     }
     
     var gifFilePath: URL? {
@@ -130,7 +130,7 @@ class GifGenerator {
     private let gifDelayTime: Float
     
     enum GifSize: Int, RawRepresentable {
-        case middle = 250
+        case middle = 180
     }
     
     func run(complete: @escaping (URL) -> Void) {
@@ -204,7 +204,7 @@ class GifGenerator {
                 DispatchQueue.main.sync {
                     stickerImage = sticker.image.rotate(by: sticker.rotation)
                 }
-                stickerImage.draw(in: sticker.imageFrame!.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
+                stickerImage.draw(in: sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
         }
         return image.cgImage!

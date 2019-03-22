@@ -10,12 +10,33 @@ import UIKit
 
 struct Sticker {
     var image: UIImage
+    
+    //Used when layout sticker
     var frame: CGRect?
-    var imageFrame: CGRect!
+    
+    //Used when exporting. Normallized by the size of video before cropping.
+    var imageFrame: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: 1, height: 1))
+    
     var rotation: CGFloat = 0
     
     init(image: UIImage) {
         self.image = image
+    }
+    
+    /// Convert image frame relative from video container to crop area.
+    /// - Parameters:
+    ///   - videoSize: Video size. In pixel format.
+    ///   - cropArea: Crop area rect. In normalized format
+    func fixImageFrame(videoSize: CGSize, cropArea: CGRect) -> Sticker {
+        let cropRect = cropArea.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
+        var imageRect = imageFrame.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
+        
+        imageRect = imageRect.applying(CGAffineTransform(translationX: -cropRect.minX, y: -cropRect.minY))
+        let newImageFrame = imageRect.applying(CGAffineTransform(scaleX: 1/cropRect.width, y: 1/cropRect.height))
+        
+        var newSticker = self
+        newSticker.imageFrame = newImageFrame
+        return newSticker
     }
 }
 

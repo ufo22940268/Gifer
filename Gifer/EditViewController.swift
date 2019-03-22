@@ -339,6 +339,10 @@ class EditViewController: UIViewController {
         }
     }
     
+    var videoSize: CGSize {
+        return previewImage.size
+    }
+    
     var currentGifOption: GifGenerator.Options {
         let trimPosition = videoController.trimPosition
         let startProgress = trimPosition.leftTrim
@@ -350,7 +354,7 @@ class EditViewController: UIViewController {
                                     speed: speed,
                                     cropArea: cropArea,
                                     filter: videoVC.filter,
-                                    stickers: gifOverlayVC.stickers,
+                                    stickers: gifOverlayVC.stickers.map {$0.fixImageFrame(videoSize: videoSize, cropArea: cropArea)},
                                     direction: videoVC.playDirection
         )
     }
