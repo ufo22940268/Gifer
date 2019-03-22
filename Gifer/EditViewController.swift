@@ -380,7 +380,7 @@ class EditViewController: UIViewController {
                     }))
                     alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
-                        self.videoVC.play()
+                        self.onShareDialogDimissed()
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }
@@ -388,9 +388,13 @@ class EditViewController: UIViewController {
         }
     }
     
+    private func onShareDialogDimissed() {
+        self.videoVC.play()
+    }
+    
     @IBAction func onShare(_ sender: Any) {
         videoVC.pause()
-        let shareController = ShareDialogController(shareHandler: startSharing)
+        let shareController = ShareDialogController(shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareController.present(by: self)
     }
     
