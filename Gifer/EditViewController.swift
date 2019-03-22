@@ -141,7 +141,7 @@ class EditViewController: UIViewController {
     var defaultGifOptions: GifGenerator.Options?
     var previewImage: UIImage!
 
-    var initTrimPosition: VideoTrimPosition!
+    var initTrimPosition: VideoTrimPosition?
     var isDebug: Bool!
     var cacheFilePath: URL!
 
@@ -303,7 +303,9 @@ class EditViewController: UIViewController {
             guard let this = self else { return }
             
             if this.getPreviewImage() == nil {
-                let cgImage = try! AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: CMTime.zero, actualTime: nil)
+                let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)
+                generator.appliesPreferredTrackTransform = true
+                let cgImage = try! generator.copyCGImage(at: CMTime.zero, actualTime: nil)
                 this.setPreviewImage(UIImage(cgImage: cgImage))
             }
             
@@ -474,10 +476,12 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
-        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: initTrimPosition.galleryDuration.seconds) {
+        let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
+        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: self.initTrimPosition.rightTrim - self.initTrimPosition.leftTrim), state: .initial)
+            self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
+            
             self.videoVC.play()
             
             self.defaultGifOptions = self.currentGifOption

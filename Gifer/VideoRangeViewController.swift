@@ -21,6 +21,7 @@ extension CMTime {
 extension AVAsset {
     func copyFirstImage() -> UIImage {
         let generator = AVAssetImageGenerator(asset: self)
+        generator.appliesPreferredTrackTransform = true
         generator.maximumSize = UIScreen.main.bounds.size
         return UIImage(cgImage: try! generator.copyCGImage(at: CMTime.zero, actualTime: nil))
     }

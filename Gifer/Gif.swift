@@ -55,6 +55,7 @@ extension AVAsset {
 
         let imageCount = 20
         let generator = AVAssetImageGenerator(asset: self)
+        generator.appliesPreferredTrackTransform = true
         for i in 0..<imageCount {
             let time = CMTime(value: CMTimeValue(Double(self.duration.value)/Double(imageCount)*Double(i)), timescale: 600)
             let cgImage = (try! generator.copyCGImage(at: time, actualTime: nil)).thumbernail()
@@ -65,6 +66,7 @@ extension AVAsset {
     
     func extractThumbernail(on time: CMTime) -> UIImage {
         let generator = AVAssetImageGenerator(asset: self)
+        generator.appliesPreferredTrackTransform = true
         let cgImage = try! generator.copyCGImage(at: time, actualTime: nil)
         return UIImage(cgImage: cgImage)
     }    
@@ -145,6 +147,7 @@ class GifGenerator {
         
         let destination = self.buildDestinationOfGif(frameCount: times.count)
         let generator = AVAssetImageGenerator(asset: videoAsset)
+        generator.appliesPreferredTrackTransform = true
         let gifSize = GifSize.middle
         generator.maximumSize = CGSize(width: gifSize.rawValue, height: gifSize.rawValue)
         generator.requestedTimeToleranceAfter = CMTime.zero

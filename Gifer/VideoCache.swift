@@ -32,7 +32,6 @@ class VideoCache {
     }
     
     func parse(trimPosition: VideoTrimPosition! = nil, completion: @escaping ParseHandler) {
-        print("export to: \(tempFilePath.absoluteString)")
         let trimPosition = trimPosition == nil ? allRangeTrimPosition : trimPosition
         
         DispatchQueue.global().async {

@@ -240,6 +240,7 @@ class VideoController: UIStackView {
         var index = 0
         self.generator?.maximumSize = CGSize(width: 100, height: 100)
         let queue = DispatchQueue(label: "generate thumbernails")
+        self.generator?.appliesPreferredTrackTransform = true
         queue.async {
             self.generator?.generateCGImagesAsynchronously(forTimes: thumbernailTimes) { [weak self] (_, image, _, _, _) in
                 guard let self = self else { return }
