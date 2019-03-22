@@ -26,10 +26,18 @@ class VideoCache {
     }
     
     typealias ParseHandler = (_ video: URL) -> Void
+
+    var allRangeTrimPosition: VideoTrimPosition {
+        return VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: self.asset.duration)
+    }
     
-    func parse(completion: @escaping ParseHandler) {
+    func parse(trimPosition: VideoTrimPosition! = nil, completion: @escaping ParseHandler) {
+        print("export to: \(tempFilePath.absoluteString)")
+        let trimPosition = trimPosition == nil ? allRangeTrimPosition : trimPosition
+        
         DispatchQueue.global().async {
             let session = AVAssetExportSession(asset: self.asset, presetName: AVAssetExportPresetMediumQuality)!
+            session.timeRange = trimPosition!.timeRange
             try? FileManager.default.removeItem(at: self.tempFilePath)
             
             DispatchQueue.main.async {

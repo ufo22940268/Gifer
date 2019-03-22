@@ -140,7 +140,11 @@ class EditViewController: UIViewController {
     @IBOutlet weak var controlToolbar: ControlToolbar!
     var defaultGifOptions: GifGenerator.Options?
     var previewImage: UIImage!
-    
+
+    var initTrimPosition: VideoTrimPosition!
+    var isDebug: Bool!
+    var cacheFilePath: URL!
+
     var controlToolbarFunctionalIndexes: [Int] {
         return ToolbarItem.allCases.map{$0.rawValue}
     }
@@ -162,8 +166,8 @@ class EditViewController: UIViewController {
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         
 
-        let singleLaunched = isDebug
-        if singleLaunched {
+        isDebug = videoAsset == nil
+        if isDebug {
             videoAsset = getTestVideo()
         }
         
@@ -225,11 +229,6 @@ class EditViewController: UIViewController {
         videoVC.previewView = previewView
     }
     
-    var isDebug: Bool {
-        get {
-            return videoAsset == nil
-        }
-    }
     
     private func setupGifOverlay() {
         gifOverlayVC = storyboard!.instantiateViewController(withIdentifier: "gifOverlay") as? GifOverlayViewController
@@ -286,8 +285,9 @@ class EditViewController: UIViewController {
         
         PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
             self.videoCache = VideoCache(asset: avAsset!)
+            self.cacheFilePath = self.videoCache.tempFilePath
             self.videoCache.delegate = self
-            self.videoCache.parse(completion: { (url) in
+            self.videoCache.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                 completion(url)
             })
         }
@@ -354,11 +354,10 @@ class EditViewController: UIViewController {
     }
     
     private func startSharing(for type: ShareType) {
-        guard let asset = videoVC.player?.currentItem?.asset else {
-            return
-        }
+        guard let cacheFilePath = cacheFilePath else { return  }
+        
         showLoadingWhenExporting(true)
-        let shareManager: ShareManager = ShareManager(asset: asset, options: currentGifOption)
+        let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: currentGifOption)
         shareManager.share { gif in
             self.showLoadingWhenExporting(false)
             
@@ -475,10 +474,10 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
-        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: 20) {
+        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: initTrimPosition.galleryDuration.seconds) {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
+            self.onTrimChanged(position: VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: self.initTrimPosition.rightTrim - self.initTrimPosition.leftTrim), state: .initial)
             self.videoVC.play()
             
             self.defaultGifOptions = self.currentGifOption

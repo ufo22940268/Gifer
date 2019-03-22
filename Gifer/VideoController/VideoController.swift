@@ -58,6 +58,10 @@ struct VideoTrimPosition {
         return rightTrim - leftTrim
     }
     
+    var timeRange: CMTimeRange {
+        return CMTimeRange(start: leftTrim, end: rightTrim)
+    }
+    
     var galleryDuration: CMTime {
         return rightTrim - leftTrim
     }
@@ -189,7 +193,7 @@ class VideoController: UIStackView {
         videoSlider.isHidden = hide
     }
     
-    func load(playerItem: AVPlayerItem, gifMaxDuration: Int = 8, completion: @escaping () -> Void) -> Void {
+    func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         
         guard playerItem.asset.duration.value > 0 else {
             return
@@ -202,9 +206,9 @@ class VideoController: UIStackView {
         
         var thumbernailCount: Int
         var galleryDuration: CMTime
-        if Int(duration.seconds) > gifMaxDuration {
-            thumbernailCount = Int(duration.seconds/Double(gifMaxDuration) * Double(videoControllerGalleryImageCountPerGroup))
-            galleryDuration = CMTime(seconds: Double(gifMaxDuration), preferredTimescale: duration.timescale)
+        if duration.seconds > gifMaxDuration {
+            thumbernailCount = Int(duration.seconds/gifMaxDuration * Double(videoControllerGalleryImageCountPerGroup))
+            galleryDuration = CMTime(seconds: gifMaxDuration, preferredTimescale: duration.timescale)
         } else {
             thumbernailCount = videoControllerGalleryImageCountPerGroup
             galleryDuration = duration

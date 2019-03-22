@@ -295,6 +295,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
             editVC.previewImage = previewImage
             editVC.videoAsset = previewAsset
+            editVC.initTrimPosition = trimPosition
         }
     }
 }

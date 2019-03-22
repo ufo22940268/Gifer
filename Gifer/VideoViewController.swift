@@ -153,11 +153,7 @@ class VideoViewController: AVPlayerViewController {
                 self.play()
             }
         }
-        
-//        NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { (notif) in
-//            print("stalled")
-//        }
-        
+                
         self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
