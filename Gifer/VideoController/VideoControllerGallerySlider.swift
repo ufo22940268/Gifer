@@ -9,8 +9,8 @@
 import UIKit
 import AVKit
 
-protocol VideoControllerGallerySliderDelegate: class {
-    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
+@objc protocol VideoControllerGallerySliderDelegate: class {
+    @objc optional func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
 }
 
 private class VideoControllerGallerySliderButton: UIView {
@@ -125,6 +125,8 @@ class VideoControllerGallerySlider: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
         
         let centerX = sliderCenterXConstraint.constant
-        delegate?.onTrimChanged(begin: (centerX - sliderWidth/2)/bounds.width, end: (centerX + sliderWidth/2)/bounds.width, state: sender.state)
+        if let _ = delegate?.onTrimChanged {
+            delegate!.onTrimChanged!(begin: (centerX - sliderWidth/2)/bounds.width, end: (centerX + sliderWidth/2)/bounds.width, state: sender.state)
+        }
     }
 }

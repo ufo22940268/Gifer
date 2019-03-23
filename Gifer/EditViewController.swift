@@ -488,7 +488,7 @@ extension EditViewController: VideoViewControllerDelegate {
         self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChanged(position: self.videoController.trimPosition, state: .initial)
+            self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             self.videoVC.play()
             
@@ -545,9 +545,13 @@ extension EditViewController: VideoControllerDelegate {
             videoController.scrollReason = .other
         }
     }
+    
+    func onTrimChanged(scrollToPositionInsideGalleryDuration: VideoTrimPosition, state: VideoTrimState) {
+    }
 
     /// Change by gallery container scrolling.
-    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+        let position = scrollToPosition
         if case .started = state {
             videoController.hideSlider(true)
         }

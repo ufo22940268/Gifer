@@ -85,6 +85,7 @@ class VideoControllerTrim: UIControl {
         }
     }
     
+    var disableScroll = true
     var status: Status! {
         didSet {
             status.applyTheme(to:self)
@@ -251,7 +252,7 @@ class VideoControllerTrim: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        trimDelegate?.onTrimChanged(position: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChanged(scrollToPosition: trimPosition, state: getTrimState(from: recognizer))
     }
     
     private func getTrimState(from gesture: UIPanGestureRecognizer) -> VideoTrimState {
@@ -273,7 +274,7 @@ class VideoControllerTrim: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        trimDelegate?.onTrimChanged(position: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChanged(scrollToPosition: trimPosition, state: getTrimState(from: recognizer))
    }
     
     var trimRange: CGFloat {
@@ -298,11 +299,21 @@ class VideoControllerTrim: UIControl {
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
+        
+        guard disableScroll else { return hitView }
+        
         if hitView == leftTrim || hitView == rightTrim {
             return super.hitTest(point, with: event)
         } else {
             return nil
         }
+    }
+    
+    func move(by deltaX: CGFloat) -> Bool {
+        guard leftTrimLeadingConstraint.constant + deltaX >= 0 && rightTrimTrailingConstraint.constant + deltaX <= 0 else { return false }
+        leftTrimLeadingConstraint.constant = leftTrimLeadingConstraint.constant + deltaX
+        rightTrimTrailingConstraint.constant = rightTrimTrailingConstraint.constant + deltaX
+        return true
     }
 }
 

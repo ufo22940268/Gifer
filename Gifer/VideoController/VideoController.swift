@@ -40,13 +40,15 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState)
 }
 
 enum VideoTrimState {
     case started, moving, initial
     case finished(Bool)
 }
+
 struct VideoTrimPosition {
     
     var leftTrim: CMTime
@@ -159,12 +161,30 @@ class VideoController: UIStackView {
         
         if from == "edit" {
             setupForEditViewController()
+        } else {
+            setupForVideoRangeViewController()
         }
     }
     
     private func setupForEditViewController() {
         scrollView.isScrollEnabled = false
         gallerySlider.isHidden = true
+        
+        videoTrim.disableScroll = false
+        videoTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.onTrimPan(sender:))))
+    }
+    
+    private func setupForVideoRangeViewController() {
+        videoTrim.disableScroll = true
+        scrollView.delegate = self
+    }
+    
+    @objc func onTrimPan(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: videoTrim)
+        if videoTrim.move(by: translation.x) {
+            
+        }
+        sender.setTranslation(CGPoint.zero, in: videoTrim)
     }
     
     func setupScrollView() {
@@ -182,7 +202,6 @@ class VideoController: UIStackView {
             scrollView.topAnchor.constraint(equalTo: galleryContainer.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: galleryContainer.leadingAnchor),
             scrollView.widthAnchor.constraint(equalTo: galleryContainer.widthAnchor)])
-        scrollView.delegate = self
     }
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
@@ -266,6 +285,10 @@ class VideoController: UIStackView {
 // MARK: - Gallery scroll container
 extension VideoController: UIScrollViewDelegate {
     
+    var inEditing: Bool {
+        return from == "edit"
+    }
+    
     func scrollTo(position: VideoTrimPosition) {
         let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width)
         scrollView.contentOffset = CGPoint(x: left, y: 0)
@@ -273,23 +296,23 @@ extension VideoController: UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(position: trimPosition, state: .started)
+        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .started)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(position: trimPosition, state: .finished(true))
+        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .finished(true))
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(position: trimPosition, state: .moving)
+        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .moving)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard scrollReason != .slider else { return }
         if !scrollView.isDecelerating {
-            delegate?.onTrimChanged(position: trimPosition, state: .finished(true))
+            delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .finished(true))
         }
     }
 }

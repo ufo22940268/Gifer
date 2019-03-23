@@ -160,7 +160,6 @@ class VideoGalleryViewController: UICollectionViewController {
     var selectedIndexPath: IndexPath!
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("select \(indexPath)")
         guard let videoResult = videoResult else {
             fatalError()
         }

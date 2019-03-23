@@ -209,6 +209,10 @@ class VideoRangeViewController: UIViewController {
 
 extension VideoRangeViewController: VideoControllerDelegate {
     
+    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState) {
+        
+    }
+        
     private func setSubtitle(position: VideoTrimPosition) {
         let text = position.leftTrim.formatTime() + " ~ " + position.rightTrim.formatTime()
         setSubtitle(text)
@@ -267,7 +271,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     /// Change by gallery scroller
-    func onTrimChanged(position: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+        let position = scrollToPosition
         if case .started = state {
             videoController.hideSlider(true)
         }
