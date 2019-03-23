@@ -88,6 +88,19 @@ extension Array where Element: NSLayoutConstraint {
     }
 }
 
+extension UIGestureRecognizer {
+    var videoTrimState: VideoTrimState {
+        switch self.state {
+        case .began:
+            return .started
+        case .ended:
+            return .finished(true)
+        default:
+            return .moving
+        }
+    }
+}
+
 class VideoController: UIStackView {
     
     var galleryView: VideoControllerGallery!
@@ -182,7 +195,7 @@ class VideoController: UIStackView {
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: videoTrim)
         if videoTrim.move(by: translation.x) {
-            
+            delegate?.onTrimChanged(scrollToPositionInsideGalleryDuration: trimPosition, state: sender.videoTrimState)
         }
         sender.setTranslation(CGPoint.zero, in: videoTrim)
     }

@@ -547,6 +547,7 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onTrimChanged(scrollToPositionInsideGalleryDuration: VideoTrimPosition, state: VideoTrimState) {
+        videoVC.updateTrim(position: scrollToPositionInsideGalleryDuration, state: state)
     }
 
     /// Change by gallery container scrolling.
