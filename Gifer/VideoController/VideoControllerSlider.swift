@@ -27,6 +27,10 @@ class VideoControllerSlider: UIControl {
     var activeTrailingConstraint: NSLayoutConstraint!
     var sliderRangeGuide: UILayoutGuide!
     var trimView: VideoControllerTrim!
+    var currentPosition: CMTime {
+        let percentage = leadingConstraint.constant/sliderRangeGuide.layoutFrame.width
+        return trimView.trimPosition.getSliderPosition(sliderRelativeToTrim: percentage)
+    }
     
     fileprivate func setupGuides(trimView: VideoControllerTrim) {
         guard let superview = superview else { return }

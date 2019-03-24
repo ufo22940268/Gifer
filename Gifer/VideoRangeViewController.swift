@@ -209,10 +209,10 @@ class VideoRangeViewController: UIViewController {
 
 extension VideoRangeViewController: VideoControllerDelegate {
     
-    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
         
     }
-        
+    
     private func setSubtitle(position: VideoTrimPosition) {
         let text = position.leftTrim.formatTime() + " ~ " + position.rightTrim.formatTime()
         setSubtitle(text)

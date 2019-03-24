@@ -62,6 +62,7 @@ class VideoControllerGallerySlider: UIView {
             self.sliderWidthConstraint.constant = CGFloat(galleryDuration!.seconds/duration!.seconds)*bounds.width
         }
     }
+    var slider: UIView!
     var duration: CMTime?
     
     weak var delegate: VideoControllerGallerySliderDelegate?
@@ -87,7 +88,7 @@ class VideoControllerGallerySlider: UIView {
         background.backgroundColor = .black
         background.layer.cornerRadius = sliderHeight/2
         
-        let slider = VideoControllerGallerySliderButton()
+        slider = VideoControllerGallerySliderButton()
         slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
         slider.backgroundColor = UIColor(named: "mainColor")

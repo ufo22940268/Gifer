@@ -228,7 +228,7 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 
 extension VideoViewController {
     
-    func updateTrim(position: VideoTrimPosition, state: VideoTrimState) {
+    func updateTrim(position: VideoTrimPosition, state: VideoTrimState, sliderPosition: CMTime? = nil) {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
@@ -239,6 +239,9 @@ extension VideoViewController {
             var reset:Bool
             if !forceReset {
                 reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim
+                if reset == false, let sliderPosition = sliderPosition {
+                    seek(toProgress: sliderPosition)
+                }
             } else {
                 reset = true
             }

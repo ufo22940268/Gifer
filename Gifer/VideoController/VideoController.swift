@@ -41,7 +41,7 @@ protocol SlideVideoProgressDelegate: class {
 
 protocol VideoTrimDelegate: class {
     func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState)
-    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
 }
 
 enum VideoTrimState {
@@ -52,7 +52,6 @@ enum VideoTrimState {
 struct VideoTrimPosition {
     
     var leftTrim: CMTime
-    
     var rightTrim: CMTime
     
     @available(*, deprecated, renamed: "galleryDuration")
@@ -66,6 +65,10 @@ struct VideoTrimPosition {
     
     var galleryDuration: CMTime {
         return rightTrim - leftTrim
+    }
+    
+    func getSliderPosition(sliderRelativeToTrim: CGFloat) -> CMTime {
+        return leftTrim + CMTimeMultiplyByFloat64(galleryDuration, multiplier: Float64(sliderRelativeToTrim))
     }
 }
 
@@ -94,7 +97,7 @@ extension UIGestureRecognizer {
         case .began:
             return .started
         case .ended:
-            return .finished(true)
+            return .finished(false)
         default:
             return .moving
         }
@@ -195,7 +198,7 @@ class VideoController: UIStackView {
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: videoTrim)
         if videoTrim.move(by: translation.x) {
-            delegate?.onTrimChanged(scrollToPositionInsideGalleryDuration: trimPosition, state: sender.videoTrimState)
+            delegate?.onTrimChanged(scrollToPositionInsideGalleryDuration: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
         }
         sender.setTranslation(CGPoint.zero, in: videoTrim)
     }
