@@ -66,17 +66,6 @@ class VideoViewController: AVPlayerViewController {
     }
     
     
-    func getVideoComposition(videoAsset: AVAsset) -> AVVideoComposition {
-        let ciContext = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES3)!)
-        let composition = AVVideoComposition(asset: videoAsset) { (request) in
-            
-            let outputImage = request.sourceImage.clampedToExtent().applyingFilter("CIGaussianBlur").cropped(to: request.sourceImage.extent)
-            request.finish(with: outputImage, context: ciContext)
-            
-        }
-        return composition
-    }
-    
     func load(playerItem: AVPlayerItem) -> Void {
         guard !dismissed else {
             return
@@ -86,6 +75,8 @@ class VideoViewController: AVPlayerViewController {
         self.player?.isMuted = true
         videoGravity = .resize
         
+        player!.currentItem!.videoComposition = buildVideoComposition(filter: AllFilters.first!)
+
         addObservers()
     }
     
@@ -94,16 +85,19 @@ class VideoViewController: AVPlayerViewController {
         self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
     }
     
-    private func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
-        guard let applier = filter.applier else {
+    func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
+        guard let asset = player?.currentItem?.asset else {
             return nil
         }
 
-        let context = CIContext(eaglContext: EAGLContext(api: .openGLES3)!)
-        return AVVideoComposition(asset: player!.currentItem!.asset) { (request) in
-            let source = request.sourceImage
-            request.finish(with: applier(source)!, context: context)
+        let composition = AVMutableVideoComposition(asset: asset) { (request) in
+            var image = request.sourceImage
+            if let applier = filter.applier {
+                image = applier(image)!
+            }
+            request.finish(with: image, context: nil)
         }
+        return composition
     }
     
     func setRate(_ rate: Float) {

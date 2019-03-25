@@ -435,7 +435,11 @@
                         <viewLayoutGuide key="safeArea" id="LcP-ZA-6N2"/>
                     </view>
                     <navigationItem key="navigationItem" id="S5x-0M-hbg">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Ehg-Lo-wQE"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Ehg-Lo-wQE">
+                            <connections>
+                                <action selector="onDismiss" destination="aqC-5D-Bi7" id="clQ-BO-1oX"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="TS0-Bl-4XN">
                             <connections>
                                 <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="6tk-uY-oMN"/>

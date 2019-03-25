@@ -303,7 +303,14 @@ class EditViewController: UIViewController {
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         
-        let playerItem = AVPlayerItem(url: url)
+        let originAsset = AVAsset(url: url)
+        let composition = AVMutableComposition()
+        composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
+        
+        let videoTrack = composition.tracks(withMediaType: .video).last!
+        videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
+        try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
+        let playerItem = AVPlayerItem(asset: composition)
         DispatchQueue.main.async { [weak self] in
             guard let this = self else { return }
             

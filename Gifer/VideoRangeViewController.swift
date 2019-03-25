@@ -175,6 +175,10 @@ class VideoRangeViewController: UIViewController {
         }
     }
     
+    @IBAction func onDismiss() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         registerObservers()
     }
