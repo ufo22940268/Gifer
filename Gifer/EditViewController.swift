@@ -183,6 +183,11 @@ class EditViewController: UIViewController {
     }
     
     private func setupVideoController() {
+        enableVideoController(false)
+    }
+    
+    private func enableVideoController(_ enable: Bool) {
+        videoController.isUserInteractionEnabled = enable
     }
     
     private func setSubTitle(_ text: String) {
@@ -486,6 +491,7 @@ extension EditViewController: VideoViewControllerDelegate {
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
         self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
+            self.enableVideoController(true)
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
