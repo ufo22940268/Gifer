@@ -555,7 +555,7 @@ extension EditViewController: VideoControllerDelegate {
             trimState = .started
             videoController.scrollReason = .slider
         } else {
-            trimState = .moving
+            trimState = .moving(seekToSlider: false)
         }
 
         videoVC.updateTrim(position: position, state: trimState)

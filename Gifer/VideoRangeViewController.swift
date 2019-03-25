@@ -237,7 +237,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
             trimState = .started
             videoController.scrollReason = .slider
         } else {
-            trimState = .moving
+            trimState = .moving(seekToSlider: false)
         }
         
         updateTrimPosition(position: position, state: trimState)

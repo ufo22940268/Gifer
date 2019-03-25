@@ -262,7 +262,7 @@ class VideoControllerTrim: UIControl {
         case .ended:
             return .finished(false)
         default:
-            return .moving
+            return .moving(seekToSlider: false)
         }
     }
     

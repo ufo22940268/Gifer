@@ -246,6 +246,10 @@ extension VideoViewController {
             play()
         case .started:
             pause()
+        case .moving(let seekToSlider):
+            if seekToSlider {
+                seek(toProgress: sliderPosition!)
+            }
         default:
             break
         }

@@ -45,7 +45,7 @@ protocol VideoTrimDelegate: class {
 }
 
 enum VideoTrimState {
-    case started, moving, initial
+    case started, moving(seekToSlider: Bool), initial
     case finished(Bool)
 }
 
@@ -99,7 +99,7 @@ extension UIGestureRecognizer {
         case .ended:
             return .finished(false)
         default:
-            return .moving
+            return .moving(seekToSlider: true)
         }
     }
 }
@@ -322,7 +322,7 @@ extension VideoController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .moving)
+        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
