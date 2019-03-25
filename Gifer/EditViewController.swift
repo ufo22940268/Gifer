@@ -190,6 +190,10 @@ class EditViewController: UIViewController {
         videoController.isUserInteractionEnabled = enable
     }
     
+    private func enableVideoContainer(_ enable: Bool) {
+        videoPlayerSection.isUserInteractionEnabled = enable
+    }
+    
     private func setSubTitle(_ text: String) {
         navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: "加载中...")
     }
@@ -232,6 +236,8 @@ class EditViewController: UIViewController {
             ])
         previewView.backgroundColor = UIColor.black
         videoVC.previewView = previewView
+        
+        enableVideoContainer(false)
     }
     
     
@@ -634,6 +640,7 @@ extension EditViewController: OptionMenuDelegate {
     }
     
     func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool) {
+        enableVideoContainer(false)
         switch toolbarItem {
         case .crop:
             if !commitChange {
@@ -681,6 +688,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onCropItemClicked() {
+        enableVideoContainer(true)
         showOptionMenu(for: .crop)
         self.cropContainer.updateCroppingStatus(.adjustCrop)
     }
