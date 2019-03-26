@@ -25,6 +25,16 @@ extension AVAsset {
         generator.maximumSize = UIScreen.main.bounds.size
         return UIImage(cgImage: try! generator.copyCGImage(at: CMTime.zero, actualTime: nil))
     }
+    
+    func videoAssetComposition() -> AVMutableComposition {
+        let composition = AVMutableComposition()
+        composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
+        
+        let videoTrack = composition.tracks(withMediaType: .video).last!
+        videoTrack.preferredTransform = self.tracks(withMediaType: .video).first!.preferredTransform
+        try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: self.duration), of: self, at: .zero)
+        return composition
+    }
 }
 
 class VideoRangeViewController: UIViewController {
@@ -81,13 +91,14 @@ class VideoRangeViewController: UIViewController {
     private func loadPreview(phAsset: PHAsset) {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
-        options.deliveryMode = .automatic
-        PHImageManager.default().requestPlayerItem(forVideo: phAsset, options: options) { (playerItem, _) in
-            guard let playerItem = playerItem else { return }
-            DispatchQueue.main.async {
-                self.onPreviewLoaded(playerItem: playerItem)
+        options.deliveryMode = .mediumQualityFormat
+        PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options) { (avAsset, _, _) in
+            if let composition = avAsset?.videoAssetComposition() {
+                let playerItem = AVPlayerItem(asset: composition)
+                DispatchQueue.main.async {
+                    self.onPreviewLoaded(playerItem: playerItem)
+                }
             }
-            
         }
     }
     
