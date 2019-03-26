@@ -98,10 +98,15 @@ class PlaySpeedRulerView: UIView {
 
 class PlaySpeedScrollView: UIScrollView {
     
+    var initialized = false
+    
     override var contentSize: CGSize {
         didSet {
-            let initScrollX = (contentSize.width - bounds.width)/2
-            contentOffset = CGPoint(x: initScrollX, y: 0)
+            if contentSize != CGSize.zero && !initialized {
+                let initScrollX = (contentSize.width - bounds.width)/2
+                contentOffset = CGPoint(x: initScrollX, y: 0)
+                initialized = true
+            }
         }
     }
 }
@@ -118,6 +123,7 @@ class PlaySpeedView: UIStackView {
     let maxSpeed: CGFloat = 2
     weak var delegate: PlaySpeedViewDelegate?
     var currentSpeedSnapshot: CGFloat = 1
+    var scrollViewInitialized: Bool = false
 
     override func awakeFromNib() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -136,7 +142,7 @@ class PlaySpeedView: UIStackView {
         
         scrollView.delegate = self
     }
-
+    
     fileprivate func updateSpeedView() {
         speedView.text = String(format: "%.1fx", currentSpeed)
     }
@@ -153,8 +159,7 @@ extension PlaySpeedView: UIScrollViewDelegate {
             return 1 - (1 - minSpeed)*(abs(delta)/0.5)
         }
     }
-    
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.onRateChanged(Float(currentSpeed))
         updateSpeedView()

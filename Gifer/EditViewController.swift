@@ -697,7 +697,7 @@ extension EditViewController: ControlToolbarDelegate {
         showOptionMenu(for: .filters)
     }
     
-    func onPlaySpeedItemClicked() {
+    func onPlaySpeedItemClicked() {        
         showOptionMenu(for: .playSpeed)
     }
     
