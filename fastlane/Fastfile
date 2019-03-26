@@ -37,4 +37,32 @@ platform :ios do
 		  "skip_waiting_for_build_processing": true,
 	  )
   end
+
+  lane :release do
+    increment_build_number(xcodeproj: "Gifer.xcodeproj")
+
+    # Commit the version bump
+    commit_version_bump(xcodeproj: "Gifer.xcodeproj")
+
+    # Add a git tag for this build. This will automatically
+    # use an appropriate git tag name
+    add_git_tag
+
+    # Push the new commit and tag back to your git remote
+    push_to_git_remote
+    #capture_screenshots                  # generate new screenshots for the App Store
+    sync_code_signing(type: "appstore")  # see code signing guide for more information
+    build_app(scheme: "Gifer")
+    upload_to_app_store                  # upload your app to App Store Connect
+    #slack(message: "Successfully uploaded a new App Store build")
+  end
+
+  #desc "Deploy a new version to the App Store"
+  #lane :release do
+  #  # match(type: "appstore")
+  #  # snapshot
+  #  gym(scheme: "Gifer") # Build your app - more options available
+  #  deliver(force: true)
+  #  # frameit
+  #end
 end
