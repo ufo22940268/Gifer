@@ -108,7 +108,6 @@ class GiferTests: XCTestCase {
         
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in
             VideoCache(asset: videoAsset!).parse {video in
-                print(video)
                 exp.fulfill()
             }
         }

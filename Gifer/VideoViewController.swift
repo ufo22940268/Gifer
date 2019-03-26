@@ -208,7 +208,7 @@ class VideoViewController: AVPlayerViewController {
             return
         }
 
-        showLoading(true)
+//        showLoading(true)
         let tolerance = CMTime.zero
         player.seek(to: progress, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: {success in
         })
@@ -226,7 +226,6 @@ extension VideoViewController {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
-        updateEndtime()
         
         switch state {
         case .finished(let forceReset):
@@ -243,15 +242,16 @@ extension VideoViewController {
             if reset {
                 seek(toProgress: position.leftTrim)
             }
+            updateEndtime()
             play()
         case .started:
             pause()
         case .moving(let seekToSlider):
             if seekToSlider {
-                seek(toProgress: sliderPosition!)
+                player.seek(to: sliderPosition!, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
             }
         default:
-            break
+            updateEndtime()
         }
     }
 }
