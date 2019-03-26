@@ -373,7 +373,8 @@ class EditViewController: UIViewController {
                                     cropArea: cropArea,
                                     filter: videoVC.filter,
                                     stickers: gifOverlayVC.stickers.map {$0.fixImageFrame(videoSize: videoSize, cropArea: cropArea)},
-                                    direction: videoVC.playDirection
+                                    direction: videoVC.playDirection,
+                                    exportType: nil            
         )
     }
     
@@ -382,7 +383,7 @@ class EditViewController: UIViewController {
         
         showLoadingWhenExporting(true)
         let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: currentGifOption)
-        shareManager.share { gif in
+        shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
             
             switch type {

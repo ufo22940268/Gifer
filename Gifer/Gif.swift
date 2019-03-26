@@ -82,6 +82,7 @@ class GifGenerator {
         var filter: YPFilter?
         var stickers: [Sticker]
         var direction: PlayDirection
+        var exportType: ShareType?
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
             return lhs.start.seconds == rhs.start.seconds
@@ -90,21 +91,58 @@ class GifGenerator {
             && lhs.cropArea == rhs.cropArea
         }
         
+        var duration: CMTime {
+            return end - start
+        }
     }
     
     let fileName = "animated.gif"
     var videoAsset: AVAsset
     var options: Options
+    var gifSize: CGSize!
+    private var extractedImageCountPerSecond: Int!
+    private var gifDelayTime: Float!
+    
+    enum GifSizePreset: CGFloat {
+        case photo = 500
+        case wechatLong = 180
+        case wechatShort = 300
+        
+    }
     
     init(video: AVAsset, options: Options) {
         self.videoAsset = video
         self.options = options
-      
-        let defaultCount = 7
-        extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
-        gifDelayTime = 1/Float(defaultCount)
+        
+        calculateExportConfig()
     }
     
+    func calculateExportConfig() {
+        var defaultCount:Int
+        if options.speed < 1 {
+            defaultCount = 4
+        } else {
+            defaultCount = 7
+        }
+        extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
+        gifDelayTime = 1/Float(defaultCount)
+        let size = getGifSize()
+        gifSize = CGSize(width: size, height: size)
+    }
+    
+    func getGifSize() -> CGFloat {
+        switch options.exportType! {
+        case .photo:
+            return GifSizePreset.photo.rawValue
+        case .wechat:
+            if options.duration.seconds > 10 {
+                return GifSizePreset.wechatLong.rawValue
+            } else {
+                return GifSizePreset.wechatShort.rawValue
+            }
+        }
+    }
+
     var gifFilePath: URL? {
         get {
             let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -126,13 +164,6 @@ class GifGenerator {
         fatalError()
     }
     
-    private var extractedImageCountPerSecond: Int
-    private let gifDelayTime: Float
-    
-    enum GifSize: Int, RawRepresentable {
-        case middle = 180
-    }
-    
     func run(complete: @escaping (URL) -> Void) {
         let startProgress = options.start
         let endProgress = options.end
@@ -148,8 +179,7 @@ class GifGenerator {
         let destination = self.buildDestinationOfGif(frameCount: times.count)
         let generator = AVAssetImageGenerator(asset: videoAsset)
         generator.appliesPreferredTrackTransform = true
-        let gifSize = GifSize.middle
-        generator.maximumSize = CGSize(width: gifSize.rawValue, height: gifSize.rawValue)
+        generator.maximumSize = gifSize
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
         let ciContext = CIContext(options: nil)

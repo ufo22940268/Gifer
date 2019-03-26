@@ -37,11 +37,11 @@ class ShareManager {
     public typealias ExportHandler = (_ path: URL) -> Void
     public typealias ShareHandler = (_ success: Bool) -> Void
     
-    func share(complete: @escaping ExportHandler) {
+    func share(type: ShareType, complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
             let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress,
                                                speed: self.speed, cropArea: self.cropArea, filter: self.filter,
-                                               stickers: self.stickers, direction: self.direction)
+                                               stickers: self.stickers, direction: self.direction, exportType: type)
             GifGenerator(video: self.asset, options: options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)
