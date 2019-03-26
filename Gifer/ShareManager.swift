@@ -14,7 +14,6 @@ import Photos
 import MonkeyKing
 
 class ShareManager {
-    
     var asset: AVAsset!
     var startProgress: CMTime!
     var endProgress: CMTime!
