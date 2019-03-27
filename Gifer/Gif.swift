@@ -106,7 +106,7 @@ class GifGenerator {
     enum GifSizePreset: CGFloat {
         case photo = 500
         case wechatLong = 180
-        case wechatShort = 300
+        case wechatShort = 400
         
     }
     
@@ -126,23 +126,10 @@ class GifGenerator {
         }
         extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
         gifDelayTime = 1/Float(defaultCount)
-        let size = getGifSize()
+        let size = options.exportType!.gifSize
         gifSize = CGSize(width: size, height: size)
     }
     
-    func getGifSize() -> CGFloat {
-        switch options.exportType! {
-        case .photo:
-            return GifSizePreset.photo.rawValue
-        case .wechat:
-            if options.duration.seconds > 10 {
-                return GifSizePreset.wechatLong.rawValue
-            } else {
-                return GifSizePreset.wechatShort.rawValue
-            }
-        }
-    }
-
     var gifFilePath: URL? {
         get {
             let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -187,11 +174,11 @@ class GifGenerator {
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
-            image = self.crop(image: image)
-            if let filter = self.options.filter {
-                image = applyFilter(image, filter: filter, in: ciContext)
-            }
-            image = self.addSticker(image: image)
+//            image = self.crop(image: image)
+//            if let filter = self.options.filter {
+//                image = applyFilter(image, filter: filter, in: ciContext)
+//            }
+//            image = self.addSticker(image: image)
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
         })

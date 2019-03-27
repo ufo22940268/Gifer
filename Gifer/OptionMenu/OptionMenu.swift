@@ -24,6 +24,13 @@ class OptionMenu: UIView {
     
     var stickerMenuView: StickerMenuView!
     var stickerMenuContainer: ControlToolbarConfirmPrompt!
+    var hiddenHeightConstraint: NSLayoutConstraint!
+    
+    override var isHidden: Bool {
+        didSet {
+            hiddenHeightConstraint.isActive = isHidden
+        }
+    }
     
     func setPreviewImage(_ image: UIImage) {
         filtersView.previewImage = image
@@ -33,6 +40,7 @@ class OptionMenu: UIView {
     init() {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
+        hiddenHeightConstraint = heightAnchor.constraint(equalToConstant: 0)
         setupPlaySpeedView()
         setupCropMenuView()
         setupFiltersView()

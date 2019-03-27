@@ -14,6 +14,15 @@ typealias ShareDialogHandler = (_ type: ShareType) -> Void
 
 enum ShareType {
     case wechat, photo
+    
+    var gifSize: CGFloat {
+        switch self {
+        case .wechat:
+            return 400
+        case .photo:
+            return 600
+        }
+    }
 }
 
 class ShareDialogController {

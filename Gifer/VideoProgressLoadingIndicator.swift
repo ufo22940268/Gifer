@@ -87,6 +87,9 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
         tintColor = UIColor.darkGray
         
         contentView.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
 
         stackView.addArrangedSubview(circleView)
         stackView.addArrangedSubview(messageView)
