@@ -10,15 +10,15 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="MEW-9O-rDa">
             <objects>
-                <viewController id="kyN-1N-0Uk" sceneMemberID="viewController">
+                <viewController id="kyN-1N-0Uk" customClass="TestViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gn0-EB-ZJN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRY-Mu-Mbs" customClass="TextEditFrame" customModule="Gifer" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRY-Mu-Mbs" customClass="EditTextFrame" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -31,6 +31,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GMK-nZ-S5G"/>
                     </view>
+                    <connections>
+                        <outlet property="textEditFrame" destination="NRY-Mu-Mbs" id="kyh-Qg-sHA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Azy-va-8QQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
