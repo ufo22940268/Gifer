@@ -106,8 +106,7 @@ class GifGenerator {
     enum GifSizePreset: CGFloat {
         case photo = 500
         case wechatLong = 180
-        case wechatShort = 400
-        
+        case wechatShort = 400        
     }
     
     init(video: AVAsset, options: Options) {

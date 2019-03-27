@@ -48,6 +48,9 @@
 		42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
+		42D7F27E224B1C1600E7E504 /* TextEditFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* TextEditFrame.swift */; };
+		42D7F281224B4B2800E7E504 /* TextEditPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* TextEditPreviewer.swift */; };
+		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -122,6 +125,9 @@
 		42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarItemView.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
+		42D7F27D224B1C1600E7E504 /* TextEditFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditFrame.swift; sourceTree = "<group>"; };
+		42D7F280224B4B2800E7E504 /* TextEditPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditPreviewer.swift; sourceTree = "<group>"; };
+		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +244,26 @@
 			path = ControlTools;
 			sourceTree = "<group>";
 		};
+		42D7F27F224B4B0A00E7E504 /* TextEditFrame */ = {
+			isa = PBXGroup;
+			children = (
+				42D7F27D224B1C1600E7E504 /* TextEditFrame.swift */,
+				42D7F280224B4B2800E7E504 /* TextEditPreviewer.swift */,
+			);
+			path = TextEditFrame;
+			sourceTree = "<group>";
+		};
+		42D7F282224B4CC000E7E504 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				42EE13D52195C22900724611 /* Gif.swift */,
+				422E0E2121CB616500192B37 /* Debug.swift */,
+				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
+				42D7F283224B4CE400E7E504 /* BasicExtensions.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		42E5C34F2220B0F100D18CA6 /* GifOverlay */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,8 +304,8 @@
 				42F2D577219403B300113A10 /* Assets.xcassets */,
 				42F2D579219403B300113A10 /* LaunchScreen.storyboard */,
 				42F2D57C219403B300113A10 /* Info.plist */,
-				42EE13D52195C22900724611 /* Gif.swift */,
 				42EE13D721963FBB00724611 /* VideoViewController.swift */,
+				42D7F282224B4CC000E7E504 /* Helper */,
 				42EE13D9219641B400724611 /* Test.swift */,
 				42EEACE021995DEE009A3BB8 /* EditViewController.swift */,
 				42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */,
@@ -290,14 +316,12 @@
 				4233DD6921B91441009A757C /* AspectView.swift */,
 				42C54D2C21C1F5D100BECC5C /* ShareManager.swift */,
 				42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */,
-				422E0E2121CB616500192B37 /* Debug.swift */,
 				426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */,
 				42E86E6421CDC996004BB0BC /* LoadingViewController.xib */,
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				4260DA932226A72B000B16D4 /* OptionMenu */,
 				42A1AFE421EF182600CF8018 /* VideoEdit */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
-				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
 				4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */,
 				42820CF52216A14200C5A99C /* ShareDialogController.swift */,
 				42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */,
@@ -310,6 +334,7 @@
 				424596EF22408B7000FCE599 /* VideoRangeViewController.swift */,
 				424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */,
 				427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */,
+				42D7F27F224B4B0A00E7E504 /* TextEditFrame */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -478,7 +503,9 @@
 				42E5C34E2220B0D900D18CA6 /* GifOverlayRenderer.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
+				42D7F27E224B1C1600E7E504 /* TextEditFrame.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
+				42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
 				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
 				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
@@ -486,6 +513,7 @@
 				4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
+				42D7F281224B4B2800E7E504 /* TextEditPreviewer.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */,
 				4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */,
