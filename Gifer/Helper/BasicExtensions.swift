@@ -23,9 +23,9 @@ extension UIView {
         guard let superview = superview else { fatalError() }
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            topAnchor.constraint(equalTo: superview.topAnchor),
             widthAnchor.constraint(equalTo: superview.widthAnchor),
-            heightAnchor.constraint(equalTo: heightAnchor)
+            heightAnchor.constraint(equalTo: superview.heightAnchor)
             ])
         return self
     }

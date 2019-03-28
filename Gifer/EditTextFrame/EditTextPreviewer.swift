@@ -14,6 +14,8 @@ class EditTextPreviewer: UIView {
     
     lazy var textView: UITextField = {
         let textView = UITextField(frame: CGRect.zero).useAutoLayout()
+        textView.textColor = .white
+        textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 8)
         return textView
     }()
     
@@ -30,7 +32,7 @@ class EditTextPreviewer: UIView {
             textView.centerYAnchor.constraint(equalTo: centerYAnchor)])
         setText("adsf")
         
-        textView.becomeFirstResponder()
+//        textView.becomeFirstResponder()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,5 +42,12 @@ class EditTextPreviewer: UIView {
     func setText(_ text: String) {
         textView.text = text
         textView.sizeToFit()
+    }
+}
+
+
+extension EditTextPreviewer {
+    func update(font: UIFont) {
+        textView.font = UIFont(name: font.fontName, size: textView.font!.pointSize)
     }
 }
