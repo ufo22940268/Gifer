@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PalettePanelDelegate: class {
+    func onColorSelected(color: UIColor)
+}
+
 private class PalettePanelCell: UICollectionViewCell {
     
     var color: UIColor! {
@@ -66,11 +70,14 @@ class PalettePanel: UIView {
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout).useAutoLayout()
         collection.register(PalettePanelCell.self, forCellWithReuseIdentifier: "cell")
         collection.dataSource = self
+        collection.delegate = self
         collection.allowsMultipleSelection = false
         return collection
     }()
 
-    init() {
+    weak var delegate: PalettePanelDelegate?
+    
+   init() {
         super.init(frame: CGRect.zero)
         
         addSubview(collectionView)
@@ -105,10 +112,6 @@ class PalettePanel: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func select(color: UIColor) {
-        
-    }
 }
 
 extension PalettePanel: UICollectionViewDataSource {
@@ -120,5 +123,12 @@ extension PalettePanel: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PalettePanelCell
         cell.color = allColors[indexPath.row]
         return cell
+    }
+}
+
+extension PalettePanel: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let color = allColors[indexPath.row]
+        delegate?.onColorSelected(color: color)
     }
 }

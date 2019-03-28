@@ -56,6 +56,7 @@ class EditTextViewController: UIViewController {
     
     lazy var palettePanel: PalettePanel = {
         let panel = PalettePanel().useAutoLayout()
+        panel.delegate = self
         return panel
     }()
     
@@ -154,5 +155,12 @@ extension EditTextViewController {
 extension EditTextViewController: FontsPanelDelegate {
     func onFontSelected(font: UIFont) {
         previewer.update(font: font)
+    }
+}
+
+
+extension EditTextViewController: PalettePanelDelegate {
+    func onColorSelected(color: UIColor) {
+        previewer.update(color: color)
     }
 }

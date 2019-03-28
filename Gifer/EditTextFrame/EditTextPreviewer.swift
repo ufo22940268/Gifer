@@ -50,4 +50,8 @@ extension EditTextPreviewer {
     func update(font: UIFont) {
         textView.font = UIFont(name: font.fontName, size: textView.font!.pointSize)
     }
+    
+    func update(color: UIColor) {
+        textView.textColor = color
+    }
 }
