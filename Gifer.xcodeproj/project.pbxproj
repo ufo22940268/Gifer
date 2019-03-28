@@ -55,6 +55,8 @@
 		42D7F288224B831200E7E504 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F287224B831200E7E504 /* TestViewController.swift */; };
 		42D7F28A224C649600E7E504 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F289224C649600E7E504 /* Font.swift */; };
 		42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F28B224C690600E7E504 /* FontsPanel.swift */; };
+		42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F28D224CA08B00E7E504 /* Palette.swift */; };
+		42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F28F224CB0B800E7E504 /* PalettePanel.swift */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -136,6 +138,8 @@
 		42D7F287224B831200E7E504 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		42D7F289224C649600E7E504 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		42D7F28B224C690600E7E504 /* FontsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsPanel.swift; sourceTree = "<group>"; };
+		42D7F28D224CA08B00E7E504 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		42D7F28F224CB0B800E7E504 /* PalettePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalettePanel.swift; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 				42D7F27D224B1C1600E7E504 /* EditTextFrame.swift */,
 				42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */,
 				42D7F28B224C690600E7E504 /* FontsPanel.swift */,
+				42D7F28F224CB0B800E7E504 /* PalettePanel.swift */,
 			);
 			path = EditTextFrame;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
 				42D7F283224B4CE400E7E504 /* BasicExtensions.swift */,
 				42D7F289224C649600E7E504 /* Font.swift */,
+				42D7F28D224CA08B00E7E504 /* Palette.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -539,7 +545,9 @@
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
+				42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */,
 				42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */,
+				42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
 				42D7F286224B593600E7E504 /* EditTextBottomTools.swift in Sources */,
 				426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */,

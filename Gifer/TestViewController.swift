@@ -10,7 +10,7 @@ import UIKit
 
 class TestViewController: UIViewController {
     
-    @IBOutlet weak var textEditFrame: EditTextFrame!
+//    @IBOutlet weak var textEditFrame: EditTextFrame!
     var originViewHeight: CGFloat?
     
     override func viewDidLoad() {

@@ -54,14 +54,29 @@ class EditTextViewController: UIViewController {
         return fontsPanel
     }()
     
+    lazy var palettePanel: PalettePanel = {
+        let panel = PalettePanel().useAutoLayout()
+        return panel
+    }()
+    
     lazy var panelContainer: UIView = {
         let panelContainer = UIView().useAutoLayout()
         panelContainer.backgroundColor = .black
+        NSLayoutConstraint.activate([
+            panelContainer.heightAnchor.constraint(equalToConstant: keyboardHeight).with(identifier: "height")
+            ])
         return panelContainer
     }()
     
     enum Tab {
-        case fonts
+        case fonts, palette
+    }
+    
+    var originViewHeight: CGFloat?
+    var keyboardHeight: CGFloat = 240 {
+        didSet {
+            panelContainer.constraints.findById(id: "height").constant = keyboardHeight
+        }
     }
     
     override func viewDidLoad() {
@@ -87,7 +102,24 @@ class EditTextViewController: UIViewController {
         stackView.addArrangedSubview(bottomTools)
         stackView.addArrangedSubview(panelContainer)
         
-        openTab(.fonts)
+        openTab(.palette)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            originViewHeight = self.view.frame.height
+            keyboardHeight = keyboardSize.height
+            self.view.frame.size.height -= keyboardSize.height
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let originViewHeight = originViewHeight {
+            self.view.frame.size.height = originViewHeight
+        }
     }
 }
 
@@ -98,6 +130,8 @@ extension EditTextViewController {
         switch tab {
         case .fonts:
             panel = fontsPanel
+        case .palette:
+            panel = palettePanel
         }
         
         panelContainer.subviews.forEach {$0.removeFromSuperview()}
