@@ -15,6 +15,42 @@ private class PalettePanelCell: UICollectionViewCell {
             contentView.backgroundColor = color
         }
     }
+    
+    override var isSelected: Bool  {
+        didSet {
+            if isSelected {
+                checkIcon.isHidden = false
+                layer.borderColor = UIColor.white.cgColor
+                layer.borderWidth = 2
+            } else {
+                checkIcon.isHidden = true
+                layer.borderWidth = 0
+            }
+        }
+    }
+    
+    lazy var checkIcon: UIImageView = {
+        let checkIcon = UIImageView(image: #imageLiteral(resourceName: "checkmark-outline.png")).useAutoLayout()
+        checkIcon.tintColor = .white
+        return checkIcon
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: CGRect.zero)
+        addSubview(checkIcon)
+        let iconSize = CGFloat(18)
+        NSLayoutConstraint.activate([
+            checkIcon.centerXAnchor.constraint(equalTo: centerXAnchor),
+            checkIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+            checkIcon.widthAnchor.constraint(equalToConstant: iconSize),
+            checkIcon.heightAnchor.constraint(equalToConstant: iconSize),
+            ])
+        isSelected = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class PalettePanel: UIView {
@@ -30,6 +66,7 @@ class PalettePanel: UIView {
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout).useAutoLayout()
         collection.register(PalettePanelCell.self, forCellWithReuseIdentifier: "cell")
         collection.dataSource = self
+        collection.allowsMultipleSelection = false
         return collection
     }()
 
@@ -59,12 +96,19 @@ class PalettePanel: UIView {
         allColors = Array(allColors[0..<countInRow*rowCount])
         (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = CGSize(width: cellSize, height: cellSize)
         collectionView.reloadData()
+        
+        if let selectedCount = collectionView.indexPathsForSelectedItems?.count, selectedCount == 0 {
+            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func select(color: UIColor) {
+        
+    }
 }
 
 extension PalettePanel: UICollectionViewDataSource {
