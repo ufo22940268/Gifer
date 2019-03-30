@@ -52,13 +52,52 @@ struct ToolbarItemStyle {
     }
 }
 
-@objc enum ToolbarItem: Int, CaseIterable {
+enum ToolbarItem {
     case playSpeed
     case crop
     case filters
+    case font
     case sticker
-    case direction
+    case direction(playDirection: PlayDirection)
+    
+    var viewInfo: (UIImage, String) {
+        switch self {
+        case .playSpeed:
+            return (#imageLiteral(resourceName: "clock-outline.png"), "速度")
+        case .crop:
+            return (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")
+        case .filters:
+            return (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")
+        case .font:
+            return (#imageLiteral(resourceName: "smile-wink-regular.png"), "字体")
+        case .sticker:
+            return (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")
+        case .direction(let playDirection):
+            return playDirection.viewInfo
+        }
+    }
+    
+    static var initialAllCases: [ToolbarItem] {
+        return [
+            .playSpeed, .crop, .filters, .font, .sticker, .direction(playDirection: .forward)
+        ]
+    }
 }
+
+enum PlayDirection {
+    case forward, backward
+    
+    var viewInfo: (UIImage, String) {
+        switch self {
+        case .forward:
+            return ( #imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
+        case .backward:
+            return (#imageLiteral(resourceName: "arrow-back-outline.png"), "反向")
+        }
+    }
+}
+
+
 
 extension NSLayoutConstraint {
     func with(identifier: String) -> NSLayoutConstraint {
@@ -145,10 +184,6 @@ class EditViewController: UIViewController {
     var isDebug: Bool!
     var cacheFilePath: URL!
 
-    var controlToolbarFunctionalIndexes: [Int] {
-        return ToolbarItem.allCases.map{$0.rawValue}
-    }
-    
     override func loadView() {
         super.loadView()
     }
@@ -510,7 +545,7 @@ extension EditViewController: VideoViewControllerDelegate {
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
-            self.videoVC.play()
+//            self.videoVC.play()
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)
@@ -518,7 +553,6 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     private func enableControlOptions() {
-        controlToolbar.enableItems(true)
     }
     
     func onBuffering(_ inBuffering: Bool) {

@@ -8,39 +8,13 @@
 
 import UIKit
 
-enum PlayDirection {
-    case forward, backward
-
-    var info: (UIImage, String) {
-        switch self {
-        case .forward:
-            return ( #imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
-        case .backward:
-            return (#imageLiteral(resourceName: "arrow-back-outline.png"), "反向")
-        }
-    }
-}
-
 class ControlToolbar: UICollectionView {
 
-    var items = [ToolbarItem: ControlToolbarItemView]()
     weak var toolbarDelegate: ControlToolbarDelegate?
     
-    var properties = [
-        (ToolbarItem.playSpeed, (#imageLiteral(resourceName: "clock-outline.png"), "速度")),
-        (ToolbarItem.crop, (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")),
-        (ToolbarItem.filters, (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")),
-        (ToolbarItem.sticker, (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")),
-        (ToolbarItem.direction, (#imageLiteral(resourceName: "arrow-forward-outline.png"), "正向"))
-    ]
     let displayPropertyCount = 4
     
-    var direction: PlayDirection! {
-        didSet {
-            let itemIndex = properties.firstIndex {$0.0 == .direction}!
-            properties[itemIndex] = (ToolbarItem.direction, direction.info)
-        }
-    }
+    var allItems = ToolbarItem.initialAllCases
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -64,25 +38,19 @@ class ControlToolbar: UICollectionView {
         
         tintColor = UIColor(named: "mainColor")
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
-        direction = PlayDirection.forward
-    }
-    
-    func enableItems(_ enable: Bool) {
-        for (_, item) in items {
-            item.enable(enable)
-        }
     }
 }
 
 extension ControlToolbar: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return properties.count
+        return allItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ControlToolbarItemView
-        let (item, (image, title)) = properties[indexPath.row]
+        let item = allItems[indexPath.row]
+        let (image, title) = item.viewInfo
         cell.setup(type: item, image: image, title: title)
         return cell
     }
@@ -90,23 +58,52 @@ extension ControlToolbar: UICollectionViewDataSource {
 
 extension ControlToolbar: UICollectionViewDelegate {
     
+    var playDirection: PlayDirection {
+        if case .direction(let playDirection) = allItems[directionIndex] {
+            return playDirection
+        } else {
+            fatalError()
+        }
+    }
+    
+    var directionIndex: Int {
+        return allItems.enumerated().filter { item in
+            if case .direction = item.1 {
+                return true
+            } else {
+                return false
+            }
+            }.first!.0
+    }
+    
     private func reverseDirection() {
-        switch direction! {
-        case .forward:
-            direction = .backward
-        case .backward:
-            direction = .forward
+        let directionIndex = allItems.enumerated().filter { item in
+            if case .direction = item.1 {
+                return true
+            } else {
+                return false
+            }
+            }.first!.0
+        if case .direction(let playDirection) = allItems[directionIndex] {
+            switch playDirection {
+            case .forward:
+                allItems[directionIndex] = .direction(playDirection: .backward)
+            case .backward:
+                allItems[directionIndex] = .direction(playDirection: .forward)
+            }
         }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let (type, _) = properties[indexPath.row]
-        switch type {
+        let item = allItems[indexPath.row]
+        switch item {
         case .playSpeed:
             toolbarDelegate?.onPlaySpeedItemClicked()
         case .crop:
             toolbarDelegate?.onCropItemClicked()
+        case .font:
+            break;
         case .filters:
             toolbarDelegate?.onFiltersItemClicked()
         case .sticker:
@@ -114,7 +111,7 @@ extension ControlToolbar: UICollectionViewDelegate {
         case .direction:
             reverseDirection()
             collectionView.reloadData()
-            toolbarDelegate?.onDirectionItemClicked(direction: direction)
+            toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
         }
     }
 }

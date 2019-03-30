@@ -69,14 +69,12 @@ class EditTextViewController: UIViewController {
         return panelContainer
     }()
     
-    enum Tab {
-        case fonts, palette
-    }
-    
     var originViewHeight: CGFloat?
     var keyboardHeight: CGFloat = 240 {
         didSet {
-            panelContainer.constraints.findById(id: "height").constant = keyboardHeight
+            let bottomSafeInset = self.view.safeAreaInsets.bottom
+            panelContainer.constraints.findById(id: "height").constant = keyboardHeight - bottomSafeInset
+            panelContainer.superview?.layoutIfNeeded()
         }
     }
     
@@ -103,43 +101,55 @@ class EditTextViewController: UIViewController {
         stackView.addArrangedSubview(bottomTools)
         stackView.addArrangedSubview(panelContainer)
         
-        openTab(.palette)
+        bottomTools.delegate = self
+        openTab(.keyboard)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        originViewHeight = self.view.frame.height
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            originViewHeight = self.view.frame.height
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
-            self.view.frame.size.height -= keyboardSize.height
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if let originViewHeight = originViewHeight {
-            self.view.frame.size.height = originViewHeight
-        }
     }
 }
 
 extension EditTextViewController {
-    
-    private func openTab(_ tab: Tab) {
+    private func openTab(_ item: EditTextBottomTools.Item) {
+        bottomTools.active(item: item)
+        panelContainer.subviews.forEach {$0.removeFromSuperview()}
+
         var panel: UIView
-        switch tab {
-        case .fonts:
+        switch item {
+        case .font:
             panel = fontsPanel
         case .palette:
             panel = palettePanel
+        case .keyboard:
+            showKeyboard()
+            return
         }
         
-        panelContainer.subviews.forEach {$0.removeFromSuperview()}
+        hideKeyboard()
         panelContainer.addSubview(panel)
         panel.setSameSizeAsParent()
     }
+    
+    private func showKeyboard() {
+        previewer.textView.becomeFirstResponder()
+    }
+    
+    private func hideKeyboard() {
+        previewer.textView.resignFirstResponder()
+    }
 }
+
 
 extension EditTextViewController {
     
@@ -162,5 +172,11 @@ extension EditTextViewController: FontsPanelDelegate {
 extension EditTextViewController: PalettePanelDelegate {
     func onColorSelected(color: UIColor) {
         previewer.update(color: color)
+    }
+}
+
+extension EditTextViewController: EditTextBottomToolsDelegate {
+    func onItemSelected(item: EditTextBottomTools.Item) {
+        openTab(item)
     }
 }

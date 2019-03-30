@@ -62,6 +62,8 @@ class OptionMenu: UIView {
             playSpeedView.delegate = delegate
             playSpeedViewContainer.customDelegate = delegate
             contentView = playSpeedViewContainer
+        case .font:
+            return
         case .crop:
             cropMenuView.customDelegate = delegate
             cropMenuViewContainer.customDelegate = delegate

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol ConfirmPromptDelegate: class {
+protocol ConfirmPromptDelegate: class {
     func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool)
 }
 
