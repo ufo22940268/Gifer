@@ -103,7 +103,7 @@ extension ControlToolbar: UICollectionViewDelegate {
         case .crop:
             toolbarDelegate?.onCropItemClicked()
         case .font:
-            break;
+            toolbarDelegate?.onFontItemClicked()
         case .filters:
             toolbarDelegate?.onFiltersItemClicked()
         case .sticker:
@@ -119,6 +119,7 @@ extension ControlToolbar: UICollectionViewDelegate {
 protocol ControlToolbarDelegate: class {
     func onCropItemClicked()
     func onFiltersItemClicked()
+    func onFontItemClicked()
     func onPlaySpeedItemClicked()
     func onStickerItemClicked()
     func onDirectionItemClicked(direction: PlayDirection)

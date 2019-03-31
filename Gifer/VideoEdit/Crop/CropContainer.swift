@@ -50,6 +50,11 @@ class CropContainer: UIView {
         return cropRect.applying(CGAffineTransform(scaleX: 1/canvasRect.width, y: 1/canvasRect.height))
     }
     var restoreTask: DispatchWorkItem?
+    
+    lazy var editTextOverlay: EditTextOverlay = {
+        let overlay = EditTextOverlay().useAutoLayout()
+        return overlay
+    }()
 
     override func awakeFromNib() {
         guard let superview = superview else { return }
@@ -91,6 +96,9 @@ class CropContainer: UIView {
         bringSubviewToFront(gridRulerView)
         
         updateCroppingStatus(.normal)
+        
+        addSubview(editTextOverlay)
+        editTextOverlay.setSameSizeAsParent()
     }
     
     func addContentView(_ contentView: UIView) {

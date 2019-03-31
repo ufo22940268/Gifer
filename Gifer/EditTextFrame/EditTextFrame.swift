@@ -22,6 +22,9 @@ class EditTextViewController: UIViewController {
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
+        toolbar.tintColor = UIColor(named: "mainColor")
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
         let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancel))
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
@@ -45,7 +48,8 @@ class EditTextViewController: UIViewController {
     }()
     
     lazy var rootView: UIVisualEffectView = {
-        return UIVisualEffectView(effect: UIBlurEffect(style: .dark)).useAutoLayout()
+        let root = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).useAutoLayout()
+        return root
     }()
     
     lazy var fontsPanel: FontsPanel = {
@@ -108,6 +112,8 @@ class EditTextViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         originViewHeight = self.view.frame.height
+        
+        print("view did load")
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -154,7 +160,7 @@ extension EditTextViewController {
 extension EditTextViewController {
     
     @objc private func onCancel() {
-        print("cancel")
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func onDone() {

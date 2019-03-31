@@ -15,7 +15,6 @@ enum UserDefaultKeys: String {
     case gifMaxDuration = "gifMaxDuration"
 }
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

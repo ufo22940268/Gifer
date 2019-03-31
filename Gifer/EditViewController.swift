@@ -69,11 +69,20 @@ enum ToolbarItem {
         case .filters:
             return (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")
         case .font:
-            return (#imageLiteral(resourceName: "smile-wink-regular.png"), "字体")
+            return (#imageLiteral(resourceName: "pen-fancy-solid.png"), "字体")
         case .sticker:
             return (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")
         case .direction(let playDirection):
             return playDirection.viewInfo
+        }
+    }
+    
+    var viewController: UIViewController.Type? {
+        switch self {
+        case .font:
+            return EditTextViewController.self
+        default:
+            return nil
         }
     }
     
@@ -545,7 +554,9 @@ extension EditViewController: VideoViewControllerDelegate {
             self.videoController.layoutIfNeeded()
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
+            //Test code
 //            self.videoVC.play()
+            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)
@@ -719,6 +730,17 @@ extension EditViewController: ControlToolbarDelegate {
             self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    func showEditViewController(for toolbarItem: ToolbarItem) {
+        let vc = toolbarItem.viewController!.init()
+        vc.modalPresentationCapturesStatusBarAppearance = true
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func onFontItemClicked() {
+        showEditViewController(for: .font)
     }
     
     func onCropItemClicked() {

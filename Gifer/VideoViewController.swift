@@ -1,6 +1,5 @@
 //
-//  EditingViewController.swift
-//  Gifer
+//  EditingViewController.swift//  Gifer
 //
 //  Created by Frank Cheng on 2018/11/10.
 //  Copyright © 2018 Frank Cheng. All rights reserved.
@@ -65,6 +64,9 @@ class VideoViewController: AVPlayerViewController {
         }
     }
     
+    var currentItem: AVPlayerItem? {
+        return self.player?.currentItem
+    }
     
     func load(playerItem: AVPlayerItem) -> Void {
         guard !dismissed else {
@@ -147,7 +149,7 @@ class VideoViewController: AVPlayerViewController {
                 self.play()
             }
         }
-                
+        
         self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
@@ -199,8 +201,9 @@ class VideoViewController: AVPlayerViewController {
         
         if let observer = loopObserver {
             NotificationCenter.default.removeObserver(observer)
+            self.player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: nil)
         }
-        self.player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: nil)
+        
     }
     
     func seek(toProgress progress: CMTime) {
