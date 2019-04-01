@@ -77,6 +77,8 @@ enum OverlayComponentCorner: CaseIterable {
             return #imageLiteral(resourceName: "close-outline.png")
         case .scale:
             return #imageLiteral(resourceName: "expand-outline.png")
+        case .copy:
+            return #imageLiteral(resourceName: "copy-outline.png")
         default:
             return #imageLiteral(resourceName: "close-outline.png")
         }
@@ -85,6 +87,7 @@ enum OverlayComponentCorner: CaseIterable {
 
 protocol OverlayComponentDelegate: class {
     func onComponentDeleted(component: OverlayComponent)
+    func onCopyComponent(component: OverlayComponent)
 }
 
 class OverlayComponent: UIView {
@@ -112,6 +115,12 @@ class OverlayComponent: UIView {
         
         mutating func moveBy(_ translate: CGPoint) {
             nRect = nRect.applying(CGAffineTransform(translationX: translate.x, y: translate.y))
+        }
+        
+        func shiftLayout() -> Info {
+            var newInfo = self
+            newInfo.nRect = nRect.applying(CGAffineTransform(translationX: 0.1, y: 0.1))
+            return newInfo
         }
         
         func realRect(parentSize: CGSize, scale: CGFloat) -> CGRect {
@@ -193,6 +202,8 @@ class OverlayComponent: UIView {
             registerScaleGesture(view: view)
         case .delete:
             view.addTarget(self, action: #selector(onDelete(sender:)), for: .touchUpInside)
+        case .copy:
+            view.addTarget(self, action: #selector(onCopy(sender:)), for: .touchUpInside)
         default:
             break
         }
@@ -272,5 +283,21 @@ extension OverlayComponent {
     
     private func deleteComponent() {
         delegate?.onComponentDeleted(component: self)
+    }
+}
+
+//Copy action
+extension OverlayComponent {
+    @objc func onCopy(sender: UITapGestureRecognizer) {
+        copyComponent()
+    }
+    
+    private func copyComponent() {
+        delegate?.onCopyComponent(component: self)
+    }
+    
+    func copyView() -> OverlayComponent {
+        let component = OverlayComponent(info: info.shiftLayout())
+        return component
     }
 }

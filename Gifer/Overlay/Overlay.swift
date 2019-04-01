@@ -26,8 +26,15 @@ class Overlay: UIView {
 }
 
 extension Overlay: OverlayComponentDelegate {
+    func onCopyComponent(component: OverlayComponent) {
+        let newComponent = component.copyView()
+        addComponent(component: newComponent)
+    }
+    
     func onComponentDeleted(component: OverlayComponent) {
         components.removeAll { $0 == component }
         component.removeFromSuperview()
     }
+    
+    
 }
