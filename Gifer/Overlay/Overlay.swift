@@ -16,10 +16,18 @@ class Overlay: UIView {
         components.append(component)
         addSubview(component)
         component.setup()
+        component.delegate = self
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         components.forEach { $0.updateInfoPosition() }
+    }
+}
+
+extension Overlay: OverlayComponentDelegate {
+    func onComponentDeleted(component: OverlayComponent) {
+        components.removeAll { $0 == component }
+        component.removeFromSuperview()
     }
 }

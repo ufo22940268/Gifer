@@ -72,8 +72,19 @@ enum OverlayComponentCorner: CaseIterable {
     case delete, scale, copy, edit
     
     var icon: UIImage {
-        return #imageLiteral(resourceName: "close-outline.png")
+        switch self {
+        case .delete:
+            return #imageLiteral(resourceName: "close-outline.png")
+        case .scale:
+            return #imageLiteral(resourceName: "expand-outline.png")
+        default:
+            return #imageLiteral(resourceName: "close-outline.png")
+        }
     }
+}
+
+protocol OverlayComponentDelegate: class {
+    func onComponentDeleted(component: OverlayComponent)
 }
 
 class OverlayComponent: UIView {
@@ -123,6 +134,7 @@ class OverlayComponent: UIView {
     
     var cornerViews = [OverlayComponentCornerView]()
     var frameLineWidth = CGFloat(3)
+    weak var delegate: OverlayComponentDelegate?
 
     init(info: Info) {
         super.init(frame: .zero)
@@ -179,13 +191,15 @@ class OverlayComponent: UIView {
         switch view.corner! {
         case .scale:
             registerScaleGesture(view: view)
+        case .delete:
+            view.addTarget(self, action: #selector(onDelete(sender:)), for: .touchUpInside)
         default:
             break
         }
     }
 }
 
-//Move
+//Move action
 extension OverlayComponent {
     @objc func onMove(sender: UIPanGestureRecognizer) {
         guard let superview = superview else {
@@ -199,7 +213,7 @@ extension OverlayComponent {
     }
 }
 
-//Scale
+//Scale action
 extension OverlayComponent {
     func registerScaleGesture(view: OverlayComponentCornerView) {
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onScalePan(sender:))))
@@ -247,5 +261,16 @@ extension OverlayComponent {
     private func rotateBy(_ rotation: CGFloat) {
         transform = transform.concatenating(CGAffineTransform(rotationAngle: rotation))
         info.setRotation(transform.rotation)
+    }
+}
+
+//Delete action
+extension OverlayComponent {
+    @objc func onDelete(sender: UITapGestureRecognizer) {
+        deleteComponent()
+    }
+    
+    private func deleteComponent() {
+        delegate?.onComponentDeleted(component: self)
     }
 }
