@@ -15,7 +15,7 @@ class EditTextOverlay: Overlay {
         let info = OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.2, y: 0.2), size: CGSize(width: 0.3, height: 0.3)))
         let textRender = TextRender().useAutoLayout()
         textRender.text = "asdf"
-        textRender.textColor = .white
+        textRender.textColor = .white        
         textRender.sizeToFit()
         addComponent(component: OverlayComponent(info: info, renderer: textRender))
     }

@@ -10,17 +10,29 @@ import UIKit
 
 class TextRender: UILabel, OverlayComponentRenderable {
     
+    override var bounds: CGRect {
+        didSet {
+            updateFontSize()
+        }
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        useAutoLayout()
+        adjustsFontSizeToFitWidth = true
+        font = UIFont.systemFont(ofSize: 50)
+        textAlignment = .center
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func copy() -> OverlayComponentRender {
         return self
     }
     
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    private func updateFontSize() {
+        
     }
-    */
-
 }

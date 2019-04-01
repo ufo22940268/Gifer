@@ -103,7 +103,7 @@ class OverlayComponent: UIView {
         
         self.renderer = renderer
         addSubview(renderer)
-        let margin = CGFloat(16)
+        let margin = CGFloat(24)
         layoutMargins = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         NSLayoutConstraint.activate([
             renderer.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
