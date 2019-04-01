@@ -62,6 +62,9 @@
 		42D7F298224F58A500E7E504 /* OverlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F297224F58A500E7E504 /* OverlayComponent.swift */; };
 		42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F299224F605E00E7E504 /* Constraints.swift */; };
 		42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29B225021FD00E7E504 /* Graphic.swift */; };
+		42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */; };
+		42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */; };
+		42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A12251EA9100E7E504 /* TextRender.swift */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -150,6 +153,9 @@
 		42D7F297224F58A500E7E504 /* OverlayComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponent.swift; sourceTree = "<group>"; };
 		42D7F299224F605E00E7E504 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		42D7F29B225021FD00E7E504 /* Graphic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphic.swift; sourceTree = "<group>"; };
+		42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentCornerView.swift; sourceTree = "<group>"; };
+		42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentRender.swift; sourceTree = "<group>"; };
+		42D7F2A12251EA9100E7E504 /* TextRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRender.swift; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -297,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				42D7F292224F559B00E7E504 /* EditTextOverlay.swift */,
+				42D7F2A12251EA9100E7E504 /* TextRender.swift */,
 			);
 			path = EditTextOverlay;
 			sourceTree = "<group>";
@@ -308,6 +315,8 @@
 				42E5C34F2220B0F100D18CA6 /* GifOverlay */,
 				42D7F295224F582F00E7E504 /* Overlay.swift */,
 				42D7F297224F58A500E7E504 /* OverlayComponent.swift */,
+				42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */,
+				42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */,
 			);
 			path = Overlay;
 			sourceTree = "<group>";
@@ -575,6 +584,7 @@
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
+				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4285BF9D21A8C34600913466 /* VideoControllerTrim.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
@@ -584,6 +594,7 @@
 				42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */,
 				42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
+				42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */,
 				42D7F286224B593600E7E504 /* EditTextBottomTools.swift in Sources */,
 				426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */,
 				42E5C35722212EE200D18CA6 /* TrashView.swift in Sources */,
@@ -602,6 +613,7 @@
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
 				42EE13D62195C22900724611 /* Gif.swift in Sources */,
 				42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */,
+				42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

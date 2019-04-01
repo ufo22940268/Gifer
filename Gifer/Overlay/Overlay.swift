@@ -26,7 +26,7 @@ class Overlay: UIView {
     
     private func active(component: OverlayComponent) {
         component.isActive = true
-        components.filter { $0 != component }.map { $0.isActive = false }
+        components.filter { $0 != component }.forEach { $0.isActive = false }
     }
 }
 
