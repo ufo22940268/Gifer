@@ -23,18 +23,22 @@ class Overlay: UIView {
         super.layoutSubviews()
         components.forEach { $0.updateInfoPosition() }
     }
+    
+    private func active(component: OverlayComponent) {
+        component.isActive = true
+        components.filter { $0 != component }.map { $0.isActive = false }
+    }
 }
 
 extension Overlay: OverlayComponentDelegate {
     func onCopyComponent(component: OverlayComponent) {
         let newComponent = component.copyView()
         addComponent(component: newComponent)
+        active(component: newComponent)
     }
     
     func onComponentDeleted(component: OverlayComponent) {
         components.removeAll { $0 == component }
         component.removeFromSuperview()
     }
-    
-    
 }

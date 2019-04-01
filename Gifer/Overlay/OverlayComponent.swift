@@ -119,7 +119,7 @@ class OverlayComponent: UIView {
         
         func shiftLayout() -> Info {
             var newInfo = self
-            newInfo.nRect = nRect.applying(CGAffineTransform(translationX: 0.1, y: 0.1))
+            newInfo.nRect = nRect.applying(CGAffineTransform(translationX: 0.05, y: 0.05))
             return newInfo
         }
         
@@ -135,6 +135,14 @@ class OverlayComponent: UIView {
     }
     
     var info: Info!
+    
+    var isActive: Bool = true {
+        didSet {
+            cornerViews.forEach { $0.isHidden = !isActive }
+            isUserInteractionEnabled = isActive
+            setNeedsDisplay()
+        }
+    }
     
     var leading: NSLayoutConstraint!
     var top: NSLayoutConstraint!
@@ -187,6 +195,8 @@ class OverlayComponent: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
+        guard isActive else { return }
         
         let cornerViewSize = cornerViews.first!.bounds.width
         let frameInset = (cornerViewSize - frameLineWidth)/2 + 2
