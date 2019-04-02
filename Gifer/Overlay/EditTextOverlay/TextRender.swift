@@ -16,11 +16,16 @@ class TextRender: UILabel, OverlayComponentRenderable {
         }
     }
     
-    init() {
+    var info: EditTextInfo!
+    
+    init(info: EditTextInfo) {
         super.init(frame: .zero)
+        self.info = info
         useAutoLayout()
         adjustsFontSizeToFitWidth = true
-        font = UIFont.systemFont(ofSize: 50)
+        font = UIFont(name: info.fontName, size: 50)
+        textColor = info.textColor
+        text = info.text
         textAlignment = .center
     }
     
@@ -29,7 +34,7 @@ class TextRender: UILabel, OverlayComponentRenderable {
     }
     
     func copy() -> OverlayComponentRender {
-        return self
+        return TextRender(info: self.info)
     }
     
     private func updateFontSize() {

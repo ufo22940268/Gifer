@@ -19,6 +19,10 @@ class EditTextPreviewer: UIView {
         return textView
     }()
     
+    var textInfo: EditTextInfo {
+        return EditTextInfo(text: textView.text!, fontName: textView.font!.fontName, textColor: textView.textColor!)
+    }
+    
     init() {
         super.init(frame: CGRect.zero)
         
@@ -32,7 +36,7 @@ class EditTextPreviewer: UIView {
             textView.centerYAnchor.constraint(equalTo: centerYAnchor)])
         setText("adsf")
         
-//        textView.becomeFirstResponder()
+        textView.becomeFirstResponder()
     }
     
     required init?(coder aDecoder: NSCoder) {

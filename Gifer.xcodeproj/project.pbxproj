@@ -48,7 +48,7 @@
 		42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
-		42D7F27E224B1C1600E7E504 /* EditTextFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextFrame.swift */; };
+		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
 		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
 		42D7F286224B593600E7E504 /* EditTextBottomTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F285224B593600E7E504 /* EditTextBottomTools.swift */; };
@@ -65,6 +65,7 @@
 		42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */; };
 		42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */; };
 		42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A12251EA9100E7E504 /* TextRender.swift */; };
+		42D7F2A42252284900E7E504 /* EditTextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A32252284900E7E504 /* EditTextInfo.swift */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -139,7 +140,7 @@
 		42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarItemView.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
-		42D7F27D224B1C1600E7E504 /* EditTextFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextFrame.swift; sourceTree = "<group>"; };
+		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
 		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
 		42D7F285224B593600E7E504 /* EditTextBottomTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextBottomTools.swift; sourceTree = "<group>"; };
@@ -156,6 +157,7 @@
 		42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentCornerView.swift; sourceTree = "<group>"; };
 		42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentRender.swift; sourceTree = "<group>"; };
 		42D7F2A12251EA9100E7E504 /* TextRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRender.swift; sourceTree = "<group>"; };
+		42D7F2A32252284900E7E504 /* EditTextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextInfo.swift; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -276,10 +278,11 @@
 			isa = PBXGroup;
 			children = (
 				42D7F285224B593600E7E504 /* EditTextBottomTools.swift */,
-				42D7F27D224B1C1600E7E504 /* EditTextFrame.swift */,
+				42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */,
 				42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */,
 				42D7F28B224C690600E7E504 /* FontsPanel.swift */,
 				42D7F28F224CB0B800E7E504 /* PalettePanel.swift */,
+				42D7F2A32252284900E7E504 /* EditTextInfo.swift */,
 			);
 			path = EditTextFrame;
 			sourceTree = "<group>";
@@ -565,12 +568,13 @@
 				42D7F293224F559B00E7E504 /* EditTextOverlay.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */,
-				42D7F27E224B1C1600E7E504 /* EditTextFrame.swift in Sources */,
+				42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
 				42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
 				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
 				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
+				42D7F2A42252284900E7E504 /* EditTextInfo.swift in Sources */,
 				42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */,
 				4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,

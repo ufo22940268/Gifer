@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+protocol EditTextViewControllerDelegate: class {
+    func onAddEditText(info: EditTextInfo)
+}
 
 class EditTextViewController: UIViewController {
     
@@ -81,6 +84,8 @@ class EditTextViewController: UIViewController {
             panelContainer.superview?.layoutIfNeeded()
         }
     }
+    
+    weak var delegate: EditTextViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,7 +169,8 @@ extension EditTextViewController {
     }
     
     @objc private func onDone() {
-        
+        delegate?.onAddEditText(info: previewer.textInfo)
+        dismiss(animated: true, completion: nil)
     }
 }
 

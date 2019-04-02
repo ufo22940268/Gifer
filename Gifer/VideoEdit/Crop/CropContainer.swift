@@ -57,7 +57,7 @@ class CropContainer: UIView {
     }()
 
     override func awakeFromNib() {
-        guard let superview = superview else { return }
+        guard let _ = superview else { return }
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.clipsToBounds = false

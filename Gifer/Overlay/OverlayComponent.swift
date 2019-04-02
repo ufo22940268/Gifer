@@ -28,6 +28,7 @@ enum OverlayComponentCorner: CaseIterable {
 protocol OverlayComponentDelegate: class {
     func onComponentDeleted(component: OverlayComponent)
     func onCopyComponent(component: OverlayComponent)
+    func onActive(component: OverlayComponent)
 }
 
 class OverlayComponent: UIView {
@@ -79,7 +80,6 @@ class OverlayComponent: UIView {
     var isActive: Bool = true {
         didSet {
             cornerViews.forEach { $0.isHidden = !isActive }
-            isUserInteractionEnabled = isActive
             setNeedsDisplay()
         }
     }
@@ -111,7 +111,8 @@ class OverlayComponent: UIView {
             renderer.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             renderer.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
-
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapToActive(sender:))))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -134,6 +135,10 @@ class OverlayComponent: UIView {
             cornerViews.append(cornerView)
             registerGesture(cornerView)
         }
+    }
+    
+    @objc func onTapToActive(sender: UITapGestureRecognizer) {
+        delegate?.onActive(component: self)
     }
     
     func updateInfoPosition() {
@@ -176,7 +181,7 @@ class OverlayComponent: UIView {
 //Move action
 extension OverlayComponent {
     @objc func onMove(sender: UIPanGestureRecognizer) {
-        guard let superview = superview else {
+        guard let superview = superview, isActive else {
             return
         }
         let translate = sender.translation(in: superview)

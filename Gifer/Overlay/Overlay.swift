@@ -16,7 +16,7 @@ class Overlay: UIView {
         components.append(component)
         addSubview(component)
         component.setup()
-        component.delegate = self
+        component.delegate = self                
     }
     
     override func layoutSubviews() {
@@ -24,13 +24,17 @@ class Overlay: UIView {
         components.forEach { $0.updateInfoPosition() }
     }
     
-    private func active(component: OverlayComponent) {
+    func active(component: OverlayComponent) {
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
     }
 }
 
 extension Overlay: OverlayComponentDelegate {
+    func onActive(component: OverlayComponent) {
+        active(component: component)
+    }
+    
     func onCopyComponent(component: OverlayComponent) {
         let newComponent = component.copyView()
         addComponent(component: newComponent)

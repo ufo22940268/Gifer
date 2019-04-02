@@ -77,15 +77,6 @@ enum ToolbarItem {
         }
     }
     
-    var viewController: UIViewController.Type? {
-        switch self {
-        case .font:
-            return EditTextViewController.self
-        default:
-            return nil
-        }
-    }
-    
     static var initialAllCases: [ToolbarItem] {
         return [
             .playSpeed, .crop, .filters, .font, .sticker, .direction(playDirection: .forward)
@@ -313,7 +304,7 @@ class EditViewController: UIViewController {
             optionMenuTopConstraint
             ])
         optionMenu.delegate = self
-        controlToolbar.toolbarDelegate = self
+        controlToolbar.toolbarDelegate = self                
     }
     
     var previewView: UIView? {
@@ -544,7 +535,22 @@ extension EditViewController: VideoViewControllerDelegate {
         return item.status == .readyToPlay
     }
     
+    var editTextOverlay: EditTextOverlay {
+        return cropContainer.editTextOverlay
+    }
+    
+    func mock() {
+        let renderer = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
+        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), renderer: renderer)
+        editTextOverlay.addComponent(component: component)
+        editTextOverlay.addComponent(component: component.copyView())
+        
+        editTextOverlay.active(component: component)
+    }
+    
     func onVideoReady(controller: AVPlayerViewController) {
+        mock()
+        
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
@@ -732,15 +738,12 @@ extension EditViewController: ControlToolbarDelegate {
         }, completion: nil)
     }
     
-    func showEditViewController(for toolbarItem: ToolbarItem) {
-        let vc = toolbarItem.viewController!.init()
+    func onFontItemClicked() {
+        let vc = EditTextViewController()
+        vc.delegate = self
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true, completion: nil)
-    }
-    
-    func onFontItemClicked() {
-        showEditViewController(for: .font)
     }
     
     func onCropItemClicked() {
@@ -771,5 +774,11 @@ extension EditViewController: ControlToolbarDelegate {
 extension EditViewController: VideoCacheDelegate {    
     func onParsingProgressChanged(progress: CGFloat) {
         videoProgressLoadingIndicator.progress = progress
+    }
+}
+
+extension EditViewController: EditTextViewControllerDelegate {
+    func onAddEditText(info: EditTextInfo) {
+        cropContainer.editTextOverlay.addTextComponent(textInfo: info)
     }
 }
