@@ -18,8 +18,18 @@ class EditTextOverlay: Overlay {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func predictComponentNormalizedRect(textInfo: EditTextInfo) -> CGRect {
+        let text = textInfo.text
+        let preferredTextSize = CGFloat(18)
+        let preferredSize = CGSize(width: preferredTextSize*CGFloat(text.count), height: preferredTextSize*1.5)
+        let preferredRect = CGRect(origin: CGPoint(x: bounds.midX, y: bounds.midY).applying(CGAffineTransform(translationX: -preferredSize.width/2, y: -preferredSize.height/2)), size: preferredSize).insetBy(dx: -44, dy: -44)
+        
+        let boundsRect = bounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
+        return preferredRect.intersection(boundsRect).applying(CGAffineTransform(scaleX: 1/bounds.width, y: 1/bounds.height))
+    }
+    
     func addTextComponent(textInfo: EditTextInfo) {
-        let info = OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.2, y: 0.2), size: CGSize(width: 0.3, height: 0.3)))
+        let info = OverlayComponent.Info(nRect: predictComponentNormalizedRect(textInfo: textInfo))
         let textRender = TextRender(info: textInfo).useAutoLayout()
         let component: OverlayComponent = OverlayComponent(info: info, renderer: textRender)
         addComponent(component: component)
