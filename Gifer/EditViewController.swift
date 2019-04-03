@@ -551,6 +551,7 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         mock()
         
+        editTextOverlay.delegate = self
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
@@ -738,12 +739,16 @@ extension EditViewController: ControlToolbarDelegate {
         }, completion: nil)
     }
     
-    func onFontItemClicked() {
+    fileprivate func showEditTextViewController(for editText: EditTextInfo? = nil) {
         let vc = EditTextViewController()
         vc.delegate = self
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true, completion: nil)
+    }
+    
+    func onFontItemClicked() {
+        showEditTextViewController()
     }
     
     func onCropItemClicked() {
@@ -780,5 +785,11 @@ extension EditViewController: VideoCacheDelegate {
 extension EditViewController: EditTextViewControllerDelegate {
     func onAddEditText(info: EditTextInfo) {
         cropContainer.editTextOverlay.addTextComponent(textInfo: info)
+    }
+}
+
+extension EditViewController: OverlayDelegate {
+    func onEdit(component: OverlayComponent) {
+//        showEditTextViewController(for: component.)
     }
 }

@@ -29,6 +29,7 @@ protocol OverlayComponentDelegate: class {
     func onComponentDeleted(component: OverlayComponent)
     func onCopyComponent(component: OverlayComponent)
     func onActive(component: OverlayComponent)
+    func onEditComponent(component: OverlayComponent)
 }
 
 class OverlayComponent: UIView {
@@ -172,6 +173,8 @@ class OverlayComponent: UIView {
             view.addTarget(self, action: #selector(onDelete(sender:)), for: .touchUpInside)
         case .copy:
             view.addTarget(self, action: #selector(onCopy(sender:)), for: .touchUpInside)
+        case .edit:
+            view.addTarget(self, action: #selector(onEdit(sender:)), for: .touchUpInside)
         default:
             break
         }
@@ -267,5 +270,12 @@ extension OverlayComponent {
     func copyView() -> OverlayComponent {
         let component = OverlayComponent(info: info.shiftLayout(), renderer: renderer.copy())
         return component
+    }
+}
+
+//Edit action
+extension OverlayComponent {
+    @objc func onEdit(sender: UITapGestureRecognizer) {
+        delegate?.onEditComponent(component: self)
     }
 }

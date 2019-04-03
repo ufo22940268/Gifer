@@ -52,7 +52,7 @@ class CropContainer: UIView {
     var restoreTask: DispatchWorkItem?
     
     lazy var editTextOverlay: EditTextOverlay = {
-        let overlay = EditTextOverlay().useAutoLayout()
+        let overlay = EditTextOverlay().useAutoLayout()        
         return overlay
     }()
 

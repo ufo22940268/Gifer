@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol OverlayDelegate: class {
+    func onEdit(component: OverlayComponent)
+}
+
 class Overlay: UIView {
-    
     var components = [OverlayComponent]()
+    
+    weak var delegate: OverlayDelegate?
     
     func addComponent(component: OverlayComponent) {
         components.append(component)
@@ -44,5 +49,9 @@ extension Overlay: OverlayComponentDelegate {
     func onComponentDeleted(component: OverlayComponent) {
         components.removeAll { $0 == component }
         component.removeFromSuperview()
+    }
+    
+    func onEditComponent(component: OverlayComponent) {
+        delegate?.onEdit(component: component)
     }
 }
