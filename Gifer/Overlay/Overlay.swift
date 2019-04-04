@@ -18,6 +18,19 @@ class Overlay: UIView {
     weak var delegate: OverlayDelegate?
     var componentIdSequence: ComponentId = 0
     
+    init() {
+        super.init(frame: .zero)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapOtherSpace(sender:))))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func onTapOtherSpace(sender: UITapGestureRecognizer) {
+        components.forEach { $0.isActive = false }
+    }
+    
     func addComponent(component: OverlayComponent) {
         components.append(component)
         addSubview(component)

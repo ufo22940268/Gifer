@@ -10,14 +10,13 @@ import UIKit
 
 class EditTextOverlay: Overlay {
 
-    init() {
-        super.init(frame: .zero)
+    override init() {
+        super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     func addTextComponent(textInfo: EditTextInfo) {
         let info = OverlayComponent.Info(nRect: OverlayComponent.Info.predictNormalizedRect(textInfo: textInfo, containerBounds: self.bounds))
