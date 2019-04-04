@@ -38,8 +38,6 @@ class EditTextOverlay: Overlay {
     
     func updateTextComponent(textInfo: EditTextInfo, componentId: ComponentId) {
         let component = getComponent(on: componentId)
-        let info = OverlayComponent.Info(nRect: predictComponentNormalizedRect(textInfo: textInfo))
-        component.update(info: info)
         let textRender = component.render as! TextRender
         textRender.info = textInfo
     }

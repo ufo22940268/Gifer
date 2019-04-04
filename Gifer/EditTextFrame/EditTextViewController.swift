@@ -133,8 +133,6 @@ class EditTextViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         originViewHeight = self.view.frame.height
-        
-        print("view did load")
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
