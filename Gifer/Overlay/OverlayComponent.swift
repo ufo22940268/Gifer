@@ -14,7 +14,7 @@ enum OverlayComponentCorner: CaseIterable {
     var icon: UIImage {
         switch self {
         case .delete:
-            return #imageLiteral(resourceName: "close-outline.png")
+            return #imageLiteral(resourceName: "close-outline-in-overlay.png")
         case .scale:
             return #imageLiteral(resourceName: "expand-outline.png")
         case .copy:

@@ -11,7 +11,7 @@ import UIKit
 class OverlayComponentCornerView: UIButton {
     var corner: OverlayComponentCorner!
     
-    let circleSize = CGFloat(20)
+    let circleSize = CGFloat(24)
     var imageSize: CGFloat {
         return circleSize - 8
     }
@@ -41,7 +41,7 @@ class OverlayComponentCornerView: UIButton {
         guard let superview = superview else { return }
         
         setImage(corner.icon, for: .normal)
-        let inset = CGFloat(18)
+        let inset = CGFloat(16)
         imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         switch corner! {
         case .delete:
