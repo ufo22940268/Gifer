@@ -11,7 +11,11 @@ import UIKit
 
 protocol EditTextViewControllerDelegate: class {
     func onAddEditText(info: EditTextInfo)
+    
+    func onUpdateEditText(info: EditTextInfo, componentId: ComponentId)
 }
+
+typealias ComponentId = Int
 
 class EditTextViewController: UIViewController {
     
@@ -41,7 +45,7 @@ class EditTextViewController: UIViewController {
     }()
     
     lazy var previewer: EditTextPreviewer = {
-        let previewer = EditTextPreviewer().useAutoLayout()
+        let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
         return previewer
     }()
     
@@ -86,6 +90,18 @@ class EditTextViewController: UIViewController {
     }
     
     weak var delegate: EditTextViewControllerDelegate?
+    
+    var textInfo: EditTextInfo!
+    var componentId: ComponentId?
+    
+    init(textInfo: EditTextInfo) {
+        super.init(nibName: nil, bundle: nil)
+        self.textInfo = textInfo
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,7 +185,11 @@ extension EditTextViewController {
     }
     
     @objc private func onDone() {
-        delegate?.onAddEditText(info: previewer.textInfo)
+        if let componentId = componentId {
+            delegate?.onUpdateEditText(info: previewer.textInfo, componentId: componentId)
+        } else {
+            delegate?.onAddEditText(info: previewer.textInfo)
+        }
         dismiss(animated: true, completion: nil)
     }
 }

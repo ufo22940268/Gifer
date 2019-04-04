@@ -29,7 +29,7 @@ protocol OverlayComponentDelegate: class {
     func onComponentDeleted(component: OverlayComponent)
     func onCopyComponent(component: OverlayComponent)
     func onActive(component: OverlayComponent)
-    func onEditComponent(component: OverlayComponent)
+    func onEditComponent(component: OverlayComponent, id: ComponentId)
 }
 
 class OverlayComponent: UIView {
@@ -77,6 +77,7 @@ class OverlayComponent: UIView {
     }
     
     var info: Info!
+    var id: ComponentId!
     
     var isActive: Bool = true {
         didSet {
@@ -93,24 +94,24 @@ class OverlayComponent: UIView {
     var cornerViews = [OverlayComponentCornerView]()
     var frameLineWidth = CGFloat(3)
     weak var delegate: OverlayComponentDelegate?
-    var renderer: OverlayComponentRender!
+    var render: OverlayComponentRender!
 
-    init(info: Info, renderer: OverlayComponentRender) {
+    init(info: Info, render: OverlayComponentRender) {
         super.init(frame: .zero)
         useAutoLayout()
         
         self.info = info
         backgroundColor = .clear
         
-        self.renderer = renderer
-        addSubview(renderer)
+        self.render = render
+        addSubview(render)
         let margin = CGFloat(24)
         layoutMargins = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         NSLayoutConstraint.activate([
-            renderer.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            renderer.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            renderer.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            renderer.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+            render.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            render.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            render.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            render.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapToActive(sender:))))
@@ -120,8 +121,15 @@ class OverlayComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup() {
+    func update(info: Info) {
+        self.info = info
+        updateInfoPosition()
+    }
+    
+    func setup(id: ComponentId) {
         guard let superview = superview else { return }
+        
+        self.id = id
         
         leading = leadingAnchor.constraint(equalTo: superview.leadingAnchor).activeAndReturn()
         top = topAnchor.constraint(equalTo: superview.topAnchor).activeAndReturn()
@@ -175,8 +183,6 @@ class OverlayComponent: UIView {
             view.addTarget(self, action: #selector(onCopy(sender:)), for: .touchUpInside)
         case .edit:
             view.addTarget(self, action: #selector(onEdit(sender:)), for: .touchUpInside)
-        default:
-            break
         }
     }
 }
@@ -268,7 +274,7 @@ extension OverlayComponent {
     }
     
     func copyView() -> OverlayComponent {
-        let component = OverlayComponent(info: info.shiftLayout(), renderer: renderer.copy())
+        let component = OverlayComponent(info: info.shiftLayout(), render: render.copy())
         return component
     }
 }
@@ -276,6 +282,6 @@ extension OverlayComponent {
 //Edit action
 extension OverlayComponent {
     @objc func onEdit(sender: UITapGestureRecognizer) {
-        delegate?.onEditComponent(component: self)
+        delegate?.onEditComponent(component: self, id: id)
     }
 }

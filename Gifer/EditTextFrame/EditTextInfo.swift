@@ -12,7 +12,7 @@ import UIKit
 struct EditTextInfo {
     var text: String
     var fontName: String
-    var textColor: UIColor
+    var textColor: UIColor    
     
     static var initial: EditTextInfo {
         return EditTextInfo(text: "", fontName: UIFont.systemFont(ofSize: 12).fontName, textColor: .white)

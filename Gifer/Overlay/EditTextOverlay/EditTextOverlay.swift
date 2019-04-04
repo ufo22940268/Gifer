@@ -31,8 +31,16 @@ class EditTextOverlay: Overlay {
     func addTextComponent(textInfo: EditTextInfo) {
         let info = OverlayComponent.Info(nRect: predictComponentNormalizedRect(textInfo: textInfo))
         let textRender = TextRender(info: textInfo).useAutoLayout()
-        let component: OverlayComponent = OverlayComponent(info: info, renderer: textRender)
+        let component: OverlayComponent = OverlayComponent(info: info, render: textRender)
         addComponent(component: component)
         active(component: component)
+    }
+    
+    func updateTextComponent(textInfo: EditTextInfo, componentId: ComponentId) {
+        let component = getComponent(on: componentId)
+        let info = OverlayComponent.Info(nRect: predictComponentNormalizedRect(textInfo: textInfo))
+        component.update(info: info)
+        let textRender = component.render as! TextRender
+        textRender.info = textInfo
     }
 }

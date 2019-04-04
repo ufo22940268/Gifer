@@ -9,7 +9,7 @@
 import UIKit
 
 protocol OverlayDelegate: class {
-    func onEdit(component: OverlayComponent)
+    func onEdit(component: OverlayComponent, id: ComponentId)
 }
 
 class Overlay: UIView {
@@ -20,7 +20,7 @@ class Overlay: UIView {
     func addComponent(component: OverlayComponent) {
         components.append(component)
         addSubview(component)
-        component.setup()
+        component.setup(id: components.count - 1)
         component.delegate = self                
     }
     
@@ -33,6 +33,10 @@ class Overlay: UIView {
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
     }
+    
+    func getComponent(on componentId: ComponentId) -> OverlayComponent {
+        return components[componentId]
+    }    
 }
 
 extension Overlay: OverlayComponentDelegate {
@@ -51,7 +55,7 @@ extension Overlay: OverlayComponentDelegate {
         component.removeFromSuperview()
     }
     
-    func onEditComponent(component: OverlayComponent) {
-        delegate?.onEdit(component: component)
+    func onEditComponent(component: OverlayComponent, id: ComponentId) {
+        delegate?.onEdit(component: component, id: id)
     }
 }

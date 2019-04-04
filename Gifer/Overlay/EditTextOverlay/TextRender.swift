@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias ComponentRender = UIView & OverlayComponentRenderable
+
 class TextRender: UILabel, OverlayComponentRenderable {
     
     override var bounds: CGRect {
@@ -16,16 +18,21 @@ class TextRender: UILabel, OverlayComponentRenderable {
         }
     }
     
-    var info: EditTextInfo!
+    var info: EditTextInfo! {
+        didSet {
+            font = UIFont(name: info.fontName, size: 50)
+            textColor = info.textColor
+            text = info.text
+        }
+    }
     
     init(info: EditTextInfo) {
         super.init(frame: .zero)
-        self.info = info
+        defer {
+            self.info = info
+        }
         useAutoLayout()
         adjustsFontSizeToFitWidth = true
-        font = UIFont(name: info.fontName, size: 50)
-        textColor = info.textColor
-        text = info.text
         textAlignment = .center
     }
     

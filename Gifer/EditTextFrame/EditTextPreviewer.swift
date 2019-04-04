@@ -19,11 +19,15 @@ class EditTextPreviewer: UIView {
         return textView
     }()
     
+    let textSize = CGFloat(20)
+    
     var textInfo: EditTextInfo {
-        return EditTextInfo(text: textView.text!, fontName: textView.font!.fontName, textColor: textView.textColor!)
+        get {
+            return EditTextInfo(text: textView.text!, fontName: textView.font!.fontName, textColor: textView.textColor!)
+        }
     }
     
-    init() {
+    init(textInfo: EditTextInfo) {
         super.init(frame: CGRect.zero)
         
         NSLayoutConstraint.activate([
@@ -37,6 +41,10 @@ class EditTextPreviewer: UIView {
         setText("adsf")
         
         textView.becomeFirstResponder()
+        
+        textView.text = textInfo.text
+        textView.textColor = textInfo.textColor
+        textView.font = UIFont(name: textInfo.fontName, size: textSize)
     }
     
     required init?(coder aDecoder: NSCoder) {

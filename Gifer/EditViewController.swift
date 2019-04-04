@@ -540,8 +540,8 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func mock() {
-        let renderer = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
-        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), renderer: renderer)
+        let render = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
+        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), render: render)
         editTextOverlay.addComponent(component: component)
         editTextOverlay.addComponent(component: component.copyView())
         
@@ -739,9 +739,10 @@ extension EditViewController: ControlToolbarDelegate {
         }, completion: nil)
     }
     
-    fileprivate func showEditTextViewController(for editText: EditTextInfo? = nil) {
-        let vc = EditTextViewController()
+    fileprivate func showEditTextViewController(for editText: EditTextInfo = EditTextInfo.initial, componentId: ComponentId? = nil) {
+        let vc = EditTextViewController(textInfo: editText)
         vc.delegate = self
+        vc.componentId = componentId
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true, completion: nil)
@@ -786,10 +787,16 @@ extension EditViewController: EditTextViewControllerDelegate {
     func onAddEditText(info: EditTextInfo) {
         cropContainer.editTextOverlay.addTextComponent(textInfo: info)
     }
+    
+    func onUpdateEditText(info: EditTextInfo, componentId: ComponentId) {
+        cropContainer.editTextOverlay.updateTextComponent(textInfo: info, componentId: componentId)
+    }
 }
 
 extension EditViewController: OverlayDelegate {
-    func onEdit(component: OverlayComponent) {
-//        showEditTextViewController(for: component.)
+    func onEdit(component: OverlayComponent, id: ComponentId) {
+        if let render = component.render as? TextRender {
+            showEditTextViewController(for: render.info, componentId: id)
+        }
     }
 }
