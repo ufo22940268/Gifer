@@ -47,6 +47,7 @@ class EditTextBottomTools: UIView {
     }()
     
     weak var delegate: EditTextBottomToolsDelegate?
+    var activatedItem = Item.keyboard
 
     init() {
         super.init(frame: CGRect.zero)
@@ -84,6 +85,7 @@ class EditTextBottomTools: UIView {
     }
     
     func active(item: Item) {
+        activatedItem = item
         let itemView = stackView.arrangedSubviews[item.index]
         itemView.tintColor = UIColor(named: "mainColor")
         

@@ -22,6 +22,9 @@ class EditTextPreviewer: UIView {
     
     let textSize = CGFloat(20)
     
+    var placeholderText = "触摸可编辑"
+    var enablePlaceholder = false
+    
     var textInfo: EditTextInfo {
         get {
             return EditTextInfo(text: textView.text!, fontName: textView.font!.fontName, textColor: textView.textColor!)
@@ -57,8 +60,24 @@ class EditTextPreviewer: UIView {
         textView.text = text
         textView.sizeToFit()
     }
-}
+    
+    func showPlaceholderIfNeeded() {
+        if textInfo.text.count == 0 {
+            textView.text = placeholderText
+            enablePlaceholder = true
+        }
+        
+        textView.resignFirstResponder()
+    }
 
+    func hidePlaceholderIfNeeded() {
+        if enablePlaceholder {
+            textView.text = ""
+            enablePlaceholder = false
+        }
+        textView.becomeFirstResponder()
+    }
+}
 
 extension EditTextPreviewer {
     func update(font: UIFont) {

@@ -549,8 +549,8 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-        mock()
-        
+//        mock()
+//
         editTextOverlay.delegate = self
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self

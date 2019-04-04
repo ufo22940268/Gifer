@@ -46,6 +46,7 @@ class EditTextViewController: UIViewController {
     
     lazy var previewer: EditTextPreviewer = {
         let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
+        previewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewTap(sender:))))
         return previewer
     }()
     
@@ -143,10 +144,22 @@ class EditTextViewController: UIViewController {
     
     @objc func keyboardWillHide(notification: NSNotification) {
     }
+    
+    @objc func onPreviewTap(sender: UITapGestureRecognizer) {
+        if bottomTools.activatedItem != .keyboard {
+            bottomTools.active(item: .keyboard)
+        }
+    }
 }
 
 extension EditTextViewController {
     private func openTab(_ item: EditTextBottomTools.Item) {
+        if item != .keyboard {
+            previewer.showPlaceholderIfNeeded()
+        } else {
+            previewer.hidePlaceholderIfNeeded()
+        }
+        
         bottomTools.active(item: item)
         panelContainer.subviews.forEach {$0.removeFromSuperview()}
 

@@ -32,6 +32,7 @@ protocol OverlayComponentDelegate: class {
     func onEditComponent(component: OverlayComponent, id: ComponentId)
 }
 
+
 class OverlayComponent: UIView {
     
     struct Info {
@@ -78,12 +79,15 @@ class OverlayComponent: UIView {
         }
         
         static func predictNormalizedRect(textInfo: EditTextInfo, containerBounds: CGRect) -> CGRect {
-            let text = textInfo.text
-            let preferredTextSize = CGFloat(18)
-            let preferredSize = CGSize(width: preferredTextSize*CGFloat(text.count), height: preferredTextSize*1.5)
-            let preferredRect = CGRect(origin: CGPoint(x: containerBounds.midX, y: containerBounds.midY).applying(CGAffineTransform(translationX: -preferredSize.width/2, y: -preferredSize.height/2)), size: preferredSize).insetBy(dx: -44, dy: -44)
-            
             let boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
+            
+            let label = UILabel()
+            label.text = textInfo.text
+            label.font = UIFont(name: textInfo.fontName, size: EditTextInfo.preferredTextSize)
+            label.sizeToFit()
+            let textSize = label.bounds.size
+            let preferredRect = CGRect(origin: CGPoint(x: containerBounds.midX, y: containerBounds.midY).applying(CGAffineTransform(translationX: -textSize.width/2, y: -textSize.height/2)), size: textSize).insetBy(dx: -44, dy: -44)
+            
             return preferredRect.intersection(boundsRect).applying(CGAffineTransform(scaleX: 1/containerBounds.width, y: 1/containerBounds.height))
         }
         
