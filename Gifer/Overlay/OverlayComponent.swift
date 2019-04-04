@@ -59,6 +59,12 @@ class OverlayComponent: UIView {
             nRect = nRect.applying(CGAffineTransform(translationX: translate.x, y: translate.y))
         }
         
+        mutating func change(nSize: CGSize) {
+            let scaleX = nSize.width/nRect.width
+            let scaleY = nSize.height/nRect.height
+            nRect = nRect.scaleOnCenterPoint(scaleX: scaleX, scaleY: scaleY)
+        }
+        
         func shiftLayout() -> Info {
             var newInfo = self
             newInfo.nRect = nRect.applying(CGAffineTransform(translationX: 0.05, y: 0.05))
@@ -71,12 +77,32 @@ class OverlayComponent: UIView {
                 .applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
         }
         
+        static func predictNormalizedRect(textInfo: EditTextInfo, containerBounds: CGRect) -> CGRect {
+            let text = textInfo.text
+            let preferredTextSize = CGFloat(18)
+            let preferredSize = CGSize(width: preferredTextSize*CGFloat(text.count), height: preferredTextSize*1.5)
+            let preferredRect = CGRect(origin: CGPoint(x: containerBounds.midX, y: containerBounds.midY).applying(CGAffineTransform(translationX: -preferredSize.width/2, y: -preferredSize.height/2)), size: preferredSize).insetBy(dx: -44, dy: -44)
+            
+            let boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
+            return preferredRect.intersection(boundsRect).applying(CGAffineTransform(scaleX: 1/containerBounds.width, y: 1/containerBounds.height))
+        }
+        
+        
+        static func predictNormalizedSize(textInfo: EditTextInfo, containerBounds: CGRect) -> CGSize {
+            return Info.predictNormalizedRect(textInfo: textInfo, containerBounds: containerBounds).size
+        }
+
+        
         init(nRect: CGRect) {
             self.nRect = nRect
         }
     }
     
-    var info: Info!
+    var info: Info! {
+        didSet {
+            updateInfoPosition()
+        }
+    }
     var id: ComponentId!
     
     var isActive: Bool = true {
@@ -121,9 +147,10 @@ class OverlayComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(info: Info) {
-        self.info = info
-        updateInfoPosition()
+    func change(nSize: CGSize) {
+        var newInfo = info
+        newInfo?.change(nSize: nSize)
+        info = newInfo
     }
     
     func setup(id: ComponentId) {

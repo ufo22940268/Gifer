@@ -16,6 +16,7 @@ class EditTextPreviewer: UIView {
         let textView = UITextField(frame: CGRect.zero).useAutoLayout()
         textView.textColor = .white
         textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 8)
+        textView.textAlignment = .center
         return textView
     }()
     
@@ -37,8 +38,9 @@ class EditTextPreviewer: UIView {
         addSubview(textView)
         NSLayoutConstraint.activate([
             textView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            textView.centerYAnchor.constraint(equalTo: centerYAnchor)])
-        setText("adsf")
+            textView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            textView.widthAnchor.constraint(equalTo: widthAnchor),
+            ])
         
         textView.becomeFirstResponder()
         

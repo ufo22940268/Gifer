@@ -23,6 +23,7 @@ class TextRender: UILabel, OverlayComponentRenderable {
             font = UIFont(name: info.fontName, size: 50)
             textColor = info.textColor
             text = info.text
+            sizeToFit()
         }
     }
     

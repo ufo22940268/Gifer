@@ -16,12 +16,15 @@ class Overlay: UIView {
     var components = [OverlayComponent]()
     
     weak var delegate: OverlayDelegate?
+    var componentIdSequence: ComponentId = 0
     
     func addComponent(component: OverlayComponent) {
         components.append(component)
         addSubview(component)
-        component.setup(id: components.count - 1)
-        component.delegate = self                
+        component.setup(id: componentIdSequence)
+        component.delegate = self
+        
+        componentIdSequence += 1
     }
     
     override func layoutSubviews() {
@@ -35,7 +38,7 @@ class Overlay: UIView {
     }
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
-        return components[componentId]
+        return components.first { $0.id == componentId }!
     }    
 }
 
