@@ -32,6 +32,7 @@ class TextRender: UILabel, OverlayComponentRenderable {
         defer {
             self.info = info
         }
+        baselineAdjustment = .alignCenters
         useAutoLayout()
         adjustsFontSizeToFitWidth = true
         textAlignment = .center
