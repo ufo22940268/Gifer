@@ -26,6 +26,11 @@ class EditTextViewController: UIViewController {
         return view
     }()
     
+    lazy var doneButton: UIBarButtonItem = {
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
+        return done
+    }()
+    
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -34,12 +39,11 @@ class EditTextViewController: UIViewController {
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
         let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancel))
-        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
         
         toolbar.setItems(
             [cancel,
              UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-             done],
+             doneButton],
             animated: false)
         return toolbar
     }()
@@ -47,6 +51,7 @@ class EditTextViewController: UIViewController {
     lazy var previewer: EditTextPreviewer = {
         let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
         previewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewTap(sender:))))
+        previewer.delegate = self
         return previewer
     }()
     
@@ -134,6 +139,8 @@ class EditTextViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         originViewHeight = self.view.frame.height
+        
+        updateDoneButton(previewText: previewer.text)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -180,11 +187,11 @@ extension EditTextViewController {
     }
     
     private func showKeyboard() {
-        previewer.textView.becomeFirstResponder()
+        previewer.textField.becomeFirstResponder()
     }
     
     private func hideKeyboard() {
-        previewer.textView.resignFirstResponder()
+        previewer.textField.resignFirstResponder()
     }
 }
 
@@ -221,5 +228,15 @@ extension EditTextViewController: PalettePanelDelegate {
 extension EditTextViewController: EditTextBottomToolsDelegate {
     func onItemSelected(item: EditTextBottomTools.Item) {
         openTab(item)
+    }
+}
+
+extension EditTextViewController: EditTextPreviewerDelegate {
+    func updateDoneButton(previewText: String) {
+        doneButton.isEnabled = previewText.count > 0
+    }
+    
+    func onTextChanged(newText: String) {
+        updateDoneButton(previewText: newText)
     }
 }
