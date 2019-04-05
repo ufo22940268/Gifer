@@ -83,6 +83,7 @@ class GifGenerator {
         var stickers: [Sticker]
         var direction: PlayDirection
         var exportType: ShareType?
+        var texts: [EditTextInfo]
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
             return lhs.start.seconds == rhs.start.seconds
@@ -173,11 +174,16 @@ class GifGenerator {
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
-//            image = self.crop(image: image)
-//            if let filter = self.options.filter {
-//                image = applyFilter(image, filter: filter, in: ciContext)
-//            }
-//            image = self.addSticker(image: image)
+            
+            image = self.crop(image: image)
+            if let filter = self.options.filter {
+                image = applyFilter(image, filter: filter, in: ciContext)
+            }
+            
+            image = self.addStickers(image: image)
+            
+            image = self.addTexts(image: image)
+            
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
         })
@@ -212,7 +218,7 @@ class GifGenerator {
         return image.cropping(to: rect)!
     }
     
-    func addSticker(image: CGImage) -> CGImage {
+    func addStickers(image: CGImage) -> CGImage {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
@@ -221,6 +227,24 @@ class GifGenerator {
                     stickerImage = sticker.image.rotate(by: sticker.rotation)
                 }
                 stickerImage.draw(in: sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
+            }
+        }
+        return image.cgImage!
+    }
+    
+    func addTexts(image: CGImage) -> CGImage {
+        let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
+            UIImage(cgImage: image).draw(at: CGPoint.zero)
+            for textInfo in options.texts {
+                DispatchQueue.main.sync {
+                    context.cgContext.saveGState()
+                    let labelView = textInfo.createExportLabelView(imageSize: image.size)
+                    let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
+                    labelView.frame = rect
+                    context.cgContext.translateBy(x: rect.minX, y: rect.minY)
+                    labelView.layer.render(in: context.cgContext)
+                    context.cgContext.restoreGState()
+                }
             }
         }
         return image.cgImage!

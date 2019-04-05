@@ -20,8 +20,22 @@ extension CGRect {
             .applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
             .applying(CGAffineTransform(translationX: origin.midX, y: origin.midY))
     }
+    
+    func realRect(containerSize: CGSize) -> CGRect {
+        return self.applying(CGAffineTransform(scaleX: containerSize.width, y: containerSize.height))
+    }
+    
+    func normalizeRect(containerSize: CGSize) -> CGRect {
+        return self.applying(CGAffineTransform(scaleX: 1/containerSize.width, y: 1/containerSize.height))
+    }
 }
 
 extension UIColor {
     static let main: UIColor = UIColor(named: "mainColor")!
+}
+
+extension CGImage {
+    var size: CGSize {
+        return CGSize(width: width, height: height)
+    }
 }

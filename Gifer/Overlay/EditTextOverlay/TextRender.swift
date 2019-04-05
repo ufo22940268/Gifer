@@ -20,9 +20,9 @@ class TextRender: UILabel, OverlayComponentRenderable {
     
     var info: EditTextInfo! {
         didSet {
+            text = info.text
             font = UIFont(name: info.fontName, size: 50)
             textColor = info.textColor
-            text = info.text
             sizeToFit()
         }
     }
@@ -46,7 +46,20 @@ class TextRender: UILabel, OverlayComponentRenderable {
         return TextRender(info: self.info)
     }
     
-    private func updateFontSize() {
-        
+    func updateFontSize() {
+        font = UIFont(name: font.fontName, size: approximateAdjustedFontSizeWithLabel(self))
     }
+}
+
+func approximateAdjustedFontSizeWithLabel(_ label: UILabel) -> CGFloat {
+    var currentFont: UIFont = label.font
+    let originalFontSize = currentFont.pointSize
+    var currentSize: CGSize = (label.text! as NSString).size(withAttributes: [NSAttributedString.Key.font: currentFont])
+    
+    while currentSize.width > label.frame.size.width && currentFont.pointSize > (originalFontSize * label.minimumScaleFactor) {
+        currentFont = currentFont.withSize(currentFont.pointSize - 1.0)
+        currentSize = (label.text! as NSString).size(withAttributes: [NSAttributedString.Key.font: currentFont])
+    }
+    
+    return currentFont.pointSize
 }

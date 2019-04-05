@@ -8,7 +8,20 @@
 
 import UIKit
 
-struct Sticker {
+protocol OverlayRenderInfo {
+}
+
+extension OverlayRenderInfo {
+    func convertComponentRectByCrop(originRect: CGRect, videoSize: CGSize, cropArea: CGRect) -> CGRect {
+        let cropRect = cropArea.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
+        var rect = originRect.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
+        rect = rect.applying(CGAffineTransform(translationX: -cropRect.minX, y: -cropRect.minY))
+        let newRect = rect.applying(CGAffineTransform(scaleX: 1/cropRect.width, y: 1/cropRect.height))
+        return newRect
+    }
+}
+
+struct Sticker: OverlayRenderInfo {
     var image: UIImage
     
     //Used when layout sticker
@@ -28,14 +41,8 @@ struct Sticker {
     ///   - videoSize: Video size. In pixel format.
     ///   - cropArea: Crop area rect. In normalized format
     func fixImageFrame(videoSize: CGSize, cropArea: CGRect) -> Sticker {
-        let cropRect = cropArea.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
-        var imageRect = imageFrame.applying(CGAffineTransform(scaleX: videoSize.width, y: videoSize.height))
-        
-        imageRect = imageRect.applying(CGAffineTransform(translationX: -cropRect.minX, y: -cropRect.minY))
-        let newImageFrame = imageRect.applying(CGAffineTransform(scaleX: 1/cropRect.width, y: 1/cropRect.height))
-        
         var newSticker = self
-        newSticker.imageFrame = newImageFrame
+        newSticker.imageFrame = convertComponentRectByCrop(originRect: imageFrame, videoSize: videoSize, cropArea: cropArea)
         return newSticker
     }
 }

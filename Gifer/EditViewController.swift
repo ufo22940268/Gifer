@@ -359,7 +359,8 @@ class EditViewController: UIViewController {
                 let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)
                 generator.appliesPreferredTrackTransform = true
                 let cgImage = try! generator.copyCGImage(at: CMTime.zero, actualTime: nil)
-                this.setPreviewImage(UIImage(cgImage: cgImage))
+                this.previewImage = UIImage(cgImage: cgImage)
+                this.setPreviewImage(this.previewImage)
             }
             
             this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
@@ -409,7 +410,8 @@ class EditViewController: UIViewController {
                                     filter: videoVC.filter,
                                     stickers: gifOverlayVC.stickers.map {$0.fixImageFrame(videoSize: videoSize, cropArea: cropArea)},
                                     direction: videoVC.playDirection,
-                                    exportType: nil            
+                                    exportType: nil,
+                                    texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
         )
     }
     
@@ -417,7 +419,9 @@ class EditViewController: UIViewController {
         guard let cacheFilePath = cacheFilePath else { return  }
         
         showLoadingWhenExporting(true)
-        let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: currentGifOption)
+        var options = currentGifOption
+        options.exportType = type
+        let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: options)
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
             

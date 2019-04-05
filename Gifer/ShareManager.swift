@@ -14,24 +14,12 @@ import Photos
 import MonkeyKing
 
 class ShareManager {
+    var options: GifGenerator.Options!
     var asset: AVAsset!
-    var startProgress: CMTime!
-    var endProgress: CMTime!
-    var speed: Float
-    var cropArea: CGRect
-    var filter: YPFilter?
-    var stickers: [Sticker]
-    var direction: PlayDirection
     
     init(asset: AVAsset, options: GifGenerator.Options) {
         self.asset = asset
-        self.startProgress = options.start
-        self.endProgress = options.end
-        self.speed = options.speed
-        self.cropArea = options.cropArea
-        self.filter = options.filter
-        self.stickers = options.stickers
-        self.direction = options.direction
+        self.options = options
     }
     
     public typealias ExportHandler = (_ path: URL) -> Void
@@ -39,10 +27,7 @@ class ShareManager {
     
     func share(type: ShareType, complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
-            let options = GifGenerator.Options(start: self.startProgress, end: self.endProgress,
-                                               speed: self.speed, cropArea: self.cropArea, filter: self.filter,
-                                               stickers: self.stickers, direction: self.direction, exportType: type)
-            GifGenerator(video: self.asset, options: options).run() { path in
+            GifGenerator(video: self.asset, options: self.options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)
                 }

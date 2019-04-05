@@ -18,12 +18,27 @@ class EditTextOverlay: Overlay {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var allRenders: [TextRender] {
+        return components.map { $0.render as! TextRender }
+    }
+    
+    var textInfos: [EditTextInfo] {
+        return allRenders.map { render in
+            var textInfo = render.info!
+            textInfo.nRect = render.convert(render.frame, to: self)
+                .normalizeRect(containerSize: bounds.size)
+            textInfo.fontSize = render.font.pointSize
+            return textInfo
+        }
+    }
+    
     func addTextComponent(textInfo: EditTextInfo) {
         let info = OverlayComponent.Info(nRect: OverlayComponent.Info.predictNormalizedRect(textInfo: textInfo, containerBounds: self.bounds))
         let textRender = TextRender(info: textInfo).useAutoLayout()
         let component: OverlayComponent = OverlayComponent(info: info, render: textRender)
         addComponent(component: component)
         active(component: component)
+        textRender.updateFontSize()
     }
     
     func updateTextComponent(textInfo: EditTextInfo, componentId: ComponentId) {
