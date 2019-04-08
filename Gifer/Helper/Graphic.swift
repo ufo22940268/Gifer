@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 extension CGRect {
     var center: CGPoint {
@@ -19,6 +20,10 @@ extension CGRect {
         return self.applying(CGAffineTransform(translationX: -midX, y: -midY))
             .applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
             .applying(CGAffineTransform(translationX: origin.midX, y: origin.midY))
+    }
+    
+    func aspectFit(in containerRect: CGRect, ratio: CGSize) -> CGRect {
+        return AVMakeRect(aspectRatio: ratio, insideRect: containerRect)
     }
     
     func realRect(containerSize: CGSize) -> CGRect {

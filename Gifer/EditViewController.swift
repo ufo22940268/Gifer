@@ -393,7 +393,7 @@ class EditViewController: UIViewController {
                                     speed: speed,
                                     cropArea: cropArea,
                                     filter: videoVC.filter,
-                                    stickers: [StickerInfo](),
+                                    stickers: stickerOverlay.stickerInfos.map { $0.fixImageFrame(videoSize: videoSize, cropArea: cropArea) },
                                     direction: videoVC.playDirection,
                                     exportType: nil,
                                     texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }

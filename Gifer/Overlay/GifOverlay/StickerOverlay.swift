@@ -10,6 +10,17 @@ import Foundation
 import UIKit
 
 class StickerOverlay: Overlay {
+    var stickerInfos: [StickerInfo] {
+        return components.map { component in
+            let stickerRender = component.render as! StickerRender
+            var info = stickerRender.info!
+            let stickerFrame = stickerRender.convert(stickerRender.bounds, to: self)
+            info.imageFrame = stickerFrame
+                .aspectFit(in: stickerFrame, ratio: info.image.size)
+                .normalizeRect(containerSize: bounds.size)
+            return info
+        }
+    }
     
     func addStickerComponent(_ sticker: StickerInfo) {
         let stickerRender = StickerRender(info: sticker).useAutoLayout()
