@@ -14,6 +14,8 @@ class StickerRender: UIImageView, OverlayComponentRenderable {
     
     init(info: StickerInfo) {
         super.init(frame: .zero)
+        useAutoLayout()
+
         self.info = info
         self.image = info.image
         contentMode = .scaleAspectFit
@@ -24,6 +26,6 @@ class StickerRender: UIImageView, OverlayComponentRenderable {
     }
     
     func copy() -> OverlayComponentRender {
-        return self
-    }    
+        return StickerRender(info: self.info)
+    }
 }
