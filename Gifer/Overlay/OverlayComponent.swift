@@ -173,8 +173,8 @@ class OverlayComponent: UIView {
         
         leading = leadingAnchor.constraint(equalTo: superview.leadingAnchor).activeAndReturn()
         top = topAnchor.constraint(equalTo: superview.topAnchor).activeAndReturn()
-        width = widthAnchor.constraint(equalToConstant: 0).activeAndReturn()
-        height = heightAnchor.constraint(equalToConstant: 0).activeAndReturn()
+        width = widthAnchor.constraint(equalToConstant: 0)
+        height = heightAnchor.constraint(equalToConstant: 0)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onMove(sender:))))
         for corner in OverlayComponentCorner.allCases {
@@ -192,10 +192,13 @@ class OverlayComponent: UIView {
     
     func updateInfoPosition() {
         let rect = info.realRect(parentSize: superview!.bounds.size)
+        guard rect.width > 0 && rect.height > 0 else { return }
         leading.constant = rect.minX
         top.constant = rect.minY
         width.constant = rect.width
         height.constant = rect.height
+        width.isActive = true
+        height.isActive = true
         
         setNeedsDisplay()
     }

@@ -15,7 +15,7 @@ class StickerOverlay: Overlay {
         let stickerRender = StickerRender(info: sticker).useAutoLayout()
         let componentInfo = OverlayComponent.Info(stickerInfo:sticker, containerBounds: self.bounds)
         let component: OverlayComponent = OverlayComponent(info: componentInfo, render: stickerRender)
-        addComponent(component: component)        
+        addComponent(component: component)
         active(component: component)
     }
 }
