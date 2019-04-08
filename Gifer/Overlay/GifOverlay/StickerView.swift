@@ -35,7 +35,7 @@ class StickerView: UIView {
     var imageView: UIImageView!
     
     var frameColor = UIColor.white
-    var sticker: Sticker!
+    var sticker: StickerInfo!
     var hideFrame: Bool = false {
         didSet {
             setNeedsDisplay()
@@ -54,7 +54,7 @@ class StickerView: UIView {
         return bounds.intersection(preferredBounds)
     }
 
-    init(image: UIImage, sticker: Sticker) {
+    init(image: UIImage, sticker: StickerInfo) {
         self.sticker = sticker
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false

@@ -55,6 +55,11 @@ class CropContainer: UIView {
         let overlay = EditTextOverlay().useAutoLayout()        
         return overlay
     }()
+    
+    lazy var stickerOverlay: StickerOverlay = {
+        let overlay = StickerOverlay().useAutoLayout()
+        return overlay
+    }()
 
     override func awakeFromNib() {
         guard let _ = superview else { return }
@@ -99,6 +104,9 @@ class CropContainer: UIView {
         
         addSubview(editTextOverlay)
         editTextOverlay.setSameSizeAsParent()
+        
+        addSubview(stickerOverlay)
+        stickerOverlay.setSameSizeAsParent()
     }
     
     func addContentView(_ contentView: UIView) {

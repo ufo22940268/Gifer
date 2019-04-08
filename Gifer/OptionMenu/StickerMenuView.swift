@@ -21,7 +21,7 @@ extension OverlayRenderInfo {
     }
 }
 
-struct Sticker: OverlayRenderInfo {
+struct StickerInfo: OverlayRenderInfo {
     var image: UIImage
     
     //Used when layout sticker
@@ -40,7 +40,7 @@ struct Sticker: OverlayRenderInfo {
     /// - Parameters:
     ///   - videoSize: Video size. In pixel format.
     ///   - cropArea: Crop area rect. In normalized format
-    func fixImageFrame(videoSize: CGSize, cropArea: CGRect) -> Sticker {
+    func fixImageFrame(videoSize: CGSize, cropArea: CGRect) -> StickerInfo {
         var newSticker = self
         newSticker.imageFrame = convertComponentRectByCrop(originRect: imageFrame, videoSize: videoSize, cropArea: cropArea)
         return newSticker
@@ -126,12 +126,12 @@ extension StickerMenuView: UICollectionViewDataSource {
 extension StickerMenuView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = getImage(at: indexPath.row)
-        customDelegate?.onSelect(sticker: Sticker(image: image))
+        customDelegate?.onSelect(sticker: StickerInfo(image: image))
     }
 }
 
 protocol StickerMenuDelegate: class {
-    func onSelect(sticker: Sticker)
+    func onSelect(sticker: StickerInfo)
 }
 
 class StickerMenuItemView: UICollectionViewCell {

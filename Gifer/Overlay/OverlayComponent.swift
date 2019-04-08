@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 enum OverlayComponentCorner: CaseIterable {
     case delete, scale, copy, edit
@@ -45,6 +46,14 @@ class OverlayComponent: UIView {
             return nRect.applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
         }
         
+        init(nRect: CGRect) {
+            self.nRect = nRect
+        }
+        
+        init(stickerInfo: StickerInfo, containerBounds: CGRect) {
+            self.nRect = predictNormalizedRect(sticker: stickerInfo, containerBounds: containerBounds)
+        }
+        
         mutating func scaleTo(_ scale: CGFloat) {
             var newRect = nRect!
             newRect.size.width = nRect.width*scale
@@ -78,6 +87,12 @@ class OverlayComponent: UIView {
                 .applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
         }
         
+        private func predictNormalizedRect(sticker: StickerInfo, containerBounds: CGRect) -> CGRect {
+            var boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
+            boundsRect = AVMakeRect(aspectRatio: sticker.image.size, insideRect: boundsRect)
+            return boundsRect.normalizeRect(containerSize: containerBounds.size)
+        }
+
         static func predictNormalizedRect(textInfo: EditTextInfo, containerBounds: CGRect) -> CGRect {
             let boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
             
@@ -91,14 +106,8 @@ class OverlayComponent: UIView {
             return preferredRect.intersection(boundsRect).applying(CGAffineTransform(scaleX: 1/containerBounds.width, y: 1/containerBounds.height))
         }
         
-        
         static func predictNormalizedSize(textInfo: EditTextInfo, containerBounds: CGRect) -> CGSize {
             return Info.predictNormalizedRect(textInfo: textInfo, containerBounds: containerBounds).size
-        }
-
-        
-        init(nRect: CGRect) {
-            self.nRect = nRect
         }
     }
     

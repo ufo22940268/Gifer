@@ -31,7 +31,7 @@ class GifOverlayViewController: UIViewController {
         overlayRenderer.editable = enabled
     }
     
-    func addSticker(_ sticker: Sticker) {
+    func addSticker(_ sticker: StickerInfo) {
         let sticker = overlayRenderer.addSticker(image: sticker.image
             , editable: true)
         sticker.stickerDelegate = self
@@ -92,7 +92,7 @@ extension GifOverlayViewController: StickerViewDelegate {
         self.overlayRenderer.removeSticker(sticker)
     }
     
-    var stickers: [Sticker] {
+    var stickers: [StickerInfo] {
         return overlayRenderer.stickers
     }
         

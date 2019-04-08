@@ -151,7 +151,6 @@ class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     @IBOutlet weak var videoController: VideoController!
-    var gifOverlayVC: GifOverlayViewController!
     
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
@@ -184,6 +183,10 @@ class EditViewController: UIViewController {
     var isDebug: Bool!
     var cacheFilePath: URL!
 
+    var stickerOverlay: StickerOverlay {
+        return cropContainer.stickerOverlay
+    }
+    
     override func loadView() {
         super.loadView()
     }
@@ -258,8 +261,6 @@ class EditViewController: UIViewController {
             ])
         videoVC.didMove(toParent: self)
         
-        setupGifOverlay()
-        
         let previewView = VideoPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
@@ -275,22 +276,6 @@ class EditViewController: UIViewController {
         enableVideoContainer(false)
     }
     
-    
-    private func setupGifOverlay() {
-        gifOverlayVC = storyboard!.instantiateViewController(withIdentifier: "gifOverlay") as? GifOverlayViewController
-        addChild(gifOverlayVC)
-        
-        cropContainer.addSubview(gifOverlayVC.view)
-        gifOverlayVC.enableModification(false)
-        gifOverlayVC.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            gifOverlayVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),
-            gifOverlayVC.view.trailingAnchor.constraint(equalTo: videoContainer.trailingAnchor),
-            gifOverlayVC.view.topAnchor.constraint(equalTo: videoContainer.topAnchor),
-            gifOverlayVC.view.bottomAnchor.constraint(equalTo: videoContainer.bottomAnchor)
-            ])
-        didMove(toParent: gifOverlayVC)
-    }
     
     fileprivate func setupControlToolbar() {
         optionMenu = OptionMenu()
@@ -408,7 +393,7 @@ class EditViewController: UIViewController {
                                     speed: speed,
                                     cropArea: cropArea,
                                     filter: videoVC.filter,
-                                    stickers: gifOverlayVC.stickers.map {$0.fixImageFrame(videoSize: videoSize, cropArea: cropArea)},
+                                    stickers: [StickerInfo](),
                                     direction: videoVC.playDirection,
                                     exportType: nil,
                                     texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
@@ -657,8 +642,8 @@ extension EditViewController: VideoControllerDelegate {
 
 extension EditViewController: OptionMenuDelegate {
     
-    func onSelect(sticker: Sticker) {
-        gifOverlayVC.addSticker(sticker)
+    func onSelect(sticker: StickerInfo) {
+        stickerOverlay.addStickerComponent(sticker)
     }
     
     func onCropSizeSelected(size: CropSize) {
@@ -688,7 +673,7 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
             self.stackView.layoutIfNeeded()
-            self.gifOverlayVC.updateWhenContainerSizeChanged()
+//            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
@@ -705,11 +690,7 @@ extension EditViewController: OptionMenuDelegate {
             self.cropContainer.updateCroppingStatus(.normal)
             break
         case .sticker:
-            gifOverlayVC.enableModification(false)
-            if !commitChange {
-                gifOverlayVC.removeAllStickers()
-            }
-            gifOverlayVC.hideStickerFrames(true)
+            break
         default:
             break
         }
@@ -738,7 +719,7 @@ extension EditViewController: ControlToolbarDelegate {
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
-            self.gifOverlayVC.updateWhenContainerSizeChanged()
+//            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
@@ -771,7 +752,6 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onStickerItemClicked() {
-        gifOverlayVC.onShowOptionMenu()
         showOptionMenu(for: .sticker)
     }
     

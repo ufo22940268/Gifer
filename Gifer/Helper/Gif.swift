@@ -80,7 +80,7 @@ class GifGenerator {
         var speed: Float
         var cropArea: CGRect
         var filter: YPFilter?
-        var stickers: [Sticker]
+        var stickers: [StickerInfo]
         var direction: PlayDirection
         var exportType: ShareType?
         var texts: [EditTextInfo]

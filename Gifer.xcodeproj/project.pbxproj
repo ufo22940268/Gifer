@@ -47,6 +47,8 @@
 		42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D882223862300AD3681 /* ControlToolbar.swift */; };
 		42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
+		42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB32E2259AB99000152E7 /* StickerOverlay.swift */; };
+		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
 		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
@@ -139,6 +141,8 @@
 		42AC7D882223862300AD3681 /* ControlToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbar.swift; sourceTree = "<group>"; };
 		42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarItemView.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
+		42CEB32E2259AB99000152E7 /* StickerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerOverlay.swift; sourceTree = "<group>"; };
+		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
 		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 				42E5C3522220B18100D18CA6 /* GifOverlayViewController.swift */,
 				42E5C3542220B86100D18CA6 /* StickerView.swift */,
 				42E5C35622212EE200D18CA6 /* TrashView.swift */,
+				42CEB32E2259AB99000152E7 /* StickerOverlay.swift */,
+				42CEB330225AEA54000152E7 /* StickerRender.swift */,
 			);
 			path = GifOverlay;
 			sourceTree = "<group>";
@@ -554,6 +560,8 @@
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
+				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,
+				42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
 				4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */,
 				42D7F298224F58A500E7E504 /* OverlayComponent.swift in Sources */,
