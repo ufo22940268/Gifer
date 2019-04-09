@@ -791,4 +791,13 @@ extension EditViewController: OverlayDelegate {
             showEditTextViewController(for: render.info, componentId: id)
         }
     }
+    
+    func onActive(overlay: Overlay, component: OverlayComponent) {
+        let allOverlays = [editTextOverlay, stickerOverlay]
+        allOverlays.forEach { t in
+            if t != overlay {
+                t.deactiveComponents()
+            }
+        }
+    }
 }

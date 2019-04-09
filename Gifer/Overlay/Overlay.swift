@@ -10,6 +10,7 @@ import UIKit
 
 protocol OverlayDelegate: class {
     func onEdit(component: OverlayComponent, id: ComponentId)
+    func onActive(overlay: Overlay, component: OverlayComponent)
 }
 
 class Overlay: UIView {
@@ -60,6 +61,7 @@ class Overlay: UIView {
     func active(component: OverlayComponent) {
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
+        delegate?.onActive(overlay: self, component: component)
     }
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
