@@ -250,6 +250,11 @@ class EditViewController: UIViewController {
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
         videoContainer.addSubview(videoVC.view)
+        videoContainer.subviews.forEach { view in
+            if view != videoVC.view {
+                videoContainer.bringSubviewToFront(view)
+            }
+        }
         videoVC.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             videoVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),

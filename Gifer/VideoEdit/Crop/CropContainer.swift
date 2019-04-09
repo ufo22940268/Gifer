@@ -103,12 +103,6 @@ class CropContainer: UIView {
         bringSubviewToFront(gridRulerView)
         
         updateCroppingStatus(.normal)
-        
-        addSubview(editTextOverlay)
-        editTextOverlay.setSameSizeAsParent()
-        
-        addSubview(stickerOverlay)
-        stickerOverlay.setSameSizeAsParent()
     }
     
     func addContentView(_ contentView: UIView) {
@@ -123,6 +117,12 @@ class CropContainer: UIView {
             contentView.widthAnchor.constraint(equalToConstant: scrollView.bounds.width).with(identifier: "width"),
             contentView.heightAnchor.constraint(equalToConstant: scrollView.bounds.height).with(identifier: "height")
             ])
+        
+        contentView.addSubview(editTextOverlay)
+        editTextOverlay.setSameSizeAsParent()
+        
+        contentView.addSubview(stickerOverlay)
+        stickerOverlay.setSameSizeAsParent()
     }
     
     func setupVideo(frame videoFrame: CGRect) {
