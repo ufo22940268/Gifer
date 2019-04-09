@@ -52,7 +52,15 @@ class Overlay: UIView {
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
         return components.first { $0.id == componentId }!
-    }    
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if components.contains(where: { $0.point(inside: $0.convert(point, from: self), with: event) }) {
+            return super.hitTest(point, with: event)
+        } else {
+            return nil
+        }
+    }
 }
 
 extension Overlay: OverlayComponentDelegate {

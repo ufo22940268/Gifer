@@ -192,11 +192,6 @@ class CropContainer: UIView {
         } else {
             return super.hitTest(point, with: event)
         }
-//        if let hitView = super.hitTest(point, with: event), !hitView.isHidden {
-//            return hitView
-//        } else {
-//            return scrollView
-//        }
     }
     
     func setupCover() {
