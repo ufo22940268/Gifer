@@ -537,7 +537,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-//        mock()
+        mock()
 //
         editTextOverlay.delegate = self
         self.videoProgressLoadingIndicator.isHidden = true
@@ -550,8 +550,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
-            self.videoVC.play()
-//            self.previewView?.isHidden = true
+//            self.videoVC.play()
+            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)

@@ -148,6 +148,23 @@ class GridRulerView: UIView {
         }
     }
     
+    func hitBorder(point: CGPoint) -> Bool {
+        let touchEdgeWidth = gridRulerTouchEdgeWidth
+        let size = bounds.size
+        let edges = [
+            CGRect(origin: CGPoint.zero, size: CGSize(width: size.width, height: touchEdgeWidth)),
+            CGRect(origin: CGPoint.zero, size: CGSize(width: touchEdgeWidth, height: size.height)),
+            CGRect(origin: CGPoint(x: 0, y: size.height - touchEdgeWidth), size: CGSize(width: size.width, height: touchEdgeWidth)),
+            CGRect(origin: CGPoint(x: size.width - touchEdgeWidth, y: 0), size: CGSize(width: touchEdgeWidth, height: size.height))
+        ]
+        
+        let hit = edges.contains { (rect) -> Bool in
+            rect.contains(point)
+        }
+        
+        return hit
+    }
+    
     func buildGuideConstraints(videoFrame: CGRect) {
         guard let superview = superview else { fatalError() }
         let guide = UILayoutGuide()

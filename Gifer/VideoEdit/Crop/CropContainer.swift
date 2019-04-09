@@ -28,8 +28,10 @@ class CropContainer: UIView {
     }
     
     var cropRatio: CGSize!
+    var status: CroppingStatus = .normal
     
     func updateCroppingStatus(_ status: CroppingStatus) {
+        self.status = status
         switch status {
         case .normal:
             scrollView.isUserInteractionEnabled = false
@@ -180,11 +182,21 @@ class CropContainer: UIView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event), !hitView.isHidden {
-            return hitView
+        if status == .adjustCrop {
+            let pointOfGrid = gridRulerView.convert(point, from: self)
+            if gridRulerView.hitBorder(point: pointOfGrid) {
+                return super.hitTest(point, with: event)
+            } else {
+                return scrollView
+            }
         } else {
-            return scrollView
+            return super.hitTest(point, with: event)
         }
+//        if let hitView = super.hitTest(point, with: event), !hitView.isHidden {
+//            return hitView
+//        } else {
+//            return scrollView
+//        }
     }
     
     func setupCover() {
