@@ -171,8 +171,12 @@ class GifGenerator {
         generator.requestedTimeToleranceBefore = CMTime.zero
         let ciContext = CIContext(options: nil)
         times = arrangeTimeByPlayDirection(times)
+        
+        var labelViewCache: [LabelViewCache]! = nil
+            
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
+            
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             
             image = self.crop(image: image)
@@ -180,9 +184,12 @@ class GifGenerator {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
             
-            image = self.addStickers(image: image)
-            
-            image = self.addTexts(image: image)
+            if labelViewCache == nil {
+                DispatchQueue.main.sync {
+                    labelViewCache = self.cacheLabelViewsForExport(image: image)
+                }
+            }
+            image = self.addStickersAndTexts(image: image, cachedLabels: labelViewCache)
             
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
@@ -204,6 +211,26 @@ class GifGenerator {
         }
     }
     
+    struct LabelViewCache {
+        var image: UIImage
+        var rect: CGRect
+        
+        func draw() {
+            self.image.draw(at: rect.origin)
+        }
+    }
+    
+    func cacheLabelViewsForExport(image: CGImage) -> [LabelViewCache] {
+        var caches = [LabelViewCache]()
+        for textInfo in options.texts {
+            let labelView = textInfo.createExportLabelView(imageSize: image.size)
+            let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
+            let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true), rect: rect)
+            caches.append(cache)
+        }
+        return caches
+    }
+    
     func arrangeTimeByPlayDirection(_ times: [NSValue]) -> [NSValue] {
         switch options.direction {
         case .forward:
@@ -218,7 +245,7 @@ class GifGenerator {
         return image.cropping(to: rect)!
     }
     
-    func addStickers(image: CGImage) -> CGImage {
+    func addStickersAndTexts(image: CGImage, cachedLabels: [LabelViewCache]) -> CGImage {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             for sticker in options.stickers {
@@ -228,23 +255,10 @@ class GifGenerator {
                 }
                 stickerImage.draw(in: sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
             }
-        }
-        return image.cgImage!
-    }
-    
-    func addTexts(image: CGImage) -> CGImage {
-        let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
-            UIImage(cgImage: image).draw(at: CGPoint.zero)
-            for textInfo in options.texts {
-                DispatchQueue.main.sync {
-                    context.cgContext.saveGState()
-                    let labelView = textInfo.createExportLabelView(imageSize: image.size)
-                    let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
-                    labelView.frame = rect
-                    context.cgContext.translateBy(x: rect.minX, y: rect.minY)
-                    labelView.layer.render(in: context.cgContext)
-                    context.cgContext.restoreGState()
-                }
+            
+            for (index, _) in options.texts.enumerated() {
+                let labelCache = cachedLabels[index]
+                labelCache.draw()
             }
         }
         return image.cgImage!

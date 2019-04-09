@@ -42,8 +42,12 @@ struct EditTextInfo: OverlayRenderInfo {
         let scale = imageSize.width/cropSize!.width
         let exportFontSize = scale*fontSize!
         labelView.text = text
+        labelView.textAlignment = .center
+        labelView.baselineAdjustment = .alignCenters
         labelView.font = UIFont(name: fontName, size: exportFontSize)
         labelView.textColor = textColor
+        labelView.backgroundColor = .clear
+        labelView.sizeToFit()
         return labelView
     }
 }

@@ -532,7 +532,6 @@ extension EditViewController: VideoViewControllerDelegate {
         let render = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
         let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), render: render)
         editTextOverlay.addComponent(component: component)
-        editTextOverlay.addComponent(component: component.copyView())
         
         editTextOverlay.active(component: component)
     }
@@ -551,8 +550,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
-//            self.videoVC.play()
-            self.previewView?.isHidden = true
+            self.videoVC.play()
+//            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)
