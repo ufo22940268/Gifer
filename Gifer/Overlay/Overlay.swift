@@ -18,6 +18,14 @@ class Overlay: UIView {
     weak var delegate: OverlayDelegate?
     var componentIdSequence: ComponentId = 0
     
+    var isEnabled: Bool = true {
+        didSet {
+            if !isEnabled {
+                components.forEach { $0.isActive = false }
+            }
+        }
+    }
+    
     init() {
         super.init(frame: .zero)
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapOtherSpace(sender:))))
@@ -55,6 +63,10 @@ class Overlay: UIView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if !isEnabled {
+            return nil
+        }
+        
         if components.contains(where: { $0.point(inside: $0.convert(point, from: self), with: event) }) {
             return super.hitTest(point, with: event)
         } else {

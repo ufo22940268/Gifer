@@ -229,7 +229,7 @@ class EditViewController: UIViewController {
     }
     
     private func enableVideoContainer(_ enable: Bool) {
-        videoPlayerSection.isUserInteractionEnabled = enable
+//        videoPlayerSection.isUserInteractionEnabled = enable
     }
     
     private func setSubTitle(_ text: String) {
@@ -681,6 +681,8 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
+            self.editTextOverlay.isEnabled = true
+            self.stickerOverlay.isEnabled = true
         }
     }
     
@@ -743,6 +745,8 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onCropItemClicked() {
         enableVideoContainer(true)
+        editTextOverlay.isEnabled = false
+        stickerOverlay.isEnabled = false
         showOptionMenu(for: .crop)
         self.cropContainer.updateCroppingStatus(.adjustCrop)
     }

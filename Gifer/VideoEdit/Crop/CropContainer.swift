@@ -34,12 +34,12 @@ class CropContainer: UIView {
         self.status = status
         switch status {
         case .normal:
-            scrollView.isUserInteractionEnabled = false
+            scrollView.isScrollEnabled = false
             gridRulerView.isUserInteractionEnabled = false
             gridRulerView.isHidden = true
             coverViews.forEach{$0.updateStatus(.solid)}
         case .adjustCrop:
-            scrollView.isUserInteractionEnabled = true
+            scrollView.isScrollEnabled = true
             gridRulerView.isUserInteractionEnabled = true
             gridRulerView.isHidden = false
             coverViews.forEach{$0.updateStatus(.adjust)}
