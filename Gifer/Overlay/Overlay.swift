@@ -35,6 +35,10 @@ class Overlay: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func deactiveComponents() {
+        components.forEach { $0.isActive = false }
+    }
+    
     @objc func onTapOtherSpace(sender: UITapGestureRecognizer) {
         components.forEach { $0.isActive = false }
     }

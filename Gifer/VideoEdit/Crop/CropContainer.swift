@@ -103,6 +103,13 @@ class CropContainer: UIView {
         bringSubviewToFront(gridRulerView)
         
         updateCroppingStatus(.normal)
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
+    }
+    
+    @objc func onTap(sender: UITapGestureRecognizer) {
+        editTextOverlay.deactiveComponents()
+        stickerOverlay.deactiveComponents()
     }
     
     func addContentView(_ contentView: UIView) {
