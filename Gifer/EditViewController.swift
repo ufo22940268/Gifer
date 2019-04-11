@@ -667,6 +667,10 @@ extension EditViewController: OptionMenuDelegate {
         }
     }
     
+    var allOverlays: [Overlay] {
+        return [editTextOverlay, stickerOverlay]
+    }
+    
     private func dismissOptionMenu() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.optionMenuBottomConstraint.isActive = false
@@ -679,8 +683,10 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
-            self.editTextOverlay.isEnabled = true
-            self.stickerOverlay.isEnabled = true
+            self.allOverlays.forEach { overlay in
+                overlay.isEnabled = true
+                overlay.deactiveComponents()
+            }
         }
     }
     
