@@ -23,11 +23,13 @@ class EditTextOverlay: Overlay {
     }
     
     var textInfos: [EditTextInfo] {
-        return allRenders.map { render in
+        return components.map { component in
+            let render = component.render as! TextRender
             var textInfo = render.info!
             textInfo.nRect = render.convert(render.frame, to: self)
                 .normalizeRect(containerSize: bounds.size)
             textInfo.fontSize = render.font.pointSize
+            textInfo.rotation = component.rotation
             return textInfo
         }
     }

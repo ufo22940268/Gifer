@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class StickerOverlay: Overlay {
+    
     var stickerInfos: [StickerInfo] {
         return components.map { component in
             let stickerRender = component.render as! StickerRender
@@ -18,6 +19,7 @@ class StickerOverlay: Overlay {
             info.imageFrame = stickerFrame
                 .aspectFit(in: stickerFrame, ratio: info.image.size)
                 .normalizeRect(containerSize: bounds.size)
+            info.rotation = component.rotation
             return info
         }
     }

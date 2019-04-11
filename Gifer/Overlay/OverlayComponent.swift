@@ -116,6 +116,11 @@ class OverlayComponent: UIView {
             updateInfoPosition()
         }
     }
+    
+    var rotation: CGFloat {
+        return info.rotation
+    }
+    
     var id: ComponentId!
     
     var isActive: Bool = true {
