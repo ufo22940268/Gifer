@@ -19,9 +19,9 @@ enum ShareType {
     var gifSize: CGFloat {
         switch self {
         case .wechat:
-            return 300
-        case .photo:
             return 400
+        case .photo:
+            return 600
         }
     }
     

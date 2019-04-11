@@ -179,17 +179,17 @@ class GifGenerator {
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
-            
+
             DispatchQueue.main.sync {
                 if labelViewCaches == nil {
                     labelViewCaches = self.cacheLabelViewsForExport(image: image)
                 }
-            
+
                 if stickerImageCaches == nil {
                     stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
                 }
             }
-            
+
             image = self.addStickersAndTexts(image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
             CGImageDestinationAddImage(destination, image, frameProperties)
@@ -267,7 +267,9 @@ class GifGenerator {
     }
     
     func addStickersAndTexts(image: CGImage, cachedLabels: [LabelViewCache], cachedStickers: [StickerImageCache]) -> CGImage {
-        let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
+        let format = UIGraphicsImageRendererFormat.init()
+        format.scale = 1
+        let image = UIGraphicsImageRenderer(size: image.size, format: format).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             
             for stickerCache in cachedStickers {

@@ -35,7 +35,7 @@ class VideoCache {
         let trimPosition = trimPosition == nil ? allRangeTrimPosition : trimPosition
         
         DispatchQueue.global().async {
-            let session = AVAssetExportSession(asset: self.asset, presetName: AVAssetExportPresetMediumQuality)!
+            let session = AVAssetExportSession(asset: self.asset, presetName: AVAssetExportPresetHighestQuality)!
             session.timeRange = trimPosition!.timeRange
             try? FileManager.default.removeItem(at: self.tempFilePath)
             
