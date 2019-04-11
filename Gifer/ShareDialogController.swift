@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 typealias ShareGifFileHandler = (_ file: URL) -> Void
 typealias ShareDialogHandler = (_ type: ShareType) -> Void
@@ -23,17 +24,30 @@ enum ShareType {
             return 600
         }
     }
+    
+    func isEnabled(duration: CMTime) -> Bool {
+        switch self {
+        case .wechat:
+            return duration.seconds <= 5
+        case .photo:
+            return true
+        }
+    }
 }
 
 class ShareDialogController {
     
     let alertController: UIAlertController
     
-    init(shareHandler: @escaping ShareDialogHandler, cancelHandler: @escaping () -> Void) {
+    init(duration: CMTime, shareHandler: @escaping ShareDialogHandler, cancelHandler: @escaping () -> Void) {
         alertController = UIAlertController(title: "分享", message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "分享到微信", style: .default, handler: {action in
-            shareHandler(.wechat)
-        }))
+        
+        if ShareType.wechat.isEnabled(duration: duration) {
+            alertController.addAction(UIAlertAction(title: "分享到微信", style: .default, handler: {action in
+                shareHandler(.wechat)
+            }))
+        }
+        
         alertController.addAction(UIAlertAction(title: "保存到相册", style: .default, handler: { (action) in
             shareHandler(.photo)
         }))

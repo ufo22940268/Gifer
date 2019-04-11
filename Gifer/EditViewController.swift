@@ -445,7 +445,7 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         videoVC.pause()
-        let shareController = ShareDialogController(shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+        let shareController = ShareDialogController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareController.present(by: self)
     }
     
@@ -545,7 +545,7 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onVideoReady(controller: AVPlayerViewController) {
-        mock()
+//        mock()
 //
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
@@ -557,8 +557,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
-//            self.videoVC.play()
-            self.previewView?.isHidden = true
+            self.videoVC.play()
+//            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)
