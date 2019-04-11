@@ -166,24 +166,31 @@ class GifGenerator {
         let ciContext = CIContext(options: nil)
         times = arrangeTimeByPlayDirection(times)
         
-        var labelViewCache: [LabelViewCache]! = nil
-            
+        var labelViewCaches: [LabelViewCache]! = nil
+        var stickerImageCaches: [StickerImageCache]! = nil
+        
         generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
             guard var image = image else { return }
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             
+            let originImageSize = image.size
             image = self.crop(image: image)
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
             
-            if labelViewCache == nil {
-                DispatchQueue.main.sync {
-                    labelViewCache = self.cacheLabelViewsForExport(image: image)
+            DispatchQueue.main.sync {
+                if labelViewCaches == nil {
+                    labelViewCaches = self.cacheLabelViewsForExport(image: image)
+                }
+            
+                if stickerImageCaches == nil {
+                    stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
                 }
             }
-            image = self.addStickersAndTexts(image: image, cachedLabels: labelViewCache)
+            
+            image = self.addStickersAndTexts(image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
@@ -214,12 +221,32 @@ class GifGenerator {
         }
     }
     
+    struct StickerImageCache {
+        var image: UIImage
+        var rect: CGRect
+        
+        func draw() {
+            image.draw(in: rect)
+        }
+    }
+    
     func cacheLabelViewsForExport(image: CGImage) -> [LabelViewCache] {
         var caches = [LabelViewCache]()
         for textInfo in options.texts {
             let labelView = textInfo.createExportLabelView(imageSize: image.size)
             let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
             let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true).rotate(by: textInfo.rotation), rect: rect)
+            caches.append(cache)
+        }
+        return caches
+    }
+    
+    func cacheStickerImageForExport(canvasSize: CGSize, stickers: [StickerInfo]) -> [StickerImageCache] {
+        var caches = [StickerImageCache]()
+        for sticker in stickers {
+            let image = sticker.image.rotate(by: sticker.rotation)
+            let rect = sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(canvasSize.width), y: CGFloat(canvasSize.height)))
+            let cache = StickerImageCache(image: image, rect: rect)
             caches.append(cache)
         }
         return caches
@@ -239,15 +266,12 @@ class GifGenerator {
         return image.cropping(to: rect)!
     }
     
-    func addStickersAndTexts(image: CGImage, cachedLabels: [LabelViewCache]) -> CGImage {
+    func addStickersAndTexts(image: CGImage, cachedLabels: [LabelViewCache], cachedStickers: [StickerImageCache]) -> CGImage {
         let image = UIGraphicsImageRenderer(size: CGSize(width: image.width, height: image.height)).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
-            for sticker in options.stickers {
-                var stickerImage: UIImage!
-                DispatchQueue.main.sync {
-                    stickerImage = sticker.image.rotate(by: sticker.rotation)
-                }
-                stickerImage.draw(in: sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(image.width), y: CGFloat(image.height))))
+            
+            for stickerCache in cachedStickers {
+                stickerCache.draw()
             }
             
             for (index, _) in options.texts.enumerated() {
