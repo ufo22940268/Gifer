@@ -287,6 +287,8 @@ extension OverlayComponent {
         scaleTo(scale)
         let rotation = extractRotation(translate)
         rotateBy(rotation)
+        
+//        render.onComponentLayoutChanged()
     }
         
     func scaleTo(_ scale: CGFloat) {

@@ -11,13 +11,6 @@ import UIKit
 typealias ComponentRender = UIView & OverlayComponentRenderable
 
 class TextRender: UILabel, OverlayComponentRenderable {
-    
-    override var bounds: CGRect {
-        didSet {
-            updateFontSize()
-        }
-    }
-    
     var info: EditTextInfo! {
         didSet {
             text = info.text
@@ -25,6 +18,10 @@ class TextRender: UILabel, OverlayComponentRenderable {
             textColor = info.textColor
             sizeToFit()
         }
+    }
+    
+    var fontSize: CGFloat {
+        return approximateAdjustedFontSizeWithLabel(self)
     }
     
     init(info: EditTextInfo) {
@@ -36,6 +33,8 @@ class TextRender: UILabel, OverlayComponentRenderable {
         useAutoLayout()
         adjustsFontSizeToFitWidth = true
         textAlignment = .center
+        
+        adjustsFontSizeToFitWidth = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,10 +43,6 @@ class TextRender: UILabel, OverlayComponentRenderable {
     
     func copy() -> OverlayComponentRender {
         return TextRender(info: self.info)
-    }
-    
-    func updateFontSize() {
-        font = UIFont(name: font.fontName, size: approximateAdjustedFontSizeWithLabel(self))
     }
 }
 

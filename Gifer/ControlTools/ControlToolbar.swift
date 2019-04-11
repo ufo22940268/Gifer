@@ -96,6 +96,7 @@ extension ControlToolbar: UICollectionViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        scrollToItem(at: indexPath, at: .left, animated: true)
         let item = allItems[indexPath.row]
         switch item {
         case .playSpeed:

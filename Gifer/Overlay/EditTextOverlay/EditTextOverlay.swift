@@ -28,7 +28,7 @@ class EditTextOverlay: Overlay {
             var textInfo = render.info!
             textInfo.nRect = render.convert(render.frame, to: self)
                 .normalizeRect(containerSize: bounds.size)
-            textInfo.fontSize = render.font.pointSize
+            textInfo.fontSize = render.fontSize
             textInfo.rotation = component.rotation
             return textInfo
         }
@@ -40,7 +40,6 @@ class EditTextOverlay: Overlay {
         let component: OverlayComponent = OverlayComponent(info: info, render: textRender)
         addComponent(component: component)
         active(component: component)
-        textRender.updateFontSize()
     }
     
     func updateTextComponent(textInfo: EditTextInfo, componentId: ComponentId) {
