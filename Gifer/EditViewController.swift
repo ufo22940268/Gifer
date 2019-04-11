@@ -583,11 +583,6 @@ extension EditViewController: VideoViewControllerDelegate {
 
 extension EditViewController: VideoControllerDelegate {
     
-    /// Change be gallery slider
-    ///
-    /// - Parameters:
-    ///   - begin: Left progress of gallery view.
-    ///   - end: Right progress of gallery view
     func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
         guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
 
@@ -617,7 +612,7 @@ extension EditViewController: VideoControllerDelegate {
         videoVC.updateTrim(position: scrollToPositionInsideGalleryDuration, state: state, sliderPosition: currentPosition)
     }
 
-    /// Change by gallery container scrolling.
+    //Changed by trimer dragged
     func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = scrollToPosition
         if case .started = state {
@@ -632,6 +627,7 @@ extension EditViewController: VideoControllerDelegate {
         videoVC.updateTrim(position: position, state: state)
         
         setSubTitle(duration: videoController.galleryDuration)
+        videoController.updateFrameColor(duration: position.galleryDuration)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {

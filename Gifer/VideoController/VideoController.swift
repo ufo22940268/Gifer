@@ -296,6 +296,10 @@ class VideoController: UIStackView {
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
     }
+    
+    func updateFrameColor(duration: CMTime) {
+        videoTrim.updateFrameColor(duration: duration)
+    }
 }
 
 // MARK: - Gallery scroll container

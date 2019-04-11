@@ -47,6 +47,10 @@ class TrimButton: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func changeBackground(color: UIColor) {
+        backgroundLayer.backgroundColor = color.cgColor
+    }
+    
     override var bounds: CGRect {
         didSet {
             backgroundLayer.frame = bounds
@@ -69,19 +73,20 @@ class VideoControllerTrim: UIControl {
         case initial, highlight
 
         func applyTheme(to view: VideoControllerTrim) {
-            var frameColor: UIColor
+            var backgroundColor: UIColor
             var arrowColor: UIColor
             switch self {
             case .initial:
-                frameColor = UIColor.black
+                backgroundColor = UIColor.black
                 arrowColor = UIColor.white
             case .highlight:
-                frameColor = UIColor(named: "mainColor")!
+                backgroundColor = view.mainColor
                 arrowColor = UIColor.black
             }
 
-            view.setArrowColor(arrowColor)
-            view.setFrameColor(frameColor)
+            view.setArrowColor(arrowColor, backgroundColor: backgroundColor)
+            view.topLine.backgroundColor = backgroundColor
+            view.bottomLine.backgroundColor = backgroundColor
         }
     }
     
@@ -128,10 +133,11 @@ class VideoControllerTrim: UIControl {
         right.backgroundColor = faderBackgroundColor
         return right
     }()
+
+    static let defaultMainColor = UIColor(named: "mainColor")!
+    static let wechatMainColor = UIColor(named: "wechatColor")!
     
-    var mainColor: UIColor {
-        return UIColor(named: "mainColor")!
-    }
+    var mainColor: UIColor = VideoControllerTrim.defaultMainColor
     
     var galleryView: UIView!
     private var sliderThresholdGuide: UILayoutGuide!
@@ -228,14 +234,23 @@ class VideoControllerTrim: UIControl {
         activeTrailingConstraint.isActive = true
     }
     
-    func setFrameColor(_ color: UIColor) {
-        topLine.backgroundColor = color
-        bottomLine.backgroundColor = color
+    func updateFrameColor(duration: CMTime) {
+        if ShareType.wechat.isEnabled(duration: duration) {
+            mainColor = VideoControllerTrim.wechatMainColor
+        } else {
+            mainColor = VideoControllerTrim.defaultMainColor
+        }
+        updateTheme()
     }
     
-    func setArrowColor(_ color: UIColor) {
+    func updateTheme() {
+        status.applyTheme(to:self)
+    }
+    
+    func setArrowColor(_ color: UIColor, backgroundColor: UIColor) {
         [leftTrim, rightTrim].forEach { (view) in
             view?.tintColor = color
+            view?.changeBackground(color: backgroundColor)
         }
     }
     
