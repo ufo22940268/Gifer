@@ -279,6 +279,9 @@ class EditViewController: UIViewController {
         videoVC.previewView = previewView
         
         enableVideoContainer(false)
+        
+        editTextOverlay.delegate = self
+        stickerOverlay.delegate = self
     }
     
     
@@ -544,7 +547,6 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
         mock()
 //
-        editTextOverlay.delegate = self
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
