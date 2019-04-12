@@ -236,6 +236,7 @@ class GifGenerator {
             let labelView = textInfo.createExportLabelView(imageSize: image.size)
             let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
             let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true).rotate(by: textInfo.rotation), rect: rect)
+//            let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true), rect: rect)
             caches.append(cache)
         }
         return caches

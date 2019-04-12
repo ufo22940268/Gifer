@@ -49,7 +49,8 @@ public extension UIView {
     @available(iOS 10.0, *)
     func renderToImage(afterScreenUpdates: Bool = false) -> UIImage {
         let rendererFormat = UIGraphicsImageRendererFormat.default()
-        rendererFormat.opaque = false
+//        rendererFormat.opaque = false
+        rendererFormat.scale = 1.0
         let renderer = UIGraphicsImageRenderer(size: bounds.size, format: rendererFormat)
         
         let snapshotImage = renderer.image { _ in
