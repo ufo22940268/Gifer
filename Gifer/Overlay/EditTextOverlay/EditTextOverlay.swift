@@ -26,7 +26,7 @@ class EditTextOverlay: Overlay {
         return components.map { component in
             let render = component.render as! TextRender
             var textInfo = render.info!
-            textInfo.nRect = render.convert(render.frame, to: self)
+            textInfo.nRect = render.convert(render.bounds, to: self)
                 .normalizeRect(containerSize: bounds.size)
             textInfo.fontSize = render.fontSize
             textInfo.rotation = component.rotation
