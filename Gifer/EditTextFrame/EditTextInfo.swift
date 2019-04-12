@@ -18,6 +18,7 @@ struct EditTextInfo: OverlayRenderInfo {
     
     var cropSize: CGSize?
     var fontSize: CGFloat?
+    var videoSize: CGSize?
     
     static let preferredTextSize = CGFloat(30)
     
@@ -34,6 +35,7 @@ struct EditTextInfo: OverlayRenderInfo {
     
     func fixTextRect(videoSize: CGSize, cropArea: CGRect) -> EditTextInfo {
         var newInfo = self
+        newInfo.videoSize = videoSize
         newInfo.cropSize = cropArea.realRect(containerSize: videoSize).size
         newInfo.nRect = convertComponentRectByCrop(originRect: nRect!, videoSize: videoSize, cropArea: cropArea)
         return newInfo
@@ -41,7 +43,7 @@ struct EditTextInfo: OverlayRenderInfo {
     
     func createExportLabelView(imageSize: CGSize) -> UILabel {
         let labelView = UILabel()
-        let scale = imageSize.width/cropSize!.width
+        let scale = imageSize.width/videoSize!.width
         let exportFontSize = scale*fontSize!
         labelView.text = text
         labelView.textAlignment = .center

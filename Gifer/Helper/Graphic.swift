@@ -11,6 +11,7 @@ import UIKit
 import AVKit
 
 extension CGRect {
+        
     var center: CGPoint {
         return CGPoint(x: self.midX, y: self.midY)
     }
@@ -49,7 +50,6 @@ public extension UIView {
     @available(iOS 10.0, *)
     func renderToImage(afterScreenUpdates: Bool = false) -> UIImage {
         let rendererFormat = UIGraphicsImageRendererFormat.default()
-//        rendererFormat.opaque = false
         rendererFormat.scale = 1.0
         let renderer = UIGraphicsImageRenderer(size: bounds.size, format: rendererFormat)
         

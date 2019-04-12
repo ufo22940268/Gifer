@@ -31,18 +31,18 @@ extension UIImage {
         let t: CGAffineTransform = CGAffineTransform(rotationAngle: radian)
         rotatedViewBox.transform = t
         let rotatedSize: CGSize = rotatedViewBox.frame.size
-        //Create the bitmap context
-        UIGraphicsBeginImageContext(rotatedSize)
-        let bitmap: CGContext = UIGraphicsGetCurrentContext()!
-        //Move the origin to the middle of the image so we will rotate and scale around the center.
-        bitmap.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
-        //Rotate the image context
-        bitmap.rotate(by: (radian))
-        //Now, draw the rotated/scaled image into the context
-        bitmap.scaleBy(x: 1.0, y: -1.0)
-        bitmap.draw(self.cgImage!, in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2, width: self.size.width, height: self.size.height))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
+        
+        let render = UIGraphicsImageRenderer(bounds: CGRect(origin: .zero, size: rotatedSize))
+        let newImage = render.image { context in
+            let bitmap: CGContext = context.cgContext
+            //Move the origin to the middle of the image so we will rotate and scale around the center.
+            bitmap.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
+            //Rotate the image context
+            bitmap.rotate(by: (radian))
+            //Now, draw the rotated/scaled image into the context
+            bitmap.scaleBy(x: 1.0, y: -1.0)
+            bitmap.draw(self.cgImage!, in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2, width: self.size.width, height: self.size.height))
+        }
         return newImage
     }
 }
@@ -217,7 +217,8 @@ class GifGenerator {
         var rect: CGRect
         
         func draw() {
-            self.image.draw(at: rect.origin)
+            let origin = rect.center.applying(CGAffineTransform(translationX: -image.size.width/2, y: -image.size.height/2))
+            self.image.draw(at: origin)
         }
     }
     
@@ -236,7 +237,6 @@ class GifGenerator {
             let labelView = textInfo.createExportLabelView(imageSize: image.size)
             let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
             let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true).rotate(by: textInfo.rotation), rect: rect)
-//            let cache = LabelViewCache(image: labelView.renderToImage(afterScreenUpdates: true), rect: rect)
             caches.append(cache)
         }
         return caches
