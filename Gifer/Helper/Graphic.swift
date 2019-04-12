@@ -52,7 +52,6 @@ public extension UIView {
         let rendererFormat = UIGraphicsImageRendererFormat.default()
         rendererFormat.scale = 1.0
         let renderer = UIGraphicsImageRenderer(size: bounds.size, format: rendererFormat)
-        
         let snapshotImage = renderer.image { _ in
             drawHierarchy(in: bounds, afterScreenUpdates: afterScreenUpdates)
         }
