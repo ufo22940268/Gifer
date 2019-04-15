@@ -39,6 +39,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "GiferTests">
+               </Test>
+               <Test
                   Identifier = "GiferTests/testAssetExport()">
                </Test>
                <Test
@@ -59,7 +62,7 @@
             </SkippedTests>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "42F2D58B219403B300113A10"

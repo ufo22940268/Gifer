@@ -297,7 +297,7 @@ class VideoController: UIStackView {
         videoSlider.show(true)
     }
     
-    func updateFrameColor(duration: CMTime) {
+    func vupdateFrameColor(duration: CMTime) {
         videoTrim.updateFrameColor(duration: duration)
     }
 }

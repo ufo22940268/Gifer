@@ -16,22 +16,27 @@ typealias ShareDialogHandler = (_ type: ShareType) -> Void
 enum ShareType {
     case wechat, photo
     
-    var gifSize: CGFloat {
+    func gifSize(duration: CMTime) -> CGFloat {
         switch self {
         case .wechat:
-            return 400
+            if duration.seconds > 10 {
+                return 250
+            } else {
+                return 400
+            }
         case .photo:
             return 600
         }
     }
     
     func isEnabled(duration: CMTime) -> Bool {
-        switch self {
-        case .wechat:
-            return duration.seconds <= 5
-        case .photo:
-            return true
-        }
+        return true
+//        switch self {
+//        case .wechat:
+//            return duration.seconds <= 5
+//        case .photo:
+//            return true
+//        }
     }
 }
 

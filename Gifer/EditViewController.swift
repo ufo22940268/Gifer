@@ -627,7 +627,6 @@ extension EditViewController: VideoControllerDelegate {
         videoVC.updateTrim(position: position, state: state)
         
         setSubTitle(duration: videoController.galleryDuration)
-        videoController.updateFrameColor(duration: position.galleryDuration)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {

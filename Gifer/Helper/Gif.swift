@@ -72,7 +72,13 @@ extension AVAsset {
     }    
 }
 
-class GifGenerator {
+struct GifProcessConfig {
+    var gifSize: CGSize
+    var extractImageCountPerSecond: Int
+    var gifDelayTime: Double
+}
+
+public class GifGenerator {
     
     struct Options: Equatable {
         var start: CMTime
@@ -92,6 +98,17 @@ class GifGenerator {
             && lhs.cropArea == rhs.cropArea
         }
         
+        func splitVideo(extractedImageCountPerSecond: Int) -> [CMTime] {
+            var currentTime = start
+            var times = [CMTime]()
+            while currentTime < end {
+                times.append(currentTime)
+                currentTime = currentTime + CMTime(seconds: 1/Double(extractedImageCountPerSecond), preferredTimescale: currentTime.timescale)
+            }
+            return times
+        }
+        
+        
         var duration: CMTime {
             return end - start
         }
@@ -101,8 +118,12 @@ class GifGenerator {
     var videoAsset: AVAsset
     var options: Options
     var gifSize: CGSize!
-    private var extractedImageCountPerSecond: Int!
-    private var gifDelayTime: Float!
+    private var extractImageCountPerSecond: Int!
+    var gifDelayTime: Double!
+    
+    var processConfig: GifProcessConfig {
+        return GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
+    }
     
     init(video: AVAsset, options: Options) {
         self.videoAsset = video
@@ -112,16 +133,21 @@ class GifGenerator {
     }
     
     func calculateExportConfig() {
-        var defaultCount:Int
+        var gifImageCountPerSecond:Int
         if options.speed < 1 {
-            defaultCount = 4
+            gifImageCountPerSecond = 4
         } else {
-            defaultCount = 7
+            gifImageCountPerSecond = 7
         }
-        extractedImageCountPerSecond = Int(Float(defaultCount)/options.speed)
-        gifDelayTime = 1/Float(defaultCount)
-        let size = options.exportType!.gifSize
+        extractImageCountPerSecond = Int(Float(gifImageCountPerSecond)/options.speed)
+        gifDelayTime = 1/Double(gifImageCountPerSecond)
+        let size = options.exportType!.gifSize(duration: options.duration)
         gifSize = CGSize(width: size, height: size)
+    }
+    
+    func calibrateSize(under memoryInMB: Double, completion: @escaping () -> Void) {
+        let estimator = GifSizeEstimator(options: options, asset: videoAsset, processConfig: processConfig)
+        estimator.calibrateSize(under: memoryInMB, completion: completion)
     }
     
     var gifFilePath: URL? {
@@ -153,7 +179,7 @@ class GifGenerator {
         var currentTime = startProgress
         while currentTime < endProgress {
             times.append(NSValue(time: currentTime))
-            currentTime = currentTime + CMTime(seconds: 1/Double(extractedImageCountPerSecond), preferredTimescale: currentTime.timescale)
+            currentTime = currentTime + CMTime(seconds: 1/Double(extractImageCountPerSecond), preferredTimescale: currentTime.timescale)
             group.enter()
         }
         

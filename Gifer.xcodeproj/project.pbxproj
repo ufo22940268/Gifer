@@ -88,6 +88,8 @@
 		42F2D578219403B300113A10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D577219403B300113A10 /* Assets.xcassets */; };
 		42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D579219403B300113A10 /* LaunchScreen.storyboard */; };
 		42F2D586219403B300113A10 /* GiferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2D585219403B300113A10 /* GiferTests.swift */; };
+		42FF4D2E2264514700EEF49C /* GifSizeEstimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */; };
+		42FF4D30226467AF00EEF49C /* GifSizeEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +192,8 @@
 		42F2D587219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42F2D590219403B300113A10 /* GiferUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiferUITests.swift; sourceTree = "<group>"; };
 		42F2D592219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSizeEstimatorTest.swift; sourceTree = "<group>"; };
+		42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSizeEstimator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +306,7 @@
 				42D7F28D224CA08B00E7E504 /* Palette.swift */,
 				42D7F299224F605E00E7E504 /* Constraints.swift */,
 				42D7F29B225021FD00E7E504 /* Graphic.swift */,
+				42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 			children = (
 				42F2D585219403B300113A10 /* GiferTests.swift */,
 				42F2D587219403B300113A10 /* Info.plist */,
+				42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */,
 			);
 			path = GiferTests;
 			sourceTree = "<group>";
@@ -602,6 +608,7 @@
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
+				42FF4D30226467AF00EEF49C /* GifSizeEstimator.swift in Sources */,
 				42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */,
 				42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */,
 				42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */,
@@ -634,6 +641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42FF4D2E2264514700EEF49C /* GifSizeEstimatorTest.swift in Sources */,
 				42F2D586219403B300113A10 /* GiferTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
