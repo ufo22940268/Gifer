@@ -60,7 +60,7 @@ class ShareDialogController {
     let alertController: UIAlertController
     
     init(duration: CMTime, shareHandler: @escaping ShareDialogHandler, cancelHandler: @escaping () -> Void) {
-        alertController = UIAlertController(title: "分享", message: nil, preferredStyle: .actionSheet)
+        alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         if ShareType.wechatSticker.isEnabled(duration: duration) {
             alertController.addAction(UIAlertAction(title: "添加到微信表情", style: .default, handler: {action in
@@ -80,7 +80,7 @@ class ShareDialogController {
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in cancelHandler() }))
     }
     
-    func present(by controller: UIViewController) {
+    func present(by controller: UINavigationController) {
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = controller.view
         }

@@ -35,6 +35,32 @@ class ShareManager {
         }
     }
     
+//    func shareToWeibo(video: URL, complete: @escaping ShareHandler) {
+//        guard !UIDevice.isSimulator else {
+//            return
+//        }
+//        let gifData = try! Data(contentsOf: video)
+//        DispatchQueue.main.async {
+//            let monkeyMessage = MonkeyKing.Message.weibo(.default(info: (
+//                title: nil,
+//                description: nil,
+//                thumbnail: UIImage(data: gifData),
+//                media: .gif(gifData)
+//                ), accessToken: <#T##String?#>))
+//
+//            MonkeyKing.deliver(monkeyMessage) { (result) in
+//                print("result: \(result)")
+//                switch result {
+//                case .success(_):
+//                    complete(true)
+//                case .failure(_):
+//                    complete(false)
+//                }
+//            }
+//
+//        }
+//    }
+
     func shareToWechat(video: URL, complete: @escaping ShareHandler) {
         guard !UIDevice.isSimulator else {
             return
