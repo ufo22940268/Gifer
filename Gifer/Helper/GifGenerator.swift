@@ -76,6 +76,17 @@ struct GifProcessConfig {
     var gifSize: CGSize
     var extractImageCountPerSecond: Int
     var gifDelayTime: Double
+    
+    func reduce() -> GifProcessConfig {
+        let decreasePercent = 0.2
+        var newConfig = self
+        newConfig.gifSize = gifSize.applying(CGAffineTransform(scaleX: 1 - CGFloat(decreasePercent), y: 1 - CGFloat(decreasePercent)))
+        return newConfig
+    }
+    
+    var lowestConfig: GifProcessConfig {
+        return self
+    }
 }
 
 public class GifGenerator {
@@ -146,7 +157,7 @@ public class GifGenerator {
     }
     
     func calibrateSize(under memoryInMB: Double, completion: @escaping () -> Void) {
-        let estimator = GifSizeEstimator(options: options, asset: videoAsset, processConfig: processConfig)
+        let estimator = GifConfigCalibrator(options: options, asset: videoAsset, processConfig: processConfig)
         estimator.calibrateSize(under: memoryInMB, completion: completion)
     }
     

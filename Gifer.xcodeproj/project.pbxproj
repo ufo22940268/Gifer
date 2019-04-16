@@ -78,7 +78,7 @@
 		42E5C3552220B86100D18CA6 /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C3542220B86100D18CA6 /* StickerView.swift */; };
 		42E5C35722212EE200D18CA6 /* TrashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C35622212EE200D18CA6 /* TrashView.swift */; };
 		42E86E6521CDC996004BB0BC /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E86E6421CDC996004BB0BC /* LoadingViewController.xib */; };
-		42EE13D62195C22900724611 /* Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* Gif.swift */; };
+		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
 		42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EEACE021995DEE009A3BB8 /* EditViewController.swift */; };
@@ -89,7 +89,7 @@
 		42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D579219403B300113A10 /* LaunchScreen.storyboard */; };
 		42F2D586219403B300113A10 /* GiferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2D585219403B300113A10 /* GiferTests.swift */; };
 		42FF4D2E2264514700EEF49C /* GifSizeEstimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */; };
-		42FF4D30226467AF00EEF49C /* GifSizeEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */; };
+		42FF4D30226467AF00EEF49C /* GifConfigCalibrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,7 +176,7 @@
 		42E86E6421CDC996004BB0BC /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		42EE13D52195C22900724611 /* Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gif.swift; sourceTree = "<group>"; };
+		42EE13D52195C22900724611 /* GifGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGenerator.swift; sourceTree = "<group>"; };
 		42EE13D721963FBB00724611 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		42EE13D9219641B400724611 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		42EEACE021995DEE009A3BB8 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 		42F2D590219403B300113A10 /* GiferUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiferUITests.swift; sourceTree = "<group>"; };
 		42F2D592219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSizeEstimatorTest.swift; sourceTree = "<group>"; };
-		42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSizeEstimator.swift; sourceTree = "<group>"; };
+		42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifConfigCalibrator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,7 +298,7 @@
 		42D7F282224B4CC000E7E504 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				42EE13D52195C22900724611 /* Gif.swift */,
+				42EE13D52195C22900724611 /* GifGenerator.swift */,
 				422E0E2121CB616500192B37 /* Debug.swift */,
 				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
 				42D7F283224B4CE400E7E504 /* BasicExtensions.swift */,
@@ -306,7 +306,7 @@
 				42D7F28D224CA08B00E7E504 /* Palette.swift */,
 				42D7F299224F605E00E7E504 /* Constraints.swift */,
 				42D7F29B225021FD00E7E504 /* Graphic.swift */,
-				42FF4D2F226467AF00EEF49C /* GifSizeEstimator.swift */,
+				42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -608,7 +608,7 @@
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
-				42FF4D30226467AF00EEF49C /* GifSizeEstimator.swift in Sources */,
+				42FF4D30226467AF00EEF49C /* GifConfigCalibrator.swift in Sources */,
 				42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */,
 				42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */,
 				42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */,
@@ -630,7 +630,7 @@
 				422E0E2221CB616500192B37 /* Debug.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
-				42EE13D62195C22900724611 /* Gif.swift in Sources */,
+				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,
 				42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */,
 				42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
