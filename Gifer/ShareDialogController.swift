@@ -29,6 +29,16 @@ enum ShareType {
         }
     }
     
+    var sizeLimitation: Double {
+        switch self {
+        case .wechat:
+            return 5
+        case .photo:
+            return 40
+        }
+    }
+    
+    
     func isEnabled(duration: CMTime) -> Bool {
         return true
 //        switch self {

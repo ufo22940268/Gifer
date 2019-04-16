@@ -78,7 +78,7 @@ struct GifProcessConfig {
     var gifDelayTime: Double
     
     func reduce() -> GifProcessConfig {
-        let decreasePercent = 0.2
+        let decreasePercent = 0.1
         var newConfig = self
         newConfig.gifSize = gifSize.applying(CGAffineTransform(scaleX: 1 - CGFloat(decreasePercent), y: 1 - CGFloat(decreasePercent)))
         return newConfig
@@ -120,8 +120,7 @@ public class GifGenerator {
             }
             return times
         }
-        
-        
+
         var duration: CMTime {
             return end - start
         }
@@ -130,13 +129,17 @@ public class GifGenerator {
     let fileName = "animated.gif"
     var videoAsset: AVAsset
     var options: Options
-    var gifSize: CGSize!
-    private var extractImageCountPerSecond: Int!
-    var gifDelayTime: Double!
-    
-    var processConfig: GifProcessConfig {
-        return GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
+    var gifSize: CGSize! {
+        return processConfig.gifSize
     }
+    private var extractImageCountPerSecond: Int! {
+        return processConfig.extractImageCountPerSecond
+    }
+    var gifDelayTime: Double! {
+        return processConfig.gifDelayTime
+    }
+    
+    var processConfig: GifProcessConfig!
     
     init(video: AVAsset, options: Options) {
         self.videoAsset = video
@@ -152,10 +155,11 @@ public class GifGenerator {
         } else {
             gifImageCountPerSecond = 7
         }
-        extractImageCountPerSecond = Int(Float(gifImageCountPerSecond)/options.speed)
-        gifDelayTime = 1/Double(gifImageCountPerSecond)
+        let extractImageCountPerSecond = Int(Float(gifImageCountPerSecond)/options.speed)
+        let gifDelayTime = 1/Double(gifImageCountPerSecond)
         let size = options.exportType!.gifSize(duration: options.duration)
-        gifSize = CGSize(width: size, height: size)
+        let gifSize = CGSize(width: size, height: size)
+        processConfig = GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
     }
     
     func calibrateSize(under memoryInMB: Double, completion: @escaping (GifProcessConfig) -> Void) {
@@ -185,6 +189,14 @@ public class GifGenerator {
     }
     
     func run(complete: @escaping (URL) -> Void) {
+        calibrateSize(under: options.exportType!.sizeLimitation) { (config) in
+            self.processConfig = config
+            self.generateGif(complete: complete)
+        }
+    }
+
+    
+    func generateGif(complete: @escaping (URL) -> Void) {
         let startProgress = options.start
         let endProgress = options.end
         var times = [NSValue]()

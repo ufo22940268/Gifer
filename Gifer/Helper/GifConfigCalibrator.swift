@@ -59,7 +59,7 @@ class GifConfigCalibrator {
     
     func calibrateSize(under memoryInMB: Double, completion: @escaping (GifProcessConfig) -> Void) {
         let group = DispatchGroup()
-        let possibleConfigs = Array(0..<3).reduce([GifProcessConfig](), {(ar, index) in
+        let possibleConfigs = Array(0..<10).reduce([GifProcessConfig](), {(ar, index) in
             var ar = ar
             if ar.isEmpty {
                 ar.append(initialProcessConfig)
@@ -69,31 +69,28 @@ class GifConfigCalibrator {
             return ar
         })
         
-        var finished = false
-        var finalConfig: GifProcessConfig!
+        var validConfigs = [GifProcessConfig]()
         for config in possibleConfigs {
-            if !finished {
-                group.enter()
-            } else {
-                break
-            }
+            group.enter()
             getEstimateSize(processConfig: config) { (estimateSize) in
+                print("estimate size: \(estimateSize) config gif size: \(config.gifSize)")
                 if estimateSize < memoryInMB {
-                    finished = true
-                    finalConfig = config
+                    validConfigs.append(config)
                 }
                 group.leave()
             }
         }
         
-        if finalConfig == nil {
-            print("using lowest config")
-            finalConfig = initialProcessConfig.lowestConfig
-        }
-        
         group.notify(queue: .main) {
+            var finalConfig = validConfigs.max { $0.gifSize.width < $1.gifSize.width }
+            
+            if finalConfig == nil {
+                print("using lowest config")
+                finalConfig = self.initialProcessConfig.lowestConfig
+            }
+            
             print("finalConfig: \(String(describing: finalConfig))")
-            completion(finalConfig)
+            completion(finalConfig!)
         }
     }
     
