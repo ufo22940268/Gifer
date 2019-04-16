@@ -157,8 +157,7 @@ public class GifGenerator {
         }
         let extractImageCountPerSecond = Int(Float(gifImageCountPerSecond)/options.speed)
         let gifDelayTime = 1/Double(gifImageCountPerSecond)
-        let size = options.exportType!.gifSize(duration: options.duration)
-        let gifSize = CGSize(width: size, height: size)
+        let gifSize = CGSize(width: 500, height: 500)
         processConfig = GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
     }
     
