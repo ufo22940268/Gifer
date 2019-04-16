@@ -14,18 +14,14 @@ typealias ShareGifFileHandler = (_ file: URL) -> Void
 typealias ShareDialogHandler = (_ type: ShareType) -> Void
 
 enum ShareType {
-    case wechat, photo
+    case wechat, photo, wechatSticker
     
-    func gifSize(duration: CMTime) -> CGFloat {
+    var initialGifSize: CGSize {
         switch self {
-        case .wechat:
-            if duration.seconds > 10 {
-                return 250
-            } else {
-                return 400
-            }
-        case .photo:
-            return 600
+        case .wechatSticker:
+            return CGSize(width: 150, height: 150)
+        default:
+            return CGSize(width: 500, height: 500)
         }
     }
     
@@ -35,18 +31,27 @@ enum ShareType {
             return 5
         case .photo:
             return 40
+        case .wechatSticker:
+            return 0.5
+        }
+    }
+
+    var lowestSize: CGSize {
+        switch self {
+        case .wechatSticker:
+            return CGSize(width: 100, height: 100)
+        default:
+            return CGSize(width: 200, height: 200)
         }
     }
     
-    
     func isEnabled(duration: CMTime) -> Bool {
-        return true
-//        switch self {
-//        case .wechat:
-//            return duration.seconds <= 5
-//        case .photo:
-//            return true
-//        }
+        switch self {
+        case .wechatSticker:
+            return duration.seconds <= 5
+        default:
+            return true
+        }
     }
 }
 
@@ -56,6 +61,12 @@ class ShareDialogController {
     
     init(duration: CMTime, shareHandler: @escaping ShareDialogHandler, cancelHandler: @escaping () -> Void) {
         alertController = UIAlertController(title: "分享", message: nil, preferredStyle: .actionSheet)
+        
+        if ShareType.wechatSticker.isEnabled(duration: duration) {
+            alertController.addAction(UIAlertAction(title: "添加到微信表情", style: .default, handler: {action in
+                shareHandler(.wechatSticker)
+            }))
+        }
         
         if ShareType.wechat.isEnabled(duration: duration) {
             alertController.addAction(UIAlertAction(title: "分享到微信", style: .default, handler: {action in

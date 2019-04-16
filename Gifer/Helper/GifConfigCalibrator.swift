@@ -64,7 +64,9 @@ class GifConfigCalibrator {
             if ar.isEmpty {
                 ar.append(initialProcessConfig)
             } else {
-                ar.append(ar.last!.reduce())
+                if let reducedConfig = ar.last!.reduce() {
+                    ar.append(reducedConfig)
+                }
             }
             return ar
         })
@@ -86,12 +88,16 @@ class GifConfigCalibrator {
             
             if finalConfig == nil {
                 print("using lowest config")
-                finalConfig = self.initialProcessConfig.lowestConfig
+                finalConfig = self.initialProcessConfig.lowestConfig(for: self.shareType)
             }
             
             print("finalConfig: \(String(describing: finalConfig))")
             completion(finalConfig!)
         }
+    }
+    
+    var shareType: ShareType {
+        return options.exportType!
     }
     
     private func getEstimateSize(processConfig: GifProcessConfig, completion: @escaping (Double) -> Void) {

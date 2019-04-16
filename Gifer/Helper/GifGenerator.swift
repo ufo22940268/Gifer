@@ -77,16 +77,16 @@ struct GifProcessConfig {
     var extractImageCountPerSecond: Int
     var gifDelayTime: Double
     
-    func reduce() -> GifProcessConfig {
+    func reduce() -> GifProcessConfig? {
         let decreasePercent = 0.1
         var newConfig = self
         newConfig.gifSize = gifSize.applying(CGAffineTransform(scaleX: 1 - CGFloat(decreasePercent), y: 1 - CGFloat(decreasePercent)))
         return newConfig
     }
     
-    var lowestConfig: GifProcessConfig {
+    func lowestConfig(for shareType: ShareType) -> GifProcessConfig {
         var newConfig = self
-        newConfig.gifSize = CGSize(width: 200, height: 200)
+        newConfig.gifSize = shareType.lowestSize
         return newConfig
     }
 }
@@ -148,6 +148,10 @@ public class GifGenerator {
         calculateExportConfig()
     }
     
+    var shareType: ShareType {
+        return options.exportType!
+    }
+    
     func calculateExportConfig() {
         var gifImageCountPerSecond:Int
         if options.speed < 1 {
@@ -157,7 +161,7 @@ public class GifGenerator {
         }
         let extractImageCountPerSecond = Int(Float(gifImageCountPerSecond)/options.speed)
         let gifDelayTime = 1/Double(gifImageCountPerSecond)
-        let gifSize = CGSize(width: 500, height: 500)
+        let gifSize = shareType.initialGifSize
         processConfig = GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
     }
     

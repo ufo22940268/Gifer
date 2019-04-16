@@ -419,7 +419,7 @@ class EditViewController: UIViewController {
             self.showLoadingWhenExporting(false)
             
             switch type {
-            case .wechat:
+            case .wechat, .wechatSticker:
                 shareManager.shareToWechat(video: gif, complete: { (success) in                    
                     self.dismiss(animated: true, completion: nil)
                 })
