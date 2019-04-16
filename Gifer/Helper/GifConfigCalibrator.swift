@@ -57,7 +57,7 @@ class GifConfigCalibrator {
         }
     }
     
-    func calibrateSize(under memoryInMB: Double, completion: @escaping () -> Void) {
+    func calibrateSize(under memoryInMB: Double, completion: @escaping (GifProcessConfig) -> Void) {
         let group = DispatchGroup()
         let possibleConfigs = Array(0..<3).reduce([GifProcessConfig](), {(ar, index) in
             var ar = ar
@@ -93,6 +93,7 @@ class GifConfigCalibrator {
         
         group.notify(queue: .main) {
             print("finalConfig: \(String(describing: finalConfig))")
+            completion(finalConfig)
         }
     }
     

@@ -33,9 +33,7 @@ class GifSizeEstimatorTest: XCTestCase {
             print(asset)
             let options = GifGenerator.Options(start: CMTime(seconds: 0, preferredTimescale: asset.duration.timescale), end: asset.duration, speed: 1, cropArea: CGRect(origin: .zero, size: CGSize(width: 1, height: 1)), filter: nil, stickers: [], direction: .forward, exportType: .photo, texts: [])
             let generator = GifGenerator(video: asset, options: options)
-            print("before calibrate\n gifSize: \(generator.gifSize)  gifDelaytime: \(generator.gifDelayTime)")
-            generator.calibrateSize(under: 5) {                
-                print("after calibrate\n gifSize: \(generator.gifSize)  gifDelaytime: \(generator.gifDelayTime)")
+            generator.calibrateSize(under: 5) { newConfig in
                 exp.fulfill()
             }
         }
