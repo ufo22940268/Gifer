@@ -39,9 +39,9 @@ class FilterPreviewView: UICollectionViewCell {
     
     func setImage(_ image: UIImage, with filter: YPFilter) {
         self.filter = filter
-        if let applier = filter.applier {
+        if filter.hasApplier {
             var ciImage = CIImage(image: image)!
-            ciImage = applier(ciImage)!
+            ciImage = filter.applyFilter(image: ciImage)
             let context = CIContext(options: nil)
             let image = UIImage(cgImage: context.createCGImage(ciImage, from: ciImage.extent)!)
             imageView.image = image

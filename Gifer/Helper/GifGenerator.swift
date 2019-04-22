@@ -251,8 +251,7 @@ public class GifGenerator {
         })
         
         func applyFilter(_ image: CGImage, filter: YPFilter, in context: CIContext) -> CGImage {
-            guard let applier = filter.applier else { return image }
-            let ciImage = applier(CIImage(cgImage: image))!
+            let ciImage = filter.applyFilter(image: CIImage(cgImage: image))
             return ciContext.createCGImage(ciImage, from: ciImage.extent)!
         }
         

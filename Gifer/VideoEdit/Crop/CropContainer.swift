@@ -126,10 +126,10 @@ class CropContainer: UIView {
             ])
         
         contentView.addSubview(editTextOverlay)
-        editTextOverlay.setSameSizeAsParent()
+        editTextOverlay.useSameSizeAsParent()
         
         contentView.addSubview(stickerOverlay)
-        stickerOverlay.setSameSizeAsParent()
+        stickerOverlay.useSameSizeAsParent()
     }
     
     func setupVideo(frame videoFrame: CGRect) {

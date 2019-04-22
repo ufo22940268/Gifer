@@ -55,7 +55,7 @@ protocol FiltersViewDelegate: class {
     func onPreviewSelected(filter: YPFilter)
 }
 
-class FiltersView: UICollectionView {
+class FiltersView: UIStackView {
     
     var previewViews: [FilterPreviewView] = [FilterPreviewView]()
     var stackView: UIStackView!
@@ -63,23 +63,71 @@ class FiltersView: UICollectionView {
     var previewImage: UIImage?
     var selectedIndex: Int = 0
     
-    init() {
+    lazy var filterCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = CGSize(width: 80, height: 80)
-        super.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor(named: "darkBackgroundColor")
-        
-        self.dataSource = self
-        self.delegate = self
-        register(FilterPreviewView.self, forCellWithReuseIdentifier: "cell")
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).useAutoLayout()
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(FilterPreviewView.self, forCellWithReuseIdentifier: "cell")
+        collectionView.collectionViewLayout = flowLayout
+        collectionView.backgroundColor = UIColor(named: "darkBackgroundColor")
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 80)])
+            collectionView.heightAnchor.constraint(equalToConstant: 80)])
+        return collectionView
+    } ()
+    
+    lazy var slider: UISlider = {
+        let slider = FilterSlider().useAutoLayout()
+        slider.addTarget(self, action: #selector(onSliderChanged(sender:forEvent:)), for: .valueChanged)
+        return slider
+    }()
+    
+    lazy var backgroundView: UIView = {
+        let view = UIView().useAutoLayout()
+        view.backgroundColor = UIColor(named: "darkBackgroundColor")
+        return view
+    }()
+    
+    var sliderProgress = Double(1.0) {
+        didSet {
+            filter.progress = sliderProgress
+            customDelegate.onPreviewSelected(filter: filter)
+        }
+    }
+    
+    var filter: YPFilter!
+    
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(backgroundView)
+        backgroundView.useSameSizeAsParent()
+        
+        axis = .vertical
+        isLayoutMarginsRelativeArrangement = true
+        spacing = 8
+        
+        addArrangedSubview(filterCollectionView)
+        addArrangedSubview(slider)
+        NSLayoutConstraint.activate([
+            slider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            slider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            ])
+        filter = AllFilters.first!
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func onSliderChanged(sender: UISlider, forEvent: UIEvent) {
+        sliderProgress = Double(sender.value)
+    }
+    
+    func reloadData() {
+        filterCollectionView.reloadData()
     }
 }
 
@@ -108,9 +156,10 @@ extension FiltersView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        customDelegate.onPreviewSelected(filter: filter(at: indexPath.row))
+        filter = filter(at: indexPath.row)
+        customDelegate.onPreviewSelected(filter: filter)
         
-        reloadData()
+        filterCollectionView.reloadData()
     }
 }
 

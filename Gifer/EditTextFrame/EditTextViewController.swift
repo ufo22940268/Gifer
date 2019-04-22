@@ -183,7 +183,7 @@ extension EditTextViewController {
         
         hideKeyboard()
         panelContainer.addSubview(panel)
-        panel.setSameSizeAsParent()
+        panel.useSameSizeAsParent()
     }
     
     private func showKeyboard() {

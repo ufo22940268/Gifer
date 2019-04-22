@@ -85,7 +85,7 @@ class StickerView: UIView {
     }
     
     private func updateStickerRotation() {
-        guard let superview = superview else { return }
+        guard superview != nil else { return }
         sticker.rotation = transform.rotation
     }
     

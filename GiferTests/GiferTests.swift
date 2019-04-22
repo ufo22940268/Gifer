@@ -92,7 +92,7 @@ class GiferTests: XCTestCase {
             
             DispatchQueue.global().async {
                 export.exportAsynchronously {
-                    print("success \(export.error) \(export.status.rawValue)")
+                    print("success \(String(describing: export.error)) \(export.status.rawValue)")
                     exp.fulfill()
                 }
             }
@@ -125,7 +125,6 @@ class GiferTests: XCTestCase {
             session.outputFileType = AVFileType.mov
             try? FileManager.default.removeItem(at: session.outputURL!)
             session.exportAsynchronously {
-                print("---------\(session.error)")
                 exp.fulfill()
             }
         }
@@ -133,5 +132,15 @@ class GiferTests: XCTestCase {
         
         wait(for: [exp], timeout: 10)
     }
+    
+    func composeBetween(_ rawImage: CIImage, _ filterImage: CIImage, percent: Double) -> CIImage {
+        return rawImage.applyingFilter("CIDissolveTransition", parameters: ["inputTargetImage": filterImage, "inputTime": percent])
+    }
+    
+    func testCompositeFilters() {
+        let rawImage = CIImage(image: #imageLiteral(resourceName: "RRMJ6240.JPG"))!
+        let filterImage = rawImage.applyingFilter("CIPhotoEffectChrome")
+        
+        _ = composeBetween(rawImage, filterImage, percent: 0.2)
+    }
 }
-

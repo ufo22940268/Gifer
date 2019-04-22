@@ -15,6 +15,7 @@
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
+		42444A62226DBD61004F26A3 /* FilterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A61226DBD60004F26A3 /* FilterSlider.swift */; };
 		424596EE223F693B00FCE599 /* VideoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596ED223F693B00FCE599 /* VideoCache.swift */; };
 		424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596EF22408B7000FCE599 /* VideoRangeViewController.swift */; };
 		424596F22241D39F00FCE599 /* VideoLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */; };
@@ -111,6 +112,7 @@
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
+		42444A61226DBD60004F26A3 /* FilterSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSlider.swift; sourceTree = "<group>"; };
 		424596ED223F693B00FCE599 /* VideoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCache.swift; sourceTree = "<group>"; };
 		424596EF22408B7000FCE599 /* VideoRangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRangeViewController.swift; sourceTree = "<group>"; };
 		424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLoadingIndicator.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				4269ADB4221B93540098BA5E /* FiltersView.swift */,
 				4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */,
 				424F16AE222FB50300F94BCF /* StickerMenuView.swift */,
+				42444A61226DBD60004F26A3 /* FilterSlider.swift */,
 			);
 			path = OptionMenu;
 			sourceTree = "<group>";
@@ -475,6 +478,9 @@
 		42F2D565219403B100113A10 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Frank Cheng";
@@ -569,6 +575,7 @@
 				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,
 				42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */,
 				42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */,
+				42444A62226DBD61004F26A3 /* FilterSlider.swift in Sources */,
 				4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */,
 				42D7F298224F58A500E7E504 /* OverlayComponent.swift in Sources */,
 				424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */,

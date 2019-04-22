@@ -94,9 +94,7 @@ class VideoViewController: AVPlayerViewController {
 
         let composition = AVMutableVideoComposition(asset: asset) { (request) in
             var image = request.sourceImage
-            if let applier = filter.applier {
-                image = applier(image)!
-            }
+            image = filter.applyFilter(image: image)
             request.finish(with: image, context: nil)
         }
         return composition

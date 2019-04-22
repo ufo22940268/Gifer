@@ -28,7 +28,7 @@ class FontsPanel: UIView {
     init() {
         super.init(frame: CGRect.zero)
         addSubview(fontPickerView)
-        fontPickerView.setSameSizeAsParent()
+        fontPickerView.useSameSizeAsParent()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -557,8 +557,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
-            self.videoVC.play()
-//            self.previewView?.isHidden = true
+//            self.videoVC.play()
+            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)

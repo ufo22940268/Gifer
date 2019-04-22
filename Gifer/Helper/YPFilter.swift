@@ -13,7 +13,17 @@ public typealias FilterApplierType = ((_ image: CIImage) -> CIImage?)
 
 public struct YPFilter {
     var name = ""
-    var applier: FilterApplierType?
+    private var applier: FilterApplierType?
+    var progress: Double = 1.0
+    
+    var hasApplier: Bool {
+        return applier != nil
+    }
+    
+    func applyFilter(image: CIImage) -> CIImage {
+        guard let applier = applier, let filterImage = applier(image) else { return image }
+        return image.applyingFilter("CIDissolveTransition", parameters: ["inputTargetImage": filterImage, "inputTime": self.progress])
+    }
     
     public init(name: String, coreImageFilterName: String) {
         self.name = name

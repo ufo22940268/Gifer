@@ -18,7 +18,7 @@ extension UIView {
     }
     
     @discardableResult
-    func setSameSizeAsParent() -> Self {
+    func useSameSizeAsParent() -> Self {
         self.useAutoLayout()
         guard let superview = superview else { fatalError() }
         NSLayoutConstraint.activate([
