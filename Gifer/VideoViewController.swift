@@ -105,7 +105,6 @@ class VideoViewController: AVPlayerViewController {
         self.currentRate = rate
     }
     
-    
     func play() {
         self.player?.rate = (playDirection == .forward ? 1 : -1)*currentRate
     }

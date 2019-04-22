@@ -109,12 +109,18 @@ class FiltersView: UIStackView {
         isLayoutMarginsRelativeArrangement = true
         spacing = 8
         
-        addArrangedSubview(filterCollectionView)
         addArrangedSubview(slider)
+        let sliderContainer = UIView().useAutoLayout()
+        sliderContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        sliderContainer.addSubview(slider)
         NSLayoutConstraint.activate([
-            slider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            slider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            sliderContainer.heightAnchor.constraint(equalTo: slider.heightAnchor),
+            slider.leadingAnchor.constraint(equalTo: sliderContainer.layoutMarginsGuide.leadingAnchor),
+            slider.trailingAnchor.constraint(equalTo: sliderContainer.layoutMarginsGuide.trailingAnchor)
             ])
+        addArrangedSubview(sliderContainer)
+        
+        addArrangedSubview(filterCollectionView)
         filter = AllFilters.first!
     }
     
@@ -143,7 +149,6 @@ extension FiltersView: UICollectionViewDataSource {
         }
         
         cell.isHighlight = indexPath.row == selectedIndex
-        
         return cell
     }
 }
