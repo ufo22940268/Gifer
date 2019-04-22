@@ -109,7 +109,6 @@ class FiltersView: UIStackView {
         isLayoutMarginsRelativeArrangement = true
         spacing = 8
         
-        addArrangedSubview(slider)
         let sliderContainer = UIView().useAutoLayout()
         sliderContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         sliderContainer.addSubview(slider)
