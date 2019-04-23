@@ -48,6 +48,8 @@ class VideoControllerAttachView: UIView {
         trimView.useSameSizeAsParent()
         trimView.setup(galleryView: galleryView)
         
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onTrimPan(sender:))))
+        
         load(image: #imageLiteral(resourceName: "13_Cuppy_curious.png"))
     }
     
@@ -66,5 +68,11 @@ class VideoControllerAttachView: UIView {
                 icon.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
                 ])
         }
+    }
+    
+    @objc func onTrimPan(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: trimView)
+        trimView.move(by: translation.x)
+        sender.setTranslation(CGPoint.zero, in: trimView)
     }
 }

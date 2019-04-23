@@ -324,6 +324,7 @@ class TrimController: UIControl {
         }
     }
     
+    @discardableResult
     func move(by deltaX: CGFloat) -> Bool {
         guard leftTrimLeadingConstraint.constant + deltaX >= 0 && rightTrimTrailingConstraint.constant + deltaX <= 0 else { return false }
         leftTrimLeadingConstraint.constant = leftTrimLeadingConstraint.constant + deltaX
