@@ -261,3 +261,5 @@ var AllFilters: [YPFilter] = {
     return filters
 }()
 
+var NormalFilter: YPFilter = AllFilters.first!
+

@@ -174,6 +174,6 @@ extension FiltersView: Transaction {
     }
     
     func rollbackChange() {
-
+        customDelegate.onPreviewSelected(filter: NormalFilter)
     }
 }

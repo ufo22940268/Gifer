@@ -17,7 +17,7 @@ protocol Transaction {
     func rollbackChange()
 }
 
-typealias TransactionView = UIView
+typealias TransactionView = UIView & Transaction
 
 class ControlToolbarConfirmPrompt: UIStackView {
     
@@ -47,7 +47,7 @@ class ControlToolbarConfirmPrompt: UIStackView {
         cancelButton = ConfirmExtraButton(type: .cancel)
         cancelButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCancelClicked)))
         extraView.addArrangedSubview(cancelButton)
-        extraView.addArrangedSubview(okButton)
+        extraView.addArrangedSubview(okButton)        
         
         self.toolbarItem = toolbarItem
     }
@@ -58,6 +58,7 @@ class ControlToolbarConfirmPrompt: UIStackView {
     
     @objc func onCancelClicked() {
         customDelegate?.onPromptDismiss(toolbarItem: self.toolbarItem, commitChange: false)
+        contentView.rollbackChange()
     }
     
     required init(coder: NSCoder) {

@@ -47,7 +47,15 @@ struct StickerInfo: OverlayRenderInfo {
     }
 }
 
-class StickerMenuView: UICollectionView {
+class StickerMenuView: UICollectionView, Transaction {
+    func commitChange() {
+        
+    }
+    
+    func rollbackChange() {
+        
+    }
+    
     
     lazy var stickerImageNames: [String] = [
         "01_Cuppy_smile",
