@@ -142,11 +142,20 @@ class VideoController: UIStackView {
     
     var scrollReason: VideoControllerScrollReason = .other
     
+    lazy var attachView: VideoControllerAttachView = {
+        let attach = VideoControllerAttachView()
+        return attach
+    }()
+    
+    lazy var attachGalleryView: UIView = {
+        return UIView().useAutoLayout()
+    }()
+    
     override func awakeFromNib() {
         axis = .vertical
-        
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         isLayoutMarginsRelativeArrangement = true
+        spacing = 4
         
         galleryContainer = VideoControllerGalleryContainer()
         addArrangedSubview(galleryContainer)
@@ -155,6 +164,8 @@ class VideoController: UIStackView {
             galleryContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             galleryContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             galleryContainer.heightAnchor.constraint(equalToConstant: 48)])
+
+        addArrangedSubview(attachView)
         
         gallerySlider = VideoControllerGallerySlider()
         addArrangedSubview(gallerySlider)
