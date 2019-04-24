@@ -29,7 +29,6 @@ class Overlay: UIView {
     
     init() {
         super.init(frame: .zero)
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapOtherSpace(sender:))))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,10 +36,6 @@ class Overlay: UIView {
     }
     
     func deactiveComponents() {
-        components.forEach { $0.isActive = false }
-    }
-    
-    @objc func onTapOtherSpace(sender: UITapGestureRecognizer) {
         components.forEach { $0.isActive = false }
     }
     

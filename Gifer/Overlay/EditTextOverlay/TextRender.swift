@@ -11,6 +11,11 @@ import UIKit
 typealias ComponentRender = UIView & OverlayComponentRenderable
 
 class TextRender: UILabel, OverlayComponentRenderable {
+    
+    var renderImage: UIImage {
+        return renderToImage()
+    }
+    
     var info: EditTextInfo! {
         didSet {
             text = info.text

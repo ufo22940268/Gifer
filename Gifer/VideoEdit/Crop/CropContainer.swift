@@ -14,6 +14,10 @@ enum CroppingStatus {
     case normal, adjustCrop
 }
 
+protocol CropContainerDelegate: class {
+    func onDeactiveComponents()
+}
+
 class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
@@ -62,6 +66,8 @@ class CropContainer: UIView {
         let overlay = StickerOverlay().useAutoLayout()
         return overlay
     }()
+    
+    weak var customDelegate: CropContainerDelegate?
 
     override func awakeFromNib() {
         guard let _ = superview else { return }
@@ -110,6 +116,7 @@ class CropContainer: UIView {
     @objc func onTap(sender: UITapGestureRecognizer) {
         editTextOverlay.deactiveComponents()
         stickerOverlay.deactiveComponents()
+        customDelegate?.onDeactiveComponents()
     }
     
     func addContentView(_ contentView: UIView) {

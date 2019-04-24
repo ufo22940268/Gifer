@@ -121,6 +121,16 @@ class OverlayComponent: UIView {
         return info.rotation
     }
     
+    var isTransparent: Bool = false {
+        didSet {
+            if isTransparent {
+                alpha = 0.3
+            } else {
+                alpha = 1.0
+            }
+        }
+    }
+    
     var id: ComponentId!
     
     var isActive: Bool = true {
@@ -139,6 +149,10 @@ class OverlayComponent: UIView {
     var frameLineWidth = CGFloat(3)
     weak var delegate: OverlayComponentDelegate?
     var render: OverlayComponentRender!
+    
+    var image: UIImage {
+        return render.renderImage
+    }
 
     init(info: Info, render: OverlayComponentRender) {
         super.init(frame: .zero)

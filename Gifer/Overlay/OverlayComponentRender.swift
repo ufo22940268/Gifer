@@ -9,6 +9,8 @@
 import UIKit
 
 protocol OverlayComponentRenderable {
+    var renderImage: UIImage { get }
+    
     func copy() -> OverlayComponentRender
 }
 

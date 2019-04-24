@@ -246,6 +246,7 @@ class EditViewController: UIViewController {
         cropContainer.setupCover()
         cropContainer.addContentView(videoContainer)
         videoPlayerSection.cropContainer = cropContainer
+        cropContainer.customDelegate = self
         
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
@@ -678,7 +679,6 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
             self.stackView.layoutIfNeeded()
-//            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.optionMenu.isHidden = true
@@ -728,7 +728,6 @@ extension EditViewController: ControlToolbarDelegate {
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
-//            self.gifOverlayVC.updateWhenContainerSizeChanged()
             self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
@@ -796,6 +795,7 @@ extension EditViewController: OverlayDelegate {
     }
     
     func onActive(overlay: Overlay, component: OverlayComponent) {
+        videoController.onActive(component: component)
         let allOverlays = [editTextOverlay, stickerOverlay]
         allOverlays.forEach { t in
             if t != overlay {
@@ -803,4 +803,11 @@ extension EditViewController: OverlayDelegate {
             }
         }
     }
+}
+
+extension EditViewController: CropContainerDelegate {
+    func onDeactiveComponents() {
+        videoController.onDeactiveComponents()
+    }
+    
 }

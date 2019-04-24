@@ -311,6 +311,15 @@ class VideoController: UIStackView {
     func vupdateFrameColor(duration: CMTime) {
         videoTrim.updateFrameColor(duration: duration)
     }
+    
+    func onActive(component: OverlayComponent) {
+        attachView.isHidden = false
+        attachView.load(image: component.image)
+    }
+    
+    func onDeactiveComponents() {
+        attachView.isHidden = true
+    }
 }
 
 // MARK: - Gallery scroll container

@@ -10,7 +10,12 @@ import Foundation
 import UIKit
 
 class StickerRender: UIImageView, OverlayComponentRenderable {
+    
     var info: StickerInfo!
+    
+    var renderImage: UIImage {
+        return image!
+    }
     
     init(info: StickerInfo) {
         super.init(frame: .zero)
