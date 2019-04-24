@@ -9,6 +9,7 @@
 import UIKit
 
 protocol OverlayRenderInfo {
+    var trimPosition: VideoTrimPosition! { get set }
 }
 
 extension OverlayRenderInfo {
@@ -31,6 +32,8 @@ struct StickerInfo: OverlayRenderInfo {
     var imageFrame: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: 1, height: 1))
     
     var rotation: CGFloat = 0
+    
+    var trimPosition: VideoTrimPosition!
     
     init(image: UIImage) {
         self.image = image

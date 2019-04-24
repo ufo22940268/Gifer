@@ -287,11 +287,14 @@ class CropContainer: UIView {
         contentView.constraints.findById(id: "width").constant = videoSize.width
         contentView.constraints.findById(id: "height").constant = videoSize.height
     }
+    
+    func onVideoReady(trimPosition: VideoTrimPosition) {
+        stickerOverlay.clipTrimPosition = trimPosition
+        editTextOverlay.clipTrimPosition = trimPosition
+    }
 }
 
 extension CropContainer: GridRulerViewDelegate {
-    
-    
     fileprivate func restorePositionWhenDragFinished() {
         let fromRulerFrame = gridRulerView.frame
         let scrollFrame = self.scrollView.convert(scrollView.frame, from: scrollView.superview!)

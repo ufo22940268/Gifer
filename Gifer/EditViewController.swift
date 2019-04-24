@@ -539,7 +539,7 @@ extension EditViewController: VideoViewControllerDelegate {
     
     func mock() {
         let render = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
-        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), render: render)
+        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), render: render, clipTrimPosition: videoVC.trimPosition)
         editTextOverlay.addComponent(component: component)
         
         editTextOverlay.active(component: component)

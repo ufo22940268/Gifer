@@ -153,10 +153,15 @@ class OverlayComponent: UIView {
     var image: UIImage {
         return render.renderImage
     }
+    
+    //Component only valid in this range of duration.
+    var trimPosition: VideoTrimPosition!
 
-    init(info: Info, render: OverlayComponentRender) {
+    init(info: Info, render: OverlayComponentRender, clipTrimPosition: VideoTrimPosition) {
         super.init(frame: .zero)
         useAutoLayout()
+        
+        trimPosition = clipTrimPosition
         
         self.info = info
         backgroundColor = .clear
@@ -338,7 +343,7 @@ extension OverlayComponent {
     }
     
     func copyView() -> OverlayComponent {
-        let component = OverlayComponent(info: info.shiftLayout(), render: render.copy())
+        let component = OverlayComponent(info: info.shiftLayout(), render: render.copy(), clipTrimPosition: trimPosition!)
         return component
     }
 }

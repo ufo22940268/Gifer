@@ -18,6 +18,7 @@ class Overlay: UIView {
     
     weak var delegate: OverlayDelegate?
     var componentIdSequence: ComponentId = 0
+    var clipTrimPosition: VideoTrimPosition!
     
     var isEnabled: Bool = true {
         didSet {
