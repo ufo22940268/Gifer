@@ -36,11 +36,7 @@ class TrimButton: UIView {
         iconLayer = CAShapeLayer()
         layer.addSublayer(iconLayer)
         iconLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        let lineSize = CGSize(width: 2, height: 25)
-        let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
-        path.fill()
         iconLayer.fillColor = UIColor.white.cgColor
-        iconLayer.path = path.cgPath
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,6 +51,11 @@ class TrimButton: UIView {
         didSet {
             backgroundLayer.frame = bounds
             iconLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+            let lineHeight = bounds.height*2/3
+            let lineSize = CGSize(width: 2, height: lineHeight)
+            let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
+            path.fill()
+            iconLayer.path = path.cgPath
         }
     }
     
