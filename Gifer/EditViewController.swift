@@ -809,5 +809,4 @@ extension EditViewController: CropContainerDelegate {
     func onDeactiveComponents() {
         videoController.onDeactiveComponents()
     }
-    
 }

@@ -49,6 +49,8 @@ class TrimButton: UIView {
     
     override var bounds: CGRect {
         didSet {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             backgroundLayer.frame = bounds
             iconLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
             let lineHeight = bounds.height*2/3
@@ -56,6 +58,7 @@ class TrimButton: UIView {
             let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
             path.fill()
             iconLayer.path = path.cgPath
+            CATransaction.commit()
         }
     }
     
