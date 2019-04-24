@@ -40,7 +40,7 @@ class VideoControllerAttachView: UIView {
         super.init(frame: .zero)
         useAutoLayout()
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 30)])
+            heightAnchor.constraint(equalToConstant: 28)])
         
         addSubview(scrollView)
         scrollView.useSameSizeAsParent()

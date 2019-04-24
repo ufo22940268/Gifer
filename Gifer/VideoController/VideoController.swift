@@ -117,6 +117,19 @@ class VideoController: UIStackView {
         }
     }
     
+    enum Size {
+        case full, half
+        
+        var height: CGFloat {
+            switch self {
+            case .full:
+                return 48
+            case .half:
+                return 20
+            }
+        }
+    }
+    
     var delegate: VideoControllerDelegate? {
         didSet {
             videoSlider.delegate = self.delegate
@@ -151,6 +164,12 @@ class VideoController: UIStackView {
         return UIView().useAutoLayout()
     }()
     
+    var layoutSize: Size = .full {
+        didSet {
+            galleryContainer.constraints.findById(id: "height").constant = layoutSize.height
+        }
+    }
+    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -163,7 +182,7 @@ class VideoController: UIStackView {
         NSLayoutConstraint.activate([
             galleryContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             galleryContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
-            galleryContainer.heightAnchor.constraint(equalToConstant: 48)])
+            galleryContainer.heightAnchor.constraint(equalToConstant: 48).with(identifier: "height")])
 
         addArrangedSubview(attachView)
         
@@ -315,10 +334,12 @@ class VideoController: UIStackView {
     func onActive(component: OverlayComponent) {
         attachView.isHidden = false
         attachView.load(image: component.image)
+        layoutSize = .half
     }
     
     func onDeactiveComponents() {
         attachView.isHidden = true
+        layoutSize = .full
     }
 }
 
