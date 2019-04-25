@@ -688,14 +688,13 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
             self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
             self.stackView.layoutIfNeeded()
-            self.stackView.layoutIfNeeded()
         }) { (_) in
-            self.optionMenu.isHidden = true
             self.allOverlays.forEach { overlay in
                 overlay.isEnabled = true
                 self.videoController.onDeactiveComponents()
                 overlay.deactiveComponents()
             }
+            self.optionMenu.isHidden = true
         }
     }
     
