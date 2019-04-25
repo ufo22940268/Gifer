@@ -693,6 +693,7 @@ extension EditViewController: OptionMenuDelegate {
             self.optionMenu.isHidden = true
             self.allOverlays.forEach { overlay in
                 overlay.isEnabled = true
+                self.videoController.onDeactiveComponents()
                 overlay.deactiveComponents()
             }
         }
