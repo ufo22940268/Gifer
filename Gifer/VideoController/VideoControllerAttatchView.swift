@@ -10,9 +10,19 @@ import Foundation
 import UIKit
 import AVKit
 
-class VideoControllerAttatchTrim: VideoControllerTrim {
+class VideoControllerAttatchTrim: TrimController {
     override var faderBackgroundColor: UIColor {
         return UIColor(named: "darkBackgroundColor")!
+    }
+    
+    func update(trimPosition: VideoTrimPosition) {
+        let totalWidth = bounds.width
+        if let duration = duration, totalWidth > 0 {
+            let leftPercent = trimPosition.leftTrim.seconds/duration.seconds
+            let rightPercent = (duration.seconds - trimPosition.rightTrim.seconds)/duration.seconds
+            leftTrimLeadingConstraint.constant = totalWidth*CGFloat(leftPercent)
+            rightTrimTrailingConstraint.constant = -totalWidth*CGFloat(rightPercent)
+        }
     }
 }
 
@@ -47,6 +57,7 @@ class VideoControllerAttachView: UIView {
     var duration: CMTime! {
         didSet {
             trimView.duration = duration
+            trimView.galleryDuration = duration
         }
     }
     
@@ -81,6 +92,7 @@ class VideoControllerAttachView: UIView {
                 icon.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
                 ])
         }
+        trimView.update(trimPosition: component.trimPosition)
     }
     
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {

@@ -334,6 +334,8 @@ class TrimController: UIControl {
         rightTrimTrailingConstraint.constant = rightTrimTrailingConstraint.constant + deltaX
         return true
     }
+    
+    
 }
 
 func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {
