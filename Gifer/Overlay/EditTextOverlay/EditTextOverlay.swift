@@ -30,6 +30,7 @@ class EditTextOverlay: Overlay {
                 .normalizeRect(containerSize: bounds.size)
             textInfo.fontSize = render.fontSize
             textInfo.rotation = component.rotation
+            textInfo.trimPosition = component.trimPosition
             return textInfo
         }
     }

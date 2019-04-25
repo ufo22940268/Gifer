@@ -268,6 +268,7 @@ public class GifGenerator {
     struct LabelViewCache {
         var image: UIImage
         var rect: CGRect
+        var trimPosition: VideoTrimPosition!
         
         func draw() {
             let origin = rect.center.applying(CGAffineTransform(translationX: -image.size.width/2, y: -image.size.height/2))
@@ -291,7 +292,7 @@ public class GifGenerator {
             let labelView = textInfo.createExportLabelView(imageSize: image.size)
             let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
             let labelImage = labelView.renderToImage(afterScreenUpdates: true)
-            let cache = LabelViewCache(image: labelImage.rotate(by: textInfo.rotation), rect: rect)
+            let cache = LabelViewCache(image: labelImage.rotate(by: textInfo.rotation), rect: rect, trimPosition: textInfo.trimPosition)
             caches.append(cache)
         }
         return caches
@@ -332,8 +333,7 @@ public class GifGenerator {
                 stickerCache.draw()
             }
             
-            for (index, _) in options.texts.enumerated() {
-                let labelCache = cachedLabels[index]
+            for labelCache in cachedLabels where labelCache.trimPosition.contains(current) {
                 labelCache.draw()
             }
         }
