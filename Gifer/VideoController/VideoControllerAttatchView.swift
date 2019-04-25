@@ -38,6 +38,7 @@ class VideoControllerAttachView: UIView {
     
     lazy var trimView: VideoControllerAttatchTrim = {
         let view = VideoControllerAttatchTrim().useAutoLayout()
+        view.trimDelegate = self
         return view
     }()
     
@@ -90,4 +91,15 @@ class VideoControllerAttachView: UIView {
         layoutIfNeeded()
         customDelegate?.onTrimChangedByAttach(component: component, trimPosition: trimView.trimPosition)
     }
+}
+
+extension VideoControllerAttachView: VideoTrimDelegate {
+    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+        customDelegate?.onTrimChangedByAttach(component: component, trimPosition: scrollToPosition)
+    }
+    
+    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
+    }
+    
+    
 }

@@ -555,7 +555,7 @@ extension EditViewController: VideoViewControllerDelegate {
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
-        cropContainer.onVideoReady(trimPosition: trimPosition)        
+        cropContainer.onVideoReady(trimPosition: trimPosition)
         self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
             self.enableVideoController(true)
             self.enableControlOptions()
