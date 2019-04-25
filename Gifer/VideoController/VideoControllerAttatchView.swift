@@ -100,6 +100,4 @@ extension VideoControllerAttachView: VideoTrimDelegate {
     
     func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
     }
-    
-    
 }

@@ -20,6 +20,7 @@ class StickerOverlay: Overlay {
                 .aspectFit(in: stickerFrame, ratio: info.image.size)
                 .normalizeRect(containerSize: bounds.size)
             info.rotation = component.rotation
+            info.trimPosition = component.trimPosition
             return info
         }
     }

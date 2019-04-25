@@ -244,7 +244,7 @@ public class GifGenerator {
                 }
             }
 
-            image = self.addStickersAndTexts(image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
+            image = self.addStickersAndTexts(current: actualTime, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
             CGImageDestinationAddImage(destination, image, frameProperties)
             group.leave()
@@ -278,6 +278,7 @@ public class GifGenerator {
     struct StickerImageCache {
         var image: UIImage
         var rect: CGRect
+        var trimPosition: VideoTrimPosition
         
         func draw() {
             image.draw(in: rect)
@@ -301,7 +302,7 @@ public class GifGenerator {
         for sticker in stickers {
             let image = sticker.image.rotate(by: sticker.rotation)
             let rect = sticker.imageFrame.applying(CGAffineTransform(scaleX: CGFloat(canvasSize.width), y: CGFloat(canvasSize.height)))
-            let cache = StickerImageCache(image: image, rect: rect)
+            let cache = StickerImageCache(image: image, rect: rect, trimPosition: sticker.trimPosition)
             caches.append(cache)
         }
         return caches
@@ -321,13 +322,13 @@ public class GifGenerator {
         return image.cropping(to: rect)!
     }
     
-    func addStickersAndTexts(image: CGImage, cachedLabels: [LabelViewCache], cachedStickers: [StickerImageCache]) -> CGImage {
+    func addStickersAndTexts(current: CMTime, image: CGImage, cachedLabels: [LabelViewCache], cachedStickers: [StickerImageCache]) -> CGImage {
         let format = UIGraphicsImageRendererFormat.init()
         format.scale = 1
         let image = UIGraphicsImageRenderer(size: image.size, format: format).image { (context) in
             UIImage(cgImage: image).draw(at: CGPoint.zero)
             
-            for stickerCache in cachedStickers {
+            for stickerCache in cachedStickers where stickerCache.trimPosition.contains(current) {
                 stickerCache.draw()
             }
             
