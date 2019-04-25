@@ -224,6 +224,10 @@ class VideoRangeViewController: UIViewController {
 
 extension VideoRangeViewController: VideoControllerDelegate {
     
+    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition) {
+        
+    }
+    
     func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
         
     }

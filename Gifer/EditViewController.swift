@@ -545,12 +545,17 @@ extension EditViewController: VideoViewControllerDelegate {
         editTextOverlay.active(component: component)
     }
     
+    var trimPosition: VideoTrimPosition {
+        return videoVC.trimPosition
+    }
+    
     func onVideoReady(controller: AVPlayerViewController) {
 //        mock()
 //
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
+        cropContainer.onVideoReady(trimPosition: trimPosition)        
         self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
             self.enableVideoController(true)
             self.enableControlOptions()
@@ -558,8 +563,8 @@ extension EditViewController: VideoViewControllerDelegate {
             self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
-//            self.videoVC.play()
-            self.previewView?.isHidden = true
+            self.videoVC.play()
+//            self.previewView?.isHidden = true
             
             self.defaultGifOptions = self.currentGifOption
             self.setSubTitle(duration: self.videoController.galleryDuration)
@@ -576,6 +581,7 @@ extension EditViewController: VideoViewControllerDelegate {
     func onProgressChanged(progress: CMTime) {
         guard isVideoReady else { return }
         videoController.updateSliderProgress(progress)
+        cropContainer.updateOverlayWhenProgressChanged(progress: progress)
     }
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus) {
@@ -583,6 +589,9 @@ extension EditViewController: VideoViewControllerDelegate {
 }
 
 extension EditViewController: VideoControllerDelegate {
+    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition) {
+        component.trimPosition = trimPosition
+    }
     
     func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
         guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }

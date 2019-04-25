@@ -33,6 +33,9 @@ class CropContainer: UIView {
     
     var cropRatio: CGSize!
     var status: CroppingStatus = .normal
+    var allOverlays: [Overlay] {
+        return [stickerOverlay, editTextOverlay]
+    }
     
     func updateCroppingStatus(_ status: CroppingStatus) {
         self.status = status
@@ -291,6 +294,12 @@ class CropContainer: UIView {
     func onVideoReady(trimPosition: VideoTrimPosition) {
         stickerOverlay.clipTrimPosition = trimPosition
         editTextOverlay.clipTrimPosition = trimPosition
+    }
+    
+    func updateOverlayWhenProgressChanged(progress: CMTime) {
+        allOverlays.forEach { overlay in
+            overlay.components.forEach{ $0.updateWhenProgressChanged(progress: progress) }
+        }
     }
 }
 

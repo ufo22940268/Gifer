@@ -8,11 +8,16 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 class VideoControllerAttatchTrim: VideoControllerTrim {
     override var faderBackgroundColor: UIColor {
         return UIColor(named: "darkBackgroundColor")!
     }
+}
+
+protocol VideoControllerAttachDelegate: class {
+    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition)
 }
 
 class VideoControllerAttachView: UIView {
@@ -36,6 +41,14 @@ class VideoControllerAttachView: UIView {
         return view
     }()
     
+    var component: OverlayComponent!
+    weak var customDelegate: VideoControllerAttachDelegate?
+    var duration: CMTime! {
+        didSet {
+            trimView.duration = duration
+        }
+    }
+    
     init() {
         super.init(frame: .zero)
         useAutoLayout()
@@ -49,15 +62,14 @@ class VideoControllerAttachView: UIView {
         trimView.setup(galleryView: galleryView)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onTrimPan(sender:))))
-        
-        load(image: #imageLiteral(resourceName: "13_Cuppy_curious.png"))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func load(image: UIImage) {
+    func load(image: UIImage, component: OverlayComponent) {
+        self.component = component
         galleryView.subviews.forEach { $0.removeFromSuperview() }
         for _ in 0..<8 {
             let icon = UIImageView().useAutoLayout()
@@ -74,5 +86,8 @@ class VideoControllerAttachView: UIView {
         let translation = sender.translation(in: trimView)
         trimView.move(by: translation.x)
         sender.setTranslation(CGPoint.zero, in: trimView)
+        
+        layoutIfNeeded()
+        customDelegate?.onTrimChangedByAttach(component: component, trimPosition: trimView.trimPosition)
     }
 }

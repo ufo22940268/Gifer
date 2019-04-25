@@ -252,6 +252,14 @@ class OverlayComponent: UIView {
             view.addTarget(self, action: #selector(onEdit(sender:)), for: .touchUpInside)
         }
     }
+    
+    func updateWhenProgressChanged(progress: CMTime) {
+        if trimPosition.contains(progress) {
+            isTransparent = false
+        } else {
+            isTransparent = true
+        }
+    }
 }
 
 //Move action

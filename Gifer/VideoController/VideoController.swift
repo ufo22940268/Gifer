@@ -70,6 +70,10 @@ struct VideoTrimPosition {
     func getSliderPosition(sliderRelativeToTrim: CGFloat) -> CMTime {
         return leftTrim + CMTimeMultiplyByFloat64(galleryDuration, multiplier: Float64(sliderRelativeToTrim))
     }
+    
+    func contains(_ time: CMTime) -> Bool {
+        return time >= leftTrim && time <= rightTrim
+    }
 }
 
 struct VideoControllerConstants {
@@ -78,7 +82,7 @@ struct VideoControllerConstants {
     static var sliderWidth = CGFloat(8)
 }
 
-protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate {
+protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
 }
 
 enum VideoControllerScrollReason {
@@ -135,6 +139,7 @@ class VideoController: UIStackView {
             videoSlider.delegate = self.delegate
             videoTrim.trimDelegate = self.delegate
             gallerySlider.delegate = self.delegate
+            attachView.customDelegate = self.delegate
         }
     }
     
@@ -156,7 +161,8 @@ class VideoController: UIStackView {
     var scrollReason: VideoControllerScrollReason = .other
     
     lazy var attachView: VideoControllerAttachView = {
-        let attach = VideoControllerAttachView()
+        let attach = VideoControllerAttachView().useAutoLayout()
+        attach.isHidden = true
         return attach
     }()
     
@@ -185,6 +191,7 @@ class VideoController: UIStackView {
             galleryContainer.heightAnchor.constraint(equalToConstant: 48).with(identifier: "height")])
 
         addArrangedSubview(attachView)
+        attachView.customDelegate = delegate
         
         gallerySlider = VideoControllerGallerySlider()
         addArrangedSubview(gallerySlider)
@@ -285,10 +292,10 @@ class VideoController: UIStackView {
         self.galleryView.galleryDuration = galleryDuration
         self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
-        
         self.galleryView.prepareImageViews(thumbernailCount)
         self.galleryView.bringSubviewToFront(self.videoSlider)
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+        self.attachView.duration = duration
         completion()
         
         var thumbernailTimes = [NSValue]()
@@ -333,7 +340,7 @@ class VideoController: UIStackView {
     
     func onActive(component: OverlayComponent) {
         attachView.isHidden = false
-        attachView.load(image: component.image)
+        attachView.load(image: component.image, component: component)
         layoutSize = .half
     }
     
@@ -341,6 +348,7 @@ class VideoController: UIStackView {
         attachView.isHidden = true
         layoutSize = .full
     }
+    
 }
 
 // MARK: - Gallery scroll container
