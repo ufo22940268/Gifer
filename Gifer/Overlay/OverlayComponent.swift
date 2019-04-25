@@ -124,9 +124,9 @@ class OverlayComponent: UIView {
     var isTransparent: Bool = false {
         didSet {
             if isTransparent {
-                alpha = 0.3
+                render.alpha = 0.3
             } else {
-                alpha = 1.0
+                render.alpha = 1.0
             }
         }
     }
