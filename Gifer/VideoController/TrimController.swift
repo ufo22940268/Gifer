@@ -17,7 +17,7 @@ class TrimButton: UIView {
     }
     
     var backgroundLayer: CALayer!
-    var iconLayer: CAShapeLayer!
+    fileprivate var iconLayer: CAShapeLayer!
 
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
@@ -56,7 +56,6 @@ class TrimButton: UIView {
             let lineHeight = bounds.height*2/3
             let lineSize = CGSize(width: 2, height: lineHeight)
             let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: -lineSize.width/2, y: -lineSize.height/2), size: lineSize), cornerRadius: lineSize.width/2)
-            path.fill()
             iconLayer.path = path.cgPath
             CATransaction.commit()
         }
@@ -340,6 +339,3 @@ class TrimController: UIControl {
 func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {
     return CMTimeMultiplyByFloat64(duration, multiplier: Float64(percentage))
 }
-
-
-
