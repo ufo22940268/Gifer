@@ -810,6 +810,8 @@ extension EditViewController: OverlayDelegate {
                 t.deactiveComponents()
             }
         }
+        component.superview!.bringSubviewToFront(component)
+        overlay.superview!.bringSubviewToFront(overlay)
     }
 }
 
