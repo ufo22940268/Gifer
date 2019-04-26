@@ -111,6 +111,14 @@ class OverlayComponent: UIView {
         }
     }
     
+    var editTextRender: TextRender? {
+        return render as? TextRender
+    }
+    
+    var stickerRender: StickerRender? {
+        return render as? StickerRender
+    }
+    
     var info: Info! {
         didSet {
             updateInfoPosition()

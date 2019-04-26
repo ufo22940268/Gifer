@@ -39,7 +39,7 @@ class Overlay: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     func deactiveComponents() {
         components.forEach { $0.isActive = false }
     }

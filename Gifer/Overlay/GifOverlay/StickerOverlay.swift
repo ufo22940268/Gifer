@@ -25,12 +25,13 @@ class StickerOverlay: Overlay {
         }
     }
     
-    func addStickerComponent(_ sticker: StickerInfo) {
+    func addStickerComponent(_ sticker: StickerInfo) -> OverlayComponent {
         let stickerRender = StickerRender(info: sticker).useAutoLayout()
         let componentInfo = OverlayComponent.Info(stickerInfo:sticker, containerBounds: self.bounds)
         let component: OverlayComponent = OverlayComponent(info: componentInfo, render: stickerRender, clipTrimPosition: clipTrimPosition)
         addComponent(component: component)
         active(component: component)
+        return component
     }
     
     func update(sticker: StickerInfo, for component: OverlayComponent) {

@@ -13,7 +13,7 @@ typealias ComponentRender = UIView & OverlayComponentRenderable
 class TextRender: UILabel, OverlayComponentRenderable {
     
     var renderImage: UIImage {
-        return renderToImage()
+        return renderToImage(afterScreenUpdates: true)
     }
     
     var info: EditTextInfo! {

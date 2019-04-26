@@ -668,11 +668,14 @@ extension EditViewController: VideoControllerDelegate {
 extension EditViewController: OptionMenuDelegate {
     
     func onAdd(sticker: StickerInfo) {
+        var component: OverlayComponent
         if let activeComponent = stickerOverlay.activeComponent {
             stickerOverlay.update(sticker: sticker, for: activeComponent)
+            component = activeComponent
         } else {
-            stickerOverlay.addStickerComponent(sticker)
+            component = stickerOverlay.addStickerComponent(sticker)
         }
+        videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
     }
     
     func onCropSizeSelected(size: CropSize) {
@@ -806,7 +809,8 @@ extension EditViewController: VideoCacheDelegate {
 
 extension EditViewController: EditTextViewControllerDelegate {
     func onAddEditText(info: EditTextInfo) {
-        cropContainer.editTextOverlay.addTextComponent(textInfo: info)
+        let component = cropContainer.editTextOverlay.addTextComponent(textInfo: info)
+        videoController.attachView.load(image: component.editTextRender!.renderImage, component: component)
     }
     
     func onUpdateEditText(info: EditTextInfo, componentId: ComponentId) {
