@@ -137,12 +137,12 @@ extension StickerMenuView: UICollectionViewDataSource {
 extension StickerMenuView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = getImage(at: indexPath.row)
-        customDelegate?.onSelect(sticker: StickerInfo(image: image))
+        customDelegate?.onAdd(sticker: StickerInfo(image: image))
     }
 }
 
 protocol StickerMenuDelegate: class {
-    func onSelect(sticker: StickerInfo)
+    func onAdd(sticker: StickerInfo)
 }
 
 class StickerMenuItemView: UICollectionViewCell {

@@ -652,7 +652,7 @@ extension EditViewController: VideoControllerDelegate {
 
 extension EditViewController: OptionMenuDelegate {
     
-    func onSelect(sticker: StickerInfo) {
+    func onAdd(sticker: StickerInfo) {
         stickerOverlay.addStickerComponent(sticker)
     }
     
