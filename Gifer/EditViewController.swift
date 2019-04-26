@@ -283,8 +283,7 @@ class EditViewController: UIViewController {
         
         editTextOverlay.delegate = self
         stickerOverlay.delegate = self
-    }
-    
+    }    
     
     fileprivate func setupControlToolbar() {
         optionMenu = OptionMenu()
