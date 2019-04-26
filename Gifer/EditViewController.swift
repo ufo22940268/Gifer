@@ -199,10 +199,23 @@ class EditViewController: UIViewController {
         return label
     }()
     
+    var isLoadingAsset: Bool = false {
+        didSet {
+            if isLoadingAsset {
+                view.tintAdjustmentMode = .dimmed
+                shareItem.tintColor = UIColor.gray
+            } else {
+                view.tintAdjustmentMode = .automatic
+                shareItem.tintColor = view.tintColor
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         DarkMode.enable(in: self)
-        view.backgroundColor = UIColor(named: "darkBackgroundColor")
+        isLoadingAsset = true
         
+        view.backgroundColor = UIColor(named: "darkBackgroundColor")
 
         isDebug = videoAsset == nil
         if isDebug {
@@ -218,6 +231,7 @@ class EditViewController: UIViewController {
         setupVideoController()
         
         cacheAndLoadVideo()
+        self.view.tintAdjustmentMode = .dimmed
     }
     
     private func setupVideoController() {
@@ -551,6 +565,7 @@ extension EditViewController: VideoViewControllerDelegate {
     func onVideoReady(controller: AVPlayerViewController) {
 //        mock()
 //
+        isLoadingAsset = false
         self.videoProgressLoadingIndicator.isHidden = true
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds

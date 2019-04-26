@@ -39,7 +39,6 @@ class ControlToolbarItemView: UICollectionViewCell {
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
-        button.setTitleColor(UIColor(named: "mainColor"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
@@ -48,6 +47,10 @@ class ControlToolbarItemView: UICollectionViewCell {
         button.setTitle(title, for: .normal)        
         button.alignTextUnderImage()
         button.sizeToFit()
+    }
+    
+    override func tintColorDidChange() {        
+        button.setTitleColor(tintColor, for: .normal)
     }
 
     required init(coder: NSCoder) {

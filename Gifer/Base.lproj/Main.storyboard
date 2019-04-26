@@ -154,6 +154,7 @@
                     <connections>
                         <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
                         <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
+                        <outlet property="shareItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>

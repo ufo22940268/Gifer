@@ -24,7 +24,6 @@ class TrimButton: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         backgroundLayer = CAShapeLayer()
-        backgroundLayer.backgroundColor = UIColor(named: "mainColor")?.cgColor
         if case .left = direction {
             backgroundLayer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         } else {
@@ -39,12 +38,13 @@ class TrimButton: UIView {
         iconLayer.fillColor = UIColor.white.cgColor
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func tintColorDidChange() {
+        superview?.tintColorDidChange()
+        backgroundLayer.backgroundColor = tintColor.cgColor
     }
     
-    func changeBackground(color: UIColor) {
-        backgroundLayer.backgroundColor = color.cgColor
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override var bounds: CGRect {
@@ -87,7 +87,6 @@ class TrimController: UIControl {
                 arrowColor = UIColor.black
             }
 
-            view.setArrowColor(arrowColor, backgroundColor: backgroundColor)
             view.topLine.backgroundColor = backgroundColor
             view.bottomLine.backgroundColor = backgroundColor
         }
@@ -187,7 +186,6 @@ class TrimController: UIControl {
         //Setup top line and bottom line
         topLine = UIView()
         topLine.translatesAutoresizingMaskIntoConstraints = false
-        topLine.backgroundColor = mainColor
         addSubview(topLine)
         NSLayoutConstraint.activate([
             topLine.topAnchor.constraint(equalTo: topAnchor),
@@ -197,7 +195,6 @@ class TrimController: UIControl {
         
         bottomLine = UIView()
         bottomLine.translatesAutoresizingMaskIntoConstraints = false
-        bottomLine.backgroundColor = mainColor
         addSubview(bottomLine)
         NSLayoutConstraint.activate([
             bottomLine.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -237,6 +234,13 @@ class TrimController: UIControl {
         activeTrailingConstraint.isActive = true
     }
     
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        guard let topLine = topLine, let bottomLine = bottomLine else { return }
+        topLine.backgroundColor = tintColor
+        bottomLine.backgroundColor = tintColor
+    }
+    
     func updateFrameColor(duration: CMTime) {
         if ShareType.wechat.isEnabled(duration: duration) {
             mainColor = VideoControllerTrim.wechatMainColor
@@ -249,14 +253,7 @@ class TrimController: UIControl {
     func updateTheme() {
         status.applyTheme(to:self)
     }
-    
-    func setArrowColor(_ color: UIColor, backgroundColor: UIColor) {
-        [leftTrim, rightTrim].forEach { (view) in
-            view?.tintColor = color
-            view?.changeBackground(color: backgroundColor)
-        }
-    }
-    
+        
     var maxLeftLeading: CGFloat {
         get {
             return self.bounds.width - minimunGapBetweenLeftTrimAndRightTrim - abs(rightTrimTrailingConstraint.constant)
