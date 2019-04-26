@@ -32,4 +32,9 @@ class StickerOverlay: Overlay {
         addComponent(component: component)
         active(component: component)
     }
+    
+    func update(sticker: StickerInfo, for component: OverlayComponent) {
+        let render = component.render as! StickerRender
+        render.image = sticker.image
+    }
 }

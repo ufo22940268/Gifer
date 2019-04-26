@@ -668,7 +668,11 @@ extension EditViewController: VideoControllerDelegate {
 extension EditViewController: OptionMenuDelegate {
     
     func onAdd(sticker: StickerInfo) {
-        stickerOverlay.addStickerComponent(sticker)
+        if let activeComponent = stickerOverlay.activeComponent {
+            stickerOverlay.update(sticker: sticker, for: activeComponent)
+        } else {
+            stickerOverlay.addStickerComponent(sticker)
+        }
     }
     
     func onCropSizeSelected(size: CropSize) {

@@ -28,6 +28,10 @@ class Overlay: UIView {
         }
     }
     
+    var activeComponent: OverlayComponent? {
+        return components.first { $0.isActive }
+    }
+    
     init() {
         super.init(frame: .zero)
     }
