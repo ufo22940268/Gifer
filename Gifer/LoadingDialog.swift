@@ -77,6 +77,7 @@ class LoadingView: UIStackView {
     
     convenience init(label: String) {
         self.init(frame: CGRect.zero)
+        tintAdjustmentMode = .normal
         self.label = label
         translatesAutoresizingMaskIntoConstraints = false
         addArrangedSubview(loadingIndicator)
@@ -154,7 +155,6 @@ class LoadingDialog: Dialog {
     
     func dismiss() {
         alertController.dismiss(animated: true) {
-
         }
     }
 }

@@ -81,6 +81,8 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
     }
     
     private func setup() {
+        tintAdjustmentMode = .normal
+        
         layer.cornerRadius = 8
         clipsToBounds = true
         effect = UIBlurEffect(style: .regular)
