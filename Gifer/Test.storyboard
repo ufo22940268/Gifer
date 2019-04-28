@@ -8,10 +8,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
     </dependencies>
     <scenes>
-        <!--Edit Text View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="MEW-9O-rDa">
             <objects>
-                <viewController id="kyN-1N-0Uk" customClass="EditTextViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController"/>
+                <viewController id="kyN-1N-0Uk" customClass="TestViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Azy-va-8QQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.80000000000000004" y="181.25937031484258"/>
