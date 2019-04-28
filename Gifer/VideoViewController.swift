@@ -142,7 +142,7 @@ class VideoViewController: AVPlayerViewController {
                 meetEnds = currentItem.currentTime() == currentItem.reversePlaybackEndTime
             }
             if meetEnds {
-                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim)
+                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim, toleranceBefore: .zero, toleranceAfter: .zero)
                 self.play()
             }
         }
@@ -153,15 +153,6 @@ class VideoViewController: AVPlayerViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let currentItem = player?.currentItem else { return }
         if keyPath == #keyPath(AVPlayerItem.status) {
-            let status: AVPlayerItem.Status
-            
-            // Get the status change from the change dictionary
-            if let statusNumber = change?[.newKey] as? NSNumber {
-                status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
-            } else {
-                status = .unknown
-            }
-            
             if videoInited == false && currentItem.status == .readyToPlay {
                 setupWhenVideoIsReadyToPlay()
                 videoInited = true

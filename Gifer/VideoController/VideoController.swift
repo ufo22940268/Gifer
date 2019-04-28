@@ -49,7 +49,7 @@ enum VideoTrimState {
     case finished(Bool)
 }
 
-struct VideoTrimPosition {
+struct VideoTrimPosition: CustomStringConvertible {
     
     var leftTrim: CMTime
     var rightTrim: CMTime
@@ -73,6 +73,10 @@ struct VideoTrimPosition {
     
     func contains(_ time: CMTime) -> Bool {
         return time >= leftTrim && time <= rightTrim
+    }
+    
+    var description: String {
+        return "left trim: \(leftTrim.seconds) right trim: \(rightTrim.seconds)"
     }
 }
 
@@ -329,7 +333,7 @@ class VideoController: UIStackView {
         }
     }
     
-    func updateSliderProgress(_ progress: CMTime) {
+    func updateSliderProgress(_ progress: CMTime) {        
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
     }
