@@ -112,10 +112,14 @@ class VideoControllerGallerySlider: UIView {
         updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), galleryDuration: galleryDuration)
     }
     
+    var sliderWidth: CGFloat {
+        return sliderWidthConstraint.constant
+    }
+    
     func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
         self.galleryDuration = galleryDuration
         layoutIfNeeded()
-        sliderCenterXConstraint.constant = (end + begin)/2*bounds.width
+        sliderCenterXConstraint.constant = (bounds.width - sliderWidth)*((end - begin)/2) + sliderWidth/2
     }
     
     
@@ -127,7 +131,7 @@ class VideoControllerGallerySlider: UIView {
         
         let centerX = sliderCenterXConstraint.constant
         if let _ = delegate?.onTrimChanged {
-            delegate!.onTrimChanged!(begin: (centerX - sliderWidth/2)/bounds.width, end: (centerX + sliderWidth/2)/bounds.width, state: sender.state)
+            delegate!.onTrimChanged!(begin: (centerX - sliderWidth/2)/(bounds.width - sliderWidth), end: (centerX + sliderWidth/2)/(bounds.width - sliderWidth), state: sender.state)
         }
     }
 }
