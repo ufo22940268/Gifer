@@ -13,12 +13,15 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("test")
-        showTestDialog()
+        view.backgroundColor = .yellow
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.showTestDialog()
+        }
     }
     
     func showTestDialog() {
-        
+        let shareVC = ShareViewController()
+        shareVC.present(by: self)
     }
 }
 

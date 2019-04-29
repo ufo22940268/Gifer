@@ -86,4 +86,8 @@ class ShareDialogController {
         }
         controller.present(alertController, animated: true, completion: nil)
     }
+    
+    func present(by controller: UIViewController) {
+        
+    }
 }

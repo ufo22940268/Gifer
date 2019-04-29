@@ -17,7 +17,5 @@ struct DarkMode {
         navigationController.navigationBar.isTranslucent = false
         navigationController.navigationBar.barTintColor = UIColor(named: "darkBackgroundColor")
         navigationController.navigationBar.shadowImage = UIImage()
-        
-        
     }
 }
