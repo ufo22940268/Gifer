@@ -246,7 +246,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
         var position = trimPosition
         position.scrollBy(scrollTime)
-        videoController.scrollBy(scrollDistance)
+        videoController.layoutIfNeeded()
+        let galleryRange = videoController.gallerySlider.galleryRange
+        
+        videoController.scrollTo(galleryRange: galleryRange)
         
         var trimState: VideoTrimState
         if state == .ended {
@@ -259,7 +262,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
         }
         
         updateTrimPosition(position: position, state: trimState)
-        videoController.gallerySlider.updateSlider(begin: position.leftPercent(in: duration), end: position.rightPercent(in: duration), galleryDuration: position.galleryDuration)
 
         if state == .ended {
             videoController.scrollReason = .other
@@ -302,9 +304,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         }
 
         if currentItem.duration.seconds > 0 {
-            let begin: CGFloat = CGFloat(position.leftTrim.seconds/currentItem.duration.seconds)
-            let end: CGFloat = CGFloat(position.rightTrim.seconds/currentItem.duration.seconds)
-            videoController.gallerySlider.updateSlider(begin: begin, end: end, galleryDuration: position.galleryDuration)
+            videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
         }
         
         updateTrimPosition(position: position, state: state)

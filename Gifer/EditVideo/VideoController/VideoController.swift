@@ -198,6 +198,17 @@ class VideoController: UIStackView {
         }
     }
     
+    var galleryRangeInTrim: GalleryRangePosition {
+        guard let duration = duration else { fatalError() }
+        let trimFrame = videoTrim.frame.applying(CGAffineTransform(scaleX: 1/bounds.width, y: 1/bounds.height))
+        let convertRelativeToDuration = {(ratio: CGFloat) in
+            return (Double(ratio)*self.galleryDuration.seconds + self.trimPosition.leftTrim.seconds)/duration.seconds
+        }
+        let left = CMTimeMultiplyByFloat64(duration, multiplier: convertRelativeToDuration(trimFrame.minX))
+        let right = CMTimeMultiplyByFloat64(duration, multiplier: convertRelativeToDuration(trimFrame.maxX))
+        return GalleryRangePosition(left: left, right: right)
+    }
+    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -384,6 +395,12 @@ extension VideoController: UIScrollViewDelegate {
     func scrollTo(position: VideoTrimPosition) {
 //        let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width).clamped(to: 0...(scrollView.contentSize.width - bounds.width))
 //        scrollView.contentOffset = CGPoint(x: left, y: 0)
+    }
+    
+    func scrollTo(galleryRange: GalleryRangePosition) {
+        let leading = galleryRange.left.seconds/duration.seconds
+        let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
+        galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
     }
     
     func scrollBy(_ scroll: CGFloat) {

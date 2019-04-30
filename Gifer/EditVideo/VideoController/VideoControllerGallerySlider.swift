@@ -131,6 +131,23 @@ class VideoControllerGallerySlider: UIView {
         delegate?.onTrimChangedByGallerySlider(state: sender.state,
                                                scrollTime: CMTimeMultiplyByFloat64(duration, multiplier: Double((newCenterX - originCenterX)/bounds.width)),
                                                scrollDistance: scrollDistance)
+        sliderCenterXConstraint.constant = newCenterX
         sender.setTranslation(CGPoint.zero, in: self)
+    }
+    
+    var galleryRange: GalleryRangePosition {
+        guard let duration = duration else { fatalError() }
+        let width = bounds.width
+        let leading = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.minX/width))
+        let trailing = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.maxX/width))
+        return GalleryRangePosition(left: leading, right: trailing)
+    }
+    
+    func sync(galleryRange: GalleryRangePosition) {
+        guard let duration = duration else { return }
+        let center = (galleryRange.left.seconds + galleryRange.right.seconds)/2/duration.seconds
+        let width = (galleryRange.right.seconds - galleryRange.left.seconds)/duration.seconds
+        sliderCenterXConstraint.constant = bounds.width*CGFloat(center)
+        sliderWidthConstraint.constant = bounds.width*CGFloat(width)
     }
 }
