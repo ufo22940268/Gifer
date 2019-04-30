@@ -40,8 +40,8 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState)
-    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
+    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
 }
 
 enum VideoTrimState {
@@ -76,7 +76,7 @@ struct VideoTrimPosition: CustomStringConvertible {
     }
     
     var description: String {
-        return "left trim: \(leftTrim.seconds) right trim: \(rightTrim.seconds)"
+        return "left trim: \(leftTrim.seconds)s right trim: \(rightTrim.seconds)s"
     }
 }
 
@@ -239,7 +239,7 @@ class VideoController: UIStackView {
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: videoTrim)
         if videoTrim.move(by: translation.x) {
-            delegate?.onTrimChanged(scrollToPositionInsideGalleryDuration: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
+            delegate?.onTrimChangedByScrollInGallery(trimPosition: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
         }
         sender.setTranslation(CGPoint.zero, in: videoTrim)
     }
@@ -369,23 +369,23 @@ extension VideoController: UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .started)
+        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .started)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .finished(true))
+        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollReason != .slider else { return }
-        delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
+        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard scrollReason != .slider else { return }
         if !scrollView.isDecelerating {
-            delegate?.onTrimChanged(scrollToPosition: trimPosition, state: .finished(true))
+            delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
         }
     }
 }

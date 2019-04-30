@@ -9,8 +9,8 @@
 import UIKit
 import AVKit
 
-@objc protocol VideoControllerGallerySliderDelegate: class {
-    @objc optional func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
+protocol VideoControllerGallerySliderDelegate: class {
+    func onTrimChangedByGallerySlider(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
 }
 
 private class VideoControllerGallerySliderButton: UIView {
@@ -57,11 +57,7 @@ class VideoControllerGallerySlider: UIView {
     
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
-    var galleryDuration: CMTime? {
-        didSet {
-            self.sliderWidthConstraint.constant = CGFloat(galleryDuration!.seconds/duration!.seconds)*bounds.width
-        }
-    }
+    var galleryDuration: CMTime?
     var slider: UIView!
     var duration: CMTime?
     
@@ -107,7 +103,6 @@ class VideoControllerGallerySlider: UIView {
     
     func onVideoLoaded(galleryDuration: CMTime, duration: CMTime) {
         self.duration = duration
-        self.galleryDuration = galleryDuration
         layoutIfNeeded()
         updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), galleryDuration: galleryDuration)
     }
@@ -117,21 +112,27 @@ class VideoControllerGallerySlider: UIView {
     }
     
     func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
+        print("updateSlider")
         self.galleryDuration = galleryDuration
-        layoutIfNeeded()
-        sliderCenterXConstraint.constant = (bounds.width - sliderWidth)*((end - begin)/2) + sliderWidth/2
+        let leading = begin*bounds.width
+        let trailing = end*bounds.width
+        let centerX = (trailing + leading)/2
+        let width = trailing - leading
+        sliderCenterXConstraint.constant = centerX
+        print("begin: \(begin) end: \(end) width: \(width) centerX: \(centerX)")
+        sliderWidthConstraint.constant = width
     }
     
-    
     @objc func onChangeSlider(sender: UIPanGestureRecognizer) {
+        print("onChangeSlider")
         let translation = sender.translation(in: self).x
-        let sliderWidth = sliderWidthConstraint.constant
-        sliderCenterXConstraint.constant = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
+        let newCenterX = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
+        let end = (newCenterX + sliderWidth/2)/(bounds.width)
+        let begin = (newCenterX - sliderWidth/2)/(bounds.width)
+        delegate?.onTrimChangedByGallerySlider(begin: begin,
+                                               end: end,
+                                               state: sender.state)
+        print("centerX: \(newCenterX) begin: \(begin)")
         sender.setTranslation(CGPoint.zero, in: self)
-        
-        let centerX = sliderCenterXConstraint.constant
-        if let _ = delegate?.onTrimChanged {
-            delegate!.onTrimChanged!(begin: (centerX - sliderWidth/2)/(bounds.width - sliderWidth), end: (centerX + sliderWidth/2)/(bounds.width - sliderWidth), state: sender.state)
-        }
     }
 }

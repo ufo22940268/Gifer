@@ -574,7 +574,7 @@ extension EditViewController: VideoViewControllerDelegate {
             self.enableVideoController(true)
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChanged(scrollToPosition: self.videoController.trimPosition, state: .initial)
+            self.onTrimChangedByTrimer(scrollToPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
             self.videoVC.play()
@@ -603,11 +603,11 @@ extension EditViewController: VideoViewControllerDelegate {
 }
 
 extension EditViewController: VideoControllerDelegate {
-    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition) {
+    func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition) {
         component.trimPosition = trimPosition
     }
     
-    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
+    func onTrimChangedByGallerySlider(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
         guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
 
         let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
@@ -632,12 +632,12 @@ extension EditViewController: VideoControllerDelegate {
         }
     }
     
-    func onTrimChanged(scrollToPositionInsideGalleryDuration: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        videoVC.updateTrim(position: scrollToPositionInsideGalleryDuration, state: state, sliderPosition: currentPosition)
+    func onTrimChangedByScrollInGallery(trimPosition: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
+        videoVC.updateTrim(position: trimPosition, state: state, sliderPosition: currentPosition)
     }
 
     //Changed by trimer dragged
-    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = scrollToPosition
         if case .started = state {
             videoController.hideSlider(true)

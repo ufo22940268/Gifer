@@ -27,7 +27,7 @@ class VideoControllerAttatchTrim: TrimController {
 }
 
 protocol VideoControllerAttachDelegate: class {
-    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition)
+    func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition)
 }
 
 class VideoControllerAttachView: UIView {
@@ -101,15 +101,15 @@ class VideoControllerAttachView: UIView {
         sender.setTranslation(CGPoint.zero, in: trimView)
         
         layoutIfNeeded()
-        customDelegate?.onTrimChangedByAttach(component: component, trimPosition: trimView.trimPosition)
+        customDelegate?.onAttachChanged(component: component, trimPosition: trimView.trimPosition)
     }
 }
 
 extension VideoControllerAttachView: VideoTrimDelegate {
-    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
-        customDelegate?.onTrimChangedByAttach(component: component, trimPosition: scrollToPosition)
+    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+        customDelegate?.onAttachChanged(component: component, trimPosition: scrollToPosition)
     }
     
-    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
+    func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
     }
 }

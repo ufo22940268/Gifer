@@ -224,11 +224,11 @@ class VideoRangeViewController: UIViewController {
 
 extension VideoRangeViewController: VideoControllerDelegate {
     
-    func onTrimChangedByAttach(component: OverlayComponent, trimPosition: VideoTrimPosition) {
+    func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition) {
         
     }
     
-    func onTrimChanged(scrollToPositionInsideGalleryDuration position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
+    func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
         
     }
     
@@ -238,7 +238,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     /// Change be gallery slider
-    func onTrimChanged(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
+    func onTrimChangedByGallerySlider(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
         let duration = currentItem.duration
         let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
         let right = CMTimeMultiplyByFloat64(duration, multiplier: Float64(end))
@@ -256,7 +256,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
         }
         
         updateTrimPosition(position: position, state: trimState)
-        
+        videoController.gallerySlider.updateSlider(begin: begin, end: end, galleryDuration: position.galleryDuration)
+
         if state == .ended {
             videoController.scrollReason = .other
         }
@@ -290,7 +291,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     /// Change by gallery scroller
-    func onTrimChanged(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = scrollToPosition
         if case .started = state {
             videoController.hideSlider(true)
