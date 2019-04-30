@@ -78,6 +78,24 @@ struct VideoTrimPosition: CustomStringConvertible {
     var description: String {
         return "left trim: \(leftTrim.seconds)s right trim: \(rightTrim.seconds)s"
     }
+    
+    mutating func scrollBy(_ delta: CMTime) {
+        leftTrim = leftTrim + delta
+        rightTrim = rightTrim + delta
+    }
+    
+    func leftPercent(in duration: CMTime) -> CGFloat {
+        return CGFloat(leftTrim.seconds/duration.seconds)
+    }
+    
+    func rightPercent(in duration: CMTime) -> CGFloat {
+        return CGFloat(rightTrim.seconds/duration.seconds)
+    }
+}
+
+struct GalleryRangePosition {
+    var left: CMTime
+    var right: CMTime
 }
 
 struct VideoControllerConstants {
@@ -148,7 +166,7 @@ class VideoController: UIStackView {
     }
     
     @IBInspectable var from: String = "range"
-    var scrollView: UIScrollView!
+    var galleryScrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
     var galleryDuration: CMTime {
         return gallerySlider.galleryDuration!
@@ -205,7 +223,7 @@ class VideoController: UIStackView {
         setupScrollView()
 
         galleryView = VideoControllerGallery()
-        scrollView.addSubview(galleryView)
+        galleryScrollView.addSubview(galleryView)
         galleryView.setup()
         
         videoTrim = VideoControllerTrim()
@@ -224,7 +242,7 @@ class VideoController: UIStackView {
     }
     
     private func setupForEditViewController() {
-        scrollView.isScrollEnabled = false
+        galleryScrollView.isScrollEnabled = false
         gallerySlider.isHidden = true
         
         videoTrim.disableScroll = false
@@ -233,7 +251,7 @@ class VideoController: UIStackView {
     
     private func setupForVideoRangeViewController() {
         videoTrim.disableScroll = true
-        scrollView.delegate = self
+        galleryScrollView.delegate = self
     }
     
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
@@ -245,20 +263,21 @@ class VideoController: UIStackView {
     }
     
     func setupScrollView() {
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.layoutMargins.top = 0
-        scrollView.layoutMargins.bottom = 0
-        scrollView.layoutMargins.left = 0
-        scrollView.layoutMargins.right = 0
-        scrollView.alwaysBounceVertical = false
+        galleryScrollView = UIScrollView()
+        galleryScrollView.translatesAutoresizingMaskIntoConstraints = false
+        galleryScrollView.layoutMargins.top = 0
+        galleryScrollView.layoutMargins.bottom = 0
+        galleryScrollView.layoutMargins.left = 0
+        galleryScrollView.layoutMargins.right = 0
+        galleryScrollView.alwaysBounceVertical = false
+        galleryScrollView.isScrollEnabled = false
         
-        galleryContainer.addSubview(scrollView)
+        galleryContainer.addSubview(galleryScrollView)
         NSLayoutConstraint.activate([
-            scrollView.heightAnchor.constraint(equalTo: galleryContainer.heightAnchor),
-            scrollView.topAnchor.constraint(equalTo: galleryContainer.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: galleryContainer.leadingAnchor),
-            scrollView.widthAnchor.constraint(equalTo: galleryContainer.widthAnchor)])
+            galleryScrollView.heightAnchor.constraint(equalTo: galleryContainer.heightAnchor),
+            galleryScrollView.topAnchor.constraint(equalTo: galleryContainer.topAnchor),
+            galleryScrollView.leadingAnchor.constraint(equalTo: galleryContainer.leadingAnchor),
+            galleryScrollView.widthAnchor.constraint(equalTo: galleryContainer.widthAnchor)])
     }
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
@@ -363,29 +382,33 @@ extension VideoController: UIScrollViewDelegate {
     }
     
     func scrollTo(position: VideoTrimPosition) {
-        let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width)
-        scrollView.contentOffset = CGPoint(x: left, y: 0)
+//        let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width).clamped(to: 0...(scrollView.contentSize.width - bounds.width))
+//        scrollView.contentOffset = CGPoint(x: left, y: 0)
+    }
+    
+    func scrollBy(_ scroll: CGFloat) {
+        galleryScrollView.contentOffset = galleryScrollView.contentOffset.applying(CGAffineTransform(translationX: scroll, y: 0))
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        guard scrollReason != .slider else { return }
-        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .started)
+//        guard scrollReason != .slider else { return }
+//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .started)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard scrollReason != .slider else { return }
-        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
+//        guard scrollReason != .slider else { return }
+//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollReason != .slider else { return }
-        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
+//        guard scrollReason != .slider else { return }
+//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard scrollReason != .slider else { return }
-        if !scrollView.isDecelerating {
-            delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
-        }
+//        guard scrollReason != .slider else { return }
+//        if !scrollView.isDecelerating {
+//            delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
+//        }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 protocol VideoControllerGallerySliderDelegate: class {
-    func onTrimChangedByGallerySlider(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State)
+    func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat)
 }
 
 private class VideoControllerGallerySliderButton: UIView {
@@ -119,20 +119,18 @@ class VideoControllerGallerySlider: UIView {
         let centerX = (trailing + leading)/2
         let width = trailing - leading
         sliderCenterXConstraint.constant = centerX
-        print("begin: \(begin) end: \(end) width: \(width) centerX: \(centerX)")
         sliderWidthConstraint.constant = width
     }
     
     @objc func onChangeSlider(sender: UIPanGestureRecognizer) {
-        print("onChangeSlider")
+        guard let duration = duration else { return }
         let translation = sender.translation(in: self).x
+        let originCenterX = sliderCenterXConstraint.constant
         let newCenterX = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
-        let end = (newCenterX + sliderWidth/2)/(bounds.width)
-        let begin = (newCenterX - sliderWidth/2)/(bounds.width)
-        delegate?.onTrimChangedByGallerySlider(begin: begin,
-                                               end: end,
-                                               state: sender.state)
-        print("centerX: \(newCenterX) begin: \(begin)")
+        let scrollDistance = newCenterX - originCenterX
+        delegate?.onTrimChangedByGallerySlider(state: sender.state,
+                                               scrollTime: CMTimeMultiplyByFloat64(duration, multiplier: Double((newCenterX - originCenterX)/bounds.width)),
+                                               scrollDistance: scrollDistance)
         sender.setTranslation(CGPoint.zero, in: self)
     }
 }

@@ -607,29 +607,29 @@ extension EditViewController: VideoControllerDelegate {
         component.trimPosition = trimPosition
     }
     
-    func onTrimChangedByGallerySlider(begin: CGFloat, end: CGFloat, state: UIGestureRecognizer.State) {
-        guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
-
-        let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
-        let right = CMTimeMultiplyByFloat64(duration, multiplier: Float64(end))
-        let position: VideoTrimPosition = VideoTrimPosition(leftTrim: left, rightTrim: right)
-        videoController.scrollTo(position: position)
-        
-        var trimState: VideoTrimState
-        if state == .ended {
-            trimState = .finished(true)
-        } else if state == .began {
-            trimState = .started
-            videoController.scrollReason = .slider
-        } else {
-            trimState = .moving(seekToSlider: false)
-        }
-
-        videoVC.updateTrim(position: position, state: trimState)
-        
-        if state == .ended {
-            videoController.scrollReason = .other
-        }
+    func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
+//        guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
+//
+//        let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
+//        let right = CMTimeMultiplyByFloat64(duration, multiplier: Float64(end))
+//        let position: VideoTrimPosition = VideoTrimPosition(leftTrim: left, rightTrim: right)
+//        videoController.scrollTo(position: position)
+//        
+//        var trimState: VideoTrimState
+//        if state == .ended {
+//            trimState = .finished(true)
+//        } else if state == .began {
+//            trimState = .started
+//            videoController.scrollReason = .slider
+//        } else {
+//            trimState = .moving(seekToSlider: false)
+//        }
+//
+//        videoVC.updateTrim(position: position, state: trimState)
+//        
+//        if state == .ended {
+//            videoController.scrollReason = .other
+//        }
     }
     
     func onTrimChangedByScrollInGallery(trimPosition: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
