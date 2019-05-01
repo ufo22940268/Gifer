@@ -267,7 +267,7 @@ class TrimController: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        trimDelegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
     }
     
     private func getTrimState(from gesture: UIPanGestureRecognizer) -> VideoTrimState {
@@ -289,7 +289,7 @@ class TrimController: UIControl {
         
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        trimDelegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
    }
     
     var trimRange: CGFloat {

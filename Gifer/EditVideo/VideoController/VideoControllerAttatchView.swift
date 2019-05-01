@@ -106,8 +106,8 @@ class VideoControllerAttachView: UIView {
 }
 
 extension VideoControllerAttachView: VideoTrimDelegate {
-    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
-        customDelegate?.onAttachChanged(component: component, trimPosition: scrollToPosition)
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
+        customDelegate?.onAttachChanged(component: component, trimPosition: trimPosition)
     }
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {

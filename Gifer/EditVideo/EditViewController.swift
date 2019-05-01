@@ -574,7 +574,7 @@ extension EditViewController: VideoViewControllerDelegate {
             self.enableVideoController(true)
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChangedByTrimer(scrollToPosition: self.videoController.trimPosition, state: .initial)
+            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial)
             
             //Test code
             self.videoVC.play()
@@ -608,6 +608,7 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
+        print()
 //        guard let duration = videoVC.player?.currentItem?.duration, duration.seconds > 0 else { return }
 //
 //        let left = CMTimeMultiplyByFloat64(duration, multiplier: Float64(begin))
@@ -637,13 +638,15 @@ extension EditViewController: VideoControllerDelegate {
     }
 
     //Changed by trimer dragged
-    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
-        let position = scrollToPosition
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
+        print("onTrimChangedByTrimer: \(trimPosition)")
+        let position = trimPosition
         if case .started = state {
             videoController.hideSlider(true)
         }
-        videoVC.updateTrim(position: position, state: state)
+
         
+        videoVC.updateTrim(position: position, state: state)
         setSubTitle(duration: videoController.galleryDuration)
     }
     

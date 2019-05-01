@@ -40,7 +40,7 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState)
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
 }
 
@@ -169,7 +169,7 @@ class VideoController: UIStackView {
     var galleryScrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
     var galleryDuration: CMTime {
-        return gallerySlider.galleryDuration!
+        return videoTrim.trimPosition.galleryDuration
     }    
     var trimPosition: VideoTrimPosition {
         get {
@@ -322,7 +322,6 @@ class VideoController: UIStackView {
         
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
-        self.videoSlider.galleryDuration = galleryDuration
         self.galleryView.galleryDuration = galleryDuration
         self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)

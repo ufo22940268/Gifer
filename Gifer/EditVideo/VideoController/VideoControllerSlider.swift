@@ -15,7 +15,6 @@ class VideoControllerSlider: UIControl {
     weak var delegate: SlideVideoProgressDelegate?
     var progress: CMTime!
     var duration: CMTime!
-    var galleryDuration: CMTime!
     
     lazy var sliderLayer: CAShapeLayer = {
         let layer = CAShapeLayer()

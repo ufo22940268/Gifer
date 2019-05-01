@@ -295,8 +295,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     /// Change by gallery scroller
-    func onTrimChangedByTrimer(scrollToPosition: VideoTrimPosition, state: VideoTrimState) {
-        let position = scrollToPosition
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
+        let position = trimPosition
         if case .started = state {
             videoController.hideSlider(true)
         }
