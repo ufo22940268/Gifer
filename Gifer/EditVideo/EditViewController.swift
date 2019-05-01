@@ -639,7 +639,6 @@ extension EditViewController: VideoControllerDelegate {
 
     //Changed by trimer dragged
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
-        print("onTrimChangedByTrimer: \(trimPosition)")
         let position = trimPosition
         if case .started = state {
             videoController.hideSlider(true)
