@@ -40,7 +40,7 @@ class VideoCache {
             try? FileManager.default.removeItem(at: self.tempFilePath)
             
             DispatchQueue.main.async {
-                self.progressTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.1), repeats: true, block: { (timer) in
+                self.progressTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.01), repeats: true, block: { (timer) in
                     let progress = CGFloat(session.progress)
                     self.delegate?.onParsingProgressChanged(progress: progress)
                     if progress == 1.0 {

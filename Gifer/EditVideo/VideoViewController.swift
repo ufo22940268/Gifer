@@ -126,7 +126,7 @@ class VideoViewController: AVPlayerViewController {
     weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
-        let observeInterval = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
                                                            queue: .main) {
                                                             [weak self] time in                                                                                             self?.observePlaybackStatus()

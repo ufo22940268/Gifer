@@ -112,7 +112,6 @@ class VideoControllerGallerySlider: UIView {
     }
     
     func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
-        print("updateSlider")
         self.galleryDuration = galleryDuration
         let leading = begin*bounds.width
         let trailing = end*bounds.width

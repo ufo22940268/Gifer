@@ -127,7 +127,7 @@ class VideoRangeViewController: UIViewController {
         }
         
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5, preferredTimescale: 600),
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.01, preferredTimescale: 600),
                                                             queue: .main) {
                                                                 [weak self] time in
                                                                 self?.observePlayProgress(progress: time)
@@ -149,7 +149,6 @@ class VideoRangeViewController: UIViewController {
     
     private func observePlayProgress(progress: CMTime) {
         var showLoading:Bool
-        print("progress: \(progress.seconds)")
         if case AVPlayer.Status.readyToPlay = player.status {
             videoController.updateSliderProgress(progress)
             showLoading = !currentItem.isPlaybackLikelyToKeepUp
@@ -271,7 +270,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     private func updateTrimPosition(position: VideoTrimPosition, state: VideoTrimState) {
-        print(position)
         currentItem.forwardPlaybackEndTime = position.rightTrim
         switch state {
         case .finished(let forceReset):
