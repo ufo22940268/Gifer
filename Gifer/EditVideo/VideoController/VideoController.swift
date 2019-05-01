@@ -250,6 +250,7 @@ class VideoController: UIStackView {
         } else {
             setupForVideoRangeViewController()
         }
+        videoTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.onTrimPan(sender:))))
     }
     
     private func setupForEditViewController() {
@@ -257,11 +258,10 @@ class VideoController: UIStackView {
         gallerySlider.isHidden = true
         
         videoTrim.disableScroll = false
-        videoTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.onTrimPan(sender:))))
     }
     
     private func setupForVideoRangeViewController() {
-        videoTrim.disableScroll = true
+        videoTrim.disableScroll = false
         galleryScrollView.delegate = self
     }
     

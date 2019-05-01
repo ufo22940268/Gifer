@@ -228,10 +228,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
         
     }
     
-    func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        
-    }
-    
     private func setSubtitle(position: VideoTrimPosition) {
         let text = position.leftTrim.formatTime() + " ~ " + position.rightTrim.formatTime()
         setSubtitle(text)
@@ -241,6 +237,12 @@ extension VideoRangeViewController: VideoControllerDelegate {
         return player.currentItem!.duration
     }
     
+    func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
+        updateTrimPosition(position: position, trimState: state)
+        videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
+    }
+    
+
     /// Change be gallery slider
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
         var position = trimPosition
@@ -249,29 +251,26 @@ extension VideoRangeViewController: VideoControllerDelegate {
         let galleryRange = videoController.gallerySlider.galleryRange
         
         videoController.scrollTo(galleryRange: galleryRange)
-        
+        updateTrimPosition(position: position, state: state)
+    }
+    
+    private func updateTrimPosition(position: VideoTrimPosition, state: UIGestureRecognizer.State) {
         var trimState: VideoTrimState
         if state == .ended {
             trimState = .finished(true)
+            videoController.scrollReason = .other
         } else if state == .began {
             trimState = .started
             videoController.scrollReason = .slider
         } else {
             trimState = .moving(seekToSlider: false)
         }
-        
-        updateTrimPosition(position: position, state: trimState)
-
-        if state == .ended {
-            videoController.scrollReason = .other
-        }
-        
-        setSubtitle(position: position)
+        updateTrimPosition(position: position, trimState: trimState)
     }
     
-    private func updateTrimPosition(position: VideoTrimPosition, state: VideoTrimState) {
+    private func updateTrimPosition(position: VideoTrimPosition, trimState: VideoTrimState) {
         currentItem.forwardPlaybackEndTime = position.rightTrim
-        switch state {
+        switch trimState {
         case .finished(let forceReset):
             var reset:Bool
             if !forceReset {
@@ -305,7 +304,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
             videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
         }
         
-        updateTrimPosition(position: position, state: state)
+        updateTrimPosition(position: position, trimState: state)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
@@ -327,5 +326,3 @@ extension VideoRangeViewController: VideoControllerDelegate {
         }
     }
 }
-
-
