@@ -634,7 +634,7 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByScrollInGallery(trimPosition: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        videoVC.updateTrim(position: trimPosition, state: state, sliderPosition: currentPosition)
+        videoVC.updateTrim(position: trimPosition, state: state, sliderPosition: videoController.currentTimeOnSlider)
     }
 
     //Changed by trimer dragged
@@ -644,8 +644,7 @@ extension EditViewController: VideoControllerDelegate {
             videoController.hideSlider(true)
         }
 
-        
-        videoVC.updateTrim(position: position, state: state)
+        videoVC.updateTrim(position: position, state: state, sliderPosition: videoController.currentTimeOnSlider)
         setSubTitle(duration: videoController.galleryDuration)
     }
     

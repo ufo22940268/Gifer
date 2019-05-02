@@ -18,7 +18,12 @@ class TrimButton: UIView {
     
     var backgroundLayer: CALayer!
     fileprivate var iconLayer: CAShapeLayer!
-
+    var isDimmed: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +79,7 @@ class TrimController: UIControl {
     
     enum Status {
         case initial, highlight
-
+        
         func applyTheme(to view: TrimController) {
             var backgroundColor: UIColor
             var arrowColor: UIColor
@@ -86,7 +91,7 @@ class TrimController: UIControl {
                 backgroundColor = view.mainColor
                 arrowColor = UIColor.black
             }
-
+            
             view.topLine.backgroundColor = backgroundColor
             view.bottomLine.backgroundColor = backgroundColor
         }
@@ -109,6 +114,13 @@ class TrimController: UIControl {
     var galleryDuration: CMTime!
     
     weak var trimDelegate: VideoTrimDelegate?
+        
+    var isDimmed: Bool = false {
+        didSet {
+            leftTrim.isDimmed = isDimmed
+            setNeedsDisplay()
+        }
+    }
     
     var leftTrim: TrimButton! = {
         let leftTrim = TrimButton(direction: .left)
@@ -121,7 +133,7 @@ class TrimController: UIControl {
     }()
     
     var faderBackgroundColor: UIColor {
-      return UIColor(white: 0.7, alpha: 0.4)
+        return UIColor(white: 0.7, alpha: 0.4)
     }
     
     lazy var leftFader: UIView = {
@@ -137,7 +149,7 @@ class TrimController: UIControl {
         right.backgroundColor = faderBackgroundColor
         return right
     }()
-
+    
     static let defaultMainColor = UIColor(named: "mainColor")!
     static let wechatMainColor = UIColor(named: "wechatColor")!
     
@@ -218,7 +230,7 @@ class TrimController: UIControl {
             rightFader.bottomAnchor.constraint(equalTo: bottomAnchor),
             rightFader.leadingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
             ])
-
+        
         status = .highlight
         
         sliderThresholdGuide = UILayoutGuide()
@@ -253,19 +265,20 @@ class TrimController: UIControl {
     func updateTheme() {
         status.applyTheme(to:self)
     }
-        
+    
     var maxLeftLeading: CGFloat {
         get {
             return self.bounds.width - minimunGapBetweenLeftTrimAndRightTrim - abs(rightTrimTrailingConstraint.constant)
         }
     }
-
+    
     @objc func onLeftTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
         let newConstant = (leftTrimLeadingConstraint.constant + translate.x).clamped(to: 0...maxLeftLeading)
         leftTrimLeadingConstraint.constant = newConstant
-        
         recognizer.setTranslation(CGPoint.zero, in: self)
+        
+        updatePressedState(by: recognizer.state)
         
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
     }
@@ -286,11 +299,21 @@ class TrimController: UIControl {
         let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
         rightTrimTrailingConstraint.constant = newConstant
-        
         recognizer.setTranslation(CGPoint.zero, in: self)
         
+        updatePressedState(by: recognizer.state)
+        
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
-   }
+    }
+    
+    private func updatePressedState(by state: UIGestureRecognizer.State) {
+        switch state {
+        case .ended:
+            isDimmed = false
+        default:
+            isDimmed = true
+        }
+    }
     
     var trimRange: CGFloat {
         return bounds.width - VideoControllerConstants.trimWidth*2

@@ -96,6 +96,10 @@ struct VideoTrimPosition: CustomStringConvertible {
 struct GalleryRangePosition {
     var left: CMTime
     var right: CMTime
+    
+    var duration: CMTime {
+        return right - left
+    }
 }
 
 struct VideoControllerConstants {
@@ -181,6 +185,12 @@ class VideoController: UIStackView {
     var duration: CMTime!
     
     var scrollReason: VideoControllerScrollReason = .other
+    var currentTimeOnSlider: CMTime {
+        let range = galleryRangeInTrim
+        let sliderCenter = videoSlider.frame.center.x - videoSlider.sliderRangeGuide.layoutFrame.minX
+        let sliderPosition = sliderCenter/(videoSlider.sliderRangeGuide.layoutFrame.width)
+        return range.left + CMTimeMultiplyByFloat64(range.duration, multiplier: Double(sliderPosition))
+    }
     
     lazy var attachView: VideoControllerAttachView = {
         let attach = VideoControllerAttachView().useAutoLayout()
@@ -391,40 +401,13 @@ extension VideoController: UIScrollViewDelegate {
         return from == "edit"
     }
     
-    func scrollTo(position: VideoTrimPosition) {
-//        let left = CGFloat(position.leftTrim.seconds/duration.seconds)*(scrollView.contentSize.width).clamped(to: 0...(scrollView.contentSize.width - bounds.width))
-//        scrollView.contentOffset = CGPoint(x: left, y: 0)
-    }
-    
-    func scrollTo(galleryRange: GalleryRangePosition) {
+    func galleryScrollTo(galleryRange: GalleryRangePosition) {
         let leading = galleryRange.left.seconds/duration.seconds
         let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
         galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
     }
     
-    func scrollBy(_ scroll: CGFloat) {
-        galleryScrollView.contentOffset = galleryScrollView.contentOffset.applying(CGAffineTransform(translationX: scroll, y: 0))
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        guard scrollReason != .slider else { return }
-//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .started)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        guard scrollReason != .slider else { return }
-//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        guard scrollReason != .slider else { return }
-//        delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .moving(seekToSlider: false))
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        guard scrollReason != .slider else { return }
-//        if !scrollView.isDecelerating {
-//            delegate?.onTrimChangedByTrimer(scrollToPosition: trimPosition, state: .finished(true))
-//        }
+    func keepSliderPosition() {
+        
     }
 }

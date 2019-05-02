@@ -194,14 +194,16 @@ class VideoViewController: AVPlayerViewController {
         
     }
     
-    func seek(toProgress progress: CMTime) {
+    func seek(toProgress progress: CMTime, andPlay play: Bool = false) {
         guard let player = self.player else {
             return
         }
 
-//        showLoading(true)
         let tolerance = CMTime.zero
         player.seek(to: progress, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: {success in
+            if play {
+                player.play()
+            }
         })
     }
 
@@ -213,33 +215,20 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 
 extension VideoViewController {
     
-    func updateTrim(position: VideoTrimPosition, state: VideoTrimState, sliderPosition: CMTime? = nil) {
+    func updateTrim(position: VideoTrimPosition, state: VideoTrimState, sliderPosition: CMTime) {
         guard let player = player, let currentItem = player.currentItem else { return }
         
         trimPosition = position
         
         switch state {
         case .finished(let forceReset):
-            var reset:Bool
-            if !forceReset {
-                reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim
-                if reset == false, let sliderPosition = sliderPosition {
-                    seek(toProgress: sliderPosition)
-                }
-            } else {
-                reset = true
-            }
-            
-            if reset {
-                seek(toProgress: position.leftTrim)
-            }
             updateEndtime()
-            play()
+            seek(toProgress: sliderPosition, andPlay: true)
         case .started:
             pause()
         case .moving(let seekToSlider):
             if seekToSlider {
-                player.seek(to: sliderPosition!, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+                player.seek(to: sliderPosition, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
             }
         default:
             updateEndtime()

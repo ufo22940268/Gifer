@@ -127,7 +127,8 @@ class VideoRangeViewController: UIViewController {
         }
         
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.01, preferredTimescale: 600),
+        let interval = UIDevice.isSimulator ? 0.5 : 0.01
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: interval, preferredTimescale: 600),
                                                             queue: .main) {
                                                                 [weak self] time in
                                                                 self?.observePlayProgress(progress: time)
@@ -148,6 +149,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func observePlayProgress(progress: CMTime) {
+        print("progress: \(progress.seconds)")
         var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
             videoController.updateSliderProgress(progress)
@@ -238,8 +240,9 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        updateTrimPosition(position: position, trimState: state)
         videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
+        updateTrimPosition(position: position, trimState: state)
+        videoController.keepSliderPosition()
     }
     
 
@@ -250,8 +253,9 @@ extension VideoRangeViewController: VideoControllerDelegate {
         videoController.layoutIfNeeded()
         let galleryRange = videoController.gallerySlider.galleryRange
         
-        videoController.scrollTo(galleryRange: galleryRange)
+        videoController.galleryScrollTo(galleryRange: galleryRange)
         updateTrimPosition(position: position, state: state)
+        videoController.keepSliderPosition()
     }
     
     private func updateTrimPosition(position: VideoTrimPosition, state: UIGestureRecognizer.State) {
@@ -272,18 +276,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
         currentItem.forwardPlaybackEndTime = position.rightTrim
         switch trimState {
         case .finished(let forceReset):
-            var reset:Bool
-            if !forceReset {
-                reset = currentItem.currentTime() < position.leftTrim || currentItem.currentTime() > position.rightTrim
-            } else {
-                reset = true
-            }
-            
-            if reset {
-                seekToAndPlay(position: position.leftTrim)
-            } else {
-                player.play()
-            }
+            print("current: \(videoController.currentTimeOnSlider.seconds)")
+            seekToAndPlay(position: videoController.currentTimeOnSlider)
         case .started:
             player.pause()
         default:
