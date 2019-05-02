@@ -100,6 +100,16 @@ struct GalleryRangePosition {
     var duration: CMTime {
         return right - left
     }
+    
+    func clamp(_ time: CMTime) -> CMTime {
+        if time < left {
+            return left
+        } else if time > right {
+            return right
+        } else {
+            return time
+        }
+    }
 }
 
 struct VideoControllerConstants {
@@ -189,7 +199,8 @@ class VideoController: UIStackView {
         let range = galleryRangeInTrim
         let sliderCenter = videoSlider.frame.center.x - videoSlider.sliderRangeGuide.layoutFrame.minX
         let sliderPosition = sliderCenter/(videoSlider.sliderRangeGuide.layoutFrame.width)
-        return range.left + CMTimeMultiplyByFloat64(range.duration, multiplier: Double(sliderPosition))
+        let time = range.left + CMTimeMultiplyByFloat64(range.duration, multiplier: Double(sliderPosition))
+        return range.clamp(time)
     }
     
     lazy var attachView: VideoControllerAttachView = {

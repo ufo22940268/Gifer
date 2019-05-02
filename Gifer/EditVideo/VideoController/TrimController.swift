@@ -20,6 +20,11 @@ class TrimButton: UIView {
     fileprivate var iconLayer: CAShapeLayer!
     var isDimmed: Bool = false {
         didSet {
+            if isDimmed {
+                tintAdjustmentMode = .dimmed
+            } else {
+                tintAdjustmentMode = .normal
+            }
             setNeedsDisplay()
         }
     }
