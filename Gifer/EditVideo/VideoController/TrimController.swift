@@ -123,6 +123,12 @@ class TrimController: UIControl {
     var isDimmed: Bool = false {
         didSet {
             leftTrim.isDimmed = isDimmed
+            rightTrim.isDimmed = isDimmed
+            if isDimmed {
+                tintAdjustmentMode = .dimmed
+            } else {
+                tintAdjustmentMode = .normal
+            }
             setNeedsDisplay()
         }
     }
