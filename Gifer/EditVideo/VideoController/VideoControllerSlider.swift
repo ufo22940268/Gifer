@@ -31,6 +31,12 @@ class VideoControllerSlider: UIControl {
         return trimView.trimPosition.getSliderPosition(sliderRelativeToTrim: percentage)
     }
     
+    func ensureLeadingConstraint() {
+        if leadingConstraint.constant > sliderRangeGuide.layoutFrame.width {
+            leadingConstraint.constant = sliderRangeGuide.layoutFrame.width
+        }
+    }
+    
     fileprivate func setupGuides(trimView: VideoControllerTrim) {
         guard let superview = superview else { return }
         
@@ -47,6 +53,7 @@ class VideoControllerSlider: UIControl {
         
         setupGuides(trimView: trimView)
         self.trimView = trimView
+        trimView.slider = self
         
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.white
