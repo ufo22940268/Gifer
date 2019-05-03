@@ -640,10 +640,6 @@ extension EditViewController: VideoControllerDelegate {
     //Changed by trimer dragged
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = trimPosition
-        if case .started = state {
-            videoController.hideSlider(true)
-        }
-
         videoVC.updateTrim(position: position, state: state, sliderPosition: videoController.currentTimeOnSlider)
         setSubTitle(duration: videoController.galleryDuration)
     }

@@ -288,10 +288,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
     /// Change by gallery scroller
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = trimPosition
-        if case .started = state {
-            videoController.hideSlider(true)
-        }
-
         if currentItem.duration.seconds > 0 {
             videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
         }

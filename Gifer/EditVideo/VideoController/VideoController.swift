@@ -316,10 +316,6 @@ class VideoController: UIStackView {
         galleryView.setImage(image, on: index)
     }        
     
-    func hideSlider(_ hide: Bool) {
-        videoSlider.isHidden = hide
-    }
-    
     func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         
         guard playerItem.asset.duration.value > 0 else {
