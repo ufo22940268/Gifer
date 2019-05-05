@@ -434,7 +434,7 @@ class EditViewController: UIViewController {
             
             switch type {
             case .wechat, .wechatSticker:
-                shareManager.shareToWechat(video: gif, complete: { (success) in                    
+                shareManager.shareToWeibo(video: gif, complete: { (success) in                    
                     self.dismiss(animated: true, completion: nil)
                 })
             case .photo:
