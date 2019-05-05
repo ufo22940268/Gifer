@@ -35,6 +35,7 @@ platform :ios do
 	  build_app(scheme: "Gifer")
 	  upload_to_testflight(
 		  "skip_waiting_for_build_processing": true,
+		  "changelog": "Fix some video range selection bugs"
 	  )
   end
 
