@@ -40,6 +40,10 @@ class VideoControllerGallery: UIStackView {
             ])
     }
     
+    var itemSize: CGSize {
+        return bounds.size
+    }
+    
     func prepareImageViews(_ count: Int) {
         for index in 0..<count {
             let imageView: UIImageView = addImageView(totalImageCount: count)

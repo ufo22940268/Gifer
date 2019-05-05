@@ -368,7 +368,7 @@ class VideoController: UIStackView {
 
         self.generator = AVAssetImageGenerator(asset: playerItem.asset)
         var index = 0
-        self.generator?.maximumSize = CGSize(width: 100, height: 100)
+        self.generator?.maximumSize = galleryView.itemSize.applying(CGAffineTransform(scaleX: UIScreen.main.scale, y: UIScreen.main.scale))
         let queue = DispatchQueue(label: "generate thumbernails")
         self.generator?.appliesPreferredTrackTransform = true
         queue.async {
