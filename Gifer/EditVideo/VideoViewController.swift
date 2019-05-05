@@ -224,12 +224,12 @@ extension VideoViewController {
         
         switch state {
         case .finished(let _):
-            updateEndtime()
             seek(toProgress: sliderPosition, andPlay: true)
         case .started:
             pause()
         default:
             break
         }
+        updateEndtime()
     }
 }
