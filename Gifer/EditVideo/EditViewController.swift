@@ -670,7 +670,21 @@ extension EditViewController: OptionMenuDelegate {
         return [editTextOverlay, stickerOverlay]
     }
     
-    private func dismissOptionMenu() {
+    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool) {
+        enableVideoContainer(false)
+        switch toolbarItem {
+        case .crop:
+            if !commitChange {
+                cropContainer.resetCropArea()
+            }
+            self.cropContainer.updateCroppingStatus(.normal)
+            break
+        case .sticker:
+            break
+        default:
+            break
+        }
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.optionMenuBottomConstraint.isActive = false
             self.optionMenuTopConstraint.isActive = true
@@ -686,23 +700,6 @@ extension EditViewController: OptionMenuDelegate {
             }
             self.optionMenu.isHidden = true
         }
-    }
-    
-    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool) {
-        enableVideoContainer(false)
-        switch toolbarItem {
-        case .crop:
-            if !commitChange {
-                cropContainer.resetCropArea()
-            }
-            self.cropContainer.updateCroppingStatus(.normal)
-            break
-        case .sticker:
-            break
-        default:
-            break
-        }
-        dismissOptionMenu()
     }
     
     func onPreviewSelected(filter: YPFilter) {

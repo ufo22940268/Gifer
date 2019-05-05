@@ -175,16 +175,6 @@ class CropContainer: UIView {
         gridRulerView.syncConstraintsToGuide()
     }
     
-    func changeCropSize(_ targetSize: CGSize) {
-        constraints.findById(id: "height").constant = targetSize.height
-        constraints.findById(id: "width").constant = targetSize.width
-
-        gridRulerView.constraints.findById(id: "height").constant = targetSize.height
-        gridRulerView.constraints.findById(id: "width").constant = targetSize.width
-        gridRulerView.customConstraints.centerY.constant = 0
-        gridRulerView.customConstraints.centerX.constant = 0
-    }
-    
     func createTestContentView() -> UIView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -349,6 +339,7 @@ extension CropContainer: GridRulerViewDelegate {
     
     func resetCropArea() {
         gridRulerView.isGridChanged = false
+        adjustTo(ratio: videoSize!)
     }
 }
 
