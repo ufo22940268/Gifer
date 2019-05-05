@@ -239,22 +239,20 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
+        videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInSlider)
         updateTrimPosition(position: position, trimState: state)
-        videoController.keepSliderPosition()
     }
     
-
     /// Change be gallery slider
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
         var position = trimPosition
         position.scrollBy(scrollTime)
         videoController.layoutIfNeeded()
-        let galleryRange = videoController.gallerySlider.galleryRange
+        var galleryRange = videoController.galleryRangeInSlider
+        galleryRange.scroll(by: scrollTime)
         
         videoController.galleryScrollTo(galleryRange: galleryRange)
         updateTrimPosition(position: position, state: state)
-        videoController.keepSliderPosition()
     }
     
     private func updateTrimPosition(position: VideoTrimPosition, state: UIGestureRecognizer.State) {
@@ -288,10 +286,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
     /// Change by gallery scroller
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
         let position = trimPosition
-        if currentItem.duration.seconds > 0 {
-            videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInTrim)
-        }
-        
         updateTrimPosition(position: position, trimState: state)
     }
     

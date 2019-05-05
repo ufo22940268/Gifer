@@ -172,6 +172,14 @@ class TrimController: UIControl {
     private var sliderThresholdGuide: UILayoutGuide!
     private var sliderRangeGuide: UILayoutGuide!
     
+    var innerFrame: CGRect {
+        return sliderRangeGuide.layoutFrame
+    }
+    
+    var outerFrame: CGRect {
+        return bounds
+    }
+    
     func setup(galleryView: UIView) {
         guard let superview = superview else {
             return

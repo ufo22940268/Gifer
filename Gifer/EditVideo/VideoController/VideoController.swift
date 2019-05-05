@@ -93,7 +93,7 @@ struct VideoTrimPosition: CustomStringConvertible {
     }
 }
 
-struct GalleryRangePosition {
+struct GalleryRangePosition: CustomStringConvertible {
     var left: CMTime
     var right: CMTime
     
@@ -109,6 +109,15 @@ struct GalleryRangePosition {
         } else {
             return time
         }
+    }
+    
+    mutating func scroll(by delta: CMTime) {
+        left = left + delta
+        right = right + delta
+    }
+    
+    var description: String {
+        return "\(left.seconds) ------- \(right.seconds)"
     }
 }
 
@@ -196,11 +205,7 @@ class VideoController: UIStackView {
     
     var scrollReason: VideoControllerScrollReason = .other
     var currentTimeOnSlider: CMTime {
-        let range = galleryRangeInTrim
-        let sliderCenter = videoSlider.frame.center.x - videoSlider.sliderRangeGuide.layoutFrame.minX
-        let sliderPosition = sliderCenter/(videoSlider.sliderRangeGuide.layoutFrame.width)
-        let time = range.left + CMTimeMultiplyByFloat64(range.duration, multiplier: Double(sliderPosition))
-        return range.clamp(time)
+        return videoSlider.currentPosition
     }
     
     lazy var attachView: VideoControllerAttachView = {
@@ -219,15 +224,18 @@ class VideoController: UIStackView {
         }
     }
     
-    var galleryRangeInTrim: GalleryRangePosition {
+    var galleryRangeInSlider: GalleryRangePosition {
         guard let duration = duration else { fatalError() }
-        let trimFrame = videoTrim.frame.applying(CGAffineTransform(scaleX: 1/bounds.width, y: 1/bounds.height))
-        let convertRelativeToDuration = {(ratio: CGFloat) in
-            return (Double(ratio)*self.galleryDuration.seconds + self.trimPosition.leftTrim.seconds)/duration.seconds
-        }
-        let left = CMTimeMultiplyByFloat64(duration, multiplier: convertRelativeToDuration(trimFrame.minX))
-        let right = CMTimeMultiplyByFloat64(duration, multiplier: convertRelativeToDuration(trimFrame.maxX))
-        return GalleryRangePosition(left: left, right: right)
+        let scrollRect = galleryScrollView.contentSize
+        let outerFrame = galleryScrollView.convert(videoTrim.bounds, from: videoTrim)
+        let outer = outerFrame.applying(CGAffineTransform(scaleX: 1/scrollRect.width, y: 1/scrollRect.height))
+        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.maxX)))
+    }
+    
+    var galleryRangeInTrimer: GalleryRangePosition {
+        guard let duration = duration else { fatalError() }
+        let inner = videoTrim.innerFrame.applying(CGAffineTransform(scaleX: 1/galleryScrollView.contentSize.width, y: 1/galleryScrollView.contentSize.height))
+        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.maxX)))
     }
     
     override func awakeFromNib() {
@@ -412,9 +420,5 @@ extension VideoController: UIScrollViewDelegate {
         let leading = galleryRange.left.seconds/duration.seconds
         let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
         galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-    }
-    
-    func keepSliderPosition() {
-        
     }
 }

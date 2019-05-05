@@ -104,15 +104,15 @@ class VideoControllerGallerySlider: UIView {
     func onVideoLoaded(galleryDuration: CMTime, duration: CMTime) {
         self.duration = duration
         layoutIfNeeded()
-        updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), galleryDuration: galleryDuration)
+        updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), duration: galleryDuration)
     }
     
     var sliderWidth: CGFloat {
         return sliderWidthConstraint.constant
     }
     
-    func updateSlider(begin: CGFloat, end: CGFloat, galleryDuration: CMTime) {
-        self.galleryDuration = galleryDuration
+    func updateSlider(begin: CGFloat, end: CGFloat, duration: CMTime) {
+        self.galleryDuration = duration
         let leading = begin*bounds.width
         let trailing = end*bounds.width
         let centerX = (trailing + leading)/2
@@ -134,13 +134,13 @@ class VideoControllerGallerySlider: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
     }
     
-    var galleryRange: GalleryRangePosition {
-        guard let duration = duration else { fatalError() }
-        let width = bounds.width
-        let leading = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.minX/width))
-        let trailing = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.maxX/width))
-        return GalleryRangePosition(left: leading, right: trailing)
-    }
+//    var galleryRange: GalleryRangePosition {
+//        guard let duration = duration else { fatalError() }
+//        let width = bounds.width
+//        let leading = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.minX/width))
+//        let trailing = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.maxX/width))
+//        return GalleryRangePosition(left: leading, right: trailing)
+//    }
     
     func sync(galleryRange: GalleryRangePosition) {
         guard let duration = duration else { return }
