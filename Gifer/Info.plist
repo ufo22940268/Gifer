@@ -35,6 +35,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>weibosdk</string>
 		<string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

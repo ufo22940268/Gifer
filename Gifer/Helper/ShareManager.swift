@@ -44,8 +44,8 @@ class ShareManager {
             let monkeyMessage = MonkeyKing.Message.weibo(.default(info: (
                 title: nil,
                 description: nil,
-                thumbnail: #imageLiteral(resourceName: "03_Cuppy_rofl.png"),
-                media: .image(#imageLiteral(resourceName: "03_Cuppy_rofl.png"))
+                thumbnail: UIImage(data: gifData),
+                media: .imageData(gifData)
                 ), accessToken: nil))
 
             MonkeyKing.deliver(monkeyMessage) { (result) in

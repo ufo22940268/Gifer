@@ -74,6 +74,10 @@ class EditTextPreviewer: UIView {
     @objc func onEditFieldChanged(notif: Notification) {
         delegate?.onTextChanged(newText: text)
     }
+    
+    func clearPlaceholder() {
+        textField.text = ""
+    }
 
     func setText(_ text: String) {
         textField.text = text
@@ -82,7 +86,7 @@ class EditTextPreviewer: UIView {
     
     func showPlaceholderIfNeeded() {
         if textInfo.text.count == 0 {
-            textField.text = placeholderText
+            textField.placeholder = placeholderText
             enablePlaceholder = true
         }
         
@@ -91,7 +95,7 @@ class EditTextPreviewer: UIView {
 
     func hidePlaceholderIfNeeded() {
         if enablePlaceholder {
-            textField.text = ""
+            textField.placeholder = ""
             enablePlaceholder = false
         }
         textField.becomeFirstResponder()

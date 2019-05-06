@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
+        MonkeyKing.registerAccount(.weibo(appID: "1692260840", appKey: "a22cb060aa3d836222c67bf0a2c764e8", redirectURL: "http://www.baidu.com"))
         // Override point for customization after application launch.
         initUserDefaults()
         return true

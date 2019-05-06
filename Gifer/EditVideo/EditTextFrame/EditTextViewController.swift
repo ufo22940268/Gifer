@@ -50,7 +50,6 @@ class EditTextViewController: UIViewController {
     
     lazy var previewer: EditTextPreviewer = {
         let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
-        previewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewTap(sender:))))
         previewer.delegate = self
         return previewer
     }()
@@ -137,10 +136,21 @@ class EditTextViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onBeginEdit), name: UITextField.textDidBeginEditingNotification, object: previewer.textField)
         
         originViewHeight = self.view.frame.height
         
         updateDoneButton(previewText: previewer.text)
+    }
+    
+    @objc func onBeginEdit() {
+        if bottomTools.activatedItem != .keyboard {
+            bottomTools.active(item: .keyboard)
+        }
+        
+        if previewer.textField.placeholder != "" {
+           previewer.textField.placeholder = ""
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -150,12 +160,6 @@ class EditTextViewController: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-    }
-    
-    @objc func onPreviewTap(sender: UITapGestureRecognizer) {
-        if bottomTools.activatedItem != .keyboard {
-            bottomTools.active(item: .keyboard)
-        }
     }
 }
 
@@ -199,6 +203,7 @@ extension EditTextViewController {
 extension EditTextViewController {
     
     @objc private func onCancel() {
+        hideKeyboard()
         dismiss(animated: true, completion: nil)
     }
     
