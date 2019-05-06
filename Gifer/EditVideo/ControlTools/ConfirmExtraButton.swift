@@ -30,6 +30,9 @@ class ConfirmExtraButton: UIButton {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 44)])
         tintColor = UIColor(named: "mainColor")
+        if type == .cancel {
+            tintAdjustmentMode = .dimmed
+        }
         contentMode = .center
         backgroundColor = UIColor(named: "darkBackgroundColor")
     }
