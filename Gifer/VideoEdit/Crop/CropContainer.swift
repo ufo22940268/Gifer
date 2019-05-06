@@ -301,6 +301,7 @@ extension CropContainer: GridRulerViewDelegate {
         let fromRulerFrameInContentCoordinate = self.scrollView.convert(gridRulerView.frame, from: gridRulerView.superview!)
 
         let toRulerSize = AVMakeRect(aspectRatio: fromRulerFrame.size, insideRect: scrollFrame).size
+        print("toRulerSize: \(toRulerSize)")
 
         let toWidth = toRulerSize.width
         let toHeight = toRulerSize.height
