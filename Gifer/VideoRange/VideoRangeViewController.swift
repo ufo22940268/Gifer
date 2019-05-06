@@ -149,7 +149,6 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func observePlayProgress(progress: CMTime) {
-        print("range progress: \(progress.seconds)")
         var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
             videoController.updateSliderProgress(progress)
@@ -276,8 +275,9 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     private func updateTrimPosition(position: VideoTrimPosition, trimState: VideoTrimState) {
         currentItem.forwardPlaybackEndTime = position.rightTrim
+        print("seek to: \(videoController.currentTimeOnSlider.seconds)")
         switch trimState {
-        case .finished(let forceReset):
+        case .finished( _):
             seekToAndPlay(position: videoController.currentTimeOnSlider)
         case .started:
             player.pause()
