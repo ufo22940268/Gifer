@@ -149,6 +149,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func observePlayProgress(progress: CMTime) {
+        print("range progress: \(progress.seconds)")
         var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
             videoController.updateSliderProgress(progress)
@@ -192,10 +193,14 @@ class VideoRangeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if previewController.player != nil {
+            player.play()
+        }
         registerObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        player.pause()
         unregisterObservers()
     }
     
