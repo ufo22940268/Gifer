@@ -335,7 +335,7 @@ extension CropContainer: GridRulerViewDelegate {
         restoreTask = DispatchWorkItem {
             self.restorePositionWhenDragFinished()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: restoreTask!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: restoreTask!)
     }
     
     func resetCropArea() {
