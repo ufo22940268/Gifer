@@ -34,9 +34,13 @@ class SharePresentationController: UIPresentationController {
         }
     }
     
-//    override var frameOfPresentedViewInContainerView: CGRect {
-//        return CGRect(origin: .zero, size: CGSize(width: presentingViewController.view.bounds.width, height: 100))
-//    }
+    override var frameOfPresentedViewInContainerView: CGRect {
+        let height = CGFloat(300)
+        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: presentingViewController.view.bounds.width, height: height))
+        rect = rect.insetBy(dx: 8, dy: 0)
+        rect = rect.applying(CGAffineTransform(translationX: 0, y: -presentingViewController.view.safeAreaInsets.bottom))
+        return rect
+    }
 }
 
 class ShareViewController: UITableViewController {
@@ -133,26 +137,5 @@ class ShareViewController: UITableViewController {
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return SharePresentationController(presentedViewController: presented, presenting: presenting)
-    }
-
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PresentAnimation()
-    }
-}
-
-fileprivate class PresentAnimation: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.5
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let targetView = transitionContext.view(forKey: .to), let sourceView = transitionContext.viewController(forKey: .from)?.view else { return }
-        transitionContext.containerView.addSubview(targetView)
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: .zero, options: [.curveEaseOut], animations: {
-            targetView.frame.origin.y = 70
-            sourceView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        }, completion: { success in
-            transitionContext.completeTransition(true)
-        })
     }
 }
