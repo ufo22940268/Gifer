@@ -26,6 +26,8 @@ class SharePresentationController: UIPresentationController {
         let size = containerView!.bounds.size
         presentedView.frame.origin.y = size.height
         sourceView.layer.cornerRadius = 20
+        
+        print(sourceView)
     }
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
@@ -41,14 +43,34 @@ class SharePresentationController: UIPresentationController {
         rect = rect.applying(CGAffineTransform(translationX: 0, y: -presentingViewController.view.safeAreaInsets.bottom))
         return rect
     }
+    
+}
+
+extension UIColor {
+    static let dark = UIColor(named: "darkBackgroundColor")!
+}
+
+class EditCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        textLabel?.textColor = .white
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class ShareViewController: UITableViewController {
     
     fileprivate var customTransitioningDelegate: TransitioningDelegate = TransitioningDelegate()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.dark
+        
+        tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -61,12 +83,12 @@ class ShareViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
     
     func present(by controller: UIViewController) {
@@ -77,50 +99,16 @@ class ShareViewController: UITableViewController {
         }
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
+        print("cell: \(cell)")
+        if indexPath.row == 0 {
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = "视频清晰度"
+            cell.detailTextLabel?.text = "自动"
+        }
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
