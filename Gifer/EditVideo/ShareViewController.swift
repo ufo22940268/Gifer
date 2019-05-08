@@ -46,6 +46,31 @@ class SharePresentationController: UIPresentationController {
     
 }
 
+class ModalPresentationController: UIPresentationController {
+    
+    override func presentationTransitionWillBegin() {
+        guard let containerView = containerView, let presentedView = presentedView, let sourceView = presentingViewController.view else { return }
+        presentedView.layer.cornerRadius = 20
+        sourceView.layer.cornerRadius = 20
+        
+        
+        presentedView.frame = frameOfPresentedViewInContainerView
+        presentedView.frame.origin.x = containerView.bounds.width
+    }
+    
+    override func presentationTransitionDidEnd(_ completed: Bool) {
+    }
+    
+    override var frameOfPresentedViewInContainerView: CGRect {
+        let height = CGFloat(300)
+        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: containerView!.bounds.width, height: height))
+        rect = rect.insetBy(dx: 8, dy: 0)
+        rect = rect.applying(CGAffineTransform(translationX: 0, y: -containerView!.safeAreaInsets.bottom))
+        return rect
+    }
+    
+}
+
 extension UIColor {
     static let dark = UIColor(named: "darkBackgroundColor")!
 }
@@ -65,7 +90,8 @@ class EditCell: UITableViewCell {
 class ShareViewController: UITableViewController {
     
     fileprivate var customTransitioningDelegate: TransitioningDelegate = TransitioningDelegate()
-    
+    fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.dark
@@ -101,13 +127,19 @@ class ShareViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
-        print("cell: \(cell)")
         if indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "视频清晰度"
             cell.detailTextLabel?.text = "自动"
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc: VideoSizeConfigViewController = VideoSizeConfigViewController()
+        vc.transitioningDelegate = modalTransitioningDelegate
+        vc.modalPresentationStyle = .custom
+        present(vc, animated: true, completion: nil)
     }
 
     /*
@@ -125,5 +157,35 @@ class ShareViewController: UITableViewController {
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return SharePresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    }
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalTransitionAnimator()
+    }
+}
+
+class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.3
+    }
+    
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let source = transitionContext.viewController(forKey: .from)!
+        let target = transitionContext.viewController(forKey: .to)!
+        
+        let toView = transitionContext.view(forKey: .to)!
+        
+        transitionContext.containerView.addSubview(toView)
+        UIView.animate(withDuration: 0.3, animations: {
+            toView.frame = transitionContext.finalFrame(for: target)
+        }, completion: { success in
+            transitionContext.completeTransition(true)
+        })
     }
 }

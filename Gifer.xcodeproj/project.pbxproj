@@ -50,6 +50,7 @@
 		42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */; };
 		42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D882223862300AD3681 /* ControlToolbar.swift */; };
 		42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */; };
+		42B4DD0922818A720085BF46 /* VideoSizeConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB32E2259AB99000152E7 /* StickerOverlay.swift */; };
 		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
@@ -150,6 +151,7 @@
 		42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVideoTransitionAnimator.swift; sourceTree = "<group>"; };
 		42AC7D882223862300AD3681 /* ControlToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbar.swift; sourceTree = "<group>"; };
 		42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarItemView.swift; sourceTree = "<group>"; };
+		42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSizeConfigViewController.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42CEB32E2259AB99000152E7 /* StickerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerOverlay.swift; sourceTree = "<group>"; };
 		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */,
 				42462B1F2202F70F0064FE56 /* VideoController */,
 				4284D44022768F5F00886513 /* ShareViewController.swift */,
+				42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
 				42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
+				42B4DD0922818A720085BF46 /* VideoSizeConfigViewController.swift in Sources */,
 				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
 				42820CF62216A14200C5A99C /* ShareDialogController.swift in Sources */,
 				4284D44122768F5F00886513 /* ShareViewController.swift in Sources */,
