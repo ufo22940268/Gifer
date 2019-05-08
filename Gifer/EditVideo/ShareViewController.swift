@@ -51,8 +51,6 @@ extension UIColor {
 class EditCell: DarkTableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        textLabel?.textColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {
