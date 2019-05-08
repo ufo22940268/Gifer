@@ -37,6 +37,7 @@ class DarkTableView: UITableView {
     init() {
         super.init(frame: .zero, style: .plain)
         backgroundColor = .dark
+        tableFooterView = UIView()
     }
     
     required init?(coder aDecoder: NSCoder) {

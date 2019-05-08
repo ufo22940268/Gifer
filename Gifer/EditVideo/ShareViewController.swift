@@ -26,6 +26,16 @@ class SharePresentationController: UIPresentationController {
         let size = containerView!.bounds.size
         presentedView.frame.origin.y = size.height
         sourceView.layer.cornerRadius = 20
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
+        gesture.cancelsTouchesInView = false
+        containerView?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func onTap(sender: UITapGestureRecognizer) {
+        if !presentedView!.frame.contains(sender.location(in: containerView)) {
+            presentedViewController.dismiss(animated: true, completion: nil)
+        }
     }
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
@@ -168,9 +178,16 @@ class ModalPresentationController: UIPresentationController {
         
         presentedViewController.centerX.constant = presentedViewController.view.bounds.width
         presentedViewController.view.layoutIfNeeded()
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
+        gesture.cancelsTouchesInView = false
+        containerView?.addGestureRecognizer(gesture)
     }
     
-    override func presentationTransitionDidEnd(_ completed: Bool) {
+    @objc func onTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            presentingViewController.presentingViewController?.dismiss(animated: true, completion: nil)
+        }
     }
     
     override var frameOfPresentedViewInContainerView: CGRect {
