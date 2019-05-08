@@ -48,7 +48,7 @@ extension UIColor {
     static let dark = UIColor(named: "darkBackgroundColor")!
 }
 
-class EditCell: UITableViewCell {
+class EditCell: DarkTableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
@@ -70,6 +70,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.backgroundColor = .dark
         return view
     }()
+    
+    var centerX: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,16 +79,16 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.clipsToBounds = true
         
         view.addSubview(tableView)
-        tableView.useSameSizeAsParent()
+        centerX = tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        NSLayoutConstraint.activate([
+            centerX,
+            tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tableView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            tableView.heightAnchor.constraint(equalTo: view.heightAnchor)
+            ])
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -124,6 +126,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         vc.transitioningDelegate = modalTransitioningDelegate
         vc.modalPresentationStyle = .custom
         present(vc, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     /*
@@ -187,7 +191,7 @@ class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        _ = transitionContext.viewController(forKey: .from)! as! ShareViewController
+        let source = transitionContext.viewController(forKey: .from)! as! ShareViewController
         let target = transitionContext.viewController(forKey: .to) as! VideoSizeConfigViewController
         
         let toView = transitionContext.view(forKey: .to)!
@@ -196,11 +200,12 @@ class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let duration = 0.3
         target.view.layoutIfNeeded()
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
-//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-//                source.view.clipsToBounds = true
-//                let tableView = (source as! ShareViewController).tableView
-//                tableView.frame.origin.x = -tableView.frame.width/3
-//            })
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                source.view.clipsToBounds = true
+                let tableView = (source ).tableView
+                source.centerX.constant = -tableView.frame.width/3
+                source.view.layoutIfNeeded()
+            })
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
                 target.centerX.constant = 0
                 target.view.layoutIfNeeded()
