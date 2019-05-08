@@ -26,8 +26,6 @@ class SharePresentationController: UIPresentationController {
         let size = containerView!.bounds.size
         presentedView.frame.origin.y = size.height
         sourceView.layer.cornerRadius = 20
-        
-        print(sourceView)
     }
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
@@ -53,7 +51,6 @@ class ModalPresentationController: UIPresentationController {
         presentedView.layer.cornerRadius = 20
         sourceView.layer.cornerRadius = 20
         
-        
         presentedView.frame = frameOfPresentedViewInContainerView
         presentedView.frame.origin.x = containerView.bounds.width
     }
@@ -68,7 +65,6 @@ class ModalPresentationController: UIPresentationController {
         rect = rect.applying(CGAffineTransform(translationX: 0, y: -containerView!.safeAreaInsets.bottom))
         return rect
     }
-    
 }
 
 extension UIColor {
@@ -87,15 +83,26 @@ class EditCell: UITableViewCell {
     }
 }
 
-class ShareViewController: UITableViewController {
+class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     fileprivate var customTransitioningDelegate: TransitioningDelegate = TransitioningDelegate()
     fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
+    
+    lazy var tableView: UITableView = {
+        let view = UITableView().useAutoLayout()
+        view.backgroundColor = .dark
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.dark
+        view.clipsToBounds = true
         
+        view.addSubview(tableView)
+        tableView.useSameSizeAsParent()
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
 
         // Uncomment the following line to preserve selection between presentations
@@ -107,12 +114,12 @@ class ShareViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
     }
@@ -125,7 +132,7 @@ class ShareViewController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
         if indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
@@ -135,7 +142,7 @@ class ShareViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc: VideoSizeConfigViewController = VideoSizeConfigViewController()
         vc.transitioningDelegate = modalTransitioningDelegate
         vc.modalPresentationStyle = .custom
@@ -182,10 +189,19 @@ class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let toView = transitionContext.view(forKey: .to)!
         
         transitionContext.containerView.addSubview(toView)
-        UIView.animate(withDuration: 0.3, animations: {
-            toView.frame = transitionContext.finalFrame(for: target)
-        }, completion: { success in
+        let duration = 0.3
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                source.view.clipsToBounds = true
+                let fromView = (source as! ShareViewController).tableView
+//                fromView.frame = transitionContext.finalFrame(for: source)
+                fromView.frame.origin.x = -fromView.frame.width
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                toView.frame = transitionContext.finalFrame(for: target)
+            })
+        }) { (success) in
             transitionContext.completeTransition(true)
-        })
+        }
     }
 }
