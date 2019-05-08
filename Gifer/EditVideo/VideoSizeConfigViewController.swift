@@ -96,5 +96,6 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedVideoSize = videoSizes[indexPath.row]
         tableView.reloadData()
+        dismiss(animated: true, completion: nil)
     }
 }

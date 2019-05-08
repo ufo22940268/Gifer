@@ -79,7 +79,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }()
     
     var centerX: NSLayoutConstraint!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.dark
@@ -97,14 +97,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
     }
-
+    
     // MARK: - Table view data source
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
@@ -117,7 +117,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             print("presented")
         }
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
         if indexPath.row == 0 {
@@ -136,17 +136,17 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
@@ -159,8 +159,12 @@ class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
-
+    
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ModalTransitionAnimator()
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ModalTransitionAnimator()
     }
 }
@@ -185,7 +189,8 @@ class ModalPresentationController: UIPresentationController {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
+        if sender.state == .ended && !presentedView!.frame.contains(sender.location(in: containerView)) {
+            (presentingViewController as! ShareViewController).tableView.isHidden = true
             presentingViewController.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }
@@ -205,27 +210,49 @@ class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let source = transitionContext.viewController(forKey: .from)! as! ShareViewController
-        let target = transitionContext.viewController(forKey: .to) as! VideoSizeConfigViewController
+        let isPresent = transitionContext.viewController(forKey: .to)?.presentingViewController == transitionContext.viewController(forKey: .from)
+        var shareVC: ShareViewController
+        var configVC: VideoSizeConfigViewController
         
-        let toView = transitionContext.view(forKey: .to)!
+        if isPresent {
+            shareVC = transitionContext.viewController(forKey: .from)! as! ShareViewController
+            configVC = transitionContext.viewController(forKey: .to) as! VideoSizeConfigViewController
+        } else {
+            shareVC = transitionContext.viewController(forKey: .to)! as! ShareViewController
+            configVC = transitionContext.viewController(forKey: .from) as! VideoSizeConfigViewController
+        }
         
-        transitionContext.containerView.addSubview(toView)
+        
         let duration = 0.3
-        target.view.layoutIfNeeded()
-        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                source.view.clipsToBounds = true
-                let tableView = (source ).tableView
-                source.centerX.constant = -tableView.frame.width/3
-                source.view.layoutIfNeeded()
+        
+        if isPresent {
+            let toView = transitionContext.view(forKey: .to)!
+            transitionContext.containerView.addSubview(toView)
+            configVC.view.layoutIfNeeded()
+            UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                    let tableView = (shareVC ).tableView
+                    shareVC.centerX.constant = -tableView.frame.width/3
+                    shareVC.view.layoutIfNeeded()
+                })
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                    configVC.centerX.constant = 0
+                    configVC.view.layoutIfNeeded()
+                })
+            }) { (success) in
+                transitionContext.completeTransition(true)
+            }
+        } else {
+            shareVC.centerX.constant = -shareVC.view.bounds.width
+            shareVC.view.layoutIfNeeded()
+            UIView.animate(withDuration: duration, animations: {
+                configVC.view.frame.origin.x = configVC.view.frame.width
+                shareVC.centerX.constant = 0
+                shareVC.view.layoutIfNeeded()
+            }, completion: { success in
+                transitionContext.completeTransition(true)
+                configVC.view.removeFromSuperview()
             })
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                target.centerX.constant = 0
-                target.view.layoutIfNeeded()
-            })
-        }) { (success) in
-            transitionContext.completeTransition(true)
         }
     }
 }
