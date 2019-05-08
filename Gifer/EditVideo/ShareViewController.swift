@@ -44,29 +44,6 @@ class SharePresentationController: UIPresentationController {
     
 }
 
-class ModalPresentationController: UIPresentationController {
-    
-    override func presentationTransitionWillBegin() {
-        guard let containerView = containerView, let presentedView = presentedView, let sourceView = presentingViewController.view else { return }
-        presentedView.layer.cornerRadius = 20
-        sourceView.layer.cornerRadius = 20
-        
-        presentedView.frame = frameOfPresentedViewInContainerView
-        presentedView.frame.origin.x = containerView.bounds.width
-    }
-    
-    override func presentationTransitionDidEnd(_ completed: Bool) {
-    }
-    
-    override var frameOfPresentedViewInContainerView: CGRect {
-        let height = CGFloat(300)
-        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: containerView!.bounds.width, height: height))
-        rect = rect.insetBy(dx: 8, dy: 0)
-        rect = rect.applying(CGAffineTransform(translationX: 0, y: -containerView!.safeAreaInsets.bottom))
-        return rect
-    }
-}
-
 extension UIColor {
     static let dark = UIColor(named: "darkBackgroundColor")!
 }
@@ -177,28 +154,56 @@ class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     }
 }
 
+class ModalPresentationController: UIPresentationController {
+    
+    override func presentationTransitionWillBegin() {
+        guard let _ = containerView, let presentedView = presentedView, let presentedViewController = presentedViewController as? VideoSizeConfigViewController, let sourceView = presentingViewController.view else { return }
+        presentedView.layer.cornerRadius = 20
+        sourceView.layer.cornerRadius = 20
+        
+        presentedView.frame = frameOfPresentedViewInContainerView
+        let presentedTableView = (presentedViewController ).tableView
+        presentedTableView.frame.origin.x = presentedTableView.frame.width
+        
+        presentedViewController.centerX.constant = presentedViewController.view.bounds.width
+        presentedViewController.view.layoutIfNeeded()
+    }
+    
+    override func presentationTransitionDidEnd(_ completed: Bool) {
+    }
+    
+    override var frameOfPresentedViewInContainerView: CGRect {
+        let height = CGFloat(300)
+        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: containerView!.bounds.width, height: height))
+        rect = rect.insetBy(dx: 8, dy: 0)
+        rect = rect.applying(CGAffineTransform(translationX: 0, y: -containerView!.safeAreaInsets.bottom))
+        return rect
+    }
+}
+
 class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.3
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let source = transitionContext.viewController(forKey: .from)!
-        let target = transitionContext.viewController(forKey: .to)!
+        _ = transitionContext.viewController(forKey: .from)! as! ShareViewController
+        let target = transitionContext.viewController(forKey: .to) as! VideoSizeConfigViewController
         
         let toView = transitionContext.view(forKey: .to)!
         
         transitionContext.containerView.addSubview(toView)
         let duration = 0.3
+        target.view.layoutIfNeeded()
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
+//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+//                source.view.clipsToBounds = true
+//                let tableView = (source as! ShareViewController).tableView
+//                tableView.frame.origin.x = -tableView.frame.width/3
+//            })
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                source.view.clipsToBounds = true
-                let fromView = (source as! ShareViewController).tableView
-//                fromView.frame = transitionContext.finalFrame(for: source)
-                fromView.frame.origin.x = -fromView.frame.width
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                toView.frame = transitionContext.finalFrame(for: target)
+                target.centerX.constant = 0
+                target.view.layoutIfNeeded()
             })
         }) { (success) in
             transitionContext.completeTransition(true)
