@@ -31,3 +31,15 @@ class DarkTableCell: UITableViewCell {
     }
     
 }
+
+
+class DarkTableView: UITableView {
+    init() {
+        super.init(frame: .zero, style: .plain)
+        backgroundColor = .dark
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

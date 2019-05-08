@@ -42,8 +42,7 @@ class VideoSizeCell: DarkTableCell {
 class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     lazy var tableView: UITableView = {
-        let view = UITableView().useAutoLayout()
-        view.backgroundColor = .dark
+        let view = DarkTableView().useAutoLayout()
         return view
     }()
     

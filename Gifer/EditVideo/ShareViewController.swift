@@ -64,8 +64,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
     
     lazy var tableView: UITableView = {
-        let view = UITableView().useAutoLayout()
-        view.backgroundColor = .dark
+        let view = DarkTableView().useAutoLayout()
         return view
     }()
     
