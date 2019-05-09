@@ -68,6 +68,52 @@ class EditCell: DarkTableCell {
     }
 }
 
+class ShareCell: DarkTableCell {
+    
+    lazy var stackView: UIStackView =  {
+        let view = UIStackView().useAutoLayout()
+        view.axis = .horizontal
+        view.spacing = 16
+        view.isLayoutMarginsRelativeArrangement = true
+        return view
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            ])
+        
+        let saveItem = buildItemView(icon: #imageLiteral(resourceName: "file-outline.png"), label: "保存")
+        stackView.addArrangedSubview(saveItem)
+        
+        let wechatItem = buildItemView(icon: #imageLiteral(resourceName: "weixin-brands.png"), label: "微信")
+        stackView.addArrangedSubview(wechatItem)
+    }
+    
+    func buildItemView(icon: UIImage, label: String) -> UIView {
+        let button = UIButton().useAutoLayout()
+        button.setImage(icon, for: .normal)
+        button.imageView?.tintColor = .white
+        button.setTitle(label, for: .normal)
+        button.alignTextUnderImage()
+        
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 60),
+            button.heightAnchor.constraint(equalToConstant: 90)
+            ])
+        
+        return button
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     fileprivate var customTransitioningDelegate: TransitioningDelegate = TransitioningDelegate()
@@ -102,6 +148,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
+        tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
     
     // MARK: - Table view data source
@@ -113,7 +160,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return 2
     }
     
     func present(by controller: UIViewController) {
@@ -125,13 +172,17 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
         if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "视频清晰度"
             cell.detailTextLabel?.text = videoSize.label
+            return cell
+        } else if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "share")!
+            return cell
         }
-        return cell
+        fatalError()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
