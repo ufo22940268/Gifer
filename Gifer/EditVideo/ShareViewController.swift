@@ -75,6 +75,7 @@ class ShareCell: DarkTableCell {
         view.axis = .horizontal
         view.spacing = 16
         view.isLayoutMarginsRelativeArrangement = true
+        view.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         return view
     }()
     
@@ -84,7 +85,7 @@ class ShareCell: DarkTableCell {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             ])
         
         let saveItem = buildItemView(icon: #imageLiteral(resourceName: "file-outline.png"), label: "保存")
@@ -101,9 +102,11 @@ class ShareCell: DarkTableCell {
         button.setTitle(label, for: .normal)
         button.alignTextUnderImage()
         
+        let height = button.heightAnchor.constraint(equalToConstant: 90)
+        height.priority = .defaultHigh
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 60),
-            button.heightAnchor.constraint(equalToConstant: 90)
+            height,
             ])
         
         return button
@@ -192,7 +195,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         present(vc, animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)
-    }
+    }    
 }
 
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
