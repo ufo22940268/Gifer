@@ -80,6 +80,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var centerX: NSLayoutConstraint!
     
+    var videoSize: VideoSize = VideoSize.auto {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.dark
@@ -123,30 +129,19 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "视频清晰度"
-            cell.detailTextLabel?.text = "自动"
+            cell.detailTextLabel?.text = videoSize.label
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc: VideoSizeConfigViewController = VideoSizeConfigViewController()
+        let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)        
         vc.transitioningDelegate = modalTransitioningDelegate
         vc.modalPresentationStyle = .custom
         present(vc, animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {

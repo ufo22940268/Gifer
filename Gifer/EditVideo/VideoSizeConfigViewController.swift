@@ -51,6 +51,15 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
     
     var selectedVideoSize: VideoSize?
     
+    init(videoSize: VideoSize) {
+        super.init(nibName: nil, bundle: nil)
+        selectedVideoSize = videoSize
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,6 +105,7 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedVideoSize = videoSizes[indexPath.row]
         tableView.reloadData()
+        (presentingViewController as! ShareViewController).videoSize = selectedVideoSize!
         dismiss(animated: true, completion: nil)
     }
 }
