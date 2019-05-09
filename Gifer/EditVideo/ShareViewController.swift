@@ -7,13 +7,82 @@
 //
 
 import UIKit
+import AVKit
+
+typealias ShareGifFileHandler = (_ file: URL) -> Void
+typealias ShareHandler = (_ type: ShareType) -> Void
+
+enum ShareType {
+    case wechat, photo, wechatSticker
+    
+    var initialGifSize: CGSize {
+        switch self {
+        case .wechatSticker:
+            return CGSize(width: 150, height: 150)
+        default:
+            return CGSize(width: 500, height: 500)
+        }
+    }
+    
+    var sizeLimitation: Double {
+        switch self {
+        case .wechat:
+            return 5
+        case .photo:
+            return 40
+        case .wechatSticker:
+            return 0.5
+        }
+    }
+    
+    var icon: UIImage {
+        switch self {
+        case .wechat:
+            return #imageLiteral(resourceName: "weixin-brands.png")
+        case .photo:
+            return #imageLiteral(resourceName: "file-outline.png")
+        case .wechatSticker:
+            return #imageLiteral(resourceName: "smile-wink-regular.png")
+        }
+    }
+    
+    var label: String {
+        switch self {
+        case .wechat:
+            return "微信"
+        case .photo:
+            return "保存"
+        case .wechatSticker:
+            return "表情"
+        }
+    }
+    
+    var lowestSize: CGSize {
+        switch self {
+        case .wechatSticker:
+            return CGSize(width: 100, height: 100)
+        default:
+            return CGSize(width: 200, height: 200)
+        }
+    }
+    
+    func isEnabled(duration: CMTime) -> Bool {
+        switch self {
+        case .wechatSticker:
+            return duration.seconds <= 5
+        default:
+            return true
+        }
+    }
+}
+
 
 class SharePresentationController: UIPresentationController {
     
     lazy var dimmingView: UIView = {
         let view = UIView().useAutoLayout()
         view.backgroundColor = .black
-        view.alpha = 0.3
+        view.alpha = 0.7
         return view
     } ()
     
@@ -88,11 +157,6 @@ class ShareCell: DarkTableCell {
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             ])
         
-        let saveItem = buildItemView(icon: #imageLiteral(resourceName: "file-outline.png"), label: "保存")
-        stackView.addArrangedSubview(saveItem)
-        
-        let wechatItem = buildItemView(icon: #imageLiteral(resourceName: "weixin-brands.png"), label: "微信")
-        stackView.addArrangedSubview(wechatItem)
     }
     
     func buildItemView(icon: UIImage, label: String) -> UIView {
@@ -115,6 +179,13 @@ class ShareCell: DarkTableCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setup(items: [ShareType]) {
+        for item in items {
+            let itemView = buildItemView(icon: item.icon, label: item.label)
+            stackView.addArrangedSubview(itemView)
+        }
+    }
 }
 
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -128,12 +199,36 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }()
     
     var centerX: NSLayoutConstraint!
+    var shareHandler: ShareHandler!
+    var cancelHandler: (() -> Void)!
+    var duration: CMTime!
+    var shareTypes: [ShareType] {
+        var types = [ShareType]()
+        types.append(.wechat)
+        types.append(.photo)
+        if let duration = duration, duration.seconds < 3 {
+            types.append(.wechatSticker)
+        }
+        return types
+    }
     
     var videoSize: VideoSize = VideoSize.auto {
         didSet {
             tableView.reloadData()
         }
     }
+    
+    init(duration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
+        super.init(nibName: nil, bundle: nil)
+        self.shareHandler = shareHandler
+        self.cancelHandler = cancelHandler
+        self.duration = duration
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,7 +277,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.detailTextLabel?.text = videoSize.label
             return cell
         } else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "share")!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
+            cell.setup(items: shareTypes)
             return cell
         }
         fatalError()

@@ -20,8 +20,8 @@ class TestViewController: UIViewController {
     }
     
     func showTestDialog() {
-        let shareVC = ShareViewController()
-        shareVC.present(by: self)
+//        let shareVC = ShareViewController()
+//        shareVC.present(by: self)
     }
 }
 

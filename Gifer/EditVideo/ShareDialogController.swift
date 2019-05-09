@@ -10,56 +10,12 @@ import Foundation
 import UIKit
 import AVKit
 
-typealias ShareGifFileHandler = (_ file: URL) -> Void
-typealias ShareDialogHandler = (_ type: ShareType) -> Void
-
-enum ShareType {
-    case wechat, photo, wechatSticker
-    
-    var initialGifSize: CGSize {
-        switch self {
-        case .wechatSticker:
-            return CGSize(width: 150, height: 150)
-        default:
-            return CGSize(width: 500, height: 500)
-        }
-    }
-    
-    var sizeLimitation: Double {
-        switch self {
-        case .wechat:
-            return 5
-        case .photo:
-            return 40
-        case .wechatSticker:
-            return 0.5
-        }
-    }
-
-    var lowestSize: CGSize {
-        switch self {
-        case .wechatSticker:
-            return CGSize(width: 100, height: 100)
-        default:
-            return CGSize(width: 200, height: 200)
-        }
-    }
-    
-    func isEnabled(duration: CMTime) -> Bool {
-        switch self {
-        case .wechatSticker:
-            return duration.seconds <= 5
-        default:
-            return true
-        }
-    }
-}
 
 class ShareDialogController {
     
     let alertController: UIAlertController
     
-    init(duration: CMTime, shareHandler: @escaping ShareDialogHandler, cancelHandler: @escaping () -> Void) {
+    init(duration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         if ShareType.wechatSticker.isEnabled(duration: duration) {

@@ -459,8 +459,10 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         videoVC.pause()
-        let shareController = ShareDialogController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
-        shareController.present(by: self.navigationController!)
+//        let shareController = ShareDialogController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+//        shareController.present(by: self.navigationController!)
+
+        ShareViewController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed).present(by: self)
     }
     
     private func prompt(_ text: String) {
