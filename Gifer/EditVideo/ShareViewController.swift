@@ -295,8 +295,9 @@ class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             shareVC.centerX.constant = -shareVC.view.bounds.width
             shareVC.view.layoutIfNeeded()
             UIView.animate(withDuration: duration, animations: {
-                configVC.view.frame.origin.x = configVC.view.frame.width
+                configVC.centerX.constant = configVC.tableView.bounds.width
                 shareVC.centerX.constant = 0
+                configVC.view.layoutIfNeeded()
                 shareVC.view.layoutIfNeeded()
             }, completion: { success in
                 transitionContext.completeTransition(true)

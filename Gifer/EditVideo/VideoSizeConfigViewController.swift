@@ -64,6 +64,7 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
         
         view.clipsToBounds = true
+        view.backgroundColor = .clear
         view.addSubview(tableView)
         centerX = tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         NSLayoutConstraint.activate([
