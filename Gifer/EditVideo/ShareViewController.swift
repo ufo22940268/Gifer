@@ -189,6 +189,7 @@ class ShareCell: DarkTableCell {
     }
     
     func setup(items: [ShareType], shareHandler: @escaping (_ shareType: ShareType) -> Void) {
+        self.selectionStyle = .none
         stackView.subviews.forEach {$0.removeFromSuperview()}
         
         self.shareHandler = shareHandler
@@ -262,6 +263,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        for row in 0..<self.tableView(self.tableView, numberOfRowsInSection: 0) {
+            self.tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: false)
+        }
+    }
+    
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -303,13 +310,13 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)        
-        vc.transitioningDelegate = modalTransitioningDelegate
-        vc.modalPresentationStyle = .custom
-        present(vc, animated: true, completion: nil)
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-    }    
+        if indexPath.row == 0 {
+            let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
+            vc.transitioningDelegate = modalTransitioningDelegate
+            vc.modalPresentationStyle = .custom
+            present(vc, animated: true, completion: nil)
+        }
+    }
 }
 
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {

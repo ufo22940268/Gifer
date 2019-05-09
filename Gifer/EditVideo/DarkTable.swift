@@ -13,9 +13,11 @@ class DarkTableCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
         backgroundColor = .clear
         textLabel?.textColor = .white
+        
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = .yellow
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -23,10 +25,11 @@ class DarkTableCell: UITableViewCell {
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
         if selected {
-            contentView.backgroundColor = .black
+            selectedBackgroundView?.backgroundColor = .black
         } else {
-            contentView.backgroundColor = .dark
+            selectedBackgroundView?.backgroundColor = .dark
         }
     }
 }

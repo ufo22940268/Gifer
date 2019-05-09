@@ -106,6 +106,7 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedVideoSize = videoSizes[indexPath.row]
         tableView.reloadData()
+        tableView.cellForRow(at: indexPath)?.isSelected = true
         (presentingViewController as! ShareViewController).videoSize = selectedVideoSize!
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.dismiss(animated: true, completion: nil)
