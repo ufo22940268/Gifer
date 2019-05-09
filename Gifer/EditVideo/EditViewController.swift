@@ -410,24 +410,26 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         let cropArea = cropContainer.cropArea
-        return GifGenerator.Options(start: startProgress,
-                                    end: endProgress,
-                                    speed: speed,
-                                    cropArea: cropArea,
-                                    filter: videoVC.filter,
-                                    stickers: stickerOverlay.stickerInfos.map { $0.fixImageFrame(videoSize: videoSize, cropArea: cropArea) },
-                                    direction: videoVC.playDirection,
-                                    exportType: nil,
-                                    texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
+        return GifGenerator.Options(
+            start: startProgress,
+            end: endProgress,
+            speed: speed,
+            cropArea: cropArea,
+            filter: videoVC.filter,
+            stickers: stickerOverlay.stickerInfos.map { $0.fixImageFrame(videoSize: videoSize, cropArea: cropArea) },
+            direction: videoVC.playDirection,
+            exportType: nil,
+            texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
         )
     }
     
-    private func startSharing(for type: ShareType) {
+    private func startSharing(for type: ShareType, videoSize: VideoSize) {
         guard let cacheFilePath = cacheFilePath else { return  }
-        
+                
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type
+        options.videoSize = videoSize
         let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: options)
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
@@ -459,9 +461,6 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         videoVC.pause()
-//        let shareController = ShareDialogController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
-//        shareController.present(by: self.navigationController!)
-
         ShareViewController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed).present(by: self)
     }
     

@@ -77,11 +77,26 @@ struct GifProcessConfig {
     var extractImageCountPerSecond: Int
     var gifDelayTime: Double
     
-    func reduce() -> GifProcessConfig? {
-        let decreasePercent = 0.1
+    static let minimunGifSize: CGSize = CGSize(width: 150, height: 150)
+    
+    func reduce(decreasePercent: Double = 0.1) -> GifProcessConfig? {
         var newConfig = self
         newConfig.gifSize = gifSize.applying(CGAffineTransform(scaleX: 1 - CGFloat(decreasePercent), y: 1 - CGFloat(decreasePercent)))
+        if newConfig.gifSize.width < GifProcessConfig.minimunGifSize.width && newConfig.gifSize.height < GifProcessConfig.minimunGifSize.height {
+            newConfig.gifSize = GifProcessConfig.minimunGifSize
+        }
         return newConfig
+    }
+    
+    func ensure(videoSize: VideoSize) -> GifProcessConfig {
+        switch videoSize {
+        case .auto, .large:
+            return self
+        case .middle:
+            return self.reduce(decreasePercent: 0.2)!
+        case .small:
+            return self.reduce(decreasePercent: 0.4)!
+        }
     }
     
     func lowestConfig(for shareType: ShareType) -> GifProcessConfig {
@@ -103,6 +118,19 @@ public class GifGenerator {
         var direction: PlayDirection
         var exportType: ShareType?
         var texts: [EditTextInfo]
+        var videoSize: VideoSize = .auto
+        
+        init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo]) {
+            self.start = start
+            self.end = end
+            self.speed = speed
+            self.cropArea = cropArea
+            self.filter = filter
+            self.stickers = stickers
+            self.direction = direction
+            self.exportType = exportType
+            self.texts = texts
+        }
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
             return lhs.start.seconds == rhs.start.seconds
@@ -165,9 +193,11 @@ public class GifGenerator {
         processConfig = GifProcessConfig(gifSize: gifSize, extractImageCountPerSecond: extractImageCountPerSecond, gifDelayTime: gifDelayTime)
     }
     
-    func calibrateSize(under memoryInMB: Double, completion: @escaping (GifProcessConfig) -> Void) {
+    func calibrateSize(under memoryInMB: Double, videoSize: VideoSize, completion: @escaping (GifProcessConfig) -> Void) {
         let estimator = GifConfigCalibrator(options: options, asset: videoAsset, processConfig: processConfig)
-        estimator.calibrateSize(under: memoryInMB, completion: completion)
+        estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
+            completion(config.ensure(videoSize: videoSize))
+        })
     }
     
     var gifFilePath: URL? {
@@ -192,7 +222,7 @@ public class GifGenerator {
     }
     
     func run(complete: @escaping (URL) -> Void) {
-        calibrateSize(under: options.exportType!.sizeLimitation) { (config) in
+        calibrateSize(under: options.exportType!.sizeLimitation, videoSize: options.videoSize) { (config) in
             self.processConfig = config
             self.generateGif(complete: complete)
         }

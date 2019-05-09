@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 typealias ShareGifFileHandler = (_ file: URL) -> Void
-typealias ShareHandler = (_ type: ShareType) -> Void
+typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize) -> Void
 
 enum ShareType {
     case wechat, photo, wechatSticker
@@ -148,6 +148,9 @@ class ShareCell: DarkTableCell {
         return view
     }()
     
+    var shareHandler: ((_ shareType: ShareType) -> Void)!
+    var items: [ShareType]!
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(stackView)
@@ -180,9 +183,20 @@ class ShareCell: DarkTableCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(items: [ShareType]) {
-        for item in items {
+    @objc func onTap(sender: UITapGestureRecognizer) {
+        let item = items[sender.view!.tag]
+        shareHandler(item)
+    }
+    
+    func setup(items: [ShareType], shareHandler: @escaping (_ shareType: ShareType) -> Void) {
+        stackView.subviews.forEach {$0.removeFromSuperview()}
+        
+        self.shareHandler = shareHandler
+        self.items = items
+        for (index, item) in items.enumerated() {
             let itemView = buildItemView(icon: item.icon, label: item.label)
+            itemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
+            itemView.tag = index
             stackView.addArrangedSubview(itemView)
         }
     }
@@ -228,7 +242,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -278,7 +291,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
-            cell.setup(items: shareTypes)
+            let handler = {(shareType: ShareType) in
+                self.dismiss(animated: true, completion: {
+                    self.shareHandler(shareType, self.videoSize)
+                })
+            }
+            cell.setup(items: shareTypes, shareHandler: handler)
             return cell
         }
         fatalError()
