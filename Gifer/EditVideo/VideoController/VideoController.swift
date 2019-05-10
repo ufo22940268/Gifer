@@ -243,6 +243,7 @@ class VideoController: UIStackView {
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         isLayoutMarginsRelativeArrangement = true
         spacing = 4
+        tintColor = UIColor(named: "yellowColor")
         
         galleryContainer = VideoControllerGalleryContainer()
         addArrangedSubview(galleryContainer)

@@ -39,9 +39,9 @@ enum ShareType {
     var icon: UIImage {
         switch self {
         case .wechat:
-            return #imageLiteral(resourceName: "weixin-brands.png")
+            return #imageLiteral(resourceName: "wechat-color.png")
         case .photo:
-            return #imageLiteral(resourceName: "file-outline.png")
+            return #imageLiteral(resourceName: "folder-color.png")
         case .wechatSticker:
             return #imageLiteral(resourceName: "smile-wink-regular.png")
         }
@@ -180,6 +180,7 @@ class ShareCell: DarkTableCell {
         button.setImage(icon, for: .normal)
         button.imageView?.tintColor = .white
         button.setTitle(label, for: .normal)
+        button.setTitleColor(.lightText, for: .normal)
         button.alignTextUnderImage()
         
         let height = button.heightAnchor.constraint(equalToConstant: 90)
@@ -213,6 +214,19 @@ class ShareCell: DarkTableCell {
             itemView.tag = index
             stackView.addArrangedSubview(itemView)
         }
+    }
+}
+
+class DividerCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(equalToConstant: 2)])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -274,6 +288,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
+        tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
     
@@ -292,7 +307,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 3
     }
     
     func present(by controller: UIViewController) {
@@ -303,6 +318,10 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    var rowCount: Int {
+        return tableView(tableView, numberOfRowsInSection: 0)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
@@ -311,6 +330,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.detailTextLabel?.text = videoSize.label
             return cell
         } else if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "divider") as! DividerCell
+            return cell
+        } else if indexPath.row == rowCount - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
             let handler = {(shareType: ShareType) in
                 self.dismiss(animated: true, completion: {

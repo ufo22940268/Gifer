@@ -131,6 +131,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jX4-i4-5ip" firstAttribute="trailing" secondItem="RiW-qn-5H2" secondAttribute="trailing" id="1MJ-Ca-2Ns"/>
                             <constraint firstItem="jX4-i4-5ip" firstAttribute="bottom" secondItem="RiW-qn-5H2" secondAttribute="bottom" id="bOe-mp-mZv"/>
@@ -146,6 +147,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="action" id="SsH-Bk-dko">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="onShare:" destination="Dvh-Lh-bNF" id="Cdx-5r-76I"/>
                             </connections>

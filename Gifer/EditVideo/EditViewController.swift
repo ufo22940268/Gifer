@@ -206,7 +206,7 @@ class EditViewController: UIViewController {
                 shareItem.tintColor = UIColor.gray
             } else {
                 view.tintAdjustmentMode = .automatic
-                shareItem.tintColor = view.tintColor
+                shareItem.tintColor = .white
             }
         }
     }
@@ -221,6 +221,8 @@ class EditViewController: UIViewController {
         if isDebug {
             videoAsset = getTestVideo()
         }
+        
+        view.tintColor = .mainColor
         
         setSubTitle("加载中")
         setupVideoContainer()

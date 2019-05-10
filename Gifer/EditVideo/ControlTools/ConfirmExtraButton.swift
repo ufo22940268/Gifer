@@ -17,6 +17,7 @@ class ConfirmExtraButton: UIButton {
     
     init(type: ActionType) {
         super.init(frame: CGRect.zero)
+        tintColor = .white
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
         var image: UIImage
@@ -29,7 +30,6 @@ class ConfirmExtraButton: UIButton {
         setImage(image, for: .normal)
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 44)])
-        tintColor = UIColor(named: "mainColor")
         if type == .cancel {
             tintAdjustmentMode = .dimmed
         }

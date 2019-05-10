@@ -36,7 +36,6 @@ class ControlToolbar: UICollectionView {
         dataSource = self
         delegate = self
         
-        tintColor = UIColor(named: "mainColor")
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
 }

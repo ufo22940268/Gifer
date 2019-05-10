@@ -58,3 +58,7 @@ public extension UIView {
         return snapshotImage
     }
 }
+
+public extension UIColor {
+    static let mainColor = UIColor(named: "mainColor")!
+}
