@@ -11,6 +11,7 @@ import AVKit
 
 typealias ShareGifFileHandler = (_ file: URL) -> Void
 typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize) -> Void
+typealias DismissHandler = () -> Void
 
 enum ShareType {
     case wechat, photo, wechatSticker
@@ -86,6 +87,13 @@ class SharePresentationController: UIPresentationController {
         return view
     } ()
     
+    var dismissHandler: DismissHandler?
+    
+    init(presentedViewController: UIViewController, presentingViewController: UIViewController?, dismiss: @escaping DismissHandler) {
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+        dismissHandler = dismiss
+    }
+    
     override func presentationTransitionWillBegin() {
         containerView?.addSubview(dimmingView)
         dimmingView.useSameSizeAsParent()
@@ -104,6 +112,7 @@ class SharePresentationController: UIPresentationController {
     @objc func onTap(sender: UITapGestureRecognizer) {
         if !presentedView!.frame.contains(sender.location(in: containerView)) {
             presentedViewController.dismiss(animated: true, completion: nil)
+            dismissHandler?()
         }
     }
     
@@ -121,6 +130,10 @@ class SharePresentationController: UIPresentationController {
         return rect
     }
     
+    override func dismissalTransitionDidEnd(_ completed: Bool) {
+        super.dismissalTransitionDidEnd(completed)
+        dismissHandler?()
+    }
 }
 
 extension UIColor {
@@ -205,7 +218,7 @@ class ShareCell: DarkTableCell {
 
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    fileprivate var customTransitioningDelegate: TransitioningDelegate = TransitioningDelegate()
+    fileprivate var customTransitioningDelegate: TransitioningDelegate!
     fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
     
     lazy var tableView: UITableView = {
@@ -238,6 +251,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.shareHandler = shareHandler
         self.cancelHandler = cancelHandler
         self.duration = duration
+        customTransitioningDelegate = TransitioningDelegate(dismiss: cancelHandler)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -320,8 +334,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
 }
 
 fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+    var dismissHandler: DismissHandler!
+    
+    init(dismiss: @escaping DismissHandler) {
+        self.dismissHandler = dismiss
+    }
+    
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return SharePresentationController(presentedViewController: presented, presenting: presenting)
+        return SharePresentationController(presentedViewController: presented, presentingViewController: presenting, dismiss: dismissHandler)
     }
 }
 
