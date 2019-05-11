@@ -218,8 +218,10 @@ class ShareCell: DarkTableCell {
 }
 
 class DividerCell: UITableViewCell {
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         contentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         NSLayoutConstraint.activate([
             contentView.heightAnchor.constraint(equalToConstant: 2)])
@@ -232,7 +234,7 @@ class DividerCell: UITableViewCell {
 
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    fileprivate var customTransitioningDelegate: TransitioningDelegate!
+    fileprivate var customTransitioningDelegate: ShareTransitioningDelegate!
     fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
     
     lazy var tableView: UITableView = {
@@ -260,12 +262,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    var interator: ShareInteractiveAnimator = ShareInteractiveAnimator()
+    
     init(duration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         super.init(nibName: nil, bundle: nil)
         self.shareHandler = shareHandler
         self.cancelHandler = cancelHandler
         self.duration = duration
-        customTransitioningDelegate = TransitioningDelegate(dismiss: cancelHandler)
+        customTransitioningDelegate = ShareTransitioningDelegate(dismiss: cancelHandler, interator: interator)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -290,6 +294,27 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
+        
+        tableView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:))))
+    }
+    
+    @objc func onPan(sender: UIPanGestureRecognizer) {
+        let progress = sender.translation(in: sender.view!).y/sender.view!.bounds.height
+        switch sender.state {
+        case .began:
+            dismiss(animated: true, completion: nil)
+        case .changed:
+            print("progress: \(progress)")
+            interator.update(progress)
+        case .ended:
+            if progress > 0.5 {
+                interator.finish()
+            } else {
+                interator.cancel()
+            }
+        default:
+            interator.cancel()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -355,16 +380,41 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 }
 
-fileprivate class TransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     var dismissHandler: DismissHandler!
+    var interator: ShareInteractiveAnimator!
     
-    init(dismiss: @escaping DismissHandler) {
+    init(dismiss: @escaping DismissHandler, interator: ShareInteractiveAnimator) {
         self.dismissHandler = dismiss
+        self.interator = interator
     }
     
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return SharePresentationController(presentedViewController: presented, presentingViewController: presenting, dismiss: dismissHandler)
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interator
     }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ShareAnimator()
+    }
+    
+    class ShareAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+        func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+            return 0.25
+        }
+        
+        func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+            let targetView = transitionContext.view(forKey: .from)!
+            UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+                targetView.frame.origin.y = transitionContext.containerView.frame.height
+            }, completion: {success in
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+            })
+        }
+    }
+    
+}
+
+class ShareInteractiveAnimator: UIPercentDrivenInteractiveTransition {
 }
 
 class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
