@@ -397,6 +397,10 @@ fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransiti
         return ShareAnimator()
     }
     
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return SharePresentationController(presentedViewController: presented, presentingViewController: presenting, dismiss: dismissHandler)
+    }
+    
     class ShareAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
             return 0.25
@@ -411,7 +415,6 @@ fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransiti
             })
         }
     }
-    
 }
 
 class ShareInteractiveAnimator: UIPercentDrivenInteractiveTransition {
