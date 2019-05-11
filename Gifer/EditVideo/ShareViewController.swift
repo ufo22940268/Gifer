@@ -78,64 +78,6 @@ enum ShareType {
 }
 
 
-class SharePresentationController: UIPresentationController {
-    
-    lazy var dimmingView: UIView = {
-        let view = UIView().useAutoLayout()
-        view.backgroundColor = .black
-        view.alpha = 0.7
-        return view
-    } ()
-    
-    var dismissHandler: DismissHandler?
-    
-    init(presentedViewController: UIViewController, presentingViewController: UIViewController?, dismiss: @escaping DismissHandler) {
-        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-        dismissHandler = dismiss
-    }
-    
-    override func presentationTransitionWillBegin() {
-        containerView?.addSubview(dimmingView)
-        dimmingView.useSameSizeAsParent()
-        
-        guard let presentedView = presentedView, let sourceView = presentingViewController.view else { return }
-        presentedView.layer.cornerRadius = 20
-        let size = containerView!.bounds.size
-        presentedView.frame.origin.y = size.height
-        sourceView.layer.cornerRadius = 20
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
-        gesture.cancelsTouchesInView = false
-        containerView?.addGestureRecognizer(gesture)
-    }
-    
-    @objc func onTap(sender: UITapGestureRecognizer) {
-        if !presentedView!.frame.contains(sender.location(in: containerView)) {
-            presentedViewController.dismiss(animated: true, completion: nil)
-            dismissHandler?()
-        }
-    }
-    
-    override func presentationTransitionDidEnd(_ completed: Bool) {
-        if (!completed) {
-            dimmingView.removeFromSuperview()
-        }
-    }
-    
-    override var frameOfPresentedViewInContainerView: CGRect {
-        let height = CGFloat(300)
-        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: presentingViewController.view.bounds.width, height: height))
-        rect = rect.insetBy(dx: 8, dy: 0)
-        rect = rect.applying(CGAffineTransform(translationX: 0, y: -presentingViewController.view.safeAreaInsets.bottom))
-        return rect
-    }
-    
-    override func dismissalTransitionDidEnd(_ completed: Bool) {
-        super.dismissalTransitionDidEnd(completed)
-        dismissHandler?()
-    }
-}
-
 extension UIColor {
     static let dark = UIColor(named: "darkBackgroundColor")!
 }
@@ -235,7 +177,6 @@ class DividerCell: UITableViewCell {
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     fileprivate var customTransitioningDelegate: ShareTransitioningDelegate!
-    fileprivate var modalTransitioningDelegate: ModalTransitionDelegate = ModalTransitionDelegate()
     
     lazy var tableView: UITableView = {
         let view = DarkTableView().useAutoLayout()
@@ -255,6 +196,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         return types
     }
+    
+    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
     
     var videoSize: VideoSize = VideoSize.auto {
         didSet {
@@ -294,8 +237,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
-        
-        tableView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:))))
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
@@ -304,10 +245,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         case .began:
             dismiss(animated: true, completion: nil)
         case .changed:
-            print("progress: \(progress)")
             interator.update(progress)
         case .ended:
-            if progress > 0.5 {
+            if progress > 0.5 || sender.velocity(in: sender.view!).y > 300 {
                 interator.finish()
             } else {
                 interator.cancel()
@@ -318,9 +258,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tableView.addGestureRecognizer(panGesture)
         for row in 0..<self.tableView(self.tableView, numberOfRowsInSection: 0) {
             self.tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: false)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tableView.removeGestureRecognizer(panGesture)
     }
     
     // MARK: - Table view data source
@@ -373,8 +318,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
-            vc.transitioningDelegate = modalTransitioningDelegate
-            vc.modalPresentationStyle = .custom
             present(vc, animated: true, completion: nil)
         }
     }
@@ -382,15 +325,15 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
 fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     var dismissHandler: DismissHandler!
-    var interator: ShareInteractiveAnimator!
+    var interactiveAnimator: ShareInteractiveAnimator!
     
     init(dismiss: @escaping DismissHandler, interator: ShareInteractiveAnimator) {
         self.dismissHandler = dismiss
-        self.interator = interator
+        self.interactiveAnimator = interator
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interator
+        return interactiveAnimator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -398,7 +341,7 @@ fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransiti
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return SharePresentationController(presentedViewController: presented, presentingViewController: presenting, dismiss: dismissHandler)
+        return SharePresentationController(presentedViewController: presented, presentingViewController: presenting, dismiss: dismissHandler, interactiveAnimator: interactiveAnimator)
     }
     
     class ShareAnimator: NSObject, UIViewControllerAnimatedTransitioning {
@@ -417,36 +360,36 @@ fileprivate class ShareTransitioningDelegate: NSObject, UIViewControllerTransiti
     }
 }
 
-class ShareInteractiveAnimator: UIPercentDrivenInteractiveTransition {
-}
+class ShareInteractiveAnimator: UIPercentDrivenInteractiveTransition {}
 
-class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ModalTransitionAnimator()
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ModalTransitionAnimator()
-    }
-}
 
-class ModalPresentationController: UIPresentationController {
+class SharePresentationController: UIPresentationController {
+    
+    lazy var dimmingView: UIView = {
+        let view = UIView().useAutoLayout()
+        view.backgroundColor = .black
+        view.alpha = 0.7
+        return view
+    } ()
+    
+    var dismissHandler: DismissHandler?
+    var interactiveAnimator: UIPercentDrivenInteractiveTransition!
+    
+    init(presentedViewController: UIViewController, presentingViewController: UIViewController?, dismiss: @escaping DismissHandler, interactiveAnimator: UIPercentDrivenInteractiveTransition) {
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+        dismissHandler = dismiss
+        self.interactiveAnimator = interactiveAnimator
+    }
     
     override func presentationTransitionWillBegin() {
-        guard let _ = containerView, let presentedView = presentedView, let presentedViewController = presentedViewController as? VideoSizeConfigViewController, let sourceView = presentingViewController.view else { return }
+        containerView?.addSubview(dimmingView)
+        dimmingView.useSameSizeAsParent()
+        
+        guard let presentedView = presentedView, let sourceView = presentingViewController.view else { return }
         presentedView.layer.cornerRadius = 20
+        let size = containerView!.bounds.size
+        presentedView.frame.origin.y = size.height
         sourceView.layer.cornerRadius = 20
-        
-        presentedView.frame = frameOfPresentedViewInContainerView
-        let presentedTableView = (presentedViewController ).tableView
-        presentedTableView.frame.origin.x = presentedTableView.frame.width
-        
-        presentedViewController.centerX.constant = presentedViewController.view.bounds.width
-        presentedViewController.view.layoutIfNeeded()
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
         gesture.cancelsTouchesInView = false
@@ -454,71 +397,30 @@ class ModalPresentationController: UIPresentationController {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
-        if sender.state == .ended && !presentedView!.frame.contains(sender.location(in: containerView)) {
-            (presentingViewController as! ShareViewController).tableView.isHidden = true
-            presentingViewController.presentingViewController?.dismiss(animated: true, completion: nil)
+        if !presentedView!.frame.contains(sender.location(in: containerView)) {
+            presentedViewController.dismiss(animated: true, completion: nil)
+            dismissHandler?()
+            interactiveAnimator.finish()
+        }
+    }
+    
+    override func presentationTransitionDidEnd(_ completed: Bool) {
+        if (!completed) {
+            dimmingView.removeFromSuperview()
         }
     }
     
     override var frameOfPresentedViewInContainerView: CGRect {
         let height = CGFloat(300)
-        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: containerView!.bounds.width, height: height))
+        var rect = CGRect(origin: CGPoint(x: 0, y: containerView!.bounds.height - height), size: CGSize(width: presentingViewController.view.bounds.width, height: height))
         rect = rect.insetBy(dx: 8, dy: 0)
-        rect = rect.applying(CGAffineTransform(translationX: 0, y: -containerView!.safeAreaInsets.bottom))
+        rect = rect.applying(CGAffineTransform(translationX: 0, y: -presentingViewController.view.safeAreaInsets.bottom))
         return rect
+    }
+    
+    override func dismissalTransitionDidEnd(_ completed: Bool) {
+        super.dismissalTransitionDidEnd(completed)
+        dismissHandler?()
     }
 }
 
-class ModalTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let isPresent = transitionContext.viewController(forKey: .to)?.presentingViewController == transitionContext.viewController(forKey: .from)
-        var shareVC: ShareViewController
-        var configVC: VideoSizeConfigViewController
-        
-        if isPresent {
-            shareVC = transitionContext.viewController(forKey: .from)! as! ShareViewController
-            configVC = transitionContext.viewController(forKey: .to) as! VideoSizeConfigViewController
-        } else {
-            shareVC = transitionContext.viewController(forKey: .to)! as! ShareViewController
-            configVC = transitionContext.viewController(forKey: .from) as! VideoSizeConfigViewController
-        }
-        
-        
-        let duration = 0.3
-        
-        if isPresent {
-            let toView = transitionContext.view(forKey: .to)!
-            transitionContext.containerView.addSubview(toView)
-            configVC.view.layoutIfNeeded()
-            UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                    let tableView = (shareVC ).tableView
-                    shareVC.centerX.constant = -tableView.frame.width/3
-                    shareVC.view.layoutIfNeeded()
-                })
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                    configVC.centerX.constant = 0
-                    configVC.view.layoutIfNeeded()
-                })
-            }) { (success) in
-                transitionContext.completeTransition(true)
-            }
-        } else {
-            shareVC.centerX.constant = -shareVC.view.bounds.width
-            shareVC.view.layoutIfNeeded()
-            UIView.animate(withDuration: duration, animations: {
-                configVC.centerX.constant = configVC.tableView.bounds.width
-                shareVC.centerX.constant = 0
-                configVC.view.layoutIfNeeded()
-                shareVC.view.layoutIfNeeded()
-            }, completion: { success in
-                transitionContext.completeTransition(true)
-                configVC.view.removeFromSuperview()
-            })
-        }
-    }
-}
