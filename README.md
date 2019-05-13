@@ -1,5 +1,5 @@
 # Gifer
-Let your convert video to gif. And you can use this gif to share to WeChat or Weibo.
+Let your convert video to gif. And you can use this gif to share to WeChat.
 
 ## Features
 
