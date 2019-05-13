@@ -61,4 +61,5 @@ public extension UIView {
 
 public extension UIColor {
     static let mainColor = UIColor(named: "mainColor")!
+    static let yellowActiveColor = UIColor(named: "yellowColor")!
 }

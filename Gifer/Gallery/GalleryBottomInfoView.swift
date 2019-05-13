@@ -21,7 +21,7 @@ class GalleryBottomInfoView: UICollectionReusableView {
         videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(videoInfoView)
         NSLayoutConstraint.activate([
-            videoInfoView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1.0),
+            videoInfoView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2.5),
             videoInfoView.centerXAnchor.constraint(equalTo: centerXAnchor)])
     }
     

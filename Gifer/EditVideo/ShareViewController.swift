@@ -140,11 +140,13 @@ class ShareCell: DarkTableCell {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
+        print("onTap: \(sender)")
         let item = items[sender.view!.tag]
         shareHandler(item)
     }
     
     func setup(items: [ShareType], shareHandler: @escaping (_ shareType: ShareType) -> Void) {
+        
         self.selectionStyle = .none
         stackView.subviews.forEach {$0.removeFromSuperview()}
         
@@ -152,6 +154,9 @@ class ShareCell: DarkTableCell {
         self.items = items
         for (index, item) in items.enumerated() {
             let itemView = buildItemView(icon: item.icon, label: item.label)
+            itemView.gestureRecognizers?.forEach({ (recognizer) in
+                itemView.removeGestureRecognizer(recognizer)
+            })
             itemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
             itemView.tag = index
             stackView.addArrangedSubview(itemView)
@@ -197,7 +202,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return types
     }
     
-    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
+    lazy var panGesture: UIPanGestureRecognizer = {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
+        panGesture.cancelsTouchesInView = false
+        return panGesture
+    }()
     
     var videoSize: VideoSize = VideoSize.auto {
         didSet {
@@ -205,14 +214,14 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    var interator: ShareInteractiveAnimator = ShareInteractiveAnimator()
+    var interactiveAnimator: ShareInteractiveAnimator = ShareInteractiveAnimator()
     
     init(duration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         super.init(nibName: nil, bundle: nil)
         self.shareHandler = shareHandler
         self.cancelHandler = cancelHandler
         self.duration = duration
-        customTransitioningDelegate = ShareTransitioningDelegate(dismiss: cancelHandler, interator: interator)
+        customTransitioningDelegate = ShareTransitioningDelegate(dismiss: cancelHandler, interator: interactiveAnimator)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -245,15 +254,15 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         case .began:
             dismiss(animated: true, completion: nil)
         case .changed:
-            interator.update(progress)
+            interactiveAnimator.update(progress)
         case .ended:
             if progress > 0.5 || sender.velocity(in: sender.view!).y > 300 {
-                interator.finish()
+                interactiveAnimator.finish()
             } else {
-                interator.cancel()
+                interactiveAnimator.cancel()
             }
         default:
-            interator.cancel()
+            interactiveAnimator.cancel()
         }
     }
     
@@ -288,6 +297,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    func dismissImediately() {
+        interactiveAnimator.finish()
+        dismiss(animated: false, completion: nil)
+    }
+    
     var rowCount: Int {
         return tableView(tableView, numberOfRowsInSection: 0)
     }
@@ -305,9 +319,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else if indexPath.row == rowCount - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
             let handler = {(shareType: ShareType) in
-                self.dismiss(animated: true, completion: {
-                    self.shareHandler(shareType, self.videoSize)
-                })
+                self.dismissImediately()
+                self.shareHandler(shareType, self.videoSize)
             }
             cell.setup(items: shareTypes, shareHandler: handler)
             return cell

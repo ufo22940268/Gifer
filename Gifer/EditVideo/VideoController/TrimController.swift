@@ -93,7 +93,7 @@ class TrimController: UIControl {
                 backgroundColor = UIColor.black
                 arrowColor = UIColor.white
             case .highlight:
-                backgroundColor = view.mainColor
+                backgroundColor = view.tintColor
                 arrowColor = UIColor.black
             }
             

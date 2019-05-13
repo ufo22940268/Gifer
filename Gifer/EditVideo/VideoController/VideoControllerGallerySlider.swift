@@ -65,6 +65,7 @@ class VideoControllerGallerySlider: UIView {
     
     func setup() {
         guard let superview = superview else { return }
+        tintColor = UIColor.yellowActiveColor
         NSLayoutConstraint.activate([
             superview.leadingAnchor.constraint(equalTo: leadingAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
@@ -87,7 +88,7 @@ class VideoControllerGallerySlider: UIView {
         slider = VideoControllerGallerySliderButton()
         slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
-        slider.backgroundColor = UIColor(named: "mainColor")
+        slider.backgroundColor = tintColor
         slider.layer.cornerRadius = sliderHeight/2
         sliderWidthConstraint = slider.widthAnchor.constraint(equalToConstant: 0)
         sliderCenterXConstraint = slider.centerXAnchor.constraint(equalTo: leadingAnchor)

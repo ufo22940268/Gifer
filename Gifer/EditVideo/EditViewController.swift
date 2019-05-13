@@ -150,6 +150,9 @@ extension UINavigationItem {
 class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
+    lazy var shareVC: ShareViewController = {
+        return ShareViewController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+    }()
     @IBOutlet weak var videoController: VideoController!
     
     var videoContainer: UIView!
@@ -427,7 +430,7 @@ class EditViewController: UIViewController {
     
     private func startSharing(for type: ShareType, videoSize: VideoSize) {
         guard let cacheFilePath = cacheFilePath else { return  }
-                
+        
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type
@@ -436,6 +439,7 @@ class EditViewController: UIViewController {
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
             
+            print("1")
             switch type {
             case .wechat, .wechatSticker:
                 shareManager.shareToWechat(video: gif, complete: { (success) in                    
@@ -463,7 +467,7 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         videoVC.pause()
-        ShareViewController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed).present(by: self)
+        shareVC.present(by: self)
     }
     
     private func prompt(_ text: String) {
