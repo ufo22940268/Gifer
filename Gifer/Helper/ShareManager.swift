@@ -83,7 +83,6 @@ class ShareManager {
                     complete(false)
                 }
             }
-            
         }
     }
     
