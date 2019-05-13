@@ -17,7 +17,7 @@ class ConfirmExtraButton: UIButton {
     
     init(type: ActionType) {
         super.init(frame: CGRect.zero)
-        tintColor = .white
+        tintColor = .yellowActiveColor
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = true
         var image: UIImage

@@ -243,7 +243,7 @@ class OverlayComponent: UIView {
         let cornerViewSize = cornerViews.first!.bounds.width
         let frameInset = (cornerViewSize - frameLineWidth)/2 + 2
         let framePath = UIBezierPath(rect: rect.insetBy(dx: frameInset, dy: frameInset))
-        UIColor(named: "mainColor")?.setStroke()
+        UIColor.yellowActiveColor.setStroke()
         framePath.lineWidth = frameLineWidth
         framePath.stroke()
     }
