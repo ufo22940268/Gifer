@@ -444,6 +444,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="TS0-Bl-4XN">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="6tk-uY-oMN"/>
                             </connections>

@@ -33,7 +33,7 @@ class OverlayComponentCornerView: UIButton {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         let path = UIBezierPath(arcCenter: rect.center, radius: circleSize/2, startAngle: 0, endAngle: .pi*2, clockwise: true)
-        UIColor.main.setFill()
+        UIColor.yellowActiveColor.setFill()
         path.fill()
     }
     

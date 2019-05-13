@@ -185,8 +185,7 @@ class TrimController: UIControl {
             return
         }
         
-        self.galleryView = galleryView
-        
+        self.galleryView = galleryView        
         isOpaque = false
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
