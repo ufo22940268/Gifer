@@ -50,7 +50,12 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
     var videoSizes: [VideoSize] = VideoSize.allCases
     
     var selectedVideoSize: VideoSize?
-    let interactiveAnimator: UIPercentDrivenInteractiveTransition = UIPercentDrivenInteractiveTransition()
+    lazy var interactiveAnimator: UIPercentDrivenInteractiveTransition = {
+        let animator = UIPercentDrivenInteractiveTransition()
+        animator.wantsInteractiveStart = false
+        return animator
+    }()
+    
     lazy var configTransitioningDelegate: ConfigTransitionDelegate = {ConfigTransitionDelegate(interactive: interactiveAnimator)}()
     
     init(videoSize: VideoSize) {
@@ -89,6 +94,7 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
         let progress = sender.translation(in: tableView).x/tableView.bounds.width
         switch sender.state {
         case .began:
+            interactiveAnimator.wantsInteractiveStart = true
             dismiss(animated: true, completion: nil)
         case .changed:
             interactiveAnimator.update(progress)
@@ -98,7 +104,9 @@ class VideoSizeConfigViewController: UIViewController, UITableViewDelegate, UITa
             } else {
                 interactiveAnimator.cancel()
             }
+            interactiveAnimator.wantsInteractiveStart = false
         default:
+            interactiveAnimator.wantsInteractiveStart = false
             interactiveAnimator.cancel()
         }
     }

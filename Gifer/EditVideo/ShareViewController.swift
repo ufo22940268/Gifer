@@ -213,7 +213,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    var interactiveAnimator: ShareInteractiveAnimator = ShareInteractiveAnimator()
+    lazy var interactiveAnimator: ShareInteractiveAnimator = {
+        let animator = ShareInteractiveAnimator()
+        animator.wantsInteractiveStart = false
+        return animator
+    }()
     
     init(galleryDuration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         super.init(nibName: nil, bundle: nil)
@@ -251,17 +255,17 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let progress = sender.translation(in: sender.view!).y/sender.view!.bounds.height
         switch sender.state {
         case .began:
+            interactiveAnimator.wantsInteractiveStart = true
             dismiss(animated: true, completion: nil)
         case .changed:
             interactiveAnimator.update(progress)
-        case .ended:
+        default:
             if progress > 0.5 || sender.velocity(in: sender.view!).y > 300 {
                 interactiveAnimator.finish()
             } else {
                 interactiveAnimator.cancel()
             }
-        default:
-            interactiveAnimator.cancel()
+            interactiveAnimator.wantsInteractiveStart = false
         }
     }
     
@@ -292,7 +296,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.modalPresentationStyle = .custom
         self.transitioningDelegate = customTransitioningDelegate
         controller.present(self, animated: true) {
-            print("presented")
         }
     }
     
@@ -409,10 +412,10 @@ class SharePresentationController: UIPresentationController {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
+        print("onTap")
         if !presentedView!.frame.contains(sender.location(in: containerView)) {
             presentedViewController.dismiss(animated: true, completion: nil)
             dismissHandler?()
-            interactiveAnimator.finish()
         }
     }
     
