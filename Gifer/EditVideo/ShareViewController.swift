@@ -43,7 +43,7 @@ enum ShareType {
         case .photo:
             return #imageLiteral(resourceName: "folder-color.png")
         case .wechatSticker:
-            return #imageLiteral(resourceName: "smile-wink-regular.png")
+            return #imageLiteral(resourceName: "emoji-color.png")
         }
     }
     
@@ -146,7 +146,6 @@ class ShareCell: DarkTableCell {
     }
     
     func setup(items: [ShareType], shareHandler: @escaping (_ shareType: ShareType) -> Void) {
-        
         self.selectionStyle = .none
         stackView.subviews.forEach {$0.removeFromSuperview()}
         
@@ -191,12 +190,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var centerX: NSLayoutConstraint!
     var shareHandler: ShareHandler!
     var cancelHandler: (() -> Void)!
-    var duration: CMTime!
+    var galleryDuration: CMTime!
     var shareTypes: [ShareType] {
         var types = [ShareType]()
         types.append(.wechat)
         types.append(.photo)
-        if let duration = duration, duration.seconds < 3 {
+        if let duration = galleryDuration, duration.seconds < 3 {
             types.append(.wechatSticker)
         }
         return types
@@ -216,11 +215,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var interactiveAnimator: ShareInteractiveAnimator = ShareInteractiveAnimator()
     
-    init(duration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
+    init(galleryDuration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         super.init(nibName: nil, bundle: nil)
         self.shareHandler = shareHandler
         self.cancelHandler = cancelHandler
-        self.duration = duration
+        self.galleryDuration = galleryDuration
         customTransitioningDelegate = ShareTransitioningDelegate(dismiss: cancelHandler, interator: interactiveAnimator)
     }
     

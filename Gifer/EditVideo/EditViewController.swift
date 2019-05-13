@@ -151,7 +151,7 @@ class EditViewController: UIViewController {
     
     var videoVC: VideoViewController!
     lazy var shareVC: ShareViewController = {
-        return ShareViewController(duration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+        return ShareViewController(galleryDuration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
     }()
     @IBOutlet weak var videoController: VideoController!
     
