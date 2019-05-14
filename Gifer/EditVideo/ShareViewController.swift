@@ -178,6 +178,12 @@ class DividerCell: UITableViewCell {
     }
 }
 
+enum ShareConfig: Int, CaseIterable {
+    case videoSize = 0
+    case divider = 1
+    case shareCell = 2
+}
+
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     fileprivate var customTransitioningDelegate: ShareTransitioningDelegate!
@@ -289,7 +295,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return ShareConfig.allCases.count
     }
     
     func present(by controller: UIViewController) {
@@ -309,16 +315,16 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
+        if indexPath.row == ShareConfig.videoSize.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "视频清晰度"
             cell.detailTextLabel?.text = videoSize.label
             return cell
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == ShareConfig.divider.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "divider") as! DividerCell
             return cell
-        } else if indexPath.row == rowCount - 1 {
+        } else if indexPath.row == ShareConfig.shareCell.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
             let handler = {(shareType: ShareType) in
                 self.dismissImediately()
@@ -331,7 +337,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.row == ShareConfig.videoSize.rawValue {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
             present(vc, animated: true, completion: nil)
         }
