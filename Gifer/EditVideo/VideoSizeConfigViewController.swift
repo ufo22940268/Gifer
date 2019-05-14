@@ -101,27 +101,3 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         }
     }
 }
-
-class ConfigTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
-    var interactiveAnimator: UIPercentDrivenInteractiveTransition!
-    
-    init(interactive: UIPercentDrivenInteractiveTransition) {
-        self.interactiveAnimator = interactive
-    }
-    
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ConfigPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ConfigTransitionAnimator()
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ConfigTransitionAnimator()
-    }
-    
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactiveAnimator
-    }
-}

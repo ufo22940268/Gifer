@@ -77,12 +77,8 @@ enum ShareType {
     }
 }
 
+class VideoSizeConfigCell: DarkTableCell {
 
-extension UIColor {
-    static let dark = UIColor(named: "darkBackgroundColor")!
-}
-
-class EditCell: DarkTableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
@@ -90,6 +86,20 @@ class EditCell: DarkTableCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+class LoopCountConfigCell: DarkTableCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension UIColor {
+    static let dark = UIColor(named: "darkBackgroundColor")!
 }
 
 class ShareCell: DarkTableCell {
@@ -179,9 +189,10 @@ class DividerCell: UITableViewCell {
 }
 
 enum ShareConfig: Int, CaseIterable {
-    case videoSize = 0
-    case divider = 1
-    case shareCell = 2
+    case loopCount = 0
+    case videoSize = 1
+    case divider = 2
+    case shareCell = 3
 }
 
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -214,6 +225,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }()
     
     var videoSize: VideoSize = VideoSize.auto {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var loopCount: LoopCount = LoopCount.infinite {
         didSet {
             tableView.reloadData()
         }
@@ -252,7 +269,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             ])
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(EditCell.self, forCellReuseIdentifier: "edit")
+        tableView.register(VideoSizeConfigCell.self, forCellReuseIdentifier: "videoSize")
+        tableView.register(LoopCountConfigCell.self, forCellReuseIdentifier: "loopCount")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
@@ -316,10 +334,16 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == ShareConfig.videoSize.rawValue {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "edit", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "videoSize", for: indexPath)
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "视频清晰度"
             cell.detailTextLabel?.text = videoSize.label
+            return cell
+        } else if indexPath.row == ShareConfig.loopCount.rawValue {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "loopCount", for: indexPath)
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = "循环次数"
+            cell.detailTextLabel?.text = loopCount.description
             return cell
         } else if indexPath.row == ShareConfig.divider.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "divider") as! DividerCell
@@ -340,6 +364,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
             present(vc, animated: true, completion: nil)
+        } else if indexPath.row == ShareConfig.loopCount.rawValue {
+            present(LoopCountConfigViewController(loopCount: loopCount), animated: true, completion: nil)
         }
     }
 }
