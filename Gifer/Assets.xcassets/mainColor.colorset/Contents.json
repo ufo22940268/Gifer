@@ -15,6 +15,18 @@
           "green" : "0xAA"
         }
       }
+    },
+    {
+      "idiom" : "ipad",
+      "color" : {
+        "color-space" : "srgb",
+        "components" : {
+          "red" : "0.667",
+          "alpha" : "1.000",
+          "blue" : "0.667",
+          "green" : "0.667"
+        }
+      }
     }
   ]
 }
