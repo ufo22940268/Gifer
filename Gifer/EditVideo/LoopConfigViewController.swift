@@ -23,6 +23,19 @@ enum LoopCount: Int, CustomStringConvertible, CaseIterable {
             return "5次"
         }
     }
+    
+    var count: Int {
+        switch self {
+        case .infinite:
+            return 0
+        case .one:
+            return 1
+        case .three:
+            return 3
+        case .five:
+            return 5
+        }
+    }
 }
 
 class LoopCountCell: DarkTableCell {

@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 typealias ShareGifFileHandler = (_ file: URL) -> Void
-typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize) -> Void
+typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize, _ loopCount: LoopCount) -> Void
 typealias DismissHandler = () -> Void
 
 enum ShareType {
@@ -352,7 +352,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
             let handler = {(shareType: ShareType) in
                 self.dismissImediately()
-                self.shareHandler(shareType, self.videoSize)
+                self.shareHandler(shareType, self.videoSize, self.loopCount)
             }
             cell.setup(items: shareTypes, shareHandler: handler)
             return cell

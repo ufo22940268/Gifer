@@ -426,13 +426,16 @@ class EditViewController: UIViewController {
         )
     }
     
-    private func startSharing(for type: ShareType, videoSize: VideoSize) {
+    private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
         guard let cacheFilePath = cacheFilePath else { return  }
+
+        videoVC.pause()
         
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type
         options.videoSize = videoSize
+        options.loopCount = loopCount
         let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: options)
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
@@ -441,6 +444,7 @@ class EditViewController: UIViewController {
             case .wechat, .wechatSticker:
                 shareManager.shareToWechat(video: gif, complete: { (success) in                    
                     self.dismiss(animated: true, completion: nil)
+                    self.videoVC.play()
                 })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
@@ -451,6 +455,7 @@ class EditViewController: UIViewController {
                     alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
                         self.onShareDialogDimissed()
+                        self.videoVC.play()
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }

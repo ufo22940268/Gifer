@@ -119,6 +119,7 @@ public class GifGenerator {
         var exportType: ShareType?
         var texts: [EditTextInfo]
         var videoSize: VideoSize = .auto
+        var loopCount: LoopCount = .infinite
         
         init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo]) {
             self.start = start
@@ -208,9 +209,8 @@ public class GifGenerator {
     }
     
     func buildDestinationOfGif(frameCount: Int) -> CGImageDestination {
-        let fileProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: 0]]  as CFDictionary
-        let fileURL: URL? = gifFilePath
-        
+        let fileProperties: CFDictionary = [kCGImagePropertyGIFLoopCount as String: options.loopCount.count] as CFDictionary
+        let fileURL: URL? = gifFilePath        
         if let url = fileURL as CFURL? {
             if let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, frameCount, nil) {
                 CGImageDestinationSetProperties(destination, fileProperties)
