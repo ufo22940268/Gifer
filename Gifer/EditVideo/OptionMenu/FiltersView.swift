@@ -80,6 +80,7 @@ class FiltersView: UIStackView {
     
     lazy var slider: UISlider = {
         let slider = FilterSlider().useAutoLayout()
+        slider.tintColor = UIColor.yellowActiveColor
         slider.addTarget(self, action: #selector(onSliderChanged(sender:forEvent:)), for: .valueChanged)
         return slider
     }()
