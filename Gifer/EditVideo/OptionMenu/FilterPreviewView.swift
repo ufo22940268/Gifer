@@ -22,7 +22,7 @@ class FilterPreviewView: UICollectionViewCell {
         didSet {
             var color: UIColor
             if isHighlight {
-                color = tintColor
+                color = .yellowActiveColor
             } else {
                 color = UIColor.darkGray
             }
