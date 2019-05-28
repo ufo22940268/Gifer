@@ -103,9 +103,6 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! VideoSizeCell
         let videoSize = videoSizes[indexPath.row]
         cell.textLabel?.text = videoSize.label
-        if let largestGifSize = largestGifSize {
-            cell.detailTextLabel?.text = videoSize.gifSize(maxSize: largestGifSize)
-        }
         if videoSize == selectedVideoSize {
             cell.accessoryType = .checkmark
             cell.accessoryView?.alpha = 1

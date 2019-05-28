@@ -273,9 +273,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(LoopCountConfigCell.self, forCellReuseIdentifier: "loopCount")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
-  
-        
-//        esmtimateVideoSize()
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
