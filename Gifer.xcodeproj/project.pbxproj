@@ -11,7 +11,6 @@
 		42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5C21F95587005D2710 /* OptionMenu.swift */; };
 		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
 		422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BC3B221F1B9F400948A32 /* CommonConstraints.swift */; };
-		422E0E2221CB616500192B37 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E0E2121CB616500192B37 /* Debug.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
@@ -114,7 +113,6 @@
 		42265B5C21F95587005D2710 /* OptionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenu.swift; sourceTree = "<group>"; };
 		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
 		422BC3B221F1B9F400948A32 /* CommonConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstraints.swift; sourceTree = "<group>"; };
-		422E0E2121CB616500192B37 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 				424596ED223F693B00FCE599 /* VideoCache.swift */,
 				42C54D2C21C1F5D100BECC5C /* ShareManager.swift */,
 				42EE13D52195C22900724611 /* GifGenerator.swift */,
-				422E0E2121CB616500192B37 /* Debug.swift */,
 				4269ADB2221B8E4F0098BA5E /* YPFilter.swift */,
 				42D7F283224B4CE400E7E504 /* BasicExtensions.swift */,
 				4285BFA421A8D4DE00913466 /* VideoLibrary.swift */,
@@ -690,7 +687,6 @@
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,
 				42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */,
 				42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */,
-				422E0E2221CB616500192B37 /* Debug.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
 				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,
