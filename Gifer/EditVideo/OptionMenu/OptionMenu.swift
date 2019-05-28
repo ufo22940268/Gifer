@@ -25,6 +25,8 @@ class OptionMenu: UIView {
     var stickerMenuView: StickerMenuView!
     var stickerMenuContainer: ControlToolbarConfirmPrompt!
     
+    var activeItem: ToolbarItem?
+    
     func setPreviewImage(_ image: UIImage) {
         filtersView.previewImage = image
         filtersView.reloadData()
@@ -44,6 +46,8 @@ class OptionMenu: UIView {
     }
     
     func attach(menuType: ToolbarItem) {
+        activeItem = menuType
+        
         subviews.forEach { (subview) in
             subview.removeFromSuperview()
         }

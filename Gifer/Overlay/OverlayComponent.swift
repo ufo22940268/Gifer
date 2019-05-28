@@ -220,9 +220,10 @@ class OverlayComponent: UIView {
     
     @objc func onTapToActive(sender: UITapGestureRecognizer) {
         UIDevice().taptic(level: 1)
-        self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        let originTransfrom = self.transform
+        self.transform = originTransfrom.concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5.0, options: .curveLinear, animations: {
-            self.transform = .identity
+            self.transform = originTransfrom
         }, completion: nil)
         delegate?.onActive(component: self)
     }

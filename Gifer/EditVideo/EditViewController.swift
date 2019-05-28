@@ -700,8 +700,6 @@ extension EditViewController: OptionMenuDelegate {
             self.optionMenuTopConstraint.isActive = true
             self.stackView.setCustomSpacing(0, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
-//            self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
-//            self.stackView.layoutIfNeeded()
         }) { (_) in
             self.allOverlays.forEach { overlay in
                 overlay.isEnabled = true
@@ -810,7 +808,7 @@ extension EditViewController: OverlayDelegate {
             }
         }
         component.superview!.bringSubviewToFront(component)
-        overlay.superview!.bringSubviewToFront(overlay)
+        overlay.superview!.bringSubviewToFront(overlay)        
     }
 }
 
