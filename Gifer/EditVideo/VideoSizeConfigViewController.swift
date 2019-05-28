@@ -26,12 +26,28 @@ enum VideoSize: CaseIterable {
             return "低"
         }
     }
+    
+    func gifSize(maxSize: Double) -> String {
+        let format = {(size: Double) -> String in
+            return String(format: "%1.1fM", size)
+        }
+        switch self {
+        case .auto:
+            return ""
+        case .large:
+            return format(maxSize)
+        case .middle:
+            return format(maxSize*0.8)
+        case .small:
+            return format(maxSize*0.6)
+        }
+    }
 }
 
 class VideoSizeCell: DarkTableCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,6 +59,11 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
     
     var tableView: UITableView
     var videoSizes: [VideoSize] = VideoSize.allCases
+    var largestGifSize: Double? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     var selectedVideoSize: VideoSize?
     init(videoSize: VideoSize) {
@@ -82,8 +103,12 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! VideoSizeCell
         let videoSize = videoSizes[indexPath.row]
         cell.textLabel?.text = videoSize.label
+        if let largestGifSize = largestGifSize {
+            cell.detailTextLabel?.text = videoSize.gifSize(maxSize: largestGifSize)
+        }
         if videoSize == selectedVideoSize {
             cell.accessoryType = .checkmark
+            cell.accessoryView?.alpha = 1
         } else {
             cell.accessoryType = .none
         }

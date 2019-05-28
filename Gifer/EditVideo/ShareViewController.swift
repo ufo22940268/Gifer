@@ -273,6 +273,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(LoopCountConfigCell.self, forCellReuseIdentifier: "loopCount")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
+  
+        
+//        esmtimateVideoSize()
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
@@ -363,6 +366,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
+            vc.largestGifSize = 5.3
             present(vc, animated: true, completion: nil)
         } else if indexPath.row == ShareConfig.loopCount.rawValue {
             present(LoopCountConfigViewController(loopCount: loopCount), animated: true, completion: nil)
