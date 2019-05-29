@@ -114,7 +114,7 @@ class EditTextViewController: UIViewController {
         NSLayoutConstraint.activate([
             rootView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             rootView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            rootView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            rootView.topAnchor.constraint(equalTo: view.topAnchor),
             rootView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
 
@@ -122,7 +122,7 @@ class EditTextViewController: UIViewController {
         NSLayoutConstraint.activate([
             rootView.contentView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
             rootView.contentView.heightAnchor.constraint(equalTo: stackView.heightAnchor),
-            rootView.contentView.topAnchor.constraint(equalTo: stackView.topAnchor),
+            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: stackView.topAnchor),
             rootView.contentView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor)
             ])
         
