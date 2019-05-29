@@ -121,8 +121,8 @@ class EditTextViewController: UIViewController {
         rootView.contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             rootView.contentView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            rootView.contentView.heightAnchor.constraint(equalTo: stackView.heightAnchor),
             view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: stackView.topAnchor),
+            rootView.contentView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
             rootView.contentView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor)
             ])
         
@@ -135,6 +135,7 @@ class EditTextViewController: UIViewController {
         openTab(.keyboard)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         originViewHeight = self.view.frame.height

@@ -20,6 +20,7 @@ class EditTextPreviewer: UIView {
         textView.textColor = .white
         textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 8)
         textView.textAlignment = .center
+        textView.keyboardAppearance = .dark
         return textView
     }()
     
