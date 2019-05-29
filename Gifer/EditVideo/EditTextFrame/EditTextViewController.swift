@@ -91,7 +91,6 @@ class EditTextViewController: UIViewController {
         didSet {
             let bottomSafeInset = self.view.safeAreaInsets.bottom
             panelContainer.constraints.findById(id: "height").constant = keyboardHeight - bottomSafeInset
-            panelContainer.superview?.layoutIfNeeded()
         }
     }
     
@@ -199,6 +198,7 @@ extension EditTextViewController {
 extension EditTextViewController {
     
     @objc private func onCancel() {
+        previewer.textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     

@@ -740,7 +740,6 @@ extension EditViewController: ControlToolbarDelegate {
         let vc = EditTextViewController(textInfo: editText)
         vc.delegate = self
         vc.componentId = componentId
-        vc.modalPresentationCapturesStatusBarAppearance = true
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true, completion: nil)
     }
