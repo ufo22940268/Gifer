@@ -218,6 +218,20 @@ class VideoController: UIStackView {
         return UIView().useAutoLayout()
     }()
     
+    var stickToSide: TrimController.Side? {
+        didSet {
+            guard let stickToSide = stickToSide else { return }
+            switch stickToSide {
+            case .left:
+                videoSlider.updateProgress(progress: .zero)
+            case .right:
+                videoSlider.updateProgress(progress: trimPosition.rightTrim)
+            }
+            videoSlider.show(true)
+        }
+        
+    }
+    
     var layoutSize: Size = .full {
         didSet {
             galleryContainer.constraints.findById(id: "height").constant = layoutSize.height
@@ -323,7 +337,11 @@ class VideoController: UIStackView {
     
     fileprivate func loadGallery(withImage image: UIImage, index: Int) -> Void {
         galleryView.setImage(image, on: index)
-    }        
+    }
+    
+    func stickTo(side: TrimController.Side?) {
+        stickToSide = side
+    }
     
     func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         
@@ -388,7 +406,10 @@ class VideoController: UIStackView {
         }
     }
     
-    func updateSliderProgress(_ progress: CMTime) {        
+    func updateSliderProgress(_ progress: CMTime) {
+        if stickToSide != nil {
+            return
+        }
         videoSlider.updateProgress(progress: progress)
         videoSlider.show(true)
     }

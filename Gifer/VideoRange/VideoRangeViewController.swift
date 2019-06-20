@@ -256,6 +256,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
         videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInSlider)
+        videoController.stickTo(side: .left)
         updateTrimPosition(position: position, trimState: state, forceSeek: position.leftTrim)
     }
     
@@ -289,6 +290,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         if case .finished(_) = trimState {
             currentItem.cancelPendingSeeks()
             currentItem.forwardPlaybackEndTime = position.rightTrim
+            videoController.stickTo(side: nil)
             seekToAndPlay(position: position.leftTrim)
         } else {
             if case .started = trimState {
@@ -329,6 +331,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
         guard let side = side else { return }
         let position = trimPosition
+        videoController.stickTo(side: side)
         updateTrimPosition(position: position, trimState: state, forceSeek: side == .right ? trimPosition.rightTrim : trimPosition.leftTrim)
     }
     
