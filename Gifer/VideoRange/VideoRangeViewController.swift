@@ -95,7 +95,7 @@ class VideoRangeViewController: UIViewController {
         options.deliveryMode = .fastFormat
         
         PHImageManager.default().requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
-            self.videoCache = VideoCache(asset: avAsset!)
+            self.videoCache = VideoCache(asset: avAsset!, cacheName: "range")
             self.videoCache.delegate = self
             self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
@@ -350,9 +350,9 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController, let cachedURL = videoCache.cachedURL {
             editVC.previewImage = previewImage
-            editVC.videoAsset = previewAsset
+            editVC.videoCachedAsset = AVAsset(url: cachedURL)
             editVC.initTrimPosition = trimPosition
         }
     }
@@ -360,10 +360,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
 
 extension VideoRangeViewController: VideoCacheDelegate {
     func onParsingProgressChanged(progress: CGFloat) {
-        print("progress: \(progress)")
         progressIndicator.progress = progress
         progressIndicator.isHidden = progress == 1
-        
         view.tintAdjustmentMode = .dimmed
     }
 }

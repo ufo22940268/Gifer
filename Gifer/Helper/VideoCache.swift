@@ -17,12 +17,17 @@ protocol VideoCacheDelegate: class {
 class VideoCache {
     
     var asset: AVAsset!
-    let tempFilePath: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("k.mov")
+    var cacheName: String
+    lazy var tempFilePath: URL = {
+        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(cacheName).mov")
+    }()
     var progressTimer: Timer?
     weak var delegate: VideoCacheDelegate?
+    var cachedURL: URL?
 
-    init(asset: AVAsset) {
+    init(asset: AVAsset, cacheName: String) {
         self.asset = asset
+        self.cacheName = cacheName
     }
     
     typealias ParseHandler = (_ video: URL) -> Void
@@ -56,6 +61,7 @@ class VideoCache {
                 DispatchQueue.main.async {
                     self.delegate?.onParsingProgressChanged(progress: 1.0)
                     completion(session.outputURL!)
+                    self.cachedURL = session.outputURL
                     self.progressTimer?.invalidate()
                 }
             }

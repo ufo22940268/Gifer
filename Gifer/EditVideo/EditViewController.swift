@@ -162,6 +162,7 @@ class EditViewController: UIViewController {
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!    
     @IBOutlet weak var videoProgressLoadingIndicator: VideoProgressLoadingIndicator!
     var videoAsset: PHAsset!
+    var videoCachedAsset: AVAsset?
     var loadingDialog: LoadingDialog?
     
     var predefinedToolbarItemStyle = ToolbarItemStyle()
@@ -333,16 +334,34 @@ class EditViewController: UIViewController {
     }
     
     var videoCache: VideoCache!
+    
+    private func getAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
+        if let videoCachedAsset = videoCachedAsset {
+            print("read from file cache")
+            completion(videoCachedAsset)
+            return
+        } else {
+            let options = PHVideoRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .fastFormat
+            PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
+                completion(avAsset)
+            }
+        }
+    }
+    
+    var isJumpFromRange: Bool {
+        return videoCachedAsset != nil
+    }
+    
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
-        
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.deliveryMode = .fastFormat
-        
-        PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
-            self.videoCache = VideoCache(asset: avAsset!)
+        getAVAsset { (avAsset) in
+            self.videoCache = VideoCache(asset: avAsset!, cacheName: "edit")
             self.cacheFilePath = self.videoCache.tempFilePath
-            self.videoCache.delegate = self
+            if self.isJumpFromRange {
+                self.videoProgressLoadingIndicator.isHidden = true
+                self.videoCache.delegate = self
+            }
             self.videoCache.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                 completion(url)
             })
@@ -351,9 +370,7 @@ class EditViewController: UIViewController {
     
     private func loadVideo(for url: URL) {
         let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
-        
         let originAsset = AVAsset(url: url)
         let composition = AVMutableComposition()
         composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
