@@ -172,8 +172,6 @@ extension EditTextViewController {
 
         var panel: UIView
         switch item {
-        case .font:
-            panel = fontsPanel
         case .palette:
             panel = palettePanel
         case .keyboard:

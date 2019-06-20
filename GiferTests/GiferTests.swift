@@ -143,4 +143,9 @@ class GiferTests: XCTestCase {
         
         _ = composeBetween(rawImage, filterImage, percent: 0.2)
     }
+    
+    func testFonts() {
+        let fonts = UIFont.listAllFonts()
+        print(fonts.map {$0.fontName})
+    }
 }

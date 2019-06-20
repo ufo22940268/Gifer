@@ -55,6 +55,10 @@ class VideoRangeViewController: UIViewController {
     var isDebug:Bool!
     var previewImage: UIImage!
     
+    var isSeeking = false
+    var chaseTime: CMTime!
+    var chaseRightTrim: CMTime?
+    
     @IBOutlet weak var doneItemButton: UIBarButtonItem!
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
@@ -66,6 +70,8 @@ class VideoRangeViewController: UIViewController {
     var trimPosition: VideoTrimPosition {
         return videoController.trimPosition
     }
+    
+    var videoCache: VideoCache!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,27 +85,33 @@ class VideoRangeViewController: UIViewController {
         if isDebug {
             previewAsset = getTestVideo()
         }
-        loadPreview(phAsset: previewAsset)
-        
         setSubtitle("加载中...")
+        cacheAsset()
     }
+    
+    private func cacheAsset() {
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .fastFormat
+        
+        PHImageManager.default().requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
+            self.videoCache = VideoCache(asset: avAsset!)
+            self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration), completion: { (url) in
+                print("url: \(url)")
+                self.loadPreview(url: url)
+            })
+        }
+    }
+
     
     private func setSubtitle(_ subTitle: String) {
         navigationItem.setTwoLineTitle(lineOne: "修剪", lineTwo: subTitle)
     }
     
-    private func loadPreview(phAsset: PHAsset) {
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.deliveryMode = .mediumQualityFormat
-        PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options) { (avAsset, _, _) in
-            if let composition = avAsset?.videoAssetComposition() {
-                let playerItem = AVPlayerItem(asset: composition)
-                DispatchQueue.main.async {
-                    self.onPreviewLoaded(playerItem: playerItem)
-                }
-            }
-        }
+    private func loadPreview(url: URL) {
+        let asset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(asset: asset)
+        self.onPreviewLoaded(playerItem: playerItem)
     }
     
     private func onPreviewLoaded(playerItem: AVPlayerItem) {
@@ -143,7 +155,7 @@ class VideoRangeViewController: UIViewController {
     
     private func seekToAndPlay(position: CMTime) {
         loadingIndicator.show()
-        player.seek(to: position, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { (_) in
+        player.seek(to: position) { (success) in
             self.player.play()
         }
     }
@@ -244,7 +256,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
         videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInSlider)
-        updateTrimPosition(position: position, trimState: state)
+        updateTrimPosition(position: position, trimState: state, forceSeek: position.leftTrim)
     }
     
     /// Change be gallery slider
@@ -273,25 +285,51 @@ extension VideoRangeViewController: VideoControllerDelegate {
         updateTrimPosition(position: position, trimState: trimState)
     }
     
-    private func updateTrimPosition(position: VideoTrimPosition, trimState: VideoTrimState) {
-        currentItem.forwardPlaybackEndTime = position.rightTrim
-        print("seek to: \(videoController.currentTimeOnSlider.seconds)")
-        switch trimState {
-        case .finished( _):
-            seekToAndPlay(position: videoController.currentTimeOnSlider)
-        case .started:
-            player.pause()
-        default:
-            break
-        }
-        
+    private func updateTrimPosition(position: VideoTrimPosition, trimState: VideoTrimState, forceSeek: CMTime? = nil) {
+        if case .finished(_) = trimState {
+            currentItem.cancelPendingSeeks()
+            currentItem.forwardPlaybackEndTime = position.rightTrim
+            seekToAndPlay(position: position.leftTrim)
+        } else {
+            if case .started = trimState {
+                player.pause()
+            }
+            
+            if let forceSeek = forceSeek, !isSeeking {
+                player.pause()
+                chaseTime = forceSeek
+                chaseRightTrim = position.rightTrim
+                trySeekToChaseTime()
+            }
+        }        
         setSubtitle(position: position)
     }
     
-    /// Change by gallery scroller
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
+    func trySeekToChaseTime() {
+        if player.currentItem!.status == .readyToPlay {
+            actualSeekToChaseTime()
+        }
+    }
+    
+    func actualSeekToChaseTime() {
+        isSeeking = true
+        let seekTimeInProgress = self.chaseTime!
+        if let chaseRightTrim = chaseRightTrim {            
+            currentItem.forwardPlaybackEndTime = chaseRightTrim
+        }
+        player.currentItem?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero) {_ in
+            print("seek completes")
+            self.isSeeking = false
+            if self.chaseTime != seekTimeInProgress {
+                self.trySeekToChaseTime()
+            }
+        }
+    }
+    
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+        guard let side = side else { return }
         let position = trimPosition
-        updateTrimPosition(position: position, trimState: state)
+        updateTrimPosition(position: position, trimState: state, forceSeek: side == .right ? trimPosition.rightTrim : trimPosition.leftTrim)
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {

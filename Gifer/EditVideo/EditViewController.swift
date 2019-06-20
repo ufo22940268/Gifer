@@ -584,7 +584,7 @@ extension EditViewController: VideoViewControllerDelegate {
             self.enableVideoController(true)
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
-            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial)
+            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
             
             //Test code
             self.videoVC.play()
@@ -626,7 +626,7 @@ extension EditViewController: VideoControllerDelegate {
     }
 
     //Changed by trimer dragged
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState) {
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
         let position = trimPosition
         videoVC.updateTrim(position: position, state: state, sliderPosition: videoController.currentTimeOnSlider)
         setSubTitle(duration: videoController.galleryDuration)

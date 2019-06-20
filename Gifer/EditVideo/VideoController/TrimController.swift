@@ -102,6 +102,10 @@ class TrimController: UIControl {
         }
     }
     
+    enum Side {
+        case left, right
+    }
+    
     weak var slider: VideoControllerSlider?
     
     var disableScroll = true
@@ -300,7 +304,7 @@ class TrimController: UIControl {
         
         updatePressedState(by: recognizer.state)
         
-        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
     
     private func getTrimState(from gesture: UIPanGestureRecognizer) -> VideoTrimState {
@@ -323,7 +327,7 @@ class TrimController: UIControl {
         
         updatePressedState(by: recognizer.state)
         
-        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer))
+        trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .right)
     }
     
     private func updatePressedState(by state: UIGestureRecognizer.State) {

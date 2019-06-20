@@ -15,14 +15,12 @@ protocol EditTextBottomToolsDelegate: class {
 class EditTextBottomTools: UIView {
     
     enum Item: CaseIterable {
-        case keyboard, font, palette
+        case keyboard, palette
         
         var icon: UIImage {
             switch self {
             case .keyboard:
                 return #imageLiteral(resourceName: "keyboard-regular.png")
-            case .font:
-                return #imageLiteral(resourceName: "font-solid.png")
             case .palette:
                 return #imageLiteral(resourceName: "palette-solid.png")
             }
@@ -32,10 +30,8 @@ class EditTextBottomTools: UIView {
             switch self {
             case .keyboard:
                 return 0
-            case .font:
-                return 1
             case .palette:
-                return 2
+                return 1
             }
         }
     }

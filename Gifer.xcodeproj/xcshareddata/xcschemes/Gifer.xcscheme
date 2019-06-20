@@ -45,6 +45,9 @@
                   Identifier = "GiferTests/testAssetExport()">
                </Test>
                <Test
+                  Identifier = "GiferTests/testCompositeFilters()">
+               </Test>
+               <Test
                   Identifier = "GiferTests/testExample()">
                </Test>
                <Test

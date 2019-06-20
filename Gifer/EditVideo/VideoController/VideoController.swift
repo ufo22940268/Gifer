@@ -40,7 +40,7 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState)
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?)
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
 }
 
