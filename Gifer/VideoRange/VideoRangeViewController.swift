@@ -360,6 +360,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
 
 extension VideoRangeViewController: VideoCacheDelegate {
     func onParsingProgressChanged(progress: CGFloat) {
+        print("progress: \(progress)")
         progressIndicator.progress = progress
         progressIndicator.isHidden = progress == 1
         

@@ -11,7 +11,7 @@ import UIKit
 class VideoProgressCircle: UIView {
     
     let circleWidth = CGFloat(3)
-    var progress: CGFloat = 0 {
+    var progress: CGFloat = 0.2 {
         didSet {
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.duration = 0.15
