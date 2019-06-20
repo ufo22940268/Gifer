@@ -11,19 +11,56 @@ import UIKit
 class VideoProgressCircle: UIView {
     
     let circleWidth = CGFloat(3)
-    var progress: CGFloat = 0.3 {
+    var progress: CGFloat = 0 {
         didSet {
-            setNeedsDisplay()
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
+            animation.duration = 0.15
+            animation.fromValue = progressLayer.strokeEnd
+            animation.toValue = progress
+            progressLayer.add(animation, forKey: "strokeEnd")
+            progressLayer.strokeEnd = progress
         }
     }
+    
+    lazy var progressLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = self.tintColor.cgColor
+        return layer
+    }()
     
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = .clear
+        layer.addSublayer(progressLayer)
+        transform = CGAffineTransform(rotationAngle: -.pi/2)
+    }
+    
+    func createProgressPath() -> CGPath {
+        let rect = bounds
+        let radius: CGFloat = (rect.width - circleWidth)/2/2
+        let inset = rect.width/2 - radius
+        let progressPath = UIBezierPath(ovalIn: rect.insetBy(dx: inset, dy: inset))
+        progressPath.lineWidth = radius
+        return progressPath.cgPath
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        progressLayer.strokeStart = 0.0
+        progressLayer.strokeEnd = progress
+        let radius: CGFloat = (bounds.width - circleWidth)/2
+        progressLayer.lineWidth = radius
+progressLayer.path = createProgressPath()
+    }
+    
+    override func tintColorDidChange() {
+        progressLayer.strokeColor = tintColor.cgColor
     }
     
     override func draw(_ rect: CGRect) {
@@ -32,12 +69,6 @@ class VideoProgressCircle: UIView {
         tintColor.setStroke()
         path.lineWidth = circleWidth
         path.stroke()
-        
-        let progressPath = UIBezierPath()
-        progressPath.move(to: circleCenter)
-        progressPath.addArc(withCenter: circleCenter, radius: (rect.width - circleWidth)/2, startAngle: -.pi*0.5, endAngle: -.pi*0.5 + .pi*2*progress, clockwise: true)
-        tintColor.setFill()
-        progressPath.fill()
     }
 }
 
@@ -72,9 +103,7 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
     
     var progress: CGFloat = 0 {
         didSet {
-            UIView.animate(withDuration: 0.05) {
-                self.circleView.progress = self.progress.clamped(to: 0...0.95)
-            }
+            self.circleView.progress = self.progress.clamped(to: 0...0.95)
         }
     }
     

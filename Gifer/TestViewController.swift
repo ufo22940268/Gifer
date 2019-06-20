@@ -10,18 +10,14 @@ import UIKit
 
 class TestViewController: UIViewController {
     
+    @IBOutlet weak var p: VideoProgressLoadingIndicator!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .yellow
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.showTestDialog()
+            self.p.progress = 0.4
+            self.p.progress = 0.8
         }
-    }
-    
-    func showTestDialog() {
-//        let shareVC = ShareViewController()
-//        shareVC.present(by: self)
     }
 }
 

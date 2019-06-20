@@ -42,8 +42,8 @@ class VideoRangeViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var videoPreviewSection: UIView!
     var previewController: AVPlayerViewController!
-    var player: AVPlayer {
-        return previewController.player!
+    var player: AVPlayer! {
+        return previewController.player ?? nil
     }
     var currentItem: AVPlayerItem {
         return player.currentItem!
@@ -213,8 +213,10 @@ class VideoRangeViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        player.pause()
-        unregisterObservers()
+        if let player = player {
+            player.pause()
+            unregisterObservers()
+        }
     }
     
     func setupPreview() {
