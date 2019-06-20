@@ -53,8 +53,6 @@ class VideoControllerGallerySlider: UIView {
     let dividerHeight = CGFloat(2)
     let sliderHeight = CGFloat(12)
     
-    let mainColor = UIColor(named: "mainColor")
-    
     var sliderWidthConstraint: NSLayoutConstraint!
     var sliderCenterXConstraint: NSLayoutConstraint!
     var galleryDuration: CMTime?
@@ -65,7 +63,6 @@ class VideoControllerGallerySlider: UIView {
     
     func setup() {
         guard let superview = superview else { return }
-        tintColor = UIColor.yellowActiveColor
         NSLayoutConstraint.activate([
             superview.leadingAnchor.constraint(equalTo: leadingAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
@@ -102,6 +99,12 @@ class VideoControllerGallerySlider: UIView {
         slider.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onChangeSlider(sender:))))
     }
     
+    override func tintColorDidChange() {
+        if let slider = slider {
+            slider.backgroundColor = tintColor
+        }
+    }
+    
     func onVideoLoaded(galleryDuration: CMTime, duration: CMTime) {
         self.duration = duration
         layoutIfNeeded()
@@ -134,14 +137,6 @@ class VideoControllerGallerySlider: UIView {
         sliderCenterXConstraint.constant = newCenterX
         sender.setTranslation(CGPoint.zero, in: self)
     }
-    
-//    var galleryRange: GalleryRangePosition {
-//        guard let duration = duration else { fatalError() }
-//        let width = bounds.width
-//        let leading = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.minX/width))
-//        let trailing = CMTimeMultiplyByFloat64(duration, multiplier: Double(slider.frame.maxX/width))
-//        return GalleryRangePosition(left: leading, right: trailing)
-//    }
     
     func sync(galleryRange: GalleryRangePosition) {
         guard let duration = duration else { return }

@@ -54,6 +54,7 @@ class VideoCache {
             session.outputFileType = AVFileType.mov
             session.exportAsynchronously {
                 DispatchQueue.main.async {
+                    self.delegate?.onParsingProgressChanged(progress: 1.0)
                     completion(session.outputURL!)
                     self.progressTimer?.invalidate()
                 }

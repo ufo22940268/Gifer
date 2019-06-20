@@ -58,7 +58,7 @@ class VideoRangeViewController: UIViewController {
     var isSeeking = false
     var chaseTime: CMTime!
     var chaseRightTrim: CMTime?
-    
+    @IBOutlet weak var progressIndicator: VideoProgressLoadingIndicator!
     @IBOutlet weak var doneItemButton: UIBarButtonItem!
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
@@ -96,8 +96,10 @@ class VideoRangeViewController: UIViewController {
         
         PHImageManager.default().requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
             self.videoCache = VideoCache(asset: avAsset!)
+            self.videoCache.delegate = self
             self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration), completion: { (url) in
-                print("url: \(url)")
+                self.view.tintAdjustmentMode = .automatic
+                self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
             })
         }
@@ -320,7 +322,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
             currentItem.forwardPlaybackEndTime = chaseRightTrim
         }
         player.currentItem?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero) {_ in
-            print("seek completes")
             self.isSeeking = false
             if self.chaseTime != seekTimeInProgress {
                 self.trySeekToChaseTime()
@@ -352,5 +353,14 @@ extension VideoRangeViewController: VideoControllerDelegate {
             editVC.videoAsset = previewAsset
             editVC.initTrimPosition = trimPosition
         }
+    }
+}
+
+extension VideoRangeViewController: VideoCacheDelegate {
+    func onParsingProgressChanged(progress: CGFloat) {
+        progressIndicator.progress = progress
+        progressIndicator.isHidden = progress == 1
+        
+        view.tintAdjustmentMode = .dimmed
     }
 }
