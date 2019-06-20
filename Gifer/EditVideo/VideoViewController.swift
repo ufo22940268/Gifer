@@ -64,6 +64,9 @@ class VideoViewController: AVPlayerViewController {
         }
     }
     
+    var chaseTime: CMTime!
+    var isChasing: Bool = false
+    
     var currentItem: AVPlayerItem? {
         return self.player?.currentItem
     }
@@ -194,17 +197,29 @@ class VideoViewController: AVPlayerViewController {
         
     }
     
-    func seek(toProgress progress: CMTime, andPlay play: Bool = false) {
-        guard let player = self.player else {
+    func seek(toProgress progress: CMTime, andPlay play: Bool = true) {
+        guard let player = self.player, currentItem?.status == .readyToPlay else {
             return
         }
+        
+        if play {
+            currentItem?.cancelPendingSeeks()
+            isChasing = false
+        }
 
-        let tolerance = CMTime.zero
-        showLoading(true)
-        player.seek(to: progress, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: {success in
-            self.showLoading(false)
+        guard !isChasing else { return }
+        chaseTime = progress
+        let chaseTimeInProgress = chaseTime!
+        isChasing = true
+        player.seek(to: chaseTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: {success in
+            self.isChasing = false
+            if let chaseTime = self.chaseTime, chaseTime != chaseTimeInProgress {
+                self.seek(toProgress: chaseTime, andPlay: false)
+            }
+            
             if play {
                 player.play()
+                self.updateEndtime()
             }
         })
     }
@@ -217,19 +232,26 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 
 extension VideoViewController {
     
-    func updateTrim(position: VideoTrimPosition, state: VideoTrimState, sliderPosition: CMTime) {
+    func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side) {
         guard let player = player, let _ = player.currentItem else { return }
         
         trimPosition = position
         
-        switch state {
-        case .finished(let _):
-            seek(toProgress: sliderPosition, andPlay: true)
-        case .started:
-            pause()
-        default:
-            break
+        var toProgress: CMTime!
+        if side == .left {
+            toProgress = position.leftTrim
+        } else {
+            toProgress = position.rightTrim
         }
-        updateEndtime()
+        if case .finished(_) = state {
+            seek(toProgress: toProgress, andPlay: true)
+        } else {
+            if case .started = state {
+                currentItem?.cancelPendingSeeks()
+                pause()
+            }
+            
+            seek(toProgress: toProgress, andPlay: false)
+        }
     }
 }

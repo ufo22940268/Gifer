@@ -618,17 +618,32 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
-        print()
     }
     
     func onTrimChangedByScrollInGallery(trimPosition: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        videoVC.updateTrim(position: trimPosition, state: state, sliderPosition: videoController.currentTimeOnSlider)
+        updateTrim(position: trimPosition, state: state, side: videoVC.playDirection == .forward ? .left : .right)
     }
 
     //Changed by trimer dragged
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
-        let position = trimPosition
-        videoVC.updateTrim(position: position, state: state, sliderPosition: videoController.currentTimeOnSlider)
+        updateTrim(position: trimPosition, state: state, side: side)
+    }
+    
+    private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+        var fixedSide: TrimController.Side!
+        if side == nil {
+            fixedSide = videoVC.playDirection == .forward ? .left : .right
+        } else {
+            fixedSide = side
+        }
+        
+        switch state {
+        case .finished(_), .started, .initial:
+            videoController.stickTo(side: nil)
+        default:
+            videoController.stickTo(side: fixedSide)
+        }
+        videoVC.updateTrim(position: position, state: state, side: fixedSide)
         setSubTitle(duration: videoController.galleryDuration)
     }
     
