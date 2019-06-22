@@ -11,7 +11,7 @@ import UIKit
 class VideoProgressCircle: UIView {
     
     let circleWidth = CGFloat(3)
-    var progress: CGFloat = 0.2 {
+    var progress: CGFloat = 0.1 {
         didSet {
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.duration = 0.15
@@ -56,7 +56,7 @@ class VideoProgressCircle: UIView {
         progressLayer.strokeEnd = progress
         let radius: CGFloat = (bounds.width - circleWidth)/2
         progressLayer.lineWidth = radius
-progressLayer.path = createProgressPath()
+        progressLayer.path = createProgressPath()
     }
     
     override func tintColorDidChange() {

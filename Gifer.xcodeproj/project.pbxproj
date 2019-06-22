@@ -56,6 +56,7 @@
 		42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB32E2259AB99000152E7 /* StickerOverlay.swift */; };
 		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
+		42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */; };
 		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
 		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
@@ -158,6 +159,7 @@
 		42CEB32E2259AB99000152E7 /* StickerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerOverlay.swift; sourceTree = "<group>"; };
 		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
+		42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
 		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */,
+				42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +315,7 @@
 		429CE3DF21C22F350004D3F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */,
 				429CE3E021C22F360004D3F2 /* MonkeyKing.framework */,
 			);
 			name = Frameworks;
@@ -535,6 +539,11 @@
 					42F2D56C219403B100113A10 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					42F2D580219403B300113A10 = {
 						CreatedOnToolsVersion = 10.1;
