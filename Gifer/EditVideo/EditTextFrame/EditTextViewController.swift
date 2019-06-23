@@ -49,6 +49,7 @@ class EditTextViewController: UIViewController {
         
     lazy var colorPickerView: EditTextColorPickerView = {
         let view = EditTextColorPickerView().useAutoLayout()
+        view.customDelegate = self
         return view
     }()
     
@@ -140,5 +141,11 @@ extension EditTextViewController: EditTextPreviewerDelegate {
     
     func onTextChanged(newText: String) {
         updateDoneButton(previewText: newText)
+    }
+}
+
+extension EditTextViewController: EditTextColorPickerDelegate {
+    func onColorSelected(_ color: UIColor) {
+        editField.update(color: color)
     }
 }

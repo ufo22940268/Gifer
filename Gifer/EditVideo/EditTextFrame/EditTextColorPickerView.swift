@@ -54,9 +54,23 @@ class EditTextColorPickerCell: UICollectionViewCell {
     }
 }
 
+protocol EditTextColorPickerDelegate: class {
+    func onColorSelected(_ color: UIColor)
+}
+
 class EditTextColorPickerView: UICollectionView {
 
     var allColors = Palette.allColors
+    
+    var textColor: UIColor! {
+        didSet {
+            if let textColor = textColor {
+                selectItem(at: IndexPath(row: allColors.firstIndex(of: textColor)!, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+            }
+        }
+    }
+    
+    weak var customDelegate: EditTextColorPickerDelegate?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -66,8 +80,13 @@ class EditTextColorPickerView: UICollectionView {
         layout.estimatedItemSize = CGSize(width: 40, height: 40)
         
         dataSource = self
+        delegate = self
         
         register(EditTextColorPickerCell.self, forCellWithReuseIdentifier: "cell")
+        
+        defer {
+            textColor = .white
+        }
     }
         
     
@@ -86,5 +105,12 @@ extension EditTextColorPickerView: UICollectionViewDataSource {
         let color = allColors[indexPath.row]
         cell.color = color
         return cell
+    }
+}
+
+extension  EditTextColorPickerView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let color = allColors[indexPath.row]
+        customDelegate?.onColorSelected(color)
     }
 }
