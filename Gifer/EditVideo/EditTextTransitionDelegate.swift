@@ -27,11 +27,14 @@ class EditTextTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let inputView = transitionContext.view(forKey: .to)!
+        let inputVC = transitionContext.viewController(forKey: .to) as! EditTextViewController
         transitionContext.containerView.addSubview(inputView)
         inputView.alpha = 0
-        
+        let editField = inputVC.editField
+        editField.transform = CGAffineTransform(translationX: 0, y: 40)
         UIView.transition(with: transitionContext.containerView, duration: transitionDuration(using: transitionContext), options: [], animations: {
             inputView.alpha = 1
+            editField.transform = .identity
         }, completion: { success in
             transitionContext.completeTransition(true)
         })

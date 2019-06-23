@@ -41,7 +41,7 @@ class EditTextViewController: UIViewController {
         return toolbar
     }()
     
-    lazy var previewer: EditTextPreviewer = {
+    lazy var editField: EditTextPreviewer = {
         let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
         previewer.delegate = self
         return previewer
@@ -86,28 +86,28 @@ class EditTextViewController: UIViewController {
             toolbar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             toolbar.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor)
             ])
-        contentView.addSubview(previewer)
+        contentView.addSubview(editField)
         NSLayoutConstraint.activate([
-            previewer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            previewer.topAnchor.constraint(equalTo: previewer.bottomAnchor, constant: 150)
+            editField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            editField.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 120)
             ])
         
-        updateDoneButton(previewText: previewer.text)
+        updateDoneButton(previewText: editField.text)
     }
 }
 
 extension EditTextViewController {
     
     @objc private func onCancel() {
-        previewer.textField.resignFirstResponder()
+        editField.textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     
     @objc private func onDone() {
         if let componentId = componentId {
-            delegate?.onUpdateEditText(info: previewer.textInfo, componentId: componentId)
+            delegate?.onUpdateEditText(info: editField.textInfo, componentId: componentId)
         } else {
-            delegate?.onAddEditText(info: previewer.textInfo)
+            delegate?.onAddEditText(info: editField.textInfo)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -115,14 +115,14 @@ extension EditTextViewController {
 
 extension EditTextViewController: FontsPanelDelegate {
     func onFontSelected(font: UIFont) {
-        previewer.update(font: font)
+        editField.update(font: font)
     }
 }
 
 
 extension EditTextViewController: PalettePanelDelegate {
     func onColorSelected(color: UIColor) {
-        previewer.update(color: color)
+        editField.update(color: color)
     }
 }
 
