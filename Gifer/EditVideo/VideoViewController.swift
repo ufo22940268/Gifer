@@ -251,6 +251,10 @@ extension VideoViewController {
                 pause()
             }
             
+            if case .initial = state {
+                updateEndtime()
+            }
+            
             seek(toProgress: toProgress, andPlay: false)
         }
     }

@@ -184,6 +184,7 @@ class EditViewController: UIViewController {
     var initTrimPosition: VideoTrimPosition?
     var isDebug: Bool!
     var cacheFilePath: URL!
+    var customTransitionDelegate = EditTextTransitionDelegate()
 
     var stickerOverlay: StickerOverlay {
         return cropContainer.stickerOverlay
@@ -772,7 +773,9 @@ extension EditViewController: ControlToolbarDelegate {
         let vc = EditTextViewController(textInfo: editText)
         vc.delegate = self
         vc.componentId = componentId
-        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = customTransitionDelegate
         present(vc, animated: true, completion: nil)
     }
     

@@ -301,6 +301,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
                 player.pause()
             }
             
+            if case .initial = trimState {
+                currentItem.forwardPlaybackEndTime = position.rightTrim
+            }
+            
             if let forceSeek = forceSeek, !isSeeking {
                 player.pause()
                 chaseTime = forceSeek

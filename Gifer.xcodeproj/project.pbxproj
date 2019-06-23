@@ -57,6 +57,7 @@
 		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
 		42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */; };
+		42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */; };
 		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
 		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
@@ -160,6 +161,7 @@
 		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
 		42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextTransitionDelegate.swift; sourceTree = "<group>"; };
 		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
 		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */,
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				42EEACE021995DEE009A3BB8 /* EditViewController.swift */,
+				42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */,
 				42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */,
 				42462B1F2202F70F0064FE56 /* VideoController */,
 				4284D44022768F5F00886513 /* ShareViewController.swift */,
@@ -697,6 +700,7 @@
 				42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */,
 				42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
+				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
 				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,
 				42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */,

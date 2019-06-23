@@ -19,13 +19,6 @@ typealias ComponentId = Int
 
 class EditTextViewController: UIViewController {
     
-    lazy var stackView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        return view
-    }()
-    
     lazy var doneButton: UIBarButtonItem = {
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
         return done
@@ -50,54 +43,23 @@ class EditTextViewController: UIViewController {
     
     lazy var previewer: EditTextPreviewer = {
         let previewer = EditTextPreviewer(textInfo: textInfo).useAutoLayout()
-        previewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPreviewTap(sender:))))
         previewer.delegate = self
         return previewer
     }()
     
-    lazy var bottomTools: EditTextBottomTools = {
-        let bottomTools = EditTextBottomTools().useAutoLayout()
-        return bottomTools
-    }()
     
     lazy var rootView: UIVisualEffectView = {
         let root = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).useAutoLayout()
         return root
     }()
     
-    lazy var fontsPanel: FontsPanel = {
-        let fontsPanel = FontsPanel().useAutoLayout()
-        fontsPanel.delegate = self
-        return fontsPanel
-    }()
-    
-    lazy var palettePanel: PalettePanel = {
-        let panel = PalettePanel().useAutoLayout()
-        panel.delegate = self
-        return panel
-    }()
-    
-    lazy var panelContainer: UIView = {
-        let panelContainer = UIView().useAutoLayout()
-        panelContainer.backgroundColor = .black
-        NSLayoutConstraint.activate([
-            panelContainer.heightAnchor.constraint(equalToConstant: keyboardHeight).with(identifier: "height")
-            ])
-        return panelContainer
-    }()
-    
-    var originViewHeight: CGFloat?
-    var keyboardHeight: CGFloat = 240 {
-        didSet {
-            let bottomSafeInset = self.view.safeAreaInsets.bottom
-            panelContainer.constraints.findById(id: "height").constant = keyboardHeight - bottomSafeInset
-        }
-    }
-    
     weak var delegate: EditTextViewControllerDelegate?
     
     var textInfo: EditTextInfo!
     var componentId: ComponentId?
+    var contentView: UIView {
+        return rootView.contentView
+    }
     
     init(textInfo: EditTextInfo) {
         super.init(nibName: nil, bundle: nil)
@@ -117,82 +79,22 @@ class EditTextViewController: UIViewController {
             rootView.topAnchor.constraint(equalTo: view.topAnchor),
             rootView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
-
-        rootView.contentView.addSubview(stackView)
+        
+        contentView.addSubview(toolbar)
         NSLayoutConstraint.activate([
-            rootView.contentView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: stackView.topAnchor),
-            rootView.contentView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
-            rootView.contentView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor)
+            toolbar.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            toolbar.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor)
             ])
-        
-        stackView.addArrangedSubview(toolbar)
-        stackView.addArrangedSubview(previewer)
-        stackView.addArrangedSubview(bottomTools)
-        stackView.addArrangedSubview(panelContainer)
-        
-        bottomTools.delegate = self
-        openTab(.keyboard)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        originViewHeight = self.view.frame.height
+        contentView.addSubview(previewer)
+        NSLayoutConstraint.activate([
+            previewer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            previewer.topAnchor.constraint(equalTo: previewer.bottomAnchor, constant: 150)
+            ])
         
         updateDoneButton(previewText: previewer.text)
     }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            keyboardHeight = keyboardSize.height
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-    }
-    
-    @objc func onPreviewTap(sender: UITapGestureRecognizer) {
-        if bottomTools.activatedItem != .keyboard {
-            bottomTools.active(item: .keyboard)
-        }
-    }
 }
-
-extension EditTextViewController {
-    private func openTab(_ item: EditTextBottomTools.Item) {
-        if item != .keyboard {
-            previewer.showPlaceholderIfNeeded()
-        } else {
-            previewer.hidePlaceholderIfNeeded()
-        }
-        
-        bottomTools.active(item: item)
-        panelContainer.subviews.forEach {$0.removeFromSuperview()}
-
-        var panel: UIView
-        switch item {
-        case .palette:
-            panel = palettePanel
-        case .keyboard:
-            showKeyboard()
-            return
-        }
-        
-        hideKeyboard()
-        panelContainer.addSubview(panel)
-        panel.useSameSizeAsParent()
-    }
-    
-    private func showKeyboard() {
-        previewer.textField.becomeFirstResponder()
-    }
-    
-    private func hideKeyboard() {
-        previewer.textField.resignFirstResponder()
-    }
-}
-
 
 extension EditTextViewController {
     
@@ -221,12 +123,6 @@ extension EditTextViewController: FontsPanelDelegate {
 extension EditTextViewController: PalettePanelDelegate {
     func onColorSelected(color: UIColor) {
         previewer.update(color: color)
-    }
-}
-
-extension EditTextViewController: EditTextBottomToolsDelegate {
-    func onItemSelected(item: EditTextBottomTools.Item) {
-        openTab(item)
     }
 }
 
