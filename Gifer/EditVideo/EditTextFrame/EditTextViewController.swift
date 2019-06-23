@@ -46,7 +46,11 @@ class EditTextViewController: UIViewController {
         previewer.delegate = self
         return previewer
     }()
-    
+        
+    lazy var colorPickerView: EditTextColorPickerView = {
+        let view = EditTextColorPickerView().useAutoLayout()
+        return view
+    }()
     
     lazy var rootView: UIVisualEffectView = {
         let root = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).useAutoLayout()
@@ -91,6 +95,9 @@ class EditTextViewController: UIViewController {
             editField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             editField.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 120)
             ])
+        
+        editField.textField.inputAccessoryView = colorPickerView
+        colorPickerView.frame.size.height = 50
         
         updateDoneButton(previewText: editField.text)
     }

@@ -58,6 +58,7 @@
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
 		42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */; };
 		42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */; };
+		42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E52022BF4BD900EDD3B7 /* EditTextColorPickerView.swift */; };
 		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
 		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
@@ -162,6 +163,7 @@
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
 		42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextTransitionDelegate.swift; sourceTree = "<group>"; };
+		42D4E52022BF4BD900EDD3B7 /* EditTextColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextColorPickerView.swift; sourceTree = "<group>"; };
 		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
 		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				42D7F28B224C690600E7E504 /* FontsPanel.swift */,
 				42D7F28F224CB0B800E7E504 /* PalettePanel.swift */,
 				42D7F2A32252284900E7E504 /* EditTextInfo.swift */,
+				42D4E52022BF4BD900EDD3B7 /* EditTextColorPickerView.swift */,
 			);
 			path = EditTextFrame;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				424596EE223F693B00FCE599 /* VideoCache.swift in Sources */,
 				42444A66226EEB28004F26A3 /* VideoControllerAttatchView.swift in Sources */,
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
+				42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */,
 				42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,
