@@ -35,6 +35,8 @@ class OptionMenu: UIView {
     init() {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor(named: "darkBackgroundColor")
+
         setupPlaySpeedView()
         setupCropMenuView()
         setupFiltersView()
@@ -48,7 +50,6 @@ class OptionMenu: UIView {
     
     func attach(menuType: ToolbarItem) {
         activeItem = menuType
-        
         subviews.forEach { (subview) in
             subview.removeFromSuperview()
         }
@@ -81,8 +82,9 @@ class OptionMenu: UIView {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: topAnchor, constant: 0.5),
+            contentView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)])
+        setNeedsDisplay()
     }
     
     func setupCropMenuView() {

@@ -29,6 +29,13 @@ class ControlToolbarItemView: UICollectionViewCell {
     var titleView: UILabel!
     
     let button: UIButton!
+    
+    override var isHighlighted: Bool {
+        didSet {
+            button.isHighlighted = isHighlighted
+            button.titleLabel?.isHighlighted = isHighlighted
+        }
+    }
 
     override init(frame: CGRect) {
         button = UIButton()
