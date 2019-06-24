@@ -82,9 +82,8 @@ class EditTextColorPickerView: UICollectionView {
         dataSource = self
         delegate = self
         
-        register(EditTextColorPickerCell.self, forCellWithReuseIdentifier: "cell")        
+        register(EditTextColorPickerCell.self, forCellWithReuseIdentifier: "cell")
     }
-        
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

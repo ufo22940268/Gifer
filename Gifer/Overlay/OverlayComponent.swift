@@ -221,9 +221,15 @@ class OverlayComponent: UIView {
     @objc func onTapToActive(sender: UITapGestureRecognizer) {
         UIDevice().taptic(level: 1)
         let originTransfrom = self.transform
-        self.transform = originTransfrom.concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5.0, options: .curveLinear, animations: {
-            self.transform = originTransfrom
+        
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+                self.transform = originTransfrom.concatenating(CGAffineTransform(scaleX: 0.9, y: 0.9))
+            })
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
+                self.transform = originTransfrom
+            })
         }, completion: nil)
         delegate?.onActive(component: self)
     }
