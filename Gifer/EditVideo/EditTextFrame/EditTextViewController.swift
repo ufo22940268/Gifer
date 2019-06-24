@@ -100,6 +100,8 @@ class EditTextViewController: UIViewController {
         editField.textField.inputAccessoryView = colorPickerView
         colorPickerView.frame.size.height = 50
         
+        colorPickerView.textColor = textInfo.textColor
+        
         updateDoneButton(previewText: editField.text)
     }
 }

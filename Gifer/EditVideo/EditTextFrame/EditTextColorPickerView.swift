@@ -82,11 +82,7 @@ class EditTextColorPickerView: UICollectionView {
         dataSource = self
         delegate = self
         
-        register(EditTextColorPickerCell.self, forCellWithReuseIdentifier: "cell")
-        
-        defer {
-            textColor = .white
-        }
+        register(EditTextColorPickerCell.self, forCellWithReuseIdentifier: "cell")        
     }
         
     
