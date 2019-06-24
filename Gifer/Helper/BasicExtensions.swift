@@ -30,6 +30,24 @@ extension UIView {
             ])
         return self
     }
+    
+    func drawTopSeparator(rect: CGRect) {
+        UIColor.separator.setStroke()
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0.5))
+        path.addLine(to: CGPoint(x: rect.maxX, y: 0.5))
+        path.lineWidth = 1
+        path.stroke()
+    }
+    
+    func drawBottomSeparator(rect: CGRect) {
+        UIColor.separator.setStroke()
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: rect.maxY - 0.5))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - 0.5))
+        path.lineWidth = 1
+        path.stroke()
+    }
 }
 
 extension UIDevice {
@@ -47,7 +65,7 @@ extension UIDevice {
             let tapticEngine = UIImpactFeedbackGenerator(style: style)
             tapticEngine.prepare()
             tapticEngine.impactOccurred()
-        }else{
+        } else {
             switch level {
             case 3:
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
@@ -63,4 +81,30 @@ extension UIDevice {
             }
         }
     }
+}
+
+extension UIColor {
+    static func fromHexString(hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+
+    static let separator = UIColor.fromHexString(hex: "2a2a2a")
 }

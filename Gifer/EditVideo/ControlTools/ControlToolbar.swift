@@ -38,6 +38,7 @@ class ControlToolbar: UICollectionView {
         
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
+    
 }
 
 extension ControlToolbar: UICollectionViewDataSource {

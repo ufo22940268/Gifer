@@ -39,6 +39,7 @@ class OptionMenu: UIView {
         setupCropMenuView()
         setupFiltersView()
         setupStickerView()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,7 +81,7 @@ class OptionMenu: UIView {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor, constant: 0.5),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)])
     }
     
@@ -102,5 +103,10 @@ class OptionMenu: UIView {
     func setupStickerView() {
         stickerMenuView = StickerMenuView()
         stickerMenuContainer = ControlToolbarConfirmPrompt(contentView: stickerMenuView, toolbarItem: .sticker)
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        drawTopSeparator(rect: rect)
     }
 }

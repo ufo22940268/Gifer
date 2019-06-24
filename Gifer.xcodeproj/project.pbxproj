@@ -59,6 +59,8 @@
 		42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */; };
 		42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */; };
 		42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E52022BF4BD900EDD3B7 /* EditTextColorPickerView.swift */; };
+		42D4E52322C058B000EDD3B7 /* BottomToolbarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E52222C058B000EDD3B7 /* BottomToolbarContainer.swift */; };
+		42D4E52522C0603B00EDD3B7 /* VideoControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D4E52422C0603B00EDD3B7 /* VideoControllerContainer.swift */; };
 		42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */; };
 		42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */; };
 		42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F283224B4CE400E7E504 /* BasicExtensions.swift */; };
@@ -164,6 +166,8 @@
 		42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextTransitionDelegate.swift; sourceTree = "<group>"; };
 		42D4E52022BF4BD900EDD3B7 /* EditTextColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextColorPickerView.swift; sourceTree = "<group>"; };
+		42D4E52222C058B000EDD3B7 /* BottomToolbarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomToolbarContainer.swift; sourceTree = "<group>"; };
+		42D4E52422C0603B00EDD3B7 /* VideoControllerContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerContainer.swift; sourceTree = "<group>"; };
 		42D7F27D224B1C1600E7E504 /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
 		42D7F280224B4B2800E7E504 /* EditTextPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextPreviewer.swift; sourceTree = "<group>"; };
 		42D7F283224B4CE400E7E504 /* BasicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExtensions.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 		4284D43A2275885E00886513 /* EditVideo */ = {
 			isa = PBXGroup;
 			children = (
+				42D4E52422C0603B00EDD3B7 /* VideoControllerContainer.swift */,
 				4260DA932226A72B000B16D4 /* OptionMenu */,
 				42D7F27F224B4B0A00E7E504 /* EditTextFrame */,
 				42EE13D721963FBB00724611 /* VideoViewController.swift */,
@@ -356,6 +361,7 @@
 				42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */,
 				4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */,
 				4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */,
+				42D4E52222C058B000EDD3B7 /* BottomToolbarContainer.swift */,
 			);
 			path = ControlTools;
 			sourceTree = "<group>";
@@ -699,10 +705,12 @@
 				42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */,
 				42E5C3552220B86100D18CA6 /* StickerView.swift in Sources */,
 				42F2D571219403B100113A10 /* AppDelegate.swift in Sources */,
+				42D4E52522C0603B00EDD3B7 /* VideoControllerContainer.swift in Sources */,
 				42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */,
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,
 				42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */,
 				42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */,
+				42D4E52322C058B000EDD3B7 /* BottomToolbarContainer.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
