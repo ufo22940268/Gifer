@@ -19,11 +19,15 @@ extension CMTime {
 }
 
 extension AVAsset {
-    func copyFirstImage() -> UIImage {
+    func copyFirstImage() -> UIImage? {
         let generator = AVAssetImageGenerator(asset: self)
         generator.appliesPreferredTrackTransform = true
         generator.maximumSize = UIScreen.main.bounds.size
-        return UIImage(cgImage: try! generator.copyCGImage(at: CMTime.zero, actualTime: nil))
+        if let image = try? generator.copyCGImage(at: CMTime.zero, actualTime: nil) {
+            return UIImage(cgImage: image)
+        } else {
+            return nil
+        }
     }
     
     func videoAssetComposition() -> AVMutableComposition {
@@ -129,7 +133,8 @@ class VideoRangeViewController: UIViewController {
     
     private func onPreviewLoaded(playerItem: AVPlayerItem) {
         self.previewController.player = AVPlayer(playerItem: playerItem)
-        self.previewImage = playerItem.asset.copyFirstImage()
+        guard let previewImage = playerItem.asset.copyFirstImage() else { return }
+        self.previewImage = previewImage
         self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
             self.setSubtitle(position: self.trimPosition)

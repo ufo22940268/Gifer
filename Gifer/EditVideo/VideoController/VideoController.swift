@@ -127,7 +127,7 @@ struct VideoControllerConstants {
     static var sliderWidth = CGFloat(8)
 }
 
-protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
+protocol VideoControllerDelegate: class, VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
 }
 
 enum VideoControllerScrollReason {
@@ -179,7 +179,7 @@ class VideoController: UIStackView {
         }
     }
     
-    var delegate: VideoControllerDelegate? {
+    weak var delegate: VideoControllerDelegate? {
         didSet {
             videoSlider.delegate = self.delegate
             videoTrim.trimDelegate = self.delegate
