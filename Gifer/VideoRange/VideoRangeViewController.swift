@@ -73,7 +73,7 @@ class VideoRangeViewController: UIViewController {
         return videoController.trimPosition
     }
     
-    var videoCache: VideoCache!
+    var videoCache: VideoCache?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,10 +105,10 @@ class VideoRangeViewController: UIViewController {
         }
         
         downloadTaskId = manager.requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
-            guard let avAsset = avAsset else { return }
+            guard let avAsset = avAsset, let videoCache = self.videoCache else { return }
             self.videoCache = VideoCache(asset: avAsset, cacheName: "range")
-            self.videoCache.delegate = self
-            self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
+            videoCache.delegate = self
+            videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
@@ -233,6 +233,8 @@ class VideoRangeViewController: UIViewController {
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
+        
+        videoCache = nil
     }
     
     func setupPreview() {
@@ -370,7 +372,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController, let cachedURL = videoCache.cachedURL {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController, let cachedURL = videoCache?.cachedURL {
             editVC.previewImage = previewImage
             editVC.videoCachedAsset = AVAsset(url: cachedURL)
             editVC.initTrimPosition = trimPosition

@@ -156,6 +156,8 @@ class EditViewController: UIViewController {
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
+    var downloadTaskId: PHImageRequestID?
+    
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
@@ -334,7 +336,7 @@ class EditViewController: UIViewController {
         }
     }
     
-    var videoCache: VideoCache!
+    var videoCache: VideoCache?
     
     private func getAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
         if let videoCachedAsset = videoCachedAsset {
@@ -345,7 +347,11 @@ class EditViewController: UIViewController {
             let options = PHVideoRequestOptions()
             options.isNetworkAccessAllowed = true
             options.deliveryMode = .fastFormat
-            PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
+            options.progressHandler = onDownloadVideoProgressChanged
+            if let downloadTaskId = downloadTaskId {
+                PHImageManager.default().cancelImageRequest(downloadTaskId)
+            }
+            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
                 completion(avAsset)
             }
         }
@@ -357,13 +363,14 @@ class EditViewController: UIViewController {
     
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
         getAVAsset { (avAsset) in
-            self.videoCache = VideoCache(asset: avAsset!, cacheName: "edit")
-            self.cacheFilePath = self.videoCache.tempFilePath
+            guard let avAsset = avAsset, let videoCache = self.videoCache else { return }
+            self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
+            self.cacheFilePath = videoCache.tempFilePath
             if self.isJumpFromRange {
                 self.videoProgressLoadingIndicator.isHidden = true
-                self.videoCache.delegate = self
+                videoCache.delegate = self
             }
-            self.videoCache.parse(trimPosition: self.initTrimPosition, completion: { (url) in
+            videoCache.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                 completion(url)
             })
         }
@@ -560,6 +567,12 @@ class EditViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         videoController.dismissed = true
         videoVC.dismissed = true
+        
+        if let downloadTaskId = downloadTaskId {
+            PHImageManager.default().cancelImageRequest(downloadTaskId)
+            self.downloadTaskId = nil
+        }
+        videoCache = nil
     }
 }
 
@@ -811,7 +824,11 @@ extension EditViewController: ControlToolbarDelegate {
 
 extension EditViewController: VideoCacheDelegate {    
     func onParsingProgressChanged(progress: CGFloat) {
-        videoProgressLoadingIndicator.progress = progress
+        videoProgressLoadingIndicator.progress = progress*0.3 + 0.7
+    }
+    
+    func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
+        videoProgressLoadingIndicator.progress = CGFloat(progress)*0.7
     }
 }
 
