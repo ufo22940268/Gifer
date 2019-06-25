@@ -57,6 +57,7 @@ class EditTextPreviewer: UIView {
             textField.centerXAnchor.constraint(equalTo: centerXAnchor),
             textField.centerYAnchor.constraint(equalTo: centerYAnchor),
             textField.widthAnchor.constraint(equalTo: widthAnchor),
+            textField.heightAnchor.constraint(equalTo: heightAnchor)
             ])
         
         textField.becomeFirstResponder()

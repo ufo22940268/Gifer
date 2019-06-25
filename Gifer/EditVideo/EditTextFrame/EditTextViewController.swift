@@ -94,7 +94,8 @@ class EditTextViewController: UIViewController {
         contentView.addSubview(editField)
         NSLayoutConstraint.activate([
             editField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            editField.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 120)
+            editField.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 120),
+            editField.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -32)
             ])
         
         editField.textField.inputAccessoryView = colorPickerView
