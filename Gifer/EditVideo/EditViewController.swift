@@ -363,14 +363,14 @@ class EditViewController: UIViewController {
     
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
         getAVAsset { (avAsset) in
-            guard let avAsset = avAsset, let videoCache = self.videoCache else { return }
+            guard let avAsset = avAsset else { return }
             self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
-            self.cacheFilePath = videoCache.tempFilePath
+            self.cacheFilePath = self.videoCache!.tempFilePath
             if self.isJumpFromRange {
                 self.videoProgressLoadingIndicator.isHidden = true
-                videoCache.delegate = self
+                self.videoCache!.delegate = self
             }
-            videoCache.parse(trimPosition: self.initTrimPosition, completion: { (url) in
+            self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                 completion(url)
             })
         }

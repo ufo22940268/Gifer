@@ -105,10 +105,10 @@ class VideoRangeViewController: UIViewController {
         }
         
         downloadTaskId = manager.requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
-            guard let avAsset = avAsset, let videoCache = self.videoCache else { return }
+            guard let avAsset = avAsset else { return }
             self.videoCache = VideoCache(asset: avAsset, cacheName: "range")
-            videoCache.delegate = self
-            videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
+            self.videoCache?.delegate = self
+            self.videoCache?.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
@@ -235,6 +235,8 @@ class VideoRangeViewController: UIViewController {
         }
         
         videoCache = nil
+        
+        print("viewWillDisappear")
     }
     
     func setupPreview() {
