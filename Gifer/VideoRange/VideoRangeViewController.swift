@@ -67,6 +67,8 @@ class VideoRangeViewController: UIViewController {
         return indicator
     }()
     
+    var downloadTaskId: PHImageRequestID?
+    
     var trimPosition: VideoTrimPosition {
         return videoController.trimPosition
     }
@@ -90,14 +92,23 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func cacheAsset() {
+        let manager = PHImageManager.default()
+        
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
+        options.progressHandler = self.onDownloadVideoProgressChanged
         
-        PHImageManager.default().requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
-            self.videoCache = VideoCache(asset: avAsset!, cacheName: "range")
+        if let downloadTaskId = downloadTaskId {
+            manager.cancelImageRequest(downloadTaskId)
+            self.downloadTaskId = nil
+        }
+        
+        downloadTaskId = manager.requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
+            guard let avAsset = avAsset else { return }
+            self.videoCache = VideoCache(asset: avAsset, cacheName: "range")
             self.videoCache.delegate = self
-            self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration), completion: { (url) in
+            self.videoCache.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
@@ -150,6 +161,7 @@ class VideoRangeViewController: UIViewController {
         
         loopObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using:observerPlayToTheEnd)
     }
+    
     
     private func observerPlayToTheEnd(notification: Notification) {
         seekToAndPlay(position: trimPosition.leftTrim)
@@ -216,6 +228,10 @@ class VideoRangeViewController: UIViewController {
         if let player = player {
             player.pause()
             unregisterObservers()
+        }
+        
+        if let downloadTaskId = downloadTaskId {
+            PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
     }
     
@@ -364,8 +380,14 @@ extension VideoRangeViewController: VideoControllerDelegate {
 
 extension VideoRangeViewController: VideoCacheDelegate {
     func onParsingProgressChanged(progress: CGFloat) {
-        progressIndicator.progress = progress
+        progressIndicator.progress = CGFloat(progress/0.3 + 0.7)
         progressIndicator.isHidden = progress == 1
+        view.tintAdjustmentMode = .dimmed
+    }
+    
+    func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
+        progressIndicator.progress = CGFloat(progress*0.7)
+        progressIndicator.isHidden = false
         view.tintAdjustmentMode = .dimmed
     }
 }

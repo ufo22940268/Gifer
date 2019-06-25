@@ -103,7 +103,7 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
     
     var progress: CGFloat = 0 {
         didSet {
-            self.circleView.progress = self.progress.clamped(to: 0...0.95)
+            self.circleView.progress = self.progress.clamped(to: 0.1...0.95)
         }
     }
     
