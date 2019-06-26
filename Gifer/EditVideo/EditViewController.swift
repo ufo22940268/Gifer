@@ -221,7 +221,7 @@ class EditViewController: UIViewController {
         isLoadingAsset = true
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
-
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         isDebug = videoAsset == nil
         if isDebug {
             videoAsset = getTestVideo()
@@ -539,7 +539,7 @@ class EditViewController: UIViewController {
         cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
     }
     
-    @IBAction func onCancel(_ sender: Any) {
+    @IBAction func onDimiss(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
             navigationController?.popViewController(animated: true)
         } else {
@@ -549,8 +549,8 @@ class EditViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(onResume), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -562,9 +562,9 @@ class EditViewController: UIViewController {
     @objc func onStop() {
         videoVC.stop()
     }
-        
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         videoController.dismissed = true
         videoVC.dismissed = true

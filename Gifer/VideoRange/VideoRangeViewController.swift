@@ -67,7 +67,7 @@ class VideoRangeViewController: UIViewController {
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.show()
+        indicator.isHidden = true
         return indicator
     }()
     
@@ -87,6 +87,7 @@ class VideoRangeViewController: UIViewController {
         DarkMode.enable(in: self)
         setupPreview()
         setupVideoController()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         if isDebug {
             previewAsset = getTestVideo()
@@ -116,6 +117,7 @@ class VideoRangeViewController: UIViewController {
             self.videoCache?.delegate = self
             self.videoCache?.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
+                self.initialLoadingDialog?.dismiss()
                 self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
             })
@@ -175,7 +177,6 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func seekToAndPlay(position: CMTime) {
-        loadingIndicator.show()
         player.seek(to: position) { (success) in
             self.player.play()
         }
@@ -190,7 +191,7 @@ class VideoRangeViewController: UIViewController {
             showLoading = false
         }
         
-        if showLoading {
+        if showLoading && currentItem.currentTime() != .zero {
             loadingIndicator.show()
         } else {
             loadingIndicator.dismiss()
@@ -392,9 +393,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
 extension VideoRangeViewController: VideoCacheDelegate {
     func onParsingProgressChanged(progress: CGFloat) {
         view.tintAdjustmentMode = .dimmed
-        if progress == 1 {
-            initialLoadingDialog?.dismiss()
-        }
     }
     
     func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
