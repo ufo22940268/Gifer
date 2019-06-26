@@ -539,7 +539,7 @@ class EditViewController: UIViewController {
         cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
     }
     
-    @IBAction func onDimiss(_ sender: Any) {
+    @IBAction func onDismiss(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
             navigationController?.popViewController(animated: true)
         } else {
