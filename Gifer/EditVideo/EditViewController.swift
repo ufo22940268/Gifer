@@ -90,7 +90,7 @@ enum PlayDirection {
     var viewInfo: (UIImage, String) {
         switch self {
         case .forward:
-            return ( #imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
+            return (#imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
         case .backward:
             return (#imageLiteral(resourceName: "arrow-back-outline.png"), "反向")
         }
@@ -387,6 +387,9 @@ class EditViewController: UIViewController {
         let videoTrack = composition.tracks(withMediaType: .video).last!
         videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
         try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
+        ImagePlayerItem(avAsset: composition).extract {
+            
+        }
         let playerItem = AVPlayerItem(asset: composition)
         DispatchQueue.main.async { [weak self] in
             guard let this = self else { return }

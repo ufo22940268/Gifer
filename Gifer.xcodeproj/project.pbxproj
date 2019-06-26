@@ -15,6 +15,7 @@
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
 		423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */; };
+		423C282E22C34E0A00D58376 /* ImagePlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282D22C34E0A00D58376 /* ImagePlayerItem.swift */; };
 		42444A62226DBD61004F26A3 /* FilterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A61226DBD60004F26A3 /* FilterSlider.swift */; };
 		42444A64226EDBFC004F26A3 /* VideoControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */; };
 		42444A66226EEB28004F26A3 /* VideoControllerAttatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */; };
@@ -123,6 +124,7 @@
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
 		423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressCircle.swift; sourceTree = "<group>"; };
+		423C282D22C34E0A00D58376 /* ImagePlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerItem.swift; sourceTree = "<group>"; };
 		42444A61226DBD60004F26A3 /* FilterSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSlider.swift; sourceTree = "<group>"; };
 		42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerTrim.swift; sourceTree = "<group>"; };
 		42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerAttatchView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				424F9927228ABA5100952440 /* ConfigViewController.swift */,
 				42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */,
 				424F9929228ABAA800952440 /* LoopConfigViewController.swift */,
+				423C282D22C34E0A00D58376 /* ImagePlayerItem.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
+				423C282E22C34E0A00D58376 /* ImagePlayerItem.swift in Sources */,
 				42FF4D30226467AF00EEF49C /* GifConfigCalibrator.swift in Sources */,
 				42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */,
 				42444A64226EDBFC004F26A3 /* VideoControllerTrim.swift in Sources */,
