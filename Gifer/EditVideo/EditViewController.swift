@@ -161,8 +161,8 @@ class EditViewController: UIViewController {
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!    
-    @IBOutlet weak var videoProgressLoadingIndicator: VideoProgressLoadingIndicator!
+    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
+    var initialLoadingDialog: LoadingDialog?
     var videoAsset: PHAsset!
     var videoCachedAsset: AVAsset?
     var loadingDialog: LoadingDialog?
@@ -367,8 +367,9 @@ class EditViewController: UIViewController {
             self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
             self.cacheFilePath = self.videoCache!.tempFilePath
             if self.isJumpFromRange {
-                self.videoProgressLoadingIndicator.isHidden = true
                 self.videoCache!.delegate = self
+            } else {
+                self.initialLoadingDialog = LoadingDialog(label: "正在加载视频")
             }
             self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                 completion(url)
@@ -607,7 +608,8 @@ extension EditViewController: VideoViewControllerDelegate {
 //        mock()
 //
         isLoadingAsset = false
-        self.videoProgressLoadingIndicator.isHidden = true
+        loadingDialog?.dismiss()
+        loadingDialog = nil
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
         cropContainer.onVideoReady(trimPosition: trimPosition)
@@ -824,11 +826,9 @@ extension EditViewController: ControlToolbarDelegate {
 
 extension EditViewController: VideoCacheDelegate {    
     func onParsingProgressChanged(progress: CGFloat) {
-        videoProgressLoadingIndicator.progress = progress*0.3 + 0.7
     }
     
     func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
-        videoProgressLoadingIndicator.progress = CGFloat(progress)*0.7
     }
 }
 
