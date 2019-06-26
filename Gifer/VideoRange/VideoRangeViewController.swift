@@ -62,7 +62,7 @@ class VideoRangeViewController: UIViewController {
     var isSeeking = false
     var chaseTime: CMTime!
     var chaseRightTrim: CMTime?
-    @IBOutlet weak var progressIndicator: VideoProgressLoadingIndicator!
+    var initialLoadingDialog: LoadingDialog?
     @IBOutlet weak var doneItemButton: UIBarButtonItem!
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
@@ -96,8 +96,10 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func cacheAsset() {
-        let manager = PHImageManager.default()
+        initialLoadingDialog = LoadingDialog(label: "正在加载视频")
+        initialLoadingDialog?.show(by: self)
         
+        let manager = PHImageManager.default()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
@@ -389,14 +391,13 @@ extension VideoRangeViewController: VideoControllerDelegate {
 
 extension VideoRangeViewController: VideoCacheDelegate {
     func onParsingProgressChanged(progress: CGFloat) {
-        progressIndicator.progress = CGFloat(progress/0.3 + 0.7)
-        progressIndicator.isHidden = progress == 1
         view.tintAdjustmentMode = .dimmed
+        if progress == 1 {
+            initialLoadingDialog?.dismiss()
+        }
     }
     
     func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
-        progressIndicator.progress = CGFloat(progress*0.7)
-        progressIndicator.isHidden = false
         view.tintAdjustmentMode = .dimmed
     }
 }

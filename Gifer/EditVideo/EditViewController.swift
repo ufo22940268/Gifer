@@ -69,7 +69,7 @@ enum ToolbarItem {
         case .filters:
             return (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")
         case .font:
-            return (#imageLiteral(resourceName: "pen-fancy-solid.png"), "字体")
+            return (#imageLiteral(resourceName: "pen-fancy-solid.png"), "文本")
         case .sticker:
             return (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")
         case .direction(let playDirection):

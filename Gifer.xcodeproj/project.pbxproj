@@ -14,6 +14,7 @@
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
+		423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */; };
 		42444A62226DBD61004F26A3 /* FilterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A61226DBD60004F26A3 /* FilterSlider.swift */; };
 		42444A64226EDBFC004F26A3 /* VideoControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */; };
 		42444A66226EEB28004F26A3 /* VideoControllerAttatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */; };
@@ -121,6 +122,7 @@
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
+		423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressCircle.swift; sourceTree = "<group>"; };
 		42444A61226DBD60004F26A3 /* FilterSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSlider.swift; sourceTree = "<group>"; };
 		42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerTrim.swift; sourceTree = "<group>"; };
 		42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerAttatchView.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				424596F12241D39F00FCE599 /* VideoLoadingIndicator.swift */,
 				426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */,
 				42E86E6421CDC996004BB0BC /* LoadingViewController.xib */,
+				423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				42444A66226EEB28004F26A3 /* VideoControllerAttatchView.swift in Sources */,
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */,
+				423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */,
 				42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,
