@@ -191,6 +191,23 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 extension VideoViewController {
     
     func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side) {
+        var toProgress: CMTime!
+        if side == .left {
+            toProgress = position.leftTrim
+        } else {
+            toProgress = position.rightTrim
+        }
+        imagePlayerView.seek(to: toProgress)
+        
+        switch state {
+        case .started:
+            imagePlayerView.paused = true
+        case .finished(_):
+            imagePlayerView.paused = false
+        default:
+            break
+        }
+
 //        guard let player = player, let _ = player.currentItem else { return }
 //
 //        trimPosition = position

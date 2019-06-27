@@ -87,14 +87,11 @@ class TrimController: UIControl {
         
         func applyTheme(to view: TrimController) {
             var backgroundColor: UIColor
-            var arrowColor: UIColor
             switch self {
             case .initial:
                 backgroundColor = UIColor.black
-                arrowColor = UIColor.white
             case .highlight:
                 backgroundColor = view.tintColor
-                arrowColor = UIColor.black
             }
             
             view.topLine.backgroundColor = backgroundColor

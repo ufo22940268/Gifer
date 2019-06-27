@@ -17,7 +17,13 @@ class ImagePlayerView: UIView {
     }()
     
     var playerItem: ImagePlayerItem!
-    var currentTime: CMTime = .zero
+    var currentTime: CMTime = .zero {
+        didSet {
+            let index = playerItem.nearestIndex(time: currentTime)
+            frameView.image = playerItem.frames[index].uiImage
+        }
+    }
+    
     var interval: TimeInterval {
         let frameCount = playerItem.frames.count
         let duration = playerItem.duration
@@ -25,7 +31,8 @@ class ImagePlayerView: UIView {
     }
     
     var timer: Timer!
-
+    var paused = true
+    
     override func awakeFromNib() {
         backgroundColor = .yellow
         addSubview(frameView)
@@ -37,29 +44,25 @@ class ImagePlayerView: UIView {
         currentTime = playerItem.frames.first!.time
     }
     
-    
-    var startTime: Date!
     func play() {
-         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
-            if self.currentTime == self.playerItem!.frames.first!.time {
-                self.startTime = Date()
-            } else if self.currentTime == self.playerItem!.frames.last!.time {
-                print("\(self.startTime.timeIntervalSinceNow)")
-            }
-            
-            let image = self.step(by: 1)
-            self.frameView.image = image
+        paused = false
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
+            guard !self.paused else { return }
+            self.step(by: 1)
         }
         
         timer.tolerance = 0
     }
     
-    func step(by delta: Int) -> UIImage {
+    func step(by delta: Int) {
         guard let playerItem = playerItem else { fatalError() }
         let index = playerItem.nearestIndex(time: currentTime)
         let frames = playerItem.frames
         let frame = frames[(index + delta)%frames.count]
         currentTime = frame.time
-        return UIImage(cgImage: frame.image)
+    }
+    
+    func seek(to progress: CMTime) {
+        currentTime = playerItem.nearestFrame(time: progress).time
     }
 }

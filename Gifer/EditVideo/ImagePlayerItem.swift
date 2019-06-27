@@ -11,7 +11,7 @@ import AVKit
 
 class ImagePlayerItem {
     var frames: [ImagePlayerFrame]
-    var duration: CMTime    
+    var duration: CMTime
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
         self.frames = frames
@@ -20,5 +20,9 @@ class ImagePlayerItem {
     
     func nearestIndex(time: CMTime) -> Int {
         return (self.frames.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
+    }
+    
+    func nearestFrame(time: CMTime) -> ImagePlayerFrame {
+        return frames[nearestIndex(time: time)]
     }
 }
