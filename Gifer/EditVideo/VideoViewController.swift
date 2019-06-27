@@ -34,10 +34,10 @@ protocol VideoViewControllerDelegate: class {
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus)
     
-    func onVideoReady(controller: AVPlayerViewController)
+    func onVideoReady()
 }
 
-class VideoViewController: AVPlayerViewController {
+class VideoViewController: UIViewController {
     
     var previewView: VideoPreviewView!
     var trimPosition: VideoTrimPosition!
@@ -46,62 +46,52 @@ class VideoViewController: AVPlayerViewController {
     var videoInited: Bool = false
     var previewImage: UIImage?
     var filter: YPFilter?
+    
+    @IBOutlet var imagePlayerView: ImagePlayerView!
+    var player: AVPlayer!
+    var videoBounds: CGRect {
+        return CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+    }
+    
     var playDirection: PlayDirection = .forward {
         didSet {
-            updateEndtime()
         }
     }
     
-    private func updateEndtime() {
-        guard let currentItem = player?.currentItem else { return }
-        switch playDirection {
-        case .forward:
-            currentItem.forwardPlaybackEndTime = trimPosition.rightTrim
-            currentItem.reversePlaybackEndTime = .invalid
-        case .backward:
-            currentItem.forwardPlaybackEndTime = .invalid
-            currentItem.reversePlaybackEndTime = trimPosition.leftTrim
-        }
-    }
-    
-    var chaseTime: CMTime!
-    var isChasing: Bool = false
-    
-    var currentItem: AVPlayerItem? {
-        return self.player?.currentItem
-    }
-    
-    func load(playerItem: AVPlayerItem) -> Void {
-        guard !dismissed else {
-            return
-        }
-        self.player = AVPlayer(playerItem: playerItem)
-        trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
-        self.player?.isMuted = true
-        videoGravity = .resize
+    func load(playerItem: ImagePlayerItem) -> Void {
         
-        player!.currentItem!.videoComposition = buildVideoComposition(filter: AllFilters.first!)
-
-        addObservers()
+        trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
+//        guard !dismissed else {
+//            return
+//        }
+//        self.player = AVPlayer(playerItem: playerItem)
+//        trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
+//        self.player?.isMuted = true
+//        videoGravity = .resize
+//
+//        player!.currentItem!.videoComposition = buildVideoComposition(filter: AllFilters.first!)
+//
+//        addObservers()
+//
     }
     
     func setFilter(_ filter: YPFilter) {
-        self.filter = filter
-        self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
+//        self.filter = filter
+//        self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
     }
     
-    func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
-        guard let asset = player?.currentItem?.asset else {
-            return nil
-        }
-
-        let composition = AVMutableVideoComposition(asset: asset) { (request) in
-            var image = request.sourceImage
-            image = filter.applyFilter(image: image)
-            request.finish(with: image, context: nil)
-        }
-        return composition
-    }
+//    func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
+//        guard let asset = player?.currentItem?.asset else {
+//            return nil
+//        }
+//
+//        let composition = AVMutableVideoComposition(asset: asset) { (request) in
+//            var image = request.sourceImage
+//            image = filter.applyFilter(image: image)
+//            request.finish(with: image, context: nil)
+//        }
+//        return composition
+//    }
     
     func setRate(_ rate: Float) {
         self.player?.rate = rate
@@ -109,119 +99,88 @@ class VideoViewController: AVPlayerViewController {
     }
     
     func play() {
-        self.player?.rate = (playDirection == .forward ? 1 : -1)*currentRate
+//        self.player?.rate = (playDirection == .forward ? 1 : -1)*currentRate
     }
     
     func pause() {
-        self.player?.pause()
+//        self.player?.pause()
     }
     
     func stop() {
-        self.player?.pause()
+//        self.player?.pause()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        removeObservers()
+//        removeObservers()
     }
     
-    var timeObserverToken: Any?
     weak var videoViewControllerDelegate: VideoViewControllerDelegate?
     weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
-        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
-                                                           queue: .main) {
-                                                            [weak self] time in                                                                                             self?.observePlaybackStatus()
-        }
-
-        loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
-            guard let player = self.player, let currentItem = player.currentItem else { return }
-            let meetEnds: Bool
-            switch self.playDirection {
-            case .forward:
-                meetEnds = currentItem.currentTime() == currentItem.forwardPlaybackEndTime
-            case .backward:
-                meetEnds = currentItem.currentTime() == currentItem.reversePlaybackEndTime
-            }
-            if meetEnds {
-                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim, toleranceBefore: .zero, toleranceAfter: .zero)
-                self.play()
-            }
-        }
-        
-        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
+//        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
+//                                                           queue: .main) {
+//                                                            [weak self] time in                                                                                             self?.observePlaybackStatus()
+//        }
+//
+//        loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
+//            guard let player = self.player, let currentItem = player.currentItem else { return }
+//            let meetEnds: Bool
+//            switch self.playDirection {
+//            case .forward:
+//                meetEnds = currentItem.currentTime() == currentItem.forwardPlaybackEndTime
+//            case .backward:
+//                meetEnds = currentItem.currentTime() == currentItem.reversePlaybackEndTime
+//            }
+//            if meetEnds {
+//                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim, toleranceBefore: .zero, toleranceAfter: .zero)
+//                self.play()
+//            }
+//        }
+//
+//        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let currentItem = player?.currentItem else { return }
-        if keyPath == #keyPath(AVPlayerItem.status) {
-            if videoInited == false && currentItem.status == .readyToPlay {
-                setupWhenVideoIsReadyToPlay()
-                videoInited = true
-            }
-        }
-    }
     
-    func observePlaybackStatus() {
-        guard let currentItem = self.player?.currentItem else { return }
-        let currentTime = currentItem.currentTime()
-        showLoading(currentItem.isPlaybackBufferEmpty)
-        if self.player!.timeControlStatus == .playing {
-            if currentItem.isPlaybackLikelyToKeepUp {
-                previewView.isHidden = true
-                self.videoViewControllerDelegate?.onProgressChanged(progress:
-                    currentTime)
-            }
-        }
-    }
-    
-    func setupWhenVideoIsReadyToPlay() {
-        self.videoViewControllerDelegate?.onVideoReady(controller: self)
-    }
-    
-    func showLoading(_ show: Bool) {
-        self.videoViewControllerDelegate?.onBuffering(show)
-    }
-    
-    func removeObservers() {
-        if let timeObserverToken = timeObserverToken {
-            player?.removeTimeObserver(timeObserverToken)
-            self.timeObserverToken = nil
-        }
-        
-        if let observer = loopObserver {
-            NotificationCenter.default.removeObserver(observer)
-            self.player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: nil)
-        }
-        
-    }
+//    func observePlaybackStatus() {
+//        guard let currentItem = self.player?.currentItem else { return }
+//        let currentTime = currentItem.currentTime()
+//        showLoading(currentItem.isPlaybackBufferEmpty)
+//        if self.player!.timeControlStatus == .playing {
+//            if currentItem.isPlaybackLikelyToKeepUp {
+//                previewView.isHidden = true
+//                self.videoViewControllerDelegate?.onProgressChanged(progress:
+//                    currentTime)
+//            }
+//        }
+//    }
     
     func seek(toProgress progress: CMTime, andPlay play: Bool = true) {
-        guard let player = self.player, currentItem?.status == .readyToPlay else {
-            return
-        }
-        
-        if play {
-            currentItem?.cancelPendingSeeks()
-            isChasing = false
-        }
-
-        guard !isChasing else { return }
-        chaseTime = progress
-        let chaseTimeInProgress = chaseTime!
-        isChasing = true
-        player.seek(to: chaseTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: {success in
-            self.isChasing = false
-            if let chaseTime = self.chaseTime, chaseTime != chaseTimeInProgress {
-                self.seek(toProgress: chaseTime, andPlay: false)
-            }
-            
-            if play {
-                player.play()
-                self.updateEndtime()
-            }
-        })
+//        guard let player = self.player, currentItem?.status == .readyToPlay else {
+//            return
+//        }
+//
+//        if play {
+//            currentItem?.cancelPendingSeeks()
+//            isChasing = false
+//        }
+//
+//        guard !isChasing else { return }
+//        chaseTime = progress
+//        let chaseTimeInProgress = chaseTime!
+//        isChasing = true
+//        player.seek(to: chaseTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: {success in
+//            self.isChasing = false
+//            if let chaseTime = self.chaseTime, chaseTime != chaseTimeInProgress {
+//                self.seek(toProgress: chaseTime, andPlay: false)
+//            }
+//
+//            if play {
+//                player.play()
+//                self.updateEndtime()
+//            }
+//        })
     }
 
 }
@@ -233,29 +192,29 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
 extension VideoViewController {
     
     func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side) {
-        guard let player = player, let _ = player.currentItem else { return }
-        
-        trimPosition = position
-        
-        var toProgress: CMTime!
-        if side == .left {
-            toProgress = position.leftTrim
-        } else {
-            toProgress = position.rightTrim
-        }
-        if case .finished(_) = state {
-            seek(toProgress: toProgress, andPlay: true)
-        } else {
-            if case .started = state {
-                currentItem?.cancelPendingSeeks()
-                pause()
-            }
-            
-            if case .initial = state {
-                updateEndtime()
-            }
-            
-            seek(toProgress: toProgress, andPlay: false)
-        }
+//        guard let player = player, let _ = player.currentItem else { return }
+//
+//        trimPosition = position
+//
+//        var toProgress: CMTime!
+//        if side == .left {
+//            toProgress = position.leftTrim
+//        } else {
+//            toProgress = position.rightTrim
+//        }
+//        if case .finished(_) = state {
+//            seek(toProgress: toProgress, andPlay: true)
+//        } else {
+//            if case .started = state {
+//                currentItem?.cancelPendingSeeks()
+//                pause()
+//            }
+//
+//            if case .initial = state {
+//                updateEndtime()
+//            }
+//
+//            seek(toProgress: toProgress, andPlay: false)
+//        }
     }
 }

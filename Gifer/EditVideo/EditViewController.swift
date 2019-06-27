@@ -387,33 +387,30 @@ class EditViewController: UIViewController {
         let videoTrack = composition.tracks(withMediaType: .video).last!
         videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
         try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
-        ImagePlayerItem(avAsset: composition).extract {
-            
-        }
-        let playerItem = AVPlayerItem(asset: composition)
-        DispatchQueue.main.async { [weak self] in
-            guard let this = self else { return }
-            
-            if this.getPreviewImage() == nil {
-                let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: playerItem.asset)
-                generator.appliesPreferredTrackTransform = true
-                let cgImage = try! generator.copyCGImage(at: CMTime.zero, actualTime: nil)
-                this.previewImage = UIImage(cgImage: cgImage)
-                this.setPreviewImage(this.previewImage)
+        
+        ImagePlayerItemGenerator(avAsset: composition).extract { playerItem in
+            DispatchQueue.main.async { [weak self] in
+                guard let this = self else { return }
+                
+                //Development
+//                this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
+                
+                this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
+                this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
+                this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
+                this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
+                this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
+                
+                this.cropContainer.setupVideo(frame: this.displayVideoRect)
+                
+                //For test
+                this.previewView?.isHidden = true
+                
+                this.videoVC.load(playerItem: playerItem)
+                this.videoVC.videoViewControllerDelegate = this
+                
+                this.onVideoReady()
             }
-            
-            this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
-            
-            this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
-            this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
-            this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
-            this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
-            this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
-            
-            this.cropContainer.setupVideo(frame: this.displayVideoRect)
-            
-            this.videoVC.load(playerItem: playerItem)
-            this.videoVC.videoViewControllerDelegate = this
         }
     }
     
@@ -607,7 +604,7 @@ extension EditViewController: VideoViewControllerDelegate {
         return videoVC.trimPosition
     }
     
-    func onVideoReady(controller: AVPlayerViewController) {
+    func onVideoReady() {
 //        mock()
 //
         isLoadingAsset = false
@@ -616,19 +613,19 @@ extension EditViewController: VideoViewControllerDelegate {
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
         cropContainer.onVideoReady(trimPosition: trimPosition)
-        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
-            self.enableVideoController(true)
-            self.enableControlOptions()
-            self.videoController.layoutIfNeeded()
-            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
-            
-            //Test code
-            self.videoVC.play()
-//            self.previewView?.isHidden = true
-            
-            self.defaultGifOptions = self.currentGifOption
-            self.setSubTitle(duration: self.videoController.galleryDuration)
-        }
+//        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
+//            self.enableVideoController(true)
+//            self.enableControlOptions()
+//            self.videoController.layoutIfNeeded()
+//            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
+//            
+//            //Test code
+//            self.videoVC.play()
+////            self.previewView?.isHidden = true
+//            
+//            self.defaultGifOptions = self.currentGifOption
+//            self.setSubTitle(duration: self.videoController.galleryDuration)
+//        }
     }
     
     private func enableControlOptions() {
