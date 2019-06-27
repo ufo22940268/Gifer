@@ -343,6 +343,37 @@ class VideoController: UIStackView {
         stickToSide = side
     }
     
+    func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
+        let duration = playerItem.duration
+        self.videoTrim.duration = duration
+        self.videoSlider.duration = duration
+        
+        gallerySlider.alpha = 1.0
+        let thumbernailCount = min(10, playerItem.frames.count)
+        let galleryDuration: CMTime = playerItem.duration
+        self.videoTrim.galleryDuration = galleryDuration
+        self.galleryView.galleryDuration = galleryDuration
+        self.galleryView.duration = duration
+        self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
+        self.galleryView.prepareImageViews(thumbernailCount)
+        self.galleryView.bringSubviewToFront(self.videoSlider)
+        self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
+        self.attachView.duration = duration
+        completion()
+        
+        let step = Int(floor(Double(playerItem.frames.count)/Double(thumbernailCount)))
+        var galleryIndex = 0
+        for i in stride(from: 0, to: playerItem.frames.count, by: step) {
+            if galleryIndex >= thumbernailCount {
+                break
+            }
+            
+            let frame = playerItem.frames[i]
+            self.loadGallery(withImage: frame.uiImage, index: galleryIndex)
+            galleryIndex += 1
+        }
+    }
+    
     func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         
         guard playerItem.asset.duration.value > 0 else {

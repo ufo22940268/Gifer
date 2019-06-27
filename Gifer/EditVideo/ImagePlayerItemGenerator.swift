@@ -14,6 +14,10 @@ struct ImagePlayerFrame {
     var time: CMTime
     var path: URL?
     
+    var uiImage: UIImage {
+        return UIImage(cgImage: image)
+    }
+    
     init(image: CGImage, time: CMTime) {
         self.image = image
         self.time = time
@@ -48,7 +52,7 @@ class ImagePlayerItemGenerator {
     
     func splitTimes(duration: CMTime) -> [NSValue] {
         var t = CMTime.zero
-        let interval = CMTime(seconds: 0.3, preferredTimescale: 600)
+        let interval = CMTime(seconds: 0.2, preferredTimescale: 600)
         var ar = [NSValue]()
         while t + interval < duration {
             t = t + interval

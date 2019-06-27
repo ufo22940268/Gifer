@@ -7,11 +7,59 @@
 //
 
 import UIKit
+import AVKit
 
 class ImagePlayerView: UIView {
+    
+    lazy var frameView: ImagePlayerFrameView = {
+        let view = ImagePlayerFrameView().useAutoLayout()
+        return view
+    }()
+    
+    var playerItem: ImagePlayerItem!
+    var currentTime: CMTime = .zero
+    var interval: TimeInterval {
+        let frameCount = playerItem.frames.count
+        let duration = playerItem.duration
+        return duration.seconds/Double(frameCount)
+    }
+    
+    var timer: Timer!
 
     override func awakeFromNib() {
         backgroundColor = .yellow
+        addSubview(frameView)
+        frameView.useSameSizeAsParent()
     }
-
+    
+    func load(playerItem: ImagePlayerItem) {
+        self.playerItem = playerItem
+        currentTime = playerItem.frames.first!.time
+    }
+    
+    
+    var startTime: Date!
+    func play() {
+         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
+            if self.currentTime == self.playerItem!.frames.first!.time {
+                self.startTime = Date()
+            } else if self.currentTime == self.playerItem!.frames.last!.time {
+                print("\(self.startTime.timeIntervalSinceNow)")
+            }
+            
+            let image = self.step(by: 1)
+            self.frameView.image = image
+        }
+        
+        timer.tolerance = 0
+    }
+    
+    func step(by delta: Int) -> UIImage {
+        guard let playerItem = playerItem else { fatalError() }
+        let index = playerItem.nearestIndex(time: currentTime)
+        let frames = playerItem.frames
+        let frame = frames[(index + delta)%frames.count]
+        currentTime = frame.time
+        return UIImage(cgImage: frame.image)
+    }
 }

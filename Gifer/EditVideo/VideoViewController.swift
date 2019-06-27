@@ -33,8 +33,6 @@ protocol VideoViewControllerDelegate: class {
     func onBuffering(_ inBuffering: Bool)
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus)
-    
-    func onVideoReady()
 }
 
 class VideoViewController: UIViewController {
@@ -59,8 +57,9 @@ class VideoViewController: UIViewController {
     }
     
     func load(playerItem: ImagePlayerItem) -> Void {
-        
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
+        imagePlayerView.load(playerItem: playerItem)
+        imagePlayerView.play()
 //        guard !dismissed else {
 //            return
 //        }

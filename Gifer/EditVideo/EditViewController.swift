@@ -409,7 +409,7 @@ class EditViewController: UIViewController {
                 this.videoVC.load(playerItem: playerItem)
                 this.videoVC.videoViewControllerDelegate = this
                 
-                this.onVideoReady()
+                this.onVideoReady(playerItem: playerItem)
             }
         }
     }
@@ -604,7 +604,7 @@ extension EditViewController: VideoViewControllerDelegate {
         return videoVC.trimPosition
     }
     
-    func onVideoReady() {
+    func onVideoReady(playerItem: ImagePlayerItem) {
 //        mock()
 //
         isLoadingAsset = false
@@ -613,19 +613,19 @@ extension EditViewController: VideoViewControllerDelegate {
         self.videoController.delegate = self
         let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
         cropContainer.onVideoReady(trimPosition: trimPosition)
-//        self.videoController.load(playerItem: videoVC.player!.currentItem!, gifMaxDuration: maxGifDuration) {
-//            self.enableVideoController(true)
-//            self.enableControlOptions()
-//            self.videoController.layoutIfNeeded()
-//            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
-//            
-//            //Test code
+        self.videoController.load(playerItem: playerItem) {
+            self.enableVideoController(true)
+            self.enableControlOptions()
+            self.videoController.layoutIfNeeded()
+            self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
+
+            //Test code
 //            self.videoVC.play()
-////            self.previewView?.isHidden = true
-//            
-//            self.defaultGifOptions = self.currentGifOption
-//            self.setSubTitle(duration: self.videoController.galleryDuration)
-//        }
+//            self.previewView?.isHidden = true
+
+            self.defaultGifOptions = self.currentGifOption
+            self.setSubTitle(duration: self.videoController.galleryDuration)
+        }
     }
     
     private func enableControlOptions() {
