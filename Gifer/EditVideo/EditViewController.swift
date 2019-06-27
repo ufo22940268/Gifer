@@ -611,7 +611,6 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog?.dismiss()
         loadingDialog = nil
         self.videoController.delegate = self
-        let maxGifDuration: Double = initTrimPosition == nil ? 20 : initTrimPosition!.galleryDuration.seconds
         cropContainer.onVideoReady(trimPosition: trimPosition)
         self.videoController.load(playerItem: playerItem) {
             self.enableVideoController(true)

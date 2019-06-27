@@ -127,7 +127,7 @@ struct VideoControllerConstants {
     static var sliderWidth = CGFloat(8)
 }
 
-protocol VideoControllerDelegate: class, VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
+protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
 }
 
 enum VideoControllerScrollReason {
