@@ -74,6 +74,10 @@ class VideoViewController: UIViewController {
 //
     }
     
+    func destroy() {
+        imagePlayerView.destroy()
+    }
+    
     func setFilter(_ filter: YPFilter) {
 //        self.filter = filter
 //        self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
@@ -118,7 +122,6 @@ class VideoViewController: UIViewController {
             imagePlayerView.customDelegate = videoViewControllerDelegate
         }
     }
-    weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {
 //        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))

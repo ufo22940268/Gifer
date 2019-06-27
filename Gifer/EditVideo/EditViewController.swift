@@ -568,6 +568,7 @@ class EditViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         videoController.dismissed = true
         videoVC.dismissed = true
+        videoVC.destroy()
         
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)

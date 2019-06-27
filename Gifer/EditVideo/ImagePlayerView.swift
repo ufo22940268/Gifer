@@ -77,6 +77,13 @@ class ImagePlayerView: UIView {
         timer.tolerance = 0
     }
     
+    func destroy() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+    }
+    
     private func canStep(by delta: Int) -> Bool {
         let index = playerItem.nearestIndex(time: currentTime)
         let minIndex = playerItem.nearestIndex(time: trimPosition.leftTrim)
