@@ -21,6 +21,7 @@ class ImagePlayerView: UIView {
         didSet {
             let index = playerItem.nearestIndex(time: currentTime)
             frameView.image = playerItem.frames[index].uiImage
+            customDelegate?.onProgressChanged(progress: currentTime)
         }
     }
     
@@ -32,6 +33,8 @@ class ImagePlayerView: UIView {
     
     var timer: Timer!
     var paused = true
+    
+    weak var customDelegate: ImagePlayerDelegate?
     
     override func awakeFromNib() {
         backgroundColor = .yellow

@@ -26,7 +26,7 @@ class VideoPreviewView: UIImageView {
     }
 }
 
-protocol VideoViewControllerDelegate: class {
+protocol ImagePlayerDelegate: class {
     
     func onProgressChanged(progress: CMTime)
     
@@ -113,7 +113,11 @@ class VideoViewController: UIViewController {
 //        removeObservers()
     }
     
-    weak var videoViewControllerDelegate: VideoViewControllerDelegate?
+    weak var videoViewControllerDelegate: ImagePlayerDelegate? {
+        didSet {
+            imagePlayerView.customDelegate = videoViewControllerDelegate
+        }
+    }
     weak var loopObserver: NSObjectProtocol?
     
     func addObservers() {

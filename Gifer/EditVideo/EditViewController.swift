@@ -577,7 +577,7 @@ class EditViewController: UIViewController {
     }
 }
 
-extension EditViewController: VideoViewControllerDelegate {
+extension EditViewController: ImagePlayerDelegate {
     
     var videoRect: CGRect {
         return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
@@ -636,7 +636,6 @@ extension EditViewController: VideoViewControllerDelegate {
     }
     
     func onProgressChanged(progress: CMTime) {
-        guard isVideoReady else { return }
         videoController.updateSliderProgress(progress)
         cropContainer.updateOverlayWhenProgressChanged(progress: progress)
     }
