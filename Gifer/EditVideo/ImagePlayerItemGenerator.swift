@@ -58,6 +58,11 @@ class ImagePlayerItemGenerator {
             t = t + interval
             ar.append(NSValue(time: t))
         }
+
+        if ar.last!.timeValue != duration {
+            ar[ar.count - 1] = NSValue(time: duration)
+        }
+        
         return ar
     }
     
