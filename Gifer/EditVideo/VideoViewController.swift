@@ -202,6 +202,7 @@ extension VideoViewController {
             toProgress = position.rightTrim
         }
         imagePlayerView.seek(to: toProgress)
+        imagePlayerView.trimPosition = position
         
         switch state {
         case .started:

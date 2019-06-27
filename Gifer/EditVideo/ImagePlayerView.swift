@@ -33,6 +33,11 @@ class ImagePlayerView: UIView {
     
     var timer: Timer!
     var paused = true
+    var trimPosition: VideoTrimPosition!
+    var playDirection: PlayDirection = .forward {
+        didSet {
+        }
+    }
     
     weak var customDelegate: ImagePlayerDelegate?
     
@@ -44,6 +49,7 @@ class ImagePlayerView: UIView {
     
     func load(playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
+        trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         currentTime = playerItem.frames.first!.time
     }
     
@@ -51,10 +57,31 @@ class ImagePlayerView: UIView {
         paused = false
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.paused else { return }
-            self.step(by: 1)
+            
+            switch self.playDirection {
+            case .forward:
+                if self.canStep(by: 1) {
+                    self.step(by: 1)
+                } else {
+                    self.currentTime = self.trimPosition.leftTrim
+                }
+            case .backward:
+                if self.canStep(by: -1) {
+                    self.step(by: -1)
+                } else {
+                    self.currentTime = self.trimPosition.rightTrim
+                }
+            }
         }
         
         timer.tolerance = 0
+    }
+    
+    private func canStep(by delta: Int) -> Bool {
+        let index = playerItem.nearestIndex(time: currentTime)
+        let minIndex = playerItem.nearestIndex(time: trimPosition.leftTrim)
+        let maxIndex = playerItem.nearestIndex(time: trimPosition.rightTrim)
+        return index + delta >= minIndex && index + delta <= maxIndex
     }
     
     func step(by delta: Int) {
