@@ -391,9 +391,7 @@ class EditViewController: UIViewController {
         ImagePlayerItemGenerator(avAsset: composition).extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
-                
-                //Development
-//                this.optionMenu.setPreviewImage(this.getPreviewImage()!.resizeImage(60, opaque: false))
+                this.optionMenu.setPreviewImage(playerItem.frames.first!.uiImage.resizeImage(60, opaque: false))
                 
                 this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                 this.cropContainer.superview!.constraints.findById(id: "height").isActive = false

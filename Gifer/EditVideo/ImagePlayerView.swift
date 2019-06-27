@@ -20,7 +20,9 @@ class ImagePlayerView: UIView {
     var currentTime: CMTime = .zero {
         didSet {
             let index = playerItem.nearestIndex(time: currentTime)
-            frameView.image = playerItem.frames[index].uiImage
+            var image = playerItem.frames[index].uiImage
+            image = applyFilter(image)
+            frameView.image = image
             customDelegate?.onProgressChanged(progress: currentTime)
         }
     }
@@ -38,19 +40,30 @@ class ImagePlayerView: UIView {
         didSet {
         }
     }
-    
+    var filter: YPFilter?
+    var context: CIContext!
+
     weak var customDelegate: ImagePlayerDelegate?
     
     override func awakeFromNib() {
         backgroundColor = .yellow
         addSubview(frameView)
         frameView.useSameSizeAsParent()
+        context = CIContext(options: nil)
     }
     
     func load(playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         currentTime = playerItem.frames.first!.time
+    }
+    
+    func applyFilter(_ image: UIImage) -> UIImage {
+        guard let filter = filter  else { return image }
+        var ciImage = CIImage(image: image)!
+        ciImage = filter.applyFilter(image: ciImage)
+        let image = UIImage(cgImage: context.createCGImage(ciImage, from: ciImage.extent)!)
+        return image
     }
     
     func play() {

@@ -43,12 +43,15 @@ class VideoViewController: UIViewController {
     var dismissed: Bool = false
     var videoInited: Bool = false
     var previewImage: UIImage?
-    var filter: YPFilter?
-    
+
     @IBOutlet var imagePlayerView: ImagePlayerView!
     var player: AVPlayer!
     var videoBounds: CGRect {
         return CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+    }
+    
+    var filter: YPFilter? {
+        return imagePlayerView.filter
     }
     
     var playDirection: PlayDirection = .forward {
@@ -79,8 +82,7 @@ class VideoViewController: UIViewController {
     }
     
     func setFilter(_ filter: YPFilter) {
-//        self.filter = filter
-//        self.player?.currentItem?.videoComposition = buildVideoComposition(filter: filter)
+        imagePlayerView.filter = filter
     }
     
 //    func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
