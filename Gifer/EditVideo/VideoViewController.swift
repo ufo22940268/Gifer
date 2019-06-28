@@ -56,6 +56,7 @@ class VideoViewController: UIViewController {
     
     var playDirection: PlayDirection = .forward {
         didSet {
+            imagePlayerView.playDirection = self.playDirection
         }
     }
     

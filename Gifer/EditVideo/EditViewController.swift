@@ -809,7 +809,6 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onDirectionItemClicked(direction: PlayDirection) {
         videoVC.playDirection = direction
-        videoVC.play()
     }
 }
 
