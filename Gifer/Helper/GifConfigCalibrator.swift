@@ -41,13 +41,13 @@ extension URL {
 class GifConfigCalibrator {
     
     let options: GifGenerator.Options
-    var asset: AVAsset
+    let playerItem: ImagePlayerItem
     var initialProcessConfig: GifProcessConfig
     
-    init(options: GifGenerator.Options, asset: AVAsset, processConfig: GifProcessConfig) {
+    init(options: GifGenerator.Options, playerItem: ImagePlayerItem, processConfig: GifProcessConfig) {
         self.options = options
-        self.asset = asset
         self.initialProcessConfig = processConfig
+        self.playerItem = playerItem
     }
     
     var gifFilePath: URL? {
@@ -111,35 +111,28 @@ class GifConfigCalibrator {
     }
     
     private func getSize(processConfig: GifProcessConfig, sample: Bool, completion: @escaping (Double) -> Void) {
-        var times = options.splitVideo(extractedImageCountPerSecond: processConfig.extractImageCountPerSecond)
-        if sample {
-            times = Array(times[0...0])
-        }
-        generateGif(processConfig: processConfig, in: times) { file in
+        generateGif(processConfig: processConfig) { file in
             completion(file.fileSizeInMB)
         }
     }
     
-    func generateGif(processConfig: GifProcessConfig, in times: [CMTime], completion: @escaping (URL) -> Void) {
-        let times = times.map { NSValue(time: $0) }
+    func generateGif(processConfig: GifProcessConfig, completion: @escaping (URL) -> Void) {
         let fileProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: 0]]  as CFDictionary
         let fileURL: URL? = self.gifFilePath
         
-        guard let url = fileURL as CFURL?, let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, times.count, nil) else { fatalError() }
+        guard let url = fileURL as CFURL?, let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, 1, nil) else { fatalError() }
         CGImageDestinationSetProperties(destination, fileProperties)
-        
-        let generator: AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
-        generator.maximumSize = processConfig.gifSize
-        generator.generateCGImagesAsynchronously(forTimes: times) { (requestTime, cgImage, time, _, _) in
-            guard let cgImage = cgImage else { return }
-            
-            let frameProperties: CFDictionary = [(kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFUnclampedDelayTime as String): processConfig.gifDelayTime]] as CFDictionary
-            CGImageDestinationAddImage(destination, cgImage, frameProperties)
-            
-            if requestTime == times.last!.timeValue {
-                CGImageDestinationFinalize(destination)
-                completion(fileURL!)
-            }
+
+        var image = playerItem.frames.first!.uiImage
+        let size = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: .zero, size: processConfig.gifSize)).size
+        image = UIGraphicsImageRenderer(size: size).image { (context) in
+            image.draw(in: CGRect(origin: .zero, size: size))
         }
+        
+        let cgImage = image.cgImage!
+        let frameProperties: CFDictionary = [(kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFUnclampedDelayTime as String): processConfig.gifDelayTime]] as CFDictionary
+        CGImageDestinationAddImage(destination, cgImage, frameProperties)
+        CGImageDestinationFinalize(destination)
+        completion(fileURL!)
     }
 }

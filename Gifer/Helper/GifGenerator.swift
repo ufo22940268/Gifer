@@ -197,11 +197,10 @@ public class GifGenerator {
     func calibrateSize(under memoryInMB: Double, videoSize: VideoSize, completion: @escaping (GifProcessConfig) -> Void) {
         //TODO
         
-//        let estimator = GifConfigCalibrator(options: options, asset: videoAsset, processConfig: processConfig)
-//        estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
-//            completion(config.ensure(videoSize: videoSize))
-//        })
-        return completion(processConfig)
+        let estimator = GifConfigCalibrator(options: options, playerItem: playerItem, processConfig: processConfig)
+        estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
+            completion(config.ensure(videoSize: videoSize))
+        })
     }
     
     var gifFilePath: URL? {
@@ -230,7 +229,6 @@ public class GifGenerator {
             self.generateGif(complete: complete)
         }
     }
-
     
     func generateGif(complete: @escaping (URL) -> Void) {
         let startProgress = options.start
@@ -258,7 +256,7 @@ public class GifGenerator {
 
         for timeValue in times {
             let time = timeValue.timeValue
-            var image = playerItem.nearestFrame(time: time).uiImage.cgImage!
+            var image: CGImage = playerItem.nearestFrame(time: time).uiImage.cgImage!.resize(inSize: gifSize)
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             
@@ -268,15 +266,16 @@ public class GifGenerator {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
             
-            DispatchQueue.main.sync {
-                if labelViewCaches == nil {
-                    labelViewCaches = self.cacheLabelViewsForExport(image: image)
-                }
-                
-                if stickerImageCaches == nil {
-                    stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
-                }
+            //TODO This may optimize exporting process.
+//            DispatchQueue.main.sync {
+            if labelViewCaches == nil {
+                labelViewCaches = self.cacheLabelViewsForExport(image: image)
             }
+            
+            if stickerImageCaches == nil {
+                stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
+            }
+//            }
             
             image = self.addStickersAndTexts(current: time, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
@@ -286,7 +285,7 @@ public class GifGenerator {
         
         group.notify(queue: .global()) {
             if !CGImageDestinationFinalize(destination) {
-                print("Failed to finalize the image destination")
+                print("Failed to finalize  the image destination")
             }
             print("gif file \(self.gifFilePath!.path) generated")
             complete(self.gifFilePath!)

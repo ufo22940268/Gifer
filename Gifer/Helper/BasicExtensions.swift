@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AudioToolbox
+import AVKit
 
 extension UIView {
     
@@ -107,4 +108,23 @@ extension UIColor {
     }
 
     static let separator = UIColor.fromHexString(hex: "2a2a2a")
+}
+
+
+extension UIImage {
+    func resize(inSize boundSize: CGSize) -> UIImage {
+        let targetSize = AVMakeRect(aspectRatio: self.size, insideRect: CGRect(origin: .zero, size: boundSize)).size
+        return UIGraphicsImageRenderer(size: targetSize).image { (context) in
+            self.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+}
+
+extension CGImage {
+    func resize(inSize boundSize: CGSize) -> CGImage {
+        let targetSize = AVMakeRect(aspectRatio: self.size, insideRect: CGRect(origin: .zero, size: boundSize)).size
+        let context = CGContext(data: nil, width: Int(targetSize.width), height: Int(targetSize.height), bitsPerComponent: self.bitsPerComponent, bytesPerRow: self.bytesPerRow, space: self.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: self.bitmapInfo.rawValue)!
+        context.draw(self, in: CGRect(origin: .zero, size: boundSize))
+        return context.makeImage()!
+    }
 }
