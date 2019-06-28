@@ -241,10 +241,10 @@ class VideoRangeViewController: UIViewController {
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
-        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
         videoCache = nil
-        
-        print("viewWillDisappear")
     }
     
     func setupPreview() {

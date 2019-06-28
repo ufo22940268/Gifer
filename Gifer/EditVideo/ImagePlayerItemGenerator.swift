@@ -53,7 +53,7 @@ class ImagePlayerItemGenerator {
         generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
             autoreleasepool {
                 guard let image = image, error == nil else { return }
-                var frame = ImagePlayerFrame(time: time)
+                var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
                 self.saveToDirectory(image: image, frame: &frame)
                 frames.append(frame)
                 
