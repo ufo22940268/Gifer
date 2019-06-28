@@ -582,12 +582,7 @@ extension EditViewController: ImagePlayerDelegate {
     var videoRect: CGRect {
         return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
     }
-    
-    var isVideoReady: Bool {
-        guard let item = videoVC.player?.currentItem else { return false }
-        return item.status == .readyToPlay
-    }
-    
+        
     var editTextOverlay: EditTextOverlay {
         return cropContainer.editTextOverlay
     }

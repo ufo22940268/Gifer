@@ -39,13 +39,11 @@ class VideoViewController: UIViewController {
     
     var previewView: VideoPreviewView!
     var trimPosition: VideoTrimPosition!
-    var currentRate: Float = 1
     var dismissed: Bool = false
     var videoInited: Bool = false
     var previewImage: UIImage?
 
     @IBOutlet var imagePlayerView: ImagePlayerView!
-    var player: AVPlayer!
     var videoBounds: CGRect {
         return CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
     }
@@ -75,8 +73,7 @@ class VideoViewController: UIViewController {
     }
     
     func setRate(_ rate: Float) {
-        self.player?.rate = rate
-        self.currentRate = rate
+        imagePlayerView.rate = rate
     }
     
     func play() {

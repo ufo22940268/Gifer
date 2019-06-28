@@ -30,7 +30,8 @@ class ImagePlayerView: UIView {
     var interval: TimeInterval {
         let frameCount = playerItem.frames.count
         let duration = playerItem.duration
-        return duration.seconds/Double(frameCount)
+        let n = duration.seconds/Double(frameCount)/Double(rate)
+        return ceil(n*10)/10
     }
     
     var timer: Timer!
@@ -42,7 +43,14 @@ class ImagePlayerView: UIView {
     }
     var filter: YPFilter?
     var context: CIContext!
-
+    
+    var rate: Float = 1 {
+        didSet {
+            timer.invalidate()
+            timer = createTimer(with: interval)
+        }
+    }
+    
     weak var customDelegate: ImagePlayerDelegate?
     
     override func awakeFromNib() {
@@ -73,7 +81,11 @@ class ImagePlayerView: UIView {
             fatalError("stop first")
         }
         
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
+        timer = createTimer(with: interval)
+    }
+    
+    private func createTimer(with interval: TimeInterval) -> Timer {
+        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.paused else { return }
             
             switch self.playDirection {
@@ -93,6 +105,7 @@ class ImagePlayerView: UIView {
         }
         
         timer.tolerance = 0
+        return timer
     }
     
     func destroy() {
