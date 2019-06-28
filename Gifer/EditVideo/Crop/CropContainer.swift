@@ -346,7 +346,11 @@ extension CropContainer: GridRulerViewDelegate {
 extension CropContainer: UIScrollViewDelegate {
  
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return contentView
+        if status == .adjustCrop {
+            return contentView
+        } else {
+            return nil
+        }
     }
 }
 

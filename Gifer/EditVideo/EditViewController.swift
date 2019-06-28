@@ -356,6 +356,7 @@ class EditViewController: UIViewController {
     }
     
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
+        showLoading(true, label: "加载中")
         if let url = videoCachedURL {
             completion(url)
         } else {
@@ -507,7 +508,7 @@ class EditViewController: UIViewController {
         showLoading(show, label: "导出中...")
     }
 
-    private func showLoading(_ show: Bool, label: String) {
+    private func showLoading(_ show: Bool, label: String = "") {
         if (show) {
             if loadingDialog == nil || !(loadingDialog!.isShowing)  {
                 loadingDialog = LoadingDialog(label: label)
@@ -611,6 +612,7 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog = nil
         self.videoController.delegate = self
         cropContainer.onVideoReady(trimPosition: trimPosition)
+        showLoading(false)
         self.videoController.load(playerItem: playerItem) {
             self.enableVideoController(true)
             self.enableControlOptions()

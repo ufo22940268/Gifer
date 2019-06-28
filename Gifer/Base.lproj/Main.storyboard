@@ -198,7 +198,7 @@
         <!--Test Navigation Controller-->
         <scene sceneID="r4e-iw-iOu">
             <objects>
-                <navigationController id="1RV-aB-bfW" userLabel="Test Navigation Controller" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="bb" id="1RV-aB-bfW" userLabel="Test Navigation Controller" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ki0-da-QCx">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
