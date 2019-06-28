@@ -358,9 +358,10 @@ class EditViewController: UIViewController {
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
         if let url = videoCachedURL {
             completion(url)
-        } else {            
+        } else {
             getAVAsset { (avAsset) in
                 guard let avAsset = avAsset else { return }
+                self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration)
                 self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
                 self.cacheFilePath = self.videoCache!.tempFilePath
                 if self.isJumpFromRange {
@@ -387,7 +388,7 @@ class EditViewController: UIViewController {
         videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
         try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
         
-        ImagePlayerItemGenerator(avAsset: composition).extract { playerItem in
+        ImagePlayerItemGenerator(avAsset: composition, trimPosition: initTrimPosition!).extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
                 this.optionMenu.setPreviewImage(playerItem.frames.first!.uiImage.resizeImage(60, opaque: false))

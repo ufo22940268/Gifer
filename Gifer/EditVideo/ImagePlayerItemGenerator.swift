@@ -12,9 +12,12 @@ import UIKit
 class ImagePlayerItemGenerator {
     
     var asset: AVAsset
+    var trimPosition: VideoTrimPosition
+    
     lazy var generator:AVAssetImageGenerator  = {
         let generator = AVAssetImageGenerator(asset: asset)
         generator.maximumSize = CGSize(width: 1200, height: 1200)
+        generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceAfter = CMTime(seconds: 0.1, preferredTimescale: 600)
         generator.requestedTimeToleranceBefore = CMTime(seconds: 0.1, preferredTimescale: 600)
         return generator
@@ -22,28 +25,29 @@ class ImagePlayerItemGenerator {
     
     var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
     
-    internal init(avAsset: AVAsset) {
+    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition) {
         self.asset = avAsset
+        self.trimPosition = trimPosition
     }
     
-    func splitTimes(duration: CMTime) -> [NSValue] {
-        var t = CMTime.zero
+    func splitTimes() -> [NSValue] {
+        var t = trimPosition.leftTrim
         let interval = CMTime(seconds: 0.2, preferredTimescale: 600)
         var ar = [NSValue]()
-        while t + interval < duration {
+        while t + interval < trimPosition.rightTrim {
             t = t + interval
             ar.append(NSValue(time: t))
         }
 
-        if ar.last!.timeValue != duration {
-            ar[ar.count - 1] = NSValue(time: duration)
+        if ar.last!.timeValue != trimPosition.rightTrim {
+            ar[ar.count - 1] = NSValue(time: trimPosition.rightTrim)
         }
         
         return ar
     }
     
     func extract(complete: @escaping (ImagePlayerItem) -> Void) {
-        let times = splitTimes(duration: asset.duration)
+        let times = splitTimes()
         var frames = [ImagePlayerFrame]()
         initDirectory()
         generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
@@ -54,7 +58,7 @@ class ImagePlayerItemGenerator {
                 frames.append(frame)
                 
                 if time == times.last!.timeValue {
-                    complete(ImagePlayerItem(frames: frames, duration: self.asset.duration))
+                    complete(ImagePlayerItem(frames: frames, duration: self.trimPosition.galleryDuration))
                 }
             }
         }

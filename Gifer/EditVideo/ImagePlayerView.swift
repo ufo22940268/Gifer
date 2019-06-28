@@ -72,6 +72,7 @@ class ImagePlayerView: UIView {
         if timer != nil {
             fatalError("stop first")
         }
+        
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.paused else { return }
             
