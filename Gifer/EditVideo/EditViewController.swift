@@ -369,6 +369,7 @@ class EditViewController: UIViewController {
                     self.initialLoadingDialog = LoadingDialog(label: "正在加载视频")
                 }
                 self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
+                    self.videoCache?.asset = nil
                     completion(url)
                 })
             }

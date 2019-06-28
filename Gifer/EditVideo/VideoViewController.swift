@@ -63,7 +63,7 @@ class VideoViewController: UIViewController {
     func load(playerItem: ImagePlayerItem) -> Void {
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         imagePlayerView.load(playerItem: playerItem)
-        imagePlayerView.play()
+//        imagePlayerView.play()
     }
     
     func destroy() {

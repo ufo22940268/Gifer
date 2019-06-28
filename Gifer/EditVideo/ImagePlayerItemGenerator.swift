@@ -47,13 +47,15 @@ class ImagePlayerItemGenerator {
         var frames = [ImagePlayerFrame]()
         initDirectory()
         generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
-            guard let image = image, error == nil else { return }
-            var frame = ImagePlayerFrame(time: time)
-            self.saveToDirectory(image: image, frame: &frame)
-            frames.append(frame)
-            
-            if time == times.last!.timeValue {
-                complete(ImagePlayerItem(frames: frames, duration: self.asset.duration))
+            autoreleasepool {
+                guard let image = image, error == nil else { return }
+                var frame = ImagePlayerFrame(time: time)
+                self.saveToDirectory(image: image, frame: &frame)
+                frames.append(frame)
+                
+                if time == times.last!.timeValue {
+                    complete(ImagePlayerItem(frames: frames, duration: self.asset.duration))
+                }
             }
         }
     }

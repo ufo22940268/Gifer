@@ -56,6 +56,7 @@ class ImagePlayerView: UIView {
         self.playerItem = playerItem
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         currentTime = playerItem.frames.first!.time
+        play()
     }
     
     func applyFilter(_ image: UIImage) -> UIImage {
@@ -66,8 +67,11 @@ class ImagePlayerView: UIView {
         return image
     }
     
-    func play() {
+    private func play() {
         paused = false
+        if timer != nil {
+            fatalError("stop first")
+        }
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.paused else { return }
             
