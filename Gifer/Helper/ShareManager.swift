@@ -15,10 +15,10 @@ import MonkeyKing
 
 class ShareManager {
     var options: GifGenerator.Options!
-    var asset: AVAsset!
+    var playerItem: ImagePlayerItem!
     
-    init(asset: AVAsset, options: GifGenerator.Options) {
-        self.asset = asset
+    init(playerItem: ImagePlayerItem, options: GifGenerator.Options) {
+        self.playerItem = playerItem
         self.options = options
     }
     
@@ -27,7 +27,7 @@ class ShareManager {
     
     func share(type: ShareType, complete: @escaping ExportHandler) {
         DispatchQueue.global().async {
-            GifGenerator(video: self.asset, options: self.options).run() { path in
+            GifGenerator(playerItem: self.playerItem, options: self.options).run() { path in
                 DispatchQueue.main.async {                    
                     complete(path)
                 }

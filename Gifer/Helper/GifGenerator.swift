@@ -156,7 +156,7 @@ public class GifGenerator {
     }
     
     let fileName = "animated.gif"
-    var videoAsset: AVAsset
+    var playerItem: ImagePlayerItem
     var options: Options
     var gifSize: CGSize! {
         return processConfig.gifSize
@@ -170,8 +170,8 @@ public class GifGenerator {
     
     var processConfig: GifProcessConfig!
     
-    init(video: AVAsset, options: Options) {
-        self.videoAsset = video
+    init(playerItem: ImagePlayerItem, options: Options) {
+        self.playerItem = playerItem
         self.options = options
         
         calculateExportConfig()
@@ -195,10 +195,13 @@ public class GifGenerator {
     }
     
     func calibrateSize(under memoryInMB: Double, videoSize: VideoSize, completion: @escaping (GifProcessConfig) -> Void) {
-        let estimator = GifConfigCalibrator(options: options, asset: videoAsset, processConfig: processConfig)
-        estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
-            completion(config.ensure(videoSize: videoSize))
-        })
+        //TODO
+        
+//        let estimator = GifConfigCalibrator(options: options, asset: videoAsset, processConfig: processConfig)
+//        estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
+//            completion(config.ensure(videoSize: videoSize))
+//        })
+        return completion(processConfig)
     }
     
     var gifFilePath: URL? {
@@ -238,23 +241,24 @@ public class GifGenerator {
         while currentTime < endProgress {
             times.append(NSValue(time: currentTime))
             currentTime = currentTime + CMTime(seconds: 1/Double(extractImageCountPerSecond), preferredTimescale: currentTime.timescale)
-            group.enter()
         }
         
         let destination = self.buildDestinationOfGif(frameCount: times.count)
-        let generator = AVAssetImageGenerator(asset: videoAsset)
-        generator.appliesPreferredTrackTransform = true
-        generator.maximumSize = gifSize
-        generator.requestedTimeToleranceAfter = CMTime.zero
-        generator.requestedTimeToleranceBefore = CMTime.zero
         let ciContext = CIContext(options: nil)
         times = arrangeTimeByPlayDirection(times)
         
         var labelViewCaches: [LabelViewCache]! = nil
         var stickerImageCaches: [StickerImageCache]! = nil
+
         
-        generator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { (requestTime, image, actualTime, result, error) in
-            guard var image = image else { return }
+        func applyFilter(_ image: CGImage, filter: YPFilter, in context: CIContext) -> CGImage {
+            let ciImage = filter.applyFilter(image: CIImage(cgImage: image))
+            return ciContext.createCGImage(ciImage, from: ciImage.extent)!
+        }
+
+        for timeValue in times {
+            let time = timeValue.timeValue
+            var image = playerItem.nearestFrame(time: time).uiImage.cgImage!
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             
@@ -263,26 +267,20 @@ public class GifGenerator {
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
-
+            
             DispatchQueue.main.sync {
                 if labelViewCaches == nil {
                     labelViewCaches = self.cacheLabelViewsForExport(image: image)
                 }
-
+                
                 if stickerImageCaches == nil {
                     stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
                 }
             }
-
-            image = self.addStickersAndTexts(current: actualTime, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
+            
+            image = self.addStickersAndTexts(current: time, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
             CGImageDestinationAddImage(destination, image, frameProperties)
-            group.leave()
-        })
-        
-        func applyFilter(_ image: CGImage, filter: YPFilter, in context: CIContext) -> CGImage {
-            let ciImage = filter.applyFilter(image: CIImage(cgImage: image))
-            return ciContext.createCGImage(ciImage, from: ciImage.extent)!
         }
         
         

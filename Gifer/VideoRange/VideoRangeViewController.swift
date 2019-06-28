@@ -136,6 +136,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func onPreviewLoaded(playerItem: AVPlayerItem) {
+        self.initialLoadingDialog?.dismiss()
         self.previewController.player = AVPlayer(playerItem: playerItem)
         guard let previewImage = playerItem.asset.copyFirstImage() else { return }
         self.previewImage = previewImage

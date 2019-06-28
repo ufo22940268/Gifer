@@ -452,16 +452,13 @@ class EditViewController: UIViewController {
     }
     
     private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
-        guard let cacheFilePath = cacheFilePath else { return  }
-
         videoVC.pause()
-        
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type
         options.videoSize = videoSize
         options.loopCount = loopCount
-        let shareManager: ShareManager = ShareManager(asset: AVAsset(url: cacheFilePath), options: options)
+        let shareManager: ShareManager = ShareManager(playerItem: videoVC.imagePlayerView.playerItem, options: options)
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
             
