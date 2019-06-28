@@ -50,6 +50,8 @@
 		4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA421A8D4DE00913466 /* VideoLibrary.swift */; };
 		428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */; };
 		4294CCB822C4498700FD4917 /* ImagePlayerFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */; };
+		4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */; };
+		4294CCBC22C6D20200FD4917 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCBB22C6D20200FD4917 /* CollectionViewCell.swift */; };
 		429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429CE3E021C22F360004D3F2 /* MonkeyKing.framework */; };
 		42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A1AFE621EF186C00CF8018 /* CropContainer.swift */; };
 		42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */; };
@@ -162,6 +164,8 @@
 		4285BFA421A8D4DE00913466 /* VideoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLibrary.swift; sourceTree = "<group>"; };
 		428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryCell.swift; sourceTree = "<group>"; };
 		4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrameView.swift; sourceTree = "<group>"; };
+		4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesViewController.swift; sourceTree = "<group>"; };
+		4294CCBB22C6D20200FD4917 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		429CE3E021C22F360004D3F2 /* MonkeyKing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyKing.framework; path = Carthage/Build/iOS/MonkeyKing.framework; sourceTree = "<group>"; };
 		42A1AFE621EF186C00CF8018 /* CropContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropContainer.swift; sourceTree = "<group>"; };
 		42AB47C121C9E26300590889 /* EditVideoTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVideoTransitionAnimator.swift; sourceTree = "<group>"; };
@@ -300,6 +304,8 @@
 				42A1AFE521EF184100CF8018 /* Crop */,
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
+				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
+				4294CCBB22C6D20200FD4917 /* CollectionViewCell.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -705,6 +711,7 @@
 				42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */,
 				423C283022C3904F00D58376 /* ImagePlayerView.swift in Sources */,
 				42D7F290224CB0B800E7E504 /* PalettePanel.swift in Sources */,
+				4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
 				424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */,
 				42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */,
@@ -713,6 +720,7 @@
 				42E5C35722212EE200D18CA6 /* TrashView.swift in Sources */,
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,
 				42AB47C221C9E26300590889 /* EditVideoTransitionAnimator.swift in Sources */,
+				4294CCBC22C6D20200FD4917 /* CollectionViewCell.swift in Sources */,
 				4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */,
 				42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */,
 				42E5C3552220B86100D18CA6 /* StickerView.swift in Sources */,
