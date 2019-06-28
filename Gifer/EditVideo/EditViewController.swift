@@ -164,7 +164,7 @@ class EditViewController: UIViewController {
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var initialLoadingDialog: LoadingDialog?
     var videoAsset: PHAsset!
-    var videoCachedAsset: AVAsset?
+    var videoCachedURL: URL?
     var loadingDialog: LoadingDialog?
     
     var predefinedToolbarItemStyle = ToolbarItemStyle()
@@ -339,41 +339,39 @@ class EditViewController: UIViewController {
     var videoCache: VideoCache?
     
     private func getAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
-        if let videoCachedAsset = videoCachedAsset {
-            print("read from file cache")
-            completion(videoCachedAsset)
-            return
-        } else {
-            let options = PHVideoRequestOptions()
-            options.isNetworkAccessAllowed = true
-            options.deliveryMode = .fastFormat
-            options.progressHandler = onDownloadVideoProgressChanged
-            if let downloadTaskId = downloadTaskId {
-                PHImageManager.default().cancelImageRequest(downloadTaskId)
-            }
-            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
-                completion(avAsset)
-            }
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .fastFormat
+        options.progressHandler = onDownloadVideoProgressChanged
+        if let downloadTaskId = downloadTaskId {
+            PHImageManager.default().cancelImageRequest(downloadTaskId)
+        }
+        downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
+            completion(avAsset)
         }
     }
     
     var isJumpFromRange: Bool {
-        return videoCachedAsset != nil
+        return videoCachedURL != nil
     }
     
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
-        getAVAsset { (avAsset) in
-            guard let avAsset = avAsset else { return }
-            self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
-            self.cacheFilePath = self.videoCache!.tempFilePath
-            if self.isJumpFromRange {
-                self.videoCache!.delegate = self
-            } else {
-                self.initialLoadingDialog = LoadingDialog(label: "正在加载视频")
+        if let url = videoCachedURL {
+            completion(url)
+        } else {            
+            getAVAsset { (avAsset) in
+                guard let avAsset = avAsset else { return }
+                self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
+                self.cacheFilePath = self.videoCache!.tempFilePath
+                if self.isJumpFromRange {
+                    self.videoCache!.delegate = self
+                } else {
+                    self.initialLoadingDialog = LoadingDialog(label: "正在加载视频")
+                }
+                self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
+                    completion(url)
+                })
             }
-            self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
-                completion(url)
-            })
         }
     }
     
