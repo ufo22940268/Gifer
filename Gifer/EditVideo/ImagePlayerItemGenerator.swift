@@ -9,36 +9,12 @@
 import AVKit
 import UIKit
 
-struct ImagePlayerFrame {
-    var image: CGImage
-    var time: CMTime
-    var path: URL?
-    
-    var uiImage: UIImage {
-        return UIImage(cgImage: image)
-    }
-    
-    init(image: CGImage, time: CMTime) {
-        self.image = image
-        self.time = time
-    }
-    
-    mutating func save(to directory: URL) {
-        let filePath = directory.appendingPathComponent(time.seconds.description)
-        do {
-            try UIImage(cgImage: image).jpegData(compressionQuality: 0.7)?.write(to: filePath)
-        } catch {
-            print("error: \(error)")
-        }
-    }
-}
-
 class ImagePlayerItemGenerator {
     
     var asset: AVAsset
     lazy var generator:AVAssetImageGenerator  = {
         let generator = AVAssetImageGenerator(asset: asset)
-        generator.maximumSize = CGSize(width: 800, height: 800)
+        generator.maximumSize = CGSize(width: 1200, height: 1200)
         generator.requestedTimeToleranceAfter = CMTime(seconds: 0.1, preferredTimescale: 600)
         generator.requestedTimeToleranceBefore = CMTime(seconds: 0.1, preferredTimescale: 600)
         return generator
@@ -69,22 +45,26 @@ class ImagePlayerItemGenerator {
     func extract(complete: @escaping (ImagePlayerItem) -> Void) {
         let times = splitTimes(duration: asset.duration)
         var frames = [ImagePlayerFrame]()
+        initDirectory()
         generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
             guard let image = image, error == nil else { return }
-            frames.append(ImagePlayerFrame(image: image, time: time))
+            var frame = ImagePlayerFrame(time: time)
+            self.saveToDirectory(image: image, frame: &frame)
+            frames.append(frame)
+            
             if time == times.last!.timeValue {
-                self.saveToDirectory(&frames)
                 complete(ImagePlayerItem(frames: frames, duration: self.asset.duration))
             }
         }
     }
     
-    func saveToDirectory(_ result: inout [ImagePlayerFrame]) {
-        initDirectory()
-        for (index, frame) in result.enumerated() {
-            var newFrame = frame
-            newFrame.save(to: directory)
-            result[index] = newFrame
+    func saveToDirectory(image: CGImage, frame: inout ImagePlayerFrame) {
+        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
+        do {
+            try UIImage(cgImage: image).jpegData(compressionQuality: 1)?.write(to: filePath)
+            frame.path = filePath
+        } catch {
+            print("error: \(error)")
         }
     }
     

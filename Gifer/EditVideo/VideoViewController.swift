@@ -63,18 +63,6 @@ class VideoViewController: UIViewController {
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         imagePlayerView.load(playerItem: playerItem)
         imagePlayerView.play()
-//        guard !dismissed else {
-//            return
-//        }
-//        self.player = AVPlayer(playerItem: playerItem)
-//        trimPosition = VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: playerItem.duration)
-//        self.player?.isMuted = true
-//        videoGravity = .resize
-//
-//        player!.currentItem!.videoComposition = buildVideoComposition(filter: AllFilters.first!)
-//
-//        addObservers()
-//
     }
     
     func destroy() {
@@ -85,38 +73,21 @@ class VideoViewController: UIViewController {
         imagePlayerView.filter = filter
     }
     
-//    func buildVideoComposition(filter: YPFilter) -> AVVideoComposition? {
-//        guard let asset = player?.currentItem?.asset else {
-//            return nil
-//        }
-//
-//        let composition = AVMutableVideoComposition(asset: asset) { (request) in
-//            var image = request.sourceImage
-//            image = filter.applyFilter(image: image)
-//            request.finish(with: image, context: nil)
-//        }
-//        return composition
-//    }
-    
     func setRate(_ rate: Float) {
         self.player?.rate = rate
         self.currentRate = rate
     }
     
     func play() {
-//        self.player?.rate = (playDirection == .forward ? 1 : -1)*currentRate
+        imagePlayerView.paused = false
     }
     
     func pause() {
-//        self.player?.pause()
+        imagePlayerView.paused = true
     }
     
     func stop() {
-//        self.player?.pause()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-//        removeObservers()
+        imagePlayerView.paused = true
     }
     
     weak var videoViewControllerDelegate: ImagePlayerDelegate? {
@@ -124,73 +95,6 @@ class VideoViewController: UIViewController {
             imagePlayerView.customDelegate = videoViewControllerDelegate
         }
     }
-    
-    func addObservers() {
-//        let observeInterval = CMTime(seconds: 0.01, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: observeInterval,
-//                                                           queue: .main) {
-//                                                            [weak self] time in                                                                                             self?.observePlaybackStatus()
-//        }
-//
-//        loopObserver = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { (notif) in
-//            guard let player = self.player, let currentItem = player.currentItem else { return }
-//            let meetEnds: Bool
-//            switch self.playDirection {
-//            case .forward:
-//                meetEnds = currentItem.currentTime() == currentItem.forwardPlaybackEndTime
-//            case .backward:
-//                meetEnds = currentItem.currentTime() == currentItem.reversePlaybackEndTime
-//            }
-//            if meetEnds {
-//                player.seek(to: self.playDirection == .forward ? self.trimPosition.leftTrim : self.trimPosition.rightTrim, toleranceBefore: .zero, toleranceAfter: .zero)
-//                self.play()
-//            }
-//        }
-//
-//        self.player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: nil)
-    }
-    
-    
-//    func observePlaybackStatus() {
-//        guard let currentItem = self.player?.currentItem else { return }
-//        let currentTime = currentItem.currentTime()
-//        showLoading(currentItem.isPlaybackBufferEmpty)
-//        if self.player!.timeControlStatus == .playing {
-//            if currentItem.isPlaybackLikelyToKeepUp {
-//                previewView.isHidden = true
-//                self.videoViewControllerDelegate?.onProgressChanged(progress:
-//                    currentTime)
-//            }
-//        }
-//    }
-    
-    func seek(toProgress progress: CMTime, andPlay play: Bool = true) {
-//        guard let player = self.player, currentItem?.status == .readyToPlay else {
-//            return
-//        }
-//
-//        if play {
-//            currentItem?.cancelPendingSeeks()
-//            isChasing = false
-//        }
-//
-//        guard !isChasing else { return }
-//        chaseTime = progress
-//        let chaseTimeInProgress = chaseTime!
-//        isChasing = true
-//        player.seek(to: chaseTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: {success in
-//            self.isChasing = false
-//            if let chaseTime = self.chaseTime, chaseTime != chaseTimeInProgress {
-//                self.seek(toProgress: chaseTime, andPlay: false)
-//            }
-//
-//            if play {
-//                player.play()
-//                self.updateEndtime()
-//            }
-//        })
-    }
-
 }
 
 func *(progress: CGFloat, duration: CMTime) -> CMTime {

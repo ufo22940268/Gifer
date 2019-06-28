@@ -22,7 +22,7 @@ class ImagePlayerView: UIView {
             let index = playerItem.nearestIndex(time: currentTime)
             var image = playerItem.frames[index].uiImage
             image = applyFilter(image)
-            frameView.image = image
+            frameView.image = playerItem.getImageForPlay(index: index, direction: playDirection)
             customDelegate?.onProgressChanged(progress: currentTime)
         }
     }

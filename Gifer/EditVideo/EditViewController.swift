@@ -678,14 +678,6 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
-        switch state {
-        case .begin:
-            pause()
-        case .slide:
-            self.videoVC.seek(toProgress: progress)
-        case .end:
-            break
-        }
     }
 }
 
