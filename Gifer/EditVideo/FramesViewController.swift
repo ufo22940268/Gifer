@@ -35,9 +35,9 @@ class FramesViewController: UIViewController {
 
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let gap = CGFloat(2)
-        let width: CGFloat = (collectionView.bounds.width - 3*gap)/4
+        let width: CGFloat = (view.bounds.width - 3*gap)/4
         flowLayout.minimumLineSpacing = gap
-        flowLayout.minimumInteritemSpacing = gap
+        flowLayout.minimumInteritemSpacing = 1
         flowLayout.itemSize = CGSize(width: width, height: width)
     }
 }

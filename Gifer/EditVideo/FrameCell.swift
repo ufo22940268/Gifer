@@ -12,6 +12,7 @@ class FrameCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var sequenceView: UILabel!
     @IBOutlet weak var coverView: UIView!
+    @IBOutlet weak var magnifierView: UIButton!
     
     var sequence: Int? {
         didSet {
@@ -24,5 +25,13 @@ class FrameCell: UICollectionViewCell {
                 coverView.isHidden = false
             }
         }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    @IBAction func onOpenPreview(_ sender: Any) {
+        print("onOpenPreview")
     }
 }

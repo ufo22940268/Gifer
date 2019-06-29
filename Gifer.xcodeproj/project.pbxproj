@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EC22C75980001CAD81 /* Storyboards.swift */; };
+		4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */; };
 		4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */; };
 		42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5C21F95587005D2710 /* OptionMenu.swift */; };
 		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
@@ -86,6 +88,7 @@
 		42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */; };
 		42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A12251EA9100E7E504 /* TextRender.swift */; };
 		42D7F2A42252284900E7E504 /* EditTextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A32252284900E7E504 /* EditTextInfo.swift */; };
+		42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E3C8BC22C758CC008C82FE /* Frame.storyboard */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -121,6 +124,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4218D4EC22C75980001CAD81 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
+		4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewViewController.swift; sourceTree = "<group>"; };
 		4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSection.swift; sourceTree = "<group>"; };
 		42265B5C21F95587005D2710 /* OptionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenu.swift; sourceTree = "<group>"; };
 		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
@@ -200,6 +205,7 @@
 		42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentRender.swift; sourceTree = "<group>"; };
 		42D7F2A12251EA9100E7E504 /* TextRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRender.swift; sourceTree = "<group>"; };
 		42D7F2A32252284900E7E504 /* EditTextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextInfo.swift; sourceTree = "<group>"; };
+		42E3C8BC22C758CC008C82FE /* Frame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Frame.storyboard; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -306,6 +312,7 @@
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
 				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
 				4294CCBB22C6D20200FD4917 /* FrameCell.swift */,
+				4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -486,6 +493,8 @@
 				4284D43D2275895E00886513 /* VideoRange */,
 				42D7F294224F580B00E7E504 /* Overlay */,
 				42D7F287224B831200E7E504 /* TestViewController.swift */,
+				42E3C8BC22C758CC008C82FE /* Frame.storyboard */,
+				4218D4EC22C75980001CAD81 /* Storyboards.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -605,6 +614,7 @@
 				42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */,
 				426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
+				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,
 				42F2D576219403B100113A10 /* Main.storyboard in Resources */,
 				42E86E6521CDC996004BB0BC /* LoadingViewController.xib in Resources */,
@@ -695,6 +705,7 @@
 				4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */,
 				424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */,
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
+				4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
@@ -738,6 +749,7 @@
 				42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */,
 				42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
+				4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
