@@ -13,7 +13,7 @@ class FramesViewController: UIViewController {
     
     var playerItem: ImagePlayerItem!
     var frames: [ImagePlayerFrame] {
-        return playerItem.frames
+        return playerItem.allFrames
     }
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -34,7 +34,10 @@ class FramesViewController: UIViewController {
         }
 
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let width: CGFloat = collectionView.bounds.width/4 - 3*4
+        let gap = CGFloat(2)
+        let width: CGFloat = (collectionView.bounds.width - 3*gap)/4
+        flowLayout.minimumLineSpacing = gap
+        flowLayout.minimumInteritemSpacing = gap
         flowLayout.itemSize = CGSize(width: width, height: width)
     }
 }
@@ -45,8 +48,19 @@ extension FramesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FrameCell
         cell.image.image = #imageLiteral(resourceName: "01_Cuppy_smile.png")
+        let frame = frames[indexPath.row]
+        cell.sequence = playerItem.getActiveSequence(of: frame)
         return cell
+    }
+}
+
+extension FramesViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var frame = frames[indexPath.row]
+        frame.isActive = !frame.isActive
+        playerItem.allFrames[indexPath.row] = frame
+        collectionView.reloadData()
     }
 }

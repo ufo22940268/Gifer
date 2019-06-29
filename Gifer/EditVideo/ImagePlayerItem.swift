@@ -15,6 +15,7 @@ struct ImagePlayerFrame {
     var key: NSNumber {
         return NSNumber(value: time.seconds)
     }
+    var isActive = true
     
     var uiImage: UIImage {
         let data = try! Data(contentsOf: path!)
@@ -27,7 +28,10 @@ struct ImagePlayerFrame {
 }
 
 class ImagePlayerItem {
-    var frames: [ImagePlayerFrame]
+    var activeFrames: [ImagePlayerFrame] {
+        return allFrames.filter { $0.isActive }
+    }
+    var allFrames: [ImagePlayerFrame]
     var duration: CMTime
     lazy var imageCache: NSCache<NSNumber, UIImage> = {
         let cache = NSCache<NSNumber, UIImage>()
@@ -38,36 +42,49 @@ class ImagePlayerItem {
     var queue = DispatchQueue(label: "cache")
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
-        self.frames = frames
+        self.allFrames = frames
         self.duration = duration
     }
     
+    func getActiveSequence(of frame: ImagePlayerFrame) -> Int? {
+        var index = 0
+        for af in activeFrames {
+            if af.path != frame.path {
+                index += 1
+            } else {
+                return index
+            }
+        }
+        
+        return nil
+    }
+    
     func nearestIndex(time: CMTime) -> Int {
-        return (self.frames.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
+        return (self.activeFrames.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
     }
     
     func nearestFrame(time: CMTime) -> ImagePlayerFrame {
-        return frames[nearestIndex(time: time)]
+        return activeFrames[nearestIndex(time: time)]
     }
     
     private func shiftIndex(_ index: Int, by delta: Int) -> Int {
         let newIndex = index + delta
-        if newIndex < frames.count && newIndex >= 0 {
+        if newIndex < activeFrames.count && newIndex >= 0 {
             return newIndex
         } else if newIndex < 0 {
-            return shiftIndex(frames.count - abs(newIndex), by: 0)
+            return shiftIndex(activeFrames.count - abs(newIndex), by: 0)
         } else {
-            return shiftIndex(newIndex - frames.count, by: 0)
+            return shiftIndex(newIndex - activeFrames.count, by: 0)
         }
     }
     
     func getImageForPlay(index: Int, direction: PlayDirection) -> UIImage {
         var uiImage: UIImage
-        if let image = imageCache.object(forKey: frames[index].key) {
+        if let image = imageCache.object(forKey: activeFrames[index].key) {
             uiImage = image
         } else {
-            let image = frames[index].uiImage
-            imageCache.setObject(image, forKey: frames[index].key)
+            let image = activeFrames[index].uiImage
+            imageCache.setObject(image, forKey: activeFrames[index].key)
             uiImage = image
         }
         
@@ -79,7 +96,7 @@ class ImagePlayerItem {
         queue.async {
             for i in 0..<9 {
                 let cacheIndex = self.shiftIndex(index, by: direction == .forward ?  i : -i)
-                let frame = self.frames[cacheIndex]
+                let frame = self.activeFrames[cacheIndex]
                 let cachedImage = self.imageCache.object(forKey: frame.key)
                 if cachedImage == nil {
                     self.imageCache.setObject(frame.uiImage, forKey: frame.key)

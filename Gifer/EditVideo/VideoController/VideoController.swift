@@ -349,7 +349,7 @@ class VideoController: UIStackView {
         self.videoSlider.duration = duration
         
         gallerySlider.alpha = 1.0
-        let thumbernailCount = min(10, playerItem.frames.count)
+        let thumbernailCount = min(10, playerItem.activeFrames.count)
         let galleryDuration: CMTime = playerItem.duration
         self.videoTrim.galleryDuration = galleryDuration
         self.galleryView.galleryDuration = galleryDuration
@@ -361,14 +361,14 @@ class VideoController: UIStackView {
         self.attachView.duration = duration
         completion()
         
-        let step = Int(floor(Double(playerItem.frames.count)/Double(thumbernailCount)))
+        let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
         var galleryIndex = 0
-        for i in stride(from: 0, to: playerItem.frames.count, by: step) {
+        for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
             if galleryIndex >= thumbernailCount {
                 break
             }
             
-            let frame = playerItem.frames[i]
+            let frame = playerItem.activeFrames[i]
             self.loadGallery(withImage: frame.uiImage, index: galleryIndex)
             galleryIndex += 1
         }

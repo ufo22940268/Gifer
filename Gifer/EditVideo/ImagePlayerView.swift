@@ -20,7 +20,7 @@ class ImagePlayerView: UIView {
     var currentTime: CMTime = .zero {
         didSet {
             let index = playerItem.nearestIndex(time: currentTime)
-            var image = playerItem.frames[index].uiImage
+            var image = playerItem.activeFrames[index].uiImage
             image = applyFilter(image)
             frameView.image = playerItem.getImageForPlay(index: index, direction: playDirection)
             customDelegate?.onProgressChanged(progress: currentTime)
@@ -28,7 +28,7 @@ class ImagePlayerView: UIView {
     }
     
     var interval: TimeInterval {
-        let frameCount = playerItem.frames.count
+        let frameCount = playerItem.activeFrames.count
         let duration = playerItem.duration
         let n = duration.seconds/Double(frameCount)/Double(rate)
         return ceil(n*10)/10
@@ -63,7 +63,7 @@ class ImagePlayerView: UIView {
     func load(playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
-        currentTime = playerItem.frames.first!.time
+        currentTime = playerItem.activeFrames.first!.time
         play()
     }
     
@@ -125,7 +125,7 @@ class ImagePlayerView: UIView {
     func step(by delta: Int) {
         guard let playerItem = playerItem else { fatalError() }
         let index = playerItem.nearestIndex(time: currentTime)
-        let frames = playerItem.frames
+        let frames = playerItem.activeFrames
         let frame = frames[(index + delta)%frames.count]
         currentTime = frame.time
     }

@@ -107,7 +107,7 @@ class GiferTests: XCTestCase {
         let exp = expectation(description: "export sucess")
         
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: nil) { (videoAsset, _, _) in
-            VideoCache(asset: videoAsset!).parse {video in
+            VideoCache(asset: videoAsset!, cacheName: "t").parse {video in
                 exp.fulfill()
             }
         }

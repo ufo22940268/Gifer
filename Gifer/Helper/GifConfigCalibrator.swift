@@ -123,7 +123,7 @@ class GifConfigCalibrator {
         guard let url = fileURL as CFURL?, let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, 1, nil) else { fatalError() }
         CGImageDestinationSetProperties(destination, fileProperties)
 
-        var image = playerItem.frames.first!.uiImage
+        var image = playerItem.activeFrames.first!.uiImage
         let size = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: .zero, size: processConfig.gifSize)).size
         image = UIGraphicsImageRenderer(size: size).image { (context) in
             image.draw(in: CGRect(origin: .zero, size: size))
