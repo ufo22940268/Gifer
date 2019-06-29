@@ -398,14 +398,25 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <color key="backgroundColor" name="darkBackgroundColor"/>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pnM-rx-tLl">
+                                                    <rect key="frame" x="8" y="22" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="Ori-EP-14q"/>
+                                                        <constraint firstAttribute="height" constant="20" id="kX1-Y2-CIa"/>
+                                                    </constraints>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <state key="normal" title="Button" image="search-plus"/>
+                                                </button>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="pnM-rx-tLl" firstAttribute="leading" secondItem="5M6-UC-4Vn" secondAttribute="leadingMargin" id="5CJ-ER-fPl"/>
                                             <constraint firstAttribute="trailing" secondItem="27N-Co-Y7z" secondAttribute="trailing" id="9Y6-3X-7aw"/>
                                             <constraint firstItem="0rZ-Qc-6EW" firstAttribute="top" secondItem="5M6-UC-4Vn" secondAttribute="top" id="B74-dT-fJP"/>
                                             <constraint firstItem="27N-Co-Y7z" firstAttribute="top" secondItem="5M6-UC-4Vn" secondAttribute="top" id="B8R-dX-LM9"/>
                                             <constraint firstItem="Ezn-1G-4Gx" firstAttribute="top" secondItem="5M6-UC-4Vn" secondAttribute="top" id="C6t-yV-DAA"/>
                                             <constraint firstItem="Ezn-1G-4Gx" firstAttribute="leading" secondItem="5M6-UC-4Vn" secondAttribute="leading" id="FRj-Vj-0ZH"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="pnM-rx-tLl" secondAttribute="bottom" id="Poc-mP-YSf"/>
                                             <constraint firstItem="27N-Co-Y7z" firstAttribute="leading" secondItem="5M6-UC-4Vn" secondAttribute="leading" id="SCl-7a-Rjl"/>
                                             <constraint firstAttribute="bottom" secondItem="0rZ-Qc-6EW" secondAttribute="bottom" id="e9F-PH-487"/>
                                             <constraint firstItem="0rZ-Qc-6EW" firstAttribute="leading" secondItem="5M6-UC-4Vn" secondAttribute="leading" id="lGJ-om-XLf"/>
@@ -444,6 +455,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="search-plus" width="25" height="25"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.094117647058823528" green="0.062745098039215685" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
