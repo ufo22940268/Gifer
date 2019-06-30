@@ -23,7 +23,7 @@ class FrameCell: UICollectionViewCell {
     var sequence: Int? {
         didSet {
             if let sequence = sequence {
-                sequenceView.text = String(sequence + 1)
+                sequenceView.text = String(sequence)
                 sequenceView.isHidden = false
                 coverView.isHidden = true
             } else {

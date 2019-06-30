@@ -11,6 +11,11 @@ import UIKit
 class FramePreviewViewController: UIViewController {
 
     @IBOutlet weak var previewView: UIImageView!
+    var sequence: Int! {
+        didSet {
+            navigationItem.title = String(sequence)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

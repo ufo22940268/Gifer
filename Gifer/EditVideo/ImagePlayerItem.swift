@@ -52,7 +52,7 @@ class ImagePlayerItem {
             if af.path != frame.path {
                 index += 1
             } else {
-                return index
+                return index + 1
             }
         }
         

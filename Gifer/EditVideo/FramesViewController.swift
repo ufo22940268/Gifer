@@ -81,6 +81,7 @@ extension FramesViewController: FrameCellDelegate {
         vc.loadViewIfNeeded()
         vc.previewView.image = frames[index].uiImage
         customTransitioningDelegate.cellIndex = index
+        vc.sequence = playerItem.getActiveSequence(of: frames[index])
 //        nvc.transitioningDelegate = customTransitioningDelegate
 //        nvc.modalTransitionStyle = .crossDissolve
 //        nvc.modalPresentationStyle = .custom
