@@ -167,6 +167,10 @@ class EditViewController: UIViewController {
     var videoCachedURL: URL?
     var loadingDialog: LoadingDialog?
     
+    var isVideoLoaded: Bool {
+        return videoVC.playerItem != nil
+    }
+    
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
     
@@ -554,6 +558,13 @@ class EditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
                 self.destroy()
             }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isVideoLoaded {
+            setSubTitle(duration: videoVC.trimPosition.galleryDuration)
         }
     }
     
