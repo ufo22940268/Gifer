@@ -9,14 +9,22 @@
 import UIKit
 import AVKit
 
+protocol FramesDelegate: class {
+    func onUpdatePlayerItem(_ playerItem: ImagePlayerItem)
+}
+
 class FramesViewController: UIViewController {
     
     var playerItem: ImagePlayerItem!
     var frames: [ImagePlayerFrame] {
-        return playerItem.allFrames
+        let from = playerItem.nearestIndex(time: trimPosition.leftTrim)
+        let to = playerItem.nearestIndex(time: trimPosition.rightTrim)
+        return Array(playerItem.allFrames[from...to])
     }
     @IBOutlet weak var collectionView: UICollectionView!
     var customTransitioningDelegate: FramePreviewTransitioningDelegate =  FramePreviewTransitioningDelegate()
+    weak var customDelegate: FramesDelegate?
+    var trimPosition: VideoTrimPosition!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +33,7 @@ class FramesViewController: UIViewController {
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         collectionView.backgroundColor = UIColor(named: "darkBackgroundColor")
         
-        if isInitial() {
+        if playerItem == nil {
             let directory = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
             let paths = (try! FileManager.default.contentsOfDirectory(atPath: directory.path)).map { (file: String) -> URL in
                 var path = directory
@@ -93,7 +101,7 @@ extension FramesViewController: FrameCellDelegate {
 //        nvc.modalTransitionStyle = .crossDissolve
 //        nvc.modalPresentationStyle = .custom
         present(nvc, animated: true, completion: nil)
-    }
+    }    
 }
 
 extension FramesViewController: FramePreviewDelegate {

@@ -38,12 +38,17 @@ protocol ImagePlayerDelegate: class {
 class VideoViewController: UIViewController {
     
     var previewView: VideoPreviewView!
-    var trimPosition: VideoTrimPosition!
+    var trimPosition: VideoTrimPosition {
+        return imagePlayerView.trimPosition
+    }
     var dismissed: Bool = false
     var videoInited: Bool = false
     var previewImage: UIImage?
 
     @IBOutlet var imagePlayerView: ImagePlayerView!
+    var playerItem: ImagePlayerItem! {
+        return imagePlayerView.playerItem
+    }
     var videoBounds: CGRect {
         return CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
     }
@@ -59,9 +64,20 @@ class VideoViewController: UIViewController {
     }
     
     func load(playerItem: ImagePlayerItem) -> Void {
-        trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         imagePlayerView.load(playerItem: playerItem)
 //        imagePlayerView.play()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if playerItem != nil {
+            imagePlayerView.paused = false
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        imagePlayerView.paused = true
     }
     
     func destroy() {

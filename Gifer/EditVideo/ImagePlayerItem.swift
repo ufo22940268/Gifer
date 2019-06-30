@@ -60,11 +60,19 @@ class ImagePlayerItem {
     }
     
     func nearestIndex(time: CMTime) -> Int {
-        return (self.activeFrames.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
+        return nearestIndex(time: time, on: allFrames)
     }
     
-    func nearestFrame(time: CMTime) -> ImagePlayerFrame {
-        return activeFrames[nearestIndex(time: time)]
+    func nearestActiveIndex(time: CMTime) -> Int {
+        return nearestIndex(time: time, on: self.activeFrames)
+    }
+    
+    func nearestActiveFrame(time: CMTime) -> ImagePlayerFrame {
+        return activeFrames[nearestActiveIndex(time: time)]
+    }
+    
+    private func nearestIndex(time: CMTime, on frames: [ImagePlayerFrame]) -> Int {
+        return (frames.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
     }
     
     private func shiftIndex(_ index: Int, by delta: Int) -> Int {

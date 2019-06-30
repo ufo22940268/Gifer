@@ -14,7 +14,7 @@
         <!--帧编辑-->
         <scene sceneID="LpK-M6-gUH">
             <objects>
-                <viewController id="biD-4K-Q56" customClass="FramesViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="frames" id="biD-4K-Q56" customClass="FramesViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Vn-MW-uE5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

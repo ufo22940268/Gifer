@@ -187,6 +187,9 @@ class EditViewController: UIViewController {
     var isDebug: Bool!
     var cacheFilePath: URL!
     var customTransitionDelegate = EditTextTransitionDelegate()
+    var playerItem: ImagePlayerItem {
+        return videoVC.playerItem
+    }
 
     var stickerOverlay: StickerOverlay {
         return cropContainer.stickerOverlay
@@ -256,9 +259,11 @@ class EditViewController: UIViewController {
     private func setSubTitle(_ text: String) {
         navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: "加载中...")
     }
-    
+
     private func setSubTitle(duration: CMTime) {
-        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒", duration.seconds))
+        let fromIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.leftTrim)
+        let toIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.rightTrim)
+        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒/%d张", duration.seconds, toIndex - fromIndex + 1))
     }
     
     func setupVideoContainer() {
@@ -425,6 +430,11 @@ class EditViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberVideo" {
             videoVC = segue.destination as? VideoViewController
+        } else if segue.identifier == "frames" {
+            let vc = segue.destination as! FramesViewController
+            vc.playerItem = playerItem
+            vc.trimPosition = videoVC.trimPosition
+            vc.customDelegate = self
         }
     }
     
@@ -538,9 +548,11 @@ class EditViewController: UIViewController {
     @IBAction func onDismiss(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
             navigationController?.popViewController(animated: true)
+            destroy()
         } else {
             ConfirmToDismissDialog().present(by: self) {
                 self.navigationController?.popViewController(animated: true)
+                self.destroy()
             }
         }
     }
@@ -562,6 +574,9 @@ class EditViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func destroy() {
         videoController.dismissed = true
         videoVC.dismissed = true
         videoVC.destroy()
@@ -848,5 +863,11 @@ extension EditViewController: OverlayDelegate {
 extension EditViewController: CropContainerDelegate {
     func onDeactiveComponents() {
         videoController.onDeactiveComponents()
+    }
+}
+
+extension EditViewController: FramesDelegate {
+    func onUpdatePlayerItem(_ playerItem: ImagePlayerItem) {
+        videoVC.imagePlayerView.playerItem = playerItem
     }
 }

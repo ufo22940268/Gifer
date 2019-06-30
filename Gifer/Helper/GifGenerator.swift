@@ -256,7 +256,7 @@ public class GifGenerator {
 
         for timeValue in times {
             let time = timeValue.timeValue
-            var image: CGImage = playerItem.nearestFrame(time: time).uiImage.cgImage!.resize(inSize: gifSize)
+            var image: CGImage = playerItem.nearestActiveFrame(time: time).uiImage.cgImage!.resize(inSize: gifSize)
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
             

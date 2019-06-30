@@ -44,7 +44,7 @@ class FramePreviewViewController: UIViewController {
         DarkMode.enable(in: self)
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         view.tintColor = .yellowActiveColor
-        navigationController?.view.tintColor = .yellowActiveColor
+        navigationController?.navigationBar.tintColor = .white
         // Do any additional setup after loading the view.
         
         isActive = false

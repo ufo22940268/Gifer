@@ -19,7 +19,7 @@ class ImagePlayerView: UIView {
     var playerItem: ImagePlayerItem!
     var currentTime: CMTime = .zero {
         didSet {
-            let index = playerItem.nearestIndex(time: currentTime)
+            let index = playerItem.nearestActiveIndex(time: currentTime)
             var image = playerItem.activeFrames[index].uiImage
             image = applyFilter(image)
             frameView.image = playerItem.getImageForPlay(index: index, direction: playDirection)
@@ -116,21 +116,21 @@ class ImagePlayerView: UIView {
     }
     
     private func canStep(by delta: Int) -> Bool {
-        let index = playerItem.nearestIndex(time: currentTime)
-        let minIndex = playerItem.nearestIndex(time: trimPosition.leftTrim)
-        let maxIndex = playerItem.nearestIndex(time: trimPosition.rightTrim)
+        let index = playerItem.nearestActiveIndex(time: currentTime)
+        let minIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
+        let maxIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
         return index + delta >= minIndex && index + delta <= maxIndex
     }
     
     func step(by delta: Int) {
         guard let playerItem = playerItem else { fatalError() }
-        let index = playerItem.nearestIndex(time: currentTime)
+        let index = playerItem.nearestActiveIndex(time: currentTime)
         let frames = playerItem.activeFrames
         let frame = frames[(index + delta)%frames.count]
         currentTime = frame.time
     }
     
     func seek(to progress: CMTime) {
-        currentTime = playerItem.nearestFrame(time: progress).time
+        currentTime = playerItem.nearestActiveFrame(time: progress).time
     }
 }
