@@ -39,6 +39,11 @@ class ImagePlayerItem {
         return cache
     }()
     
+    //Frame interval in seconds
+    var frameInterval: Double {
+        return (allFrames[1].time - allFrames[0].time).seconds
+    }
+    
     var queue = DispatchQueue(label: "cache")
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
@@ -111,5 +116,11 @@ class ImagePlayerItem {
                 }
             }
         }
+    }
+    
+    func getActiveFramesBetween(begin: CMTime, end: CMTime) -> [ImagePlayerFrame] {
+        let beginIndex = nearestActiveIndex(time: begin)
+        let endIndex = nearestActiveIndex(time: end)
+        return Array(activeFrames[beginIndex...endIndex])
     }
 }

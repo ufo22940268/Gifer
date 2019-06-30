@@ -233,17 +233,12 @@ public class GifGenerator {
     func generateGif(complete: @escaping (URL) -> Void) {
         let startProgress = options.start
         let endProgress = options.end
-        var times = [NSValue]()
         let group = DispatchGroup()
-        var currentTime = startProgress
-        while currentTime < endProgress {
-            times.append(NSValue(time: currentTime))
-            currentTime = currentTime + CMTime(seconds: 1/Double(extractImageCountPerSecond), preferredTimescale: currentTime.timescale)
-        }
         
-        let destination = self.buildDestinationOfGif(frameCount: times.count)
+        let generateFrames: [ImagePlayerFrame] = playerItem.getActiveFramesBetween(begin: options.start, end: options.end)
+        let destination = self.buildDestinationOfGif(frameCount: generateFrames.count)
         let ciContext = CIContext(options: nil)
-        times = arrangeTimeByPlayDirection(times)
+//        times = arrangeTimeByPlayDirection(times)
         
         var labelViewCaches: [LabelViewCache]! = nil
         var stickerImageCaches: [StickerImageCache]! = nil
@@ -254,11 +249,12 @@ public class GifGenerator {
             return ciContext.createCGImage(ciImage, from: ciImage.extent)!
         }
 
-        for timeValue in times {
-            let time = timeValue.timeValue
-            var image: CGImage = playerItem.nearestActiveFrame(time: time).uiImage.cgImage!.resize(inSize: gifSize)
+//        for timeValue in times {
+        for (index, frame) in generateFrames.enumerated() {
+            var image: CGImage = frame.uiImage.cgImage!.resize(inSize: gifSize)
+            let time = CMTime(seconds: Double(index)*playerItem.frameInterval, preferredTimescale: 600)
             
-            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): self.gifDelayTime]] as CFDictionary
+            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): playerItem.frameInterval]] as CFDictionary
             
             let originImageSize = image.size
             image = self.crop(image: image)
@@ -266,8 +262,6 @@ public class GifGenerator {
                 image = applyFilter(image, filter: filter, in: ciContext)
             }
             
-            //TODO This may optimize exporting process.
-//            DispatchQueue.main.sync {
             if labelViewCaches == nil {
                 labelViewCaches = self.cacheLabelViewsForExport(image: image)
             }
@@ -275,7 +269,6 @@ public class GifGenerator {
             if stickerImageCaches == nil {
                 stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
             }
-//            }
             
             image = self.addStickersAndTexts(current: time, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
             
