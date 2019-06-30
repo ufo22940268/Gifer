@@ -50,6 +50,7 @@
 		4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */; };
 		4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */; };
 		4285BFA521A8D4DE00913466 /* VideoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA421A8D4DE00913466 /* VideoLibrary.swift */; };
+		428650B922C82B9A00600B72 /* FramePreviewTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428650B822C82B9A00600B72 /* FramePreviewTransitioningDelegate.swift */; };
 		428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */; };
 		4294CCB822C4498700FD4917 /* ImagePlayerFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */; };
 		4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */; };
@@ -167,6 +168,7 @@
 		4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallery.swift; sourceTree = "<group>"; };
 		4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryViewController.swift; sourceTree = "<group>"; };
 		4285BFA421A8D4DE00913466 /* VideoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLibrary.swift; sourceTree = "<group>"; };
+		428650B822C82B9A00600B72 /* FramePreviewTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioningDelegate.swift; sourceTree = "<group>"; };
 		428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryCell.swift; sourceTree = "<group>"; };
 		4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrameView.swift; sourceTree = "<group>"; };
 		4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesViewController.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
 				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
+				428650B822C82B9A00600B72 /* FramePreviewTransitioningDelegate.swift */,
 				4294CCBB22C6D20200FD4917 /* FrameCell.swift */,
 				4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */,
 			);
@@ -706,6 +709,7 @@
 				424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */,
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */,
+				428650B922C82B9A00600B72 /* FramePreviewTransitioningDelegate.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,

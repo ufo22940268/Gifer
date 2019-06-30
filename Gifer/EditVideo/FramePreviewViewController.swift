@@ -15,10 +15,18 @@ class FramePreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        DarkMode.enable(in: self)
+        view.backgroundColor = UIColor(named: "darkBackgroundColor")
+        view.tintColor = .yellowActiveColor
+        navigationController?.view.tintColor = .yellowActiveColor
         // Do any additional setup after loading the view.
     }
     
-
+    
+    @IBAction func onDismiss(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
