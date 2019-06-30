@@ -117,7 +117,6 @@ class VideoRangeViewController: UIViewController {
             self.videoCache?.delegate = self
             self.videoCache?.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
                 self.view.tintAdjustmentMode = .automatic
-                self.initialLoadingDialog?.dismiss()
                 self.videoPreviewSection.alpha = 1.0
                 self.loadPreview(url: url)
             })
@@ -186,7 +185,8 @@ class VideoRangeViewController: UIViewController {
     private func observePlayProgress(progress: CMTime) {
         var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
-            videoController.updateSliderProgress(progress)
+            let percent: Double = ((progress - trimPosition.leftTrim).seconds/trimPosition.galleryDuration.seconds).clamped(to: 0...1)
+            videoController.updateSliderProgress(percent: CGFloat(percent))
             showLoading = !currentItem.isPlaybackLikelyToKeepUp
         } else {
             showLoading = false

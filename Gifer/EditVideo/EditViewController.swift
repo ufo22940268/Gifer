@@ -660,7 +660,12 @@ extension EditViewController: ImagePlayerDelegate {
     }
     
     func onProgressChanged(progress: CMTime) {
-        videoController.updateSliderProgress(progress)
+        let current = playerItem.nearestActiveIndex(time: progress)
+        let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
+        let right = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
+        let percent = CGFloat(current - left)/CGFloat(right - left)
+        
+        videoController.updateSliderProgress(percent: percent)
         cropContainer.updateOverlayWhenProgressChanged(progress: progress)
     }
     

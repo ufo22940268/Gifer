@@ -149,7 +149,7 @@ class LoadingDialog: Dialog {
     }
 
     func show(by viewController: UIViewController) {
-        viewController.present(alertController, animated: true) {
+        viewController.present(alertController, animated: false) {
         }
     }
     

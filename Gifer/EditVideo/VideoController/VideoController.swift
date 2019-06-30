@@ -439,14 +439,10 @@ class VideoController: UIStackView {
         }
     }
     
-    func updateSliderProgress(_ progress: CMTime) {
+    func updateSliderProgress(percent: CGFloat) {
         if stickToSide != nil {
             return
         }
-        let current = playerItem.nearestActiveIndex(time: progress)
-        let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
-        let right = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
-        let percent = CGFloat(current - left)/CGFloat(right - left)
         videoSlider.updateProgress(percent: percent)
         videoSlider.show(true)
     }
