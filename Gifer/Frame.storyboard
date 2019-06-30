@@ -123,17 +123,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Swj-aT-CHM">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ck5-Go-MTJ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" name="darkBackgroundColor"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Swj-aT-CHM">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="730"/>
+                                        <color key="backgroundColor" name="darkBackgroundColor"/>
+                                    </imageView>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="wnD-P9-bRv">
+                                        <rect key="frame" x="0.0" y="730" width="414" height="44"/>
+                                        <color key="backgroundColor" name="darkBackgroundColor"/>
+                                        <items>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="hYj-nw-QpI"/>
+                                            <barButtonItem title="Item" image="check-circle-regular" id="J0p-Ir-X6u">
+                                                <connections>
+                                                    <action selector="onCheck:" destination="HHL-eg-0Af" id="Tb6-JX-yOr"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="Rs2-wJ-zZR"/>
+                                        </items>
+                                        <color key="barTintColor" name="darkBackgroundColor"/>
+                                    </toolbar>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Swj-aT-CHM" firstAttribute="width" secondItem="Ck5-Go-MTJ" secondAttribute="width" id="FIE-Lf-hv7"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="56a-4t-TEx" firstAttribute="bottom" secondItem="Swj-aT-CHM" secondAttribute="bottom" id="AN9-vM-K24"/>
-                            <constraint firstItem="56a-4t-TEx" firstAttribute="trailing" secondItem="Swj-aT-CHM" secondAttribute="trailing" id="Zen-R1-qgV"/>
-                            <constraint firstItem="Swj-aT-CHM" firstAttribute="top" secondItem="56a-4t-TEx" secondAttribute="top" id="m2X-gq-nog"/>
-                            <constraint firstItem="Swj-aT-CHM" firstAttribute="leading" secondItem="56a-4t-TEx" secondAttribute="leading" id="nbj-9l-Kh2"/>
+                            <constraint firstItem="Ck5-Go-MTJ" firstAttribute="leading" secondItem="56a-4t-TEx" secondAttribute="leading" id="41O-D6-Er6"/>
+                            <constraint firstItem="56a-4t-TEx" firstAttribute="trailing" secondItem="Ck5-Go-MTJ" secondAttribute="trailing" id="Rhy-Kh-uM7"/>
+                            <constraint firstItem="56a-4t-TEx" firstAttribute="bottom" secondItem="Ck5-Go-MTJ" secondAttribute="bottom" id="Ymy-kz-kdZ"/>
+                            <constraint firstItem="Ck5-Go-MTJ" firstAttribute="top" secondItem="56a-4t-TEx" secondAttribute="top" id="vCP-Wl-PBK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="56a-4t-TEx"/>
                     </view>
@@ -145,6 +167,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="checkItem" destination="J0p-Ir-X6u" id="5aj-K3-WsS"/>
                         <outlet property="previewView" destination="Swj-aT-CHM" id="eQj-o7-c2q"/>
                     </connections>
                 </viewController>
@@ -185,6 +208,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="check-circle-regular" width="26" height="26"/>
         <image name="search-plus" width="25" height="25"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.094117647058823528" green="0.062745098039215685" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

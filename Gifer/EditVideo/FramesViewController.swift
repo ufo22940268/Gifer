@@ -47,6 +47,10 @@ class FramesViewController: UIViewController {
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.itemSize = CGSize(width: width, height: width)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+    }
 }
 
 extension FramesViewController: UICollectionViewDataSource {
@@ -82,9 +86,18 @@ extension FramesViewController: FrameCellDelegate {
         vc.previewView.image = frames[index].uiImage
         customTransitioningDelegate.cellIndex = index
         vc.sequence = playerItem.getActiveSequence(of: frames[index])
+        vc.index = index
+        vc.delegate = self
+        vc.isActive = frames[index].isActive
 //        nvc.transitioningDelegate = customTransitioningDelegate
 //        nvc.modalTransitionStyle = .crossDissolve
 //        nvc.modalPresentationStyle = .custom
         present(nvc, animated: true, completion: nil)
+    }
+}
+
+extension FramesViewController: FramePreviewDelegate {
+    func onCheck(index: Int, actived: Bool) {
+        playerItem.allFrames[index].isActive = actived
     }
 }

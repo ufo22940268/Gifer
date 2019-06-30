@@ -8,12 +8,33 @@
 
 import UIKit
 
+protocol FramePreviewDelegate: class {
+    func onCheck(index: Int, actived: Bool)
+}
+
 class FramePreviewViewController: UIViewController {
 
+    @IBOutlet weak var checkItem: UIBarButtonItem!
     @IBOutlet weak var previewView: UIImageView!
-    var sequence: Int! {
+    
+    weak var delegate: FramePreviewDelegate?
+    var index: Int!
+    
+    var sequence: Int? {
         didSet {
-            navigationItem.title = String(sequence)
+            navigationItem.title = sequence == nil ? "" : String(sequence!)
+        }
+    }
+    
+    var isActive: Bool! {
+        didSet {
+            if isActive {
+                checkItem.image = #imageLiteral(resourceName: "check-circle-solid.png")
+                checkItem.tintColor = view.tintColor
+            } else {
+                checkItem.image = #imageLiteral(resourceName: "check-circle-regular.png")
+                checkItem.tintColor = .lightText
+            }
         }
     }
     
@@ -25,6 +46,8 @@ class FramePreviewViewController: UIViewController {
         view.tintColor = .yellowActiveColor
         navigationController?.view.tintColor = .yellowActiveColor
         // Do any additional setup after loading the view.
+        
+        isActive = false
     }
     
     
@@ -32,14 +55,8 @@ class FramePreviewViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func onCheck(_ sender: Any) {
+        isActive = !isActive
+        delegate?.onCheck(index: index, actived: isActive)
     }
-    */
-
 }
