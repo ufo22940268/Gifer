@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--帧编辑-->
+        <!--图片帧-->
         <scene sceneID="LpK-M6-gUH">
             <objects>
                 <viewController storyboardIdentifier="frames" id="biD-4K-Q56" customClass="FramesViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
@@ -106,7 +106,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b81-vf-jhe"/>
                     </view>
-                    <navigationItem key="navigationItem" title="帧编辑" id="sQL-z0-fM8"/>
+                    <navigationItem key="navigationItem" title="图片帧" id="sQL-z0-fM8"/>
                     <connections>
                         <outlet property="collectionView" destination="5c3-AP-EDh" id="HrK-Or-3i7"/>
                     </connections>

@@ -135,30 +135,5 @@ extension VideoViewController {
         default:
             break
         }
-
-//        guard let player = player, let _ = player.currentItem else { return }
-//
-//        trimPosition = position
-//
-//        var toProgress: CMTime!
-//        if side == .left {
-//            toProgress = position.leftTrim
-//        } else {
-//            toProgress = position.rightTrim
-//        }
-//        if case .finished(_) = state {
-//            seek(toProgress: toProgress, andPlay: true)
-//        } else {
-//            if case .started = state {
-//                currentItem?.cancelPendingSeeks()
-//                pause()
-//            }
-//
-//            if case .initial = state {
-//                updateEndtime()
-//            }
-//
-//            seek(toProgress: toProgress, andPlay: false)
-//        }
     }
 }

@@ -223,9 +223,9 @@ class VideoController: UIStackView {
             guard let stickToSide = stickToSide else { return }
             switch stickToSide {
             case .left:
-                videoSlider.updateProgress(progress: .zero)
+                videoSlider.updateProgress(percent: 0)
             case .right:
-                videoSlider.updateProgress(progress: trimPosition.rightTrim)
+                videoSlider.updateProgress(percent: 1)
             }
             videoSlider.show(true)
         }
@@ -237,6 +237,8 @@ class VideoController: UIStackView {
             galleryContainer.constraints.findById(id: "height").constant = layoutSize.height
         }
     }
+    
+    var playerItem: ImagePlayerItem!
     
     var galleryRangeInSlider: GalleryRangePosition {
         guard let duration = duration else { fatalError() }
@@ -441,7 +443,11 @@ class VideoController: UIStackView {
         if stickToSide != nil {
             return
         }
-        videoSlider.updateProgress(progress: progress)
+        let current = playerItem.nearestActiveIndex(time: progress)
+        let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
+        let right = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
+        let percent = CGFloat(current - left)/CGFloat(right - left)
+        videoSlider.updateProgress(percent: percent)
         videoSlider.show(true)
     }
     

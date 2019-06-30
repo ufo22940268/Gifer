@@ -171,6 +171,13 @@ class EditViewController: UIViewController {
         return videoVC.playerItem != nil
     }
     
+    var playerItem: ImagePlayerItem! {
+        didSet {
+            videoVC.imagePlayerView.playerItem = playerItem
+            videoController.playerItem = playerItem
+        }
+    }
+    
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
     
@@ -191,9 +198,6 @@ class EditViewController: UIViewController {
     var isDebug: Bool!
     var cacheFilePath: URL!
     var customTransitionDelegate = EditTextTransitionDelegate()
-    var playerItem: ImagePlayerItem {
-        return videoVC.playerItem
-    }
 
     var stickerOverlay: StickerOverlay {
         return cropContainer.stickerOverlay
@@ -264,9 +268,10 @@ class EditViewController: UIViewController {
         navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: "加载中...")
     }
 
-    private func setSubTitle(duration: CMTime) {
+    private func updateSubTitle() {
         let fromIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.rightTrim)
+        let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
         navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒/%d张", duration.seconds, toIndex - fromIndex + 1))
     }
     
@@ -564,7 +569,7 @@ class EditViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isVideoLoaded {
-            setSubTitle(duration: videoVC.trimPosition.galleryDuration)
+            updateSubTitle()
         }
     }
     
@@ -625,6 +630,7 @@ extension EditViewController: ImagePlayerDelegate {
     func onVideoReady(playerItem: ImagePlayerItem) {
 //        mock()
 //
+        self.playerItem = playerItem
         isLoadingAsset = false
         loadingDialog?.dismiss()
         loadingDialog = nil
@@ -642,7 +648,7 @@ extension EditViewController: ImagePlayerDelegate {
 //            self.previewView?.isHidden = true
 
             self.defaultGifOptions = self.currentGifOption
-            self.setSubTitle(duration: self.videoController.galleryDuration)
+            self.updateSubTitle()
         }
     }
     
@@ -694,7 +700,7 @@ extension EditViewController: VideoControllerDelegate {
             videoController.stickTo(side: fixedSide)
         }
         videoVC.updateTrim(position: position, state: state, side: fixedSide)
-        setSubTitle(duration: videoController.galleryDuration)
+        updateSubTitle()
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
@@ -879,6 +885,6 @@ extension EditViewController: CropContainerDelegate {
 
 extension EditViewController: FramesDelegate {
     func onUpdatePlayerItem(_ playerItem: ImagePlayerItem) {
-        videoVC.imagePlayerView.playerItem = playerItem
+        self.playerItem = playerItem
     }
 }

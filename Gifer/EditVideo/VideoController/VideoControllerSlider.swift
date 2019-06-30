@@ -13,7 +13,6 @@ import AVKit
 class VideoControllerSlider: UIControl {
     
     weak var delegate: SlideVideoProgressDelegate?
-    var progress: CMTime!
     var duration: CMTime!
     
     lazy var sliderLayer: CAShapeLayer = {
@@ -75,11 +74,8 @@ class VideoControllerSlider: UIControl {
         return sliderRangeGuide.layoutFrame.minX
     }
     
-    func updateProgress(progress: CMTime) {
-        let trimPosition = trimView.trimPosition
-        let percentageProgress: Double = ((progress - trimPosition.leftTrim).seconds/trimPosition.galleryDuration.seconds).clamped(to: 0...1)
-        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX + (sliderRangeGuide.layoutFrame.width)*CGFloat(percentageProgress)
-        self.progress = progress    
+    func updateProgress(percent: CGFloat) {
+        leadingConstraint.constant = sliderRangeGuide.layoutFrame.minX + (sliderRangeGuide.layoutFrame.width)*CGFloat(percent)
     }
 }
 
