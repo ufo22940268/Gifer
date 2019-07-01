@@ -103,18 +103,23 @@ class ImagePlayerItem {
         }
     }
     
-    func getImageForPlay(index: Int, direction: PlayDirection) -> UIImage {
-        var uiImage: UIImage
-        if let image = playCache.object(forKey: activeFrames[index].key) {
-            uiImage = image
-        } else {
-            let image = activeFrames[index].uiImage
-            playCache.setObject(image, forKey: activeFrames[index].key)
-            uiImage = image
+    func getImageForPlay(index: Int, direction: PlayDirection, complete: @escaping (UIImage) -> Void) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            var uiImage: UIImage
+            if let image = self.playCache.object(forKey: self.activeFrames[index].key) {
+                uiImage = image
+            } else {
+                let image = self.activeFrames[index].uiImage
+                self.playCache.setObject(image, forKey: self.activeFrames[index].key)
+                uiImage = image
+            }
+            
+            DispatchQueue.main.async {
+                complete(uiImage)
+            }
         }
         
         cacheImage(index: index, with: direction)
-        return uiImage
     }
     
     private func cacheImage(index: Int, with direction: PlayDirection) {
