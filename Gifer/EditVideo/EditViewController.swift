@@ -219,10 +219,14 @@ class EditViewController: UIViewController {
         didSet {
             if isLoadingAsset {
                 view.tintAdjustmentMode = .dimmed
-                shareItem.tintColor = UIColor.gray
+                navigationItem.rightBarButtonItems?.forEach({ (item) in
+                    item.tintColor = UIColor.gray
+                })
             } else {
                 view.tintAdjustmentMode = .automatic
-                shareItem.tintColor = .white
+                navigationItem.rightBarButtonItems?.forEach({ (item) in
+                    item.tintColor = UIColor.white
+                })
             }
         }
     }

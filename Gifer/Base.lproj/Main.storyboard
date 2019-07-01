@@ -143,7 +143,6 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="layer-group" id="SeZ-9q-LC8">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <segue destination="xUn-aB-490" kind="show" identifier="frames" id="9UE-iq-AdG"/>
                                 </connections>
