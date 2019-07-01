@@ -20,9 +20,9 @@ class ImagePlayerView: UIView {
     var currentTime: CMTime = .zero {
         didSet {
             let index = playerItem.nearestActiveIndex(time: currentTime)
-            var image = playerItem.activeFrames[index].uiImage
+            var image = playerItem.getImageForPlay(index: index, direction: playDirection)
             image = applyFilter(image)
-            frameView.image = playerItem.getImageForPlay(index: index, direction: playDirection)
+            frameView.image = image
             customDelegate?.onProgressChanged(progress: currentTime)
         }
     }

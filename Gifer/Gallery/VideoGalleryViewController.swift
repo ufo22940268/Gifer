@@ -176,6 +176,7 @@ class VideoGalleryViewController: UICollectionViewController {
             let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
             editVC.videoAsset = videoAsset
             editVC.previewImage = previewImage
+            editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
             navigationController?.pushViewController(editVC, animated: true)
         }
     }
