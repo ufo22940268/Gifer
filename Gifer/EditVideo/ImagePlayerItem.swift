@@ -9,7 +9,7 @@
 import UIKit
 import AVKit
 
-struct ImagePlayerFrame {
+struct ImagePlayerFrame: Equatable {
     var time: CMTime
     var path: URL?
     var key: NSNumber {
@@ -27,17 +27,29 @@ struct ImagePlayerFrame {
     }
 }
 
+
+
 class ImagePlayerItem {
     var activeFrames: [ImagePlayerFrame] {
         return allFrames.filter { $0.isActive }
     }
     var allFrames: [ImagePlayerFrame]
     var duration: CMTime
-    lazy var imageCache: NSCache<NSNumber, UIImage> = {
+    lazy var playCache: NSCache<NSNumber, UIImage> = {
         let cache = NSCache<NSNumber, UIImage>()
         cache.countLimit = 10
         return cache
     }()
+    
+    lazy var commonCache: NSCache<NSNumber, UIImage> = {
+        let cache = NSCache<NSNumber, UIImage>()
+        cache.countLimit = 50
+        return cache
+    }()
+
+    var tasks: [RequestId: DispatchWorkItem] = [RequestId: DispatchWorkItem]()
+    
+    typealias RequestId = Int
     
     //Frame interval in seconds
     var frameInterval: Double {
@@ -93,11 +105,11 @@ class ImagePlayerItem {
     
     func getImageForPlay(index: Int, direction: PlayDirection) -> UIImage {
         var uiImage: UIImage
-        if let image = imageCache.object(forKey: activeFrames[index].key) {
+        if let image = playCache.object(forKey: activeFrames[index].key) {
             uiImage = image
         } else {
             let image = activeFrames[index].uiImage
-            imageCache.setObject(image, forKey: activeFrames[index].key)
+            playCache.setObject(image, forKey: activeFrames[index].key)
             uiImage = image
         }
         
@@ -110,12 +122,52 @@ class ImagePlayerItem {
             for i in 0..<9 {
                 let cacheIndex = self.shiftIndex(index, by: direction == .forward ?  i : -i)
                 let frame = self.activeFrames[cacheIndex]
-                let cachedImage = self.imageCache.object(forKey: frame.key)
+                let cachedImage = self.playCache.object(forKey: frame.key)
                 if cachedImage == nil {
-                    self.imageCache.setObject(frame.uiImage, forKey: frame.key)
+                    self.playCache.setObject(frame.uiImage, forKey: frame.key)
                 }
             }
         }
+    }
+    
+    func requestThumbernail(index: Int, size: CGSize, complete: @escaping (UIImage) -> Void) {
+        let frame = allFrames[index]
+        requestImage(frame: frame) { image in
+            complete(image.resize(inSize: size))
+        }
+    }
+    
+    @discardableResult
+    func requestImage(frame: ImagePlayerFrame, size: CGSize? = nil, complete: @escaping (UIImage) -> Void) -> RequestId {
+        let id = allFrames.firstIndex(of: frame)!
+        let workItem = DispatchWorkItem {
+            if let image = self.commonCache.object(forKey: NSNumber(value: id)) {
+                DispatchQueue.main.async {                    
+                    complete(image)
+                }
+                return
+            }
+            
+            var image = frame.uiImage
+            if let size = size {
+                image = image.resize(inSize: size)
+            }
+            self.commonCache.setObject(image, forKey: NSNumber(value: id))
+            DispatchQueue.main.async {
+                complete(image)
+            }
+        }
+        self.tasks[id] = workItem
+        workItem.notify(queue: .main) {
+            self.tasks.removeValue(forKey: id)
+        }
+        DispatchQueue.global(qos: .userInteractive).async(execute: workItem)
+        return id
+    }
+    
+    func cancel(taskId: RequestId) {
+        tasks[taskId]?.cancel()
+        tasks.removeValue(forKey: taskId)
     }
     
     func getActiveFramesBetween(begin: CMTime, end: CMTime) -> [ImagePlayerFrame] {
