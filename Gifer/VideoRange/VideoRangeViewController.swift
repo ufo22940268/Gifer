@@ -240,15 +240,20 @@ class VideoRangeViewController: UIViewController {
             unregisterObservers()
         }
         
-        if let downloadTaskId = downloadTaskId {
-            PHImageManager.default().cancelImageRequest(downloadTaskId)
-        }
-        
         initialLoadingDialog?.dismiss()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         videoCache = nil
+        if isMovingFromParent {
+            destroy()
+        }
+    }
+    
+    func destroy() {
+        if let downloadTaskId = downloadTaskId {
+            PHImageManager.default().cancelImageRequest(downloadTaskId)
+        }                
     }
     
     func setupPreview() {
