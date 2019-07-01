@@ -164,7 +164,7 @@ class EditViewController: UIViewController {
     var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
-    var videoCachedURL: URL?
+    var assetFromRange: AVAsset?
     var loadingDialog: LoadingDialog?
     
     var isVideoLoaded: Bool {
@@ -369,28 +369,17 @@ class EditViewController: UIViewController {
         }
     }
     
-    var isJumpFromRange: Bool {
-        return videoCachedURL != nil
-    }
-    
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
         showLoading(true, label: "加载中")
-        if let url = videoCachedURL {
-            completion(url)
-        } else {
-            getAVAsset { (avAsset) in
-                guard let avAsset = avAsset else { return }
-                self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration)
-                self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
-                self.cacheFilePath = self.videoCache!.tempFilePath
-                if self.isJumpFromRange {
-                    self.videoCache!.delegate = self
-                }
-                self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
-                    self.videoCache?.asset = nil
-                    completion(url)
-                })
-            }
+        getAVAsset { (avAsset) in
+            guard let avAsset = avAsset else { return }
+            self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
+            self.cacheFilePath = self.videoCache!.tempFilePath
+            self.videoCache!.delegate = self
+            self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
+                self.videoCache?.asset = nil
+                completion(url)
+            })
         }
     }
     

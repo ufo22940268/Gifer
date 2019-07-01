@@ -71,8 +71,6 @@ class VideoRangeViewController: UIViewController {
         return indicator
     }()
     
-    var downloadTaskId: PHImageRequestID?
-    
     var trimPosition: VideoTrimPosition {
         return videoController.trimPosition
     }
@@ -93,49 +91,27 @@ class VideoRangeViewController: UIViewController {
             previewAsset = getTestVideo()
         }
         setSubtitle("加载中...")
-        cacheAsset()
+        loadAsset()
     }
     
-    private func cacheAsset() {
-        initialLoadingDialog = LoadingDialog(label: "正在加载视频")
-        initialLoadingDialog?.show(by: self)
-        
+    private func loadAsset() {
         let manager = PHImageManager.default()
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         options.progressHandler = self.onDownloadVideoProgressChanged
         
-        if let downloadTaskId = downloadTaskId {
-            manager.cancelImageRequest(downloadTaskId)
-            self.downloadTaskId = nil
-        }
-        
-        downloadTaskId = manager.requestAVAsset(forVideo: previewAsset, options: options) { (avAsset, _, _) in
-            guard let avAsset = avAsset else { return }
-            self.videoCache = VideoCache(asset: avAsset, cacheName: "range")
-            self.videoCache?.delegate = self
-            self.videoCache?.parse(trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration), completion: { (url) in
+        manager.requestPlayerItem(forVideo: previewAsset, options: options) { (playerItem, _) in
+            guard let playerItem = playerItem else { return }
+            DispatchQueue.main.async {
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
-                self.loadPreview(url: url)
-            })
+                self.loadPreview(playerItem: playerItem)
+            }
         }
     }
 
-    
-    private func setSubtitle(_ subTitle: String) {
-        navigationItem.setTwoLineTitle(lineOne: "修剪", lineTwo: subTitle)
-    }
-    
-    private func loadPreview(url: URL) {
-        let asset = AVAsset(url: url)
-        let playerItem = AVPlayerItem(asset: asset)
-        self.onPreviewLoaded(playerItem: playerItem)
-    }
-    
-    private func onPreviewLoaded(playerItem: AVPlayerItem) {
-        self.initialLoadingDialog?.dismiss()
+    private func loadPreview(playerItem: AVPlayerItem) {
         self.previewController.player = AVPlayer(playerItem: playerItem)
         guard let previewImage = playerItem.asset.copyFirstImage() else { return }
         self.previewImage = previewImage
@@ -151,6 +127,10 @@ class VideoRangeViewController: UIViewController {
         player.play()
     }
     
+    private func setSubtitle(_ subTitle: String) {
+        navigationItem.setTwoLineTitle(lineOne: "修剪", lineTwo: subTitle)
+    }
+
     private func setupVideoController() {
         videoController.delegate = self
     }
@@ -239,8 +219,6 @@ class VideoRangeViewController: UIViewController {
             player.pause()
             unregisterObservers()
         }
-        
-        initialLoadingDialog?.dismiss()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -251,9 +229,6 @@ class VideoRangeViewController: UIViewController {
     }
     
     func destroy() {
-        if let downloadTaskId = downloadTaskId {
-            PHImageManager.default().cancelImageRequest(downloadTaskId)
-        }                
     }
     
     func setupPreview() {
@@ -345,7 +320,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
             if let forceSeek = forceSeek, !isSeeking {
                 player.pause()
                 chaseTime = forceSeek
-                chaseRightTrim = position.rightTrim
                 trySeekToChaseTime()
             }
         }        
@@ -361,10 +335,8 @@ extension VideoRangeViewController: VideoControllerDelegate {
     func actualSeekToChaseTime() {
         isSeeking = true
         let seekTimeInProgress = self.chaseTime!
-        if let chaseRightTrim = chaseRightTrim {            
-            currentItem.forwardPlaybackEndTime = chaseRightTrim
-        }
         player.currentItem?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero) {_ in
+            print("seek finish")
             self.isSeeking = false
             if self.chaseTime != seekTimeInProgress {
                 self.trySeekToChaseTime()
@@ -391,10 +363,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController, let cachedURL = videoCache?.cachedURL {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
             editVC.previewImage = previewImage
-            editVC.videoCachedURL = cachedURL
             editVC.initTrimPosition = trimPosition
+            editVC.videoAsset = previewAsset
         }
     }
 }
