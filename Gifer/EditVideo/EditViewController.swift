@@ -157,12 +157,12 @@ class EditViewController: UIViewController {
     @IBOutlet var toolbar: UIToolbar!
     
     var downloadTaskId: PHImageRequestID?
+    var playerItemGenerator: ImagePlayerItemGenerator?
     
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
-    var initialLoadingDialog: LoadingDialog?
     var videoAsset: PHAsset!
     var videoCachedURL: URL?
     var loadingDialog: LoadingDialog?
@@ -193,7 +193,7 @@ class EditViewController: UIViewController {
     @IBOutlet weak var controlToolbar: ControlToolbar!
     var defaultGifOptions: GifGenerator.Options?
     var previewImage: UIImage!
-
+    
     var initTrimPosition: VideoTrimPosition?
     var isDebug: Bool!
     var cacheFilePath: URL!
@@ -381,8 +381,6 @@ class EditViewController: UIViewController {
                 self.cacheFilePath = self.videoCache!.tempFilePath
                 if self.isJumpFromRange {
                     self.videoCache!.delegate = self
-                } else {
-                    self.initialLoadingDialog = LoadingDialog(label: "正在加载视频")
                 }
                 self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
                     self.videoCache?.asset = nil
@@ -403,7 +401,8 @@ class EditViewController: UIViewController {
         videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
         try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
         
-        ImagePlayerItemGenerator(avAsset: composition, trimPosition: initTrimPosition!).extract { playerItem in
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: composition, trimPosition: initTrimPosition!)
+        playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
                 this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
@@ -525,6 +524,7 @@ class EditViewController: UIViewController {
     }
 
     private func showLoading(_ show: Bool, label: String = "") {
+        guard !isBeingDismissed else { return }
         if (show) {
             if loadingDialog == nil || !(loadingDialog!.isShowing)  {
                 loadingDialog = LoadingDialog(label: label)
@@ -579,6 +579,11 @@ class EditViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        loadingDialog?.dismiss(animated: false)
+    }
+    
     @objc func onResume() {
         videoVC.play()
     }
@@ -590,12 +595,18 @@ class EditViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        
+        if isMovingFromParent {
+            destroy()
+        }
     }
     
     func destroy() {
         videoController.dismissed = true
         videoVC.dismissed = true
         videoVC.destroy()
+        playerItemGenerator?.destroy()
+        playerItemGenerator = nil
         
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
@@ -606,7 +617,7 @@ class EditViewController: UIViewController {
 }
 
 extension EditViewController: ImagePlayerDelegate {
-    
+
     var videoRect: CGRect {
         return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
     }

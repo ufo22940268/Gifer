@@ -79,7 +79,7 @@ class ImagePlayerItemGenerator {
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     }
     
-    func cancel() {
+    func destroy() {
         generator.cancelAllCGImageGeneration()
     }
 }

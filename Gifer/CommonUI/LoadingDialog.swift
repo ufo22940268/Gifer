@@ -11,7 +11,7 @@ import UIKit
 
 protocol Dialog {
     func show(by viewController: UIViewController)
-    func dismiss()
+    func dismiss(animated: Bool)
 }
 
 class LoadingViewController: UIViewController {
@@ -103,6 +103,14 @@ class LoadingViewPresentationConstroller: UIPresentationController {
         return CGRect(origin: presentingViewController.view.center.applying(CGAffineTransform(translationX: -frameSize.width/2, y: -frameSize.height/2)), size: frameSize)
     }
     
+    override var presentationStyle: UIModalPresentationStyle {
+        return .overCurrentContext
+    }
+    
+    override var shouldPresentInFullscreen: Bool {
+        return false
+    }
+    
     lazy var dimmingView: UIView = {
         let view = UIView()
         view.alpha = 0.0
@@ -111,18 +119,19 @@ class LoadingViewPresentationConstroller: UIPresentationController {
     }()
     
     override func presentationTransitionWillBegin() {
-        self.containerView?.addSubview(dimmingView)
-        dimmingView.addSubview(presentedView!)
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
-            self.dimmingView.alpha = 1.0
-        }, completion: nil)
+        self.containerView?.isUserInteractionEnabled = false
+//        self.containerView?.addSubview(dimmingView)
+//        dimmingView.addSubview(presentedView!)
+//        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
+//            self.dimmingView.alpha = 1.0
+//        }, completion: nil)
     }
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
-        if !completed {
-            dimmingView.removeFromSuperview()
-        }
+//        if !completed {
+//            dimmingView.removeFromSuperview()
+//        }
     }
 }
 
@@ -149,11 +158,10 @@ class LoadingDialog: Dialog {
     }
 
     func show(by viewController: UIViewController) {
-        viewController.present(alertController, animated: false) {
-        }
+        viewController.present(alertController, animated: false) {}
     }
     
-    func dismiss() {
+    func dismiss(animated: Bool = true) {
         alertController.dismiss(animated: true) {
         }
     }

@@ -28,10 +28,8 @@ class ImagePlayerView: UIView {
     }
     
     var interval: TimeInterval {
-        let frameCount = playerItem.activeFrames.count
-        let duration = playerItem.duration
-        let n = duration.seconds/Double(frameCount)/Double(rate)
-        return ceil(n*10)/10
+        let n = playerItem.frameInterval/Double(rate)
+        return n
     }
     
     var timer: Timer!

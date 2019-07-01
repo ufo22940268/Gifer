@@ -234,6 +234,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if let player = player {
             player.pause()
             unregisterObservers()
@@ -242,6 +243,8 @@ class VideoRangeViewController: UIViewController {
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
+        
+        initialLoadingDialog?.dismiss()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

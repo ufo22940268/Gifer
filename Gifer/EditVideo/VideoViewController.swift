@@ -65,7 +65,6 @@ class VideoViewController: UIViewController {
     
     func load(playerItem: ImagePlayerItem) -> Void {
         imagePlayerView.load(playerItem: playerItem)
-//        imagePlayerView.play()
     }
     
     override func viewDidAppear(_ animated: Bool) {
