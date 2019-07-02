@@ -362,7 +362,7 @@ class EditViewController: UIViewController {
     private func getAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
-        options.deliveryMode = .fastFormat
+        options.deliveryMode = .mediumQualityFormat
         options.progressHandler = onDownloadVideoProgressChanged
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
@@ -570,7 +570,7 @@ class EditViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onResume), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
     }
-        
+    
     @objc func onResume() {
         videoVC.play()
     }
