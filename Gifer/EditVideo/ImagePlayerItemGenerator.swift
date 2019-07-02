@@ -95,29 +95,7 @@ class ImagePlayerItemGenerator {
             complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
         }
     }
-    
-
-//    func extract(complete: @escaping (ImagePlayerItem) -> Void) {
-//        let began = Date()
-//        let times = splitTimes()
-//        var frames = [ImagePlayerFrame]()
-//        initDirectory()
-//        generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
-//            autoreleasepool {
-//                print("time: \(time.seconds)")
-//                guard let image = image, error == nil else { return }
-//                var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
-//                self.saveToDirectory(image: image, frame: &frame)
-//                frames.append(frame)
-//
-//                if time == times.last!.timeValue {
-//                    complete(ImagePlayerItem(frames: frames, duration: self.trimPosition.galleryDuration))
-//                    print(Date().timeIntervalSince(began))
-//                }
-//            }
-//        }
-//    }
-    
+        
     func saveToDirectory(image: CGImage, frame: inout ImagePlayerFrame) {
         let filePath = directory.appendingPathComponent(frame.time.seconds.description)
         do {
