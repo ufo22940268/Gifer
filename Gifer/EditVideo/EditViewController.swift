@@ -240,6 +240,8 @@ class EditViewController: UIViewController {
         isDebug = videoAsset == nil
         if isDebug {
             videoAsset = getTestVideo()
+//            initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset!.duration, preferredTimescale: 600))
+            initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         
         view.tintColor = .mainColor
@@ -317,6 +319,7 @@ class EditViewController: UIViewController {
             ])
         previewView.backgroundColor = UIColor.black
         videoVC.previewView = previewView
+        previewView.isHidden = true
         
         enableVideoContainer(false)
         
@@ -408,9 +411,6 @@ class EditViewController: UIViewController {
                 
                 this.cropContainer.setupVideo(frame: this.displayVideoRect)
                 
-                //For test
-                this.previewView?.isHidden = true
-                
                 this.videoVC.load(playerItem: playerItem)
                 this.videoVC.videoViewControllerDelegate = this
                 
@@ -463,7 +463,6 @@ class EditViewController: UIViewController {
     }
     
     private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
-        videoVC.pause()
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type

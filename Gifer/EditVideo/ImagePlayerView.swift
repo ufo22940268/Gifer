@@ -47,7 +47,7 @@ class ImagePlayerView: UIView {
     var filter: YPFilter?
     var context: CIContext!
     
-    var rate: Float = 1 {
+    var rate: Float = Config.defaultRate {
         didSet {
             timer.invalidate()
             timer = createTimer(with: interval)

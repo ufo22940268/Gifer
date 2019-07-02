@@ -58,7 +58,6 @@ class ShowEditViewControllerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animateView.makeImageViewFitContainer()
             animateView.layoutIfNeeded()
         }, completion: {completed in
-            previewView.isHidden = false
             animateView.removeFromSuperview()
             toVC.cacheAndLoadVideo()
             transitionContext.completeTransition(true)

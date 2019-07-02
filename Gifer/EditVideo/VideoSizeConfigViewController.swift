@@ -70,8 +70,8 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         let tableView = DarkTableView().useAutoLayout()
         self.tableView = tableView
         super.init(contentView: tableView)
-        self.tableView = tableView
         selectedVideoSize = videoSize
+        self.tableView.isScrollEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -269,6 +269,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             ])
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isScrollEnabled = false
         tableView.register(VideoSizeConfigCell.self, forCellReuseIdentifier: "videoSize")
         tableView.register(LoopCountConfigCell.self, forCellReuseIdentifier: "loopCount")
         tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
@@ -276,32 +277,35 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
-        let progress = sender.translation(in: sender.view!).y/sender.view!.bounds.height
+        let translateY = sender.translation(in: sender.view!).y
+        let progress = translateY/sender.view!.bounds.height
         switch sender.state {
         case .began:
             interactiveAnimator.wantsInteractiveStart = true
             dismiss(animated: true, completion: nil)
         case .changed:
             interactiveAnimator.update(progress)
-        default:
+        case .ended:
             if progress > 0.5 || sender.velocity(in: sender.view!).y > 300 {
                 interactiveAnimator.finish()
             } else {
                 interactiveAnimator.cancel()
             }
             interactiveAnimator.wantsInteractiveStart = false
+        default:
+            break
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.addGestureRecognizer(panGesture)
+        view.addGestureRecognizer(panGesture)
         for row in 0..<self.tableView(self.tableView, numberOfRowsInSection: 0) {
             self.tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: false)
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        tableView.removeGestureRecognizer(panGesture)
+//        view.removeGestureRecognizer(panGesture)
     }
     
     // MARK: - Table view data source
@@ -445,7 +449,6 @@ class SharePresentationController: UIPresentationController {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
-        print("onTap")
         if !presentedView!.frame.contains(sender.location(in: containerView)) {
             presentedViewController.dismiss(animated: true, completion: nil)
             dismissHandler?()
@@ -468,7 +471,9 @@ class SharePresentationController: UIPresentationController {
     
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         super.dismissalTransitionDidEnd(completed)
-        dismissHandler?()
+        if completed {            
+            dismissHandler?()
+        }
     }
 }
 

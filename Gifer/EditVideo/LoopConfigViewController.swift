@@ -61,6 +61,7 @@ class LoopCountConfigViewController: ConfigViewController, UITableViewDelegate, 
         super.init(contentView: tableView)
         self.selectedLoopCount = loopCount
         
+        tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(LoopCountCell.self, forCellReuseIdentifier: "cell")
