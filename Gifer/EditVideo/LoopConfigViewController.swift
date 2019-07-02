@@ -104,8 +104,7 @@ class LoopCountConfigViewController: ConfigViewController, UITableViewDelegate, 
         customDelegate?.onUpdate(loopCount: selectedLoopCount)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.dismiss(animated: true, completion: nil)
-            self.interactiveAnimator.finish()
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

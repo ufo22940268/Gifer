@@ -126,7 +126,6 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigationController?.popViewController(animated: true)
-            self.interactiveAnimator.finish()
         }
     }
 }
