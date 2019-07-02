@@ -150,7 +150,6 @@ class ShareCell: DarkTableCell {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
-        print("onTap: \(sender)")
         let item = items[sender.view!.tag]
         shareHandler(item)
     }
@@ -368,9 +367,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
             vc.largestGifSize = 5.3
+            vc.view.addGestureRecognizer(panGesture)
             present(vc, animated: true, completion: nil)
         } else if indexPath.row == ShareConfig.loopCount.rawValue {
-            present(LoopCountConfigViewController(loopCount: loopCount), animated: true, completion: nil)
+            let vc: LoopCountConfigViewController = LoopCountConfigViewController(loopCount: loopCount)
+            vc.view.addGestureRecognizer(panGesture)
+            present(vc, animated: true, completion: nil)
         }
     }
 }
@@ -471,7 +473,7 @@ class SharePresentationController: UIPresentationController {
     
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         super.dismissalTransitionDidEnd(completed)
-        if completed {            
+        if completed {
             dismissHandler?()
         }
     }
