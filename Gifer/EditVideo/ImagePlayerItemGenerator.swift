@@ -14,13 +14,12 @@ class ImagePlayerItemGenerator {
     var asset: AVAsset
     var trimPosition: VideoTrimPosition
     
-    lazy var generator:AVAssetImageGenerator  = {
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.maximumSize = CGSize(width: 1200, height: 1200)
-        generator.appliesPreferredTrackTransform = true
-        generator.requestedTimeToleranceAfter = CMTime(seconds: 0.1, preferredTimescale: 600)
-        generator.requestedTimeToleranceBefore = CMTime(seconds: 0.1, preferredTimescale: 600)
-        return generator
+    let generatorParallelNumber: Int = 4
+    
+    lazy var generators:[AVAssetImageGenerator]  = {
+        return (0..<self.generatorParallelNumber).map { _ in
+            return createAssetGenerator()
+        }
     }()
     
     var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
@@ -28,6 +27,15 @@ class ImagePlayerItemGenerator {
     internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition) {
         self.asset = avAsset
         self.trimPosition = trimPosition
+    }
+    
+    func createAssetGenerator() -> AVAssetImageGenerator {
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.maximumSize = CGSize(width: 1200, height: 1200)
+        generator.appliesPreferredTrackTransform = true
+        generator.requestedTimeToleranceAfter = CMTime(seconds: 0.1, preferredTimescale: 600)
+        generator.requestedTimeToleranceBefore = CMTime(seconds: 0.1, preferredTimescale: 600)
+        return generator
     }
     
     func splitTimes() -> [NSValue] {
@@ -47,23 +55,68 @@ class ImagePlayerItemGenerator {
     }
     
     func extract(complete: @escaping (ImagePlayerItem) -> Void) {
+        let began = Date()
         let times = splitTimes()
-        var frames = [ImagePlayerFrame]()
+        
+        
+        var timeSegments = [[NSValue]]()
+        let step = Int(ceil(Float(times.count)/Float(generatorParallelNumber)))
+        var frameSegments = [[ImagePlayerFrame]]()
+        for i in stride(from: 0, to: times.count, by: step) {
+            timeSegments.append(Array(times[i..<min(i + step, times.count)]))
+            frameSegments.append([ImagePlayerFrame]())
+        }
+        
         initDirectory()
-        generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
-            autoreleasepool {
-                print("time: \(time.seconds)")
-                guard let image = image, error == nil else { return }
-                var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
-                self.saveToDirectory(image: image, frame: &frame)
-                frames.append(frame)
-                
-                if time == times.last!.timeValue {
-                    complete(ImagePlayerItem(frames: frames, duration: self.trimPosition.galleryDuration))
+        let group = DispatchGroup()
+        
+        for index in 0..<generatorParallelNumber {
+            group.enter()
+            let times = timeSegments[index]
+            generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
+                autoreleasepool {
+                    print("time: \(time.seconds)")
+                    guard let image = image, error == nil else { return }
+                    var frames = frameSegments[index]
+                    var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
+                    self.saveToDirectory(image: image, frame: &frame)
+                    frames.append(frame)
+                    frameSegments[index] = frames
+                    
+                    if time == times.last!.timeValue {
+                        group.leave()
+                    }
                 }
             }
         }
+        
+        group.notify(queue: .main) {
+            print(Date().timeIntervalSince(began))
+            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
+        }
     }
+    
+
+//    func extract(complete: @escaping (ImagePlayerItem) -> Void) {
+//        let began = Date()
+//        let times = splitTimes()
+//        var frames = [ImagePlayerFrame]()
+//        initDirectory()
+//        generator.generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
+//            autoreleasepool {
+//                print("time: \(time.seconds)")
+//                guard let image = image, error == nil else { return }
+//                var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
+//                self.saveToDirectory(image: image, frame: &frame)
+//                frames.append(frame)
+//
+//                if time == times.last!.timeValue {
+//                    complete(ImagePlayerItem(frames: frames, duration: self.trimPosition.galleryDuration))
+//                    print(Date().timeIntervalSince(began))
+//                }
+//            }
+//        }
+//    }
     
     func saveToDirectory(image: CGImage, frame: inout ImagePlayerFrame) {
         let filePath = directory.appendingPathComponent(frame.time.seconds.description)
@@ -81,6 +134,6 @@ class ImagePlayerItemGenerator {
     }
     
     func destroy() {
-        generator.cancelAllCGImageGeneration()
+        generators.forEach { $0.cancelAllCGImageGeneration() }
     }
 }
