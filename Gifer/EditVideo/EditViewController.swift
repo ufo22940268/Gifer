@@ -236,7 +236,7 @@ class EditViewController: UIViewController {
         isLoadingAsset = true
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         isDebug = videoAsset == nil
         if isDebug {
             videoAsset = getTestVideo()
@@ -570,12 +570,7 @@ class EditViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onResume), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        loadingDialog?.dismiss(animated: false)
-    }
-    
+        
     @objc func onResume() {
         videoVC.play()
     }
@@ -587,7 +582,8 @@ class EditViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        
+        loadingDialog?.dismiss(animated: false)
+
         if isMovingFromParent {
             destroy()
         }
@@ -895,4 +891,8 @@ extension EditViewController: FramesDelegate {
     func onUpdatePlayerItem(_ playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
     }
+}
+
+extension EditViewController: UIGestureRecognizerDelegate {
+    
 }

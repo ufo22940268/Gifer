@@ -85,7 +85,7 @@ class VideoRangeViewController: UIViewController {
         DarkMode.enable(in: self)
         setupPreview()
         setupVideoController()
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         if isDebug {
             previewAsset = getTestVideo()
@@ -378,5 +378,11 @@ extension VideoRangeViewController: VideoCacheDelegate {
     
     func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
         view.tintAdjustmentMode = .dimmed
+    }
+}
+
+extension VideoRangeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
