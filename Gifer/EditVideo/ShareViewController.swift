@@ -324,7 +324,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         nvc.isNavigationBarHidden = true
         nvc.modalPresentationStyle = .custom
         nvc.transitioningDelegate = customTransitioningDelegate
-        self.transitioningDelegate = customTransitioningDelegate
+        nvc.view.layer.cornerRadius = 2
+        nvc.view.clipsToBounds = true
         controller.present(nvc, animated: true) {
         }
     }
@@ -441,6 +442,8 @@ class SharePresentationController: UIPresentationController {
     }
     
     override func presentationTransitionWillBegin() {
+//        containerView?.layer.cornerRadius = 8
+        containerView?.clipsToBounds = true
         containerView?.addSubview(dimmingView)
         dimmingView.useSameSizeAsParent()
         

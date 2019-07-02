@@ -15,7 +15,7 @@ class SettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let footView = UIView()
-        tableView.tableFooterView = footView
+        tableView.tableFooterView = footView        
     }
 
     override func viewWillAppear(_ animated: Bool) {

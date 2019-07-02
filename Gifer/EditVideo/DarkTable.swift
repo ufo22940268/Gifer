@@ -17,7 +17,6 @@ class DarkTableCell: UITableViewCell {
         textLabel?.textColor = .white
         
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = .yellow
     }
     
     required init?(coder aDecoder: NSCoder) {

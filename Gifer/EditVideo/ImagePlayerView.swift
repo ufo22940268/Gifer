@@ -57,7 +57,6 @@ class ImagePlayerView: UIView {
     weak var customDelegate: ImagePlayerDelegate?
     
     override func awakeFromNib() {
-        backgroundColor = .yellow
         addSubview(frameView)
         frameView.useSameSizeAsParent()
         context = CIContext(options: nil)
