@@ -55,6 +55,10 @@ class VideoSizeCell: DarkTableCell {
     }
 }
 
+protocol VideoSizeConfigDelegate: class {
+    func onUpdate(videoSize: VideoSize)
+}
+
 class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView
@@ -64,6 +68,8 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
             tableView.reloadData()
         }
     }
+    
+    weak var customDelegate: VideoSizeConfigDelegate?
     
     var selectedVideoSize: VideoSize?
     init(videoSize: VideoSize) {
@@ -116,9 +122,10 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         selectedVideoSize = videoSizes[indexPath.row]
         tableView.reloadData()
         tableView.cellForRow(at: indexPath)?.isSelected = true
-        (presentingViewController as! ShareViewController).videoSize = selectedVideoSize!
+        customDelegate?.onUpdate(videoSize: selectedVideoSize!)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
             self.interactiveAnimator.finish()
         }
     }

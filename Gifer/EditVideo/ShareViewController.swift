@@ -320,9 +320,12 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func present(by controller: UIViewController) {
-        self.modalPresentationStyle = .custom
+        let nvc = UINavigationController(rootViewController: self)
+        nvc.isNavigationBarHidden = true
+        nvc.modalPresentationStyle = .custom
+        nvc.transitioningDelegate = customTransitioningDelegate
         self.transitioningDelegate = customTransitioningDelegate
-        controller.present(self, animated: true) {
+        controller.present(nvc, animated: true) {
         }
     }
     
@@ -368,11 +371,13 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
             vc.largestGifSize = 5.3
             vc.view.addGestureRecognizer(panGesture)
-            present(vc, animated: true, completion: nil)
+            vc.customDelegate = self
+            navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == ShareConfig.loopCount.rawValue {
             let vc: LoopCountConfigViewController = LoopCountConfigViewController(loopCount: loopCount)
+            vc.customDelegate = self
             vc.view.addGestureRecognizer(panGesture)
-            present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
@@ -479,3 +484,13 @@ class SharePresentationController: UIPresentationController {
     }
 }
 
+
+extension ShareViewController: VideoSizeConfigDelegate, LoopCountConfigDelegate {
+    func onUpdate(loopCount: LoopCount) {
+        self.loopCount = loopCount
+    }
+    
+    func onUpdate(videoSize: VideoSize) {
+        self.videoSize = videoSize
+    }
+}

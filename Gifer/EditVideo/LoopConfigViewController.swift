@@ -49,11 +49,16 @@ class LoopCountCell: DarkTableCell {
 
 }
 
+protocol LoopCountConfigDelegate: class {
+    func onUpdate(loopCount: LoopCount)
+}
+
 class LoopCountConfigViewController: ConfigViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView
     var selectedLoopCount: LoopCount!
     var loopCounts = LoopCount.allCases
+    weak var customDelegate: LoopCountConfigDelegate?
 
     init(loopCount: LoopCount) {
         let tableView = DarkTableView().useAutoLayout()
@@ -95,7 +100,9 @@ class LoopCountConfigViewController: ConfigViewController, UITableViewDelegate, 
         selectedLoopCount = loopCounts[indexPath.row]
         tableView.reloadData()
         tableView.cellForRow(at: indexPath)?.isSelected = true
-        (presentingViewController as! ShareViewController).loopCount = selectedLoopCount!
+        
+        customDelegate?.onUpdate(loopCount: selectedLoopCount)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.dismiss(animated: true, completion: nil)
             self.interactiveAnimator.finish()
