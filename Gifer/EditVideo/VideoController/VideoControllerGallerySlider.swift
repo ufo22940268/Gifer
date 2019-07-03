@@ -49,7 +49,7 @@ private class VideoControllerGallerySliderButton: UIView {
 
 class VideoControllerGallerySlider: UIView {
     
-    let frameHeight = CGFloat(28)
+    let frameHeight = CGFloat(36)
     let dividerHeight = CGFloat(2)
     let sliderHeight = CGFloat(12)
     
@@ -100,8 +100,8 @@ class VideoControllerGallerySlider: UIView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let rect = slider.frame.insetBy(dx: -10, dy: -30)
-        if rect.contains(point) {
+        let rect = slider.frame.insetBy(dx: -30, dy: -(bounds.height - slider.frame.height)/2)
+        if slider.isUserInteractionEnabled && !slider.isHidden && rect.contains(point) {
             return slider
         } else {
             return super.hitTest(point, with: event)

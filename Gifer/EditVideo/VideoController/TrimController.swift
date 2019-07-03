@@ -362,7 +362,7 @@ class TrimController: UIControl {
         guard disableScroll else { return hitView }
 
         let enlarge = {(_ rect: CGRect) -> CGRect in
-            return rect.insetBy(dx: -10, dy: 0)
+            return rect.insetBy(dx: -20, dy: 0)
         }
         
         if enlarge(leftTrim.convert(bounds, to: self)).contains(point) {
