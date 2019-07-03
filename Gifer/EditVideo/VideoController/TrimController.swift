@@ -171,7 +171,9 @@ class TrimController: UIControl {
     
     var galleryView: UIView!
     private var sliderThresholdGuide: UILayoutGuide!
-    private var sliderRangeGuide: UILayoutGuide!
+    
+    /// Range from leading of left trim to trailing of right trim.
+    var sliderRangeGuide: UILayoutGuide!
     
     var innerFrame: CGRect {
         return sliderRangeGuide.layoutFrame

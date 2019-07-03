@@ -296,7 +296,9 @@ class VideoController: UIStackView {
         } else {
             setupForVideoRangeViewController()
         }
-        videoTrim.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.onTrimPan(sender:))))
+        let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
+        scrollRecognizer.delegate = self
+        videoTrim.addGestureRecognizer(scrollRecognizer)
     }
     
     private func setupForEditViewController() {
@@ -311,7 +313,7 @@ class VideoController: UIStackView {
         galleryScrollView.delegate = self
     }
     
-    @objc func onTrimPan(sender: UIPanGestureRecognizer) {
+    @objc func onScroll(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: videoTrim)
         if videoTrim.move(by: translation.x) {
             delegate?.onTrimChangedByScrollInGallery(trimPosition: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
@@ -475,5 +477,15 @@ extension VideoController: UIScrollViewDelegate {
         let leading = galleryRange.left.seconds/duration.seconds
         let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
         galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+    }
+}
+
+extension VideoController: UIGestureRecognizerDelegate {
+    //Trimer scroll recognizer should begin.
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        var validArea = videoTrim.sliderRangeGuide.owningView!.convert(videoTrim.sliderRangeGuide.layoutFrame, to: videoTrim)
+        validArea = validArea.insetBy(dx: 60, dy: 0)
+        let p = gestureRecognizer.location(in: videoTrim)
+        return p.x < validArea.maxX && p.x > validArea.minX
     }
 }
