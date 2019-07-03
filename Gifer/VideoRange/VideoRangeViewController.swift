@@ -120,12 +120,11 @@ class VideoRangeViewController: UIViewController {
         self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
             self.setSubtitle(position: self.trimPosition)
             self.doneItemButton.isEnabled = true
+            self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
+            self.player.volume = 0
+            self.player.play()
         })
-        self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
         self.registerObservers()
-        
-        player.volume = 0
-        player.play()
         kdebug_signpost_end(1, 0, 0, 0, 0)
     }
     
@@ -180,6 +179,7 @@ class VideoRangeViewController: UIViewController {
     }
         
     private func unregisterObservers() {
+        guard timeObserverToken != nil else { return }
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp))
         if let timeObserverToken = timeObserverToken {

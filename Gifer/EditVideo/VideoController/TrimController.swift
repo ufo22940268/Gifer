@@ -360,9 +360,15 @@ class TrimController: UIControl {
         let hitView = super.hitTest(point, with: event)
         
         guard disableScroll else { return hitView }
+
+        let enlarge = {(_ rect: CGRect) -> CGRect in
+            return rect.insetBy(dx: -10, dy: 0)
+        }
         
-        if hitView == leftTrim || hitView == rightTrim {
-            return super.hitTest(point, with: event)
+        if enlarge(leftTrim.convert(bounds, to: self)).contains(point) {
+            return leftTrim
+        } else if enlarge(leftTrim.convert(bounds, to: self)).contains(point) {
+            return rightTrim
         } else {
             return nil
         }

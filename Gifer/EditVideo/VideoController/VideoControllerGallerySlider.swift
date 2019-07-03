@@ -99,6 +99,15 @@ class VideoControllerGallerySlider: UIView {
         slider.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onChangeSlider(sender:))))
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let rect = slider.frame.insetBy(dx: -10, dy: -30)
+        if rect.contains(point) {
+            return slider
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+    
     override func tintColorDidChange() {
         if let slider = slider {
             slider.backgroundColor = tintColor
