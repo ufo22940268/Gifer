@@ -58,7 +58,6 @@ class ImagePlayerItemGenerator {
         let began = Date()
         let times = splitTimes()
         
-        
         var timeSegments = [[NSValue]]()
         let step = Int(ceil(Float(times.count)/Float(generatorParallelNumber)))
         var frameSegments = [[ImagePlayerFrame]]()
@@ -68,14 +67,13 @@ class ImagePlayerItemGenerator {
         }
         
         initDirectory()
-        let group = DispatchGroup()
         
+        let group = DispatchGroup()
         for index in 0..<generatorParallelNumber {
             group.enter()
             let times = timeSegments[index]
             generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
                 autoreleasepool {
-                    print("time: \(time.seconds)")
                     guard let image = image, error == nil else { return }
                     var frames = frameSegments[index]
                     var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
@@ -95,7 +93,7 @@ class ImagePlayerItemGenerator {
             complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
         }
     }
-        
+    
     func saveToDirectory(image: CGImage, frame: inout ImagePlayerFrame) {
         let filePath = directory.appendingPathComponent(frame.time.seconds.description)
         do {

@@ -164,7 +164,6 @@ class EditViewController: UIViewController {
     var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
-    var assetFromRange: AVAsset?
     var loadingDialog: LoadingDialog?
     
     var isVideoLoaded: Bool {
@@ -440,7 +439,7 @@ class EditViewController: UIViewController {
     }
     
     var videoSize: CGSize {
-        return previewImage.size
+        return CGSize(width: videoAsset.pixelWidth, height: videoAsset.pixelHeight)
     }
     
     var currentGifOption: GifGenerator.Options {

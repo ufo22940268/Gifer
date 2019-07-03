@@ -49,15 +49,19 @@ class VideoRangeViewController: UIViewController {
     var player: AVPlayer! {
         return previewController.player ?? nil
     }
-    var currentItem: AVPlayerItem {
-        return player.currentItem!
+    var isInControl: Bool = false
+    var currentItem: AVPlayerItem! {
+        if let player = player, let currentItem = player.currentItem {
+            return currentItem
+        } else {
+            return nil
+        }
     }
     @IBOutlet weak var videoController: VideoController!
     var previewAsset: PHAsset!
     var timeObserverToken: Any?
     var loopObserverToken: Any?
     var isDebug:Bool!
-    var previewImage: UIImage!
     
     var isSeeking = false
     var chaseTime: CMTime!
@@ -67,7 +71,6 @@ class VideoRangeViewController: UIViewController {
     var loadingIndicator: VideoLoadingIndicator = {
         let indicator = VideoLoadingIndicator()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.isHidden = true
         return indicator
     }()
     
@@ -80,7 +83,7 @@ class VideoRangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        isDebug = previewImage == nil
+        isDebug = false
         
         DarkMode.enable(in: self)
         setupPreview()
@@ -100,7 +103,7 @@ class VideoRangeViewController: UIViewController {
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         options.progressHandler = self.onDownloadVideoProgressChanged
-        
+        kdebug_signpost_start(1, 0, 0, 0, 0)
         manager.requestPlayerItem(forVideo: previewAsset, options: options) { (playerItem, _) in
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
@@ -113,8 +116,6 @@ class VideoRangeViewController: UIViewController {
 
     private func loadPreview(playerItem: AVPlayerItem) {
         self.previewController.player = AVPlayer(playerItem: playerItem)
-        guard let previewImage = playerItem.asset.copyFirstImage() else { return }
-        self.previewImage = previewImage
         self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
             self.setSubtitle(position: self.trimPosition)
@@ -125,6 +126,7 @@ class VideoRangeViewController: UIViewController {
         
         player.volume = 0
         player.play()
+        kdebug_signpost_end(1, 0, 0, 0, 0)
     }
     
     private func setSubtitle(_ subTitle: String) {
@@ -139,8 +141,10 @@ class VideoRangeViewController: UIViewController {
         guard previewController.player != nil && timeObserverToken == nil else {
             return
         }
-        
+
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
+        currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp), options: [.new], context: nil)
+
         let interval = UIDevice.isSimulator ? 0.5 : 0.01
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: interval, preferredTimescale: 600),
                                                             queue: .main) {
@@ -163,24 +167,15 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func observePlayProgress(progress: CMTime) {
-        var showLoading:Bool
         if case AVPlayer.Status.readyToPlay = player.status {
             let percent: Double = ((progress - trimPosition.leftTrim).seconds/trimPosition.galleryDuration.seconds).clamped(to: 0...1)
             videoController.updateSliderProgress(percent: CGFloat(percent))
-            showLoading = !currentItem.isPlaybackLikelyToKeepUp
-        } else {
-            showLoading = false
-        }
-        
-        if showLoading && currentItem.currentTime() != .zero {
-            loadingIndicator.show()
-        } else {
-            loadingIndicator.dismiss()
         }
     }
         
     private func unregisterObservers() {
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+        currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp))
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
@@ -199,6 +194,25 @@ class VideoRangeViewController: UIViewController {
                 previewController.view.constraints.findById(id: "width").constant = targetSize.width
                 previewController.view.constraints.findById(id: "height").constant = targetSize.height
             }
+        } else if keyPath == #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp) {
+            print("likely to keepup: \(currentItem.isPlaybackLikelyToKeepUp)")
+            updatePlayStatus()
+        }
+    }
+    
+    private func updatePlayStatus() {
+        if currentItem != nil {
+            if currentItem.isPlaybackLikelyToKeepUp && !isInControl && player.timeControlStatus != .playing {
+                player.play()
+            } else {
+                player.pause()
+            }
+            
+            if currentItem.isPlaybackLikelyToKeepUp {
+                loadingIndicator.dismiss()
+            } else {
+                loadingIndicator.show()
+            }
         }
     }
     
@@ -211,14 +225,15 @@ class VideoRangeViewController: UIViewController {
             player.play()
         }
         registerObservers()
+        updatePlayStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let player = player {
             player.pause()
-            unregisterObservers()
         }
+        unregisterObservers()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -291,9 +306,11 @@ extension VideoRangeViewController: VideoControllerDelegate {
     private func updateTrimPosition(position: VideoTrimPosition, state: UIGestureRecognizer.State) {
         var trimState: VideoTrimState
         if state == .ended {
+            isInControl = false
             trimState = .finished(true)
             videoController.scrollReason = .other
         } else if state == .began {
+            isInControl = true
             trimState = .started
             videoController.scrollReason = .slider
         } else {
@@ -304,12 +321,14 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     private func updateTrimPosition(position: VideoTrimPosition, trimState: VideoTrimState, forceSeek: CMTime? = nil) {
         if case .finished(_) = trimState {
+            isInControl = false
             currentItem.cancelPendingSeeks()
             currentItem.forwardPlaybackEndTime = position.rightTrim
             videoController.stickTo(side: nil)
             seekToAndPlay(position: position.leftTrim)
         } else {
             if case .started = trimState {
+                isInControl = true
                 player.pause()
             }
             
@@ -336,7 +355,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
         isSeeking = true
         let seekTimeInProgress = self.chaseTime!
         player.currentItem?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero) {_ in
-            print("seek finish")
             self.isSeeking = false
             if self.chaseTime != seekTimeInProgress {
                 self.trySeekToChaseTime()
@@ -364,7 +382,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
-            editVC.previewImage = previewImage
             editVC.initTrimPosition = trimPosition
             editVC.videoAsset = previewAsset
         }

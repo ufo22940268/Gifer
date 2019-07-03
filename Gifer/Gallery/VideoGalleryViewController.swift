@@ -169,7 +169,6 @@ class VideoGalleryViewController: UICollectionViewController {
         let previewImage: UIImage = selectedCell.imageView.image!
         if videoAsset.duration > EditGalleryDurationThreshold.seconds {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
-            rangeVC.previewImage = previewImage
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
         } else {

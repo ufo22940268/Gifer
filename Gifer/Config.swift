@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 struct Config {
     #if DEBUG
-    static let defaultRate: Float = 0.3
+    static let defaultRate: Float = UIDevice.isSimulator ? 0.3 : 1
     #else
     static let defaultRate: Float = 1
     #endif
