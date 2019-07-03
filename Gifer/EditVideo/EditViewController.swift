@@ -372,7 +372,7 @@ class EditViewController: UIViewController {
     }
     
     private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
-        showLoading(true, label: "加载中")
+        showPlayLoading(true)
         getAVAsset { (avAsset) in
             guard let avAsset = avAsset else { return }
             self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
@@ -513,6 +513,10 @@ class EditViewController: UIViewController {
     private func showLoadingWhenExporting(_ show: Bool) {
         showLoading(show, label: "导出中...")
     }
+    
+    private func showPlayLoading(_ show: Bool) {
+        videoLoadingIndicator.isHidden = !show
+    }
 
     private func showLoading(_ show: Bool, label: String = "") {
         guard !isBeingDismissed else { return }
@@ -634,7 +638,7 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog = nil
         self.videoController.delegate = self
         cropContainer.onVideoReady(trimPosition: trimPosition)
-        showLoading(false)
+        showPlayLoading(false)
         self.videoController.load(playerItem: playerItem) {
             self.enableVideoController(true)
             self.enableControlOptions()
