@@ -208,15 +208,14 @@ class EditViewController: UIViewController {
     
     lazy var navigationTitleView: UILabel = {
         let label = UILabel()
-        label.text = "adsfadf\nadfadf"
         label.textColor = .white
         label.sizeToFit()
         return label
     }()
     
-    var isLoadingAsset: Bool = false {
+    var isLoadingVideo: Bool = false {
         didSet {
-            if isLoadingAsset {
+            if isLoadingVideo {
                 view.tintAdjustmentMode = .dimmed
                 navigationItem.rightBarButtonItems?.forEach({ (item) in
                     item.tintColor = UIColor.gray
@@ -227,12 +226,14 @@ class EditViewController: UIViewController {
                     item.tintColor = UIColor.white
                 })
             }
+            
+            controlToolbar.isUserInteractionEnabled = !isLoadingVideo
         }
     }
     
     override func viewDidLoad() {
         DarkMode.enable(in: self)
-        isLoadingAsset = true
+        isLoadingVideo = true
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -253,8 +254,8 @@ class EditViewController: UIViewController {
         setupControlToolbar()
         setupVideoController()
         
+        
         loadAsset()
-        self.view.tintAdjustmentMode = .dimmed
     }
     
     private func setupVideoController() {
@@ -266,7 +267,6 @@ class EditViewController: UIViewController {
     }
     
     private func enableVideoContainer(_ enable: Bool) {
-//        videoPlayerSection.isUserInteractionEnabled = enable
     }
     
     private func setSubTitle(_ text: String) {
@@ -310,6 +310,7 @@ class EditViewController: UIViewController {
         let previewView = VideoPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
+        showPlayLoading(true)
         NSLayoutConstraint.activate([
             previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor),
             previewView.widthAnchor.constraint(equalTo: videoPlayerSection.widthAnchor),
@@ -610,10 +611,8 @@ extension EditViewController: ImagePlayerDelegate {
     }
     
     func onVideoReady(playerItem: ImagePlayerItem) {
-//        mock()
-//
         self.playerItem = playerItem
-        isLoadingAsset = false
+        isLoadingVideo = false
         loadingDialog?.dismiss()
         loadingDialog = nil
         self.videoController.delegate = self
@@ -624,11 +623,6 @@ extension EditViewController: ImagePlayerDelegate {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
             self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
-
-            //Test code
-//            self.videoVC.play()
-//            self.previewView?.isHidden = true
-
             self.defaultGifOptions = self.currentGifOption
             self.updateSubTitle()
         }
