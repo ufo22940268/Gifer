@@ -253,7 +253,7 @@ class EditViewController: UIViewController {
         setupControlToolbar()
         setupVideoController()
         
-        cacheAndLoadVideo()
+        loadAsset()
         self.view.tintAdjustmentMode = .dimmed
     }
     
@@ -350,9 +350,11 @@ class EditViewController: UIViewController {
         return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
     }
     
-    func cacheAndLoadVideo() {
-        cacheAsset() {url in
-            self.loadVideo(for: url)
+    func loadAsset() {
+        getAVAsset { (asset) in
+            if let asset = asset {
+                self.loadVideo(for: asset)
+            }
         }
     }
     
@@ -371,32 +373,10 @@ class EditViewController: UIViewController {
         }
     }
     
-    private func cacheAsset(completion: @escaping (_ url: URL) -> Void) {
-        showPlayLoading(true)
-        getAVAsset { (avAsset) in
-            guard let avAsset = avAsset else { return }
-            self.videoCache = VideoCache(asset: avAsset, cacheName: "edit")
-            self.cacheFilePath = self.videoCache!.tempFilePath
-            self.videoCache!.delegate = self
-            self.videoCache!.parse(trimPosition: self.initTrimPosition, completion: { (url) in
-                self.videoCache?.asset = nil
-                completion(url)
-            })
-        }
-    }
-    
-    private func loadVideo(for url: URL) {
+    private func loadVideo(for asset: AVAsset) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        let originAsset = AVAsset(url: url)
-        let composition = AVMutableComposition()
-        composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
-        
-        let videoTrack = composition.tracks(withMediaType: .video).last!
-        videoTrack.preferredTransform = originAsset.tracks(withMediaType: .video).first!.preferredTransform
-        try! composition.insertTimeRange(CMTimeRange(start: CMTime.zero, duration: originAsset.duration), of: originAsset, at: .zero)
-        
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: composition, trimPosition: initTrimPosition!)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: asset, trimPosition: initTrimPosition!)
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }

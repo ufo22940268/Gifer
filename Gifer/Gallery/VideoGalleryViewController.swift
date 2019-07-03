@@ -183,16 +183,6 @@ class VideoGalleryViewController: UICollectionViewController {
 
 extension VideoGalleryViewController: UINavigationControllerDelegate {
 
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if toVC.isKind(of: EditViewController.self) {
-            return ShowEditViewControllerAnimator()
-        } else if(toVC.isKind(of: VideoGalleryViewController.self) && fromVC.isKind(of: EditViewController.self)) {
-            return DismissEditViewControllerAnimator()
-        } else {
-            return nil
-        }
-    }
-    
     var selectedCell: VideoGalleryCell {
         return collectionView.cellForItem(at: selectedIndexPath) as! VideoGalleryCell
     }
