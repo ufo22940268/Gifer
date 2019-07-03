@@ -23,7 +23,6 @@ class VideoLoadingIndicator: UIView {
             indicator.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         indicator.startAnimating()
-        indicator.isHidden = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,3 +39,4 @@ class VideoLoadingIndicator: UIView {
         indicator.isHidden = true
     }
 }
+

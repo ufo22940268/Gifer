@@ -171,6 +171,12 @@ class VideoRangeViewController: UIViewController {
             let percent: Double = ((progress - trimPosition.leftTrim).seconds/trimPosition.galleryDuration.seconds).clamped(to: 0...1)
             videoController.updateSliderProgress(percent: CGFloat(percent))
         }
+        
+        if currentItem != nil && currentItem.isPlaybackLikelyToKeepUp {
+            loadingIndicator.dismiss()
+        } else {
+            loadingIndicator.show()
+        }
     }
         
     private func unregisterObservers() {
@@ -196,23 +202,6 @@ class VideoRangeViewController: UIViewController {
             }
         } else if keyPath == #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp) {
             print("likely to keepup: \(currentItem.isPlaybackLikelyToKeepUp)")
-            updatePlayStatus()
-        }
-    }
-    
-    private func updatePlayStatus() {
-        if currentItem != nil {
-            if currentItem.isPlaybackLikelyToKeepUp && !isInControl && player.timeControlStatus != .playing {
-                player.play()
-            } else {
-                player.pause()
-            }
-            
-            if currentItem.isPlaybackLikelyToKeepUp {
-                loadingIndicator.dismiss()
-            } else {
-                loadingIndicator.show()
-            }
         }
     }
     
@@ -225,7 +214,6 @@ class VideoRangeViewController: UIViewController {
             player.play()
         }
         registerObservers()
-        updatePlayStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
