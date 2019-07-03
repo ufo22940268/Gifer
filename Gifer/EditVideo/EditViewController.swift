@@ -240,7 +240,6 @@ class EditViewController: UIViewController {
         isDebug = videoAsset == nil
         if isDebug {
             videoAsset = getTestVideo()
-//            initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset!.duration, preferredTimescale: 600))
             initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         
