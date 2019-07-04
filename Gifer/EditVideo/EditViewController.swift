@@ -870,5 +870,9 @@ extension EditViewController: FramesDelegate {
 }
 
 extension EditViewController: UIGestureRecognizerDelegate {
-    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let videoController = videoController else { return true }
+        let p = gestureRecognizer.location(in: videoController)
+        return !videoController.bounds.contains(p)
+    }
 }

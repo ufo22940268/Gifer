@@ -388,6 +388,8 @@ extension VideoRangeViewController: VideoCacheDelegate {
 
 extension VideoRangeViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        guard let videoController = videoController else { return true }
+        let p = gestureRecognizer.location(in: videoController)
+        return !videoController.bounds.contains(p)
     }
 }
