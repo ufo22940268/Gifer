@@ -17,22 +17,9 @@
                     <view key="view" contentMode="scaleToFill" id="RPy-ui-zpN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="trc-bL-VWM" customClass="VideoProgressLoadingIndicator" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="trc-bL-VWM" firstAttribute="centerY" secondItem="fEg-yc-D5u" secondAttribute="centerY" id="AYR-yg-bTg"/>
-                            <constraint firstItem="trc-bL-VWM" firstAttribute="centerX" secondItem="fEg-yc-D5u" secondAttribute="centerX" id="GVH-9R-1qy"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="fEg-yc-D5u"/>
                     </view>
-                    <connections>
-                        <outlet property="p" destination="trc-bL-VWM" id="DCf-BM-59n"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Azy-va-8QQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
