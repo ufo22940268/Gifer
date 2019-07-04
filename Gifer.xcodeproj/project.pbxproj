@@ -37,6 +37,8 @@
 		424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9929228ABAA800952440 /* LoopConfigViewController.swift */; };
 		4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */; };
 		4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */; };
+		42611DBE22CDD4A0009A7188 /* GallerySwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */; };
+		42611DC022CDE854009A7188 /* GalleryCategoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42611DBF22CDE854009A7188 /* GalleryCategoryTableView.swift */; };
 		4267BD632236065B006D9F44 /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4267BD622236065B006D9F44 /* DarkMode.swift */; };
 		4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB2221B8E4F0098BA5E /* YPFilter.swift */; };
 		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
@@ -155,6 +157,8 @@
 		424F9929228ABAA800952440 /* LoopConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopConfigViewController.swift; sourceTree = "<group>"; };
 		4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarConfirmPrompt.swift; sourceTree = "<group>"; };
 		4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmExtraButton.swift; sourceTree = "<group>"; };
+		42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySwitcher.swift; sourceTree = "<group>"; };
+		42611DBF22CDE854009A7188 /* GalleryCategoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCategoryTableView.swift; sourceTree = "<group>"; };
 		4267BD622236065B006D9F44 /* DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		4269ADB2221B8E4F0098BA5E /* YPFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPFilter.swift; sourceTree = "<group>"; };
 		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
@@ -325,6 +329,8 @@
 				42E5C34B221E415F00D18CA6 /* GalleryBottomInfoView.swift */,
 				4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */,
 				428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */,
+				42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */,
+				42611DBF22CDE854009A7188 /* GalleryCategoryTableView.swift */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -697,10 +703,12 @@
 				42D7F2A42252284900E7E504 /* EditTextInfo.swift in Sources */,
 				42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */,
 				4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */,
+				42611DBE22CDD4A0009A7188 /* GallerySwitcher.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */,
+				42611DC022CDE854009A7188 /* GalleryCategoryTableView.swift in Sources */,
 				42D7F28A224C649600E7E504 /* Font.swift in Sources */,
 				4234786D22CAE46A007F9E05 /* Config.swift in Sources */,
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,

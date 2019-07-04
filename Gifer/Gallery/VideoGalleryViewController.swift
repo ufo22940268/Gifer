@@ -44,7 +44,16 @@ let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
 
 class VideoGalleryViewController: UICollectionViewController {
     
+    @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
+    
     var videoResult:PHFetchResult<PHAsset>?
+    lazy var switcher: GallerySwitcher = {
+        let view = GallerySwitcher(type: .custom)
+        view.sizeToFit()
+        view.delegate = self
+        view.frame.size.width = 80
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +75,11 @@ class VideoGalleryViewController: UICollectionViewController {
         self.collectionView.collectionViewLayout = flowLayout
         
         self.collectionView.register(GalleryBottomInfoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer")
+        
+        defer {
+            switcher.category = .video
+        }
+        navigationItem.titleView = switcher
         
         PHPhotoLibrary.shared().register(self)
         
@@ -211,6 +225,28 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
             DispatchQueue.main.async {                
                 self.reload()
             }
+        }
+    }
+}
+
+extension VideoGalleryViewController: GallerySwitcherDelegate {
+    func onToggleGalleryPanel(slideDown: Bool) {
+        if slideDown {
+            galleryCategoryView.removeFromSuperview()
+            view.addSubview(galleryCategoryView)
+            galleryCategoryView.frame.size.width = view.frame.size.width
+            galleryCategoryView.autoresizingMask = [.flexibleWidth]
+            
+            galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
+            UIView.animate(withDuration: 0.3) {
+                self.galleryCategoryView.transform = .identity
+            }
+        } else {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -self.galleryCategoryView.frame.height)
+            }, completion: { _ in
+                self.galleryCategoryView.removeFromSuperview()
+            })
         }
     }
 }
