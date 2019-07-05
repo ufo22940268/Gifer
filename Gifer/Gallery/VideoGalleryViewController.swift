@@ -285,7 +285,7 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         slideDownPanel(false)
         switcher.setSelected(false, anim: true)
         self.galleryCategory = galleryCategory
-        reload()
+        reload(scrollToBottom: true)
     }
     
     @objc func onDimClicked(sender: UITapGestureRecognizer) {
