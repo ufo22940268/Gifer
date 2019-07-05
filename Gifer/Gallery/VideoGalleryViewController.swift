@@ -45,6 +45,12 @@ let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
 class VideoGalleryViewController: UICollectionViewController {
     
     @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
+    lazy var dimView: UIView = {
+        let view = UIView().useAutoLayout()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        view.isHidden = true
+        return view
+    }()
     
     var videoResult:PHFetchResult<PHAsset>?
     lazy var switcher: GallerySwitcher = {
@@ -96,6 +102,9 @@ class VideoGalleryViewController: UICollectionViewController {
                 }
             }
         }
+        
+        view.addSubview(dimView)
+        dimView.useSameSizeAsParent()
     }
 
     func enableFooterView(_ enable: Bool) {
@@ -231,22 +240,28 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
 
 extension VideoGalleryViewController: GallerySwitcherDelegate {
     func onToggleGalleryPanel(slideDown: Bool) {
+        let duration = 0.3
         if slideDown {
+            galleryCategoryView.sizeToFit()
             galleryCategoryView.removeFromSuperview()
             view.addSubview(galleryCategoryView)
             galleryCategoryView.frame.size.width = view.frame.size.width
             galleryCategoryView.autoresizingMask = [.flexibleWidth]
             
             galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: duration) {
                 self.galleryCategoryView.transform = .identity
             }
         } else {
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: duration, animations: {
                 self.galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -self.galleryCategoryView.frame.height)
             }, completion: { _ in
                 self.galleryCategoryView.removeFromSuperview()
             })
         }
+
+        UIView.transition(with: dimView, duration: duration, options: [.showHideTransitionViews, .transitionCrossDissolve], animations: {
+            self.dimView.isHidden = !slideDown
+        }, completion: nil)
     }
 }

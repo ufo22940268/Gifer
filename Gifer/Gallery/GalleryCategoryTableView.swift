@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GalleryCategoryCell: UITableViewCell {
+class GalleryCategoryCell: DarkTableCell {
     @IBOutlet weak var button: UIButton!
 }
 
@@ -17,6 +17,8 @@ class GalleryCategoryTableView: UITableView {
     
     override func awakeFromNib() {
         dataSource = self
+        backgroundColor = .dark
+        separatorStyle = .none
     }
 }
 
