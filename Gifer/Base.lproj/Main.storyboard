@@ -214,12 +214,13 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTJ-o7-8aF">
-                                        <rect key="frame" x="97" y="7" width="46" height="30"/>
+                                        <rect key="frame" x="66" y="5.3333333333333321" width="54" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <state key="normal" title="Button"/>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerX" secondItem="dDU-Th-aOE" secondAttribute="centerX" id="Scc-aG-AKa"/>
+                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerX" secondItem="dDU-Th-aOE" secondAttribute="centerX" constant="-27" id="Scc-aG-AKa"/>
                                     <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerY" secondItem="dDU-Th-aOE" secondAttribute="centerY" id="UcA-3B-iWL"/>
                                 </constraints>
                             </tableViewCellContentView>

@@ -20,6 +20,15 @@ enum GalleryCategory: CaseIterable {
             return "实况照片"
         }
     }
+    
+    var icon: UIImage {
+        switch self {
+        case .video:
+            return #imageLiteral(resourceName: "video.png")
+        case .livePhoto:
+            return #imageLiteral(resourceName: "livephoto.png")
+        }
+    }
 }
 
 protocol GallerySwitcherDelegate: class {

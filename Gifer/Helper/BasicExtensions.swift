@@ -51,6 +51,15 @@ extension UIView {
     }
 }
 
+extension UIButton {
+    override open var intrinsicContentSize: CGSize {
+        let intrinsicContentSize = super.intrinsicContentSize
+        let adjustedWidth = intrinsicContentSize.width + titleEdgeInsets.left + titleEdgeInsets.right
+        let adjustedHeight = intrinsicContentSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom
+        return CGSize(width: adjustedWidth, height: adjustedHeight)
+    }
+}
+
 extension UIDevice {
     static var isSimulator: Bool {
         return TARGET_OS_SIMULATOR != 0
