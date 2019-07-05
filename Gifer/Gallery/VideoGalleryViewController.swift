@@ -39,7 +39,9 @@ class VideoGalleryViewController: UICollectionViewController {
         view.frame.size.width = 80
         return view
     }()
-
+    
+    var galleryCategory: GalleryCategory = .video
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DarkMode.enable(in: self)
@@ -115,7 +117,12 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     func reload() {
-        self.videoResult = VideoLibrary.shared().getVideos()
+        if galleryCategory == .video {
+            self.videoResult = VideoLibrary.shared().getVideos()
+        } else {
+            self.videoResult = VideoLibrary.shared().getLivePhotos()
+        }
+        
         self.collectionView.reloadData()
         
         if let videoResult = videoResult, videoResult.count > 0 {
@@ -263,6 +270,8 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     func onSelect(galleryCategory: GalleryCategory) {
         slideDownPanel(false)
         switcher.setSelected(false, anim: true)
+        self.galleryCategory = galleryCategory
+        reload()
     }
     
     @objc func onDimClicked(sender: UITapGestureRecognizer) {
