@@ -12,43 +12,19 @@ import Photos
 private let reuseIdentifier = "Cell"
 private let galleryGap = CGFloat(0.5)
 
-extension TimeInterval {
-    func formatTime() -> String? {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .second]
-        formatter.zeroFormattingBehavior = .pad
-        return formatter.string(from: self)
-    }
-}
-
-extension UICollectionView {
-    
-    func setEmptyMessage(_ message: String) {
-        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
-        messageLabel.text = message
-        messageLabel.textColor = .lightGray
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = .center;
-        messageLabel.font = UIFont(name: "Avenir-Light", size: 18)
-        messageLabel.sizeToFit()
-        
-        self.backgroundView = messageLabel;
-    }
-    
-    func restore() {
-        self.backgroundView = nil
-    }
-}
-
 let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
+let toggleGalleryCategoryAnimationDuration = 0.3
 
 class VideoGalleryViewController: UICollectionViewController {
     
     @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
+    
     lazy var dimView: UIView = {
         let view = UIView().useAutoLayout()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         view.isHidden = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDimClicked)))
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -105,6 +81,13 @@ class VideoGalleryViewController: UICollectionViewController {
         
         view.addSubview(dimView)
         dimView.useSameSizeAsParent()
+
+        galleryCategoryView.customDelegate = self
+        galleryCategoryView.sizeToFit()
+        galleryCategoryView.frame.size.width = view.frame.size.width
+        galleryCategoryView.autoresizingMask = [.flexibleWidth]
+        galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
+        view.addSubview(galleryCategoryView)
     }
 
     func enableFooterView(_ enable: Bool) {
@@ -238,30 +221,37 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
     }
 }
 
-extension VideoGalleryViewController: GallerySwitcherDelegate {
-    func onToggleGalleryPanel(slideDown: Bool) {
-        let duration = 0.3
+// MARK: - Gallery switcher and panel features
+extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDelegate {
+    
+    func slideDownPanel(_ slideDown: Bool) {
+        let duration = toggleGalleryCategoryAnimationDuration
         if slideDown {
-            galleryCategoryView.sizeToFit()
-            galleryCategoryView.removeFromSuperview()
-            view.addSubview(galleryCategoryView)
-            galleryCategoryView.frame.size.width = view.frame.size.width
-            galleryCategoryView.autoresizingMask = [.flexibleWidth]
-            
-            galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
             UIView.animate(withDuration: duration) {
                 self.galleryCategoryView.transform = .identity
             }
         } else {
             UIView.animate(withDuration: duration, animations: {
                 self.galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -self.galleryCategoryView.frame.height)
-            }, completion: { _ in
-                self.galleryCategoryView.removeFromSuperview()
             })
         }
-
+        
         UIView.transition(with: dimView, duration: duration, options: [.showHideTransitionViews, .transitionCrossDissolve], animations: {
             self.dimView.isHidden = !slideDown
         }, completion: nil)
+        
+//        switcher.isSelected = slideDown
+    }
+    
+    func onToggleGalleryPanel(slideDown: Bool) {
+        slideDownPanel(slideDown)
+    }
+    
+    func onSelect(galleryCategory: GalleryCategory) {
+        slideDownPanel(false)
+    }
+    
+    @objc func onDimClicked() {
+        slideDownPanel(false)
     }
 }

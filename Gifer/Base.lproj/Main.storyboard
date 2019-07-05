@@ -213,14 +213,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="43.666666666666664"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTJ-o7-8aF">
-                                        <rect key="frame" x="66" y="5.3333333333333321" width="54" height="33"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTJ-o7-8aF">
+                                        <rect key="frame" x="93" y="5.3333333333333321" width="54" height="33"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        </state>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerX" secondItem="dDU-Th-aOE" secondAttribute="centerX" constant="-27" id="Scc-aG-AKa"/>
+                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerX" secondItem="dDU-Th-aOE" secondAttribute="centerX" id="Scc-aG-AKa"/>
                                     <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerY" secondItem="dDU-Th-aOE" secondAttribute="centerY" id="UcA-3B-iWL"/>
                                 </constraints>
                             </tableViewCellContentView>
