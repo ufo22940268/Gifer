@@ -23,7 +23,10 @@ class VideoGalleryViewController: UICollectionViewController {
         let view = UIView().useAutoLayout()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         view.isHidden = true
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDimClicked)))
+        view.tag = 10
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onDimClicked(sender:)))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
         return view
     }()
@@ -80,7 +83,12 @@ class VideoGalleryViewController: UICollectionViewController {
         }
         
         view.addSubview(dimView)
-        dimView.useSameSizeAsParent()
+        NSLayoutConstraint.activate([
+            dimView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            dimView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            dimView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
+            dimView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor)
+            ])
 
         galleryCategoryView.customDelegate = self
         galleryCategoryView.sizeToFit()
@@ -88,6 +96,13 @@ class VideoGalleryViewController: UICollectionViewController {
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
         view.addSubview(galleryCategoryView)
+        
+        NSLayoutConstraint.activate([
+            dimView.leadingAnchor.constraint(equalTo: galleryCategoryView.leadingAnchor),
+            dimView.trailingAnchor.constraint(equalTo: galleryCategoryView.trailingAnchor),
+            dimView.topAnchor.constraint(equalTo: galleryCategoryView.topAnchor),
+            dimView.bottomAnchor.constraint(equalTo: galleryCategoryView.bottomAnchor)
+            ])
     }
 
     func enableFooterView(_ enable: Bool) {
@@ -239,8 +254,6 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         UIView.transition(with: dimView, duration: duration, options: [.showHideTransitionViews, .transitionCrossDissolve], animations: {
             self.dimView.isHidden = !slideDown
         }, completion: nil)
-        
-//        switcher.isSelected = slideDown
     }
     
     func onToggleGalleryPanel(slideDown: Bool) {
@@ -249,9 +262,11 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     
     func onSelect(galleryCategory: GalleryCategory) {
         slideDownPanel(false)
+        switcher.setSelected(false, anim: true)
     }
     
-    @objc func onDimClicked() {
+    @objc func onDimClicked(sender: UITapGestureRecognizer) {
         slideDownPanel(false)
+        switcher.setSelected(false, anim: true)
     }
 }

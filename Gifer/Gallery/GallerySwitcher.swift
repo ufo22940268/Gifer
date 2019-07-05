@@ -47,13 +47,21 @@ class GallerySwitcher: UIButton {
     
     override var isSelected: Bool {
         didSet {
-            UIView.animate(withDuration: 0.15) {
-                if self.isSelected {
-                    self.imageView?.transform = .identity
-                } else {
-                    self.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
-                }
+            if self.isSelected {
+                self.imageView?.transform = .identity
+            } else {
+                self.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
             }
+        }
+    }
+    
+    func setSelected(_ selected: Bool, anim: Bool) {
+        if anim {
+            UIView.animate(withDuration: 0.15) {
+                self.isSelected = selected
+            }
+        } else {
+            isSelected = selected
         }
     }
     
@@ -76,7 +84,7 @@ class GallerySwitcher: UIButton {
     }
     
     @objc func onClick() {
-        isSelected = !isSelected
+        setSelected(!isSelected, anim: true)
         delegate?.onToggleGalleryPanel(slideDown: isSelected)
     }
 }
