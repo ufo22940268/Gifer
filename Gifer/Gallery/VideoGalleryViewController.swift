@@ -78,7 +78,7 @@ class VideoGalleryViewController: UICollectionViewController {
                     self.collectionView.layoutIfNeeded()
                     let totalItemCount: Int = self.collectionView(self.collectionView, numberOfItemsInSection: 0)
                     if totalItemCount > 0 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+                        self.scrollToBottom()
                     }
                 }
             }
@@ -116,7 +116,13 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
-    func reload() {
+    fileprivate func scrollToBottom() {
+        let totalItemCount = self.collectionView(self.collectionView, numberOfItemsInSection: 0)
+        self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+    }
+
+    
+    func reload(scrollToBottom: Bool = false) {
         if galleryCategory == .video {
             self.videoResult = VideoLibrary.shared().getVideos()
         } else {
@@ -131,6 +137,10 @@ class VideoGalleryViewController: UICollectionViewController {
         } else {
             enableFooterView(false)
             self.collectionView.setEmptyMessage("未找到视频")
+        }
+        
+        if scrollToBottom {
+            self.scrollToBottom()
         }
     }
     
@@ -171,7 +181,11 @@ class VideoGalleryViewController: UICollectionViewController {
         
         let requestId = imageManager.requestImage(for: asset, targetSize: UIScreen.main.bounds.size.applying(CGAffineTransform(scaleX: 1/4, y: 1/4)), contentMode: .aspectFill, options: options) { (uiImage, config) in
             cell.imageView.image = uiImage
-            cell.durationView.text = asset.duration.formatTime()
+            if self.galleryCategory == .video {
+                cell.setDuration(asset.duration.formatTime()!)
+            } else {
+                cell.showIcon()
+            }
         }
         cell.tag = Int(requestId)
         
