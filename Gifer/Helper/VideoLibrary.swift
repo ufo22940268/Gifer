@@ -26,7 +26,7 @@ class VideoLibrary {
     
     func getLivePhotos() -> PHFetchResult<PHAsset> {
         let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "(mediaSubtypes & %d) != 0", PHAssetMediaSubtype.photoLive.rawValue)
-        return PHAsset.fetchAssets(with: .image, options: nil)
+        options.predicate = NSPredicate(format: "(mediaSubtype & %d) != 0", PHAssetMediaSubtype.photoLive.rawValue)
+        return PHAsset.fetchAssets(with: .image, options: options)
     }
 }
