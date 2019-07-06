@@ -14,7 +14,7 @@ class ImagePlayerItemGenerator {
     var asset: AVAsset
     var trimPosition: VideoTrimPosition
     
-    let generatorParallelNumber: Int = 1
+    let generatorParallelNumber: Int = 4
     
     lazy var generators:[AVAssetImageGenerator]  = {
         return (0..<self.generatorParallelNumber).map { _ in
@@ -59,10 +59,14 @@ class ImagePlayerItemGenerator {
         let times = splitTimes()
         
         var timeSegments = [[NSValue]]()
-        let step = Int(ceil(Float(times.count)/Float(generatorParallelNumber)))
+        let step = Int(floor(Float(times.count)/Float(generatorParallelNumber)))
         var frameSegments = [[ImagePlayerFrame]]()
         for i in stride(from: 0, to: times.count, by: step) {
-            timeSegments.append(Array(times[i..<min(i + step, times.count)]))
+            if timeSegments.count == generatorParallelNumber - 1 {
+                timeSegments.append(Array(times[i..<times.count]))
+            } else {
+                timeSegments.append(Array(times[i..<min(i + step, times.count)]))
+            }
             frameSegments.append([ImagePlayerFrame]())
         }
         
