@@ -40,7 +40,7 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
-    var galleryCategory: GalleryCategory = .livePhoto
+    var galleryCategory: GalleryCategory = .video
     
     override func viewDidLoad() {
         super.viewDidLoad()
