@@ -36,11 +36,11 @@ class VideoGalleryViewController: UICollectionViewController {
         let view = GallerySwitcher(type: .custom)
         view.sizeToFit()
         view.delegate = self
-        view.frame.size.width = 80
+        view.frame.size.width = 100
         return view
     }()
     
-    var galleryCategory: GalleryCategory = .video
+    var galleryCategory: GalleryCategory = .livePhoto
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -215,9 +215,14 @@ class VideoGalleryViewController: UICollectionViewController {
             navigationController?.pushViewController(rangeVC, animated: true)
         } else {
             let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-            editVC.videoAsset = videoAsset
             editVC.previewImage = previewImage
-            editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
+            if galleryCategory == .video {
+                editVC.videoAsset = videoAsset
+                editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
+            } else {
+                editVC.livePhotoAsset = videoAsset
+                editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 1.2, preferredTimescale: 600))
+            }
             navigationController?.pushViewController(editVC, animated: true)
         }
     }
@@ -286,6 +291,8 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         switcher.setSelected(false, anim: true)
         self.galleryCategory = galleryCategory
         reload(scrollToBottom: true)
+        
+        switcher.category = galleryCategory
     }
     
     @objc func onDimClicked(sender: UITapGestureRecognizer) {

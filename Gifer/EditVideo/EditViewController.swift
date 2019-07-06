@@ -164,6 +164,7 @@ class EditViewController: UIViewController {
     var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
     var videoAsset: PHAsset!
+    var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     
     var isVideoLoaded: Bool {
@@ -202,6 +203,14 @@ class EditViewController: UIViewController {
         return cropContainer.stickerOverlay
     }
     
+    var validPHAsset: PHAsset! {
+        return videoAsset ?? livePhotoAsset
+    }
+    
+    var videoSize: CGSize {
+        return CGSize(width: validPHAsset.pixelWidth, height: validPHAsset.pixelHeight)
+    }
+    
     override func loadView() {
         super.loadView()
     }
@@ -237,7 +246,7 @@ class EditViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        isDebug = videoAsset == nil
+        isDebug = videoAsset == nil && livePhotoAsset == nil
         if isDebug {
             videoAsset = getTestVideo()
             initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
@@ -347,7 +356,7 @@ class EditViewController: UIViewController {
     
     var displayVideoRect: CGRect {
         let rect = videoPlayerSection.bounds
-        return AVMakeRect(aspectRatio: CGSize(width: self.videoAsset.pixelWidth, height: self.videoAsset.pixelHeight), insideRect: rect)
+        return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
     }
     
     func loadAsset() {
@@ -368,8 +377,29 @@ class EditViewController: UIViewController {
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
-        downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: self.videoAsset, options: options) { (avAsset, _, _) in
-            completion(avAsset)
+        
+        if let videoAsset = videoAsset {
+            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { (avAsset, _, _) in
+                completion(avAsset)
+            }
+        } else if let livePhotoAsset = livePhotoAsset {
+            let options = PHLivePhotoRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .fastFormat
+            PHImageManager.default().requestLivePhoto(for: livePhotoAsset, targetSize: CGSize(width: 700, height: 700), contentMode: .aspectFit, options: options) { (photo, info) in
+                if let info = info, info[PHImageErrorKey] != nil {
+                    print("error: \(info[PHImageErrorKey])")
+                    return
+                }
+                let url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("livePhoto.mov")
+                try? FileManager.default.removeItem(at: url)
+                let options = PHAssetResourceRequestOptions()
+                options.isNetworkAccessAllowed = true
+                PHAssetResourceManager.default().writeData(for: PHAssetResource.assetResources(for: photo!).first { $0.type == PHAssetResourceType.pairedVideo }!, toFile: url, options: options, completionHandler: { (error) in
+                    
+                    completion(AVAsset(url: url))
+                })
+            }
         }
     }
     
@@ -384,7 +414,7 @@ class EditViewController: UIViewController {
                 
                 this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
                 this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
-                this.cropContainer.videoSize = CGSize(width: this.videoAsset.pixelWidth, height: this.videoAsset.pixelHeight)
+                this.cropContainer.videoSize = this.videoSize
                 this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
                 this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
                 
@@ -416,10 +446,6 @@ class EditViewController: UIViewController {
             vc.trimPosition = videoVC.trimPosition
             vc.customDelegate = self
         }
-    }
-    
-    var videoSize: CGSize {
-        return CGSize(width: videoAsset.pixelWidth, height: videoAsset.pixelHeight)
     }
     
     var currentGifOption: GifGenerator.Options {

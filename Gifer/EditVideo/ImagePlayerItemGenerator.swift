@@ -14,7 +14,7 @@ class ImagePlayerItemGenerator {
     var asset: AVAsset
     var trimPosition: VideoTrimPosition
     
-    let generatorParallelNumber: Int = 4
+    let generatorParallelNumber: Int = 1
     
     lazy var generators:[AVAssetImageGenerator]  = {
         return (0..<self.generatorParallelNumber).map { _ in
