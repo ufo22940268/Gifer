@@ -221,7 +221,6 @@ class VideoGalleryViewController: UICollectionViewController {
                 editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
             } else {
                 editVC.livePhotoAsset = videoAsset
-                editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 1.2, preferredTimescale: 600))
             }
             navigationController?.pushViewController(editVC, animated: true)
         }

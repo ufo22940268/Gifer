@@ -388,7 +388,7 @@ class EditViewController: UIViewController {
             options.deliveryMode = .fastFormat
             PHImageManager.default().requestLivePhoto(for: livePhotoAsset, targetSize: CGSize(width: 700, height: 700), contentMode: .aspectFit, options: options) { (photo, info) in
                 if let info = info, info[PHImageErrorKey] != nil {
-                    print("error: \(info[PHImageErrorKey])")
+                    print("error: \(String(describing: info[PHImageErrorKey]))")
                     return
                 }
                 let url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("livePhoto.mov")
@@ -396,8 +396,9 @@ class EditViewController: UIViewController {
                 let options = PHAssetResourceRequestOptions()
                 options.isNetworkAccessAllowed = true
                 PHAssetResourceManager.default().writeData(for: PHAssetResource.assetResources(for: photo!).first { $0.type == PHAssetResourceType.pairedVideo }!, toFile: url, options: options, completionHandler: { (error) in
-                    
-                    completion(AVAsset(url: url))
+                    let asset: AVAsset = AVAsset(url: url)
+                    self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: asset.duration)
+                    completion(asset)
                 })
             }
         }
