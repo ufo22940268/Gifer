@@ -58,9 +58,7 @@ class VideoGalleryViewController: UICollectionViewController {
         let itemWidth = self.collectionView.bounds.width/3 - 2*galleryGap
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         flowLayout.footerReferenceSize = CGSize(width: self.collectionView.bounds.width, height: 60)
-
         self.collectionView.collectionViewLayout = flowLayout
-        
         self.collectionView.register(GalleryBottomInfoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer")
         
         defer {
@@ -136,7 +134,7 @@ class VideoGalleryViewController: UICollectionViewController {
             enableFooterView(true)
         } else {
             enableFooterView(false)
-            self.collectionView.setEmptyMessage("未找到视频")
+            self.collectionView.setEmptyMessage("未找到\(galleryCategory.title)")
         }
         
         if scrollToBottom {
