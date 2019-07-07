@@ -35,18 +35,18 @@ extension UIView {
     func drawTopSeparator(rect: CGRect) {
         UIColor.separator.setStroke()
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: 0, y: 0.5))
-        path.addLine(to: CGPoint(x: rect.maxX, y: 0.5))
-        path.lineWidth = 1
+        path.move(to: CGPoint(x: 0, y: 0.25))
+        path.addLine(to: CGPoint(x: rect.maxX, y: 0.25))
+        path.lineWidth = 0.5
         path.stroke()
     }
     
     func drawBottomSeparator(rect: CGRect) {
         UIColor.separator.setStroke()
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: 0, y: rect.maxY - 0.5))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - 0.5))
-        path.lineWidth = 1
+        path.move(to: CGPoint(x: 0, y: rect.maxY - 0.25))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - 0.25))
+        path.lineWidth = 0.5
         path.stroke()
     }
 }

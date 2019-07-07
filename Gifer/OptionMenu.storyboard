@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Stickers View Controller-->
+        <scene sceneID="H5Q-A8-LiK">
+            <objects>
+                <viewController storyboardIdentifier="stickers" id="cJa-NE-VRr" customClass="StickersViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wks-98-cYs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEB-yo-eha">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="n6b-Q6-JDx">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Itq-uR-PAO">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                            <subviews>
+                                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="LTl-8u-z13">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <items>
+                                                        <barButtonItem systemItem="cancel" id="XOJ-dQ-4gc"/>
+                                                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BHr-8Q-gBd"/>
+                                                        <barButtonItem style="done" systemItem="done" id="Qp5-PO-lqF"/>
+                                                    </items>
+                                                    <color key="tintColor" name="yellowColor"/>
+                                                </toolbar>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AaM-MW-ia1" userLabel="Preview">
+                                                    <rect key="frame" x="0.0" y="44" width="414" height="724"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r3b-hZ-8vZ" userLabel="Panel">
+                                                    <rect key="frame" x="0.0" y="768" width="414" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Itq-uR-PAO" firstAttribute="top" secondItem="n6b-Q6-JDx" secondAttribute="top" id="Cxs-w3-nL7"/>
+                                        <constraint firstAttribute="trailing" secondItem="Itq-uR-PAO" secondAttribute="trailing" id="IBj-Bp-V72"/>
+                                        <constraint firstItem="Itq-uR-PAO" firstAttribute="leading" secondItem="n6b-Q6-JDx" secondAttribute="leading" id="PTr-9k-7Ff"/>
+                                        <constraint firstAttribute="bottom" secondItem="Itq-uR-PAO" secondAttribute="bottom" id="tfm-zN-EFx"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="IpM-sB-XOv" firstAttribute="bottom" secondItem="pEB-yo-eha" secondAttribute="bottom" id="JiK-Ek-usP"/>
+                            <constraint firstItem="pEB-yo-eha" firstAttribute="top" secondItem="IpM-sB-XOv" secondAttribute="top" id="Syn-qI-pQx"/>
+                            <constraint firstItem="IpM-sB-XOv" firstAttribute="trailing" secondItem="pEB-yo-eha" secondAttribute="trailing" id="cYf-PY-yfz"/>
+                            <constraint firstItem="pEB-yo-eha" firstAttribute="leading" secondItem="IpM-sB-XOv" secondAttribute="leading" id="u3d-Zt-UPz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IpM-sB-XOv"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mWZ-nV-zZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="454" y="-217"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="yellowColor">
+            <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

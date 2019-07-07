@@ -12,6 +12,7 @@ import UIKit
 enum AppStoryboard: String {
     case Frame
     case Main
+    case OptionMenu
 
     var instance: UIStoryboard {
         return UIStoryboard(name: self.rawValue, bundle: nil)
