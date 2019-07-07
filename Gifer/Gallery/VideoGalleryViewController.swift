@@ -95,14 +95,7 @@ class VideoGalleryViewController: UICollectionViewController {
         galleryCategoryView.frame.size.width = view.frame.size.width
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
-        view.addSubview(galleryCategoryView)
-        
-        NSLayoutConstraint.activate([
-            dimView.leadingAnchor.constraint(equalTo: galleryCategoryView.leadingAnchor),
-            dimView.trailingAnchor.constraint(equalTo: galleryCategoryView.trailingAnchor),
-            dimView.topAnchor.constraint(equalTo: galleryCategoryView.topAnchor),
-            dimView.bottomAnchor.constraint(equalTo: galleryCategoryView.bottomAnchor)
-            ])
+        view.addSubview(galleryCategoryView)        
     }
 
     func enableFooterView(_ enable: Bool) {
