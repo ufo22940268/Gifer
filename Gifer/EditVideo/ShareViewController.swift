@@ -442,7 +442,6 @@ class SharePresentationController: UIPresentationController {
     }
     
     override func presentationTransitionWillBegin() {
-//        containerView?.layer.cornerRadius = 8
         containerView?.clipsToBounds = true
         containerView?.addSubview(dimmingView)
         dimmingView.useSameSizeAsParent()
@@ -455,7 +454,7 @@ class SharePresentationController: UIPresentationController {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
         gesture.cancelsTouchesInView = false
-        containerView?.addGestureRecognizer(gesture)
+        dimmingView.addGestureRecognizer(gesture)
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {

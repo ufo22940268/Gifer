@@ -32,7 +32,7 @@ class VideoGalleryCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = false
-        addSubview(imageView)
+        contentView.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -43,12 +43,12 @@ class VideoGalleryCell: UICollectionViewCell {
         durationView.isHidden = true
         durationView.translatesAutoresizingMaskIntoConstraints = false
         durationView.textColor = UIColor.white
-        addSubview(durationView)
+        contentView.addSubview(durationView)
         NSLayoutConstraint.activate([
             durationView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             durationView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)])
         
-        addSubview(iconView)
+        contentView.addSubview(iconView)
         NSLayoutConstraint.activate([
             iconView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             iconView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
