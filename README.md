@@ -16,6 +16,7 @@ Let your convert video to gif. And you can use this gif to share to WeChat.
 - https://akveo.github.io/eva-icons/#/
 - https://www.emojious.com/freebies#freebies
 - https://github.com/WhatsApp/stickers/tree/master/iOS
+- https://github.com/zhaoolee/ChineseBQB
 
 ### Design ###
 
