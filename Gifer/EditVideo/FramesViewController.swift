@@ -103,6 +103,9 @@ extension FramesViewController: FrameCellDelegate {
         vc.currentIndex = index
         vc.playerItem = playerItem
         vc.delegate = self
+        nvc.modalTransitionStyle = .coverVertical
+        nvc.modalPresentationStyle = .overCurrentContext
+        nvc.transitioningDelegate = vc.customTransitioning
         present(nvc, animated: true, completion: nil)
     }    
 }

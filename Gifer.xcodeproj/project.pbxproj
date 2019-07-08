@@ -107,6 +107,7 @@
 		42E879A922D2B5FB0098D43B /* StickerPanelContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879A822D2B5FB0098D43B /* StickerPanelContent.swift */; };
 		42E879AB22D2B9E90098D43B /* StickerResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */; };
 		42E879AD22D2BBA00098D43B /* StickerResourceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */; };
+		42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */; };
 		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
@@ -232,6 +233,7 @@
 		42E879A822D2B5FB0098D43B /* StickerPanelContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPanelContent.swift; sourceTree = "<group>"; };
 		42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceManager.swift; sourceTree = "<group>"; };
 		42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceCategory.swift; sourceTree = "<group>"; };
+		42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioning.swift; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* GifGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGenerator.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */,
 				42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */,
 				42E879A822D2B5FB0098D43B /* StickerPanelContent.swift */,
+				42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
+				42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4285BF9D21A8C34600913466 /* TrimController.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,

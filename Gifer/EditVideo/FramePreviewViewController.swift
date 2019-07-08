@@ -29,6 +29,8 @@ class FramePreviewViewController: UIViewController {
         return playerItem.allFrames
     }
     
+    var customTransitioning: FramePreviewTransitionDelegate = FramePreviewTransitionDelegate()
+    
     var sequence: Int? {
         didSet {
             navigationItem.title = sequence == nil ? "" : String(sequence!)
@@ -63,6 +65,11 @@ class FramePreviewViewController: UIViewController {
         
         isActive = false
         load(frame: frames[currentIndex])
+        previewCollectionView.contentInset = UIEdgeInsets.zero
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPanToDismiss(sender:)))
+        panGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(panGesture)
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,6 +78,27 @@ class FramePreviewViewController: UIViewController {
         previewCollectionView.scrollToItem(at: IndexPath(row: currentIndex, section: 0), at: .left, animated: false)
     }
     
+    @objc func onPanToDismiss(sender: UIPanGestureRecognizer) {
+        let translateY = sender.translation(in: view).y
+        let interactiveAnimator = customTransitioning.interactiveAnimator
+        let progress = translateY/view.frame.height
+        switch sender.state {
+        case .began:
+            interactiveAnimator.wantsInteractiveStart = true
+            navigationController?.dismiss(animated: true, completion: nil)
+        case .changed:
+            interactiveAnimator.update(progress)
+        case .ended:
+            if progress < 0.3 {
+                interactiveAnimator.cancel()
+            } else {
+                interactiveAnimator.finish()
+            }
+            interactiveAnimator.wantsInteractiveStart = false
+        default:
+            break
+        }
+    }
     
     @IBAction func onDismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
