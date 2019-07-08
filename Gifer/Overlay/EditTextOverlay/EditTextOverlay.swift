@@ -51,5 +51,7 @@ class EditTextOverlay: Overlay {
         component.change(nSize: componentSize)
         let textRender = component.render as! TextRender
         textRender.info = textInfo
+        component.width.constant = componentSize.width
+        component.height.constant = componentSize.height
     }
 }

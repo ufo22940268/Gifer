@@ -21,6 +21,7 @@ class EditTextPreviewer: UIView {
         textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 8)
         textView.textAlignment = .center
         textView.keyboardAppearance = .dark
+        textView.delegate = self
         return textView
     }()
     
@@ -107,5 +108,12 @@ extension EditTextPreviewer {
     
     func update(color: UIColor) {
         textField.textColor = color
+    }
+}
+
+extension EditTextPreviewer: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        return text.replacingCharacters(in: Range(range, in: text)!, with: string).count < 20
     }
 }

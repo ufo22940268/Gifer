@@ -36,10 +36,9 @@ class TextRender: UILabel, OverlayComponentRenderable {
         }
         baselineAdjustment = .alignCenters
         useAutoLayout()
+        minimumScaleFactor = 0.05
         adjustsFontSizeToFitWidth = true
         textAlignment = .center
-        
-        adjustsFontSizeToFitWidth = true
     }
     
     required init?(coder aDecoder: NSCoder) {
