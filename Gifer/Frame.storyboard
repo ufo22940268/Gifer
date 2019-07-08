@@ -160,7 +160,7 @@
                         <viewLayoutGuide key="safeArea" id="56a-4t-TEx"/>
                     </view>
                     <navigationItem key="navigationItem" id="SKY-kq-qnA">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="YEH-10-yoO">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="YEH-10-yoO">
                             <connections>
                                 <action selector="onDismiss:" destination="HHL-eg-0Af" id="oUv-nG-5cI"/>
                             </connections>
