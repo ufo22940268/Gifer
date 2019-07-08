@@ -69,6 +69,7 @@ extension FramesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FrameCell
         let frame = frames[indexPath.row]
+        
         if cell.tag != 0 {
             playerItem.cancel(taskId: cell.tag)
         }
@@ -76,6 +77,8 @@ extension FramesViewController: UICollectionViewDataSource {
         let id = playerItem.requestImage(frame: frame, complete: { (image) in
             cell.image.image = image
         })
+        
+        cell.isSelected = !frame.isActive
         cell.tag = id
         cell.sequence = playerItem.getActiveSequence(of: frame)
         cell.delegate = self

@@ -24,17 +24,19 @@ class FrameCell: UICollectionViewCell {
         didSet {
             if let sequence = sequence {
                 sequenceView.text = String(sequence)
-                sequenceView.isHidden = false
-                coverView.isHidden = true
-            } else {
-                sequenceView.isHidden = true
-                coverView.isHidden = false
             }
         }
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            sequenceView.isHidden = isSelected
+            coverView.isHidden = !isSelected
+        }
     }
 
     @IBAction func onOpenPreview(_ sender: Any) {
