@@ -95,7 +95,7 @@ class VideoGalleryViewController: UICollectionViewController {
         galleryCategoryView.frame.size.width = view.frame.size.width
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
-        view.addSubview(galleryCategoryView)        
+        view.addSubview(galleryCategoryView)
     }
 
     func enableFooterView(_ enable: Bool) {
@@ -186,7 +186,7 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer", for: indexPath) as! GalleryBottomInfoView
-        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0))
+        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.title)
         return footer
     }
     
