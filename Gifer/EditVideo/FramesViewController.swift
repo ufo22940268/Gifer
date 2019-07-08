@@ -22,7 +22,6 @@ class FramesViewController: UIViewController {
         return Array(playerItem.allFrames[from...to])
     }
     @IBOutlet weak var collectionView: UICollectionView!
-    var customTransitioningDelegate: FramePreviewTransitioningDelegate =  FramePreviewTransitioningDelegate()
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
     
@@ -46,8 +45,9 @@ class FramesViewController: UIViewController {
                 return frame
             }
             playerItem = ImagePlayerItem(frames: frames, duration: CMTime(seconds: 3, preferredTimescale: 600))
+            trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
-
+        
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let gap = CGFloat(2)
         let width: CGFloat = (view.bounds.width - 3*gap)/4
@@ -100,16 +100,9 @@ extension FramesViewController: FrameCellDelegate {
     func onOpenPreview(index: Int) {
         let nvc = storyboard?.instantiateViewController(withIdentifier: "framePreview") as! UINavigationController
         let vc = nvc.topViewController as! FramePreviewViewController
-        vc.loadViewIfNeeded()
-        vc.previewView.image = frames[index].uiImage
-        customTransitioningDelegate.cellIndex = index
-        vc.sequence = playerItem.getActiveSequence(of: frames[index])
-        vc.index = index
+        vc.currentIndex = index
+        vc.playerItem = playerItem
         vc.delegate = self
-        vc.isActive = frames[index].isActive
-//        nvc.transitioningDelegate = customTransitioningDelegate
-//        nvc.modalTransitionStyle = .crossDissolve
-//        nvc.modalPresentationStyle = .custom
         present(nvc, animated: true, completion: nil)
     }    
 }

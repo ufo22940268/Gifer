@@ -126,10 +126,44 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ck5-Go-MTJ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Swj-aT-CHM">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="moa-D7-ohY">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="730"/>
-                                        <color key="backgroundColor" name="darkBackgroundColor"/>
-                                    </imageView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="bed-Dc-shj">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="991-wr-XVM" customClass="FramePreviewCell" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Nn-pk-KDp">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstItem="3Nn-pk-KDp" firstAttribute="top" secondItem="991-wr-XVM" secondAttribute="top" id="W9e-10-0o0"/>
+                                                    <constraint firstAttribute="trailing" secondItem="3Nn-pk-KDp" secondAttribute="trailing" id="bHa-gD-CDc"/>
+                                                    <constraint firstItem="3Nn-pk-KDp" firstAttribute="leading" secondItem="991-wr-XVM" secondAttribute="leading" id="bbh-uh-8Mi"/>
+                                                    <constraint firstAttribute="bottom" secondItem="3Nn-pk-KDp" secondAttribute="bottom" id="ooQ-Tp-Cq0"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="imageView" destination="3Nn-pk-KDp" id="oJn-D4-JHL"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="HHL-eg-0Af" id="3Pn-AX-82t"/>
+                                            <outlet property="delegate" destination="HHL-eg-0Af" id="1A0-nf-rIw"/>
+                                        </connections>
+                                    </collectionView>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="wnD-P9-bRv">
                                         <rect key="frame" x="0.0" y="730" width="414" height="44"/>
                                         <color key="backgroundColor" name="darkBackgroundColor"/>
@@ -145,9 +179,6 @@
                                         <color key="barTintColor" name="darkBackgroundColor"/>
                                     </toolbar>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="Swj-aT-CHM" firstAttribute="width" secondItem="Ck5-Go-MTJ" secondAttribute="width" id="FIE-Lf-hv7"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -168,7 +199,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="checkItem" destination="J0p-Ir-X6u" id="5aj-K3-WsS"/>
-                        <outlet property="previewView" destination="Swj-aT-CHM" id="eQj-o7-c2q"/>
+                        <outlet property="previewCollectionView" destination="moa-D7-ohY" id="aK4-p5-MFJ"/>
+                        <outlet property="previewFlowLayout" destination="bed-Dc-shj" id="U1W-6a-hqK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z3I-Hc-E4b" userLabel="First Responder" sceneMemberID="firstResponder"/>

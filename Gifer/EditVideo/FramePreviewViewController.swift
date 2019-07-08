@@ -12,13 +12,22 @@ protocol FramePreviewDelegate: class {
     func onCheck(index: Int, actived: Bool)
 }
 
+class FramePreviewCell: UICollectionViewCell {    
+    @IBOutlet weak var imageView: UIImageView!
+}
+
 class FramePreviewViewController: UIViewController {
 
     @IBOutlet weak var checkItem: UIBarButtonItem!
-    @IBOutlet weak var previewView: UIImageView!
+    @IBOutlet weak var previewCollectionView: UICollectionView!
+    @IBOutlet weak var previewFlowLayout: UICollectionViewFlowLayout!
     
     weak var delegate: FramePreviewDelegate?
-    var index: Int!
+    var currentIndex: Int!
+    var playerItem: ImagePlayerItem!
+    var frames: [ImagePlayerFrame] {
+        return playerItem.allFrames
+    }
     
     var sequence: Int? {
         didSet {
@@ -38,6 +47,11 @@ class FramePreviewViewController: UIViewController {
         }
     }
     
+    var displayPageIndex: Int? {
+        guard let cell = previewCollectionView.visibleCells.first else { return nil }
+        return previewCollectionView.indexPath(for: cell)!.row
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +62,13 @@ class FramePreviewViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         isActive = false
+        load(frame: frames[currentIndex])
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        previewFlowLayout.itemSize = previewCollectionView.frame.size
+        previewCollectionView.scrollToItem(at: IndexPath(row: currentIndex, section: 0), at: .left, animated: false)
     }
     
     
@@ -57,6 +78,41 @@ class FramePreviewViewController: UIViewController {
     
     @IBAction func onCheck(_ sender: Any) {
         isActive = !isActive
-        delegate?.onCheck(index: index, actived: isActive)
+        delegate?.onCheck(index: currentIndex, actived: isActive)
+        playerItem!.allFrames[currentIndex].isActive = isActive
+        
+        load(frame: frames[currentIndex])
+    }
+}
+
+extension FramePreviewViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return frames.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FramePreviewCell
+        let frame = frames[indexPath.row]
+        DispatchQueue.global(qos: .userInteractive).async {
+            let image = frame.uiImage
+            DispatchQueue.main.async {
+                cell.imageView.image = image
+            }
+        }
+        return cell
+    }
+}
+
+extension FramePreviewViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func load(frame: ImagePlayerFrame) {
+        sequence = playerItem.getActiveSequence(of: frame)
+        isActive = frame.isActive
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let displayPageIndex = displayPageIndex else { return }
+        load(frame: frames[displayPageIndex])
+        currentIndex = displayPageIndex
     }
 }
