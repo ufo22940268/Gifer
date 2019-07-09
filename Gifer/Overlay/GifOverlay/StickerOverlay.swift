@@ -11,6 +11,8 @@ import UIKit
 
 class StickerOverlay: Overlay {
     
+    var initialStickerSize: CGSize = CGSize(width: 80, height: 80)
+    
     var stickerInfos: [StickerInfo] {
         return components.map { component in
             let stickerRender = component.render as! StickerRender

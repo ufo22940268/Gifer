@@ -256,9 +256,6 @@ class EditViewController: UIViewController {
         
         setSubTitle("加载中")
         setupVideoContainer()
-        if previewImage != nil {
-            setPreviewImage(previewImage)
-        }
         setupControlToolbar()
         setupVideoController()
         
@@ -315,20 +312,7 @@ class EditViewController: UIViewController {
             ])
         videoVC.didMove(toParent: self)
         
-        let previewView = VideoPreviewView()
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        videoPlayerSection.insertSubview(previewView, belowSubview: videoLoadingIndicator)
         showPlayLoading(true)
-        NSLayoutConstraint.activate([
-            previewView.heightAnchor.constraint(equalTo: videoPlayerSection.heightAnchor),
-            previewView.widthAnchor.constraint(equalTo: videoPlayerSection.widthAnchor),
-            previewView.centerXAnchor.constraint(equalTo: videoPlayerSection.centerXAnchor),
-            previewView.centerYAnchor.constraint(equalTo: videoPlayerSection.centerYAnchor)
-            ])
-        previewView.backgroundColor = UIColor.black
-        videoVC.previewView = previewView
-        previewView.isHidden = true
-        
         enableVideoContainer(false)
         
         editTextOverlay.delegate = self
@@ -349,11 +333,7 @@ class EditViewController: UIViewController {
         optionMenu.delegate = self
         controlToolbar.toolbarDelegate = self                
     }
-    
-    var previewView: UIView? {
-        return videoVC.previewView
-    }
-    
+        
     var displayVideoRect: CGRect {
         let rect = videoPlayerSection.bounds
         return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
@@ -427,15 +407,6 @@ class EditViewController: UIViewController {
                 this.onVideoReady(playerItem: playerItem)
             }
         }
-    }
-    
-    func setPreviewImage(_ image: UIImage) {
-        videoVC.previewImage = image
-        videoVC.previewView.image = image
-    }
-    
-    func getPreviewImage() -> UIImage? {
-        return videoVC.previewImage
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

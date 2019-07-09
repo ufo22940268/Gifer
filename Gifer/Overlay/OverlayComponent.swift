@@ -88,7 +88,8 @@ class OverlayComponent: UIView {
         }
         
         private func predictNormalizedRect(sticker: StickerInfo, containerBounds: CGRect) -> CGRect {
-            var boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
+            let size = CGSize(width: 140, height: 140)
+            var boundsRect = CGRect(origin: CGPoint(x: (containerBounds.width - size.width)/2, y: (containerBounds.height - size.height)/2), size: size)
             boundsRect = AVMakeRect(aspectRatio: sticker.image.size, insideRect: boundsRect)
             return boundsRect.normalizeRect(containerSize: containerBounds.size)
         }

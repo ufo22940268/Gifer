@@ -37,7 +37,6 @@ protocol ImagePlayerDelegate: class {
 
 class VideoViewController: UIViewController {
     
-    var previewView: VideoPreviewView!
     var trimPosition: VideoTrimPosition {
         return imagePlayerView.trimPosition
     }

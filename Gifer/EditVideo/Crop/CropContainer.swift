@@ -138,7 +138,7 @@ class CropContainer: UIView {
         contentView.addSubview(editTextOverlay)
         editTextOverlay.useSameSizeAsParent()
         
-        contentView.addSubview(stickerOverlay)
+        superview!.addSubview(stickerOverlay)
         stickerOverlay.useSameSizeAsParent()
     }
     

@@ -14,14 +14,14 @@ class VideoPlayerSection: UIView {
     
     var cropContainer: CropContainer?
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard self.point(inside: point, with: event) else {
-            return nil
-        }
-
-        let cropContainer = subviews.filter({ (view) -> Bool in
-            view is CropContainer
-        }).first!
-        return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
-    }
+//    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+//        guard self.point(inside: point, with: event) else {
+//            return nil
+//        }
+//
+//        let cropContainer = subviews.filter({ (view) -> Bool in
+//            view is CropContainer
+//        }).first!
+//        return cropContainer.hitTest(self.convert(point, to: cropContainer), with: event)
+//    }
 }
