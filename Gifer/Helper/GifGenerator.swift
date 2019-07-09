@@ -254,7 +254,6 @@ public class GifGenerator {
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): playerItem.frameInterval]] as CFDictionary
             
-            let originImageSize = image.size
             image = self.crop(image: image)
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
@@ -265,7 +264,7 @@ public class GifGenerator {
             }
             
             if stickerImageCaches == nil {
-                stickerImageCaches = self.cacheStickerImageForExport(canvasSize: originImageSize, stickers: self.options.stickers)
+                stickerImageCaches = self.cacheStickerImageForExport(canvasSize: image.size, stickers: self.options.stickers)
             }
             
             image = self.addStickersAndTexts(current: time, image: image, cachedLabels: labelViewCaches, cachedStickers: stickerImageCaches)
