@@ -11,9 +11,7 @@ import UIKit
 import AVKit
 
 class VideoPlayerSection: UIView {
-    
-    var cropContainer: CropContainer?
-    
+        
 //    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 //        guard self.point(inside: point, with: event) else {
 //            return nil

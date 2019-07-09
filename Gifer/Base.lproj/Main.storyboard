@@ -40,10 +40,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RiW-qn-5H2">
-                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kUt-Bn-rUc">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container" customClass="VideoControllerContainer" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
@@ -69,28 +69,35 @@
                                                 <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                                             </view>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="76" width="375" height="541.66666666666663"/>
+                                                <rect key="frame" x="0.0" y="76" width="375" height="585.66666666666663"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doM-YV-IAQ" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="541.66666666666663"/>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pyg-ee-PwN" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="67" y="206" width="240" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="67" y="228" width="240" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yBF-sw-Pud" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="67" y="228" width="240" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="252.33333333333331" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="274.33333333333331" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="height" secondItem="FsJ-7O-eCM" secondAttribute="height" identifier="height" id="FOf-kR-snz"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" identifier="centerXa" id="XLH-2P-TAG"/>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" identifier="centerY" id="hqR-xR-aPI"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
-                                                    <constraint firstItem="doM-YV-IAQ" firstAttribute="width" secondItem="FsJ-7O-eCM" secondAttribute="width" identifier="width" id="zGj-xX-vb0"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oh6-HI-gqg" userLabel="Bottom Toolbar Container" customClass="BottomToolbarContainer" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="617.66666666666663" width="375" height="72.333333333333371"/>
+                                                <rect key="frame" x="0.0" y="661.66666666666663" width="375" height="72.333333333333371"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.33333333333337123" width="375" height="72"/>
@@ -151,9 +158,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
-                        <outlet property="cropContainer" destination="doM-YV-IAQ" id="RVM-7C-EJN"/>
+                        <outlet property="editTextOverlay" destination="yBF-sw-Pud" id="fTT-yl-a1x"/>
+                        <outlet property="imagePlayerView" destination="pyg-ee-PwN" id="9lg-sJ-w1L"/>
                         <outlet property="shareItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
+                        <outlet property="stickerOverlay" destination="gwc-EM-3TJ" id="DMd-1p-8sD"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
                         <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
                         <outlet property="videoPlayerSection" destination="FsJ-7O-eCM" id="yf5-Yg-0xx"/>
@@ -410,7 +419,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="a5x-Jh-9PN"/>
+        <segue reference="iNs-gq-NHO"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>

@@ -186,7 +186,7 @@ class EditViewController: UIViewController {
         return optionMenu.playSpeedView
     }
 
-    @IBOutlet weak var cropContainer: CropContainer!
+    @IBOutlet weak var imagePlayerView: ImagePlayerView!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shareItem: UIBarButtonItem!
     
@@ -199,9 +199,8 @@ class EditViewController: UIViewController {
     var cacheFilePath: URL!
     var customTransitionDelegate = EditTextTransitionDelegate()
 
-    var stickerOverlay: StickerOverlay {
-        return cropContainer.stickerOverlay
-    }
+    @IBOutlet weak var stickerOverlay: StickerOverlay!
+    @IBOutlet weak var editTextOverlay: EditTextOverlay!
     
     var validPHAsset: PHAsset! {
         return videoAsset ?? livePhotoAsset
@@ -288,11 +287,6 @@ class EditViewController: UIViewController {
     func setupVideoContainer() {
         videoContainer = UIView()
         videoContainer.translatesAutoresizingMaskIntoConstraints = false
-        cropContainer.setupCover()
-        cropContainer.addContentView(videoContainer)
-        videoPlayerSection.cropContainer = cropContainer
-        cropContainer.customDelegate = self
-        
         videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
         addChild(videoVC)
         videoContainer.addSubview(videoVC.view)
@@ -391,16 +385,7 @@ class EditViewController: UIViewController {
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
-                this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
-                
-                this.cropContainer.superview!.constraints.findById(id: "width").isActive = false
-                this.cropContainer.superview!.constraints.findById(id: "height").isActive = false
-                this.cropContainer.videoSize = this.videoSize
-                this.cropContainer.widthAnchor.constraint(equalToConstant: this.displayVideoRect.width).with(identifier: "width").isActive = true
-                this.cropContainer.heightAnchor.constraint(equalToConstant: this.displayVideoRect.height).with(identifier: "height").isActive = true
-                
-                this.cropContainer.setupVideo(frame: this.displayVideoRect)
-                
+            this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
                 this.videoVC.load(playerItem: playerItem)
                 this.videoVC.videoViewControllerDelegate = this
                 
@@ -425,14 +410,16 @@ class EditViewController: UIViewController {
         let startProgress = trimPosition.leftTrim
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
-        let cropArea = cropContainer.cropArea
+        
+//        fatalError()
+        let cropArea: CGRect! = .zero
         return GifGenerator.Options(
             start: startProgress,
             end: endProgress,
             speed: speed,
             cropArea: cropArea,
             filter: videoVC.filter,
-            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: cropContainer),
+            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: imagePlayerView.superview!),
             direction: videoVC.playDirection,
             exportType: nil,
             texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
@@ -516,17 +503,6 @@ class EditViewController: UIViewController {
         videoVC.pause()
     }
     
-    func onVideoSectionFrameUpdated() {
-        guard let width = cropContainer.constraints.first(where: {$0.identifier == "width"}),
-            let height = cropContainer.constraints.first(where: {$0.identifier == "height"}) else {
-            return
-        }
-        let rect = videoRect
-        width.constant = rect.width
-        height.constant = rect.height
-        cropContainer.updateWhenVideoSizeChanged(videoSize: rect.size)
-    }
-    
     @IBAction func onDismiss(_ sender: Any) {
         if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
             navigationController?.popViewController(animated: true)
@@ -586,14 +562,6 @@ class EditViewController: UIViewController {
 }
 
 extension EditViewController: ImagePlayerDelegate {
-
-    var videoRect: CGRect {
-        return AVMakeRect(aspectRatio: videoVC.videoBounds.size, insideRect: CGRect(origin: CGPoint.zero, size: cropContainer.superview!.frame.size))
-    }
-        
-    var editTextOverlay: EditTextOverlay {
-        return cropContainer.editTextOverlay
-    }
     
     func mock() {
         let render = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
@@ -613,7 +581,6 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog?.dismiss()
         loadingDialog = nil
         self.videoController.delegate = self
-        cropContainer.onVideoReady(trimPosition: trimPosition)
         showPlayLoading(false)
         self.videoController.load(playerItem: playerItem) {
             self.enableVideoController(true)
@@ -639,7 +606,6 @@ extension EditViewController: ImagePlayerDelegate {
         let percent = CGFloat(current - left)/CGFloat(right - left)
         
         videoController.updateSliderProgress(percent: percent)
-        cropContainer.updateOverlayWhenProgressChanged(progress: progress)
     }
     
     func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus) {
@@ -698,25 +664,6 @@ extension EditViewController: OptionMenuDelegate {
         videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
     }
     
-    func onCropSizeSelected(size: CropSize) {
-        switch size.type {
-        case .ratio:
-            cropContainer.updateCroppingStatus(.adjustCrop)
-            UIView.animate(withDuration: 0.3) {
-                self.cropContainer.gridRulerView.isGridChanged = false
-                self.cropContainer.adjustTo(ratio: size.ratio)
-                self.videoPlayerSection.layoutIfNeeded()
-            }
-        case .free:
-            cropContainer.updateCroppingStatus(.adjustCrop)
-            UIView.animate(withDuration: 0.3) {
-                self.cropContainer.gridRulerView.isGridChanged = false
-                self.cropContainer.adjustTo(ratio: self.cropContainer.videoSize!)
-                self.videoPlayerSection.layoutIfNeeded()
-            }
-        }
-    }
-    
     var allOverlays: [Overlay] {
         return [editTextOverlay, stickerOverlay]
     }
@@ -725,10 +672,6 @@ extension EditViewController: OptionMenuDelegate {
         enableVideoContainer(false)
         switch toolbarItem {
         case .crop:
-            if !commitChange {
-                cropContainer.resetCropArea()
-            }
-            self.cropContainer.updateCroppingStatus(.normal)
             break
         case .sticker:
             break
@@ -772,8 +715,6 @@ extension EditViewController: ControlToolbarDelegate {
             let heightChanges = self.optionMenu.bounds.height - self.controlToolbar.bounds.height
             self.stackView.setCustomSpacing(heightChanges, after: self.videoPlayerSection)
             self.stackView.layoutIfNeeded()
-            self.cropContainer.updateWhenContainerSizeChanged(containerBounds: self.videoPlayerSection.bounds)
-            self.stackView.layoutIfNeeded()
         }, completion: nil)
     }
     
@@ -792,11 +733,6 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onCropItemClicked() {
-        enableVideoContainer(true)
-        editTextOverlay.isEnabled = false
-        stickerOverlay.isEnabled = false
-        showOptionMenu(for: .crop)
-        self.cropContainer.updateCroppingStatus(.adjustCrop)
     }
     
     func onFiltersItemClicked() {
@@ -826,12 +762,12 @@ extension EditViewController: VideoCacheDelegate {
 
 extension EditViewController: EditTextViewControllerDelegate {
     func onAddEditText(info: EditTextInfo) {
-        let component = cropContainer.editTextOverlay.addTextComponent(textInfo: info)
+        let component = editTextOverlay.addTextComponent(textInfo: info)
         videoController.attachView.load(image: component.editTextRender!.renderImage, component: component)
     }
     
     func onUpdateEditText(info: EditTextInfo, componentId: ComponentId) {
-        cropContainer.editTextOverlay.updateTextComponent(textInfo: info, componentId: componentId)
+        editTextOverlay.updateTextComponent(textInfo: info, componentId: componentId)
     }
 }
 
@@ -847,7 +783,7 @@ extension EditViewController: OverlayDelegate {
         let allOverlays = [editTextOverlay, stickerOverlay]
         allOverlays.forEach { t in
             if t != overlay {
-                t.deactiveComponents()
+                t!.deactiveComponents()
             }
         }
         component.superview!.bringSubviewToFront(component)

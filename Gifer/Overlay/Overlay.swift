@@ -31,15 +31,7 @@ class Overlay: UIView {
     var activeComponent: OverlayComponent? {
         return components.first { $0.isActive }
     }
-    
-    init() {
-        super.init(frame: .zero)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-        
+            
     func deactiveComponents() {
         components.forEach { $0.isActive = false }
     }

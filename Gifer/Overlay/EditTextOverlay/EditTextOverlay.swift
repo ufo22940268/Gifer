@@ -10,14 +10,6 @@ import UIKit
 
 class EditTextOverlay: Overlay {
 
-    override init() {
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     var allRenders: [TextRender] {
         return components.map { $0.render as! TextRender }
     }
