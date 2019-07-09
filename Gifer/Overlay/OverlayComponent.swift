@@ -235,6 +235,7 @@ class OverlayComponent: UIView {
         delegate?.onActive(component: self)
     }
     
+    /// Update layout of overlay component when component model changes.
     func updateInfoPosition() {
         let rect = info.realRect(parentSize: superview!.bounds.size)
         guard rect.width > 0 && rect.height > 0 else { return }

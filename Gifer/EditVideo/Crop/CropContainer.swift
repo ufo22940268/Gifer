@@ -138,7 +138,7 @@ class CropContainer: UIView {
         contentView.addSubview(editTextOverlay)
         editTextOverlay.useSameSizeAsParent()
         
-        superview!.addSubview(stickerOverlay)
+        addSubview(stickerOverlay)
         stickerOverlay.useSameSizeAsParent()
     }
     
@@ -159,6 +159,7 @@ class CropContainer: UIView {
         }
     }
     
+    ///Triggerd by crop container size changed
     func updateWhenContainerSizeChanged(containerBounds: CGRect) {
         guard let targetSize = layoutSizeAccordingToVideoSize else { return }
         constraints.findById(id: "height").constant = targetSize.height
