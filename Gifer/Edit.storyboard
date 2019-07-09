@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZOA-RP-8i6">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="HJE-vY-IP3">
+            <objects>
+                <viewController id="ZOA-RP-8i6" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CnK-MI-ggB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y17-a7-FBp">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="tec-8u-I7k">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="750"/>
+                                        <items>
+                                            <barButtonItem style="plain" systemItem="cancel" id="iy1-Ee-eag">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </barButtonItem>
+                                        </items>
+                                    </toolbar>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69d-J6-66n" customClass="CropMenuView" customModule="Gifer" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="750" width="414" height="68"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="68" id="LkW-1s-ele"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
+                        <color key="tintColor" name="yellowColor"/>
+                        <constraints>
+                            <constraint firstItem="y17-a7-FBp" firstAttribute="bottom" secondItem="ZVS-g3-l3l" secondAttribute="bottom" id="IUD-9t-Nvg"/>
+                            <constraint firstAttribute="trailing" secondItem="y17-a7-FBp" secondAttribute="trailing" id="ke1-BF-Wqt"/>
+                            <constraint firstItem="y17-a7-FBp" firstAttribute="leading" secondItem="CnK-MI-ggB" secondAttribute="leading" id="tQA-Ia-bhH"/>
+                            <constraint firstItem="y17-a7-FBp" firstAttribute="top" secondItem="ZVS-g3-l3l" secondAttribute="top" id="vye-4l-bXa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ZVS-g3-l3l"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="121.73913043478262" y="36.830357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="darkBackgroundColor">
+            <color red="0.094117647058823528" green="0.062745098039215685" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="yellowColor">
+            <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

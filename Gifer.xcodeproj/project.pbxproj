@@ -108,6 +108,7 @@
 		42E879AB22D2B9E90098D43B /* StickerResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */; };
 		42E879AD22D2BBA00098D43B /* StickerResourceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */; };
 		42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */; };
+		42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E879B022D4B57D0098D43B /* Edit.storyboard */; };
 		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
@@ -234,6 +235,7 @@
 		42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceManager.swift; sourceTree = "<group>"; };
 		42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceCategory.swift; sourceTree = "<group>"; };
 		42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioning.swift; sourceTree = "<group>"; };
+		42E879B022D4B57D0098D43B /* Edit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Edit.storyboard; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* GifGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGenerator.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 				4218D4EC22C75980001CAD81 /* Storyboards.swift */,
 				4234786C22CAE46A007F9E05 /* Config.swift */,
 				42E879A222D1F4330098D43B /* OptionMenu.storyboard */,
+				42E879B022D4B57D0098D43B /* Edit.storyboard */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */,
 				42E879A322D1F4330098D43B /* OptionMenu.storyboard in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
+				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
 				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,
 				42F2D576219403B100113A10 /* Main.storyboard in Resources */,

@@ -33,26 +33,29 @@ class CropMenuView: UICollectionView, Transaction {
         return sizes
     }()
 
-    init() {
+    fileprivate func setup() {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         layout.scrollDirection = .horizontal
-        super.init(frame: CGRect.zero, collectionViewLayout: layout)
-        translatesAutoresizingMaskIntoConstraints = false
+        self.collectionViewLayout = layout
         backgroundColor = UIColor(named: "darkBackgroundColor")
-        NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 68)])
         
         register(CropSizeIcon.self, forCellWithReuseIdentifier: "cell")
         
         dataSource = self
         delegate = self
         
+        reloadData()
+        
         selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .left)
     }
-    
+        
     required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)!
+    }
+    
+    override func awakeFromNib() {
+        setup()
     }
 }
 

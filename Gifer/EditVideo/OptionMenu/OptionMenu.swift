@@ -38,10 +38,8 @@ class OptionMenu: UIView {
         backgroundColor = UIColor(named: "darkBackgroundColor")
 
         setupPlaySpeedView()
-        setupCropMenuView()
         setupFiltersView()
-        setupStickerView()
-        
+        setupStickerView()        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -83,11 +81,6 @@ class OptionMenu: UIView {
             contentView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)])
         setNeedsDisplay()
-    }
-    
-    func setupCropMenuView() {
-        cropMenuView = CropMenuView()
-        cropMenuViewContainer = ControlToolbarConfirmPrompt(contentView: cropMenuView, toolbarItem: .crop)
     }
     
     func setupPlaySpeedView() {
