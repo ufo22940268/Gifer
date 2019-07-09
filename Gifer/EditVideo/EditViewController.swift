@@ -577,6 +577,9 @@ extension EditViewController: ImagePlayerDelegate {
     
     func onVideoReady(playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
+        imagePlayerView.load(playerItem: playerItem)
+        stickerOverlay.clipTrimPosition = trimPosition
+        editTextOverlay.clipTrimPosition = trimPosition
         isLoadingVideo = false
         loadingDialog?.dismiss()
         loadingDialog = nil
@@ -599,6 +602,7 @@ extension EditViewController: ImagePlayerDelegate {
         videoLoadingIndicator.isHidden = !inBuffering
     }
     
+
     func onProgressChanged(progress: CMTime) {
         let current = playerItem.nearestActiveIndex(time: progress)
         let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)

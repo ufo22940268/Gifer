@@ -13,6 +13,7 @@ class ImagePlayerView: UIView {
     
     lazy var frameView: ImagePlayerFrameView = {
         let view = ImagePlayerFrameView().useAutoLayout()
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
