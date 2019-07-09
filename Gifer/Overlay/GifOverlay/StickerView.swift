@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 protocol StickerViewDelegate: class {
     func onStickerPanStateChanged(state: UIPanGestureRecognizer.State, sticker: StickerView)
@@ -81,7 +82,9 @@ class StickerView: UIView {
     private func syncFrameToStickerInfo() {
         guard let superview = superview else { return }
         sticker.frame = frame.applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
-        sticker.imageFrame = imageView.convert(imageView.bounds, to: superview).applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
+        
+        let imageRect = AVMakeRect(aspectRatio: imageView.image!.size, insideRect: imageView.bounds)
+        sticker.imageFrame = imageView.convert(imageRect, to: superview).applying(CGAffineTransform(scaleX: 1/superview.bounds.width, y: 1/superview.bounds.height))
     }
     
     private func updateStickerRotation() {

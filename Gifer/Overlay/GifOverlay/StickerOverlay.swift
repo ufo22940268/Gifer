@@ -27,6 +27,20 @@ class StickerOverlay: Overlay {
         }
     }
     
+    func getStickerInfosForExport(videoContainer: UIView) -> [StickerInfo] {
+        return components.map { component in
+            let stickerRender = component.render as! StickerRender
+            var info = stickerRender.info!
+            let stickerFrame = stickerRender.convert(stickerRender.bounds, to: videoContainer)
+            info.imageFrame = stickerFrame
+                .aspectFit(in: stickerFrame, ratio: info.image.size)
+                .normalizeRect(containerSize: videoContainer.bounds.size)
+            info.rotation = component.rotation
+            info.trimPosition = component.trimPosition
+            return info
+        }
+    }
+    
     func addStickerComponent(_ sticker: StickerInfo) -> OverlayComponent {
         let stickerRender = StickerRender(info: sticker).useAutoLayout()
         let componentInfo = OverlayComponent.Info(stickerInfo:sticker, containerBounds: self.bounds)

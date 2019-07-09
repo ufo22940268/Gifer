@@ -238,7 +238,6 @@ public class GifGenerator {
         let generateFrames: [ImagePlayerFrame] = playerItem.getActiveFramesBetween(begin: options.start, end: options.end)
         let destination = self.buildDestinationOfGif(frameCount: generateFrames.count)
         let ciContext = CIContext(options: nil)
-//        times = arrangeTimeByPlayDirection(times)
         
         var labelViewCaches: [LabelViewCache]! = nil
         var stickerImageCaches: [StickerImageCache]! = nil
@@ -249,7 +248,6 @@ public class GifGenerator {
             return ciContext.createCGImage(ciImage, from: ciImage.extent)!
         }
 
-//        for timeValue in times {
         for (index, frame) in generateFrames.enumerated() {
             var image: CGImage = frame.uiImage.cgImage!.resize(inSize: gifSize)
             let time = CMTime(seconds: Double(index)*playerItem.frameInterval, preferredTimescale: 600)

@@ -333,7 +333,7 @@ class EditViewController: UIViewController {
         optionMenu.delegate = self
         controlToolbar.toolbarDelegate = self                
     }
-        
+    
     var displayVideoRect: CGRect {
         let rect = videoPlayerSection.bounds
         return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
@@ -432,7 +432,7 @@ class EditViewController: UIViewController {
             speed: speed,
             cropArea: cropArea,
             filter: videoVC.filter,
-            stickers: stickerOverlay.stickerInfos.map { $0.fixImageFrame(videoSize: videoSize, cropArea: cropArea) },
+            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: videoContainer).map { $0.fixImageFrame(videoSize: videoSize, cropArea: cropArea) },
             direction: videoVC.playDirection,
             exportType: nil,
             texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
