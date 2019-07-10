@@ -31,6 +31,14 @@ class CropContainer: UIView {
         }
     }
     
+    var width: NSLayoutConstraint {
+        return constraints.findById(id: "width")
+    }
+    
+    var height: NSLayoutConstraint {
+        return constraints.findById(id: "height")
+    }
+
     var cropRatio: CGSize!
     var status: CroppingStatus = .normal
     
@@ -104,6 +112,9 @@ class CropContainer: UIView {
     }
     
     func setupVideo(frame videoFrame: CGRect) {
+        isHidden = false
+        width.constant = videoFrame.width
+        height.constant = videoFrame.height
         gridRulerView.setupVideo(frame: videoFrame)
     }
     

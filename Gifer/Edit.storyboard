@@ -68,14 +68,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="20" y="44" width="374" height="628"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="57" y="208" width="300" height="300"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
-                                        <rect key="frame" x="0.0" y="0.0" width="366" height="628"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="628"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -88,6 +88,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="300" identifier="height" id="4e7-UC-dpH"/>
                                     <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="JPh-LT-rTX"/>
                                     <constraint firstItem="qJB-eG-6or" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="KWs-BR-RWq"/>
                                     <constraint firstAttribute="bottom" secondItem="qJB-eG-6or" secondAttribute="bottom" id="PG8-bA-h9v"/>
@@ -95,15 +96,14 @@
                                     <constraint firstItem="qJB-eG-6or" firstAttribute="leading" secondItem="Rf0-a6-fEp" secondAttribute="leading" id="Yk9-kN-4dD"/>
                                     <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="ZZ4-Z2-fM7"/>
                                     <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="eDX-we-utr"/>
-                                    <constraint firstItem="qJB-eG-6or" firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailingMargin" id="zj8-dT-DQ9"/>
+                                    <constraint firstAttribute="width" constant="300" identifier="width" id="gGg-z6-Bid"/>
+                                    <constraint firstItem="qJB-eG-6or" firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="zj8-dT-DQ9"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="2V3-D6-zv4"/>
-                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leadingMargin" id="WXe-OT-U7K"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="Rf0-a6-fEp" secondAttribute="bottom" id="nwc-XF-OkG"/>
-                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="topMargin" id="zqD-va-Pbp"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="centerY" secondItem="RbO-Cf-LR8" secondAttribute="centerY" id="aat-5P-a7P"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="centerX" secondItem="RbO-Cf-LR8" secondAttribute="centerX" id="u99-GY-adU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RbO-Cf-LR8"/>
                     </view>

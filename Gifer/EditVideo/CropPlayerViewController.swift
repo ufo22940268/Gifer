@@ -21,7 +21,7 @@ class CropPlayerViewController: UIViewController {
         cropContainer.setup()
     }
     
-    func onVideReady(videoFrame: CGRect) {
+    func onVideoReady(videoFrame: CGRect) {
         cropContainer.setupVideo(frame: videoFrame)
     }
     

@@ -30,8 +30,8 @@ class CropViewController: UIViewController {
                     ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).extract(complete: { (playerItem) in
                         self.setup(playerItem: playerItem)
                         
-                        let videoFrame = AVMakeRect(aspectRatio: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), insideRect: self.cropPlayerVC.cropContainer.bounds)
-                        self.cropPlayerVC.onVideReady(videoFrame: videoFrame)
+                        let videoFrame = AVMakeRect(aspectRatio: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), insideRect: self.cropPlayerVC.view.bounds)
+                        self.cropPlayerVC.onVideoReady(videoFrame: videoFrame)
                     })
                 }
             }
