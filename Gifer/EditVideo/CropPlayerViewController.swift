@@ -10,11 +10,19 @@ import UIKit
 
 class CropPlayerViewController: UIViewController {
     @IBOutlet weak var imagePlayerView: ImagePlayerView!
+    @IBOutlet var cropContainer: CropContainer!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        cropContainer.scrollView = scrollView
+        cropContainer.setup()
+    }
+    
+    func onVideReady(videoFrame: CGRect) {
+        cropContainer.setupVideo(frame: videoFrame)
     }
     
 

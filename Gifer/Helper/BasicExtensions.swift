@@ -189,3 +189,8 @@ extension Double {
     }
 }
 
+extension CGRect {
+    func getEdgeInsets(withContainer container: CGRect) -> UIEdgeInsets {
+        return UIEdgeInsets(top: minY, left: minX, bottom: container.maxY - maxY, right: container.maxX - maxX)
+    }
+}

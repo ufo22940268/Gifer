@@ -64,42 +64,56 @@
         <scene sceneID="vfi-Fm-gPp">
             <objects>
                 <viewController storyboardIdentifier="cropPlayer" id="jRY-m8-rUz" customClass="CropPlayerViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gqc-7h-jNW" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="gqc-7h-jNW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
-                                <rect key="frame" x="0.0" y="44" width="414" height="662"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-44" width="414" height="706"/>
-                                    </view>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
+                                        <rect key="frame" x="0.0" y="0.0" width="406" height="706"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="-44" width="414" height="706"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="bbx-Fc-5AO"/>
+                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="qJB-eG-6or" secondAttribute="leading" id="rde-0K-UYo"/>
+                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="qJB-eG-6or" secondAttribute="top" id="sTT-MI-Z9q"/>
+                                            <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="vsV-Ku-zTZ"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="Cyj-Ue-ze5"/>
-                                    <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="MIX-Y1-pny"/>
+                                    <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="JPh-LT-rTX"/>
+                                    <constraint firstItem="qJB-eG-6or" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="KWs-BR-RWq"/>
+                                    <constraint firstAttribute="bottom" secondItem="qJB-eG-6or" secondAttribute="bottom" id="PG8-bA-h9v"/>
+                                    <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="Rf0-a6-fEp" secondAttribute="leading" id="R6J-n9-TNV"/>
+                                    <constraint firstItem="qJB-eG-6or" firstAttribute="leading" secondItem="Rf0-a6-fEp" secondAttribute="leading" id="Yk9-kN-4dD"/>
+                                    <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="ZZ4-Z2-fM7"/>
+                                    <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="eDX-we-utr"/>
+                                    <constraint firstItem="qJB-eG-6or" firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailingMargin" id="zj8-dT-DQ9"/>
                                 </constraints>
-                            </scrollView>
+                            </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qJB-eG-6or" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="topMargin" id="08g-H3-KH7"/>
-                            <constraint firstAttribute="trailing" secondItem="qJB-eG-6or" secondAttribute="trailing" id="Oqd-oo-wXv"/>
-                            <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="Ub1-mm-U8m"/>
-                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leading" id="UcH-GL-YEl"/>
-                            <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="cgh-Qr-hr7"/>
-                            <constraint firstAttribute="bottom" secondItem="qJB-eG-6or" secondAttribute="bottom" id="fWo-d2-um8"/>
-                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="top" id="kqz-hX-noC"/>
-                            <constraint firstItem="qJB-eG-6or" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leading" id="yYg-2z-6qP"/>
+                            <constraint firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="2V3-D6-zv4"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leading" id="WXe-OT-U7K"/>
+                            <constraint firstAttribute="bottom" secondItem="Rf0-a6-fEp" secondAttribute="bottom" id="nwc-XF-OkG"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="top" id="zqD-va-Pbp"/>
                         </constraints>
-                        <connections>
-                            <outlet property="scrollView" destination="qJB-eG-6or" id="jnk-rI-bzf"/>
-                        </connections>
+                        <viewLayoutGuide key="safeArea" id="RbO-Cf-LR8"/>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="imagePlayerView" destination="AQ2-sX-ppE" id="TGi-i7-cPy"/>
+                        <outlet property="cropContainer" destination="Rf0-a6-fEp" id="Qnl-PM-nbX"/>
+                        <outlet property="imagePlayerView" destination="AQ2-sX-ppE" id="U5H-gp-g3G"/>
+                        <outlet property="scrollView" destination="qJB-eG-6or" id="kLd-XC-s32"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U51-ub-5c3" userLabel="First Responder" sceneMemberID="firstResponder"/>

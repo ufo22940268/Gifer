@@ -22,7 +22,7 @@ class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
     var imagePlayerView: UIView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    weak var scrollView: UIScrollView!
     var coverViews = [GridRulerCoverView]()
     
     var videoSize: CGSize? {
@@ -59,8 +59,7 @@ class CropContainer: UIView {
     
     weak var customDelegate: CropContainerDelegate?
 
-    override func awakeFromNib() {
-        guard let _ = superview else { return }
+    func setup() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.clipsToBounds = false
         scrollView.backgroundColor = UIColor.black
@@ -93,8 +92,9 @@ class CropContainer: UIView {
         gridRulerView.delegate = self
         
         bringSubviewToFront(gridRulerView)
+        updateCroppingStatus(.adjustCrop)
         
-        updateCroppingStatus(.normal)
+        setupCover()
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
     }
@@ -105,8 +105,6 @@ class CropContainer: UIView {
     
     func setupVideo(frame videoFrame: CGRect) {
         gridRulerView.setupVideo(frame: videoFrame)
-        imagePlayerView.constraints.findById(id: "width").constant = videoFrame.width
-        imagePlayerView.constraints.findById(id: "height").constant = videoFrame.height
     }
     
     private var layoutSizeAccordingToVideoSize: CGSize? {
@@ -282,8 +280,3 @@ extension CropContainer: UIScrollViewDelegate {
     }
 }
 
-extension CGRect {
-    func getEdgeInsets(withContainer container: CGRect) -> UIEdgeInsets {
-        return UIEdgeInsets(top: minY, left: minX, bottom: container.maxY - maxY, right: container.maxX - maxX)
-    }
-}
