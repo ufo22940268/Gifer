@@ -22,20 +22,44 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y17-a7-FBp">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="tec-8u-I7k">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="tec-8u-I7k">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                         <items>
                                             <barButtonItem style="plain" systemItem="cancel" id="iy1-Ee-eag">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="onCancel:" destination="ZOA-RP-8i6" id="mrl-bw-g59"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="1Eo-BG-zTi"/>
+                                            <barButtonItem style="done" systemItem="done" id="3tv-LA-Pud">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="onDone:" destination="ZOA-RP-8i6" id="bhM-et-FEJ"/>
+                                                </connections>
                                             </barButtonItem>
                                         </items>
+                                        <color key="barTintColor" name="darkBackgroundColor"/>
                                     </toolbar>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzN-Oq-TLk">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6E-7f-dOa">
                                         <rect key="frame" x="0.0" y="44" width="414" height="706"/>
-                                        <connections>
-                                            <segue destination="jRY-m8-rUz" kind="embed" identifier="emberCropPlayer" id="Yji-4h-eaK"/>
-                                        </connections>
-                                    </containerView>
+                                        <subviews>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzN-Oq-TLk">
+                                                <rect key="frame" x="8" y="8" width="398" height="690"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <segue destination="jRY-m8-rUz" kind="embed" identifier="emberCropPlayer" id="Yji-4h-eaK"/>
+                                                </connections>
+                                            </containerView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="top" secondItem="y6E-7f-dOa" secondAttribute="topMargin" id="0CZ-RP-Jg4"/>
+                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="bottom" secondItem="y6E-7f-dOa" secondAttribute="bottomMargin" id="3QV-LW-d95"/>
+                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="leading" secondItem="y6E-7f-dOa" secondAttribute="leadingMargin" id="UO7-Yp-eQ8"/>
+                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="trailing" secondItem="y6E-7f-dOa" secondAttribute="trailingMargin" id="ikX-FV-wbm"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69d-J6-66n" customClass="CropMenuView" customModule="Gifer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="750" width="414" height="68"/>
                                         <constraints>
@@ -45,7 +69,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
                         <color key="tintColor" name="yellowColor"/>
                         <constraints>
                             <constraint firstItem="y17-a7-FBp" firstAttribute="bottom" secondItem="ZVS-g3-l3l" secondAttribute="bottom" id="IUD-9t-Nvg"/>
@@ -68,16 +92,16 @@
             <objects>
                 <viewController storyboardIdentifier="cropPlayer" id="jRY-m8-rUz" customClass="CropPlayerViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="gqc-7h-jNW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
+                        <rect key="frame" x="0.0" y="0.0" width="398" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="57" y="208" width="300" height="300"/>
+                            <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                                <rect key="frame" x="49" y="200" width="300" height="300"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
+                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                            <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                             </view>
                                         </subviews>
@@ -121,6 +145,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="darkBackgroundColor">
+            <color red="0.094117647058823528" green="0.062745098039215685" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="yellowColor">
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
