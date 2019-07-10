@@ -79,7 +79,9 @@
                                             </view>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="width" secondItem="qJB-eG-6or" secondAttribute="width" id="ZEB-Pu-j8R"/>
                                             <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="bbx-Fc-5AO"/>
+                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="height" secondItem="qJB-eG-6or" secondAttribute="height" id="rYJ-9e-s9k"/>
                                             <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="qJB-eG-6or" secondAttribute="leading" id="rde-0K-UYo"/>
                                             <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="qJB-eG-6or" secondAttribute="top" id="sTT-MI-Z9q"/>
                                             <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="vsV-Ku-zTZ"/>
@@ -89,13 +91,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" identifier="height" id="4e7-UC-dpH"/>
-                                    <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="JPh-LT-rTX"/>
                                     <constraint firstItem="qJB-eG-6or" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="KWs-BR-RWq"/>
                                     <constraint firstAttribute="bottom" secondItem="qJB-eG-6or" secondAttribute="bottom" id="PG8-bA-h9v"/>
-                                    <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="Rf0-a6-fEp" secondAttribute="leading" id="R6J-n9-TNV"/>
                                     <constraint firstItem="qJB-eG-6or" firstAttribute="leading" secondItem="Rf0-a6-fEp" secondAttribute="leading" id="Yk9-kN-4dD"/>
-                                    <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="ZZ4-Z2-fM7"/>
-                                    <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="Rf0-a6-fEp" secondAttribute="top" id="eDX-we-utr"/>
                                     <constraint firstAttribute="width" constant="300" identifier="width" id="gGg-z6-Bid"/>
                                     <constraint firstItem="qJB-eG-6or" firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="zj8-dT-DQ9"/>
                                 </constraints>

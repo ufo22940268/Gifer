@@ -94,9 +94,9 @@ class CropContainer: UIView {
         gridRulerView.delegate = self
         
         bringSubviewToFront(gridRulerView)
-        updateCroppingStatus(.adjustCrop)
         
         setupCover()
+        updateCroppingStatus(.adjustCrop)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
     }
@@ -262,7 +262,7 @@ extension CropContainer: GridRulerViewDelegate {
     func onDragFinished() {
         restoreTask?.cancel()
         restoreTask = DispatchWorkItem {
-            self.restorePositionWhenDragFinished()
+//            self.restorePositionWhenDragFinished()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: restoreTask!)
     }
