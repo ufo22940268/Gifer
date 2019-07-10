@@ -233,17 +233,18 @@ class CropContainer: UIView {
 extension CropContainer: GridRulerViewDelegate {
     fileprivate func restorePositionWhenDragFinished() {
         let rect = gridRulerView.convert(gridRulerView.bounds, to: imagePlayerView)
+        let newRect = AVMakeRect(aspectRatio: rect.size, insideRect: superview!.bounds)
         
-        width.constant = gridRulerView.bounds.width
-        height.constant = gridRulerView.bounds.height
+        width.constant = newRect.width
+        height.constant = newRect.height
+        gridRulerView.customConstraints.width.constant = newRect.width
+        gridRulerView.customConstraints.height.constant = newRect.height
         gridRulerView.customConstraints.centerX.constant = 0
         gridRulerView.customConstraints.centerY.constant = 0
         gridRulerView.syncGuideConstraints()
         layoutIfNeeded()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.scrollView.zoom(to: rect, animated: true)
-        }
+        self.scrollView.zoom(to: rect, animated: true)
     }
     
 //    fileprivate func restorePositionWhenDragFinished() {
