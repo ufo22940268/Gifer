@@ -109,6 +109,8 @@
 		42E879AD22D2BBA00098D43B /* StickerResourceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */; };
 		42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */; };
 		42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E879B022D4B57D0098D43B /* Edit.storyboard */; };
+		42E879B322D4C6690098D43B /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879B222D4C6690098D43B /* CropViewController.swift */; };
+		42E879B522D55FF90098D43B /* CropPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879B422D55FF90098D43B /* CropPlayerViewController.swift */; };
 		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13D821963FBB00724611 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D721963FBB00724611 /* VideoViewController.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
@@ -236,6 +238,8 @@
 		42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceCategory.swift; sourceTree = "<group>"; };
 		42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioning.swift; sourceTree = "<group>"; };
 		42E879B022D4B57D0098D43B /* Edit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Edit.storyboard; sourceTree = "<group>"; };
+		42E879B222D4C6690098D43B /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		42E879B422D55FF90098D43B /* CropPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropPlayerViewController.swift; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* GifGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGenerator.swift; sourceTree = "<group>"; };
@@ -278,21 +282,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		42462B1F2202F70F0064FE56 /* VideoController */ = {
-			isa = PBXGroup;
-			children = (
-				42EEACE221996641009A3BB8 /* VideoController.swift */,
-				4285BF9C21A8C34600913466 /* TrimController.swift */,
-				4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */,
-				4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */,
-				42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */,
-				42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */,
-				42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */,
-				42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */,
-			);
-			path = VideoController;
-			sourceTree = "<group>";
-		};
 		4260DA932226A72B000B16D4 /* OptionMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,18 +307,31 @@
 				424CAA4121D711DE001E795A /* EditViewBarItem.swift */,
 				42EEACE021995DEE009A3BB8 /* EditViewController.swift */,
 				42D4E51E22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift */,
-				42462B1F2202F70F0064FE56 /* VideoController */,
 				4284D44022768F5F00886513 /* ShareViewController.swift */,
 				42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */,
 				424F9927228ABA5100952440 /* ConfigViewController.swift */,
 				42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */,
+				42EEACE221996641009A3BB8 /* VideoController.swift */,
+				4285BF9C21A8C34600913466 /* TrimController.swift */,
+				4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */,
+				4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */,
+				42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */,
+				42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */,
+				42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */,
+				42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */,
 				424F9929228ABAA800952440 /* LoopConfigViewController.swift */,
 				423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */,
 				423C282F22C3904F00D58376 /* ImagePlayerView.swift */,
-				42A1AFE521EF184100CF8018 /* Crop */,
+				42E879B422D55FF90098D43B /* CropPlayerViewController.swift */,
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
 				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
+				42491E5A21ED7C22002FECDE /* GridRulerView.swift */,
+				42A1AFE621EF186C00CF8018 /* CropContainer.swift */,
+				42362EBA21F024A300970A5C /* GridRulerCornerView.swift */,
+				42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */,
+				422BC3B221F1B9F400948A32 /* CommonConstraints.swift */,
+				42D458F521F2866700AC142A /* GridRulerCoverView.swift */,
 				4294CCBB22C6D20200FD4917 /* FrameCell.swift */,
 				4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */,
 				42E879A022D1D5C30098D43B /* StickersViewController.swift */,
@@ -338,6 +340,7 @@
 				42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */,
 				42E879A822D2B5FB0098D43B /* StickerPanelContent.swift */,
 				42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */,
+				42E879B222D4C6690098D43B /* CropViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -385,19 +388,6 @@
 				429CE3E021C22F360004D3F2 /* MonkeyKing.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		42A1AFE521EF184100CF8018 /* Crop */ = {
-			isa = PBXGroup;
-			children = (
-				42491E5A21ED7C22002FECDE /* GridRulerView.swift */,
-				42A1AFE621EF186C00CF8018 /* CropContainer.swift */,
-				42362EBA21F024A300970A5C /* GridRulerCornerView.swift */,
-				42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */,
-				422BC3B221F1B9F400948A32 /* CommonConstraints.swift */,
-				42D458F521F2866700AC142A /* GridRulerCoverView.swift */,
-			);
-			path = Crop;
 			sourceTree = "<group>";
 		};
 		42AC7D8A2223863600AD3681 /* ControlTools */ = {
@@ -751,6 +741,8 @@
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4285BF9D21A8C34600913466 /* TrimController.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
+				42E879B522D55FF90098D43B /* CropPlayerViewController.swift in Sources */,
+				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
 				423C283222C3A40700D58376 /* ImagePlayerItem.swift in Sources */,

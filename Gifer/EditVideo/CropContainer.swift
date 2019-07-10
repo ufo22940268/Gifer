@@ -21,8 +21,8 @@ protocol CropContainerDelegate: class {
 class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
-    @objc weak var contentView: UIView!
-    var scrollView: UIScrollView!
+    var imagePlayerView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     var coverViews = [GridRulerCoverView]()
     
     var videoSize: CGSize? {
@@ -33,9 +33,6 @@ class CropContainer: UIView {
     
     var cropRatio: CGSize!
     var status: CroppingStatus = .normal
-    var allOverlays: [Overlay] {
-        return [stickerOverlay, editTextOverlay]
-    }
     
     func updateCroppingStatus(_ status: CroppingStatus) {
         self.status = status
@@ -55,34 +52,20 @@ class CropContainer: UIView {
     
     var cropArea: CGRect {
         let cropRect = scrollView.convert(gridRulerView.frame, from: gridRulerView.superview)
-        let canvasRect = contentView.frame
+        let canvasRect = imagePlayerView.frame
         return cropRect.applying(CGAffineTransform(scaleX: 1/canvasRect.width, y: 1/canvasRect.height))
     }
     var restoreTask: DispatchWorkItem?
-    
-    lazy var editTextOverlay: EditTextOverlay = {
-        let overlay = EditTextOverlay().useAutoLayout()        
-        return overlay
-    }()
-    
-    lazy var stickerOverlay: StickerOverlay = {
-        let overlay = StickerOverlay().useAutoLayout()
-        return overlay
-    }()
     
     weak var customDelegate: CropContainerDelegate?
 
     override func awakeFromNib() {
         guard let _ = superview else { return }
-        scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.clipsToBounds = false
         scrollView.backgroundColor = UIColor.black
-        addSubview(scrollView)
         
         scrollView.delegate = self
-        scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 10
         
         NSLayoutConstraint.activate([
             scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -117,35 +100,13 @@ class CropContainer: UIView {
     }
     
     @objc func onTap(sender: UITapGestureRecognizer) {
-        editTextOverlay.deactiveComponents()
-        stickerOverlay.deactiveComponents()
         customDelegate?.onDeactiveComponents()
-    }
-    
-    func addContentView(_ contentView: UIView) {
-        self.contentView = contentView
-        scrollView.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalToConstant: scrollView.bounds.width).with(identifier: "width"),
-            contentView.heightAnchor.constraint(equalToConstant: scrollView.bounds.height).with(identifier: "height")
-            ])
-        
-        contentView.addSubview(editTextOverlay)
-        editTextOverlay.useSameSizeAsParent()
-        
-        addSubview(stickerOverlay)
-        stickerOverlay.useSameSizeAsParent()
     }
     
     func setupVideo(frame videoFrame: CGRect) {
         gridRulerView.setupVideo(frame: videoFrame)
-        contentView.constraints.findById(id: "width").constant = videoFrame.width
-        contentView.constraints.findById(id: "height").constant = videoFrame.height
+        imagePlayerView.constraints.findById(id: "width").constant = videoFrame.width
+        imagePlayerView.constraints.findById(id: "height").constant = videoFrame.height
     }
     
     private var layoutSizeAccordingToVideoSize: CGSize? {
@@ -167,26 +128,13 @@ class CropContainer: UIView {
         
         if gridRulerView.isGridChanged {
         } else {
-            contentView.constraints.findById(id: "height").constant = targetSize.height
-            contentView.constraints.findById(id: "width").constant = targetSize.width
+            imagePlayerView.constraints.findById(id: "height").constant = targetSize.height
+            imagePlayerView.constraints.findById(id: "width").constant = targetSize.width
         }
         
         gridRulerView.constraints.findById(id: "height").constant = targetSize.height
         gridRulerView.constraints.findById(id: "width").constant = targetSize.width
         gridRulerView.syncConstraintsToGuide()
-    }
-    
-    func createTestContentView() -> UIView {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        scrollView.layoutIfNeeded()
-        let image = UIGraphicsImageRenderer(size: scrollView.frame.size).image { (context) in
-            #imageLiteral(resourceName: "IMG_3415.JPG").draw(centerIn: CGRect(origin: CGPoint.zero, size: scrollView.frame.size))
-        }
-        imageView.image = image
-        imageView.contentMode = .center
-        return imageView
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -271,27 +219,6 @@ class CropContainer: UIView {
         
         gridRulerView?.isGridChanged = true
     }
-    
-    func updateWhenVideoSizeChanged(videoSize: CGSize) {
-        gridRulerView.customConstraints.width.constant = videoSize.width
-        gridRulerView.customConstraints.height.constant = videoSize.height
-        gridRulerView.guideConstraints.width.constant = videoSize.width
-        gridRulerView.guideConstraints.height.constant = videoSize.height
-        
-        contentView.constraints.findById(id: "width").constant = videoSize.width
-        contentView.constraints.findById(id: "height").constant = videoSize.height
-    }
-    
-    func onVideoReady(trimPosition: VideoTrimPosition) {
-        stickerOverlay.clipTrimPosition = trimPosition
-        editTextOverlay.clipTrimPosition = trimPosition
-    }
-    
-    func updateOverlayWhenProgressChanged(progress: CMTime) {
-        allOverlays.forEach { overlay in
-            overlay.components.forEach{ $0.updateWhenProgressChanged(progress: progress) }
-        }
-    }
 }
 
 extension CropContainer: GridRulerViewDelegate {
@@ -348,7 +275,7 @@ extension CropContainer: UIScrollViewDelegate {
  
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         if status == .adjustCrop {
-            return contentView
+            return imagePlayerView
         } else {
             return nil
         }

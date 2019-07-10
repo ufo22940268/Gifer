@@ -183,3 +183,9 @@ extension UICollectionView {
     }
 }
 
+extension Double {
+    func toTime() -> CMTime {
+        return CMTime(seconds: self, preferredTimescale: 600)
+    }
+}
+
