@@ -55,6 +55,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZVS-g3-l3l"/>
                     </view>
+                    <connections>
+                        <outlet property="cropMenuView" destination="69d-J6-66n" id="O1b-ij-EcE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

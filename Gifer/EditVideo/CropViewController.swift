@@ -16,6 +16,7 @@ class CropViewController: UIViewController {
         return cropPlayerVC.imagePlayerView
     }
     
+    @IBOutlet weak var cropMenuView: CropMenuView!
     var cropPlayerVC: CropPlayerViewController!
     
     override func viewDidLoad() {
@@ -32,6 +33,7 @@ class CropViewController: UIViewController {
                         
                         let videoFrame = AVMakeRect(aspectRatio: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), insideRect: self.cropPlayerVC.view.bounds)
                         self.cropPlayerVC.onVideoReady(videoFrame: videoFrame)
+                        self.cropMenuView.customDelegate = self.cropPlayerVC.cropContainer
                     })
                 }
             }
@@ -44,7 +46,7 @@ class CropViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberCropPlayer" {
-            cropPlayerVC = segue.destination as! CropPlayerViewController
+            cropPlayerVC = segue.destination as? CropPlayerViewController
         }
     }
     
