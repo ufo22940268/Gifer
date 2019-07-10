@@ -69,13 +69,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
+                                <rect key="frame" x="20" y="44" width="374" height="628"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
-                                        <rect key="frame" x="0.0" y="0.0" width="406" height="706"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="628"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="-44" width="414" height="706"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="628"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -100,10 +100,10 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="2V3-D6-zv4"/>
-                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leading" id="WXe-OT-U7K"/>
-                            <constraint firstAttribute="bottom" secondItem="Rf0-a6-fEp" secondAttribute="bottom" id="nwc-XF-OkG"/>
-                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="top" id="zqD-va-Pbp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rf0-a6-fEp" secondAttribute="trailing" id="2V3-D6-zv4"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="leading" secondItem="gqc-7h-jNW" secondAttribute="leadingMargin" id="WXe-OT-U7K"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Rf0-a6-fEp" secondAttribute="bottom" id="nwc-XF-OkG"/>
+                            <constraint firstItem="Rf0-a6-fEp" firstAttribute="top" secondItem="gqc-7h-jNW" secondAttribute="topMargin" id="zqD-va-Pbp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RbO-Cf-LR8"/>
                     </view>
