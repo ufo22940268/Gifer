@@ -74,12 +74,6 @@ class CropContainer: UIView {
         
         scrollView.delegate = self
         
-        NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            scrollView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            scrollView.widthAnchor.constraint(equalTo: widthAnchor),
-            scrollView.heightAnchor.constraint(equalTo: heightAnchor)
-            ])
         
         gridRulerView = GridRulerView(scrollView: scrollView)
         addSubview(gridRulerView)
@@ -160,7 +154,6 @@ class CropContainer: UIView {
     }
     
     func setupCover() {
-        
         let frameView = gridRulerView.frameView!
         
         let left = GridRulerCoverView()

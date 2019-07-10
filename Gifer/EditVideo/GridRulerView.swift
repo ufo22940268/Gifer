@@ -98,7 +98,10 @@ class GridRulerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// The real constraints applyed to view.
     var customConstraints: CommonConstraints!
+    
+    /// Used to test if the constraints is abount to change is valid
     var guideConstraints: CommonConstraints!
     var guideLayout: UILayoutGuide!
     
