@@ -18,6 +18,7 @@ class CropPlayerViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         cropContainer.scrollView = scrollView
+        cropContainer.imagePlayerView = imagePlayerView
         cropContainer.setup()
     }
     

@@ -21,8 +21,8 @@ protocol CropContainerDelegate: class {
 class CropContainer: UIView {
 
     var gridRulerView: GridRulerView!
-    var imagePlayerView: UIView!
-    weak var scrollView: UIScrollView!
+    var imagePlayerView: ImagePlayerView!
+    var scrollView: UIScrollView!
     var coverViews = [GridRulerCoverView]()
     
     var videoSize: CGSize? {
@@ -110,6 +110,13 @@ class CropContainer: UIView {
         width.constant = videoFrame.width
         height.constant = videoFrame.height
         gridRulerView.setupVideo(frame: videoFrame)
+        
+        imagePlayerView.paused = true
+        
+        NSLayoutConstraint.activate([
+            imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
+            imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
+            ])
     }
     
     private var layoutSizeAccordingToVideoSize: CGSize? {
@@ -225,44 +232,59 @@ class CropContainer: UIView {
 
 extension CropContainer: GridRulerViewDelegate {
     fileprivate func restorePositionWhenDragFinished() {
-        let fromRulerFrame = gridRulerView.frame
-        let scrollFrame = self.scrollView.convert(scrollView.frame, from: scrollView.superview!)
-        let fromScrollContentSize = self.scrollView.contentSize
-        let fromRulerFrameInContentCoordinate = self.scrollView.convert(gridRulerView.frame, from: gridRulerView.superview!)
-
-        let toRulerSize = AVMakeRect(aspectRatio: fromRulerFrame.size, insideRect: scrollFrame).size
-
-        let toWidth = toRulerSize.width
-        let toHeight = toRulerSize.height
-        let toCenterX = CGFloat(0)
-        let toCenterY = CGFloat(0)
-
-        UIView.animate(withDuration: 0.3) {
-            self.gridRulerView.customConstraints.width.constant = toWidth
-            self.gridRulerView.customConstraints.height.constant = toHeight
-            self.gridRulerView.customConstraints.centerX.constant = toCenterX
-            self.gridRulerView.customConstraints.centerY.constant = toCenterY
-            self.layoutIfNeeded()
-
-            let toRulerFrame = self.gridRulerView.frame
-
-            let newZoomScale = self.scrollView.zoomScale*toRulerFrame.width/fromRulerFrame.width
-
-            self.scrollView.zoomScale = newZoomScale
-            self.constraints.first(where: {$0.identifier == "width"})!.constant = toWidth
-            self.constraints.first(where: {$0.identifier == "height"})!.constant = toHeight
-            self.layoutIfNeeded()
-
-            let contentOriginPostition = self.scrollView.contentSize.applying(CGAffineTransform(scaleX: fromRulerFrameInContentCoordinate.minX/fromScrollContentSize.width, y: fromRulerFrameInContentCoordinate.minY/fromScrollContentSize.height))
-            self.scrollView.contentOffset = CGPoint(x: contentOriginPostition.width, y: contentOriginPostition.height)
+        let rect = gridRulerView.convert(gridRulerView.bounds, to: imagePlayerView)
+        
+        width.constant = gridRulerView.bounds.width
+        height.constant = gridRulerView.bounds.height
+        gridRulerView.customConstraints.centerX.constant = 0
+        gridRulerView.customConstraints.centerY.constant = 0
+        gridRulerView.syncGuideConstraints()
+        layoutIfNeeded()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.scrollView.zoom(to: rect, animated: true)
         }
     }
+    
+//    fileprivate func restorePositionWhenDragFinished() {
+//        let fromRulerFrame = gridRulerView.frame
+//        let scrollFrame = self.scrollView.convert(scrollView.frame, from: scrollView.superview!)
+//        let fromScrollContentSize = self.scrollView.contentSize
+//        let fromRulerFrameInContentCoordinate = self.scrollView.convert(gridRulerView.frame, from: gridRulerView.superview!)
+//
+//        let toRulerSize = AVMakeRect(aspectRatio: fromRulerFrame.size, insideRect: scrollFrame).size
+//
+//        let toWidth = toRulerSize.width
+//        let toHeight = toRulerSize.height
+//        let toCenterX = CGFloat(0)
+//        let toCenterY = CGFloat(0)
+//
+//        UIView.animate(withDuration: 0.3) {
+//            self.gridRulerView.customConstraints.width.constant = toWidth
+//            self.gridRulerView.customConstraints.height.constant = toHeight
+//            self.gridRulerView.customConstraints.centerX.constant = toCenterX
+//            self.gridRulerView.customConstraints.centerY.constant = toCenterY
+//            self.layoutIfNeeded()
+//
+//            let toRulerFrame = self.gridRulerView.frame
+//
+//            let newZoomScale = self.scrollView.zoomScale*toRulerFrame.width/fromRulerFrame.width
+//
+//            self.scrollView.zoomScale = newZoomScale
+//            self.constraints.first(where: {$0.identifier == "width"})!.constant = toWidth
+//            self.constraints.first(where: {$0.identifier == "height"})!.constant = toHeight
+//            self.layoutIfNeeded()
+//
+//            let contentOriginPostition = self.scrollView.contentSize.applying(CGAffineTransform(scaleX: fromRulerFrameInContentCoordinate.minX/fromScrollContentSize.width, y: fromRulerFrameInContentCoordinate.minY/fromScrollContentSize.height))
+//            self.scrollView.contentOffset = CGPoint(x: contentOriginPostition.width, y: contentOriginPostition.height)
+//        }
+//    }
     
     
     func onDragFinished() {
         restoreTask?.cancel()
         restoreTask = DispatchWorkItem {
-//            self.restorePositionWhenDragFinished()
+            self.restorePositionWhenDragFinished()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: restoreTask!)
     }
@@ -276,11 +298,12 @@ extension CropContainer: GridRulerViewDelegate {
 extension CropContainer: UIScrollViewDelegate {
  
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        if status == .adjustCrop {
-            return imagePlayerView
-        } else {
-            return nil
-        }
+        return imagePlayerView
+//        if status == .adjustCrop {
+//            return imagePlayerView
+//        } else {
+//            return nil
+//        }
     }
 }
 

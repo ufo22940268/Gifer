@@ -64,24 +64,22 @@
         <scene sceneID="vfi-Fm-gPp">
             <objects>
                 <viewController storyboardIdentifier="cropPlayer" id="jRY-m8-rUz" customClass="CropPlayerViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gqc-7h-jNW">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="gqc-7h-jNW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="706"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="57" y="208" width="300" height="300"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                             </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="width" secondItem="qJB-eG-6or" secondAttribute="width" id="ZEB-Pu-j8R"/>
                                             <constraint firstAttribute="bottom" secondItem="AQ2-sX-ppE" secondAttribute="bottom" id="bbx-Fc-5AO"/>
-                                            <constraint firstItem="AQ2-sX-ppE" firstAttribute="height" secondItem="qJB-eG-6or" secondAttribute="height" id="rYJ-9e-s9k"/>
                                             <constraint firstItem="AQ2-sX-ppE" firstAttribute="leading" secondItem="qJB-eG-6or" secondAttribute="leading" id="rde-0K-UYo"/>
                                             <constraint firstItem="AQ2-sX-ppE" firstAttribute="top" secondItem="qJB-eG-6or" secondAttribute="top" id="sTT-MI-Z9q"/>
                                             <constraint firstAttribute="trailing" secondItem="AQ2-sX-ppE" secondAttribute="trailing" id="vsV-Ku-zTZ"/>

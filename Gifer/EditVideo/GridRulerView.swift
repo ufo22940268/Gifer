@@ -217,10 +217,15 @@ class GridRulerView: UIView {
         sender.setTranslation(CGPoint.zero, in: self)
     }
     
+    /// Keep guide constraints the same as custom constraints.
+    func syncGuideConstraints() {
+        guideConstraints.copy(from: customConstraints)
+    }
+    
     func resizeTo(rect: CGRect) {
         customConstraints.width.constant = rect.width
         customConstraints.height.constant = rect.height
-        guideConstraints.copy(from: customConstraints)
+        syncGuideConstraints()
     }
     
     private func almostTheSame(_ rect1: CGRect, _ rect2: CGRect) -> Bool {
