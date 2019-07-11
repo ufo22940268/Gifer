@@ -149,7 +149,6 @@ extension UINavigationItem {
 
 class EditViewController: UIViewController {
     
-    var videoVC: VideoViewController!
     var shareVC: ShareViewController!
     @IBOutlet weak var videoController: VideoController!
     
@@ -168,12 +167,11 @@ class EditViewController: UIViewController {
     var loadingDialog: LoadingDialog?
     
     var isVideoLoaded: Bool {
-        return videoVC.playerItem != nil
+        return playerItem != nil
     }
     
     var playerItem: ImagePlayerItem! {
         didSet {
-            videoVC.imagePlayerView.playerItem = playerItem
             videoController.playerItem = playerItem
         }
     }
@@ -278,34 +276,13 @@ class EditViewController: UIViewController {
     }
 
     private func updateSubTitle() {
-        let fromIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.leftTrim)
-        let toIndex = playerItem.nearestActiveIndex(time: videoVC.trimPosition.rightTrim)
+        let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
+        let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
         let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
         navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒/%d张", duration.seconds, toIndex - fromIndex + 1))
     }
     
     func setupVideoContainer() {
-        videoContainer = UIView()
-        videoContainer.translatesAutoresizingMaskIntoConstraints = false
-        videoVC = storyboard!.instantiateViewController(withIdentifier: "videoViewController") as? VideoViewController
-        addChild(videoVC)
-        videoContainer.addSubview(videoVC.view)
-        videoContainer.subviews.forEach { view in
-            if view != videoVC.view {
-                videoContainer.bringSubviewToFront(view)
-            }
-        }
-        videoVC.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            videoVC.view.leadingAnchor.constraint(equalTo: videoContainer.leadingAnchor),
-            videoVC.view.topAnchor.constraint(equalTo: videoContainer.topAnchor),
-            videoVC.view.trailingAnchor.constraint(equalTo: videoContainer.trailingAnchor),
-            videoVC.view.bottomAnchor.constraint(equalTo: videoContainer.bottomAnchor),
-            videoVC.view.widthAnchor.constraint(equalTo: videoContainer.widthAnchor),
-            videoVC.view.heightAnchor.constraint(equalTo: videoContainer.heightAnchor)
-            ])
-        videoVC.didMove(toParent: self)
-        
         showPlayLoading(true)
         enableVideoContainer(false)
         
@@ -386,8 +363,6 @@ class EditViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
             this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
-                this.videoVC.load(playerItem: playerItem)
-                this.videoVC.videoViewControllerDelegate = this
                 
                 this.onVideoReady(playerItem: playerItem)
             }
@@ -395,12 +370,10 @@ class EditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "emberVideo" {
-            videoVC = segue.destination as? VideoViewController
-        } else if segue.identifier == "frames" {
+        if segue.identifier == "frames" {
             let vc = segue.destination as! FramesViewController
             vc.playerItem = playerItem
-            vc.trimPosition = videoVC.trimPosition
+            vc.trimPosition = trimPosition
             vc.customDelegate = self
         }
     }
@@ -418,9 +391,9 @@ class EditViewController: UIViewController {
             end: endProgress,
             speed: speed,
             cropArea: cropArea,
-            filter: videoVC.filter,
+            filter: imagePlayerView.filter,
             stickers: stickerOverlay.getStickerInfosForExport(videoContainer: imagePlayerView.superview!),
-            direction: videoVC.playDirection,
+            direction: playDirection,
             exportType: nil,
             texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
         )
@@ -432,7 +405,7 @@ class EditViewController: UIViewController {
         options.exportType = type
         options.videoSize = videoSize
         options.loopCount = loopCount
-        let shareManager: ShareManager = ShareManager(playerItem: videoVC.imagePlayerView.playerItem, options: options)
+        let shareManager: ShareManager = ShareManager(playerItem: playerItem, options: options)
         shareManager.share(type: type) { gif in
             self.showLoadingWhenExporting(false)
             
@@ -440,7 +413,7 @@ class EditViewController: UIViewController {
             case .wechat, .wechatSticker:
                 shareManager.shareToWechat(video: gif, complete: { (success) in                    
                     self.dismiss(animated: true, completion: nil)
-                    self.videoVC.play()
+                    self.play()
                 })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
@@ -451,7 +424,7 @@ class EditViewController: UIViewController {
                     alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
                         self.onShareDialogDimissed()
-                        self.videoVC.play()
+                        self.play()
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }
@@ -460,11 +433,11 @@ class EditViewController: UIViewController {
     }
     
     private func onShareDialogDimissed() {
-        self.videoVC.play()
+        play()
     }
     
     @IBAction func onShare(_ sender: Any) {
-        videoVC.pause()
+        pause()
         shareVC = ShareViewController(galleryDuration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareVC.present(by: self)
     }
@@ -496,11 +469,11 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func play() {
-        videoVC.play()
+        imagePlayerView.paused = false
     }
     
     fileprivate func pause() {
-        videoVC.pause()
+        imagePlayerView.paused = true
     }
     
     @IBAction func onDismiss(_ sender: Any) {
@@ -520,29 +493,15 @@ class EditViewController: UIViewController {
         if isVideoLoaded {
             updateSubTitle()
         }
-        
-        videoVC?.videoViewControllerDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(onResume), name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onStop), name: UIApplication.willResignActiveNotification, object: nil)
-    }
-    
-    @objc func onResume() {
-        videoVC.play()
-    }
-    
-    @objc func onStop() {
-        videoVC.stop()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         loadingDialog?.dismiss(animated: false)
-        videoVC.pause()
 
         if isMovingFromParent {
             destroy()
@@ -551,8 +510,6 @@ class EditViewController: UIViewController {
     
     func destroy() {
         videoController.dismissed = true
-        videoVC.dismissed = true
-        videoVC.destroy()
         playerItemGenerator?.destroy()
         playerItemGenerator = nil
         
@@ -566,21 +523,18 @@ class EditViewController: UIViewController {
 
 extension EditViewController: ImagePlayerDelegate {
     
-    func mock() {
-        let render = TextRender(info: EditTextInfo(text: "asdf", fontName: UIFont.systemFont(ofSize: 10).fontName, textColor: .white))
-        let component: OverlayComponent = OverlayComponent(info: OverlayComponent.Info(nRect: CGRect(origin: CGPoint(x: 0.3, y: 0.3), size: CGSize(width: 0.5, height: 0.2))), render: render, clipTrimPosition: videoVC.trimPosition)
-        editTextOverlay.addComponent(component: component)
-        
-        editTextOverlay.active(component: component)
+    var trimPosition: VideoTrimPosition {
+        return imagePlayerView.trimPosition
     }
     
-    var trimPosition: VideoTrimPosition {
-        return videoVC.trimPosition
+    var playDirection: PlayDirection {
+        return imagePlayerView.playDirection
     }
     
     func onVideoReady(playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
+        imagePlayerView.customDelegate = self
         stickerOverlay.clipTrimPosition = trimPosition
         editTextOverlay.clipTrimPosition = trimPosition
         isLoadingVideo = false
@@ -629,7 +583,7 @@ extension EditViewController: VideoControllerDelegate {
     }
     
     func onTrimChangedByScrollInGallery(trimPosition: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        updateTrim(position: trimPosition, state: state, side: videoVC.playDirection == .forward ? .left : .right)
+        updateTrim(position: trimPosition, state: state, side: playDirection == .forward ? .left : .right)
     }
 
     //Changed by trimer dragged
@@ -640,7 +594,7 @@ extension EditViewController: VideoControllerDelegate {
     private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
         var fixedSide: TrimController.Side!
         if side == nil {
-            fixedSide = videoVC.playDirection == .forward ? .left : .right
+            fixedSide = playDirection == .forward ? .left : .right
         } else {
             fixedSide = side
         }
@@ -651,7 +605,25 @@ extension EditViewController: VideoControllerDelegate {
         default:
             videoController.stickTo(side: fixedSide)
         }
-        videoVC.updateTrim(position: position, state: state, side: fixedSide)
+        
+        var toProgress: CMTime!
+        if side == .left {
+            toProgress = position.leftTrim
+        } else {
+            toProgress = position.rightTrim
+        }
+        imagePlayerView.seek(to: toProgress)
+        imagePlayerView.trimPosition = position
+        
+        switch state {
+        case .started:
+            imagePlayerView.paused = true
+        case .finished(_):
+            imagePlayerView.paused = false
+        default:
+            break
+        }
+        
         updateSubTitle()
     }
     
@@ -703,11 +675,11 @@ extension EditViewController: OptionMenuDelegate {
     }
     
     func onPreviewSelected(filter: YPFilter) {
-        videoVC.setFilter(filter)
+        imagePlayerView.filter = filter
     }
     
     func onRateChanged(_ rate: Float) {
-        videoVC.setRate(rate)
+        imagePlayerView.rate = rate
     }
 }
 
@@ -742,7 +714,7 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onCropItemClicked() {
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "crop") as! CropViewController
-        vc.playerItem = videoVC.playerItem
+        vc.playerItem = playerItem
         vc.customDelegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -760,7 +732,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onDirectionItemClicked(direction: PlayDirection) {
-        videoVC.playDirection = direction
+        imagePlayerView.playDirection = direction
     }
 }
 
