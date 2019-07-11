@@ -31,7 +31,7 @@ class CropViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if isInitial() {
+        if playerItem == nil {
             let asset = getTestVideo()
             let options = PHVideoRequestOptions()
             options.isNetworkAccessAllowed = true

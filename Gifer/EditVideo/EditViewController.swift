@@ -383,15 +383,14 @@ class EditViewController: UIViewController {
         let endProgress = trimPosition.rightTrim
         let speed = Float(playSpeedView.currentSpeedSnapshot)
         
-//        fatalError()
-        let cropArea: CGRect! = .zero
+        let cropArea: CGRect = imagePlayerView.cropArea ?? CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
         return GifGenerator.Options(
             start: startProgress,
             end: endProgress,
             speed: speed,
             cropArea: cropArea,
             filter: imagePlayerView.filter,
-            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: imagePlayerView.superview!),
+            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: imagePlayerView.imageView),
             direction: playDirection,
             exportType: nil,
             texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }

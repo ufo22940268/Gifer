@@ -28,6 +28,10 @@ class ImagePlayerView: UIView {
         return view
     }()
     
+    var imageView: UIImageView {
+        return frameView.imageView
+    }
+    
     var playerItem: ImagePlayerItem!
     var currentTime: CMTime = .zero {
         didSet {
