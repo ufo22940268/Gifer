@@ -13,9 +13,9 @@ class CropPlayerViewController: UIViewController {
     @IBOutlet var cropContainer: CropContainer!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var cropArea: CGRect {
+    var cropArea: CGRect? {
         set(newCropArea) {
-            
+            cropContainer.initialCropArea = newCropArea
         }
         
         get {
@@ -24,6 +24,8 @@ class CropPlayerViewController: UIViewController {
         }
     }
     
+    var initialCropArea: CGRect?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +33,8 @@ class CropPlayerViewController: UIViewController {
         cropContainer.scrollView = scrollView
         cropContainer.imagePlayerView = imagePlayerView
         cropContainer.setup()
+        
+        cropArea = initialCropArea
     }
     
     func onVideoReady(videoFrame: CGRect) {

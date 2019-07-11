@@ -24,6 +24,7 @@ class CropContainer: UIView {
     var imagePlayerView: ImagePlayerView!
     var scrollView: UIScrollView!
     var coverViews = [GridRulerCoverView]()
+    var initialCropArea: CGRect?
     
     var videoSize: CGSize? {
         didSet {
@@ -116,6 +117,19 @@ class CropContainer: UIView {
             imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
             imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
             ])
+        
+        if let cropArea = initialCropArea {
+            let cropViewRect = AVMakeRect(aspectRatio: cropArea.size.applying(CGAffineTransform(scaleX: videoFrame.width, y: videoFrame.height)), insideRect: superview!.bounds)
+            width.constant = cropViewRect.width
+            height.constant = cropViewRect.height
+            gridRulerView.customConstraints.width.constant = cropViewRect.width
+            gridRulerView.customConstraints.height.constant = cropViewRect.height
+            gridRulerView.syncGuideConstraints()
+            layoutIfNeeded()
+            
+            let zoomToRect = cropArea.applying(CGAffineTransform(scaleX: imagePlayerView.bounds.width, y: imagePlayerView.bounds.height))
+            scrollView.zoom(to: zoomToRect, animated: false)
+        }
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -177,6 +191,12 @@ class CropContainer: UIView {
 }
 
 extension CropContainer: GridRulerViewDelegate {
+    
+    /// Initialized crop area.
+    ///
+    /// - Parameter cropArea: CGRect in normalized format.
+    func resizeTo(cropArea: CGRect) {
+    }
     
     /// Resize crop area with animation
     ///

@@ -12,7 +12,7 @@ import AVKit
 
 protocol CropDelegate: class {
     /// - Parameter cropArea: Normalized rect
-    func onChange(cropArea: CGRect)
+    func onChange(cropArea: CGRect?)
 }
 
 class CropViewController: UIViewController {
@@ -23,6 +23,7 @@ class CropViewController: UIViewController {
     
     @IBOutlet weak var cropMenuView: CropMenuView!
     var cropPlayerVC: CropPlayerViewController!
+    var initialCropArea: CGRect?
     
     var playerItem: ImagePlayerItem!
     weak var customDelegate: CropDelegate?
@@ -56,14 +57,13 @@ class CropViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberCropPlayer" {
             cropPlayerVC = segue.destination as? CropPlayerViewController
+            cropPlayerVC.initialCropArea = initialCropArea
         }
     }
-    
 
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     @IBAction func onDone(_ sender: Any) {
         customDelegate?.onChange(cropArea: cropPlayerVC.cropArea)

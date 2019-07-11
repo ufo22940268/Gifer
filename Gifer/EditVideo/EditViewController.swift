@@ -714,6 +714,7 @@ extension EditViewController: ControlToolbarDelegate {
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "crop") as! CropViewController
         vc.playerItem = playerItem
         vc.customDelegate = self
+        vc.initialCropArea = imagePlayerView.cropArea
         present(vc, animated: true, completion: nil)
     }
     
@@ -795,7 +796,7 @@ extension EditViewController: UIGestureRecognizerDelegate {
 
 // MARK: - Crop delegate
 extension EditViewController: CropDelegate {
-    func onChange(cropArea: CGRect) {
+    func onChange(cropArea: CGRect?) {
         imagePlayerView.cropArea = cropArea
     }
 }
