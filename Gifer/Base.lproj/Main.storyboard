@@ -77,7 +77,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
                                                     </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yBF-sw-Pud" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yBF-sw-Pud" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
                                                     </view>
                                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">

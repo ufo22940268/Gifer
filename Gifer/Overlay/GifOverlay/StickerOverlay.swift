@@ -13,14 +13,14 @@ class StickerOverlay: Overlay {
     
     var initialStickerSize: CGSize = CGSize(width: 80, height: 80)
     
-    func getStickerInfosForExport(videoContainer: UIView) -> [StickerInfo] {
+    func getStickerInfosForExport(imageView: UIView) -> [StickerInfo] {
         return components.map { component in
             let stickerRender = component.render as! StickerRender
             var info = stickerRender.info!
-            let stickerFrame = stickerRender.convert(stickerRender.bounds, to: videoContainer)
+            let stickerFrame = stickerRender.convert(stickerRender.bounds, to: imageView)
             info.imageFrame = stickerFrame
                 .aspectFit(in: stickerFrame, ratio: info.image.size)
-                .normalizeRect(containerSize: videoContainer.bounds.size)
+                .normalizeRect(containerSize: imageView.bounds.size)
             info.rotation = component.rotation
             info.trimPosition = component.trimPosition
             return info

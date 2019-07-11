@@ -13,13 +13,13 @@ class EditTextOverlay: Overlay {
     var allRenders: [TextRender] {
         return components.map { $0.render as! TextRender }
     }
-    
-    var textInfos: [EditTextInfo] {
+        
+    func getTextInfosForExport(imageView: UIView) -> [EditTextInfo] {
         return components.map { component in
             let render = component.render as! TextRender
             var textInfo = render.info!
-            textInfo.nRect = render.convert(render.bounds, to: self)
-                .normalizeRect(containerSize: bounds.size)
+            textInfo.nRect = render.convert(render.bounds, to: imageView)
+                .normalizeRect(containerSize: imageView.bounds.size)
             textInfo.fontSize = render.fontSize
             textInfo.rotation = component.rotation
             textInfo.trimPosition = component.trimPosition

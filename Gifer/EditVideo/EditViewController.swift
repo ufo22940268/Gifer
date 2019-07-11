@@ -390,10 +390,10 @@ class EditViewController: UIViewController {
             speed: speed,
             cropArea: cropArea,
             filter: imagePlayerView.filter,
-            stickers: stickerOverlay.getStickerInfosForExport(videoContainer: imagePlayerView.imageView),
+            stickers: stickerOverlay.getStickerInfosForExport(imageView: imagePlayerView.imageView),
             direction: playDirection,
             exportType: nil,
-            texts: editTextOverlay.textInfos.map { $0.fixTextRect(videoSize: videoSize, cropArea: cropArea) }
+            texts: editTextOverlay.getTextInfosForExport(imageView: imagePlayerView.imageView)
         )
     }
     

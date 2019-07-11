@@ -18,6 +18,8 @@ struct EditTextInfo: OverlayRenderInfo {
     
     var cropSize: CGSize?
     var fontSize: CGFloat?
+    
+    /// Fixit: Seems deprecated
     var videoSize: CGSize?
     
     var trimPosition: VideoTrimPosition!
@@ -45,7 +47,8 @@ struct EditTextInfo: OverlayRenderInfo {
     
     func createExportLabelView(imageSize: CGSize) -> UILabel {
         let labelView = UILabel()
-        let scale = imageSize.width/videoSize!.width
+//        let scale = imageSize.width/videoSize!.width
+        let scale = CGFloat(1)
         let exportFontSize = scale*fontSize!
         labelView.text = text
         labelView.textAlignment = .center
