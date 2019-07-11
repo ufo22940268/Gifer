@@ -13,6 +13,17 @@ class CropPlayerViewController: UIViewController {
     @IBOutlet var cropContainer: CropContainer!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    var cropArea: CGRect {
+        set(newCropArea) {
+            
+        }
+        
+        get {
+            return cropContainer.convert(cropContainer.bounds, to: imagePlayerView)
+                .applying(CGAffineTransform(scaleX: 1/imagePlayerView.bounds.width, y: 1/imagePlayerView.bounds.height))
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

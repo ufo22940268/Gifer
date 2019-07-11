@@ -66,5 +66,7 @@ class CropViewController: UIViewController {
     
     
     @IBAction func onDone(_ sender: Any) {
+        customDelegate?.onChange(cropArea: cropPlayerVC.cropArea)
+        dismiss(animated: true, completion: nil)
     }
 }

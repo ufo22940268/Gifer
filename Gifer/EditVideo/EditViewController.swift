@@ -362,8 +362,7 @@ class EditViewController: UIViewController {
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let this = self else { return }
-            this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
-                
+                this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
                 this.onVideoReady(playerItem: playerItem)
             }
         }
@@ -559,7 +558,6 @@ extension EditViewController: ImagePlayerDelegate {
         videoLoadingIndicator.isHidden = !inBuffering
     }
     
-
     func onProgressChanged(progress: CMTime) {
         guard let playerItem = playerItem else { return }
         let current = playerItem.nearestActiveIndex(time: progress)

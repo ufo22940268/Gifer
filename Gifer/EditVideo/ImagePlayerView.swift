@@ -44,6 +44,16 @@ class ImagePlayerView: UIView {
         }
     }
     
+    var cropArea: CGRect? {
+        set(newCropArea) {
+            frameView.cropArea = newCropArea
+        }
+        
+        get {
+            return frameView.cropArea
+        }
+    }
+    
     var interval: TimeInterval {
         let n = playerItem.frameInterval/Double(rate)
         return n
