@@ -392,24 +392,6 @@
             </objects>
             <point key="canvasLocation" x="1649" y="-98"/>
         </scene>
-        <!--Video View Controller-->
-        <scene sceneID="Kt0-Lp-9NO">
-            <objects>
-                <viewController storyboardIdentifier="videoViewController" id="8NP-zp-I5F" customClass="VideoViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HjZ-8e-8EC" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Ext-oM-z4u"/>
-                    </view>
-                    <connections>
-                        <outlet property="imagePlayerView" destination="HjZ-8e-8EC" id="DUZ-gt-h90"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RUI-iQ-hd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="463" y="626"/>
-        </scene>
         <!--frames-->
         <scene sceneID="lkj-Xe-qcT">
             <objects>
@@ -425,7 +407,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iNs-gq-NHO"/>
+        <segue reference="6tk-uY-oMN"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>

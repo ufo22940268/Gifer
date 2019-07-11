@@ -9,6 +9,17 @@
 import UIKit
 import AVKit
 
+protocol ImagePlayerDelegate: class {
+    
+    func onProgressChanged(progress: CMTime)
+    
+    func onBuffering(_ inBuffering: Bool)
+    
+    func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus)
+}
+
+
+
 class ImagePlayerView: UIView {
     
     lazy var frameView: ImagePlayerFrameView = {

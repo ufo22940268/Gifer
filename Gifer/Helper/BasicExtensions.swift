@@ -198,3 +198,8 @@ extension CGRect {
         return UIEdgeInsets(top: minY, left: minX, bottom: container.maxY - maxY, right: container.maxX - maxX)
     }
 }
+
+func *(progress: CGFloat, duration: CMTime) -> CMTime {
+    return CMTime(value: CMTimeValue(progress*CGFloat(duration.value)), timescale: duration.timescale)
+}
+
