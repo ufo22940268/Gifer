@@ -73,12 +73,16 @@ class ImagePlayerItemGenerator {
         initDirectory()
         
         let group = DispatchGroup()
+        var size: CGSize!
         for index in 0..<generatorParallelNumber {
             group.enter()
             let times = timeSegments[index]
             generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
                 autoreleasepool {
                     guard let image = image, error == nil else { return }
+                    if size == nil {
+                        size = image.size
+                    }
                     var frames = frameSegments[index]
                     var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
                     self.saveToDirectory(image: image, frame: &frame)
@@ -94,7 +98,7 @@ class ImagePlayerItemGenerator {
         
         group.notify(queue: .main) {
             print(Date().timeIntervalSince(began))
-            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
+            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration, size: size))
         }
     }
     

@@ -14,7 +14,7 @@
         <!--Crop View Controller-->
         <scene sceneID="HJE-vY-IP3">
             <objects>
-                <viewController id="ZOA-RP-8i6" customClass="CropViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="crop" id="ZOA-RP-8i6" customClass="CropViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CnK-MI-ggB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

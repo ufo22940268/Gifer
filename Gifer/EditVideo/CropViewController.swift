@@ -10,6 +10,11 @@ import UIKit
 import Photos
 import AVKit
 
+protocol CropDelegate: class {
+    /// - Parameter cropArea: Normalized rect
+    func onChange(cropArea: CGRect)
+}
+
 class CropViewController: UIViewController {
 
     var imagePlayerView: ImagePlayerView {
@@ -18,6 +23,9 @@ class CropViewController: UIViewController {
     
     @IBOutlet weak var cropMenuView: CropMenuView!
     var cropPlayerVC: CropPlayerViewController!
+    
+    var playerItem: ImagePlayerItem!
+    weak var customDelegate: CropDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,18 +38,19 @@ class CropViewController: UIViewController {
                 DispatchQueue.main.async {
                     ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).extract(complete: { (playerItem) in
                         self.setup(playerItem: playerItem)
-                        
-                        let videoFrame = AVMakeRect(aspectRatio: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), insideRect: self.cropPlayerVC.view.bounds)
-                        self.cropPlayerVC.onVideoReady(videoFrame: videoFrame)
-                        self.cropMenuView.customDelegate = self.cropPlayerVC.cropContainer
                     })
                 }
             }
-        }        
+        } else {
+            setup(playerItem: playerItem)
+        }
     }
     
-    func setup(playerItem: ImagePlayerItem) {
+    fileprivate func setup(playerItem: ImagePlayerItem) {
         imagePlayerView.load(playerItem: playerItem)
+        let videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: self.cropPlayerVC.view.bounds)
+        self.cropPlayerVC.onVideoReady(videoFrame: videoFrame)
+        self.cropMenuView.customDelegate = self.cropPlayerVC.cropContainer
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,5 +66,5 @@ class CropViewController: UIViewController {
     
     
     @IBAction func onDone(_ sender: Any) {
-    }    
+    }
 }

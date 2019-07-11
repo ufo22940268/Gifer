@@ -144,6 +144,7 @@ extension CGImage {
 
 extension UIViewController {
     func isInitial() -> Bool {
+        #if DEBUG
         //        guard UIDevice.isSimulator else { fatalError() }
         let initialVC =  storyboard!.instantiateInitialViewController()!
         if let navigationVC = initialVC as? UINavigationController {
@@ -151,6 +152,9 @@ extension UIViewController {
         } else {
             return type(of: initialVC) == type(of: self)
         }
+        #else
+        return false
+        #endif
     }    
 }
 

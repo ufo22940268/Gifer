@@ -51,6 +51,7 @@ class ImagePlayerView: UIView {
     var rate: Float = Config.defaultRate {
         didSet {
             timer.invalidate()
+
             timer = createTimer(with: interval)
         }
     }

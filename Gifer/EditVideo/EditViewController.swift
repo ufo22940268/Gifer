@@ -520,6 +520,8 @@ class EditViewController: UIViewController {
         if isVideoLoaded {
             updateSubTitle()
         }
+        
+        videoVC?.videoViewControllerDelegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -540,6 +542,7 @@ class EditViewController: UIViewController {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         loadingDialog?.dismiss(animated: false)
+        videoVC.pause()
 
         if isMovingFromParent {
             destroy()
@@ -584,7 +587,7 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog?.dismiss()
         loadingDialog = nil
         self.videoController.delegate = self
-        showPlayLoading(false)
+        showPlayLoading(false)        
         self.videoController.load(playerItem: playerItem) {
             self.enableVideoController(true)
             self.enableControlOptions()
@@ -604,6 +607,7 @@ extension EditViewController: ImagePlayerDelegate {
     
 
     func onProgressChanged(progress: CMTime) {
+        guard let playerItem = playerItem else { return }
         let current = playerItem.nearestActiveIndex(time: progress)
         let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let right = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
@@ -737,6 +741,10 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onCropItemClicked() {
+        let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "crop") as! CropViewController
+        vc.playerItem = videoVC.playerItem
+        vc.customDelegate = self
+        present(vc, animated: true, completion: nil)
     }
     
     func onFiltersItemClicked() {
@@ -812,5 +820,12 @@ extension EditViewController: UIGestureRecognizerDelegate {
         guard let videoController = videoController else { return true }
         let p = gestureRecognizer.location(in: videoController)
         return !videoController.bounds.contains(p)
+    }
+}
+
+// MARK: - Crop delegate
+extension EditViewController: CropDelegate {
+    func onChange(cropArea: CGRect) {
+        
     }
 }

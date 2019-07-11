@@ -33,6 +33,7 @@ class ImagePlayerItem {
     var activeFrames: [ImagePlayerFrame] {
         return allFrames.filter { $0.isActive }
     }
+    
     var allFrames: [ImagePlayerFrame]
     var duration: CMTime
     lazy var playCache: NSCache<NSNumber, UIImage> = {
@@ -58,8 +59,12 @@ class ImagePlayerItem {
     
     var queue = DispatchQueue(label: "cache")
     
-    init(frames: [ImagePlayerFrame], duration: CMTime) {
+    /// Size of frame
+    var size: CGSize
+    
+    init(frames: [ImagePlayerFrame], duration: CMTime, size: CGSize) {
         self.allFrames = frames
+        self.size = size
         self.duration = duration
     }
     
