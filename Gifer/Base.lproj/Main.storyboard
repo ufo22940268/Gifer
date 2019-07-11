@@ -72,7 +72,7 @@
                                                 <rect key="frame" x="0.0" y="76" width="375" height="585.66666666666663"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyg-ee-PwN" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
+                                                        <rect key="frame" x="8" y="8" width="359" height="569.66666666666663"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
@@ -89,15 +89,15 @@
                                                     <constraint firstAttribute="bottom" secondItem="gwc-EM-3TJ" secondAttribute="bottom" id="2cv-sa-MPZ"/>
                                                     <constraint firstItem="gwc-EM-3TJ" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="4d4-EG-sAC"/>
                                                     <constraint firstAttribute="trailing" secondItem="yBF-sw-Pud" secondAttribute="trailing" id="9P6-gH-DBb"/>
-                                                    <constraint firstAttribute="trailing" secondItem="pyg-ee-PwN" secondAttribute="trailing" id="Fhi-18-BJj"/>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="pyg-ee-PwN" secondAttribute="trailing" id="Fhi-18-BJj"/>
                                                     <constraint firstItem="yBF-sw-Pud" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="MOR-4F-n90"/>
                                                     <constraint firstAttribute="bottom" secondItem="yBF-sw-Pud" secondAttribute="bottom" id="Opu-Rs-gaQ"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
-                                                    <constraint firstAttribute="bottom" secondItem="pyg-ee-PwN" secondAttribute="bottom" id="a6H-9J-MFh"/>
-                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="cmr-Rr-xDI"/>
+                                                    <constraint firstAttribute="bottomMargin" secondItem="pyg-ee-PwN" secondAttribute="bottom" id="a6H-9J-MFh"/>
+                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="topMargin" id="cmr-Rr-xDI"/>
                                                     <constraint firstItem="gwc-EM-3TJ" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="ee3-Sg-xyl"/>
                                                     <constraint firstItem="yBF-sw-Pud" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="hHB-IB-ktl"/>
-                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="tb6-LE-4xJ"/>
+                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leadingMargin" id="tb6-LE-4xJ"/>
                                                     <constraint firstAttribute="trailing" secondItem="gwc-EM-3TJ" secondAttribute="trailing" id="v3D-nB-lI8"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
                                                 </constraints>
