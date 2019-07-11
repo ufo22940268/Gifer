@@ -796,6 +796,6 @@ extension EditViewController: UIGestureRecognizerDelegate {
 // MARK: - Crop delegate
 extension EditViewController: CropDelegate {
     func onChange(cropArea: CGRect) {
-        
+        imagePlayerView.cropArea = cropArea
     }
 }
