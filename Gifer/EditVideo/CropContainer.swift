@@ -111,8 +111,6 @@ class CropContainer: UIView {
         height.constant = videoFrame.height
         gridRulerView.setupVideo(frame: videoFrame)
         
-        imagePlayerView.paused = true
-        
         NSLayoutConstraint.activate([
             imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
             imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
