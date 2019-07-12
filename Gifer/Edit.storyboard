@@ -104,7 +104,7 @@
                             <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="49" y="200" width="300" height="300"/>
                                 <subviews>
-                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.5" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
+                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.10000000000000001" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                         <subviews>
                                             <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQ2-sX-ppE" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">

@@ -195,20 +195,24 @@ extension CropContainer: GridRulerViewDelegate {
     /// Resize crop area with animation
     ///
     /// - Parameter gridBounds: bounds of gridRulerView.
-    fileprivate func resizeTo(gridBounds: CGRect) {
-        let rect = gridRulerView.convert(gridBounds, to: imagePlayerView)
-        let newRect = AVMakeRect(aspectRatio: rect.size, insideRect: superview!.bounds)
+    fileprivate func resizeAfterDrag() {
+        let gridBounds = gridRulerView.bounds
+        let rectInImage = gridRulerView.convert(gridBounds, to: imagePlayerView)
+        let newGridRect = AVMakeRect(aspectRatio: rectInImage.size, insideRect: superview!.bounds)
         
         UIView.animate(withDuration: 0.5) {
-            self.width.constant = newRect.width
-            self.height.constant = newRect.height
-            self.gridRulerView.customConstraints.width.constant = newRect.width
-            self.gridRulerView.customConstraints.height.constant = newRect.height
+            self.width.constant = newGridRect.width
+            self.height.constant = newGridRect.height
+            self.gridRulerView.customConstraints.width.constant = newGridRect.width
+            self.gridRulerView.customConstraints.height.constant = newGridRect.height
             self.gridRulerView.customConstraints.centerX.constant = 0
             self.gridRulerView.customConstraints.centerY.constant = 0
             self.gridRulerView.syncGuideConstraints()
+
+            let zoomScale = newGridRect.width/rectInImage.width
+            self.scrollView.zoomScale = zoomScale
+            self.scrollView.contentOffset = rectInImage.origin.applying(CGAffineTransform(scaleX: zoomScale, y: zoomScale))
             
-            self.scrollView.zoom(to: rect, animated: false)
             self.layoutIfNeeded()
         }
     }
@@ -231,7 +235,7 @@ extension CropContainer: GridRulerViewDelegate {
     }
     
     func onDragFinished() {
-        resizeTo(gridBounds: gridRulerView.bounds)
+        resizeAfterDrag()
     }
     
     func resetCropArea() {
