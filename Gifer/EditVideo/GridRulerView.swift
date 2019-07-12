@@ -183,13 +183,10 @@ class GridRulerView: UIView {
     
     func setupVideo(frame videoFrame: CGRect) {
         buildGuideConstraints(videoFrame: videoFrame)
-                        
-        customConstraints.width.constant = videoFrame.width
-        customConstraints.height.constant = videoFrame.height
         subviews.forEach { (child) in
             child.setNeedsDisplay()
         }
-        frameView.divider.setNeedsDisplay()                
+        frameView.divider.setNeedsDisplay()
     }
     
     @objc func onPan(_ sender: UIPanGestureRecognizer) {

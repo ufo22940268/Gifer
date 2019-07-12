@@ -12,6 +12,17 @@ class CropPlayerViewController: UIViewController {
     @IBOutlet weak var imagePlayerView: ImagePlayerView!
     @IBOutlet var cropContainer: CropContainer!
     @IBOutlet weak var scrollView: UIScrollView!
+    var videoFrame: CGRect! {
+        didSet {
+            cropContainer.gridRulerView.setupVideo(frame: videoFrame)
+            NSLayoutConstraint.activate([
+                cropContainer.imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
+                cropContainer.imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
+                ])
+        }
+    }
+    
+    var isDidLayoutSubViews = false
     
     var cropArea: CGRect? {
         set(newCropArea) {
@@ -37,8 +48,11 @@ class CropPlayerViewController: UIViewController {
         cropArea = initialCropArea
     }
     
-    func onVideoReady(videoFrame: CGRect) {
-        cropContainer.setupVideo(frame: videoFrame)
+    override func viewDidLayoutSubviews() {
+        if !isDidLayoutSubViews {
+            cropContainer.setupVideo(frame: videoFrame)
+            isDidLayoutSubViews = true
+        }
     }
     
 

@@ -107,27 +107,17 @@ class CropContainer: UIView {
     
     func setupVideo(frame videoFrame: CGRect) {
         isHidden = false
-        width.constant = videoFrame.width
-        height.constant = videoFrame.height
-        gridRulerView.setupVideo(frame: videoFrame)
+        let cropArea = initialCropArea ?? CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
         
-        NSLayoutConstraint.activate([
-            imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
-            imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
-            ])
+        let cropViewRect = AVMakeRect(aspectRatio: cropArea.size.applying(CGAffineTransform(scaleX: videoFrame.width, y: videoFrame.height)), insideRect: superview!.bounds)
+        width.constant = cropViewRect.width
+        height.constant = cropViewRect.height
+        gridRulerView.customConstraints.width.constant = cropViewRect.width
+        gridRulerView.customConstraints.height.constant = cropViewRect.height
+        gridRulerView.syncGuideConstraints()
+        layoutIfNeeded()
         
-        if let cropArea = initialCropArea {
-            let cropViewRect = AVMakeRect(aspectRatio: cropArea.size.applying(CGAffineTransform(scaleX: videoFrame.width, y: videoFrame.height)), insideRect: superview!.bounds)
-            width.constant = cropViewRect.width
-            height.constant = cropViewRect.height
-            gridRulerView.customConstraints.width.constant = cropViewRect.width
-            gridRulerView.customConstraints.height.constant = cropViewRect.height
-            gridRulerView.syncGuideConstraints()
-            layoutIfNeeded()
-            
-            let zoomToRect = cropArea.applying(CGAffineTransform(scaleX: imagePlayerView.bounds.width, y: imagePlayerView.bounds.height))
-            scrollView.zoom(to: zoomToRect, animated: false)
-        }
+        scrollView.zoom(to: cropArea.applying(CGAffineTransform(scaleX: videoFrame.width, y: videoFrame.height)), animated: false)
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

@@ -50,8 +50,11 @@ class CropViewController: UIViewController {
     fileprivate func setup(playerItem: ImagePlayerItem) {
         imagePlayerView.load(playerItem: playerItem)
         let videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: self.cropPlayerVC.view.bounds)
-        self.cropPlayerVC.onVideoReady(videoFrame: videoFrame)
+        self.cropPlayerVC.videoFrame = videoFrame
         self.cropMenuView.customDelegate = self.cropPlayerVC.cropContainer
+    }
+    
+    override func viewDidLayoutSubviews() {        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
