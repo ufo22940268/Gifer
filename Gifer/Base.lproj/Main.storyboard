@@ -73,6 +73,10 @@
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyg-ee-PwN" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="359" height="569.66666666666663"/>
+                                                        <gestureRecognizers/>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="mKw-k8-QrJ" appends="YES" id="yqO-KZ-7X5"/>
+                                                        </connections>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
@@ -175,6 +179,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="mKw-k8-QrJ">
+                    <connections>
+                        <action selector="onTapToDismissOverlays:" destination="Dvh-Lh-bNF" id="wDv-Yg-1rV"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="420" y="-860.83743842364538"/>
         </scene>

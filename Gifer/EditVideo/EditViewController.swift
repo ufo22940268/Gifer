@@ -219,6 +219,11 @@ class EditViewController: UIViewController {
         return label
     }()
     
+    @IBAction func onTapToDismissOverlays(_ sender: Any) {
+        editTextOverlay.components.forEach { $0.isActive = false }
+        stickerOverlay.components.forEach { $0.isActive = false }
+    }
+    
     var isLoadingVideo: Bool = false {
         didSet {
             if isLoadingVideo {
