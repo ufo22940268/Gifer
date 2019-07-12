@@ -69,4 +69,8 @@ class CropViewController: UIViewController {
         customDelegate?.onChange(cropArea: cropPlayerVC.cropArea)
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func onResetCrop(_ sender: Any) {
+        cropPlayerVC.cropContainer.resetCropArea()
+    }
 }

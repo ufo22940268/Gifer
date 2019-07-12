@@ -192,12 +192,6 @@ class CropContainer: UIView {
 
 extension CropContainer: GridRulerViewDelegate {
     
-    /// Initialized crop area.
-    ///
-    /// - Parameter cropArea: CGRect in normalized format.
-    func resizeTo(cropArea: CGRect) {
-    }
-    
     /// Resize crop area with animation
     ///
     /// - Parameter gridBounds: bounds of gridRulerView.
@@ -241,8 +235,20 @@ extension CropContainer: GridRulerViewDelegate {
     }
     
     func resetCropArea() {
-        gridRulerView.isGridChanged = false
-//        adjustTo(ratio: videoSize!)
+        UIView.animate(withDuration: 0.5) {
+            let toRect = AVMakeRect(aspectRatio: self.imagePlayerView.bounds.size, insideRect: self.superview!.bounds)
+            self.width.constant = toRect.width
+            self.height.constant = toRect.height
+            self.gridRulerView.customConstraints.width.constant = toRect.width
+            self.gridRulerView.customConstraints.height.constant = toRect.height
+            self.gridRulerView.customConstraints.centerX.constant = 0
+            self.gridRulerView.customConstraints.centerY.constant = 0
+            self.gridRulerView.syncGuideConstraints()
+            
+            self.scrollView.contentOffset = .zero
+            self.scrollView.setZoomScale(toRect.width/self.imagePlayerView.bounds.width, animated: false)
+            self.superview?.layoutIfNeeded()
+        }
     }
 }
 
