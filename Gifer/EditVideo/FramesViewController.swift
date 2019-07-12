@@ -44,7 +44,7 @@ class FramesViewController: UIViewController {
                 frame.path = path
                 return frame
             }
-            playerItem = ImagePlayerItem(frames: frames, duration: CMTime(seconds: 3, preferredTimescale: 600), size: frames.first!.uiImage.size)
+            playerItem = ImagePlayerItem(frames: frames, duration: CMTime(seconds: 3, preferredTimescale: 600), size: frames.first!.uiImage!.size)
             trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         

@@ -13,6 +13,7 @@ class ImagePlayerItemGenerator {
     
     var asset: AVAsset
     var trimPosition: VideoTrimPosition
+    var isDestroyed = false
     
     let generatorParallelNumber: Int = 4
     
@@ -77,9 +78,9 @@ class ImagePlayerItemGenerator {
         for index in 0..<generatorParallelNumber {
             group.enter()
             let times = timeSegments[index]
-            generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, _, error) in
+            generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, result, error) in
                 autoreleasepool {
-                    guard let image = image, error == nil else { return }
+                    guard let image = image, error == nil, result == .succeeded, !self.isDestroyed else { return }
                     if size == nil {
                         size = image.size
                     }
@@ -114,10 +115,11 @@ class ImagePlayerItemGenerator {
     
     func initDirectory() {
         try? FileManager.default.removeItem(at: directory)
-        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        try! FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     }
     
     func destroy() {
+        isDestroyed = true
         generators.forEach { $0.cancelAllCGImageGeneration() }
     }
 }

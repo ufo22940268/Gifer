@@ -17,9 +17,12 @@ struct ImagePlayerFrame: Equatable {
     }
     var isActive = true
     
-    var uiImage: UIImage {
-        let data = try! Data(contentsOf: path!)
-        return UIImage(data: data)!
+    var uiImage: UIImage! {
+        if let data = try? Data(contentsOf: path!) {
+            return UIImage(data: data)
+        } else {
+            return nil
+        }
     }
     
     init(time: CMTime) {
@@ -108,15 +111,16 @@ class ImagePlayerItem {
         }
     }
     
-    func getImageForPlay(index: Int, direction: PlayDirection, complete: @escaping (UIImage) -> Void) {
+    func getImageForPlay(index: Int, direction: PlayDirection, complete: @escaping (UIImage?) -> Void) {
         DispatchQueue.global(qos: .userInteractive).async {
-            var uiImage: UIImage
+            var uiImage: UIImage! = nil
             if let image = self.playCache.object(forKey: self.activeFrames[index].key) {
                 uiImage = image
             } else {
-                let image = self.activeFrames[index].uiImage
-                self.playCache.setObject(image, forKey: self.activeFrames[index].key)
-                uiImage = image
+                if let image = self.activeFrames[index].uiImage {
+                    self.playCache.setObject(image, forKey: self.activeFrames[index].key)
+                    uiImage = image
+                }
             }
             
             DispatchQueue.main.async {
@@ -133,8 +137,8 @@ class ImagePlayerItem {
                 let cacheIndex = self.shiftIndex(index, by: direction == .forward ?  i : -i)
                 let frame = self.activeFrames[cacheIndex]
                 let cachedImage = self.playCache.object(forKey: frame.key)
-                if cachedImage == nil {
-                    self.playCache.setObject(frame.uiImage, forKey: frame.key)
+                if cachedImage == nil, let image = frame.uiImage {
+                    self.playCache.setObject(image, forKey: frame.key)
                 }
             }
         }
@@ -158,7 +162,7 @@ class ImagePlayerItem {
                 return
             }
             
-            var image = frame.uiImage
+            var image = frame.uiImage!
             if let size = size {
                 image = image.resize(inSize: size)
             }

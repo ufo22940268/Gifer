@@ -39,7 +39,7 @@ class ImagePlayerView: UIView {
             let index = playerItem.nearestActiveIndex(time: loadTime)
             playerItem.getImageForPlay(index: index, direction: playDirection) {
                 image in
-                if self.currentTime == loadTime {
+                if self.currentTime == loadTime, let image = image {
                     let image = self.applyFilter(image)
                     self.frameView.image = image
                 }
