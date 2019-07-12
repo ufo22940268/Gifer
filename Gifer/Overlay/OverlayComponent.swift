@@ -155,7 +155,7 @@ class OverlayComponent: UIView {
     var height: NSLayoutConstraint!
     
     var cornerViews = [OverlayComponentCornerView]()
-    var frameLineWidth = CGFloat(3)
+    var frameLineWidth = CGFloat(1.5)
     weak var delegate: OverlayComponentDelegate?
     var render: OverlayComponentRender!
     
