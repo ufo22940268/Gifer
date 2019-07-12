@@ -223,9 +223,7 @@ extension CropContainer: GridRulerViewDelegate {
         let gridBounds = AVMakeRect(aspectRatio: ratio, insideRect: gridRulerView.bounds)
         let rect = gridRulerView.convert(gridBounds, to: imagePlayerView)
         let newRect = AVMakeRect(aspectRatio: rect.size, insideRect: superview!.bounds)
-        
-        let rectInPlayerView = AVMakeRect(aspectRatio: ratio, insideRect: imagePlayerView.bounds)
-        
+                
         UIView.animate(withDuration: 0.5) {
             self.width.constant = newRect.width
             self.height.constant = newRect.height
@@ -234,9 +232,7 @@ extension CropContainer: GridRulerViewDelegate {
             self.gridRulerView.customConstraints.centerX.constant = 0
             self.gridRulerView.customConstraints.centerY.constant = 0
             self.gridRulerView.syncGuideConstraints()
-            
             self.layoutIfNeeded()
-            self.scrollView.zoom(to: rectInPlayerView, animated: false)
         }
     }
     
