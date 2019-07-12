@@ -219,6 +219,8 @@ extension CropContainer: GridRulerViewDelegate {
             self.gridRulerView.customConstraints.centerY.constant = 0
             self.gridRulerView.syncGuideConstraints()
             self.layoutIfNeeded()
+            
+            self.scrollView.zoom(to: rect, animated: false)
         }
     }
     
