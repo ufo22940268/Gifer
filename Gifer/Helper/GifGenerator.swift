@@ -226,11 +226,11 @@ public class GifGenerator {
     func run(complete: @escaping (URL) -> Void) {
         calibrateSize(under: options.exportType!.sizeLimitation, videoSize: options.videoSize) { (config) in
             self.processConfig = config
-            self.generateGif(complete: complete)
+            self.generate(complete: complete)
         }
     }
     
-    func generateGif(complete: @escaping (URL) -> Void) {
+    func generate(complete: @escaping (URL) -> Void) {
         let startProgress = options.start
         let endProgress = options.end
         let group = DispatchGroup()
@@ -306,8 +306,8 @@ public class GifGenerator {
     func cacheLabelViewsForExport(image: CGImage) -> [LabelViewCache] {
         var caches = [LabelViewCache]()
         for textInfo in options.texts {
-            let labelView = textInfo.createExportLabelView(imageSize: image.size)
             let rect = textInfo.nRect!.realRect(containerSize: CGSize(width: image.width, height: image.height))
+            let labelView = textInfo.createExportLabelView(imageSize: image.size, fontRect: rect)
             let labelImage = labelView.renderToImage(afterScreenUpdates: true)
             let cache = LabelViewCache(image: labelImage.rotate(by: textInfo.rotation), rect: rect, trimPosition: textInfo.trimPosition)
             caches.append(cache)

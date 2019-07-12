@@ -45,19 +45,19 @@ struct EditTextInfo: OverlayRenderInfo {
         return newInfo
     }
     
-    func createExportLabelView(imageSize: CGSize) -> UILabel {
+    func createExportLabelView(imageSize: CGSize, fontRect: CGRect) -> UILabel {
         let labelView = UILabel()
-//        let scale = imageSize.width/videoSize!.width
-        // FIXME:
-        let scale = CGFloat(1)
-        let exportFontSize = scale*fontSize!
         labelView.text = text
         labelView.textAlignment = .center
         labelView.baselineAdjustment = .alignCenters
-        labelView.font = UIFont(name: fontName, size: exportFontSize)
+        labelView.font = UIFont(name: fontName, size: 50)
         labelView.textColor = textColor
         labelView.backgroundColor = .clear
-        labelView.sizeToFit()
+        labelView.frame = CGRect(origin: .zero, size: fontRect.size)
+        
+        let calibratedFontSize = approximateAdjustedFontSizeWithLabel(labelView)
+        labelView.font = UIFont(name: fontName, size: calibratedFontSize)
+        
         return labelView
     }
 }
