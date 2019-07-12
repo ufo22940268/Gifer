@@ -48,6 +48,7 @@ struct EditTextInfo: OverlayRenderInfo {
     func createExportLabelView(imageSize: CGSize) -> UILabel {
         let labelView = UILabel()
 //        let scale = imageSize.width/videoSize!.width
+        // FIXME:
         let scale = CGFloat(1)
         let exportFontSize = scale*fontSize!
         labelView.text = text
@@ -60,4 +61,3 @@ struct EditTextInfo: OverlayRenderInfo {
         return labelView
     }
 }
-

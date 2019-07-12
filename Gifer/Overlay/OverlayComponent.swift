@@ -329,15 +329,13 @@ extension OverlayComponent {
         let scale = extractScale(translate)
         
         let predictRect = info.realRect(parentSize: superview!.bounds.size, scale: scale)
-        guard predictRect.width > 100 && predictRect.height > 100 else {
+        guard predictRect.width > 50 && predictRect.height > 50 else {
             return
         }
         
         scaleTo(scale)
         let rotation = extractRotation(translate)
         rotateBy(rotation)
-        
-//        render.onComponentLayoutChanged()
     }
         
     func scaleTo(_ scale: CGFloat) {
