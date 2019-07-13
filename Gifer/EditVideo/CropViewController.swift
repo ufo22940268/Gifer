@@ -27,10 +27,11 @@ class CropViewController: UIViewController {
     
     var playerItem: ImagePlayerItem!
     weak var customDelegate: CropDelegate?
+    @IBOutlet weak var toolbar: UIToolbar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if playerItem == nil {
             let asset = getTestVideo()
             let options = PHVideoRequestOptions()

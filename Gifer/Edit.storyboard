@@ -87,6 +87,7 @@
                     </view>
                     <connections>
                         <outlet property="cropMenuView" destination="69d-J6-66n" id="O1b-ij-EcE"/>
+                        <outlet property="toolbar" destination="tec-8u-I7k" id="FTd-mx-A3S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>

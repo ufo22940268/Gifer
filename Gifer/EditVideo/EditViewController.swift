@@ -608,13 +608,15 @@ extension EditViewController: VideoControllerDelegate {
             videoController.stickTo(side: fixedSide)
         }
         
-        var toProgress: CMTime!
-        if side == .left {
-            toProgress = position.leftTrim
-        } else {
-            toProgress = position.rightTrim
+        if case VideoTrimState.initial = state {} else {
+            var toProgress: CMTime!
+            if side == .left {
+                toProgress = position.leftTrim
+            } else {
+                toProgress = position.rightTrim
+            }
+            imagePlayerView.seek(to: toProgress)
         }
-        imagePlayerView.seek(to: toProgress)
         imagePlayerView.trimPosition = position
         
         switch state {
