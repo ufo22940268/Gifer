@@ -345,6 +345,11 @@ extension OverlayComponent {
     }
         
     func scaleBy(_ scale: CGFloat, anchorCenter: Bool = false) {
+        let newSize = info.realRect(parentSize: self.bounds.size).applying(CGAffineTransform(scaleX: scale, y: scale))
+        
+        guard newSize.width < bounds.width && newSize.height < bounds.height
+            && newSize.width > 30 && newSize.height > 30 else { return }
+        
         info.scaleBy(scale, anchorCenter: anchorCenter)
         updateInfoPosition()
     }
