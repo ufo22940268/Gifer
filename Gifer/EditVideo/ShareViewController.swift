@@ -190,8 +190,7 @@ class DividerCell: UITableViewCell {
 enum ShareConfig: Int, CaseIterable {
     case loopCount = 0
     case videoSize = 1
-    case divider = 2
-    case shareCell = 3
+    case shareCell = 2
 }
 
 class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -271,7 +270,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.isScrollEnabled = false
         tableView.register(VideoSizeConfigCell.self, forCellReuseIdentifier: "videoSize")
         tableView.register(LoopCountConfigCell.self, forCellReuseIdentifier: "loopCount")
-        tableView.register(DividerCell.self, forCellReuseIdentifier: "divider")
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
     
@@ -351,9 +349,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = "循环次数"
             cell.detailTextLabel?.text = loopCount.description
-            return cell
-        } else if indexPath.row == ShareConfig.divider.rawValue {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "divider") as! DividerCell
             return cell
         } else if indexPath.row == ShareConfig.shareCell.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
@@ -447,10 +442,10 @@ class SharePresentationController: UIPresentationController {
         dimmingView.useSameSizeAsParent()
         
         guard let presentedView = presentedView, let sourceView = presentingViewController.view else { return }
-        presentedView.layer.cornerRadius = 20
+        presentedView.layer.cornerRadius = 8
         let size = containerView!.bounds.size
         presentedView.frame.origin.y = size.height
-        sourceView.layer.cornerRadius = 20
+        sourceView.layer.cornerRadius = 8
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
         gesture.cancelsTouchesInView = false
