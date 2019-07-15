@@ -19,38 +19,47 @@ class Overlay: UIView {
     weak var delegate: OverlayDelegate?
     var componentIdSequence: ComponentId = 0
     var clipTrimPosition: VideoTrimPosition!
-    
-    var isEnabled: Bool = true {
-        didSet {
-            if !isEnabled {
-                components.forEach { $0.isActive = false }
-            }
-            
-            pinchRecognizer.isEnabled = isEnabled
-        }
-    }
-    
     var pinchRecognizer: UIPinchGestureRecognizer!
-    
+    var rotateRecognizer: UIRotationGestureRecognizer!
+
     override func awakeFromNib() {
         pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(onPinch(sender:)))
         addGestureRecognizer(pinchRecognizer)
         pinchRecognizer.isEnabled = false
+        pinchRecognizer.delegate = self
+        
+        rotateRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(onRotate(sender:)))
+        addGestureRecognizer(rotateRecognizer)
+        rotateRecognizer.isEnabled = false
+        rotateRecognizer.delegate = self
     }
     
     var activeComponent: OverlayComponent? {
         return components.first { $0.isActive }
     }
     
-    var startScale: CGFloat = 1.0
+    var previousScale: CGFloat = 1.0
     
     @objc func onPinch(sender: UIPinchGestureRecognizer) {
         switch sender.state {
         case .began:
-            startScale = sender.scale
+            previousScale = sender.scale
         case .changed:
-            activeComponent?.scaleBy(sender.scale/startScale, anchorCenter: true)
-            startScale = sender.scale
+            activeComponent?.scaleBy(sender.scale/previousScale, anchorCenter: true)
+            previousScale = sender.scale
+        default:
+            break
+        }
+    }
+    
+    var previousRotation: CGFloat = 0
+    @objc func onRotate(sender: UIRotationGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            previousRotation = sender.rotation
+        case .changed:
+            activeComponent?.rotateBy(sender.rotation - previousRotation)
+            previousRotation = sender.rotation
         default:
             break
         }
@@ -58,6 +67,7 @@ class Overlay: UIView {
             
     func deactiveComponents() {
         pinchRecognizer.isEnabled = false
+        rotateRecognizer.isEnabled = false
         components.forEach { $0.isActive = false }
     }
     
@@ -77,6 +87,7 @@ class Overlay: UIView {
     
     func active(component: OverlayComponent) {
         pinchRecognizer.isEnabled = true
+        rotateRecognizer.isEnabled = true
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
         delegate?.onActive(overlay: self, component: component)
@@ -105,5 +116,11 @@ extension Overlay: OverlayComponentDelegate {
     
     func onEditComponent(component: OverlayComponent, id: ComponentId) {
         delegate?.onEdit(component: component, id: id)
+    }
+}
+
+extension Overlay: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

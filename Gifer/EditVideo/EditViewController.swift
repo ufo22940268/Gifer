@@ -670,7 +670,6 @@ extension EditViewController: OptionMenuDelegate {
             self.stackView.layoutIfNeeded()
         }) { (_) in
             self.allOverlays.forEach { overlay in
-                overlay.isEnabled = true
                 self.videoController.onDeactiveComponents()
                 overlay.deactiveComponents()
             }

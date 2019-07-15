@@ -349,7 +349,7 @@ extension OverlayComponent {
         updateInfoPosition()
     }
         
-    private func rotateBy(_ rotation: CGFloat) {
+    func rotateBy(_ rotation: CGFloat) {
         transform = transform.concatenating(CGAffineTransform(rotationAngle: rotation))
         info.setRotation(transform.rotation)
     }
