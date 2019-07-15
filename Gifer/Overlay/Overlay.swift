@@ -25,14 +25,39 @@ class Overlay: UIView {
             if !isEnabled {
                 components.forEach { $0.isActive = false }
             }
+            
+            pinchRecognizer.isEnabled = isEnabled
         }
+    }
+    
+    var pinchRecognizer: UIPinchGestureRecognizer!
+    
+    override func awakeFromNib() {
+        pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(onPinch(sender:)))
+        addGestureRecognizer(pinchRecognizer)
+        pinchRecognizer.isEnabled = false
     }
     
     var activeComponent: OverlayComponent? {
         return components.first { $0.isActive }
     }
+    
+    var startScale: CGFloat = 1.0
+    
+    @objc func onPinch(sender: UIPinchGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            startScale = sender.scale
+        case .changed:
+            activeComponent?.scaleBy(sender.scale/startScale, anchorCenter: true)
+            startScale = sender.scale
+        default:
+            break
+        }
+    }
             
     func deactiveComponents() {
+        pinchRecognizer.isEnabled = false
         components.forEach { $0.isActive = false }
     }
     
@@ -51,6 +76,7 @@ class Overlay: UIView {
     }
     
     func active(component: OverlayComponent) {
+        pinchRecognizer.isEnabled = true
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
         delegate?.onActive(overlay: self, component: component)
@@ -58,18 +84,6 @@ class Overlay: UIView {
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
         return components.first { $0.id == componentId }!
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if !isEnabled {
-            return nil
-        }
-        
-        if components.contains(where: { $0.point(inside: $0.convert(point, from: self), with: event) }) {
-            return super.hitTest(point, with: event)
-        } else {
-            return nil
-        }
     }
 }
 

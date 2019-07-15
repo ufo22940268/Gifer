@@ -54,10 +54,16 @@ class OverlayComponent: UIView {
             self.nRect = predictNormalizedRect(sticker: stickerInfo, containerBounds: containerBounds)
         }
         
-        mutating func scaleTo(_ scale: CGFloat) {
+        mutating func scaleBy(_ scale: CGFloat, anchorCenter: Bool) {
             var newRect = nRect!
-            newRect.size.width = nRect.width*scale
-            newRect.size.height = nRect.height*scale
+            if anchorCenter {
+                newRect.origin = newRect.origin.applying(CGAffineTransform(translationX: nRect.width*(1 - scale)/2, y: nRect.height*(1 - scale)/2))        
+                newRect.size.width = nRect.width*scale
+                newRect.size.height = nRect.height*scale
+            } else {
+                newRect.size.width = nRect.width*scale
+                newRect.size.height = nRect.height*scale
+            }
             nRect = newRect
         }
         
@@ -333,16 +339,16 @@ extension OverlayComponent {
             return
         }
         
-        scaleTo(scale)
+        scaleBy(scale)
         let rotation = extractRotation(translate)
         rotateBy(rotation)
     }
         
-    func scaleTo(_ scale: CGFloat) {
-        info.scaleTo(scale)
+    func scaleBy(_ scale: CGFloat, anchorCenter: Bool = false) {
+        info.scaleBy(scale, anchorCenter: anchorCenter)
         updateInfoPosition()
     }
-    
+        
     private func rotateBy(_ rotation: CGFloat) {
         transform = transform.concatenating(CGAffineTransform(rotationAngle: rotation))
         info.setRotation(transform.rotation)
