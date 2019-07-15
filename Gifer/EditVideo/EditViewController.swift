@@ -220,8 +220,17 @@ class EditViewController: UIViewController {
     }()
     
     @IBAction func onTapToDismissOverlays(_ sender: Any) {
-        editTextOverlay.components.forEach { $0.isActive = false }
-        stickerOverlay.components.forEach { $0.isActive = false }
+        editTextOverlay.deactiveComponents()
+        stickerOverlay.deactiveComponents()
+
+        if let activeItem = optionMenu.activeItem {
+            switch optionMenu.activeItem! { 
+            case .font, .sticker:
+                self.onPromptDismiss(toolbarItem: activeItem, commitChange: false)
+            default:
+                break
+            }
+        }
     }
     
     var isLoadingVideo: Bool = false {
