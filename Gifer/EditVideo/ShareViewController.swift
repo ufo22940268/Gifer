@@ -371,7 +371,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let vc: VideoSizeConfigViewController = VideoSizeConfigViewController(videoSize: videoSize)
             vc.largestGifSize = 5.3
-            vc.view.addGestureRecognizer(panGesture)
             vc.customDelegate = self
             navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == ShareConfig.loopCount.rawValue {

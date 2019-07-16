@@ -72,6 +72,7 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
     weak var customDelegate: VideoSizeConfigDelegate?
     
     var selectedVideoSize: VideoSize?
+    
     init(videoSize: VideoSize) {
         let tableView = DarkTableView().useAutoLayout()
         self.tableView = tableView
