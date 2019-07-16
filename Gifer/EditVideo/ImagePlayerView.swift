@@ -133,7 +133,8 @@ class ImagePlayerView: UIView {
             }
         }
         
-        timer.tolerance = 0
+        timer.tolerance = interval*0.1
+        RunLoop.main.add(timer, forMode: .common)
         return timer
     }
     

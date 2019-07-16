@@ -134,6 +134,7 @@ class PlaySpeedView: UIStackView {
         coverView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(coverView)
         coverView.isUserInteractionEnabled = false
+        scrollView.showsHorizontalScrollIndicator = false
         NSLayoutConstraint.activate([
             coverView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             coverView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),

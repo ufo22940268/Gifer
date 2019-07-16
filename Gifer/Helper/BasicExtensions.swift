@@ -212,3 +212,46 @@ func *(progress: CGFloat, duration: CMTime) -> CMTime {
     return CMTime(value: CMTimeValue(progress*CGFloat(duration.value)), timescale: duration.timescale)
 }
 
+
+extension UINavigationItem {
+    @objc func setTwoLineTitle(lineOne: String, lineTwo: String) {
+        let titleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white,
+                               NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)] as [NSAttributedString.Key : Any]
+        let subtitleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white,
+                                  NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12)] as [NSAttributedString.Key : Any]
+        
+        let title:NSMutableAttributedString = NSMutableAttributedString(string: lineOne, attributes: titleParameters)
+        let subtitle:NSAttributedString = NSAttributedString(string: lineTwo, attributes: subtitleParameters)
+        
+        title.append(NSAttributedString(string: "\n"))
+        title.append(subtitle)
+        
+        let size = title.size()
+        
+        let width = size.width
+        let height = CGFloat(44)
+        
+        let titleLabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        titleLabel.attributedText = title
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+        
+        titleView = titleLabel
+    }
+}
+
+extension UIViewController {
+    func makeToast(message: String, completion: @escaping () -> Void) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {_ in completion()}))
+        present(alertController, animated: true, completion: nil)
+    }
+}
+
+
+extension NSLayoutConstraint {
+    func with(identifier: String) -> NSLayoutConstraint {
+        self.identifier = identifier
+        return self
+    }
+}
