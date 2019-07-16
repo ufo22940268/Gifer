@@ -11,6 +11,6 @@ import AVKit
 
 struct Wechat {
     static func canBeShared(duration: CMTime) -> Bool {
-        return duration.seconds < 1
+        return duration.seconds < 3
     }
 }

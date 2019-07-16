@@ -24,6 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
         // Override point for customization after application launch.
         initUserDefaults()
+        
+        #if DEBUG
+        #else
+        let rootVC = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root")
+        window?.rootViewController = rootVC
+        window?.makeKeyAndVisible()
+        #endif
+        
         return true
     }
     

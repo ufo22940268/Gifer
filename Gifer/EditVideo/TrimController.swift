@@ -104,7 +104,7 @@ class TrimController: UIControl {
     
     var leftTrimLeadingConstraint: NSLayoutConstraint!
     var rightTrimTrailingConstraint: NSLayoutConstraint!
-    let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(80)
+    let minimunGapBetweenLeftTrimAndRightTrim = CGFloat(40)
     
     var topLine: UIView!
     var bottomLine: UIView!
