@@ -18,16 +18,6 @@ class TrimButton: UIView {
     
     var backgroundLayer: CALayer!
     fileprivate var iconLayer: CAShapeLayer!
-    var isDimmed: Bool = false {
-        didSet {
-            if isDimmed {
-                tintAdjustmentMode = .dimmed
-            } else {
-                tintAdjustmentMode = .normal
-            }
-            setNeedsDisplay()
-        }
-    }
     
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
@@ -120,21 +110,7 @@ class TrimController: UIControl {
     var bottomLine: UIView!
     var duration: CMTime!
     var galleryDuration: CMTime!
-    
     weak var trimDelegate: VideoTrimDelegate?
-        
-    var isDimmed: Bool = false {
-        didSet {
-            leftTrim.isDimmed = isDimmed
-            rightTrim.isDimmed = isDimmed
-            if isDimmed {
-                tintAdjustmentMode = .dimmed
-            } else {
-                tintAdjustmentMode = .normal
-            }
-            setNeedsDisplay()
-        }
-    }
     
     var leftTrim: TrimButton! = {
         let leftTrim = TrimButton(direction: .left)
@@ -181,6 +157,9 @@ class TrimController: UIControl {
         return bounds
     }
     
+    var originTintColor: UIColor?
+    var darkTintColor: UIColor?
+
     func setup(galleryView: UIView) {
         guard let superview = superview else {
             return
@@ -281,9 +260,15 @@ class TrimController: UIControl {
     func updateFrameColor() {
         let duration = trimPosition.galleryDuration
         if Wechat.canBeShared(duration: duration) {
-            tintColor = VideoControllerTrim.wechatMainColor
+            originTintColor = #colorLiteral(red: 0.3788883686, green: 0.8696572185, blue: 0, alpha: 1)
+            darkTintColor = #colorLiteral(red: 0.2039215686, green: 0.7803921569, blue: 0.3490196078, alpha: 1)
         } else {
-            tintColor = VideoControllerTrim.defaultMainColor
+            originTintColor = #colorLiteral(red: 1, green: 0.8392156863, blue: 0.0431372549, alpha: 1)
+            darkTintColor = #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
+        }
+        
+        if tintColor == nil {
+            tintColor = originTintColor
         }
         updateTheme()
     }
@@ -335,9 +320,9 @@ class TrimController: UIControl {
     private func updatePressedState(by state: UIGestureRecognizer.State) {
         switch state {
         case .ended:
-            isDimmed = false
+            tintColor = originTintColor
         default:
-            isDimmed = true
+            tintColor = darkTintColor
         }
     }
     

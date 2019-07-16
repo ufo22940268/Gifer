@@ -119,6 +119,15 @@ extension UIColor {
             alpha: CGFloat(1.0)
         )
     }
+    
+    var darkerColor: UIColor {
+        let color = self
+        var r:CGFloat = 0, g:CGFloat = 0, b:CGFloat = 0, a:CGFloat = 0
+        if color.getRed(&r, green: &g, blue: &b, alpha: &a){
+            return UIColor(red: max(r - 0.2, 0.0), green: max(g - 0.2, 0.0), blue: max(b - 0.2, 0.0), alpha: a)
+        }        
+        return UIColor()
+    }
 
     static let separator = UIColor.fromHexString(hex: "2a2a2a")
 }
