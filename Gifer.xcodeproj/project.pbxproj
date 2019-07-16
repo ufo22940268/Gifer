@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EC22C75980001CAD81 /* Storyboards.swift */; };
 		4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */; };
+		4221A23522DD62730060B1BE /* Wechat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4221A23422DD62730060B1BE /* Wechat.swift */; };
 		4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */; };
 		42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5C21F95587005D2710 /* OptionMenu.swift */; };
 		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
@@ -138,6 +139,7 @@
 /* Begin PBXFileReference section */
 		4218D4EC22C75980001CAD81 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewViewController.swift; sourceTree = "<group>"; };
+		4221A23422DD62730060B1BE /* Wechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wechat.swift; sourceTree = "<group>"; };
 		4224B21F21F7104A0001E494 /* VideoPlayerSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSection.swift; sourceTree = "<group>"; };
 		42265B5C21F95587005D2710 /* OptionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenu.swift; sourceTree = "<group>"; };
 		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				42D7F299224F605E00E7E504 /* Constraints.swift */,
 				42D7F29B225021FD00E7E504 /* Graphic.swift */,
 				42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */,
+				4221A23422DD62730060B1BE /* Wechat.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -738,6 +741,7 @@
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
 				42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */,
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
+				4221A23522DD62730060B1BE /* Wechat.swift in Sources */,
 				42A4335A22DD22C1008C45AC /* ShareTransitioningAnimator.swift in Sources */,
 				4285BF9D21A8C34600913466 /* TrimController.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,

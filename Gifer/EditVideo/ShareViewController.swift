@@ -52,7 +52,7 @@ enum ShareType {
         case .wechat:
             return "微信"
         case .photo:
-            return "保存"
+            return "相册"
         case .wechatSticker:
             return "表情"
         }
@@ -67,10 +67,11 @@ enum ShareType {
         }
     }
     
+    @available(*, deprecated)
     func isEnabled(duration: CMTime) -> Bool {
         switch self {
         case .wechatSticker:
-            return duration.seconds <= 5
+            return Wechat.canBeShared(duration: duration)
         default:
             return true
         }
@@ -154,7 +155,7 @@ class ShareCell: DarkTableCell {
         shareHandler(item)
     }
     
-    func setup(items: [ShareType], shareHandler: @escaping (_ shareType: ShareType) -> Void) {
+    func setup(items: [ShareType], wechatEnabled: Bool, shareHandler: @escaping (_ shareType: ShareType) -> Void) {
         self.selectionStyle = .none
         stackView.subviews.forEach {$0.removeFromSuperview()}
         
@@ -168,6 +169,10 @@ class ShareCell: DarkTableCell {
             itemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
             itemView.tag = index
             stackView.addArrangedSubview(itemView)
+            
+            if [ShareType.wechat, ShareType.wechatSticker].contains(item) && !wechatEnabled {
+                itemView.tintAdjustmentMode = .dimmed
+            }
         }
     }
 }
@@ -208,9 +213,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var galleryDuration: CMTime!
     var shareTypes: [ShareType] {
         var types = [ShareType]()
-        types.append(.wechat)
         types.append(.photo)
-        if let duration = galleryDuration, duration.seconds < 3 {
+        if Wechat.canBeShared(duration: galleryDuration) {
+            types.append(.wechat)
             types.append(.wechatSticker)
         }
         return types
@@ -356,7 +361,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.dismissImediately()
                 self.shareHandler(shareType, self.videoSize, self.loopCount)
             }
-            cell.setup(items: shareTypes, shareHandler: handler)
+            cell.setup(items: shareTypes, wechatEnabled: Wechat.canBeShared(duration: galleryDuration), shareHandler: handler)
             return cell
         }
         fatalError()

@@ -164,10 +164,8 @@ class TrimController: UIControl {
         return right
     }()
     
-    static let defaultMainColor = UIColor(named: "mainColor")!
+    static let defaultMainColor = UIColor(named: "yellowColor")!
     static let wechatMainColor = UIColor(named: "wechatColor")!
-    
-    var mainColor: UIColor = VideoControllerTrim.defaultMainColor
     
     var galleryView: UIView!
     private var sliderThresholdGuide: UILayoutGuide!
@@ -269,6 +267,10 @@ class TrimController: UIControl {
         activeTrailingConstraint.isActive = true
     }
     
+    func onVideoReady() {
+        updateFrameColor()
+    }
+    
     override func tintColorDidChange() {
         super.tintColorDidChange()
         guard let topLine = topLine, let bottomLine = bottomLine else { return }
@@ -276,11 +278,12 @@ class TrimController: UIControl {
         bottomLine.backgroundColor = tintColor
     }
     
-    func updateFrameColor(duration: CMTime) {
-        if ShareType.wechat.isEnabled(duration: duration) {
-            mainColor = VideoControllerTrim.wechatMainColor
+    func updateFrameColor() {
+        let duration = trimPosition.galleryDuration
+        if Wechat.canBeShared(duration: duration) {
+            tintColor = VideoControllerTrim.wechatMainColor
         } else {
-            mainColor = VideoControllerTrim.defaultMainColor
+            tintColor = VideoControllerTrim.defaultMainColor
         }
         updateTheme()
     }
@@ -302,7 +305,7 @@ class TrimController: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         updatePressedState(by: recognizer.state)
-        
+        updateFrameColor()
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
     
@@ -323,7 +326,7 @@ class TrimController: UIControl {
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
         rightTrimTrailingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
-        
+        updateFrameColor()
         updatePressedState(by: recognizer.state)
         
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .right)

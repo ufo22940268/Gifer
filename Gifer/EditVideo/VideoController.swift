@@ -356,6 +356,7 @@ class VideoController: UIStackView {
         let thumbernailCount = min(10, playerItem.activeFrames.count)
         let galleryDuration: CMTime = playerItem.duration
         self.videoTrim.galleryDuration = galleryDuration
+        self.videoTrim.onVideoReady()
         self.galleryView.galleryDuration = galleryDuration
         self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
@@ -448,11 +449,7 @@ class VideoController: UIStackView {
         videoSlider.updateProgress(percent: percent)
         videoSlider.show(true)
     }
-    
-    func vupdateFrameColor(duration: CMTime) {
-        videoTrim.updateFrameColor(duration: duration)
-    }
-    
+        
     func onActive(component: OverlayComponent) {
         attachView.isHidden = false
         attachView.load(image: component.image, component: component)
