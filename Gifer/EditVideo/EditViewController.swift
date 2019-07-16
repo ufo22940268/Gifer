@@ -224,7 +224,7 @@ class EditViewController: UIViewController {
         stickerOverlay.deactiveComponents()
 
         if let activeItem = optionMenu.activeItem {
-            switch optionMenu.activeItem! { 
+            switch optionMenu.activeItem! {
             case .font, .sticker:
                 self.onPromptDismiss(toolbarItem: activeItem, commitChange: false)
             default:
