@@ -33,6 +33,8 @@ class ControlToolbar: UICollectionView {
         flowLayout.minimumInteritemSpacing = gap
         contentInset = UIEdgeInsets(top: 0, left: gap, bottom: 0, right: 0)
         
+        showsHorizontalScrollIndicator = false
+        
         dataSource = self
         delegate = self
         
