@@ -36,6 +36,7 @@
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9927228ABA5100952440 /* ConfigViewController.swift */; };
 		424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9929228ABAA800952440 /* LoopConfigViewController.swift */; };
+		4256CA8D22DF0C6C009231D3 /* ShareInstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */; };
 		4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */; };
 		4260DA9222255B7C000B16D4 /* ConfirmExtraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */; };
 		42611DBE22CDD4A0009A7188 /* GallerySwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */; };
@@ -166,6 +167,7 @@
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		424F9927228ABA5100952440 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
 		424F9929228ABAA800952440 /* LoopConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopConfigViewController.swift; sourceTree = "<group>"; };
+		4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareInstructionViewController.swift; sourceTree = "<group>"; };
 		4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarConfirmPrompt.swift; sourceTree = "<group>"; };
 		4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmExtraButton.swift; sourceTree = "<group>"; };
 		42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySwitcher.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				42E879A822D2B5FB0098D43B /* StickerPanelContent.swift */,
 				42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */,
 				42E879B222D4C6690098D43B /* CropViewController.swift */,
+				4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -763,6 +766,7 @@
 				42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */,
 				42D7F286224B593600E7E504 /* EditTextBottomTools.swift in Sources */,
 				426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */,
+				4256CA8D22DF0C6C009231D3 /* ShareInstructionViewController.swift in Sources */,
 				42E5C35722212EE200D18CA6 /* TrashView.swift in Sources */,
 				42E879A922D2B5FB0098D43B /* StickerPanelContent.swift in Sources */,
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,

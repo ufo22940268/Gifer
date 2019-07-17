@@ -117,15 +117,27 @@ class ShareCell: DarkTableCell {
     var shareHandler: ((_ shareType: ShareType) -> Void)!
     var items: [ShareType]!
     
+    lazy var questionButton: UIButton = {
+        let button = UIButton(type: .custom).useAutoLayout()
+        button.setImage(#imageLiteral(resourceName: "question-circle.png"), for: .normal)
+        button.imageView?.tintColor = .lightText
+        button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        return button
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor)
             ])
         
+        contentView.addSubview(questionButton)
+        NSLayoutConstraint.activate([
+            questionButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -8),
+            questionButton.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -24)
+            ])
     }
     
     func buildItemView(icon: UIImage, label: String) -> UIButton {
@@ -155,7 +167,7 @@ class ShareCell: DarkTableCell {
         shareHandler(item)
     }
     
-    func setup(items: [ShareType], wechatEnabled: Bool, shareHandler: @escaping (_ shareType: ShareType) -> Void) {
+    func setup(items: [ShareType], wechatEnabled: Bool, viewController: ShareViewController, shareHandler: @escaping (_ shareType: ShareType) -> Void) {
         self.selectionStyle = .none
         stackView.subviews.forEach {$0.removeFromSuperview()}
         
@@ -178,6 +190,8 @@ class ShareCell: DarkTableCell {
                 itemView.setTitleColor(.white, for: .normal)
             }
         }
+        
+        questionButton.addTarget(viewController, action: #selector(ShareViewController.onQuestionButtonTapped), for: .touchUpInside)
     }
 }
 
@@ -265,6 +279,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(ShareCell.self, forCellReuseIdentifier: "share")
     }
     
+    @objc func onQuestionButtonTapped() {
+        let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "shareInstruction")
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc func onPan(sender: UIPanGestureRecognizer) {
         let translateY = sender.translation(in: sender.view!).y
         let progress = translateY/sender.view!.bounds.height
@@ -348,7 +367,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.dismissImediately()
                 self.shareHandler(shareType, self.videoSize, self.loopCount)
             }
-            cell.setup(items: shareTypes, wechatEnabled: Wechat.canBeShared(duration: galleryDuration), shareHandler: handler)
+            cell.setup(items: shareTypes, wechatEnabled: Wechat.canBeShared(duration: galleryDuration), viewController: self, shareHandler: handler)
             return cell
         }
         fatalError()
@@ -365,6 +384,15 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             vc.customDelegate = self
             vc.view.addGestureRecognizer(panGesture)
             navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            return tableView.bounds.height - CGFloat(tableView.numberOfRows(inSection: 0) - 1)*44
+        } else {
+            return 44
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZOA-RP-8i6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xdc-mZ-5uB">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -149,6 +149,71 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U51-ub-5c3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-895.6521739130435" y="36.830357142857139"/>
+        </scene>
+        <!--Share Instruction View Controller-->
+        <scene sceneID="vIH-Nt-dFW">
+            <objects>
+                <viewController storyboardIdentifier="shareInstruction" id="dsh-7I-KYH" userLabel="Share Instruction View Controller" customClass="ShareInstructionViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Oq-2P-d5s">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="26e-g6-gZD">
+                                <rect key="frame" x="16" y="112" width="382" height="93"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信分享" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgO-wa-7NM">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="24"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="由于微信客户端的限制，微信分享只支持时长为3秒内GIF，并且会自动调整分辨率文件大小不超过限制。" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uU3-5B-gS4">
+                                        <rect key="frame" x="0.0" y="32" width="382" height="61"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPA-tk-AKx">
+                                <rect key="frame" x="359" y="814" width="31" height="30"/>
+                                <state key="normal" title="好的"/>
+                                <connections>
+                                    <action selector="onOkTapped:" destination="dsh-7I-KYH" eventType="touchUpInside" id="AJi-4w-lOL"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
+                        <color key="tintColor" name="yellowColor"/>
+                        <constraints>
+                            <constraint firstItem="uPA-tk-AKx" firstAttribute="bottom" secondItem="qZo-Fs-QhU" secondAttribute="bottom" constant="-18" id="Bij-H5-uZr"/>
+                            <constraint firstItem="uPA-tk-AKx" firstAttribute="trailing" secondItem="26e-g6-gZD" secondAttribute="trailing" constant="-8" id="TsX-q4-of0"/>
+                            <constraint firstItem="qZo-Fs-QhU" firstAttribute="trailing" secondItem="26e-g6-gZD" secondAttribute="trailing" constant="16" id="UFr-hP-Nr1"/>
+                            <constraint firstItem="qZo-Fs-QhU" firstAttribute="top" secondItem="26e-g6-gZD" secondAttribute="top" constant="-24" id="u0J-fy-CGx"/>
+                            <constraint firstItem="26e-g6-gZD" firstAttribute="leading" secondItem="qZo-Fs-QhU" secondAttribute="leading" constant="16" id="vXS-s5-Xx3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qZo-Fs-QhU"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="说明" id="17i-r3-SC5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MVT-zc-zRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-597.10144927536237" y="-568.52678571428567"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Lvj-ki-vif">
+            <objects>
+                <navigationController id="xdc-mZ-5uB" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q1r-ou-1C8">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dsh-7I-KYH" kind="relationship" relationship="rootViewController" id="fJX-BH-SiT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbp-oI-umi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
