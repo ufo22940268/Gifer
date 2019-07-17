@@ -110,7 +110,7 @@ class ShareCell: DarkTableCell {
         view.axis = .horizontal
         view.spacing = 16
         view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 16, right: 16)
         return view
     }()
     
@@ -128,12 +128,12 @@ class ShareCell: DarkTableCell {
         
     }
     
-    func buildItemView(icon: UIImage, label: String) -> UIView {
+    func buildItemView(icon: UIImage, label: String) -> UIButton {
         let button = UIButton().useAutoLayout()
         button.setImage(icon, for: .normal)
         button.imageView?.tintColor = .white
         button.setTitle(label, for: .normal)
-        button.setTitleColor(.lightText, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.alignTextUnderImage()
         
         let height = button.heightAnchor.constraint(equalToConstant: 90)
@@ -171,24 +171,13 @@ class ShareCell: DarkTableCell {
             stackView.addArrangedSubview(itemView)
             
             if [ShareType.wechat, ShareType.wechatSticker].contains(item) && !wechatEnabled {
-                itemView.tintAdjustmentMode = .dimmed
+                itemView.isEnabled = false
+                itemView.setTitleColor(.darkGray, for: .normal)
+            } else {
+                itemView.isEnabled = true
+                itemView.setTitleColor(.white, for: .normal)
             }
         }
-    }
-}
-
-class DividerCell: UITableViewCell {
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        contentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
-        NSLayoutConstraint.activate([
-            contentView.heightAnchor.constraint(equalToConstant: 2)])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -214,10 +203,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var shareTypes: [ShareType] {
         var types = [ShareType]()
         types.append(.photo)
-        if Wechat.canBeShared(duration: galleryDuration) {
-            types.append(.wechat)
-            types.append(.wechatSticker)
-        }
+        types.append(.wechat)
+        types.append(.wechatSticker)
         return types
     }
     
