@@ -573,7 +573,12 @@ extension EditViewController: VideoControllerDelegate {
     
     /// Update trim info to views except video controller.
     private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
-        highResButton.isEnabled = !Wechat.canBeShared(duration: position.galleryDuration)
+//        if Wechat.canBeShared(duration: position.galleryDuration) {
+//            highResButton.isEnabled = false
+//        } else {
+//            highResButton.isEnabled = true
+//        }
+        
         var fixedSide: TrimController.Side!
         if side == nil {
             fixedSide = playDirection == .forward ? .left : .right
