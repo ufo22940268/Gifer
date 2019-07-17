@@ -110,8 +110,13 @@ class TrimController: UIControl {
     
     var topLine: UIView!
     var bottomLine: UIView!
+    
+    /// Should be duration of whole video
     var duration: CMTime!
+    
+    /// The duration in visible gallery view. It won't exceed 20s. It's not the galleryDuration in VideoTrimPosition. It won't change after video is loaded.
     var galleryDuration: CMTime!
+    
     weak var trimDelegate: VideoTrimDelegate?
     
     var leftTrim: TrimButton! = {
@@ -262,8 +267,8 @@ class TrimController: UIControl {
         bottomLine.backgroundColor = tintColor
     }
     
-    func updateFrameColor() {
-        let duration = trimPosition.galleryDuration
+    func updateFrameColor(duration: CMTime? = nil) {
+        let duration = duration ?? trimPosition.galleryDuration
         if Wechat.canBeShared(duration: duration) {
             originTintColor = #colorLiteral(red: 0.3788883686, green: 0.8696572185, blue: 0, alpha: 1)
             darkTintColor = #colorLiteral(red: 0.2039215686, green: 0.7803921569, blue: 0.3490196078, alpha: 1)
@@ -272,13 +277,7 @@ class TrimController: UIControl {
             darkTintColor = #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
         }
         
-        if tintColor == nil {
-            tintColor = originTintColor
-        }
-        updateTheme()
-    }
-    
-    func updateTheme() {
+        tintColor = originTintColor        
         status.applyTheme(to:self)
     }
     
@@ -359,7 +358,11 @@ class TrimController: UIControl {
         return true
     }
     
-    
+    /// Caused by external action. Such as high resolution button is tapped.
+    func updateRange(trimPosition: VideoTrimPosition) {
+        rightTrimTrailingConstraint.constant = -sliderThresholdGuide.layoutFrame.width*CGFloat(1 - trimPosition.rightTrim.seconds/duration.seconds)
+        updateFrameColor(duration: trimPosition.galleryDuration)
+    }
 }
 
 func percentageToProgress(_ percentage: CGFloat, inDuration duration: CMTime) -> CMTime {

@@ -449,6 +449,10 @@ class VideoController: UIStackView {
         videoSlider.updateProgress(percent: percent)
         videoSlider.show(true)
     }
+    
+    func updateRange(trimPosition: VideoTrimPosition) {
+        videoTrim.updateRange(trimPosition: trimPosition)
+    }
         
     func onActive(component: OverlayComponent) {
         attachView.isHidden = false

@@ -10,7 +10,18 @@ import Foundation
 import AVKit
 
 struct Wechat {
+    
+    static var maxShareDuration: Double {
+        let threshold: Double!
+        #if DEBUG
+        threshold = 1
+        #else
+        threshold = 3
+        #endif
+        return threshold
+    }
+    
     static func canBeShared(duration: CMTime) -> Bool {
-        return duration.seconds < 3
+        return duration.seconds <= Wechat.maxShareDuration
     }
 }

@@ -153,6 +153,11 @@
                         <viewLayoutGuide key="safeArea" id="jX4-i4-5ip"/>
                     </view>
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT">
+                        <barButtonItem key="leftBarButtonItem" title="高清" id="6xn-pg-TM3">
+                            <connections>
+                                <action selector="onHighResTapped:" destination="Dvh-Lh-bNF" id="7ro-Vd-4MZ"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem style="done" systemItem="action" id="SsH-Bk-dko">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -170,6 +175,7 @@
                     <connections>
                         <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
                         <outlet property="editTextOverlay" destination="yBF-sw-Pud" id="fTT-yl-a1x"/>
+                        <outlet property="highResButton" destination="6xn-pg-TM3" id="dIX-KB-GXU"/>
                         <outlet property="imagePlayerView" destination="pyg-ee-PwN" id="9lg-sJ-w1L"/>
                         <outlet property="shareItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>

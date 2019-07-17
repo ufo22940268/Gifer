@@ -121,7 +121,7 @@ class EditViewController: UIViewController {
     var videoAsset: PHAsset!
     var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
-    
+    @IBOutlet weak var highResButton: UIBarButtonItem!
     var isVideoLoaded: Bool {
         return playerItem != nil
     }
@@ -456,6 +456,19 @@ class EditViewController: UIViewController {
         }
     }
     
+    @IBAction func onHighResTapped(_ sender: UIBarButtonItem) {
+        var trim = trimPosition
+        let delta = min(trim.galleryDuration.seconds, Wechat.maxShareDuration)
+        trim.rightTrim = trim.leftTrim + delta.toTime()
+        
+        UIView.animate(withDuration: 0.3) {
+            self.videoController.updateRange(trimPosition: trim)
+            self.videoController.layoutIfNeeded()
+        }
+        
+        updateTrim(position: trim, state: .initial, side: .left)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isVideoLoaded {
@@ -558,7 +571,9 @@ extension EditViewController: VideoControllerDelegate {
         updateTrim(position: trimPosition, state: state, side: side)
     }
     
+    /// Update trim info to views except video controller.
     private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+        highResButton.isEnabled = !Wechat.canBeShared(duration: position.galleryDuration)
         var fixedSide: TrimController.Side!
         if side == nil {
             fixedSide = playDirection == .forward ? .left : .right
