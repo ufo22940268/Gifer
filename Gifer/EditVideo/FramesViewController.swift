@@ -88,6 +88,15 @@ extension FramesViewController: UICollectionViewDataSource {
 }
 
 extension FramesViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if frames[indexPath.row].isActive && (frames.filter { $0.isActive }.count == 1) {
+            makeToast(message: "最少选择一个图片")
+            return false
+        } else {
+            return true
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var frame = frames[indexPath.row]
         frame.isActive = !frame.isActive

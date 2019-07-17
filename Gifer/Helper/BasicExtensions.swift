@@ -240,15 +240,6 @@ extension UINavigationItem {
     }
 }
 
-extension UIViewController {
-    func makeToast(message: String, completion: @escaping () -> Void) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {_ in completion()}))
-        present(alertController, animated: true, completion: nil)
-    }
-}
-
-
 extension NSLayoutConstraint {
     func with(identifier: String) -> NSLayoutConstraint {
         self.identifier = identifier

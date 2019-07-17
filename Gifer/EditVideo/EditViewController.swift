@@ -545,7 +545,7 @@ extension EditViewController: ImagePlayerDelegate {
         let current = playerItem.nearestActiveIndex(time: progress)
         let left = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let right = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
-        let percent = CGFloat(current - left)/CGFloat(right - left)
+        let percent = right == left ? 0 : CGFloat(current - left)/CGFloat(right - left)
         
         videoController.updateSliderProgress(percent: percent)
     }
