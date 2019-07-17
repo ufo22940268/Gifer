@@ -166,6 +166,13 @@ class TrimController: UIControl {
     
     var originTintColor: UIColor?
     var darkTintColor: UIColor?
+    
+    enum Mode {
+        case wechat
+        case normal
+    }
+    
+    var mode: Mode = .normal
 
     func setup(galleryView: UIView) {
         guard let superview = superview else {
@@ -267,17 +274,26 @@ class TrimController: UIControl {
         bottomLine.backgroundColor = tintColor
     }
     
-    func updateFrameColor(duration: CMTime? = nil) {
+    func updateFrameColor(duration: CMTime? = nil, taptic: Bool = false) {
         let duration = duration ?? trimPosition.galleryDuration
+        
+        let mode: Mode!
         if Wechat.canBeShared(duration: duration) {
             originTintColor = #colorLiteral(red: 0.3788883686, green: 0.8696572185, blue: 0, alpha: 1)
             darkTintColor = #colorLiteral(red: 0.2039215686, green: 0.7803921569, blue: 0.3490196078, alpha: 1)
+            mode = .wechat
         } else {
             originTintColor = #colorLiteral(red: 1, green: 0.8392156863, blue: 0.0431372549, alpha: 1)
             darkTintColor = #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
+            mode = .normal
         }
         
-        tintColor = originTintColor        
+        if taptic && mode != self.mode && mode == .wechat {
+            UIDevice.current.taptic(level: 1)
+        }
+        self.mode = mode
+        
+        tintColor = originTintColor
         status.applyTheme(to:self)
     }
     
@@ -294,7 +310,7 @@ class TrimController: UIControl {
         recognizer.setTranslation(CGPoint.zero, in: self)
         
         updatePressedState(by: recognizer.state)
-        updateFrameColor()
+        updateFrameColor(taptic: true)
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
     
@@ -315,7 +331,7 @@ class TrimController: UIControl {
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
         rightTrimTrailingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
-        updateFrameColor()
+        updateFrameColor(taptic: true)
         updatePressedState(by: recognizer.state)
         
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .right)
