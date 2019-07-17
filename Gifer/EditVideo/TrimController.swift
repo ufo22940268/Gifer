@@ -43,6 +43,7 @@ class TrimButton: UIView {
     override func tintColorDidChange() {
         superview?.tintColorDidChange()
         backgroundLayer.backgroundColor = tintColor.cgColor
+        backgroundLayer.removeAllAnimations()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,19 +77,6 @@ class TrimController: UIControl {
     
     enum Status {
         case initial, highlight
-        
-        func applyTheme(to view: TrimController) {
-            var backgroundColor: UIColor
-            switch self {
-            case .initial:
-                backgroundColor = UIColor.black
-            case .highlight:
-                backgroundColor = view.tintColor
-            }
-            
-            view.topLine.backgroundColor = backgroundColor
-            view.bottomLine.backgroundColor = backgroundColor
-        }
     }
     
     enum Side {
@@ -98,11 +86,7 @@ class TrimController: UIControl {
     weak var slider: VideoControllerSlider?
     
     var disableScroll = true
-    var status: Status! {
-        didSet {
-            status.applyTheme(to:self)
-        }
-    }
+    var status: Status!
     
     var leftTrimLeadingConstraint: NSLayoutConstraint!
     var rightTrimTrailingConstraint: NSLayoutConstraint!
@@ -294,7 +278,6 @@ class TrimController: UIControl {
         self.mode = mode
         
         tintColor = originTintColor
-        status.applyTheme(to:self)
     }
     
     var maxLeftLeading: CGFloat {
@@ -309,8 +292,8 @@ class TrimController: UIControl {
         leftTrimLeadingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        updatePressedState(by: recognizer.state)
         updateFrameColor(taptic: true)
+        updatePressedState(by: recognizer.state)
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
     
@@ -325,7 +308,7 @@ class TrimController: UIControl {
         }
     }
     
-    @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {        
+    @objc func onRightTrimDragged(recognizer: UIPanGestureRecognizer) {
         let translate = recognizer.translation(in: self)
         let minRightTrailing = -(bounds.width - minimunGapBetweenLeftTrimAndRightTrim - leftTrimLeadingConstraint.constant)
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
