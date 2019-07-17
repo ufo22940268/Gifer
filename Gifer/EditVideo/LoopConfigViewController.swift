@@ -101,7 +101,7 @@ class LoopCountConfigViewController: ConfigViewController, UITableViewDelegate, 
         tableView.reloadData()
         tableView.cellForRow(at: indexPath)?.isSelected = true
         customDelegate?.onUpdate(loopCount: selectedLoopCount)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.navigationController?.popViewController(animated: true)
         }
     }

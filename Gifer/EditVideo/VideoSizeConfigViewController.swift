@@ -125,7 +125,7 @@ class VideoSizeConfigViewController: ConfigViewController, UITableViewDelegate, 
         tableView.cellForRow(at: indexPath)?.isSelected = true
         customDelegate?.onUpdate(videoSize: selectedVideoSize!)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.navigationController?.popViewController(animated: true)
         }
     }

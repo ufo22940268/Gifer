@@ -18,9 +18,11 @@ class TrimButton: UIView {
     
     var backgroundLayer: CALayer!
     fileprivate var iconLayer: CAShapeLayer!
+    var direction: Direction!
     
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
+        self.direction = direction
         translatesAutoresizingMaskIntoConstraints = false
         
         backgroundLayer = CAShapeLayer()
@@ -62,8 +64,8 @@ class TrimButton: UIView {
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let increaseWidth = CGFloat(30)
-        let newArea = CGRect(origin: bounds.origin.applying(CGAffineTransform(translationX: -increaseWidth/2, y: 0)), size: CGSize(width: bounds.width + increaseWidth, height: bounds.height))
+        let newArea: CGRect!
+        newArea = bounds.insetBy(dx: -20, dy: 0)
         return newArea.contains(point)
     }
 }
@@ -244,6 +246,9 @@ class TrimController: UIControl {
         activeLeadingConstraint.isActive = true
         let activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
         activeTrailingConstraint.isActive = true
+        
+        bringSubviewToFront(leftTrim)
+        bringSubviewToFront(rightTrim)
     }
     
     func onVideoReady() {
@@ -344,24 +349,6 @@ class TrimController: UIControl {
         let rightTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(rightPercent))
         
         return VideoTrimPosition(leftTrim: leftTrim, rightTrim: rightTrim)
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let hitView = super.hitTest(point, with: event)
-        
-        guard disableScroll else { return hitView }
-
-        let enlarge = {(_ rect: CGRect) -> CGRect in
-            return rect.insetBy(dx: -20, dy: 0)
-        }
-        
-        if enlarge(leftTrim.convert(bounds, to: self)).contains(point) {
-            return leftTrim
-        } else if enlarge(leftTrim.convert(bounds, to: self)).contains(point) {
-            return rightTrim
-        } else {
-            return nil
-        }
     }
     
     @discardableResult

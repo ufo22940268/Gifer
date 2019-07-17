@@ -194,7 +194,6 @@ class PlaySpeedCoverView: UIView {
             path.addLine(to: point)
         }
         path.close()
-        
         path.fill()
     }
     

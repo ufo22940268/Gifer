@@ -481,7 +481,9 @@ extension VideoController: UIGestureRecognizerDelegate {
     //Trimer scroll recognizer should begin.
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         var validArea = videoTrim.sliderRangeGuide.owningView!.convert(videoTrim.sliderRangeGuide.layoutFrame, to: videoTrim)
-        validArea = validArea.insetBy(dx: 60, dy: 0)
+        if validArea.width > 80 {
+            validArea = validArea.insetBy(dx: 20, dy: 0)
+        }
         let p = gestureRecognizer.location(in: videoTrim)
         return p.x < validArea.maxX && p.x > validArea.minX
     }
