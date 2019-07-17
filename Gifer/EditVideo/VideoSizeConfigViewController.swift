@@ -19,11 +19,11 @@ enum VideoSize: CaseIterable {
         case .auto:
             return "自动"
         case .large:
-            return "高"
+            return "大"
         case .middle:
             return "中"
         case .small:
-            return "低"
+            return "小"
         }
     }
     

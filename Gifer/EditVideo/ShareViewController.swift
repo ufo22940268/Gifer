@@ -346,7 +346,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "videoSize", for: indexPath)
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = "视频清晰度"
+            cell.textLabel?.text = "尺寸"
             cell.detailTextLabel?.text = videoSize.label
             return cell
         } else if indexPath.row == ShareConfig.loopCount.rawValue {
