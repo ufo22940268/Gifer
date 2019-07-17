@@ -91,7 +91,7 @@ extension FramesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var frame = frames[indexPath.row]
         frame.isActive = !frame.isActive
-        playerItem.allFrames[indexPath.row] = frame
+        playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
 }
@@ -112,6 +112,7 @@ extension FramesViewController: FrameCellDelegate {
 
 extension FramesViewController: FramePreviewDelegate {
     func onCheck(index: Int, actived: Bool) {
-        playerItem.allFrames[index].isActive = actived
+        let frame = frames[index]
+        playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!].isActive = actived
     }
 }

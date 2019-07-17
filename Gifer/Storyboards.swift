@@ -12,7 +12,6 @@ import UIKit
 enum AppStoryboard: String {
     case Frame
     case Main
-    case OptionMenu
     case Edit
 
     var instance: UIStoryboard {
