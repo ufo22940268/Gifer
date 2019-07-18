@@ -144,6 +144,9 @@ class EditViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shareItem: UIBarButtonItem!
     
+    @IBOutlet var rotationGesture: UIRotationGestureRecognizer!
+    @IBOutlet var pinchGesture: UIPinchGestureRecognizer!
+    
     @IBOutlet weak var controlToolbar: ControlToolbar!
     var defaultGifOptions: GifGenerator.Options?
     var previewImage: UIImage!
@@ -189,6 +192,38 @@ class EditViewController: UIViewController {
         }
     }
     
+    var previousScale = CGFloat(1)
+    
+    @IBAction func onPinchToScaleOverlayComponent(_ sender: UIPinchGestureRecognizer) {
+        if let activeComponent = stickerOverlay.activeComponent ?? editTextOverlay.activeComponent {
+            switch sender.state {
+            case .began:
+                previousScale = sender.scale
+            case .changed:
+                activeComponent.scaleBy(sender.scale/previousScale, anchorCenter: true)
+                previousScale = sender.scale
+            default:
+                break
+            }
+        }
+    }
+    
+    var previousRotation = CGFloat(0)
+    
+    @IBAction func onRotateOverlayComponent(_ sender: UIRotationGestureRecognizer) {
+        if let activeComponent = stickerOverlay.activeComponent ?? editTextOverlay.activeComponent {
+            switch sender.state {
+            case .began:
+                previousRotation = sender.rotation
+            case .changed:
+                activeComponent.rotateBy(sender.rotation - previousRotation)
+                previousRotation = sender.rotation
+            default:
+                break
+            }
+        }
+    }
+    
     var isLoadingVideo: Bool = false {
         didSet {
             if isLoadingVideo {
@@ -225,6 +260,9 @@ class EditViewController: UIViewController {
         setupVideoContainer()
         setupControlToolbar()
         setupVideoController()
+        
+        pinchGesture.delegate = self
+        rotationGesture.delegate = self
         
         loadAsset()
     }
@@ -777,9 +815,21 @@ extension EditViewController: FramesDelegate {
 
 extension EditViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let videoController = videoController else { return true }
-        let p = gestureRecognizer.location(in: videoController)
-        return !videoController.bounds.contains(p)
+        if navigationController?.interactivePopGestureRecognizer == gestureRecognizer {
+            guard let videoController = videoController else { return true }
+            let p = gestureRecognizer.location(in: videoController)
+            return !videoController.bounds.contains(p)
+        } else {
+            return true
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if [gestureRecognizer, otherGestureRecognizer].allSatisfy({ $0 == self.pinchGesture || $0 == self.rotationGesture }) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

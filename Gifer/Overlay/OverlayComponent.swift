@@ -227,6 +227,10 @@ class OverlayComponent: UIView {
         }
     }
     
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return cornerViews.contains { $0.point(inside: convert(point, to: $0), with: event)}
+    }
+    
     @objc func onTapToActive(sender: UITapGestureRecognizer) {
         UIDevice().taptic(level: 1)
         let originTransfrom = self.transform
