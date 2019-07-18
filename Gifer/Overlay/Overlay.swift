@@ -71,6 +71,12 @@ class Overlay: UIView {
         components.forEach { $0.isActive = false }
     }
     
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return components.contains { (component) -> Bool in
+            return component.point(inside: convert(point, to: component), with: event)
+        }
+    }
+    
     func addComponent(component: OverlayComponent) {
         components.append(component)
         addSubview(component)
@@ -121,6 +127,11 @@ extension Overlay: OverlayComponentDelegate {
 
 extension Overlay: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+//        if otherGestureRecognizer.view is Overlay {
+//            return true
+//        } else {
+//            return false
+//        }
+        return false
     }
 }

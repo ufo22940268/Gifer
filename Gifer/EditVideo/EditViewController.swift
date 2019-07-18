@@ -226,7 +226,6 @@ class EditViewController: UIViewController {
         setupControlToolbar()
         setupVideoController()
         
-        
         loadAsset()
     }
     

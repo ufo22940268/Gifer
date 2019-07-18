@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1RV-aB-bfW">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -74,6 +74,9 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyg-ee-PwN" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="359" height="525.66666666666663"/>
                                                         <gestureRecognizers/>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="Z7A-bG-jhN" appends="YES" id="6wP-t3-Zci"/>
+                                                        </connections>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="541.66666666666663"/>
@@ -103,9 +106,6 @@
                                                     <constraint firstAttribute="trailing" secondItem="gwc-EM-3TJ" secondAttribute="trailing" id="v3D-nB-lI8"/>
                                                     <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
                                                 </constraints>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="Z7A-bG-jhN" appends="YES" id="VUR-VD-oxU"/>
-                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oh6-HI-gqg" userLabel="Bottom Toolbar Container" customClass="BottomToolbarContainer" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="617.66666666666663" width="375" height="72.333333333333371"/>

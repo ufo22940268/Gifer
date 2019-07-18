@@ -192,7 +192,9 @@ class OverlayComponent: UIView {
             render.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapToActive(sender:))))
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapToActive(sender:)))
+        tapGesture.delegate = self
+        addGestureRecognizer(tapGesture)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -391,5 +393,11 @@ extension OverlayComponent {
 extension OverlayComponent {
     @objc func onEdit(sender: UITapGestureRecognizer) {
         delegate?.onEditComponent(component: self, id: id)
+    }
+}
+
+extension OverlayComponent: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
