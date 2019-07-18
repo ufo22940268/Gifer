@@ -54,6 +54,8 @@ class FramesViewController: UIViewController {
         flowLayout.minimumLineSpacing = gap
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.itemSize = CGSize(width: width, height: width)
+        
+        collectionView.allowsMultipleSelection = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,11 +99,27 @@ extension FramesViewController: UICollectionViewDelegate {
         }
     }
     
+    fileprivate func updateVisibleCells() {
+        let newFrames = frames
+        collectionView.visibleCells.forEach { cell in
+            let cell = cell as! FrameCell
+            let frame: ImagePlayerFrame = newFrames[cell.index]
+            cell.sequence = playerItem.getActiveSequence(of: frame)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var frame = frames[indexPath.row]
-        frame.isActive = !frame.isActive
+        frame.isActive = false
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
-        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+        updateVisibleCells()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        var frame = frames[indexPath.row]
+        frame.isActive = true
+        playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
+        updateVisibleCells()
     }
 }
 

@@ -402,6 +402,7 @@ class VideoController: UIStackView {
         
         galleryDuration = galleryDuration.convertScale(videoTimeScale, method: .default)
         self.videoTrim.galleryDuration = galleryDuration
+        self.videoTrim.onVideoReady()
         self.galleryView.galleryDuration = galleryDuration
         self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)

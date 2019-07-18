@@ -135,7 +135,7 @@ extension UIColor {
 
 extension UIImage {
     func resize(inSize boundSize: CGSize) -> UIImage {
-        let targetSize = AVMakeRect(aspectRatio: self.size, insideRect: CGRect(origin: .zero, size: boundSize)).size
+        let targetSize = AVMakeRect(aspectRatio: self.size, insideRect: CGRect(origin: .zero, size: boundSize)).size        
         return UIGraphicsImageRenderer(size: targetSize).image { (context) in
             self.draw(in: CGRect(origin: .zero, size: targetSize))
         }
