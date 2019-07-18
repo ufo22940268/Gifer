@@ -78,6 +78,7 @@
                                                             <outletCollection property="gestureRecognizers" destination="Z7A-bG-jhN" appends="YES" id="6wP-t3-Zci"/>
                                                             <outletCollection property="gestureRecognizers" destination="b2b-sN-9Zv" appends="YES" id="RoC-pM-fGK"/>
                                                             <outletCollection property="gestureRecognizers" destination="ST1-ZV-Vai" appends="YES" id="97R-yf-2SQ"/>
+                                                            <outletCollection property="gestureRecognizers" destination="L28-aA-eLo" appends="YES" id="EFN-uo-GtQ"/>
                                                         </connections>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
@@ -199,6 +200,11 @@
                         <action selector="onRotateOverlayComponent:" destination="Dvh-Lh-bNF" id="0at-ch-Y2U"/>
                     </connections>
                 </rotationGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="L28-aA-eLo">
+                    <connections>
+                        <action selector="onPanToMoveOverlayComponent:" destination="Dvh-Lh-bNF" id="VGX-us-Gb7"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="420" y="-860.83743842364538"/>
         </scene>

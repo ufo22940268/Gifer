@@ -224,6 +224,12 @@ class EditViewController: UIViewController {
         }
     }
     
+    @IBAction func onPanToMoveOverlayComponent(_ sender: UIPanGestureRecognizer) {
+        if let activeComponent = stickerOverlay.activeComponent ?? editTextOverlay.activeComponent {
+            activeComponent.onMove(sender: sender)
+        }
+    }
+    
     var isLoadingVideo: Bool = false {
         didSet {
             if isLoadingVideo {
