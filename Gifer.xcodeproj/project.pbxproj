@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
+		420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */; };
+		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
 		4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EC22C75980001CAD81 /* Storyboards.swift */; };
 		4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */; };
 		4221A23522DD62730060B1BE /* Wechat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4221A23422DD62730060B1BE /* Wechat.swift */; };
@@ -140,6 +142,8 @@
 
 /* Begin PBXFileReference section */
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerContentPageViewController.swift; sourceTree = "<group>"; };
+		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
 		4218D4EC22C75980001CAD81 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewViewController.swift; sourceTree = "<group>"; };
 		4221A23422DD62730060B1BE /* Wechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wechat.swift; sourceTree = "<group>"; };
@@ -348,6 +352,8 @@
 				42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */,
 				42E879B222D4C6690098D43B /* CropViewController.swift */,
 				4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */,
+				420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */,
+				420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -742,6 +748,7 @@
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
+				420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
 				42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */,
@@ -766,6 +773,7 @@
 				4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
 				424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */,
+				420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */,
 				42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */,
 				42D7F286224B593600E7E504 /* EditTextBottomTools.swift in Sources */,
 				426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */,
