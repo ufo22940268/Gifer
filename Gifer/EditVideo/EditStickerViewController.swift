@@ -10,10 +10,14 @@ import UIKit
 
 class EditStickerViewController: UIViewController {
 
+    @IBOutlet weak var titlePanel: StickerTitlePanel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let titles = ["😀".image()]
+        titlePanel.setTitles(titles: titles)
     }
     
 }
