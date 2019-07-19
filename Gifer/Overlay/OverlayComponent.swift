@@ -36,22 +36,44 @@ protocol OverlayComponentDelegate: class {
 
 class OverlayComponent: UIView {
     
+    enum `Type` {
+        case text
+        case sticker
+    }
+
     struct Info {
+        
         //Normalized rect
         var nRect: CGRect!
         
         var rotation = CGFloat(0)
+        var type: OverlayComponent.`Type`!
         
         func realRect(parentSize: CGSize) -> CGRect {
-            return nRect.applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
+            switch type! {
+            case .text:
+                return nRect.applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
+            case .sticker:
+                return nRect.applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
+            }
         }
         
+        /// Initialized for text component.
+        ///
+        /// - Parameter nRect: <#nRect description#>
         init(nRect: CGRect) {
             self.nRect = nRect
+            type = .text
         }
         
+        /// Inititialzed for sticker component.i
+        ///
+        /// - Parameters:
+        ///   - stickerInfo: <#stickerInfo description#>
+        ///   - containerBounds: <#containerBounds description#>
         init(stickerInfo: StickerInfo, containerBounds: CGRect) {
-            self.nRect = predictNormalizedRect(sticker: stickerInfo, containerBounds: containerBounds)
+            self.nRect = getInitialNRect(sticker: stickerInfo, containerBounds: containerBounds)
+            type = .sticker
         }
         
         mutating func scaleBy(_ scale: CGFloat, anchorCenter: Bool) {
@@ -93,28 +115,30 @@ class OverlayComponent: UIView {
                 .applying(CGAffineTransform(scaleX: parentSize.width, y: parentSize.height))
         }
         
-        private func predictNormalizedRect(sticker: StickerInfo, containerBounds: CGRect) -> CGRect {
+        private func getInitialNRect(sticker: StickerInfo, containerBounds: CGRect) -> CGRect {
             let size = CGSize(width: 140, height: 140)
-            var boundsRect = CGRect(origin: CGPoint(x: (containerBounds.width - size.width)/2, y: (containerBounds.height - size.height)/2), size: size)
-            boundsRect = AVMakeRect(aspectRatio: sticker.image.size, insideRect: boundsRect)
+            let boundsRect = CGRect(origin: CGPoint(x: (containerBounds.width - size.width)/2, y: (containerBounds.height - size.height)/2), size: size)
             return boundsRect.normalizeRect(containerSize: containerBounds.size)
         }
 
-        static func predictNormalizedRect(textInfo: EditTextInfo, containerBounds: CGRect) -> CGRect {
-            let boundsRect = containerBounds.inset(by: UIEdgeInsets(top: 62, left: 62, bottom: 62, right: 62))
-            
+        static func getInitialNRect(textInfo: EditTextInfo, containerBounds: CGRect) -> CGRect {
             let label = UILabel()
             label.text = textInfo.text
             label.font = UIFont(name: textInfo.fontName, size: EditTextInfo.preferredTextSize)
             label.sizeToFit()
-            let textSize = label.bounds.size
-            let preferredRect = CGRect(origin: CGPoint(x: containerBounds.midX, y: containerBounds.midY).applying(CGAffineTransform(translationX: -textSize.width/2, y: -textSize.height/2)), size: textSize).insetBy(dx: -44, dy: -44)
             
-            return preferredRect.intersection(boundsRect).applying(CGAffineTransform(scaleX: 1/containerBounds.width, y: 1/containerBounds.height))
+            var rect = label.bounds.insetBy(dx: -32, dy: -32)
+            let maxWidth = containerBounds.width
+            if rect.width > maxWidth {
+                rect = rect.applying(CGAffineTransform(scaleX: maxWidth/rect.width, y: maxWidth/rect.width))
+            }
+            
+            rect.origin = CGPoint(x: (containerBounds.width - rect.width)/2, y: (containerBounds.height - rect.height)/2)
+            return rect.normalizeRect(containerSize: containerBounds.size)
         }
         
         static func predictNormalizedSize(textInfo: EditTextInfo, containerBounds: CGRect) -> CGSize {
-            return Info.predictNormalizedRect(textInfo: textInfo, containerBounds: containerBounds).size
+            return Info.getInitialNRect(textInfo: textInfo, containerBounds: containerBounds).size
         }
     }
     
@@ -183,7 +207,7 @@ class OverlayComponent: UIView {
         
         self.render = render
         addSubview(render)
-        let margin = CGFloat(24)
+        let margin = CGFloat(32)
         layoutMargins = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         NSLayoutConstraint.activate([
             render.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
@@ -191,10 +215,6 @@ class OverlayComponent: UIView {
             render.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             render.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
-        
-        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapToActive(sender:)))
-        tapGesture.delegate = self
-        addGestureRecognizer(tapGesture)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -231,7 +251,7 @@ class OverlayComponent: UIView {
         return cornerViews.contains { $0.point(inside: convert(point, to: $0), with: event)}
     }
     
-    @objc func onTapToActive(sender: UITapGestureRecognizer) {
+    func activeByTap() {
         UIDevice().taptic(level: 1)
         let originTransfrom = self.transform
         
@@ -398,11 +418,5 @@ extension OverlayComponent {
 extension OverlayComponent {
     @objc func onEdit(sender: UITapGestureRecognizer) {
         delegate?.onEditComponent(component: self, id: id)
-    }
-}
-
-extension OverlayComponent: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }

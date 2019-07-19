@@ -24,7 +24,7 @@ struct EditTextInfo: OverlayRenderInfo {
     
     var trimPosition: VideoTrimPosition!
     
-    static let preferredTextSize = CGFloat(30)
+    static let preferredTextSize = CGFloat(25)
     
     static var initial: EditTextInfo {
         return EditTextInfo(text: "", fontName: UIFont.systemFont(ofSize: 12).fontName, textColor: .white)

@@ -38,6 +38,10 @@ class Overlay: UIView {
         return components.first { $0.isActive }
     }
     
+    func getHitComponent(point: CGPoint) -> OverlayComponent? {
+        return components.first { $0.frame.contains(point) }
+    }
+    
     var previousScale: CGFloat = 1.0
     
     @objc func onPinch(sender: UIPinchGestureRecognizer) {

@@ -178,16 +178,21 @@ class EditViewController: UIViewController {
         return label
     }()
     
-    @IBAction func onTapToDismissOverlays(_ sender: Any) {
-        editTextOverlay.deactiveComponents()
-        stickerOverlay.deactiveComponents()
-
-        if let activeItem = optionMenu.activeItem {
-            switch optionMenu.activeItem! {
-            case .font, .sticker:
-                self.onPromptDismiss(toolbarItem: activeItem, commitChange: false)
-            default:
-                break
+    @IBAction func onTap(_ sender: UITapGestureRecognizer) {
+        if let hitComponent = editTextOverlay.getHitComponent(point: sender.location(in: editTextOverlay)) ?? stickerOverlay.getHitComponent(point: sender.location(in: stickerOverlay)) {
+            hitComponent.activeByTap()
+        } else {
+            //Tap to dismiss component
+            editTextOverlay.deactiveComponents()
+            stickerOverlay.deactiveComponents()
+            
+            if let activeItem = optionMenu.activeItem {
+                switch optionMenu.activeItem! {
+                case .font, .sticker:
+                    self.onPromptDismiss(toolbarItem: activeItem, commitChange: false)
+                default:
+                    break
+                }
             }
         }
     }
