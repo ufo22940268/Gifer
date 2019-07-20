@@ -233,7 +233,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K72-RR-Ppt">
                                             <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                             <subviews>
-                                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-N3-k9Q">
+                                                <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-N3-k9Q">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
                                                     <items>
                                                         <barButtonItem systemItem="cancel" id="cKN-kk-6BE">
@@ -359,6 +359,7 @@
                     <connections>
                         <outlet property="previewImageView" destination="K6N-N3-JE4" id="fls-SC-B4k"/>
                         <outlet property="titlePanel" destination="3Di-6V-mhX" id="xXg-ZO-551"/>
+                        <outlet property="toolbar" destination="XHb-N3-k9Q" id="QoH-Ns-gvO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IzP-iv-LQZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
