@@ -244,6 +244,19 @@
                                                 </toolbar>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z6N-HU-Z2W" userLabel="Preview">
                                                     <rect key="frame" x="0.0" y="35" width="414" height="473"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K6N-N3-JE4">
+                                                            <rect key="frame" x="137" y="166.5" width="140" height="140"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="140" id="ojT-im-gdL"/>
+                                                                <constraint firstAttribute="width" secondItem="K6N-N3-JE4" secondAttribute="height" multiplier="1:1" id="qye-wo-qYC"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="K6N-N3-JE4" firstAttribute="centerY" secondItem="Z6N-HU-Z2W" secondAttribute="centerY" id="5Jm-Fj-qNG"/>
+                                                        <constraint firstItem="K6N-N3-JE4" firstAttribute="centerX" secondItem="Z6N-HU-Z2W" secondAttribute="centerX" id="ela-29-RO6"/>
+                                                    </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-k3-xZs" userLabel="Panel" customClass="StickerPanel" customModule="Gifer" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="508" width="414" height="300"/>
@@ -340,6 +353,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="0uL-uN-hRn"/>
                     <connections>
+                        <outlet property="previewImageView" destination="K6N-N3-JE4" id="fls-SC-B4k"/>
                         <outlet property="titlePanel" destination="3Di-6V-mhX" id="xXg-ZO-551"/>
                     </connections>
                 </viewController>
@@ -353,6 +367,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="kKq-4E-1jx" customClass="EditStickerPageViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8gn-1O-jl0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="775" y="462"/>
         </scene>
         <!--Edit Sticker Collection View Controller-->
         <scene sceneID="YuI-wp-GaD">

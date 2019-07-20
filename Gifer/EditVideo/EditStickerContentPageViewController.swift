@@ -10,7 +10,7 @@ import UIKit
 
 typealias EditStickerLoader = () -> UIImage
 
-protocol EditStickerPageDelegate: class {
+protocol EditStickerPageDelegate: EditStickerCollectionDelegate {
     func onPageTransition(to index: Int)
 }
 
@@ -46,6 +46,7 @@ class EditStickerPageViewController: UIPageViewController {
         vcs = [UIViewController]()
         vcs?.append(emojiVC)
         vcs?.append(cuppyVC)
+        vcs?.forEach { ($0 as! EditStickerCollectionViewController).customDelegate = customDelegate }
         
         setViewControllers([vcs!.first!], direction: .forward, animated: true, completion: nil)
     }

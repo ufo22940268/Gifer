@@ -11,6 +11,9 @@ import UIKit
 class EditStickerViewController: UIViewController {
 
     @IBOutlet weak var titlePanel: StickerTitlePanel!
+    
+    @IBOutlet weak var previewImageView: UIImageView!
+    
     var pageVC: EditStickerPageViewController!
     
     override func viewDidLoad() {
@@ -33,6 +36,10 @@ class EditStickerViewController: UIViewController {
 extension EditStickerViewController: EditStickerPageDelegate {
     func onPageTransition(to index: Int) {
         titlePanel.select(index)
+    }
+    
+    func onSelected(sticker: UIImage) {
+        previewImageView.image = sticker
     }
 }
 
