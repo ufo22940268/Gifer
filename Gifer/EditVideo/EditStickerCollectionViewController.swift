@@ -9,6 +9,10 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
+let emojiImageCharacters = [0x1F601...0x1F64F]
+    .flatMap { $0 }
+    .compactMap { Unicode.Scalar($0) }
+    .map(Character.init)
 
 class EditStickerCell: UICollectionViewCell {
     
@@ -21,7 +25,7 @@ class EditStickerCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

@@ -10,12 +10,11 @@ import UIKit
 
 class StickerTitleCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var highlightBar: UIView!
     
     override var isSelected: Bool {
         didSet {
-            if isSelected {
-                
-            }
+            highlightBar.isHidden = !isSelected
         }
     }
 }
@@ -43,5 +42,9 @@ extension StickerTitlePanel: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! StickerTitleCell
         cell.imageView.image = titles?[indexPath.row]
         return cell
+    }
+    
+    func select(_ index: Int) {
+        selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .left)
     }
 }

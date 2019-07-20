@@ -10,37 +10,45 @@ import UIKit
 
 typealias EditStickerLoader = () -> UIImage
 
+protocol EditStickerPageDelegate: class {
+    func onPageTransitionTo(_ index: Int)
+}
+
 class EditStickerPageViewController: UIPageViewController {
     
-    var  vcs: [UIViewController]?
+    var vcs: [UIViewController]?
+    weak var customDelegate: EditStickerPageDelegate?
+    
+    lazy var emojiVC: UIViewController = {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "StickerCollection") as! EditStickerCollectionViewController
+        vc.setLoaders(emojiImageCharacters.map {char in
+            return {
+                return String(char).image()
+            }
+        })
+        return vc
+    }()
+    
+    lazy var cuppyVC: UIViewController = {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "StickerCollection") as! EditStickerCollectionViewController
+        vc.setLoaders(cuppyImageNames.map { imageName in
+            return { UIImage(named: imageName)! }
+        })
+        return vc
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         dataSource = self
-        // Do any additional setup after loading the view.
-        vcs = (0..<3).map { i in
-            let vc = storyboard?.instantiateViewController(withIdentifier: "StickerCollection") as! EditStickerCollectionViewController
-            vc.setLoaders([
-                { "😀".image() }
-                ])
-            return vc
-        }
+        delegate = self
+        
+        vcs = [UIViewController]()
+        vcs?.append(emojiVC)
+        vcs?.append(cuppyVC)
         
         setViewControllers([vcs!.first!], direction: .forward, animated: true, completion: nil)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension EditStickerPageViewController: UIPageViewControllerDataSource {
@@ -63,6 +71,12 @@ extension EditStickerPageViewController: UIPageViewControllerDataSource {
             return nil
         }
     }
-    
-    
+}
+
+extension EditStickerPageViewController: UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let viewController = viewControllers?.first else { return }
+        let index = vcs!.firstIndex(of: viewController)!
+        customDelegate?.onPageTransitionTo(index)
+    }
 }
