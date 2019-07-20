@@ -11,7 +11,7 @@ import UIKit
 typealias EditStickerLoader = () -> UIImage
 
 protocol EditStickerPageDelegate: class {
-    func onPageTransitionTo(_ index: Int)
+    func onPageTransition(to index: Int)
 }
 
 class EditStickerPageViewController: UIPageViewController {
@@ -49,6 +49,11 @@ class EditStickerPageViewController: UIPageViewController {
         
         setViewControllers([vcs!.first!], direction: .forward, animated: true, completion: nil)
     }
+    
+    func transition(to index: Int) {
+        guard let vcs = vcs else { return }
+        setViewControllers(Array(vcs[index...index]), direction: vcs.firstIndex(of: viewControllers!.first!)! < index ? .forward: .reverse, animated: true, completion: nil)
+    }
 }
 
 extension EditStickerPageViewController: UIPageViewControllerDataSource {
@@ -77,6 +82,6 @@ extension EditStickerPageViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard let viewController = viewControllers?.first else { return }
         let index = vcs!.firstIndex(of: viewController)!
-        customDelegate?.onPageTransitionTo(index)
+        customDelegate?.onPageTransition(to: index)
     }
 }

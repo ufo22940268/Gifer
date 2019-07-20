@@ -19,12 +19,19 @@ class StickerTitleCell: UICollectionViewCell {
     }
 }
 
+protocol StickerTitleDelegate: class {
+    func onTitleSelected(_ index: Int)
+}
+
 class StickerTitlePanel: UICollectionView {
 
     var titles: [UIImage]?
     
+    weak var customDelegate: StickerTitleDelegate?
+    
     override func awakeFromNib() {
         dataSource = self
+        delegate = self
     }
 
     func setTitles(titles: [UIImage]) {
@@ -46,5 +53,11 @@ extension StickerTitlePanel: UICollectionViewDataSource {
     
     func select(_ index: Int) {
         selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .left)
+    }
+}
+
+extension StickerTitlePanel: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        customDelegate?.onTitleSelected(indexPath.row)
     }
 }

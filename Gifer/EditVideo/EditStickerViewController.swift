@@ -16,10 +16,10 @@ class EditStickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!]
         titlePanel.setTitles(titles: titles)        
         titlePanel.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+        titlePanel.customDelegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -31,7 +31,13 @@ class EditStickerViewController: UIViewController {
 }
 
 extension EditStickerViewController: EditStickerPageDelegate {
-    func onPageTransitionTo(_ index: Int) {
+    func onPageTransition(to index: Int) {
         titlePanel.select(index)
+    }
+}
+
+extension EditStickerViewController: StickerTitleDelegate {
+    func onTitleSelected(_ index: Int) {
+        pageVC.transition(to: index)
     }
 }
