@@ -22,9 +22,6 @@ class OptionMenu: UIView {
     var filtersView: FiltersView!
     var filtersViewContainer: ControlToolbarConfirmPrompt!
     
-    var stickerMenuView: StickerMenuView!
-    var stickerMenuContainer: ControlToolbarConfirmPrompt!
-    
     var activeItem: ToolbarItem?
     
     func setPreviewImage(_ image: UIImage) {
@@ -39,7 +36,6 @@ class OptionMenu: UIView {
 
         setupPlaySpeedView()
         setupFiltersView()
-        setupStickerView()        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,14 +58,12 @@ class OptionMenu: UIView {
             return
         case .crop:
             return
+        case .sticker:
+            return
         case .filters:
             filtersView.customDelegate = delegate
             filtersViewContainer.customDelegate = delegate
             contentView = filtersViewContainer
-        case .sticker:
-            stickerMenuView.customDelegate = delegate
-            stickerMenuContainer.customDelegate = delegate
-            contentView = stickerMenuContainer
         case .direction:
             return
         }
@@ -91,11 +85,6 @@ class OptionMenu: UIView {
     func setupFiltersView() {
         filtersView = FiltersView()
         filtersViewContainer = ControlToolbarConfirmPrompt(contentView: filtersView!, toolbarItem: .filters)
-    }
-    
-    func setupStickerView() {
-        stickerMenuView = StickerMenuView()
-        stickerMenuContainer = ControlToolbarConfirmPrompt(contentView: stickerMenuView, toolbarItem: .sticker)
     }
     
     override func draw(_ rect: CGRect) {

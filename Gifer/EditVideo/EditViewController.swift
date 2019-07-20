@@ -765,7 +765,9 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onStickerItemClicked() {
-        showOptionMenu(for: .sticker)
+        let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "stickers") as! EditStickerViewController
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
     }
     
     func onDirectionItemClicked(direction: PlayDirection) {

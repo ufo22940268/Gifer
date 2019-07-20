@@ -92,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-83" y="-145"/>
+            <point key="canvasLocation" x="70" y="-197"/>
         </scene>
         <!--Crop Player View Controller-->
         <scene sceneID="vfi-Fm-gPp">
@@ -236,7 +236,11 @@
                                                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-N3-k9Q">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
                                                     <items>
-                                                        <barButtonItem systemItem="cancel" id="cKN-kk-6BE"/>
+                                                        <barButtonItem systemItem="cancel" id="cKN-kk-6BE">
+                                                            <connections>
+                                                                <action selector="onCancelTapped:" destination="cx8-4g-25L" id="Mip-NU-Gm6"/>
+                                                            </connections>
+                                                        </barButtonItem>
                                                         <barButtonItem style="plain" systemItem="flexibleSpace" id="GZz-n7-lLY"/>
                                                         <barButtonItem style="done" systemItem="done" id="ZWh-aN-MeG"/>
                                                     </items>

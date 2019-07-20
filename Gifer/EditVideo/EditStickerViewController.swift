@@ -31,6 +31,10 @@ class EditStickerViewController: UIViewController {
             pageVC.customDelegate = self
         }
     }
+    
+    @IBAction func onCancelTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension EditStickerViewController: EditStickerPageDelegate {
