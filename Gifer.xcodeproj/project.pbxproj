@@ -10,6 +10,7 @@
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
 		420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
+		420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE222E3259200A272DE /* EditStickerTransition.swift */; };
 		4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EC22C75980001CAD81 /* Storyboards.swift */; };
 		4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */; };
 		4221A23522DD62730060B1BE /* Wechat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4221A23422DD62730060B1BE /* Wechat.swift */; };
@@ -144,6 +145,7 @@
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerContentPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
+		420C9CE222E3259200A272DE /* EditStickerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerTransition.swift; sourceTree = "<group>"; };
 		4218D4EC22C75980001CAD81 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewViewController.swift; sourceTree = "<group>"; };
 		4221A23422DD62730060B1BE /* Wechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wechat.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */,
 				420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */,
 				420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */,
+				420C9CE222E3259200A272DE /* EditStickerTransition.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 				42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */,
 				42D4E52322C058B000EDD3B7 /* BottomToolbarContainer.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
+				420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */,
 				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
 				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,

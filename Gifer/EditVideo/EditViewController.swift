@@ -768,6 +768,7 @@ extension EditViewController: ControlToolbarDelegate {
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "stickers") as! EditStickerViewController
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
+        vc.transitioningDelegate = vc.customTransitionDelegate
         present(vc, animated: true, completion: nil)
     }
     

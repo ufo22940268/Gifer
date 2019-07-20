@@ -14,6 +14,8 @@ class EditStickerViewController: UIViewController {
     
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var toolbar: UIToolbar!
+    var customTransitionDelegate = EditStickerTransitionDelegate()
+    @IBOutlet weak var bottomSection: UIStackView!
     
     var pageVC: EditStickerPageViewController!
     
@@ -30,7 +32,7 @@ class EditStickerViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "emberPage" {
-            pageVC = segue.destination as! EditStickerPageViewController
+            pageVC = segue.destination as? EditStickerPageViewController
             pageVC.customDelegate = self
         }
     }

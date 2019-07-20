@@ -262,7 +262,7 @@
                                                         <constraint firstItem="K6N-N3-JE4" firstAttribute="centerX" secondItem="Z6N-HU-Z2W" secondAttribute="centerX" id="ela-29-RO6"/>
                                                     </constraints>
                                                 </view>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-k3-xZs" userLabel="Panel" customClass="StickerPanel" customModule="Gifer" customModuleProvider="target">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-k3-xZs" userLabel="Panel">
                                                     <rect key="frame" x="0.0" y="508" width="414" height="300"/>
                                                     <subviews>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3Di-6V-mhX" customClass="StickerTitlePanel" customModule="Gifer" customModuleProvider="target">
@@ -357,6 +357,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="0uL-uN-hRn"/>
                     <connections>
+                        <outlet property="bottomSection" destination="cYF-k3-xZs" id="TiE-ve-2M5"/>
                         <outlet property="previewImageView" destination="K6N-N3-JE4" id="fls-SC-B4k"/>
                         <outlet property="titlePanel" destination="3Di-6V-mhX" id="xXg-ZO-551"/>
                         <outlet property="toolbar" destination="XHb-N3-k9Q" id="QoH-Ns-gvO"/>
