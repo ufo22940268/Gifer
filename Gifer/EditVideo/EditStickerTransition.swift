@@ -21,7 +21,7 @@ class EditStickerTransitionDelegate: NSObject, UIViewControllerTransitioningDele
     
     class Transitioning: NSObject, UIViewControllerAnimatedTransitioning {
         func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-            return 0.5
+            return 0.3
         }
         
         func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -41,7 +41,7 @@ class EditStickerTransitionDelegate: NSObject, UIViewControllerTransitioningDele
                 stickerVC.view.alpha = 0
                 stickerVC.bottomSection.transform = CGAffineTransform(translationX: 0, y: stickerVC.bottomSection.frame.height)
                 let animator = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), curve: .easeInOut) {
-                    editVC.view.alpha = 0
+//                    editVC.view.alpha = 0
                     stickerVC.view.alpha = 1
                     stickerVC.bottomSection.transform = .identity
                 }
