@@ -21,13 +21,21 @@ class EditStickerViewController: UIViewController {
     @IBOutlet weak var toolbar: UIToolbar!
     var customTransitionDelegate = EditStickerTransitionDelegate()
     @IBOutlet weak var bottomSection: UIStackView!
+    @IBOutlet weak var doneBarItem: UIBarButtonItem!
     
+    @IBOutlet weak var titleBarItem: UIBarButtonItem!
     var pageVC: EditStickerPageViewController!
     weak var customDelegate: EditStickerDelegate?
     var stickerInfoForEdit: StickerInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "贴纸"
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        titleBarItem.customView = titleLabel
 
         let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!]
         titlePanel.setTitles(titles: titles)        
@@ -70,6 +78,7 @@ extension EditStickerViewController: EditStickerPageDelegate {
     
     func onSelected(sticker: UIImage) {
         previewImageView.image = sticker
+        doneBarItem.isEnabled = true
     }
 }
 
