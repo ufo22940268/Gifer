@@ -185,6 +185,7 @@ class EditViewController: UIViewController {
             //Tap to dismiss component
             editTextOverlay.deactiveComponents()
             stickerOverlay.deactiveComponents()
+            videoController.onDeactiveComponents()
             
             if let activeItem = optionMenu.activeItem {
                 switch optionMenu.activeItem! {
