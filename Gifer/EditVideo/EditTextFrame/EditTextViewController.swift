@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 
-protocol EditTextViewControllerDelegate: class {
+protocol EditTextDelegate: class, DialogDelegate {
     func onAddEditText(info: EditTextInfo)
-    
     func onUpdateEditText(info: EditTextInfo, componentId: ComponentId)
 }
 
@@ -59,7 +58,7 @@ class EditTextViewController: UIViewController {
         return root
     }()
     
-    weak var delegate: EditTextViewControllerDelegate?
+    weak var delegate: EditTextDelegate?
     
     var textInfo: EditTextInfo!
     var componentId: ComponentId?
@@ -113,6 +112,7 @@ extension EditTextViewController {
     @objc private func onCancel() {
         editField.textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
+        delegate?.onDismissed(of: self)
     }
     
     @objc private func onDone() {
@@ -122,6 +122,7 @@ extension EditTextViewController {
             delegate?.onAddEditText(info: editField.textInfo)
         }
         dismiss(animated: true, completion: nil)
+        delegate?.onDismissed(of: self)
     }
 }
 

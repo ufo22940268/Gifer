@@ -8,7 +8,11 @@
 
 import UIKit
 
-protocol EditStickerDelegate: class {
+protocol DialogDelegate {
+    func onDismissed(of viewController: UIViewController)
+}
+
+protocol EditStickerDelegate: class, DialogDelegate {
     func onAdd(sticker: StickerInfo)
     func onUpdate(sticker: StickerInfo)
 }
@@ -51,6 +55,7 @@ class EditStickerViewController: UIViewController {
     
     @IBAction func onCancelTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        customDelegate?.onDismissed(of: self)
     }
     
     @IBAction func onDone(_ sender: UIBarButtonItem) {
@@ -64,6 +69,7 @@ class EditStickerViewController: UIViewController {
             }
         }
         dismiss(animated: true, completion: nil)
+        customDelegate?.onDismissed(of: self)
     }
 }
 

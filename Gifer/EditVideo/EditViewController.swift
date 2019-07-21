@@ -126,7 +126,7 @@ class EditViewController: UIViewController {
         return playerItem != nil
     }
     
-    var playerItem: ImagePlayerItem! {
+    var playerItem: ImagePlayerItem? {
         didSet {
             videoController.playerItem = playerItem
         }
@@ -295,6 +295,7 @@ class EditViewController: UIViewController {
     }
 
     private func updateSubTitle() {
+        guard let playerItem = playerItem else { return }
         let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
         let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
@@ -417,6 +418,7 @@ class EditViewController: UIViewController {
     }
     
     private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
+        guard let playerItem = playerItem else { return }
         showLoadingWhenExporting(true)
         var options = currentGifOption
         options.exportType = type
@@ -523,6 +525,8 @@ class EditViewController: UIViewController {
         if isVideoLoaded {
             updateSubTitle()
         }
+        
+        imagePlayerView.paused = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -533,6 +537,8 @@ class EditViewController: UIViewController {
         super.viewDidDisappear(animated)
         loadingDialog?.dismiss(animated: false)
 
+        imagePlayerView.paused = true
+        
         if isMovingFromParent {
             destroy()
         }
@@ -744,7 +750,9 @@ extension EditViewController: ControlToolbarDelegate {
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = customTransitionDelegate
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: {
+            self.imagePlayerView.paused = true
+        })
     }
     
     func onFontItemClicked() {
@@ -774,7 +782,13 @@ extension EditViewController: ControlToolbarDelegate {
         vc.modalPresentationStyle = .overCurrentContext
         vc.transitioningDelegate = vc.customTransitionDelegate
         vc.stickerInfoForEdit = stickerInfo
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: {
+            self.imagePlayerView.paused = true
+        })
+    }
+    
+    func onDismissed(of viewController: UIViewController) {
+        self.imagePlayerView.paused = false
     }
     
     func onStickerItemClicked() {
@@ -794,7 +808,7 @@ extension EditViewController: VideoCacheDelegate {
     }
 }
 
-extension EditViewController: EditTextViewControllerDelegate {
+extension EditViewController: EditTextDelegate {
     func onAddEditText(info: EditTextInfo) {
         let component = editTextOverlay.addTextComponent(textInfo: info)
         videoController.attachView.load(image: component.editTextRender!.renderImage, component: component)
