@@ -13,6 +13,7 @@ import AVKit
 protocol OverlayDelegate: class {
     func onEditComponentTapped(component: OverlayComponent, id: ComponentId)
     func onActiveComponentTapped(overlay: Overlay, component: OverlayComponent)
+    func onDeleteComponentTapped(component: OverlayComponent)
 }
 
 class Overlay: UIView {
@@ -128,6 +129,7 @@ extension Overlay: OverlayComponentDelegate {
     func onComponentDeleted(component: OverlayComponent) {
         components.removeAll { $0 == component }
         component.removeFromSuperview()
+        delegate?.onDeleteComponentTapped(component: component)
     }
     
     func onEditComponent(component: OverlayComponent, id: ComponentId) {

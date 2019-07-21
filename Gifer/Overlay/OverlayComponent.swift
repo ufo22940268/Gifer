@@ -375,7 +375,7 @@ extension OverlayComponent {
         let newSize = info.realRect(parentSize: containerSize).applying(CGAffineTransform(scaleX: scale, y: scale))
         
         guard newSize.width < containerSize.width && newSize.height < containerSize.height
-            && newSize.width > 30 && newSize.height > 30 else { return }
+            && newSize.width > 90 && newSize.height > 90 else { return }
         
         info.scaleBy(scale, anchorCenter: anchorCenter)
         updateInfoPosition()

@@ -825,6 +825,10 @@ extension EditViewController: OverlayDelegate {
         component.superview!.bringSubviewToFront(component)
         overlay.superview!.bringSubviewToFront(overlay)
     }
+    
+    func onDeleteComponentTapped(component: OverlayComponent) {
+        videoController.onDeactiveComponents()
+    }
 }
 
 extension EditViewController: CropContainerDelegate {
