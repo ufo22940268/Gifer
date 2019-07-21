@@ -27,7 +27,7 @@ class EditTextViewController: UIViewController {
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
-        toolbar.tintColor = UIColor(named: "mainColor")
+        toolbar.tintColor = .white
         toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
@@ -35,6 +35,7 @@ class EditTextViewController: UIViewController {
         
         toolbar.setItems(
             [cancel,
+             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
              UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
              doneButton],
             animated: false)

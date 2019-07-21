@@ -23,7 +23,6 @@ class EditStickerViewController: UIViewController {
     @IBOutlet weak var bottomSection: UIStackView!
     @IBOutlet weak var doneBarItem: UIBarButtonItem!
     
-    @IBOutlet weak var titleBarItem: UIBarButtonItem!
     var pageVC: EditStickerPageViewController!
     weak var customDelegate: EditStickerDelegate?
     var stickerInfoForEdit: StickerInfo?
@@ -31,12 +30,9 @@ class EditStickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titleLabel = UILabel()
-        titleLabel.text = "贴纸"
-        titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
-        titleBarItem.customView = titleLabel
-
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+    
         let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!]
         titlePanel.setTitles(titles: titles)        
         titlePanel.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
