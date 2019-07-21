@@ -242,7 +242,11 @@
                                                             </connections>
                                                         </barButtonItem>
                                                         <barButtonItem style="plain" systemItem="flexibleSpace" id="GZz-n7-lLY"/>
-                                                        <barButtonItem style="done" systemItem="done" id="ZWh-aN-MeG"/>
+                                                        <barButtonItem style="done" systemItem="done" id="ZWh-aN-MeG">
+                                                            <connections>
+                                                                <action selector="onDone:" destination="cx8-4g-25L" id="jTm-eI-DIK"/>
+                                                            </connections>
+                                                        </barButtonItem>
                                                     </items>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </toolbar>

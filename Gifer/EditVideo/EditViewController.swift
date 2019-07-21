@@ -668,17 +668,21 @@ extension EditViewController: VideoControllerDelegate {
     }
 }
 
-extension EditViewController: OptionMenuDelegate {
+extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
     
     func onAdd(sticker: StickerInfo) {
+        var component: OverlayComponent
+        component = stickerOverlay.addStickerComponent(sticker)
+        videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
+    }
+    
+    func onUpdate(sticker: StickerInfo) {
         var component: OverlayComponent
         if let activeComponent = stickerOverlay.activeComponent {
             stickerOverlay.update(sticker: sticker, for: activeComponent)
             component = activeComponent
-        } else {
-            component = stickerOverlay.addStickerComponent(sticker)
+            videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
         }
-        videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
     }
     
     var allOverlays: [Overlay] {
@@ -764,12 +768,18 @@ extension EditViewController: ControlToolbarDelegate {
         showOptionMenu(for: .playSpeed)
     }
     
-    func onStickerItemClicked() {
+    fileprivate func showEditStickerViewController(stickerInfo: StickerInfo? = nil) {
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "stickers") as! EditStickerViewController
+        vc.customDelegate = self
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
         vc.transitioningDelegate = vc.customTransitionDelegate
+        vc.stickerInfoForEdit = stickerInfo
         present(vc, animated: true, completion: nil)
+    }
+    
+    func onStickerItemClicked() {
+        showEditStickerViewController()
     }
     
     func onDirectionItemClicked(direction: PlayDirection) {
@@ -797,13 +807,15 @@ extension EditViewController: EditTextViewControllerDelegate {
 }
 
 extension EditViewController: OverlayDelegate {
-    func onEdit(component: OverlayComponent, id: ComponentId) {
+    func onEditComponentTapped(component: OverlayComponent, id: ComponentId) {
         if let render = component.render as? TextRender {
             showEditTextViewController(for: render.info, componentId: id)
+        } else if let render = component.render as? StickerRender {
+            showEditStickerViewController(stickerInfo: render.info)
         }
     }
     
-    func onActive(overlay: Overlay, component: OverlayComponent) {
+    func onActiveComponentTapped(overlay: Overlay, component: OverlayComponent) {
         videoController.onActive(component: component)
         let allOverlays = [editTextOverlay, stickerOverlay]
         allOverlays.forEach { t in

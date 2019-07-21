@@ -9,8 +9,8 @@
 import UIKit
 
 protocol OverlayDelegate: class {
-    func onEdit(component: OverlayComponent, id: ComponentId)
-    func onActive(overlay: Overlay, component: OverlayComponent)
+    func onEditComponentTapped(component: OverlayComponent, id: ComponentId)
+    func onActiveComponentTapped(overlay: Overlay, component: OverlayComponent)
 }
 
 class Overlay: UIView {
@@ -100,7 +100,7 @@ class Overlay: UIView {
         rotateRecognizer.isEnabled = true
         component.isActive = true
         components.filter { $0 != component }.forEach { $0.isActive = false }
-        delegate?.onActive(overlay: self, component: component)
+        delegate?.onActiveComponentTapped(overlay: self, component: component)
     }
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
@@ -125,7 +125,7 @@ extension Overlay: OverlayComponentDelegate {
     }
     
     func onEditComponent(component: OverlayComponent, id: ComponentId) {
-        delegate?.onEdit(component: component, id: id)
+        delegate?.onEditComponentTapped(component: component, id: id)
     }
 }
 

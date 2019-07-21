@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionMenuDelegate: PlaySpeedViewDelegate, FiltersViewDelegate, StickerMenuDelegate, ConfirmPromptDelegate {}
+protocol OptionMenuDelegate: PlaySpeedViewDelegate, FiltersViewDelegate, ConfirmPromptDelegate {}
 
 class OptionMenu: UIView {
     

@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol EditStickerDelegate: class {
+    func onAdd(sticker: StickerInfo)
+    func onUpdate(sticker: StickerInfo)
+}
+
 class EditStickerViewController: UIViewController {
 
     @IBOutlet weak var titlePanel: StickerTitlePanel!
@@ -18,6 +23,8 @@ class EditStickerViewController: UIViewController {
     @IBOutlet weak var bottomSection: UIStackView!
     
     var pageVC: EditStickerPageViewController!
+    weak var customDelegate: EditStickerDelegate?
+    var stickerInfoForEdit: StickerInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +35,7 @@ class EditStickerViewController: UIViewController {
         titlePanel.customDelegate = self
         
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+        previewImageView.image = stickerInfoForEdit?.image
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -38,6 +46,19 @@ class EditStickerViewController: UIViewController {
     }
     
     @IBAction func onCancelTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onDone(_ sender: UIBarButtonItem) {
+        if let image = previewImageView.image {
+            if let stickerInfo = stickerInfoForEdit {
+                var newInfo = stickerInfo
+                newInfo.image = image
+                customDelegate?.onUpdate(sticker: newInfo)
+            } else {
+                customDelegate?.onAdd(sticker: StickerInfo(image: image))
+            }
+        }
         dismiss(animated: true, completion: nil)
     }
 }
