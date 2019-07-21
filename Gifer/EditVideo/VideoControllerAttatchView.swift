@@ -11,6 +11,11 @@ import UIKit
 import AVKit
 
 class VideoControllerAttatchTrim: TrimController {
+
+    override var changeBackgroundWhenNeeded: Bool {
+        return false
+    }
+    
     override var faderBackgroundColor: UIColor {
         return UIColor(named: "darkBackgroundColor")!
     }
@@ -24,6 +29,7 @@ class VideoControllerAttatchTrim: TrimController {
             rightTrimTrailingConstraint.constant = -totalWidth*CGFloat(rightPercent)
         }
     }
+    
 }
 
 protocol VideoControllerAttachDelegate: class {

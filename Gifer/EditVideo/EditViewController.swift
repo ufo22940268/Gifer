@@ -597,9 +597,7 @@ extension EditViewController: ImagePlayerDelegate {
         let percent = right == left ? 0 : CGFloat(current - left)/CGFloat(right - left)
         
         videoController.updateSliderProgress(percent: percent)
-    }
-    
-    func updatePlaybackStatus(_ status: AVPlayer.TimeControlStatus) {
+        allOverlays.forEach { $0.updateWhenProgressChanged(progress: progress) }
     }
 }
 

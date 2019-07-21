@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVKit
+
 
 protocol OverlayDelegate: class {
     func onEditComponentTapped(component: OverlayComponent, id: ComponentId)
@@ -105,6 +107,10 @@ class Overlay: UIView {
     
     func getComponent(on componentId: ComponentId) -> OverlayComponent {
         return components.first { $0.id == componentId }!
+    }
+    
+    func updateWhenProgressChanged(progress: CMTime) {
+        components.forEach { $0.updateWhenProgressChanged(progress: progress) }
     }
 }
 

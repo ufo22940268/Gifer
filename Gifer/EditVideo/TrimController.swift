@@ -84,6 +84,9 @@ class TrimController: UIControl {
     }
     
     weak var slider: VideoControllerSlider?
+    var changeBackgroundWhenNeeded: Bool {
+        return true
+    }
     
     var disableScroll = true
     var status: Status!
@@ -262,7 +265,7 @@ class TrimController: UIControl {
         let duration = duration ?? trimPosition.galleryDuration
         
         let mode: Mode!
-        if Wechat.canBeShared(duration: duration) {
+        if changeBackgroundWhenNeeded && Wechat.canBeShared(duration: duration) {
             originTintColor = #colorLiteral(red: 0.3788883686, green: 0.8696572185, blue: 0, alpha: 1)
             darkTintColor = #colorLiteral(red: 0.2039215686, green: 0.7803921569, blue: 0.3490196078, alpha: 1)
             mode = .wechat
