@@ -38,7 +38,7 @@ class CropViewController: UIViewController {
         }
     }
     
-    var isDidLayoutSubViews = false
+    var isCropContainerInitialized = false
     
     var cropArea: CGRect? {
         set(newCropArea) {
@@ -80,18 +80,19 @@ class CropViewController: UIViewController {
         }
     }
     
+    fileprivate func updateVideoFrame() {
+        guard let playerItem = playerItem else { return }
+        self.videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: cropRootView.bounds)
+        cropContainer.setupVideo(frame: videoFrame)
+    }
+    
     override func viewDidLayoutSubviews() {
-        if !isDidLayoutSubViews, let videoFrame = videoFrame {
-            cropContainer.setupVideo(frame: videoFrame)
-        }
-        isDidLayoutSubViews = true
+        updateVideoFrame()
     }
     
     fileprivate func setup(playerItem: ImagePlayerItem) {
         imagePlayerView.load(playerItem: playerItem)
-        let videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: cropRootView.bounds)
-        self.videoFrame = videoFrame
-        cropContainer.setupVideo(frame: videoFrame)
+        updateVideoFrame()
         self.cropMenuView.customDelegate = cropContainer
     }
     
