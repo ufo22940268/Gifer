@@ -48,7 +48,7 @@ class CropViewController: UIViewController {
     var cropEntity: Croppable?
     weak var customDelegate: CropDelegate?
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var vcContainer: UIView!
+    var croppableVC: CroppableViewController?
     
     var type: Type!
     
@@ -113,9 +113,12 @@ class CropViewController: UIViewController {
                 cropVideoVC.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
                 cropVideoVC.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
                 cropVideoVC.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+                cropVideoVC.view.widthAnchor.constraint(equalToConstant: 0).with(identifier: "width"),
+                cropVideoVC.view.heightAnchor.constraint(equalToConstant: 0).with(identifier: "height")
                 ])
             cropVideoVC.didMove(toParent: self)
             cropVideoVC.load(playerItem: playerItem)
+            croppableVC = cropVideoVC
             cropContainer.contentView = cropVideoVC.contentView
             layoutCropContainer()
         case let .image(image):
@@ -128,6 +131,7 @@ class CropViewController: UIViewController {
     fileprivate func layoutCropContainer() {
         guard let cropEntity = cropEntity else { return }
         self.videoFrame = AVMakeRect(aspectRatio: cropEntity.contentSize, insideRect: cropRootView.bounds)
+        croppableVC?.setContentViewSize(width: self.videoFrame.width, height: self.videoFrame.height)
         cropContainer.setupVideo(frame: videoFrame)
     }
     

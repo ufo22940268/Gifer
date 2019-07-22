@@ -10,6 +10,7 @@ import UIKit
 
 protocol CroppableViewController {
     var contentView: UIView { get }
+    func setContentViewSize(width: CGFloat, height: CGFloat)
 }
 
 class CropVideoViewController: UIViewController {
@@ -26,16 +27,10 @@ class CropVideoViewController: UIViewController {
         imagePlayerView.load(playerItem: playerItem)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setContentViewSize(width: CGFloat, height: CGFloat) {
+        imagePlayerView.constraints.findById(id: "width").constant = width
+        imagePlayerView.constraints.findById(id: "height").constant = height
     }
-    */
-
 }
 
 extension CropVideoViewController: CroppableViewController {
