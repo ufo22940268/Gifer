@@ -761,7 +761,7 @@ extension EditViewController: ControlToolbarDelegate {
     
     func onCropItemClicked() {
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "crop") as! CropViewController
-        vc.playerItem = playerItem
+        vc.cropEntity = playerItem
         vc.customDelegate = self
         vc.initialCropArea = imagePlayerView.cropArea
         present(vc, animated: true, completion: nil)

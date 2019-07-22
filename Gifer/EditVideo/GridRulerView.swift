@@ -149,6 +149,8 @@ class GridRulerView: UIView {
             edgeView.setupLayout(with: corners)
             edgeView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onPan(_:))))
         }
+        
+        buildGuideConstraints()
     }
     
     func hitBorder(point: CGPoint) -> Bool {
@@ -168,21 +170,22 @@ class GridRulerView: UIView {
         return hit
     }
     
-    func buildGuideConstraints(videoFrame: CGRect) {
+    func buildGuideConstraints() {
         guard let superview = superview else { fatalError() }
         let guide = UILayoutGuide()
         superview.addLayoutGuide(guide)
         let constraints = CommonConstraints(centerX: guide.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
                                             centerY: guide.centerYAnchor.constraint(equalTo: superview.centerYAnchor),
-                                            width: guide.widthAnchor.constraint(equalToConstant: videoFrame.width),
-                                            height: guide.heightAnchor.constraint(equalToConstant: videoFrame.height))
+                                            width: guide.widthAnchor.constraint(equalToConstant: 0),
+                                            height: guide.heightAnchor.constraint(equalToConstant: 0))
         constraints.activeAll()
         guideConstraints = constraints
         guideLayout = guide
     }
     
     func setupVideo(frame videoFrame: CGRect) {
-        buildGuideConstraints(videoFrame: videoFrame)
+        guideConstraints.width.constant = videoFrame.width
+        guideConstraints.height.constant = videoFrame.height
         subviews.forEach { (child) in
             child.setNeedsDisplay()
         }

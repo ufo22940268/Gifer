@@ -11,6 +11,7 @@
 		420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
 		420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE222E3259200A272DE /* EditStickerTransition.swift */; };
+		420C9CE522E5573400A272DE /* CropVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE422E5573400A272DE /* CropVideoViewController.swift */; };
 		4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EC22C75980001CAD81 /* Storyboards.swift */; };
 		4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */; };
 		4221A23522DD62730060B1BE /* Wechat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4221A23422DD62730060B1BE /* Wechat.swift */; };
@@ -117,7 +118,6 @@
 		42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */; };
 		42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E879B022D4B57D0098D43B /* Edit.storyboard */; };
 		42E879B322D4C6690098D43B /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879B222D4C6690098D43B /* CropViewController.swift */; };
-		42E879B522D55FF90098D43B /* CropPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879B422D55FF90098D43B /* CropPlayerViewController.swift */; };
 		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
 		42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EEACE021995DEE009A3BB8 /* EditViewController.swift */; };
@@ -146,6 +146,7 @@
 		420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerContentPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
 		420C9CE222E3259200A272DE /* EditStickerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerTransition.swift; sourceTree = "<group>"; };
+		420C9CE422E5573400A272DE /* CropVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropVideoViewController.swift; sourceTree = "<group>"; };
 		4218D4EC22C75980001CAD81 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		4218D4EE22C75F72001CAD81 /* FramePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewViewController.swift; sourceTree = "<group>"; };
 		4221A23422DD62730060B1BE /* Wechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wechat.swift; sourceTree = "<group>"; };
@@ -252,7 +253,6 @@
 		42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioning.swift; sourceTree = "<group>"; };
 		42E879B022D4B57D0098D43B /* Edit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Edit.storyboard; sourceTree = "<group>"; };
 		42E879B222D4C6690098D43B /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
-		42E879B422D55FF90098D43B /* CropPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropPlayerViewController.swift; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		42EE13D52195C22900724611 /* GifGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGenerator.swift; sourceTree = "<group>"; };
@@ -334,7 +334,6 @@
 				424F9929228ABAA800952440 /* LoopConfigViewController.swift */,
 				423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */,
 				423C282F22C3904F00D58376 /* ImagePlayerView.swift */,
-				42E879B422D55FF90098D43B /* CropPlayerViewController.swift */,
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
 				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
@@ -357,6 +356,7 @@
 				420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */,
 				420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */,
 				420C9CE222E3259200A272DE /* EditStickerTransition.swift */,
+				420C9CE422E5573400A272DE /* CropVideoViewController.swift */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -740,6 +740,7 @@
 				42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */,
 				4233DD6A21B91441009A757C /* AspectView.swift in Sources */,
 				42D7F281224B4B2800E7E504 /* EditTextPreviewer.swift in Sources */,
+				420C9CE522E5573400A272DE /* CropVideoViewController.swift in Sources */,
 				42611DC022CDE854009A7188 /* GalleryCategoryTableView.swift in Sources */,
 				42D7F28A224C649600E7E504 /* Font.swift in Sources */,
 				4234786D22CAE46A007F9E05 /* Config.swift in Sources */,
@@ -761,7 +762,6 @@
 				42A4335A22DD22C1008C45AC /* ShareTransitioningAnimator.swift in Sources */,
 				4285BF9D21A8C34600913466 /* TrimController.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
-				42E879B522D55FF90098D43B /* CropPlayerViewController.swift in Sources */,
 				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
