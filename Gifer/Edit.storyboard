@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cx8-4g-25L">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZOA-RP-8i6">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y17-a7-FBp">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tec-8u-I7k">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -47,27 +47,46 @@
                                         </items>
                                         <color key="barTintColor" name="darkBackgroundColor"/>
                                     </toolbar>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6E-7f-dOa">
-                                        <rect key="frame" x="0.0" y="44" width="414" height="706"/>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6E-7f-dOa">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="662"/>
                                         <subviews>
-                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzN-Oq-TLk">
-                                                <rect key="frame" x="8" y="8" width="398" height="690"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <connections>
-                                                    <segue destination="jRY-m8-rUz" kind="embed" identifier="emberCropPlayer" id="Yji-4h-eaK"/>
-                                                </connections>
-                                            </containerView>
+                                            <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6g8-0x-rSs" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="57" y="181" width="300" height="300"/>
+                                                <subviews>
+                                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.10000000149011612" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="tBm-Fd-3Vx" userLabel="Scroll">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                                        <subviews>
+                                                            <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pye-uJ-LLY" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="pye-uJ-LLY" secondAttribute="bottom" id="7wj-Fd-jxA"/>
+                                                            <constraint firstItem="pye-uJ-LLY" firstAttribute="leading" secondItem="tBm-Fd-3Vx" secondAttribute="leading" id="HGt-4Y-NI6"/>
+                                                            <constraint firstItem="pye-uJ-LLY" firstAttribute="top" secondItem="tBm-Fd-3Vx" secondAttribute="top" id="wc1-zZ-nwl"/>
+                                                            <constraint firstAttribute="trailing" secondItem="pye-uJ-LLY" secondAttribute="trailing" id="yIh-9U-oX3"/>
+                                                        </constraints>
+                                                    </scrollView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="300" identifier="width" id="3nl-ay-fgh"/>
+                                                    <constraint firstAttribute="height" constant="300" identifier="height" id="Agj-D9-68s"/>
+                                                    <constraint firstAttribute="bottom" secondItem="tBm-Fd-3Vx" secondAttribute="bottom" id="Azf-Mi-z2W"/>
+                                                    <constraint firstItem="tBm-Fd-3Vx" firstAttribute="trailing" secondItem="6g8-0x-rSs" secondAttribute="trailing" id="FsX-FM-wgj"/>
+                                                    <constraint firstItem="tBm-Fd-3Vx" firstAttribute="leading" secondItem="6g8-0x-rSs" secondAttribute="leading" id="Hd5-GV-Oqp"/>
+                                                    <constraint firstItem="tBm-Fd-3Vx" firstAttribute="top" secondItem="6g8-0x-rSs" secondAttribute="top" id="WbN-PJ-BXP"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="top" secondItem="y6E-7f-dOa" secondAttribute="topMargin" id="0CZ-RP-Jg4"/>
-                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="bottom" secondItem="y6E-7f-dOa" secondAttribute="bottomMargin" id="3QV-LW-d95"/>
-                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="leading" secondItem="y6E-7f-dOa" secondAttribute="leadingMargin" id="UO7-Yp-eQ8"/>
-                                            <constraint firstItem="KzN-Oq-TLk" firstAttribute="trailing" secondItem="y6E-7f-dOa" secondAttribute="trailingMargin" id="ikX-FV-wbm"/>
+                                            <constraint firstItem="6g8-0x-rSs" firstAttribute="centerY" secondItem="y6E-7f-dOa" secondAttribute="centerY" id="dB4-j5-NEV"/>
+                                            <constraint firstItem="6g8-0x-rSs" firstAttribute="centerX" secondItem="y6E-7f-dOa" secondAttribute="centerX" id="ysM-3W-oYx"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69d-J6-66n" customClass="CropMenuView" customModule="Gifer" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="750" width="414" height="68"/>
+                                        <rect key="frame" x="0.0" y="706" width="414" height="68"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="68" id="LkW-1s-ele"/>
                                         </constraints>
@@ -85,25 +104,30 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZVS-g3-l3l"/>
                     </view>
+                    <navigationItem key="navigationItem" id="2hB-a4-geq"/>
                     <connections>
+                        <outlet property="cropContainer" destination="6g8-0x-rSs" id="bRs-hB-j1P"/>
                         <outlet property="cropMenuView" destination="69d-J6-66n" id="O1b-ij-EcE"/>
+                        <outlet property="cropRootView" destination="y6E-7f-dOa" id="7w9-ox-Xjo"/>
+                        <outlet property="imagePlayerView" destination="pye-uJ-LLY" id="RRv-6R-RB6"/>
+                        <outlet property="scrollView" destination="tBm-Fd-3Vx" id="bbv-yU-m3e"/>
                         <outlet property="toolbar" destination="tec-8u-I7k" id="FTd-mx-A3S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="70" y="-197"/>
+            <point key="canvasLocation" x="-110.14492753623189" y="105.80357142857143"/>
         </scene>
         <!--Crop Player View Controller-->
         <scene sceneID="vfi-Fm-gPp">
             <objects>
                 <viewController storyboardIdentifier="cropPlayer" id="jRY-m8-rUz" customClass="CropPlayerViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="gqc-7h-jNW">
-                        <rect key="frame" x="0.0" y="0.0" width="398" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rf0-a6-fEp" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="49" y="200" width="300" height="300"/>
+                                <rect key="frame" x="57" y="303" width="300" height="300"/>
                                 <subviews>
                                     <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.10000000000000001" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="qJB-eG-6or" userLabel="Scroll">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
@@ -148,7 +172,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U51-ub-5c3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-895.6521739130435" y="36.830357142857139"/>
+            <point key="canvasLocation" x="-1113" y="37"/>
         </scene>
         <!--Share Instruction View Controller-->
         <scene sceneID="vIH-Nt-dFW">
@@ -209,7 +233,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="cx8-4g-25L" kind="relationship" relationship="rootViewController" id="aUD-JE-PC0"/>
+                        <segue destination="ZOA-RP-8i6" kind="relationship" relationship="rootViewController" id="JAg-qY-MBT"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bbp-oI-umi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -231,10 +255,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K72-RR-Ppt">
-                                            <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                            <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                             <subviews>
                                                 <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-N3-k9Q">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                     <items>
                                                         <barButtonItem systemItem="cancel" id="cKN-kk-6BE">
                                                             <connections>
@@ -251,10 +275,10 @@
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </toolbar>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z6N-HU-Z2W" userLabel="Preview">
-                                                    <rect key="frame" x="0.0" y="35" width="414" height="473"/>
+                                                    <rect key="frame" x="0.0" y="44" width="414" height="508"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K6N-N3-JE4">
-                                                            <rect key="frame" x="137" y="166.5" width="140" height="140"/>
+                                                            <rect key="frame" x="137" y="184" width="140" height="140"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="140" id="ojT-im-gdL"/>
                                                                 <constraint firstAttribute="width" secondItem="K6N-N3-JE4" secondAttribute="height" multiplier="1:1" id="qye-wo-qYC"/>
@@ -267,7 +291,7 @@
                                                     </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-k3-xZs" userLabel="Panel">
-                                                    <rect key="frame" x="0.0" y="508" width="414" height="300"/>
+                                                    <rect key="frame" x="0.0" y="552" width="414" height="300"/>
                                                     <subviews>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3Di-6V-mhX" customClass="StickerTitlePanel" customModule="Gifer" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>

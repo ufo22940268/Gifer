@@ -17,20 +17,52 @@ protocol CropDelegate: class {
 
 class CropViewController: UIViewController {
 
-    var imagePlayerView: ImagePlayerView {
-        return cropPlayerVC.imagePlayerView
-    }
-    
+    @IBOutlet weak var imagePlayerView: ImagePlayerView!
     @IBOutlet weak var cropMenuView: CropMenuView!
-    var cropPlayerVC: CropPlayerViewController!
     var initialCropArea: CGRect?
     
+    @IBOutlet weak var cropRootView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var cropContainer: CropContainer!
     var playerItem: ImagePlayerItem!
     weak var customDelegate: CropDelegate?
     @IBOutlet weak var toolbar: UIToolbar!
     
+    var videoFrame: CGRect! {
+        didSet {
+            cropContainer.gridRulerView.setupVideo(frame: videoFrame)
+            NSLayoutConstraint.activate([
+                cropContainer.imagePlayerView.widthAnchor.constraint(equalToConstant: videoFrame.width),
+                cropContainer.imagePlayerView.heightAnchor.constraint(equalToConstant: videoFrame.height)
+                ])
+        }
+    }
+    
+    var isDidLayoutSubViews = false
+    
+    var cropArea: CGRect? {
+        set(newCropArea) {
+            cropContainer.initialCropArea = newCropArea
+        }
+        
+        get {
+            return cropContainer.convert(cropContainer.bounds, to: imagePlayerView)
+                .applying(CGAffineTransform(scaleX: 1/imagePlayerView.bounds.width, y: 1/imagePlayerView.bounds.height))
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if playerItem == nil {
+            cropArea = CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
+        }
+        
+        cropContainer.scrollView = scrollView
+        cropContainer.imagePlayerView = imagePlayerView
+        cropContainer.setup()
+        
+        cropArea = initialCropArea
         
         if playerItem == nil {
             let asset = getTestVideo()
@@ -48,33 +80,31 @@ class CropViewController: UIViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        if !isDidLayoutSubViews, let videoFrame = videoFrame {
+            cropContainer.setupVideo(frame: videoFrame)
+        }
+        isDidLayoutSubViews = true
+    }
+    
     fileprivate func setup(playerItem: ImagePlayerItem) {
         imagePlayerView.load(playerItem: playerItem)
-        let videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: self.cropPlayerVC.view.bounds)
-        self.cropPlayerVC.videoFrame = videoFrame
-        self.cropMenuView.customDelegate = self.cropPlayerVC.cropContainer
+        let videoFrame = AVMakeRect(aspectRatio: playerItem.size, insideRect: cropRootView.bounds)
+        self.videoFrame = videoFrame
+        cropContainer.setupVideo(frame: videoFrame)
+        self.cropMenuView.customDelegate = cropContainer
     }
     
-    override func viewDidLayoutSubviews() {        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "emberCropPlayer" {
-            cropPlayerVC = segue.destination as? CropPlayerViewController
-            cropPlayerVC.initialCropArea = initialCropArea
-        }
-    }
-
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onDone(_ sender: Any) {
-        customDelegate?.onChange(cropArea: cropPlayerVC.cropArea)
+        customDelegate?.onChange(cropArea: cropArea)
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onResetCrop(_ sender: Any) {
-        cropPlayerVC.cropContainer.resetCropArea()
+        cropContainer.resetCropArea()
     }
 }
