@@ -108,7 +108,12 @@ class CropViewController: UIViewController {
             addChild(cropVideoVC)
             cropVideoVC.view.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(cropVideoVC.view)
-            cropVideoVC.view.useSameSizeAsParent()
+            NSLayoutConstraint.activate([
+                cropVideoVC.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                cropVideoVC.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+                cropVideoVC.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                cropVideoVC.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+                ])
             cropVideoVC.didMove(toParent: self)
             cropVideoVC.load(playerItem: playerItem)
             cropContainer.contentView = cropVideoVC.contentView

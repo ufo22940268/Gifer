@@ -53,19 +53,8 @@
                                             <view hidden="YES" verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6g8-0x-rSs" customClass="CropContainer" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="181" width="300" height="300"/>
                                                 <subviews>
-                                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.10000000149011612" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="tBm-Fd-3Vx" userLabel="Scroll">
+                                                    <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.10000000149011612" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="tBm-Fd-3Vx" userLabel="Scroll">
                                                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                                                        <subviews>
-                                                            <containerView verifyAmbiguity="off" opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fzV-87-cNV">
-                                                                <rect key="frame" x="30" y="86" width="240" height="128"/>
-                                                            </containerView>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="fzV-87-cNV" secondAttribute="trailing" id="6jM-T8-37c"/>
-                                                            <constraint firstItem="fzV-87-cNV" firstAttribute="leading" secondItem="tBm-Fd-3Vx" secondAttribute="leading" id="Jlf-Ve-fud"/>
-                                                            <constraint firstAttribute="bottom" secondItem="fzV-87-cNV" secondAttribute="bottom" id="qtk-0z-U5N"/>
-                                                            <constraint firstItem="fzV-87-cNV" firstAttribute="top" secondItem="tBm-Fd-3Vx" secondAttribute="top" id="rcg-lM-grZ"/>
-                                                        </constraints>
                                                     </scrollView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,10 +98,8 @@
                         <outlet property="cropContainer" destination="6g8-0x-rSs" id="bRs-hB-j1P"/>
                         <outlet property="cropMenuView" destination="69d-J6-66n" id="O1b-ij-EcE"/>
                         <outlet property="cropRootView" destination="y6E-7f-dOa" id="7w9-ox-Xjo"/>
-                        <outlet property="imagePlayerView" destination="pye-uJ-LLY" id="RRv-6R-RB6"/>
                         <outlet property="scrollView" destination="tBm-Fd-3Vx" id="bbv-yU-m3e"/>
                         <outlet property="toolbar" destination="tec-8u-I7k" id="FTd-mx-A3S"/>
-                        <outlet property="vcContainer" destination="fzV-87-cNV" id="kNX-hy-DdX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dnj-pb-HYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -401,25 +388,14 @@
         <scene sceneID="ts4-ir-ci9">
             <objects>
                 <viewController storyboardIdentifier="cropVideo" id="Vqg-kc-HFw" customClass="CropVideoViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="WFo-5e-EaV">
+                    <view key="view" contentMode="scaleToFill" id="WFo-5e-EaV" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pye-uJ-LLY" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="hyr-Bk-Txa" firstAttribute="bottom" secondItem="pye-uJ-LLY" secondAttribute="bottom" id="SX6-lj-21Q"/>
-                            <constraint firstItem="pye-uJ-LLY" firstAttribute="leading" secondItem="hyr-Bk-Txa" secondAttribute="leading" id="hpR-sb-usn"/>
-                            <constraint firstItem="hyr-Bk-Txa" firstAttribute="trailing" secondItem="pye-uJ-LLY" secondAttribute="trailing" id="hts-9u-pCS"/>
-                            <constraint firstItem="pye-uJ-LLY" firstAttribute="top" secondItem="hyr-Bk-Txa" secondAttribute="top" id="oIU-7D-8Ix"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hyr-Bk-Txa"/>
                     </view>
                     <connections>
-                        <outlet property="imagePlayerView" destination="pye-uJ-LLY" id="Xs8-F1-BS3"/>
+                        <outlet property="imagePlayerView" destination="WFo-5e-EaV" id="RuR-Ux-GnJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHo-Ux-Xnl" userLabel="First Responder" sceneMemberID="firstResponder"/>
