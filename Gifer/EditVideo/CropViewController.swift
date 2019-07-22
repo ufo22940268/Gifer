@@ -38,17 +38,27 @@ class CropViewController: UIViewController {
         case image(image: UIImage)
     }
 
-    @IBOutlet weak var imagePlayerView: ImagePlayerView!
     @IBOutlet weak var cropMenuView: CropMenuView!
     var initialCropArea: CGRect?
     
     @IBOutlet weak var cropRootView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var cropContainer: CropContainer!
-    var cropEntity: Croppable?
+    var cropEntity: Croppable? {
+        guard let type = type else { return nil }
+        switch type {
+        case let .image(image):
+            return image
+        case let .video(imagePlayerItem):
+            return imagePlayerItem
+        }
+    }
     weak var customDelegate: CropDelegate?
     @IBOutlet weak var toolbar: UIToolbar!
-    var croppableVC: CroppableViewController?
+    var croppableVC: CroppableViewControllerProtocol?
+    var contentView: UIView? {
+        return croppableVC?.contentView
+    }
     
     var type: Type!
     
@@ -66,8 +76,8 @@ class CropViewController: UIViewController {
         }
         
         get {
-            return cropContainer.convert(cropContainer.bounds, to: imagePlayerView)
-                .applying(CGAffineTransform(scaleX: 1/imagePlayerView.bounds.width, y: 1/imagePlayerView.bounds.height))
+            return cropContainer.convert(cropContainer.bounds, to: contentView!)
+                .applying(CGAffineTransform(scaleX: 1/contentView!.bounds.width, y: 1/contentView!.bounds.height))
         }
     }
     
@@ -96,37 +106,41 @@ class CropViewController: UIViewController {
                 }
             }
         } else {
-//            setup(playerItem: cropEntity)
+            self.onResourceReady()
         }
+    }
+    
+    fileprivate func setupCroppableViewController(_ cropVideoVC: CroppableViewController) {
+        addChild(cropVideoVC)
+        cropVideoVC.view.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(cropVideoVC.view)
+        NSLayoutConstraint.activate([
+            cropVideoVC.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            cropVideoVC.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            cropVideoVC.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            cropVideoVC.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            cropVideoVC.view.widthAnchor.constraint(equalToConstant: 0).with(identifier: "width"),
+            cropVideoVC.view.heightAnchor.constraint(equalToConstant: 0).with(identifier: "height")
+            ])
+        cropVideoVC.didMove(toParent: self)
+        croppableVC = cropVideoVC
+        cropContainer.contentView = cropVideoVC.contentView
+        layoutCropContainer()
     }
     
     func onResourceReady() {
         switch self.type! {
         case let .video(playerItem):
-            cropEntity = playerItem
             let cropVideoVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "cropVideo") as! CropVideoViewController
-            addChild(cropVideoVC)
-            cropVideoVC.view.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(cropVideoVC.view)
-            NSLayoutConstraint.activate([
-                cropVideoVC.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                cropVideoVC.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                cropVideoVC.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                cropVideoVC.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                cropVideoVC.view.widthAnchor.constraint(equalToConstant: 0).with(identifier: "width"),
-                cropVideoVC.view.heightAnchor.constraint(equalToConstant: 0).with(identifier: "height")
-                ])
-            cropVideoVC.didMove(toParent: self)
+            setupCroppableViewController(cropVideoVC)
             cropVideoVC.load(playerItem: playerItem)
-            croppableVC = cropVideoVC
-            cropContainer.contentView = cropVideoVC.contentView
-            layoutCropContainer()
         case let .image(image):
             break
         }
         
         self.cropMenuView.customDelegate = cropContainer
     }
+    
     
     fileprivate func layoutCropContainer() {
         guard let cropEntity = cropEntity else { return }

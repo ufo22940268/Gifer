@@ -8,7 +8,9 @@
 
 import UIKit
 
-protocol CroppableViewController {
+typealias CroppableViewController = UIViewController & CroppableViewControllerProtocol
+
+protocol CroppableViewControllerProtocol {
     var contentView: UIView { get }
     func setContentViewSize(width: CGFloat, height: CGFloat)
 }
@@ -19,8 +21,6 @@ class CropVideoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     func load(playerItem: ImagePlayerItem) {
@@ -33,7 +33,7 @@ class CropVideoViewController: UIViewController {
     }
 }
 
-extension CropVideoViewController: CroppableViewController {
+extension CropVideoViewController: CroppableViewControllerProtocol {
     var contentView: UIView {
         return imagePlayerView
     }
