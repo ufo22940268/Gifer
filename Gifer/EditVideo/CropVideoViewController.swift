@@ -12,7 +12,13 @@ typealias CroppableViewController = UIViewController & CroppableViewControllerPr
 
 protocol CroppableViewControllerProtocol {
     var contentView: UIView { get }
-    func setContentViewSize(width: CGFloat, height: CGFloat)
+}
+
+extension CroppableViewControllerProtocol {
+    func setContentViewSize(width: CGFloat, height: CGFloat) {
+        contentView.constraints.findById(id: "width").constant = width
+        contentView.constraints.findById(id: "height").constant = height
+    }
 }
 
 class CropVideoViewController: UIViewController {
@@ -25,11 +31,6 @@ class CropVideoViewController: UIViewController {
     
     func load(playerItem: ImagePlayerItem) {
         imagePlayerView.load(playerItem: playerItem)
-    }
-
-    func setContentViewSize(width: CGFloat, height: CGFloat) {
-        imagePlayerView.constraints.findById(id: "width").constant = width
-        imagePlayerView.constraints.findById(id: "height").constant = height
     }
 }
 

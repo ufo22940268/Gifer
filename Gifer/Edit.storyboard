@@ -402,6 +402,24 @@
             </objects>
             <point key="canvasLocation" x="-664" y="848"/>
         </scene>
+        <!--Crop Image View Controller-->
+        <scene sceneID="C7l-JJ-7Ta">
+            <objects>
+                <viewController storyboardIdentifier="cropImage" id="v3p-QC-BxR" customClass="CropImageViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v1y-oM-fpK" customClass="UIImageView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="SPd-Qt-zLy"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="v1y-oM-fpK" id="ZWk-xF-82r"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Thn-hz-Vst" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772" y="968"/>
+        </scene>
     </scenes>
     <resources>
         <image name="undo" width="25" height="25"/>

@@ -94,22 +94,40 @@ class CropViewController: UIViewController {
         cropArea = initialCropArea
         
         if cropEntity == nil {
-            let asset = getTestVideo()
-            let options = PHVideoRequestOptions()
-            options.isNetworkAccessAllowed = true
-            PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
-                DispatchQueue.main.async {
-                    ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).extract(complete: { (playerItem) in
-                        self.type = .video(imagePlayerItem: playerItem)
-                        self.onResourceReady()
-                    })
-                }
-            }
+//            prepareTestVideo()
+            prepareTestImage()
         } else {
             self.onResourceReady()
         }
     }
     
+    fileprivate func prepareTestImage() {
+        let asset = PHAsset.fetchAssets(with: .image, options: nil).firstObject!
+        let options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 800, height: 800), contentMode: .aspectFit, options: options) { (image, _) in
+            guard let image = image else { return }
+            self.type = .image(image: image)
+            DispatchQueue.main.async {
+                self.onResourceReady()
+            }
+        }
+    }
+    
+    fileprivate func prepareTestVideo() {
+        let asset = getTestVideo()
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
+            DispatchQueue.main.async {
+                ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).extract(complete: { (playerItem) in
+                    self.type = .video(imagePlayerItem: playerItem)
+                    self.onResourceReady()
+                })
+            }
+        }
+    }
+
     fileprivate func setupCroppableViewController(_ cropVideoVC: CroppableViewController) {
         addChild(cropVideoVC)
         cropVideoVC.view.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +153,9 @@ class CropViewController: UIViewController {
             setupCroppableViewController(cropVideoVC)
             cropVideoVC.load(playerItem: playerItem)
         case let .image(image):
-            break
+            let cropImageVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "cropImage") as! CropImageViewController
+            setupCroppableViewController(cropImageVC)
+            cropImageVC.load(image: image)
         }
         
         self.cropMenuView.customDelegate = cropContainer
