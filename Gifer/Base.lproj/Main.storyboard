@@ -157,13 +157,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT">
                         <rightBarButtonItems>
-                            <barButtonItem style="done" systemItem="action" id="SsH-Bk-dko">
+                            <barButtonItem enabled="NO" style="done" systemItem="action" id="SsH-Bk-dko">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="onShare:" destination="Dvh-Lh-bNF" id="Cdx-5r-76I"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="layer-group" id="SeZ-9q-LC8">
+                            <barButtonItem enabled="NO" title="Item" image="layer-group" id="SeZ-9q-LC8">
                                 <connections>
                                     <segue destination="xUn-aB-490" kind="show" identifier="frames" id="9UE-iq-AdG"/>
                                 </connections>
@@ -173,10 +173,11 @@
                     <connections>
                         <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
                         <outlet property="editTextOverlay" destination="yBF-sw-Pud" id="fTT-yl-a1x"/>
+                        <outlet property="frameBarItem" destination="SeZ-9q-LC8" id="ORb-mg-8Nb"/>
                         <outlet property="imagePlayerView" destination="pyg-ee-PwN" id="9lg-sJ-w1L"/>
                         <outlet property="pinchGesture" destination="b2b-sN-9Zv" id="ugO-ga-dEm"/>
                         <outlet property="rotationGesture" destination="ST1-ZV-Vai" id="mm2-s0-kmU"/>
-                        <outlet property="shareItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
+                        <outlet property="shareBarItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
                         <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
                         <outlet property="stickerOverlay" destination="gwc-EM-3TJ" id="DMd-1p-8sD"/>
                         <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>

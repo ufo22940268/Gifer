@@ -142,7 +142,8 @@ class EditViewController: UIViewController {
 
     @IBOutlet weak var imagePlayerView: ImagePlayerView!
     @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var shareItem: UIBarButtonItem!
+    @IBOutlet weak var shareBarItem: UIBarButtonItem!
+    @IBOutlet weak var frameBarItem: UIBarButtonItem!
     
     @IBOutlet var rotationGesture: UIRotationGestureRecognizer!
     @IBOutlet var pinchGesture: UIPinchGestureRecognizer!
@@ -568,6 +569,8 @@ extension EditViewController: ImagePlayerDelegate {
     }
     
     func onVideoReady(playerItem: ImagePlayerItem) {
+        shareBarItem.isEnabled = true
+        frameBarItem.isEnabled = true
         self.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
         imagePlayerView.customDelegate = self
