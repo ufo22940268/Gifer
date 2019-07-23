@@ -23,7 +23,7 @@ protocol StickerTitleDelegate: class {
     func onTitleSelected(_ index: Int)
 }
 
-class StickerTitlePanel: UICollectionView {
+class EditStickerTitlePanel: UICollectionView {
 
     var titles: [UIImage]?
     
@@ -40,7 +40,7 @@ class StickerTitlePanel: UICollectionView {
     }
 }
 
-extension StickerTitlePanel: UICollectionViewDataSource {
+extension EditStickerTitlePanel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return titles?.count ?? 0
     }
@@ -56,7 +56,7 @@ extension StickerTitlePanel: UICollectionViewDataSource {
     }
 }
 
-extension StickerTitlePanel: UICollectionViewDelegate {
+extension EditStickerTitlePanel: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         customDelegate?.onTitleSelected(indexPath.row)
     }

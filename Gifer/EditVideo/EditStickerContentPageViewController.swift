@@ -36,6 +36,11 @@ class EditStickerPageViewController: UIPageViewController {
         })
         return vc
     }()
+    
+    lazy var fileVC: UIViewController = {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "FileCollection") as! EditStickerFileCollectionViewController
+        return vc
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +51,10 @@ class EditStickerPageViewController: UIPageViewController {
         vcs = [UIViewController]()
         vcs?.append(emojiVC)
         vcs?.append(cuppyVC)
-        vcs?.forEach { ($0 as! EditStickerCollectionViewController).customDelegate = customDelegate }
+        vcs?.append(fileVC)
+        vcs?[0..<2].forEach { ($0 as! EditStickerCollectionViewController).customDelegate = customDelegate }
         
-        setViewControllers([vcs!.first!], direction: .forward, animated: true, completion: nil)
+        setViewControllers([vcs!.last!], direction: .forward, animated: true, completion: nil)
     }
     
     func transition(to index: Int) {
