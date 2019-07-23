@@ -1,1 +1,2 @@
 github "https://github.com/ufo22940268/MonkeyKing.git" "master"
+github "realm/realm-cocoa"

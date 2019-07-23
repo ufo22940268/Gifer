@@ -55,7 +55,7 @@ class EditStickerPageViewController: UIPageViewController {
         vcs?[0..<2].forEach { ($0 as! EditStickerCollectionViewController).customDelegate = customDelegate }
         (vcs?.last as! EditStickerFileCollectionViewController).customDelegate = customDelegate
         
-        setViewControllers([vcs!.last!], direction: .forward, animated: true, completion: nil)
+        setViewControllers([vcs!.first!], direction: .forward, animated: true, completion: nil)
     }
     
     func transition(to index: Int) {

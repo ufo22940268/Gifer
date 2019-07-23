@@ -7,23 +7,31 @@
 //
 
 import UIKit
+import RealmSwift
 
 fileprivate let ADD_BUTTON_ROW = 0
 
+class EditStickerFileCell: UICollectionViewCell {
+    
+    @IBOutlet weak var imageView: UIImageView!
+}
+
 class EditStickerFileCollectionViewController: UIViewController {
+
+    @IBOutlet weak var collectionView: UICollectionView!
     
     weak var customDelegate: EditStickerSelectionDelegate?
+    var stickerFiles: Results<StickerFileModel>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        stickerFiles = try? Realm().objects(StickerFileModel.self).sorted(byKeyPath: "createdDate")
     }
 }
 
 extension EditStickerFileCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return (stickerFiles?.count ?? 0) + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -31,7 +39,11 @@ extension EditStickerFileCollectionViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath)
             return cell
         } else {
-            fatalError()
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EditStickerFileCell
+            if let data = stickerFiles![indexPath.row - 1].image {
+                cell.imageView.image = UIImage(data: data)
+            }
+            return cell
         }
     }
 }
@@ -43,6 +55,9 @@ extension EditStickerFileCollectionViewController: UICollectionViewDelegate {
             pickVC.allowsEditing = true
             pickVC.delegate = self
             present(pickVC, animated: true, completion: nil)
+        } else {
+            let file = stickerFiles![indexPath.row - 1]
+            customDelegate?.onSelected(sticker: file.uiImage!)
         }
     }
 }
@@ -55,6 +70,13 @@ extension EditStickerFileCollectionViewController: UIImagePickerControllerDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             customDelegate?.onSelected(sticker: image)
+            let file = StickerFileModel()
+            file.image = image.pngData()
+            let realm = try! Realm()
+            try? realm.write {
+                realm.add(file)
+            }
+            collectionView.reloadData()
         }
         picker.dismiss(animated: true, completion: nil)
     }

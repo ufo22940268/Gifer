@@ -22,6 +22,9 @@
 		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
 		422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BC3B221F1B9F400948A32 /* CommonConstraints.swift */; };
 		422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422F539322E6DCCD00C0989D /* Sticker.storyboard */; };
+		422F539822E7032300C0989D /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F539722E7032300C0989D /* RealmSwift.framework */; };
+		422F539A22E7032600C0989D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F539922E7032600C0989D /* Realm.framework */; };
+		422F539D22E7035B00C0989D /* StickerFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F539C22E7035B00C0989D /* StickerFileModel.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		4234786D22CAE46A007F9E05 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4234786C22CAE46A007F9E05 /* Config.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
@@ -160,6 +163,10 @@
 		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
 		422BC3B221F1B9F400948A32 /* CommonConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstraints.swift; sourceTree = "<group>"; };
 		422F539322E6DCCD00C0989D /* Sticker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sticker.storyboard; sourceTree = "<group>"; };
+		422F539522E7031C00C0989D /* RealmSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RealmSwift.framework.dSYM; path = Carthage/Build/iOS/RealmSwift.framework.dSYM; sourceTree = "<group>"; };
+		422F539722E7032300C0989D /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		422F539922E7032600C0989D /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		422F539C22E7035B00C0989D /* StickerFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileModel.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		4234786C22CAE46A007F9E05 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
@@ -286,6 +293,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */,
+				422F539822E7032300C0989D /* RealmSwift.framework in Frameworks */,
+				422F539A22E7032600C0989D /* Realm.framework in Frameworks */,
 				42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +309,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		422F539B22E7034500C0989D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				422F539C22E7035B00C0989D /* StickerFileModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4260DA932226A72B000B16D4 /* OptionMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +425,9 @@
 		429CE3DF21C22F350004D3F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				422F539922E7032600C0989D /* Realm.framework */,
+				422F539722E7032300C0989D /* RealmSwift.framework */,
+				422F539522E7031C00C0989D /* RealmSwift.framework.dSYM */,
 				42D4E51C22BC4B8F00EDD3B7 /* StoreKit.framework */,
 				429CE3E021C22F360004D3F2 /* MonkeyKing.framework */,
 			);
@@ -522,6 +542,7 @@
 		42F2D56F219403B100113A10 /* Gifer */ = {
 			isa = PBXGroup;
 			children = (
+				422F539B22E7034500C0989D /* Model */,
 				42F2D570219403B100113A10 /* AppDelegate.swift */,
 				42F2D574219403B100113A10 /* Main.storyboard */,
 				42F2D577219403B300113A10 /* Assets.xcassets */,
@@ -689,11 +710,15 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MonkeyKing.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Realm.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/RealmSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -736,6 +761,7 @@
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,
+				422F539D22E7035B00C0989D /* StickerFileModel.swift in Sources */,
 				42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
 				42E879A122D1D5C30098D43B /* EditStickerViewController.swift in Sources */,
