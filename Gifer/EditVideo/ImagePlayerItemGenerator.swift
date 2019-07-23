@@ -80,7 +80,10 @@ class ImagePlayerItemGenerator {
             let times = timeSegments[index]
             generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, result, error) in
                 autoreleasepool {
-                    guard let image = image, error == nil, result == .succeeded, !self.isDestroyed else { return }
+                    guard let image = image, error == nil, result == .succeeded, !self.isDestroyed else {
+                        group.leave()
+                        return
+                    }
                     if size == nil {
                         size = image.size
                     }
