@@ -256,7 +256,7 @@ extension CropContainer: UIScrollViewDelegate {
 extension CropContainer: CropMenuViewDelegate {
     func onCropSizeSelected(size: CropSize) {
         if size.type == .free {
-            resizeTo(ratio: contentView.bounds.size)
+            resetCropArea()
         } else {
             resizeTo(ratio: size.ratio)
         }

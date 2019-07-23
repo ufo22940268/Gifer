@@ -173,12 +173,6 @@ class CropViewController: UIViewController {
         layoutCropContainer()
     }
     
-//    fileprivate func setup(playerItem: Croppable) {
-//        imagePlayerView.load(playerItem: playerItem)
-//        updateVideoFrame()
-//        self.cropMenuView.customDelegate = cropContainer
-//    }
-    
     @IBAction func onCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
