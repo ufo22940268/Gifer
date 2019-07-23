@@ -13,6 +13,7 @@ enum AppStoryboard: String {
     case Frame
     case Main
     case Edit
+    case Sticker
 
     var instance: UIStoryboard {
         return UIStoryboard(name: self.rawValue, bundle: nil)

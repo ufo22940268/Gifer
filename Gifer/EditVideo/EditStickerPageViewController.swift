@@ -10,7 +10,7 @@ import UIKit
 
 typealias EditStickerLoader = () -> UIImage
 
-protocol EditStickerPageDelegate: EditStickerCollectionDelegate {
+protocol EditStickerPageDelegate: EditStickerSelectionDelegate {
     func onPageTransition(to index: Int)
 }
 
@@ -53,6 +53,7 @@ class EditStickerPageViewController: UIPageViewController {
         vcs?.append(cuppyVC)
         vcs?.append(fileVC)
         vcs?[0..<2].forEach { ($0 as! EditStickerCollectionViewController).customDelegate = customDelegate }
+        (vcs?.last as! EditStickerFileCollectionViewController).customDelegate = customDelegate
         
         setViewControllers([vcs!.last!], direction: .forward, animated: true, completion: nil)
     }

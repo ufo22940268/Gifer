@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
-		420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */; };
+		420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
 		420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE222E3259200A272DE /* EditStickerTransition.swift */; };
 		420C9CE522E5573400A272DE /* CropVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE422E5573400A272DE /* CropVideoViewController.swift */; };
@@ -21,6 +21,7 @@
 		42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5C21F95587005D2710 /* OptionMenu.swift */; };
 		42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42265B5E21F98F41005D2710 /* CropMenuView.swift */; };
 		422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BC3B221F1B9F400948A32 /* CommonConstraints.swift */; };
+		422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422F539322E6DCCD00C0989D /* Sticker.storyboard */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		4234786D22CAE46A007F9E05 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4234786C22CAE46A007F9E05 /* Config.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
@@ -145,7 +146,7 @@
 
 /* Begin PBXFileReference section */
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
-		420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerContentPageViewController.swift; sourceTree = "<group>"; };
+		420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
 		420C9CE222E3259200A272DE /* EditStickerTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerTransition.swift; sourceTree = "<group>"; };
 		420C9CE422E5573400A272DE /* CropVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropVideoViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +159,7 @@
 		42265B5C21F95587005D2710 /* OptionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenu.swift; sourceTree = "<group>"; };
 		42265B5E21F98F41005D2710 /* CropMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropMenuView.swift; sourceTree = "<group>"; };
 		422BC3B221F1B9F400948A32 /* CommonConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstraints.swift; sourceTree = "<group>"; };
+		422F539322E6DCCD00C0989D /* Sticker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sticker.storyboard; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		4234786C22CAE46A007F9E05 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
@@ -357,7 +359,7 @@
 				42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */,
 				42E879B222D4C6690098D43B /* CropViewController.swift */,
 				4256CA8C22DF0C6C009231D3 /* ShareInstructionViewController.swift */,
-				420C9CDE22E1B80C00A272DE /* EditStickerContentPageViewController.swift */,
+				420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */,
 				420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */,
 				420C9CE222E3259200A272DE /* EditStickerTransition.swift */,
 				420C9CE422E5573400A272DE /* CropVideoViewController.swift */,
@@ -539,6 +541,7 @@
 				4218D4EC22C75980001CAD81 /* Storyboards.swift */,
 				4234786C22CAE46A007F9E05 /* Config.swift */,
 				42E879B022D4B57D0098D43B /* Edit.storyboard */,
+				422F539322E6DCCD00C0989D /* Sticker.storyboard */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
 				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
 				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
+				422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,
 				42F2D576219403B100113A10 /* Main.storyboard in Resources */,
 				42E86E6521CDC996004BB0BC /* LoadingViewController.xib in Resources */,
@@ -760,7 +764,7 @@
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
-				420C9CDF22E1B80C00A272DE /* EditStickerContentPageViewController.swift in Sources */,
+				420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
 				42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */,

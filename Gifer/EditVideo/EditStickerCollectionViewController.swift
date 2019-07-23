@@ -19,7 +19,7 @@ class EditStickerCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 }
 
-protocol EditStickerCollectionDelegate: class {
+protocol EditStickerSelectionDelegate: class {
     func onSelected(sticker: UIImage)
 }
 
@@ -27,7 +27,7 @@ class EditStickerCollectionViewController: UICollectionViewController {
     
     var loaders: [EditStickerLoader]?
     
-    weak var customDelegate: EditStickerCollectionDelegate?
+    weak var customDelegate: EditStickerSelectionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -777,7 +777,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     fileprivate func showEditStickerViewController(stickerInfo: StickerInfo? = nil) {
-        let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "stickers") as! EditStickerViewController
+        let vc = AppStoryboard.Sticker.instance.instantiateViewController(withIdentifier: "stickers") as! EditStickerViewController
         vc.customDelegate = self
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
