@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVKit
 
-class VideoControllerAttatchTrim: TrimController {
+class VideoControllerAttatchTrim: ControllerTrim {
 
     override var changeBackgroundWhenNeeded: Bool {
         return false
@@ -112,7 +112,7 @@ class VideoControllerAttachView: UIView {
 }
 
 extension VideoControllerAttachView: VideoTrimDelegate {
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
         customDelegate?.onAttachChanged(component: component, trimPosition: trimPosition)
     }
     

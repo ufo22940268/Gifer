@@ -192,4 +192,11 @@ class ImagePlayerItem {
         let endIndex = nearestActiveIndex(time: end)
         return Array(activeFrames[beginIndex...endIndex])
     }
+    
+    /// Calibrate trim position using the player item. There will be minor gap between trimPosition and playeritem.
+    func calibarateTrimPositionDuration(_ trimPosition: VideoTrimPosition) -> CMTime {
+        let fromIndex = self.nearestActiveIndex(time: trimPosition.leftTrim)
+        let toIndex = self.nearestActiveIndex(time: trimPosition.rightTrim)
+        return CMTime(seconds: self.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
+    }
 }

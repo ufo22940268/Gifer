@@ -62,7 +62,7 @@
 		426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C537D21D4C6020018DE80 /* PlaySpeedView.xib */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
-		4285BF9D21A8C34600913466 /* TrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* TrimController.swift */; };
+		4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* ControllerTrim.swift */; };
 		4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */; };
 		4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */; };
 		4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */; };
@@ -204,7 +204,7 @@
 		426C537D21D4C6020018DE80 /* PlaySpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaySpeedView.xib; sourceTree = "<group>"; };
 		427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressLoadingIndicator.swift; sourceTree = "<group>"; };
 		4284D44022768F5F00886513 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		4285BF9C21A8C34600913466 /* TrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimController.swift; sourceTree = "<group>"; };
+		4285BF9C21A8C34600913466 /* ControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerTrim.swift; sourceTree = "<group>"; };
 		4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerSlider.swift; sourceTree = "<group>"; };
 		4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallery.swift; sourceTree = "<group>"; };
 		4285BFA221A8D22E00913466 /* VideoGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryViewController.swift; sourceTree = "<group>"; };
@@ -347,7 +347,7 @@
 				424F9927228ABA5100952440 /* ConfigViewController.swift */,
 				42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */,
 				42EEACE221996641009A3BB8 /* VideoController.swift */,
-				4285BF9C21A8C34600913466 /* TrimController.swift */,
+				4285BF9C21A8C34600913466 /* ControllerTrim.swift */,
 				4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */,
 				4285BFA021A8C3AE00913466 /* VideoControllerGallery.swift */,
 				42462B1D2202F5770064FE56 /* VideoControllerGalleryContainer.swift */,
@@ -798,7 +798,7 @@
 				42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */,
 				4221A23522DD62730060B1BE /* Wechat.swift in Sources */,
 				42A4335A22DD22C1008C45AC /* ShareTransitioningAnimator.swift in Sources */,
-				4285BF9D21A8C34600913466 /* TrimController.swift in Sources */,
+				4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,

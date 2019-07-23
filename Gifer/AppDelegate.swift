@@ -27,8 +27,10 @@ enum UserDefaultKeys: String {
         
         #if DEBUG
         
-        let debugStoryboard = AppStoryboard.Main
-        let rootVC = debugStoryboard.instance.instantiateViewController(withIdentifier: "root")
+        let debugStoryboard =
+            AppStoryboard.Main
+//            AppStoryboard.Edit
+        let rootVC = debugStoryboard.instance.instantiateInitialViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
         

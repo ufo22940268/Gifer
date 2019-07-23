@@ -457,7 +457,7 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         pause()
-        shareVC = ShareViewController(galleryDuration: currentGifOption.duration, shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+        shareVC = ShareViewController(galleryDuration: playerItem!.calibarateTrimPositionDuration(trimPosition), shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareVC.present(by: self)
     }
     
@@ -620,19 +620,19 @@ extension EditViewController: VideoControllerDelegate {
     }
 
     //Changed by trimer dragged
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
         updateTrim(position: trimPosition, state: state, side: side)
     }
     
     /// Update trim info to views except video controller.
-    private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+    private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
 //        if Wechat.canBeShared(duration: position.galleryDuration) {
 //            highResButton.isEnabled = false
 //        } else {
 //            highResButton.isEnabled = true
 //        }
         
-        var fixedSide: TrimController.Side!
+        var fixedSide: ControllerTrim.Side!
         if side == nil {
             fixedSide = playDirection == .forward ? .left : .right
         } else {
@@ -666,6 +666,7 @@ extension EditViewController: VideoControllerDelegate {
             break
         }
         
+        videoController.videoTrim.updateMainColor(duration: playerItem!.calibarateTrimPositionDuration(trimPosition), taptic: true)
         updateSubTitle()
     }
     

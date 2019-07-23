@@ -40,7 +40,7 @@ protocol SlideVideoProgressDelegate: class {
 }
 
 protocol VideoTrimDelegate: class {
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?)
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?)
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime)
 }
 
@@ -218,7 +218,7 @@ class VideoController: UIStackView {
         return UIView().useAutoLayout()
     }()
     
-    var stickToSide: TrimController.Side? {
+    var stickToSide: ControllerTrim.Side? {
         didSet {
             guard let stickToSide = stickToSide else { return }
             switch stickToSide {
@@ -343,7 +343,7 @@ class VideoController: UIStackView {
         galleryView.setImage(image, on: index)
     }
     
-    func stickTo(side: TrimController.Side?) {
+    func stickTo(side: ControllerTrim.Side?) {
         stickToSide = side
     }
     

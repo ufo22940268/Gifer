@@ -350,7 +350,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         }
     }
     
-    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: TrimController.Side?) {
+    func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
         guard let side = side else { return }
         let position = trimPosition
         videoController.stickTo(side: side)

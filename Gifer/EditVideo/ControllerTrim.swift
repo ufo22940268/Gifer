@@ -73,7 +73,7 @@ class TrimButton: UIView {
 
 let videoTimeScale = CMTimeScale(600)
 
-class TrimController: UIControl {
+class ControllerTrim: UIControl {
     
     enum Status {
         case initial, highlight
@@ -251,7 +251,7 @@ class TrimController: UIControl {
     }
     
     func onVideoReady() {
-        updateFrameColor()
+//        updateMainColor()
     }
     
     override func tintColorDidChange() {
@@ -261,7 +261,7 @@ class TrimController: UIControl {
         bottomLine.backgroundColor = tintColor
     }
     
-    func updateFrameColor(duration: CMTime? = nil, taptic: Bool = false) {
+    func updateMainColor(duration: CMTime? = nil, taptic: Bool = false) {
         let duration = duration ?? trimPosition.galleryDuration
         
         let mode: Mode!
@@ -295,7 +295,7 @@ class TrimController: UIControl {
         leftTrimLeadingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-        updateFrameColor(taptic: true)
+//        updateMainColor(taptic: true)
         updatePressedState(by: recognizer.state)
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
@@ -317,7 +317,7 @@ class TrimController: UIControl {
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
         rightTrimTrailingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
-        updateFrameColor(taptic: true)
+//        updateMainColor(taptic: true)
         updatePressedState(by: recognizer.state)
         
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .right)
@@ -363,7 +363,7 @@ class TrimController: UIControl {
     /// Caused by external action. Such as high resolution button is tapped.
     func updateRange(trimPosition: VideoTrimPosition) {
         rightTrimTrailingConstraint.constant = -sliderThresholdGuide.layoutFrame.width*CGFloat(1 - trimPosition.rightTrim.seconds/duration.seconds)
-        updateFrameColor(duration: trimPosition.galleryDuration)
+        updateMainColor(duration: trimPosition.galleryDuration)
     }
 }
 
