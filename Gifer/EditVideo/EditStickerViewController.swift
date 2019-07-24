@@ -38,7 +38,7 @@ class EditStickerViewController: UIViewController {
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
     
         
-        let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!, #imageLiteral(resourceName: "image.png")]
+        let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!, #imageLiteral(resourceName: "photo-file.png")]
         titlePanel.setTitles(titles: titles)        
         titlePanel.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
         titlePanel.customDelegate = self
