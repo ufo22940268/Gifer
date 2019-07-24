@@ -60,6 +60,18 @@ extension EditStickerFileCollectionViewController: UICollectionViewDelegate {
             customDelegate?.onSelected(sticker: file.uiImage!)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if indexPath.row == ADD_BUTTON_ROW {
+            (collectionView.cellForItem(at: indexPath)?.contentView.subviews.first! as! UIButton).isHighlighted = true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        if indexPath.row == ADD_BUTTON_ROW {
+            (collectionView.cellForItem(at: indexPath)?.contentView.subviews.first! as! UIButton).isHighlighted = false
+        }
+    }
 }
 
 extension EditStickerFileCollectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

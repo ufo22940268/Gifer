@@ -158,7 +158,6 @@ class ImagePlayerItem {
         let id = allFrames.firstIndex(of: frame)!
         let workItem = DispatchWorkItem {
             if let image = self.commonCache.object(forKey: NSNumber(value: id)) {
-                print("hit")
                 DispatchQueue.main.async {                    
                     complete(image)
                 }

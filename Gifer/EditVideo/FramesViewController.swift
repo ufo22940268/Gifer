@@ -60,6 +60,10 @@ class FramesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
+        frames.enumerated()
+            .filter { !$0.element.isActive }.map { $0.offset }
+            .forEach { collectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
+        collectionView.contentOffset = .zero
     }
 }
 
@@ -80,7 +84,6 @@ extension FramesViewController: UICollectionViewDataSource {
             cell.image.image = image
         })
         
-        cell.isSelected = !frame.isActive
         cell.tag = id
         cell.sequence = playerItem.getActiveSequence(of: frame)
         cell.delegate = self
