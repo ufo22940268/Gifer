@@ -13,6 +13,7 @@ import MonkeyKing
 
 enum UserDefaultKeys: String {
     case gifMaxDuration = "gifMaxDuration"
+    case shareTimes
 }
 
 @UIApplicationMain
@@ -28,9 +29,9 @@ enum UserDefaultKeys: String {
         #if DEBUG
         
         let debugStoryboard =
-//            AppStoryboard.Main
+            AppStoryboard.Main
 //            AppStoryboard.Edit
-            AppStoryboard.Sticker
+//            AppStoryboard.Sticker
         let rootVC = debugStoryboard.instance.instantiateInitialViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()

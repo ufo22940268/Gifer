@@ -16,6 +16,7 @@ public struct YPFilter {
     private var applier: FilterApplierType?
     var progress: Double = 1.0
     
+    /// The normal filter doesn't have applier.
     var hasApplier: Bool {
         return applier != nil
     }
@@ -236,22 +237,22 @@ kernel vec4 myHazeRemovalKernel(
 
 var AllFilters: [YPFilter] = {
     var filters = [
-        YPFilter(name: "Normal", applier: nil),
-        YPFilter(name: "Nashville", applier: YPFilter.nashvilleFilter),
-        YPFilter(name: "Toaster", applier: YPFilter.toasterFilter),
-        YPFilter(name: "1977", applier: YPFilter.apply1977Filter),
-        YPFilter(name: "Clarendon", applier: YPFilter.clarendonFilter),
-        YPFilter(name: "Chrome", coreImageFilterName: "CIPhotoEffectChrome"),
-        YPFilter(name: "Fade", coreImageFilterName: "CIPhotoEffectFade"),
-        YPFilter(name: "Instant", coreImageFilterName: "CIPhotoEffectInstant"),
-        YPFilter(name: "Mono", coreImageFilterName: "CIPhotoEffectMono"),
-        YPFilter(name: "Noir", coreImageFilterName: "CIPhotoEffectNoir"),
-        YPFilter(name: "Process", coreImageFilterName: "CIPhotoEffectProcess"),
-        YPFilter(name: "Tonal", coreImageFilterName: "CIPhotoEffectTonal"),
-        YPFilter(name: "Transfer", coreImageFilterName: "CIPhotoEffectTransfer"),
-        YPFilter(name: "Tone", coreImageFilterName: "CILinearToSRGBToneCurve"),
-        YPFilter(name: "Linear", coreImageFilterName: "CISRGBToneCurveToLinear"),
-        YPFilter(name: "Sepia", coreImageFilterName: "CISepiaTone"),
+        YPFilter(name: "无滤镜", applier: nil),
+        YPFilter(name: "TC1", applier: YPFilter.nashvilleFilter),
+        YPFilter(name: "TC2", applier: YPFilter.toasterFilter),
+        YPFilter(name: "TC3", applier: YPFilter.apply1977Filter),
+        YPFilter(name: "TC4", applier: YPFilter.clarendonFilter),
+        YPFilter(name: "TC5", coreImageFilterName: "CIPhotoEffectChrome"),
+        YPFilter(name: "TC6", coreImageFilterName: "CIPhotoEffectFade"),
+        YPFilter(name: "BC1", coreImageFilterName: "CIPhotoEffectInstant"),
+        YPFilter(name: "BC2", coreImageFilterName: "CIPhotoEffectMono"),
+        YPFilter(name: "BC3", coreImageFilterName: "CIPhotoEffectNoir"),
+        YPFilter(name: "BC4", coreImageFilterName: "CIPhotoEffectProcess"),
+        YPFilter(name: "BC5", coreImageFilterName: "CIPhotoEffectTonal"),
+        YPFilter(name: "BC6", coreImageFilterName: "CIPhotoEffectTransfer"),
+        YPFilter(name: "BC7", coreImageFilterName: "CILinearToSRGBToneCurve"),
+        YPFilter(name: "BC8", coreImageFilterName: "CISRGBToneCurveToLinear"),
+        YPFilter(name: "BC9", coreImageFilterName: "CISepiaTone"),
         ]
     
     if UIDevice.isSimulator {

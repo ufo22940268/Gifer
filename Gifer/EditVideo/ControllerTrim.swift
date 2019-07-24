@@ -166,7 +166,7 @@ class ControllerTrim: UIControl {
             return
         }
         
-        self.galleryView = galleryView        
+        self.galleryView = galleryView
         isOpaque = false
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -246,12 +246,16 @@ class ControllerTrim: UIControl {
         let activeTrailingConstraint = sliderRangeGuide.trailingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
         activeTrailingConstraint.isActive = true
         
+        tintColor = originTintColor
+        topLine.backgroundColor = tintColor
+        bottomLine.backgroundColor = tintColor        
+        
         bringSubviewToFront(leftTrim)
         bringSubviewToFront(rightTrim)
     }
     
     func onVideoReady() {
-//        updateMainColor()
+        updateMainColor(duration: CMTimeMultiply(Wechat.maxShareDuration.toTime(), multiplier: 2), taptic: false)
     }
     
     override func tintColorDidChange() {
@@ -295,7 +299,6 @@ class ControllerTrim: UIControl {
         leftTrimLeadingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
         
-//        updateMainColor(taptic: true)
         updatePressedState(by: recognizer.state)
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .left)
     }
@@ -317,7 +320,6 @@ class ControllerTrim: UIControl {
         let newConstant = (rightTrimTrailingConstraint.constant + translate.x).clamped(to: minRightTrailing...0)
         rightTrimTrailingConstraint.constant = newConstant
         recognizer.setTranslation(CGPoint.zero, in: self)
-//        updateMainColor(taptic: true)
         updatePressedState(by: recognizer.state)
         
         trimDelegate?.onTrimChangedByTrimer(trimPosition: trimPosition, state: getTrimState(from: recognizer), side: .right)

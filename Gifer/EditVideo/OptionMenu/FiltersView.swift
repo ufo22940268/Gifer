@@ -164,6 +164,14 @@ extension FiltersView: UICollectionViewDelegate {
         filter = filter(at: indexPath.row)
         customDelegate.onPreviewSelected(filter: filter)
         
+        if !filter.hasApplier {
+            slider.isEnabled = false
+            slider.value = 1
+        } else {
+            slider.value = Float(filter.progress)
+            slider.isEnabled = true
+        }
+        
         filterCollectionView.reloadData()
     }
 }

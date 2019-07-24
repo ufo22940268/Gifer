@@ -11,6 +11,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import Photos
+import StoreKit
 
 enum ToolbarItemState {
     case normal, highlight
@@ -418,6 +419,14 @@ class EditViewController: UIViewController {
         )
     }
     
+    func promotion() {
+        let manager = PromotionManager.default
+        manager.increaseShareTimes()
+        if manager.shouldShowDialog() {
+            manager.showDialog()
+        }
+    }
+    
     private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
         guard let playerItem = playerItem else { return }
         showLoadingWhenExporting(true)
@@ -431,8 +440,9 @@ class EditViewController: UIViewController {
             
             switch type {
             case .wechat, .wechatSticker:
-                shareManager.shareToWechat(video: gif, complete: { (success) in                    
+                shareManager.shareToWechat(video: gif, complete: { (success) in
                     self.dismiss(animated: true, completion: nil)
+                    self.promotion()
                     self.play()
                 })
             case .photo:
@@ -443,8 +453,8 @@ class EditViewController: UIViewController {
                     }))
                     alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
+                        self.promotion()
                         self.onShareDialogDimissed()
-                        self.play()
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }

@@ -78,12 +78,17 @@ class ImagePlayerItemGenerator {
         for index in 0..<generatorParallelNumber {
             group.enter()
             let times = timeSegments[index]
+            var processedCount = 0
             generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, result, error) in
+                processedCount = processedCount + 1
                 autoreleasepool {
                     guard let image = image, error == nil, result == .succeeded, !self.isDestroyed else {
-                        group.leave()
+                        if processedCount == times.count {
+                            group.leave()
+                        }
                         return
                     }
+                    
                     if size == nil {
                         size = image.size
                     }
@@ -93,7 +98,7 @@ class ImagePlayerItemGenerator {
                     frames.append(frame)
                     frameSegments[index] = frames
                     
-                    if time == times.last!.timeValue {
+                    if processedCount == times.count {
                         group.leave()
                     }
                 }

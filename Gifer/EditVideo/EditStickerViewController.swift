@@ -37,7 +37,6 @@ class EditStickerViewController: UIViewController {
         toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
     
-        
         let titles: [UIImage] = ["😀".image(), UIImage(named: cuppyImageNames.first!)!, #imageLiteral(resourceName: "photo-file.png")]
         titlePanel.setTitles(titles: titles)        
         titlePanel.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
@@ -46,7 +45,7 @@ class EditStickerViewController: UIViewController {
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         previewImageView.image = stickerInfoForEdit?.image
         
-        pageVC.transition(to: 2)
+//        pageVC.transition(to: 2)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

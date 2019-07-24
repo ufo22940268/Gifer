@@ -66,7 +66,7 @@
                                                     <subviews>
                                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3Di-6V-mhX" customClass="EditStickerTitlePanel" customModule="Gifer" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="backgroundColor" name="darkBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="52" id="osr-vy-GVY"/>
                                                             </constraints>
@@ -136,10 +136,17 @@
                                                 <constraint firstItem="Z6N-HU-Z2W" firstAttribute="top" secondItem="XHb-N3-k9Q" secondAttribute="bottom" id="Mme-QX-Sdh"/>
                                             </constraints>
                                         </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pd-0b-KSu" userLabel="Bottom Cover">
+                                            <rect key="frame" x="0.0" y="862" width="414" height="818"/>
+                                            <color key="backgroundColor" name="darkBackgroundColor"/>
+                                        </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="1pd-0b-KSu" firstAttribute="top" secondItem="K72-RR-Ppt" secondAttribute="bottom" id="MIg-wY-koW"/>
                                         <constraint firstItem="K72-RR-Ppt" firstAttribute="leading" secondItem="gEr-HD-Q7i" secondAttribute="leading" id="Yfh-Kc-4dI"/>
+                                        <constraint firstItem="1pd-0b-KSu" firstAttribute="width" secondItem="gEr-HD-Q7i" secondAttribute="width" id="csI-Pe-Yu1"/>
                                         <constraint firstAttribute="trailing" secondItem="K72-RR-Ppt" secondAttribute="trailing" id="ebx-ND-Doa"/>
+                                        <constraint firstItem="1pd-0b-KSu" firstAttribute="leading" secondItem="K72-RR-Ppt" secondAttribute="leading" id="jMs-VI-Zwb"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
@@ -148,6 +155,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9wi-d0-5xJ" secondAttribute="trailing" id="0dp-x2-dWv"/>
                             <constraint firstItem="K72-RR-Ppt" firstAttribute="height" secondItem="9Mb-LQ-kXS" secondAttribute="height" id="3v0-Yh-LBd"/>
+                            <constraint firstItem="1pd-0b-KSu" firstAttribute="height" secondItem="9Mb-LQ-kXS" secondAttribute="height" id="C75-07-smj"/>
                             <constraint firstAttribute="bottom" secondItem="9wi-d0-5xJ" secondAttribute="bottom" id="XQ9-o1-w7O"/>
                             <constraint firstItem="9wi-d0-5xJ" firstAttribute="leading" secondItem="9Mb-LQ-kXS" secondAttribute="leading" id="ZaY-Xu-mwf"/>
                             <constraint firstItem="9wi-d0-5xJ" firstAttribute="top" secondItem="l7l-M4-BI8" secondAttribute="top" id="yYt-Mi-ij1"/>
@@ -166,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IzP-iv-LQZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1694" y="-173"/>
+            <point key="canvasLocation" x="1692.753623188406" y="-173.4375"/>
         </scene>
         <!--Edit Sticker Page View Controller-->
         <scene sceneID="Swr-Oa-fhR">
@@ -183,6 +191,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="dRv-m3-SxX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Q3u-CI-FOZ">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -234,6 +243,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RQe-Lb-P00">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="356"/>
+                                <color key="backgroundColor" name="darkBackgroundColor"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ObW-Fe-lCa">
                                     <size key="itemSize" width="50" height="50"/>
@@ -308,8 +318,9 @@
                                     <outlet property="delegate" destination="VTA-q6-zXB" id="1b5-jz-4Lt"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="E4x-8y-Qaw">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4x-8y-Qaw">
                                 <rect key="frame" x="0.0" y="356" width="414" height="44"/>
+                                <color key="backgroundColor" name="darkBackgroundColor"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="cX1-IV-WTb"/>
                                     <barButtonItem title="Item" id="DAN-ZE-iv2">
@@ -319,8 +330,10 @@
                                     </barButtonItem>
                                 </items>
                                 <color key="tintColor" name="yellowColor"/>
+                                <color key="barTintColor" name="darkBackgroundColor"/>
                             </toolbar>
                         </subviews>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="RQe-Lb-P00" firstAttribute="leading" secondItem="NSI-Iv-Bf5" secondAttribute="leading" id="4IR-Wf-ACV"/>
                             <constraint firstItem="RQe-Lb-P00" firstAttribute="top" secondItem="NSI-Iv-Bf5" secondAttribute="top" id="EEo-bT-lt5"/>
@@ -347,6 +360,9 @@
     <resources>
         <image name="plus-thin-s" width="77" height="76"/>
         <image name="xmark" width="25" height="25"/>
+        <namedColor name="darkBackgroundColor">
+            <color red="0.098039215686274508" green="0.10588235294117647" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="dividerColor">
             <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="0.80800002813339233" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

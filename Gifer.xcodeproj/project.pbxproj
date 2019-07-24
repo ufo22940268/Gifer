@@ -25,6 +25,7 @@
 		422F539822E7032300C0989D /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F539722E7032300C0989D /* RealmSwift.framework */; };
 		422F539A22E7032600C0989D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F539922E7032600C0989D /* Realm.framework */; };
 		422F539D22E7035B00C0989D /* StickerFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F539C22E7035B00C0989D /* StickerFileModel.swift */; };
+		422F539F22E83EEE00C0989D /* PromotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F539E22E83EEE00C0989D /* PromotionManager.swift */; };
 		4233DD6A21B91441009A757C /* AspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4233DD6921B91441009A757C /* AspectView.swift */; };
 		4234786D22CAE46A007F9E05 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4234786C22CAE46A007F9E05 /* Config.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
@@ -167,6 +168,7 @@
 		422F539722E7032300C0989D /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		422F539922E7032600C0989D /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		422F539C22E7035B00C0989D /* StickerFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileModel.swift; sourceTree = "<group>"; };
+		422F539E22E83EEE00C0989D /* PromotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionManager.swift; sourceTree = "<group>"; };
 		4233DD6921B91441009A757C /* AspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectView.swift; sourceTree = "<group>"; };
 		4234786C22CAE46A007F9E05 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				4221A23422DD62730060B1BE /* Wechat.swift */,
 				4256CA8E22DFE068009231D3 /* UIViewControllerExtensions.swift */,
 				420C9CDC22E15BDF00A272DE /* StringExtensions.swift */,
+				422F539E22E83EEE00C0989D /* PromotionManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -836,6 +839,7 @@
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */,
 				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
+				422F539F22E83EEE00C0989D /* PromotionManager.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
 				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,
 				420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */,
