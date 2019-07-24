@@ -20,7 +20,7 @@ class EditStickerCell: UICollectionViewCell {
 }
 
 protocol EditStickerSelectionDelegate: class {
-    func onSelected(sticker: UIImage)
+    func onSelected(sticker: UIImage?)
 }
 
 class EditStickerCollectionViewController: UICollectionViewController {

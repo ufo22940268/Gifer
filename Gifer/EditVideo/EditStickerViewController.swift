@@ -45,6 +45,8 @@ class EditStickerViewController: UIViewController {
         
         toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         previewImageView.image = stickerInfoForEdit?.image
+        
+        pageVC.transition(to: 2)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -79,7 +81,7 @@ extension EditStickerViewController: EditStickerPageDelegate {
         titlePanel.select(index)
     }
     
-    func onSelected(sticker: UIImage) {
+    func onSelected(sticker: UIImage?) {
         previewImageView.image = sticker
         doneBarItem.isEnabled = true
     }
