@@ -28,8 +28,9 @@ enum UserDefaultKeys: String {
         #if DEBUG
         
         let debugStoryboard =
-            AppStoryboard.Main
+//            AppStoryboard.Main
 //            AppStoryboard.Edit
+            AppStoryboard.Sticker
         let rootVC = debugStoryboard.instance.instantiateInitialViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
