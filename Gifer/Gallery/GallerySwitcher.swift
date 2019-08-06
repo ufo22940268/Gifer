@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 enum GalleryCategory: CaseIterable {
     case video
@@ -27,6 +28,24 @@ enum GalleryCategory: CaseIterable {
             return #imageLiteral(resourceName: "video.png")
         case .livePhoto:
             return #imageLiteral(resourceName: "livephoto.png")
+        }
+    }
+    
+    var mediaSubtype: PHAssetMediaSubtype? {
+        switch self {
+        case .livePhoto:
+            return .photoLive
+        default:
+            return nil
+        }
+    }
+    
+    var mediaType: PHAssetMediaType? {
+        switch self {
+        case .livePhoto:
+            return nil
+        case .video:
+            return .video
         }
     }
 }

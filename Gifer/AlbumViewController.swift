@@ -27,7 +27,7 @@ class AlbumCell: UITableViewCell {
 }
 
 protocol AlbumViewControllerDelegate: class {
-    func onUpdateFetchOptions(_ fetchOptions: VideoGalleryFetchOptions)
+    func onUpdateFetchOptions(localIdentifier: String?, localizedTitle: String?)
 }
 
 class AlbumViewController: UITableViewController {
@@ -128,10 +128,7 @@ class AlbumViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let col = collections![indexPath.row]
-        var fetchOption = VideoGalleryFetchOptions()
-        fetchOption.localIdentifier = col.localIdentifier
-        dismiss(animated: true, completion: {
-            self.customDelegate?.onUpdateFetchOptions(fetchOption)
-        })
+        self.customDelegate?.onUpdateFetchOptions(localIdentifier: col.localIdentifier, localizedTitle: col.localizedTitle)
+        dismiss(animated: true, completion: nil)
     }
 }

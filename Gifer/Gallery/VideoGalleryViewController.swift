@@ -16,27 +16,38 @@ let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
 let toggleGalleryCategoryAnimationDuration = 0.3
 
 struct VideoGalleryFetchOptions {
-    var type: PHAssetMediaType?
-    var subType: PHAssetMediaSubtype?
+    var mediaType: PHAssetMediaType? = .video
+    var mediaSubtype: PHAssetMediaSubtype?
     var localIdentifier: String?
+    var localizedTitle: String?
     
     static let `default` = {
-        return VideoGalleryFetchOptions(type: .video, subType: nil, localIdentifier: nil)
+        return VideoGalleryFetchOptions(mediaType: .video, mediaSubtype: nil, localIdentifier: nil, localizedTitle: nil)
     }()
     
     var phOptions: PHFetchOptions {
         let options = PHFetchOptions()
         var predicates = [NSPredicate]()
-        if let type = type {
-            predicates.append(NSPredicate(format: "mediaType = %d", type.rawValue))
-        }
         
-        if let subType = subType {
-            predicates.append(NSPredicate(format: "(mediaSubtypes & %d) != 0", subType.rawValue))
+        if let subType = mediaSubtype {
+            predicates.append(NSPredicate(format: "(mediaSubtype & %d) != 0", subType.rawValue))
+        } else if let type = mediaType {
+            predicates.append(NSPredicate(format: "mediaType = %d", type.rawValue))
         }
         
         options.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         return options
+    }
+    
+    mutating func fillCollectionInfo() {
+        if localIdentifier != nil {
+            fatalError()
+        }
+        
+        if let col = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject {
+            localizedTitle = col.localizedTitle
+            localIdentifier = col.localIdentifier
+        }
     }
 }
 
@@ -65,13 +76,8 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
-    var galleryCategory: GalleryCategory {
-        if let subType = fetchOptions.subType, subType == .photoLive {
-            return .livePhoto
-        } else {
-            return .video
-        }
-    }
+    
+    var galleryCategory: GalleryCategory = .video
     
     var fetchOptions = VideoGalleryFetchOptions.default
     
@@ -156,17 +162,11 @@ class VideoGalleryViewController: UICollectionViewController {
 
     
     func reload(scrollToBottom: Bool = false) {
-//        if galleryCategory == .video {
-//            self.videoResult = VideoLibrary.shared().getVideos()
-//        } else {
-//            self.videoResult = VideoLibrary.shared().getLivePhotos()
-//        }
-        
-//        self.videoResult = PHAsset.fetchAssets(in: , options: <#T##PHFetchOptions?#>)
         if let localIdentifier = fetchOptions.localIdentifier {
             let col = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [localIdentifier], options: nil).firstObject!
             self.videoResult = PHAsset.fetchAssets(in: col, options: fetchOptions.phOptions)
         } else {
+            fetchOptions.fillCollectionInfo()
             self.videoResult = PHAsset.fetchAssets(with: fetchOptions.phOptions)
         }
         
@@ -177,7 +177,7 @@ class VideoGalleryViewController: UICollectionViewController {
             enableFooterView(true)
         } else {
             enableFooterView(false)
-            self.collectionView.setEmptyMessage("未找到\(galleryCategory.title)")
+            self.collectionView.setEmptyMessage("\(fetchOptions.localizedTitle ?? "")中未找到\(galleryCategory.title)")
         }
         
         if scrollToBottom {
@@ -236,7 +236,7 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer", for: indexPath) as! GalleryBottomInfoView
-        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.title)
+        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.title, collectionTitle: fetchOptions.localizedTitle)
         return footer
     }
     
@@ -326,11 +326,12 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         slideDownPanel(slideDown)
     }
     
-    // FIXME: Change request type.
-    func onSelect(galleryCategory: GalleryCategory) {
+    func onSelectGalleryCategory(_ galleryCategory: GalleryCategory) {
         slideDownPanel(false)
+        self.galleryCategory = galleryCategory
         switcher.setSelected(false, anim: true)
-//        self.galleryCategory = galleryCategory
+        fetchOptions.mediaSubtype = galleryCategory.mediaSubtype
+        fetchOptions.mediaType = galleryCategory.mediaType
         reload(scrollToBottom: true)
         
         switcher.category = galleryCategory
@@ -343,8 +344,9 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
 }
 
 extension VideoGalleryViewController: AlbumViewControllerDelegate {
-    func onUpdateFetchOptions(_ fetchOptions: VideoGalleryFetchOptions) {
-        self.fetchOptions = fetchOptions
+    func onUpdateFetchOptions(localIdentifier: String?, localizedTitle: String?) {
+        fetchOptions.localIdentifier = localIdentifier
+        fetchOptions.localizedTitle = localizedTitle
         reload(scrollToBottom: true)
     }
 }

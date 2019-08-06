@@ -29,12 +29,12 @@ class GalleryBottomInfoView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setVideoCount(_ count: Int, category: String) {
+    func setVideoCount(_ count: Int, category: String, collectionTitle: String?) {
         if count == 0 {
             isHidden = true
         } else {
             isHidden = false
-            videoInfoView.text = "\(count)个\(category)"
+            videoInfoView.text = "\(collectionTitle ?? ""), \(count)个\(category)"
         }
     }
 }

@@ -35,7 +35,7 @@ class GalleryCategoryCell: UITableViewCell {
 }
 
 protocol GalleryCategoryDelegate: class {
-    func onSelect(galleryCategory: GalleryCategory)
+    func onSelectGalleryCategory(_ galleryCategory: GalleryCategory)
 }
 
 class GalleryCategoryTableView: UITableView {
@@ -87,6 +87,6 @@ extension GalleryCategoryTableView: UITableViewDataSource {
 
 extension GalleryCategoryTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        customDelegate?.onSelect(galleryCategory: items[indexPath.row])
+        customDelegate?.onSelectGalleryCategory(items[indexPath.row])
     }
 }
