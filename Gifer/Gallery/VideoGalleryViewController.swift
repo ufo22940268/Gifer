@@ -65,9 +65,11 @@ class VideoGalleryViewController: UICollectionViewController {
             switcher.category = .video
         }
         navigationItem.titleView = switcher
+        let openAlbumsItem = UIBarButtonItem(title: "相册", style: .plain, target: self, action: #selector(onOpenAlbums))
+        openAlbumsItem.tintColor = UIColor.yellowActiveColor
+        navigationItem.leftBarButtonItem = openAlbumsItem
         
         PHPhotoLibrary.shared().register(self)
-        
         PHPhotoLibrary.requestAuthorization { (status) in
             if status == PHAuthorizationStatus.authorized {
                 DispatchQueue.main.async {
@@ -96,6 +98,9 @@ class VideoGalleryViewController: UICollectionViewController {
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
         view.addSubview(galleryCategoryView)
+    }
+    
+    @objc func onOpenAlbums() {
     }
 
     func enableFooterView(_ enable: Bool) {

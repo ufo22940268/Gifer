@@ -34,7 +34,7 @@ class DarkTableCell: UITableViewCell {
         if selected {
             selectedBackgroundView?.backgroundColor = .black
         } else {
-            selectedBackgroundView?.backgroundColor = .dark
+            selectedBackgroundView?.backgroundColor = .darkBackground
         }
     }
 }
@@ -52,7 +52,7 @@ class DarkTableView: UITableView {
     }
     
     private func setup() {
-        backgroundColor = .dark
+        backgroundColor = .darkBackground
         tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))
         separatorStyle = .none
     }

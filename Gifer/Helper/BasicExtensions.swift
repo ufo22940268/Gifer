@@ -140,6 +140,12 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
+    
+    func center(in rect: CGRect, backgroundColor: UIColor? = nil) -> UIImage {
+        return UIGraphicsImageRenderer(bounds: rect).image { (context) in
+            self.draw(in: AVMakeRect(aspectRatio: self.size, insideRect: rect))
+        }
+    }
 }
 
 extension CGImage {

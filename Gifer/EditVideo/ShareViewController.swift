@@ -100,7 +100,8 @@ class LoopCountConfigCell: DarkTableCell {
 }
 
 extension UIColor {
-    static let dark = UIColor(named: "darkBackgroundColor")!
+    static let darkBackground = UIColor(named: "darkBackgroundColor")!    
+    static let darkContent = UIColor(named: "darkContentColor")!
 }
 
 class ShareCell: DarkTableCell {
@@ -260,7 +261,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.dark
+        view.backgroundColor = UIColor.darkBackground
         view.clipsToBounds = true
         
         view.addSubview(tableView)

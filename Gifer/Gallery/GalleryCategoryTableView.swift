@@ -58,7 +58,7 @@ class GalleryCategoryTableView: UITableView {
     
     override func awakeFromNib() {
         dataSource = self
-        backgroundColor = .dark
+        backgroundColor = .darkBackground
         separatorStyle = .none
         
         selectedCategory = .video
