@@ -143,6 +143,7 @@ class VideoGalleryViewController: UICollectionViewController {
         let nvc = AppStoryboard.Album.instance.instantiateViewController(withIdentifier: "albumNavigation") as! UINavigationController
         let vc = nvc.topViewController as! AlbumViewController
         vc.customDelegate = self
+        vc.initialCollectionIdentifier = fetchOptions.localIdentifier
         navigationController?.present(nvc, animated: true, completion: nil)
     }
 

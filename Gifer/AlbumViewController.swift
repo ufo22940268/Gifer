@@ -35,6 +35,8 @@ class AlbumViewController: UITableViewController {
     var collections: [PHAssetCollection]?
     
     weak var customDelegate: AlbumViewControllerDelegate?
+    
+    var initialCollectionIdentifier: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +73,14 @@ class AlbumViewController: UITableViewController {
         }
         self.collections = collections
         tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let index = self.collections?.firstIndex(where: { $0.localIdentifier == initialCollectionIdentifier }) {
+            self.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+        }
     }
     
     // MARK: - Table view data source
