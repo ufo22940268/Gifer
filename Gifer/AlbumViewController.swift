@@ -10,6 +10,22 @@ import UIKit
 import Photos
 import AVKit
 
+class AlbumCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    override func awakeFromNib() {
+        let colorView = UIView()
+        colorView.backgroundColor = #colorLiteral(red: 0.08100000024, green: 0.08100000024, blue: 0.08100000024, alpha: 1)
+        selectedBackgroundView = colorView
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
 class AlbumViewController: UITableViewController {
     
     var collections: [PHAssetCollection]?
@@ -67,6 +83,7 @@ class AlbumViewController: UITableViewController {
             PHImageManager.default().cancelImageRequest(PHImageRequestID(cell.tag))
         }
         
+        
         let imageSize = CGSize(width: 55, height: 55)
         let col = collections![indexPath.row]
         cell.imageView?.clipsToBounds = true
@@ -98,5 +115,9 @@ class AlbumViewController: UITableViewController {
         let imageCount: Int = col.estimatedAssetCount == NSNotFound ? 0 : col.estimatedAssetCount
         cell.detailTextLabel?.text = "\(imageCount)张"
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     }
 }

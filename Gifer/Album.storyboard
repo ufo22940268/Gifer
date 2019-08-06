@@ -37,7 +37,7 @@
                         <color key="tintColor" name="yellowColor"/>
                         <color key="separatorColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="0.42829754601226994" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="59Z-kc-X9G" detailTextLabel="GsL-RP-bfA" style="IBUITableViewCellStyleValue1" id="CbM-rh-mbS">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="59Z-kc-X9G" detailTextLabel="GsL-RP-bfA" style="IBUITableViewCellStyleValue1" id="CbM-rh-mbS" customClass="AlbumCell" customModule="Gifer" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CbM-rh-mbS" id="Czk-HA-1ZD" customClass="DarkTableCell" customModule="Gifer" customModuleProvider="target">
