@@ -51,7 +51,7 @@ class AlbumViewController: UITableViewController {
         let options = PHFetchOptions()
 
         var collections = [PHAssetCollection]()
-        let subtypes: [PHAssetCollectionSubtype] = [.smartAlbumGeneric, .smartAlbumFavorites]
+        let subtypes: [PHAssetCollectionSubtype] = [.smartAlbumUserLibrary, .smartAlbumFavorites]
         for subtype in subtypes {
             if let col = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: subtype, options: nil).firstObject {
                 collections.append(col)
@@ -101,10 +101,8 @@ class AlbumViewController: UITableViewController {
             cell.imageView?.clipsToBounds = true
             cell.imageView?.image = UIGraphicsImageRenderer(size: canvasSize).image(actions: { (context) in
                 let image = #imageLiteral(resourceName: "Image Placeholder.png")
-                UIColor.darkGray.setFill()
-                context.fill(CGRect(origin: .zero, size: canvasSize))
-                let imageRect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: .zero, size: canvasSize).insetBy(dx: 10, dy: 10))
-                image.draw(in: imageRect, blendMode: .destinationOut, alpha: 1.0)
+                image.draw(in: CGRect(origin: .zero, size: canvasSize))
+                
             })
         }
         
@@ -112,8 +110,13 @@ class AlbumViewController: UITableViewController {
         cell.textLabel?.font = .systemFont(ofSize: 19, weight: .semibold)
         cell.textLabel?.text = col.localizedTitle
         cell.detailTextLabel?.textColor = .lightText
-        let imageCount: Int = col.estimatedAssetCount == NSNotFound ? 0 : col.estimatedAssetCount
-        cell.detailTextLabel?.text = "\(imageCount)张"
+        var imageCount: Int = 0
+        if col.assetCollectionType == .smartAlbum {
+            imageCount = PHAsset.fetchAssets(in: col, options: nil).count
+        } else {
+            imageCount = col.estimatedAssetCount == NSNotFound ? 0 : col.estimatedAssetCount
+        }
+        cell.detailTextLabel?.text = "\(imageCount)"
         return cell
     }
     
