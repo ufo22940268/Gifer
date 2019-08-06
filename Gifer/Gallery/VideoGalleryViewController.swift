@@ -15,6 +15,35 @@ private let galleryGap = CGFloat(0.5)
 let EditGalleryDurationThreshold = CMTime(seconds: 20, preferredTimescale: 600)
 let toggleGalleryCategoryAnimationDuration = 0.3
 
+struct VideoGalleryFetchOptions {
+    var type: PHAssetMediaType?
+    var subType: PHAssetMediaSubtype?
+    var localIdentifier: String?
+    
+    static let `default` = {
+        return VideoGalleryFetchOptions(type: .video, subType: nil, localIdentifier: nil)
+    }()
+    
+    var phOptions: PHFetchOptions {
+        let options = PHFetchOptions()
+        var predicates = [NSPredicate]()
+        if let localIdentifier = localIdentifier {
+            predicates.append(NSPredicate(format: "localIdentifier = \"%s\"", localIdentifier))
+        }
+        
+        if let type = type {
+            predicates.append(NSPredicate(format: "mediaType = %d", type.rawValue))
+        }
+        
+        if let subType = subType {
+            predicates.append(NSPredicate(format: "(mediaSubtypes & %d) != 0", subType.rawValue))
+        }
+        
+        options.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return options
+    }
+}
+
 class VideoGalleryViewController: UICollectionViewController {
     
     @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
@@ -40,7 +69,15 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
-    var galleryCategory: GalleryCategory = .video
+    var galleryCategory: GalleryCategory {
+        if let subType = fetchOptions.subType, subType == .photoLive {
+            return .livePhoto
+        } else {
+            return .video
+        }
+    }
+    
+    var fetchOptions = VideoGalleryFetchOptions.default
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +138,10 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     @objc func onOpenAlbums() {
+        let nvc = AppStoryboard.Album.instance.instantiateViewController(withIdentifier: "albumNavigation") as! UINavigationController
+        let vc = nvc.topViewController as! AlbumViewController
+        vc.customDelegate = self
+        navigationController?.present(nvc, animated: true, completion: nil)
     }
 
     func enableFooterView(_ enable: Bool) {
@@ -119,11 +160,14 @@ class VideoGalleryViewController: UICollectionViewController {
 
     
     func reload(scrollToBottom: Bool = false) {
-        if galleryCategory == .video {
-            self.videoResult = VideoLibrary.shared().getVideos()
-        } else {
-            self.videoResult = VideoLibrary.shared().getLivePhotos()
-        }
+//        if galleryCategory == .video {
+//            self.videoResult = VideoLibrary.shared().getVideos()
+//        } else {
+//            self.videoResult = VideoLibrary.shared().getLivePhotos()
+//        }
+        
+//        self.videoResult = PHAsset.fetchAssets(in: , options: <#T##PHFetchOptions?#>)
+        self.videoResult = PHAsset.fetchAssets(with: fetchOptions.phOptions)
         
         self.collectionView.reloadData()
         
@@ -281,10 +325,11 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         slideDownPanel(slideDown)
     }
     
+    // FIXME: Change request type.
     func onSelect(galleryCategory: GalleryCategory) {
         slideDownPanel(false)
         switcher.setSelected(false, anim: true)
-        self.galleryCategory = galleryCategory
+//        self.galleryCategory = galleryCategory
         reload(scrollToBottom: true)
         
         switcher.category = galleryCategory
@@ -293,5 +338,12 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     @objc func onDimClicked(sender: UITapGestureRecognizer) {
         slideDownPanel(false)
         switcher.setSelected(false, anim: true)
+    }
+}
+
+extension VideoGalleryViewController: AlbumViewControllerDelegate {
+    func onUpdateFetchOptions(_ fetchOptions: VideoGalleryFetchOptions) {
+        self.fetchOptions = fetchOptions
+        reload(scrollToBottom: true)
     }
 }
