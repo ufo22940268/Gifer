@@ -27,10 +27,6 @@ struct VideoGalleryFetchOptions {
     var phOptions: PHFetchOptions {
         let options = PHFetchOptions()
         var predicates = [NSPredicate]()
-        if let localIdentifier = localIdentifier {
-            predicates.append(NSPredicate(format: "localIdentifier = \"%s\"", localIdentifier))
-        }
-        
         if let type = type {
             predicates.append(NSPredicate(format: "mediaType = %d", type.rawValue))
         }
@@ -167,7 +163,12 @@ class VideoGalleryViewController: UICollectionViewController {
 //        }
         
 //        self.videoResult = PHAsset.fetchAssets(in: , options: <#T##PHFetchOptions?#>)
-        self.videoResult = PHAsset.fetchAssets(with: fetchOptions.phOptions)
+        if let localIdentifier = fetchOptions.localIdentifier {
+            let col = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [localIdentifier], options: nil).firstObject!
+            self.videoResult = PHAsset.fetchAssets(in: col, options: fetchOptions.phOptions)
+        } else {
+            self.videoResult = PHAsset.fetchAssets(with: fetchOptions.phOptions)
+        }
         
         self.collectionView.reloadData()
         
