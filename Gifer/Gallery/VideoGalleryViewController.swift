@@ -157,6 +157,7 @@ class VideoGalleryViewController: UICollectionViewController {
             selectPhotoView.heightAnchor.constraint(equalToConstant: selectPhotoViewHeight),
             selectPhotoView.topAnchor.constraint(equalTo: navRootView.safeAreaLayoutGuide.topAnchor)
             ])
+        selectPhotoView.customDelegate = self
         
         showSelectPhotoView(true)
         
@@ -303,6 +304,13 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
+    func freshPhotoCells() {
+        collectionView.visibleCells.forEach { cell in
+            let asset = videoResult![collectionView.indexPath(for: cell)!.row]
+            (cell as! VideoGalleryCell).showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
+        }
+    }
+    
     private func onSelectPhotoItem(at indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? VideoGalleryCell, let image = cell.imageView.image else {
             return
@@ -316,10 +324,7 @@ class VideoGalleryViewController: UICollectionViewController {
                 cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
             }
             
-            collectionView.visibleCells.forEach { cell in
-                let asset = videoResult![collectionView.indexPath(for: cell)!.row]
-                (cell as! VideoGalleryCell).showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
-            }
+            freshPhotoCells()
         }
     }
     
@@ -433,10 +438,18 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     }
 }
 
+// MARK: - AlbumViewControllerDelegate
 extension VideoGalleryViewController: AlbumViewControllerDelegate {
     func onUpdateFetchOptions(localIdentifier: String?, localizedTitle: String?) {
         fetchOptions.localIdentifier = localIdentifier
         fetchOptions.localizedTitle = localizedTitle
         reload(scrollToBottom: true)
+    }
+}
+
+// MARK: - GallerySelectPhotoViewDelegate
+extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
+    func onRemoveSelectedImage(withIdentifier: String) {
+        freshPhotoCells()
     }
 }

@@ -19,7 +19,10 @@ struct GallerySelectPhotoItem: Equatable {
 
 class GallerySelectPhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
-    
+}
+
+protocol GallerySelectPhotoViewDelegate: class {
+    func onRemoveSelectedImage(withIdentifier: String)
 }
 
 class GallerySelectPhotoView: UIView {
@@ -27,9 +30,11 @@ class GallerySelectPhotoView: UIView {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var items: [GallerySelectPhotoItem] = [GallerySelectPhotoItem]()
+    weak var customDelegate: GallerySelectPhotoViewDelegate?
 
     override func awakeFromNib() {
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     func addItem(_ item: GallerySelectPhotoItem) {
@@ -37,6 +42,7 @@ class GallerySelectPhotoView: UIView {
         collectionView.insertItems(at: [IndexPath(row: items.count - 1, section: 0)])
     }
     
+    /// - Parameter sequence: Formatted index. Should be the actual index plus 1.
     func removeItem(at sequence: Int) {
         let index = sequence - 1
         items.remove(at: index)
@@ -61,5 +67,12 @@ extension GallerySelectPhotoView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! GallerySelectPhotoCell
         cell.imageView.image = items[indexPath.row].image
         return cell
+    }
+}
+
+extension GallerySelectPhotoView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        customDelegate?.onRemoveSelectedImage(withIdentifier: items[indexPath.row].assetIdentifier)
+        removeItem(at: indexPath.row + 1)
     }
 }
