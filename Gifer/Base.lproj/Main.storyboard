@@ -289,11 +289,69 @@
                         <action selector="onScrollToBottomButtonTapped:" destination="bz0-X4-CgO" eventType="touchUpInside" id="Kmu-Se-RQN"/>
                     </connections>
                 </button>
-                <view hidden="YES" contentMode="scaleToFill" id="YZL-QF-fDG" userLabel="Select Photo">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                <view hidden="YES" contentMode="scaleToFill" id="YZL-QF-fDG" userLabel="Select Photo" customClass="GallerySelectPhotoView" customModule="Gifer" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" name="wechatColor"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tci-AX-yS5">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="100"/>
+                            <subviews>
+                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Oa7-cg-Iat">
+                                    <rect key="frame" x="0.0" y="-20" width="240" height="29"/>
+                                    <items>
+                                        <barButtonItem title="取消选择" id="bzd-15-taj">
+                                            <color key="tintColor" name="yellowColor"/>
+                                        </barButtonItem>
+                                    </items>
+                                </toolbar>
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vat-cI-YuZ">
+                                    <rect key="frame" x="0.0" y="29.333333333333336" width="240" height="70.666666666666657"/>
+                                    <color key="backgroundColor" name="darkContentColor"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bDE-bE-X6s">
+                                        <size key="itemSize" width="50" height="50"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                    <cells>
+                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="oqw-t8-ZTB" customClass="GallerySelectPhotoCell" customModule="Gifer" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mi5-mr-3Pk">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                            <constraints>
+                                                <constraint firstItem="mi5-mr-3Pk" firstAttribute="leading" secondItem="oqw-t8-ZTB" secondAttribute="leading" id="IXd-IU-GA1"/>
+                                                <constraint firstAttribute="trailing" secondItem="mi5-mr-3Pk" secondAttribute="trailing" id="Jvb-V4-Iay"/>
+                                                <constraint firstItem="mi5-mr-3Pk" firstAttribute="top" secondItem="oqw-t8-ZTB" secondAttribute="top" id="KrV-Ar-vME"/>
+                                                <constraint firstAttribute="bottom" secondItem="mi5-mr-3Pk" secondAttribute="bottom" id="o4N-JD-ez9"/>
+                                            </constraints>
+                                            <connections>
+                                                <outlet property="imageView" destination="mi5-mr-3Pk" id="opM-cM-91E"/>
+                                            </connections>
+                                        </collectionViewCell>
+                                    </cells>
+                                </collectionView>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" name="darkContentColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="tci-AX-yS5" secondAttribute="trailing" id="FwH-pv-Vtf"/>
+                        <constraint firstItem="tci-AX-yS5" firstAttribute="leading" secondItem="YZL-QF-fDG" secondAttribute="leading" id="KXA-Pw-q3W"/>
+                        <constraint firstAttribute="bottom" secondItem="tci-AX-yS5" secondAttribute="bottom" id="Uug-xc-MXq"/>
+                        <constraint firstItem="tci-AX-yS5" firstAttribute="top" secondItem="YZL-QF-fDG" secondAttribute="top" id="oIJ-h2-2YP"/>
+                    </constraints>
                     <viewLayoutGuide key="safeArea" id="UR7-F2-dUi"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Vat-cI-YuZ" id="zQy-wM-tmr"/>
+                    </connections>
                 </view>
             </objects>
             <point key="canvasLocation" x="-649" y="-860.00000000000011"/>
@@ -456,8 +514,8 @@
         <namedColor name="darkContentColor">
             <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="wechatColor">
-            <color red="0.51372549019607838" green="0.85882352941176465" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        <namedColor name="yellowColor">
+            <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>

@@ -51,7 +51,7 @@ struct VideoGalleryFetchOptions {
     }
 }
 
-fileprivate let selectPhotoViewHeight = CGFloat(180)
+fileprivate let selectPhotoViewHeight = CGFloat(100)
 
 class VideoGalleryViewController: UICollectionViewController {
     
@@ -80,7 +80,7 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
-    @IBOutlet var selectPhotoView: UIView!
+    @IBOutlet var selectPhotoView: GallerySelectPhotoView!
     
     var galleryCategory: GalleryCategory = .video
     
@@ -159,6 +159,9 @@ class VideoGalleryViewController: UICollectionViewController {
             ])
         
         showSelectPhotoView(true)
+        
+        // FIXME: Test code
+        onSelectGalleryCategory(.photo)
     }
     
     @objc func onOpenAlbums() {
@@ -274,13 +277,14 @@ class VideoGalleryViewController: UICollectionViewController {
     
     var selectedIndexPath: IndexPath!
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    fileprivate func onSelectPlayableItem(at: IndexPath) {
         guard let videoResult = videoResult else {
             fatalError()
         }
-        selectedIndexPath = indexPath
         
-        let videoAsset: PHAsset = videoResult.object(at: indexPath.row)
+        selectedIndexPath = at
+        
+        let videoAsset: PHAsset = videoResult.object(at: at.row)
         let previewImage: UIImage = selectedCell.imageView.image!
         if videoAsset.duration > EditGalleryDurationThreshold.seconds {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
@@ -296,6 +300,25 @@ class VideoGalleryViewController: UICollectionViewController {
                 editVC.livePhotoAsset = videoAsset
             }
             navigationController?.pushViewController(editVC, animated: true)
+        }
+    }
+    
+    private func onSelectPhotoItem(at indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? VideoGalleryCell, let image = cell.imageView.image else {
+            return
+        }
+        
+        if let asset = videoResult?.object(at: indexPath.row) {
+            selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch galleryCategory {
+        case .video, .livePhoto:
+            onSelectPlayableItem(at: indexPath)
+        case .photo:
+            onSelectPhotoItem(at: indexPath)
         }
     }
     
