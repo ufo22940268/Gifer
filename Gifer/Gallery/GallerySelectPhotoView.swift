@@ -38,7 +38,14 @@ class GallerySelectPhotoView: UIView {
     }
     
     func removeItem(_ item: GallerySelectPhotoItem) {
-        
+    }
+    
+    func getSequence(forIdentifier identifier: String) -> Int? {
+        if let offset = items.enumerated().first(where: { $0.element.assetIdentifier == identifier })?.offset {
+            return offset + 1
+        } else {
+            return nil
+        }
     }
 }
 

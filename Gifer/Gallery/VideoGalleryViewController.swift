@@ -260,7 +260,7 @@ class VideoGalleryViewController: UICollectionViewController {
             } else if self.galleryCategory == .livePhoto {
                 cell.showLivePhotoIcon()
             } else if self.galleryCategory == .photo {
-                cell.showAsPhoto()
+                cell.showAsPhoto(sequence: self.selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
             }
         }
         cell.tag = Int(requestId)
@@ -310,6 +310,7 @@ class VideoGalleryViewController: UICollectionViewController {
         
         if let asset = videoResult?.object(at: indexPath.row) {
             selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
+            cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
         }
     }
     

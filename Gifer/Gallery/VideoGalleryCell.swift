@@ -12,6 +12,16 @@ class VideoGalleryCell: UICollectionViewCell {
     
     var imageView: UIImageView!
     var durationView: UILabel!
+    lazy var selectPhotoSequenceView: UILabel = {
+        let view = UILabel().useAutoLayout()
+        view.textColor = .white
+        view.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        view.isHidden = true
+        view.textAlignment = .center
+        view.backgroundColor = .yellowActiveColor
+        return view
+    }()
+    
     lazy var iconView: UIImageView = {
         let icon = UIImageView().useAutoLayout()
         icon.image = #imageLiteral(resourceName: "livephoto.png")
@@ -53,6 +63,14 @@ class VideoGalleryCell: UICollectionViewCell {
             iconView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             iconView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
             ])
+        
+        contentView.addSubview(selectPhotoSequenceView)
+        NSLayoutConstraint.activate([
+            selectPhotoSequenceView.widthAnchor.constraint(equalToConstant: 30),
+            selectPhotoSequenceView.heightAnchor.constraint(equalTo: selectPhotoSequenceView.widthAnchor),
+            selectPhotoSequenceView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            selectPhotoSequenceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,16 +81,24 @@ class VideoGalleryCell: UICollectionViewCell {
         iconView.isHidden = true
         durationView.isHidden = false
         durationView.text = duration
+        selectPhotoSequenceView.isHidden = true
     }
     
     func showLivePhotoIcon() {
         iconView.isHidden = false
         durationView.isHidden = true
+        selectPhotoSequenceView.isHidden = true
     }
     
-    func showAsPhoto() {
+    func showAsPhoto(sequence: Int?) {
         iconView.isHidden = true
         durationView.isHidden = true
+        if let sequence = sequence {
+            selectPhotoSequenceView.isHidden = false
+            selectPhotoSequenceView.text = String(sequence)
+        } else {
+            selectPhotoSequenceView.isHidden = true
+        }
     }
 }
 
