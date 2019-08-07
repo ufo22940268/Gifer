@@ -12,6 +12,7 @@ import Photos
 enum GalleryCategory: CaseIterable {
     case video
     case livePhoto
+    case photo
     
     var title: String {
         switch self {
@@ -19,6 +20,8 @@ enum GalleryCategory: CaseIterable {
             return "视频"
         case .livePhoto:
             return "实况照片"
+        case .photo:
+            return "照片"
         }
     }
     
@@ -28,6 +31,8 @@ enum GalleryCategory: CaseIterable {
             return #imageLiteral(resourceName: "video.png")
         case .livePhoto:
             return #imageLiteral(resourceName: "livephoto.png")
+        case .photo:
+            return #imageLiteral(resourceName: "Image Category.png")
         }
     }
     
@@ -46,6 +51,8 @@ enum GalleryCategory: CaseIterable {
             return nil
         case .video:
             return .video
+        case .photo:
+            return .image
         }
     }
 }
