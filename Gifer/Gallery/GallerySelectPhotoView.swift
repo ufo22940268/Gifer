@@ -22,7 +22,8 @@ class GallerySelectPhotoCell: UICollectionViewCell {
 }
 
 protocol GallerySelectPhotoViewDelegate: class {
-    func onRemoveSelectedImage(withIdentifier: String)
+    func onRemoveSelectedPhoto(withIdentifier: String)
+    func onRemoveAllSelectedPhotos()
 }
 
 class GallerySelectPhotoView: UIView {
@@ -56,6 +57,11 @@ class GallerySelectPhotoView: UIView {
             return nil
         }
     }
+    
+    @IBAction func onDeselectAllItems(_ sender: Any) {
+        items.removeAll()
+        customDelegate?.onRemoveAllSelectedPhotos()
+    }
 }
 
 extension GallerySelectPhotoView: UICollectionViewDataSource {
@@ -72,7 +78,7 @@ extension GallerySelectPhotoView: UICollectionViewDataSource {
 
 extension GallerySelectPhotoView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        customDelegate?.onRemoveSelectedImage(withIdentifier: items[indexPath.row].assetIdentifier)
+        customDelegate?.onRemoveSelectedPhoto(withIdentifier: items[indexPath.row].assetIdentifier)
         removeItem(at: indexPath.row + 1)
     }
 }

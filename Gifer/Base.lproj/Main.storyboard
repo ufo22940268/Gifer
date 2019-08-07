@@ -299,8 +299,11 @@
                                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Oa7-cg-Iat">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="29.333333333333332"/>
                                     <items>
-                                        <barButtonItem title="取消选择" id="bzd-15-taj">
+                                        <barButtonItem title="取消选择全部" id="bzd-15-taj">
                                             <color key="tintColor" name="yellowColor"/>
+                                            <connections>
+                                                <action selector="onDeselectAllItems:" destination="YZL-QF-fDG" id="Lgz-5I-5P0"/>
+                                            </connections>
                                         </barButtonItem>
                                     </items>
                                 </toolbar>

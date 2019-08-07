@@ -159,8 +159,6 @@ class VideoGalleryViewController: UICollectionViewController {
             ])
         selectPhotoView.customDelegate = self
         
-        showSelectPhotoView(true)
-        
         // FIXME: Test code
         onSelectGalleryCategory(.photo)
     }
@@ -174,9 +172,19 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     func showSelectPhotoView(_ show: Bool) {
+        guard show == selectPhotoView.isHidden else { return }
         if show {
-            selectPhotoView.isHidden = false
-            collectionView.contentInset = UIEdgeInsets(top: selectPhotoViewHeight - navigationController!.navigationBar.bounds.height + 8, left: 0, bottom: 0, right: 0)
+            self.selectPhotoView.isHidden = false
+            self.selectPhotoView.alpha = 0
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.selectPhotoView.alpha = 1
+                self.collectionView.contentInset = UIEdgeInsets(top: selectPhotoViewHeight - self.navigationController!.navigationBar.bounds.height + 8, left: 0, bottom: 0, right: 0)
+            }, completion: nil)
+        } else {
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.selectPhotoView.isHidden = true
+                self.collectionView.contentInset = .zero
+            }, completion: nil)
         }
     }
 
@@ -305,6 +313,7 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     func freshPhotoCells() {
+        showSelectPhotoView(selectPhotoView.items.count > 0)
         collectionView.visibleCells.forEach { cell in
             let asset = videoResult![collectionView.indexPath(for: cell)!.row]
             (cell as! VideoGalleryCell).showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
@@ -449,7 +458,12 @@ extension VideoGalleryViewController: AlbumViewControllerDelegate {
 
 // MARK: - GallerySelectPhotoViewDelegate
 extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
-    func onRemoveSelectedImage(withIdentifier: String) {
+    func onRemoveSelectedPhoto(withIdentifier: String) {
         freshPhotoCells()
+    }
+    
+    func onRemoveAllSelectedPhotos() {
+        freshPhotoCells()
+        showSelectPhotoView(false)
     }
 }
