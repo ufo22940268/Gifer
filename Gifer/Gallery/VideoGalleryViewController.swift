@@ -51,6 +51,8 @@ struct VideoGalleryFetchOptions {
     }
 }
 
+fileprivate let selectPhotoViewHeight = CGFloat(180)
+
 class VideoGalleryViewController: UICollectionViewController {
     
     @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
@@ -78,6 +80,7 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
+    @IBOutlet var selectPhotoView: UIView!
     
     var galleryCategory: GalleryCategory = .video
     
@@ -145,6 +148,17 @@ class VideoGalleryViewController: UICollectionViewController {
             scrollToBottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             scrollToBottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
+        
+        let navRootView = navigationController!.view!
+        selectPhotoView.translatesAutoresizingMaskIntoConstraints = false
+        navRootView.addSubview(selectPhotoView)
+        NSLayoutConstraint.activate([
+            selectPhotoView.widthAnchor.constraint(equalTo: navRootView.widthAnchor),
+            selectPhotoView.heightAnchor.constraint(equalToConstant: selectPhotoViewHeight),
+            selectPhotoView.topAnchor.constraint(equalTo: navRootView.safeAreaLayoutGuide.topAnchor)
+            ])
+        
+        showSelectPhotoView(true)
     }
     
     @objc func onOpenAlbums() {
@@ -153,6 +167,13 @@ class VideoGalleryViewController: UICollectionViewController {
         vc.customDelegate = self
         vc.initialCollectionIdentifier = fetchOptions.localIdentifier
         navigationController?.present(nvc, animated: true, completion: nil)
+    }
+    
+    func showSelectPhotoView(_ show: Bool) {
+        if show {
+            selectPhotoView.isHidden = false
+            collectionView.contentInset = UIEdgeInsets(top: selectPhotoViewHeight - navigationController!.navigationBar.bounds.height + 8, left: 0, bottom: 0, right: 0)
+        }
     }
 
     func enableFooterView(_ enable: Bool) {
