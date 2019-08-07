@@ -54,6 +54,8 @@ struct VideoGalleryFetchOptions {
 class VideoGalleryViewController: UICollectionViewController {
     
     @IBOutlet var galleryCategoryView: GalleryCategoryTableView!
+    @IBOutlet var scrollToBottomButton: UIButton!
+    var isScrollToBottomButtonShowed: Bool = false
     
     lazy var dimView: UIView = {
         let view = UIView().useAutoLayout()
@@ -86,8 +88,6 @@ class VideoGalleryViewController: UICollectionViewController {
         DarkMode.enable(in: self)
         
         navigationController?.isToolbarHidden = true
-        view.backgroundColor = .black
-        self.collectionView.backgroundColor = .black
         
         // Register cell classes
         self.collectionView!.register(VideoGalleryCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -137,6 +137,14 @@ class VideoGalleryViewController: UICollectionViewController {
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
         view.addSubview(galleryCategoryView)
+        
+        view.addSubview(scrollToBottomButton)
+        scrollToBottomButton.translatesAutoresizingMaskIntoConstraints = false
+        scrollToBottomButton.layer.shadowOpacity = 0.1
+        NSLayoutConstraint.activate([
+            scrollToBottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            scrollToBottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
     }
     
     @objc func onOpenAlbums() {
@@ -156,11 +164,11 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
-    fileprivate func scrollToBottom() {
+    fileprivate func scrollToBottom(animated: Bool = false) {
         let totalItemCount = self.collectionView(self.collectionView, numberOfItemsInSection: 0)
-        self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+        self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: animated)
     }
-
+    
     
     func reload(scrollToBottom: Bool = false) {
         if let localIdentifier = fetchOptions.localIdentifier {
@@ -266,6 +274,31 @@ class VideoGalleryViewController: UICollectionViewController {
             }
             navigationController?.pushViewController(editVC, animated: true)
         }
+    }
+    
+    @IBAction func onScrollToBottomButtonTapped(_ sender: Any) {
+        scrollToBottom(animated: true)
+    }
+    
+    func showScrollToBottomButton(_ show: Bool) {
+        guard show != isScrollToBottomButtonShowed else { return }
+        if show {
+            isScrollToBottomButtonShowed = true
+            scrollToBottomButton.alpha = 0
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.scrollToBottomButton.alpha = 1
+            }, completion: nil)
+        } else {
+            isScrollToBottomButtonShowed = false
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.scrollToBottomButton.alpha = 0
+            }, completion: nil)
+        }
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetToTheBottom = scrollView.contentSize.height - (scrollView.contentOffset.y + scrollView.bounds.height)
+        showScrollToBottomButton(offsetToTheBottom > 300)
     }
 }
 

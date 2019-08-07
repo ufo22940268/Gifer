@@ -82,6 +82,7 @@
 		42B4DD0922818A720085BF46 /* VideoSizeConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */; };
 		42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
+		42CA13C122FA64F1003DD910 /* ScrollToBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */; };
 		42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB32E2259AB99000152E7 /* StickerOverlay.swift */; };
 		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
@@ -227,6 +228,7 @@
 		42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSizeConfigViewController.swift; sourceTree = "<group>"; };
 		42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkTable.swift; sourceTree = "<group>"; };
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
+		42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollToBottomButton.swift; sourceTree = "<group>"; };
 		42CEB32E2259AB99000152E7 /* StickerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerOverlay.swift; sourceTree = "<group>"; };
 		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */,
 				42611DBD22CDD4A0009A7188 /* GallerySwitcher.swift */,
 				42611DBF22CDE854009A7188 /* GalleryCategoryTableView.swift */,
+				42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				42E5C35722212EE200D18CA6 /* TrashView.swift in Sources */,
 				42E879A922D2B5FB0098D43B /* StickerPanelContent.swift in Sources */,
 				428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */,
+				42CA13C122FA64F1003DD910 /* ScrollToBottomButton.swift in Sources */,
 				4294CCBC22C6D20200FD4917 /* FrameCell.swift in Sources */,
 				4269ADB3221B8E4F0098BA5E /* YPFilter.swift in Sources */,
 				42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */,
