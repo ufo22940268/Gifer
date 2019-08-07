@@ -37,7 +37,10 @@ class GallerySelectPhotoView: UIView {
         collectionView.insertItems(at: [IndexPath(row: items.count - 1, section: 0)])
     }
     
-    func removeItem(_ item: GallerySelectPhotoItem) {
+    func removeItem(at sequence: Int) {
+        let index = sequence - 1
+        items.remove(at: index)
+        collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
     }
     
     func getSequence(forIdentifier identifier: String) -> Int? {

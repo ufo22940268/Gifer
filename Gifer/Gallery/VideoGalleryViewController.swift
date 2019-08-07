@@ -309,8 +309,17 @@ class VideoGalleryViewController: UICollectionViewController {
         }
         
         if let asset = videoResult?.object(at: indexPath.row) {
-            selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
-            cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
+            if let sequence = selectPhotoView.getSequence(forIdentifier: asset.localIdentifier) {
+                selectPhotoView.removeItem(at: sequence)                
+            } else {
+                selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
+                cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
+            }
+            
+            collectionView.visibleCells.forEach { cell in
+                let asset = videoResult![collectionView.indexPath(for: cell)!.row]
+                (cell as! VideoGalleryCell).showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
+            }
         }
     }
     
