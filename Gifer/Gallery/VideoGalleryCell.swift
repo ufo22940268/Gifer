@@ -59,14 +59,19 @@ class VideoGalleryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setDuration(_ duration: String) {
+    func setVideoDuration(_ duration: String) {
         iconView.isHidden = true
         durationView.isHidden = false
         durationView.text = duration
     }
     
-    func showIcon() {
+    func showLivePhotoIcon() {
         iconView.isHidden = false
+        durationView.isHidden = true
+    }
+    
+    func showAsPhoto() {
+        iconView.isHidden = true
         durationView.isHidden = true
     }
 }

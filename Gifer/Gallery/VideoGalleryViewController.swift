@@ -232,9 +232,11 @@ class VideoGalleryViewController: UICollectionViewController {
         let requestId = imageManager.requestImage(for: asset, targetSize: UIScreen.main.bounds.size.applying(CGAffineTransform(scaleX: 1/4, y: 1/4)), contentMode: .aspectFill, options: options) { (uiImage, config) in
             cell.imageView.image = uiImage
             if self.galleryCategory == .video {
-                cell.setDuration(asset.duration.formatTime()!)
-            } else {
-                cell.showIcon()
+                cell.setVideoDuration(asset.duration.formatTime()!)
+            } else if self.galleryCategory == .livePhoto {
+                cell.showLivePhotoIcon()
+            } else if self.galleryCategory == .photo {
+                cell.showAsPhoto()
             }
         }
         cell.tag = Int(requestId)
