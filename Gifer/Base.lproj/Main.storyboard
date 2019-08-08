@@ -262,7 +262,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTJ-o7-8aF">
-                                        <rect key="frame" x="0.0" y="5.3333333333333321" width="240" height="33"/>
+                                        <rect key="frame" x="0.0" y="1.3333333333333321" width="240" height="33"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <state key="normal" title="Button">
                                             <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
@@ -272,7 +272,7 @@
                                 <constraints>
                                     <constraint firstItem="sTJ-o7-8aF" firstAttribute="width" secondItem="dDU-Th-aOE" secondAttribute="width" id="92E-6J-E1J"/>
                                     <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerX" secondItem="dDU-Th-aOE" secondAttribute="centerX" id="Scc-aG-AKa"/>
-                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerY" secondItem="dDU-Th-aOE" secondAttribute="centerY" id="UcA-3B-iWL"/>
+                                    <constraint firstItem="sTJ-o7-8aF" firstAttribute="centerY" secondItem="dDU-Th-aOE" secondAttribute="centerY" constant="-4" id="UcA-3B-iWL"/>
                                 </constraints>
                             </tableViewCellContentView>
                             <connections>
