@@ -238,7 +238,11 @@ class VideoController: UIStackView {
         }
     }
     
-    var playerItem: ImagePlayerItem!
+    var playerItem: ImagePlayerItem! {
+        didSet {
+            videoTrim.playerItem = playerItem
+        }
+    }
     
     var galleryRangeInSlider: GalleryRangePosition {
         guard let duration = duration else { fatalError() }

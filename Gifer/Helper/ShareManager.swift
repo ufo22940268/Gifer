@@ -79,7 +79,8 @@ class ShareManager {
                 switch result {
                 case .success(_):
                     complete(true)
-                case .failure(_):
+                case let .failure(error):
+                    print("error: \(error)")
                     complete(false)
                 }
             }

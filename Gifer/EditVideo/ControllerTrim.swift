@@ -105,6 +105,7 @@ class ControllerTrim: UIControl {
     var galleryDuration: CMTime!
     
     weak var trimDelegate: VideoTrimDelegate?
+    var playerItem: ImagePlayerItem?
     
     var leftTrim: TrimButton! = {
         let leftTrim = TrimButton(direction: .left)
@@ -269,7 +270,7 @@ class ControllerTrim: UIControl {
         let duration = duration ?? trimPosition.galleryDuration
         
         let mode: Mode!
-        if changeBackgroundWhenNeeded && Wechat.canBeShared(duration: duration) {
+        if let playerItem = playerItem, changeBackgroundWhenNeeded && Wechat.canBeShared(playerItem: playerItem, trimPosition: trimPosition) {
             originTintColor = #colorLiteral(red: 0.3788883686, green: 0.8696572185, blue: 0, alpha: 1)
             darkTintColor = #colorLiteral(red: 0.2039215686, green: 0.7803921569, blue: 0.3490196078, alpha: 1)
             mode = .wechat

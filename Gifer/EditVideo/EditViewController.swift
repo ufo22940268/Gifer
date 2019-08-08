@@ -487,7 +487,7 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         pause()
-        shareVC = ShareViewController(galleryDuration: playerItem!.calibarateTrimPositionDuration(trimPosition), shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
+        shareVC = ShareViewController(wechatEnabled: Wechat.canBeShared(playerItem: playerItem!, trimPosition: trimPosition), shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareVC.present(by: self)
     }
     

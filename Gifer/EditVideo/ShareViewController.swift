@@ -67,15 +67,15 @@ enum ShareType {
         }
     }
     
-    @available(*, deprecated)
-    func isEnabled(duration: CMTime) -> Bool {
-        switch self {
-        case .wechatSticker:
-            return Wechat.canBeShared(duration: duration)
-        default:
-            return true
-        }
-    }
+//    @available(*, deprecated)
+//    func isEnabled(duration: CMTime) -> Bool {
+//        switch self {
+//        case .wechatSticker:
+//            return Wechat.canBeShared(duration: duration)
+//        default:
+//            return true
+//        }
+//    }
 }
 
 class VideoSizeConfigCell: DarkTableCell {
@@ -214,7 +214,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var centerX: NSLayoutConstraint!
     var shareHandler: ShareHandler!
     var cancelHandler: (() -> Void)!
-    var galleryDuration: CMTime!
     var shareTypes: [ShareType] {
         var types = [ShareType]()
         types.append(.photo)
@@ -222,6 +221,8 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         types.append(.wechatSticker)
         return types
     }
+    
+    var wechatEnabled: Bool!
     
     lazy var panGesture: UIPanGestureRecognizer = {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
@@ -247,11 +248,11 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return animator
     }()
     
-    init(galleryDuration: CMTime, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
+    init(wechatEnabled: Bool, shareHandler: @escaping ShareHandler, cancelHandler: @escaping () -> Void) {
         super.init(nibName: nil, bundle: nil)
         self.shareHandler = shareHandler
         self.cancelHandler = cancelHandler
-        self.galleryDuration = galleryDuration
+        self.wechatEnabled = wechatEnabled
         customTransitioningDelegate = ShareTransitioningDelegate(dismiss: cancelHandler, interator: interactiveAnimator)
     }
     
@@ -368,7 +369,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.dismissImediately()
                 self.shareHandler(shareType, self.videoSize, self.loopCount)
             }
-            cell.setup(items: shareTypes, wechatEnabled: Wechat.canBeShared(duration: galleryDuration), viewController: self, shareHandler: handler)
+            cell.setup(items: shareTypes, wechatEnabled: wechatEnabled, viewController: self, shareHandler: handler)
             return cell
         }
         fatalError()
