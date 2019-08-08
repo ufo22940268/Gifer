@@ -272,7 +272,6 @@ class MakePlayerItemFromPhotosTask {
         }
         
         group.notify(queue: .main) {
-            print(images)
             ImagePlayerFrame.initDirectory()
             var frames = [ImagePlayerFrame]()
             for (index, image) in images.enumerated() {
