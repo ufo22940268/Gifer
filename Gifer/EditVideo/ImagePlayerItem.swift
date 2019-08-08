@@ -33,6 +33,7 @@ struct ImagePlayerFrame: Equatable {
     init(time: CMTime, image: UIImage) {
         self.init(time: time)
         ImagePlayerFrame.saveToDirectory(uiImage: image, frame: &self)
+        self.isActive = true
     }
     
     static var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
