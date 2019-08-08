@@ -21,7 +21,7 @@ enum UserDefaultKeys: String {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchsingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
         // Override point for customization after application launch.
         initUserDefaults()
@@ -31,7 +31,7 @@ enum UserDefaultKeys: String {
         let debugStoryboard =
             AppStoryboard.Main
 //            AppStoryboard.Album
-//            AppStoryboard.Editd
+//            AppStoryboard.Edit
 //            AppStoryboard.Sticker
         let rootVC = debugStoryboard.instance.instantiateInitialViewController()
         window?.rootViewController = rootVC
