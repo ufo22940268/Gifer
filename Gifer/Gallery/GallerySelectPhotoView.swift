@@ -30,6 +30,7 @@ class GallerySelectPhotoView: UIView {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var makeGifItem: UIBarButtonItem!
+    @IBOutlet weak var toolbar: UIToolbar!
     
     var items: [GallerySelectPhotoItem] = [GallerySelectPhotoItem]() {
         didSet {
@@ -45,6 +46,7 @@ class GallerySelectPhotoView: UIView {
     override func awakeFromNib() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        toolbar.clipsToBounds = true
     }
     
     func addItem(_ item: GallerySelectPhotoItem) {
