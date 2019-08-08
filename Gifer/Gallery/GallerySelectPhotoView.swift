@@ -44,7 +44,7 @@ class GallerySelectPhotoView: UIView {
     
     func addItem(_ item: GallerySelectPhotoItem) {
         items.append(item)
-        collectionView.insertItems(at: [IndexPath(row: items.count - 1, section: 0)])
+        collectionView.insertItems(at: [IndexPath(row: max(items.count - 1, 0), section: 0)])
     }
     
     /// - Parameter sequence: Formatted index. Should be the actual index plus 1.
