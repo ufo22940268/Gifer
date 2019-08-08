@@ -29,8 +29,6 @@ class FramesViewController: UIViewController {
         super.viewDidLoad()
 
         DarkMode.enable(in: self)
-        view.backgroundColor = UIColor(named: "darkBackgroundColor")
-        collectionView.backgroundColor = UIColor(named: "darkBackgroundColor")
         
         if playerItem == nil {
             let directory = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")

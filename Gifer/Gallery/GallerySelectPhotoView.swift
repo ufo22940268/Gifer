@@ -29,8 +29,13 @@ protocol GallerySelectPhotoViewDelegate: class {
 class GallerySelectPhotoView: UIView {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var makeGifItem: UIBarButtonItem!
     
-    var items: [GallerySelectPhotoItem] = [GallerySelectPhotoItem]()
+    var items: [GallerySelectPhotoItem] = [GallerySelectPhotoItem]() {
+        didSet {
+            makeGifItem.isEnabled = items.count > 1
+        }
+    }
     weak var customDelegate: GallerySelectPhotoViewDelegate?
     
     var selectedIdentifiers: [String] {
@@ -64,6 +69,7 @@ class GallerySelectPhotoView: UIView {
     
     @IBAction func onDeselectAllItems(_ sender: Any) {
         items.removeAll()
+        collectionView.reloadData()
         customDelegate?.onRemoveAllSelectedPhotos()
     }
 }

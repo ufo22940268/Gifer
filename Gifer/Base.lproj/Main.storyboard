@@ -136,7 +136,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" name="darkBackgroundColor"/>
+                                <color key="backgroundColor" name="darkContentColor"/>
                                 <constraints>
                                     <constraint firstItem="kUt-Bn-rUc" firstAttribute="leading" secondItem="RiW-qn-5H2" secondAttribute="leading" id="7wF-ki-axu"/>
                                     <constraint firstAttribute="trailing" secondItem="kUt-Bn-rUc" secondAttribute="trailing" id="eoA-DV-dqI"/>
@@ -306,7 +306,7 @@
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem style="plain" systemItem="flexibleSpace" id="xdO-yf-Q3P"/>
-                                        <barButtonItem title="制作" id="aT1-Nt-WRc">
+                                        <barButtonItem enabled="NO" title="制作" id="aT1-Nt-WRc">
                                             <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                             <connections>
                                                 <action selector="onMakeGifFromPhotos:" destination="bz0-X4-CgO" id="anQ-yQ-G4O"/>
@@ -324,14 +324,14 @@
                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </collectionViewFlowLayout>
                                     <cells>
-                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="oqw-t8-ZTB" customClass="GallerySelectPhotoCell" customModule="Gifer" customModuleProvider="target">
+                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="oqw-t8-ZTB" customClass="GallerySelectPhotoCell" customModule="Gifer" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="10.333333333333334" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mi5-mr-3Pk">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mi5-mr-3Pk">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     </imageView>
                                                 </subviews>
@@ -361,6 +361,7 @@
                     <viewLayoutGuide key="safeArea" id="UR7-F2-dUi"/>
                     <connections>
                         <outlet property="collectionView" destination="Vat-cI-YuZ" id="zQy-wM-tmr"/>
+                        <outlet property="makeGifItem" destination="aT1-Nt-WRc" id="0Tj-Be-z8W"/>
                     </connections>
                 </view>
             </objects>

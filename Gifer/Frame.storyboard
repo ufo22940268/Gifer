@@ -21,7 +21,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5c3-AP-EDh">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="darkContentColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uqm-vs-tYi">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -97,7 +97,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="darkContentColor"/>
                         <constraints>
                             <constraint firstItem="5c3-AP-EDh" firstAttribute="leading" secondItem="b81-vf-jhe" secondAttribute="leading" id="Gs0-wM-DCA"/>
                             <constraint firstItem="b81-vf-jhe" firstAttribute="trailing" secondItem="5c3-AP-EDh" secondAttribute="trailing" id="Mhw-WC-147"/>
@@ -128,7 +128,7 @@
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="moa-D7-ohY">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="730"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="darkContentColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="bed-Dc-shj">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -181,7 +181,6 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ck5-Go-MTJ" firstAttribute="leading" secondItem="56a-4t-TEx" secondAttribute="leading" id="41O-D6-Er6"/>
                             <constraint firstItem="56a-4t-TEx" firstAttribute="trailing" secondItem="Ck5-Go-MTJ" secondAttribute="trailing" id="Rhy-Kh-uM7"/>
@@ -205,7 +204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z3I-Hc-E4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2094" y="-133"/>
+            <point key="canvasLocation" x="2983" y="-133"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2XJ-6p-zSW">
@@ -237,13 +236,17 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aV-Lo-YCL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="259" y="-133"/>
         </scene>
     </scenes>
     <resources>
         <image name="check-circle-regular" width="26" height="26"/>
         <image name="search-plus" width="25" height="25"/>
         <namedColor name="darkBackgroundColor">
-            <color red="0.098039215686274508" green="0.10588235294117647" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="darkContentColor">
+            <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="yellowColor">
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
