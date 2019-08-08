@@ -384,18 +384,15 @@ class VideoGalleryViewController: UICollectionViewController {
     
     @IBAction func onMakeGifFromPhotos(_ sender: UIBarButtonItem) {
         let identifiers = selectPhotoView.selectedIdentifiers
-        MakePlayerItemFromPhotosTask(identifiers: identifiers).run { playerItem in
-            guard let _ = playerItem else { return }
-            self.showSelectPhotoView(false) {
-                self.selectPhotoView.items.removeAll()
-                self.selectPhotoView.collectionView.reloadData()
-                self.selectPhotoView.removeFromSuperview()
-                self.refreshPhotoCells()
-            }
-            let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-            vc.photoIdentifiers = identifiers
-            self.navigationController?.pushViewController(vc, animated: true)
+        self.showSelectPhotoView(false) {
+            self.selectPhotoView.items.removeAll()
+            self.selectPhotoView.collectionView.reloadData()
+            self.selectPhotoView.removeFromSuperview()
+            self.refreshPhotoCells()
         }
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+        vc.photoIdentifiers = identifiers
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
