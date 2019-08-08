@@ -176,7 +176,7 @@ class VideoGalleryViewController: UICollectionViewController {
         navigationController?.present(nvc, animated: true, completion: nil)
     }
     
-    func showSelectPhotoView(_ show: Bool, isLeaving: Bool = false) {
+    func showSelectPhotoView(_ show: Bool, complete: (() -> Void)? = nil) {
         guard show == selectPhotoView.isHidden else { return }
         if show {
             self.selectPhotoView.isHidden = false
@@ -190,9 +190,7 @@ class VideoGalleryViewController: UICollectionViewController {
                 self.selectPhotoView.isHidden = true
                 self.collectionView.contentInset = .zero
             }, completion: { _ in
-                if isLeaving {
-                    self.selectPhotoView.removeFromSuperview()
-                }
+                complete?()
             })
         }
     }
@@ -325,7 +323,7 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
-    func freshPhotoCells() {
+    func refreshPhotoCells() {
         showSelectPhotoView(selectPhotoView.items.count > 0)
         collectionView.visibleCells.forEach { cell in
             let asset = videoResult![collectionView.indexPath(for: cell)!.row]
@@ -346,7 +344,7 @@ class VideoGalleryViewController: UICollectionViewController {
                 cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
             }
             
-            freshPhotoCells()
+            refreshPhotoCells()
         }
     }
     
@@ -385,14 +383,17 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     @IBAction func onMakeGifFromPhotos(_ sender: UIBarButtonItem) {
-//        sender.isEnabled = false
         let identifiers = selectPhotoView.selectedIdentifiers
         MakePlayerItemFromPhotosTask(identifiers: identifiers).run { playerItem in
-            guard let playerItem = playerItem else { return }
-            self.showSelectPhotoView(false, isLeaving: true)
+            guard let _ = playerItem else { return }
+            self.showSelectPhotoView(false) {
+                self.selectPhotoView.items.removeAll()
+                self.selectPhotoView.collectionView.reloadData()
+                self.selectPhotoView.removeFromSuperview()
+                self.refreshPhotoCells()
+            }
             let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-            vc.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
-            vc.playerItem = playerItem
+            vc.photoIdentifiers = identifiers
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -485,11 +486,11 @@ extension VideoGalleryViewController: AlbumViewControllerDelegate {
 // MARK: - GallerySelectPhotoViewDelegate
 extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
     func onRemoveSelectedPhoto(withIdentifier: String) {
-        freshPhotoCells()
+        refreshPhotoCells()
     }
     
     func onRemoveAllSelectedPhotos() {
-        freshPhotoCells()
+        refreshPhotoCells()
         showSelectPhotoView(false)
     }
 }
