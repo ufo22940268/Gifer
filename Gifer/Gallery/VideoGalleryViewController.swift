@@ -145,7 +145,7 @@ class VideoGalleryViewController: UICollectionViewController {
         scrollToBottomButton.translatesAutoresizingMaskIntoConstraints = false
         scrollToBottomButton.layer.shadowOpacity = 0.1
         NSLayoutConstraint.activate([
-            scrollToBottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            scrollToBottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
             scrollToBottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
         
