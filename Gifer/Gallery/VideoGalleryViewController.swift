@@ -149,18 +149,23 @@ class VideoGalleryViewController: UICollectionViewController {
             scrollToBottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
         
-        let navRootView = navigationController!.view!
-        selectPhotoView.translatesAutoresizingMaskIntoConstraints = false
-        navRootView.addSubview(selectPhotoView)
-        NSLayoutConstraint.activate([
-            selectPhotoView.widthAnchor.constraint(equalTo: navRootView.widthAnchor),
-            selectPhotoView.heightAnchor.constraint(equalToConstant: selectPhotoViewHeight),
-            selectPhotoView.topAnchor.constraint(equalTo: navRootView.safeAreaLayoutGuide.topAnchor)
-            ])
         selectPhotoView.customDelegate = self
         
         // FIXME: Test code
         onSelectGalleryCategory(.photo)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if selectPhotoView.superview == nil {
+            let navRootView = navigationController!.view!
+            selectPhotoView.translatesAutoresizingMaskIntoConstraints = false
+            navRootView.addSubview(selectPhotoView)
+            NSLayoutConstraint.activate([
+                selectPhotoView.widthAnchor.constraint(equalTo: navRootView.widthAnchor),
+                selectPhotoView.heightAnchor.constraint(equalToConstant: selectPhotoViewHeight),
+                selectPhotoView.topAnchor.constraint(equalTo: navRootView.safeAreaLayoutGuide.topAnchor)
+                ])
+        }
     }
     
     @objc func onOpenAlbums() {
@@ -171,7 +176,7 @@ class VideoGalleryViewController: UICollectionViewController {
         navigationController?.present(nvc, animated: true, completion: nil)
     }
     
-    func showSelectPhotoView(_ show: Bool) {
+    func showSelectPhotoView(_ show: Bool, isLeaving: Bool = false) {
         guard show == selectPhotoView.isHidden else { return }
         if show {
             self.selectPhotoView.isHidden = false
@@ -184,7 +189,11 @@ class VideoGalleryViewController: UICollectionViewController {
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.selectPhotoView.isHidden = true
                 self.collectionView.contentInset = .zero
-            }, completion: nil)
+            }, completion: { _ in
+                if isLeaving {
+                    self.selectPhotoView.removeFromSuperview()
+                }
+            })
         }
     }
 
@@ -380,7 +389,7 @@ class VideoGalleryViewController: UICollectionViewController {
         let identifiers = selectPhotoView.selectedIdentifiers
         MakePlayerItemFromPhotosTask(identifiers: identifiers).run { playerItem in
             guard let playerItem = playerItem else { return }
-            self.showSelectPhotoView(false)
+            self.showSelectPhotoView(false, isLeaving: true)
             let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
             vc.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
             vc.playerItem = playerItem

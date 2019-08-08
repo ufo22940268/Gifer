@@ -74,13 +74,22 @@ class VideoControllerGallery: UIStackView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         addArrangedSubview(imageView)
+        let widthAnchor = imageView.widthAnchor.constraint(equalToConstant: getImageViewWidth(totalImageCount: totalImageCount))
+        widthAnchor.identifier = "width"
+        widthAnchor.isActive = true
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: heightAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: getImageViewWidth(totalImageCount: totalImageCount))
+            imageView.heightAnchor.constraint(equalTo: heightAnchor)
             ])
         imageView.contentMode = .scaleAspectFill
 
         return imageView
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        arrangedSubviews.forEach { (view) in
+            view.constraints.findById(id: "width").constant = getImageViewWidth(totalImageCount: arrangedSubviews.count)
+        }
     }
     
     func setImage(_ image: UIImage, on index: Int) -> Void {
