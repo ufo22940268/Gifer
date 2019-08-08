@@ -176,7 +176,7 @@ class VideoGalleryViewController: UICollectionViewController {
         navigationController?.present(nvc, animated: true, completion: nil)
     }
     
-    func showSelectPhotoView(_ show: Bool, complete: (() -> Void)? = nil) {
+    func showSelectPhotoView(_ show: Bool, afterSelect index: IndexPath? = nil, complete: (() -> Void)? = nil) {
         guard show == selectPhotoView.isHidden else { return }
         if show {
             self.selectPhotoView.isHidden = false
@@ -184,6 +184,17 @@ class VideoGalleryViewController: UICollectionViewController {
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.selectPhotoView.alpha = 1
                 self.collectionView.contentInset = UIEdgeInsets(top: selectPhotoViewHeight - self.navigationController!.navigationBar.bounds.height + 8, left: 0, bottom: 0, right: 0)
+                
+                if let index = index {
+                    let cell = self.collectionView.cellForItem(at: index)!
+                    let intersection = cell.convert(cell.bounds, to: self.selectPhotoView).intersection(self.selectPhotoView.bounds)
+                    if !intersection.isNull {
+                        var offset = self.collectionView.contentOffset
+                        offset.y = offset.y - intersection.height
+                        self.collectionView.contentOffset = offset
+                    }
+                    
+                }
             }, completion: nil)
         } else {
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -323,8 +334,8 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
-    func refreshPhotoCells() {
-        showSelectPhotoView(selectPhotoView.items.count > 0)
+    func refreshPhotoCells(afterSelect index: IndexPath? = nil) {
+        showSelectPhotoView(selectPhotoView.items.count > 0, afterSelect: index)
         collectionView.visibleCells.forEach { cell in
             let asset = videoResult![collectionView.indexPath(for: cell)!.row]
             (cell as! VideoGalleryCell).showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
@@ -339,12 +350,11 @@ class VideoGalleryViewController: UICollectionViewController {
         if let asset = videoResult?.object(at: indexPath.row) {
             if let sequence = selectPhotoView.getSequence(forIdentifier: asset.localIdentifier) {
                 selectPhotoView.removeItem(at: sequence)                
-            } else {
-                selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
+            } else {                selectPhotoView.addItem(GallerySelectPhotoItem(assetIdentifier: asset.localIdentifier, image: image))
                 cell.showAsPhoto(sequence: selectPhotoView.getSequence(forIdentifier: asset.localIdentifier))
             }
             
-            refreshPhotoCells()
+            refreshPhotoCells(afterSelect: indexPath)
         }
     }
     
