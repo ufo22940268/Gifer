@@ -16,14 +16,15 @@ struct Wechat {
         #if DEBUG
         threshold = 1
         #else
-        threshold = 3
+        threshold = 3.4
         #endif
         return threshold
     }
     
     static func canBeShared(playerItem: ImagePlayerItem, trimPosition: VideoTrimPosition) -> Bool {
-        let activeDuration = playerItem.calibarateTrimPositionDuration(trimPosition)
+//        let activeDuration = playerItem.calibarateTrimPositionDuration(trimPosition)
+        //        return activeDuration.seconds <= Wechat.maxShareDuration || activeCount < 15
         let activeCount = playerItem.getActiveFramesBetween(begin: trimPosition.leftTrim, end: trimPosition.rightTrim).count
-        return activeDuration.seconds <= Wechat.maxShareDuration || activeCount < 15
+        return activeCount <= 16
     }
 }
