@@ -84,6 +84,8 @@
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42CA13C122FA64F1003DD910 /* ScrollToBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */; };
 		42CA13C522FA9F32003DD910 /* GallerySelectPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C422FA9F32003DD910 /* GallerySelectPhotoView.swift */; };
+		42CA13C722FB9BAD003DD910 /* PHAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */; };
+		42CA13C922FB9C1C003DD910 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C822FB9C1C003DD910 /* CGSizeExtension.swift */; };
 		42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB32E2259AB99000152E7 /* StickerOverlay.swift */; };
 		42CEB331225AEA54000152E7 /* StickerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB330225AEA54000152E7 /* StickerRender.swift */; };
 		42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D458F521F2866700AC142A /* GridRulerCoverView.swift */; };
@@ -231,6 +233,8 @@
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollToBottomButton.swift; sourceTree = "<group>"; };
 		42CA13C422FA9F32003DD910 /* GallerySelectPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySelectPhotoView.swift; sourceTree = "<group>"; };
+		42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAssetExtension.swift; sourceTree = "<group>"; };
+		42CA13C822FB9C1C003DD910 /* CGSizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		42CEB32E2259AB99000152E7 /* StickerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerOverlay.swift; sourceTree = "<group>"; };
 		42CEB330225AEA54000152E7 /* StickerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRender.swift; sourceTree = "<group>"; };
 		42D458F521F2866700AC142A /* GridRulerCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCoverView.swift; sourceTree = "<group>"; };
@@ -492,6 +496,8 @@
 				4256CA8E22DFE068009231D3 /* UIViewControllerExtensions.swift */,
 				420C9CDC22E15BDF00A272DE /* StringExtensions.swift */,
 				422F539E22E83EEE00C0989D /* PromotionManager.swift */,
+				42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */,
+				42CA13C822FB9C1C003DD910 /* CGSizeExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -819,6 +825,7 @@
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
+				42CA13C922FB9C1C003DD910 /* CGSizeExtension.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
 				423C283222C3A40700D58376 /* ImagePlayerItem.swift in Sources */,
 				423C282E22C34E0A00D58376 /* ImagePlayerItemGenerator.swift in Sources */,
@@ -831,6 +838,7 @@
 				4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
 				424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */,
+				42CA13C722FB9BAD003DD910 /* PHAssetExtension.swift in Sources */,
 				420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */,
 				42CA13C522FA9F32003DD910 /* GallerySelectPhotoView.swift in Sources */,
 				42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */,

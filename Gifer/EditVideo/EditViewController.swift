@@ -127,11 +127,7 @@ class EditViewController: UIViewController {
         return playerItem != nil
     }
     
-    var playerItem: ImagePlayerItem? {
-        didSet {
-            videoController.playerItem = playerItem
-        }
-    }
+    var playerItem: ImagePlayerItem?
     
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
@@ -262,7 +258,7 @@ class EditViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        isDebug = videoAsset == nil && livePhotoAsset == nil
+        isDebug = videoAsset == nil && livePhotoAsset == nil && playerItem == nil
         if isDebug {
             videoAsset = getTestVideo()
             initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
@@ -278,7 +274,11 @@ class EditViewController: UIViewController {
         pinchGesture.delegate = self
         rotationGesture.delegate = self
         
-        loadAsset()
+        if let playerItem = playerItem {
+            setupPlayerItem(playerItem)
+        } else {
+            loadAsset()
+        }
     }
     
     private func setupVideoController() {
@@ -377,15 +377,19 @@ class EditViewController: UIViewController {
         }
     }
     
+    fileprivate func setupPlayerItem(_ playerItem: ImagePlayerItem) {
+        optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
+        onVideoReady(playerItem: playerItem)
+    }
+    
     private func loadVideo(for asset: AVAsset) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
         playerItemGenerator = ImagePlayerItemGenerator(avAsset: asset, trimPosition: initTrimPosition!)
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
-                guard let this = self else { return }
-                this.optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
-                this.onVideoReady(playerItem: playerItem)
+                guard let self = self else { return }
+                self.setupPlayerItem(playerItem)
             }
         }
     }
@@ -394,6 +398,7 @@ class EditViewController: UIViewController {
         if segue.identifier == "frames" {
             let vc = segue.destination as! FramesViewController
             vc.playerItem = playerItem
+            videoController.playerItem = playerItem
             vc.trimPosition = trimPosition
             vc.customDelegate = self
         }
@@ -582,6 +587,7 @@ extension EditViewController: ImagePlayerDelegate {
         shareBarItem.isEnabled = true
         frameBarItem.isEnabled = true
         self.playerItem = playerItem
+        self.videoController.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
         imagePlayerView.customDelegate = self
         stickerOverlay.clipTrimPosition = trimPosition

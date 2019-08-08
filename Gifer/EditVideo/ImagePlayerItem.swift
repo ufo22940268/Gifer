@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import Photos
 
 struct ImagePlayerFrame: Equatable {
     var time: CMTime
@@ -28,6 +29,43 @@ struct ImagePlayerFrame: Equatable {
     init(time: CMTime) {
         self.time = time
     }
+    
+    init(time: CMTime, image: UIImage) {
+        self.init(time: time)
+        ImagePlayerFrame.saveToDirectory(uiImage: image, frame: &self)
+    }
+    
+    static var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
+    
+    static func saveToDirectory(cgImage: CGImage, frame: inout ImagePlayerFrame) {
+        let directory = ImagePlayerFrame.directory
+        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
+        do {
+            try UIImage(cgImage: cgImage).jpegData(compressionQuality: 1)?.write(to: filePath)
+            frame.path = filePath
+        } catch {
+            print("error: \(error)")
+        }
+    }
+    
+    static func saveToDirectory(uiImage: UIImage, frame: inout ImagePlayerFrame) {
+        let directory = ImagePlayerFrame.directory
+        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
+        do {
+            try uiImage.jpegData(compressionQuality: 1)?.write(to: filePath)
+            frame.path = filePath
+        } catch {
+            print("error: \(error)")
+        }
+    }
+
+    static func initDirectory() {
+        let directory = ImagePlayerFrame.directory
+        try? FileManager.default.removeItem(at: directory)
+        try! FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+    }
+    
+
 }
 
 func == (_ l: ImagePlayerFrame, _ r: ImagePlayerFrame) -> Bool {
@@ -197,5 +235,56 @@ class ImagePlayerItem {
         let fromIndex = self.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = self.nearestActiveIndex(time: trimPosition.rightTrim)
         return CMTime(seconds: self.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
+    }
+}
+
+class MakePlayerItemFromPhotosTask {
+    
+    var identifiers: [String]?
+    var requestIds: [Int32] = [Int32]()
+    
+    init(identifiers: [String]) {
+        self.identifiers = identifiers
+    }
+    
+    func run(complete: @escaping (ImagePlayerItem?) -> Void) {
+        guard let identifiers = identifiers else {
+            complete(nil)
+            return
+        }
+        
+        var images = Array<UIImage?>(repeating: nil, count: identifiers.count)
+        let group = DispatchGroup()
+        identifiers.forEach { _ in group.enter() }
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
+        let targetSize = AVMakeRect(aspectRatio: CGSize(width: assets.firstObject!.pixelWidth, height: assets.firstObject!.pixelHeight), insideRect: CGRect(origin: .zero, size: CGSize(width: 600, height: 600))).size
+        assets.enumerateObjects { (asset, index, _) in
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .highQualityFormat
+            options.resizeMode = .exact
+            let id = PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { (image, _) in
+                images[index] = image
+                group.leave()
+            })
+            self.requestIds.append(id)
+        }
+        
+        group.notify(queue: .main) {
+            print(images)
+            ImagePlayerFrame.initDirectory()
+            var frames = [ImagePlayerFrame]()
+            for (index, image) in images.enumerated() {
+                let time = CMTimeMultiply(Double(1).toTime(), multiplier: Int32(index))
+                let frame = ImagePlayerFrame(time: time, image: image!)
+                frames.append(frame)
+            }
+            let playerItem = ImagePlayerItem(frames: frames, duration: CMTimeMultiply(Double(1).toTime(), multiplier: Int32(frames.count)), size: frames.first!.uiImage.size)
+            complete(playerItem)
+        }
+    }
+    
+    func release() {
+        requestIds.forEach { PHImageManager.default().cancelImageRequest($0) }
     }
 }

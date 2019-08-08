@@ -32,6 +32,10 @@ class GallerySelectPhotoView: UIView {
     
     var items: [GallerySelectPhotoItem] = [GallerySelectPhotoItem]()
     weak var customDelegate: GallerySelectPhotoViewDelegate?
+    
+    var selectedIdentifiers: [String] {
+        return items.map { $0.assetIdentifier }
+    }
 
     override func awakeFromNib() {
         collectionView.dataSource = self

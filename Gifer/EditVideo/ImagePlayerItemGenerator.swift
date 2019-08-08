@@ -23,8 +23,6 @@ class ImagePlayerItemGenerator {
         }
     }()
     
-    var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
-    
     internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition) {
         self.asset = avAsset
         self.trimPosition = trimPosition
@@ -71,7 +69,7 @@ class ImagePlayerItemGenerator {
             frameSegments.append([ImagePlayerFrame]())
         }
         
-        initDirectory()
+        ImagePlayerFrame.initDirectory()
         
         let group = DispatchGroup()
         var size: CGSize!
@@ -94,7 +92,7 @@ class ImagePlayerItemGenerator {
                     }
                     var frames = frameSegments[index]
                     var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
-                    self.saveToDirectory(image: image, frame: &frame)
+                    ImagePlayerFrame.saveToDirectory(cgImage: image, frame: &frame)
                     frames.append(frame)
                     frameSegments[index] = frames
                     
@@ -108,21 +106,6 @@ class ImagePlayerItemGenerator {
         group.notify(queue: .main) {
             complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration, size: size))
         }
-    }
-    
-    func saveToDirectory(image: CGImage, frame: inout ImagePlayerFrame) {
-        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
-        do {
-            try UIImage(cgImage: image).jpegData(compressionQuality: 1)?.write(to: filePath)
-            frame.path = filePath
-        } catch {
-            print("error: \(error)")
-        }
-    }
-    
-    func initDirectory() {
-        try? FileManager.default.removeItem(at: directory)
-        try! FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     }
     
     func destroy() {

@@ -305,6 +305,13 @@
                                                 <action selector="onDeselectAllItems:" destination="YZL-QF-fDG" id="Lgz-5I-5P0"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem style="plain" systemItem="flexibleSpace" id="xdO-yf-Q3P"/>
+                                        <barButtonItem title="制作" id="aT1-Nt-WRc">
+                                            <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                            <connections>
+                                                <action selector="onMakeGifFromPhotos:" destination="bz0-X4-CgO" id="anQ-yQ-G4O"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </items>
                                 </toolbar>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vat-cI-YuZ">

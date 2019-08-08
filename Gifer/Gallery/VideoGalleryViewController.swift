@@ -244,6 +244,10 @@ class VideoGalleryViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         return videoResult.count
     }
+    
+    var targetImageSize: CGSize {
+        return UIScreen.main.bounds.size.applying(CGAffineTransform(scaleX: 1/2, y: 1/2))
+    }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let videoResult = videoResult else {
@@ -369,6 +373,19 @@ class VideoGalleryViewController: UICollectionViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetToTheBottom = scrollView.contentSize.height - (scrollView.contentOffset.y + scrollView.bounds.height)
         showScrollToBottomButton(offsetToTheBottom > 300)
+    }
+    
+    @IBAction func onMakeGifFromPhotos(_ sender: UIBarButtonItem) {
+//        sender.isEnabled = false
+        let identifiers = selectPhotoView.selectedIdentifiers
+        MakePlayerItemFromPhotosTask(identifiers: identifiers).run { playerItem in
+            guard let playerItem = playerItem else { return }
+            self.showSelectPhotoView(false)
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+            vc.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
+            vc.playerItem = playerItem
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
