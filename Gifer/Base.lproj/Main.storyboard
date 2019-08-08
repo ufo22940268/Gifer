@@ -296,7 +296,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tci-AX-yS5">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="100"/>
                             <subviews>
-                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Oa7-cg-Iat">
+                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oa7-cg-Iat">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="29.333333333333332"/>
                                     <items>
                                         <barButtonItem title="取消选择全部" id="bzd-15-taj">

@@ -274,6 +274,10 @@ class MakePlayerItemFromPhotosTask {
         group.notify(queue: .main) {
             ImagePlayerFrame.initDirectory()
             var frames = [ImagePlayerFrame]()
+            guard (images.allSatisfy { $0 != nil }) else {
+                complete(nil)
+                return
+            }
             for (index, image) in images.enumerated() {
                 let time = CMTimeMultiply(Double(1).toTime(), multiplier: Int32(index))
                 let frame = ImagePlayerFrame(time: time, image: image!)

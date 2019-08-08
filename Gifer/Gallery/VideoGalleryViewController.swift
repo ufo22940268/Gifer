@@ -51,7 +51,7 @@ struct VideoGalleryFetchOptions {
     }
 }
 
-fileprivate let selectPhotoViewHeight = CGFloat(100)
+fileprivate let selectPhotoViewHeight = CGFloat(110)
 
 class VideoGalleryViewController: UICollectionViewController {
     
@@ -388,7 +388,7 @@ class VideoGalleryViewController: UICollectionViewController {
             self.selectPhotoView.items.removeAll()
             self.selectPhotoView.collectionView.reloadData()
             self.selectPhotoView.removeFromSuperview()
-            self.refreshPhotoCells()
+            self.collectionView.reloadData()
         }
         let vc = self.storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
         vc.photoIdentifiers = identifiers
