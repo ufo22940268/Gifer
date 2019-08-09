@@ -150,9 +150,6 @@ class VideoGalleryViewController: UICollectionViewController {
         
         selectPhotoView.customDelegate = self
         
-        print(String.localizedStringWithFormat(NSLocalizedString("%d photo(s)", comment: ""), 2))
-        print(String.localizedStringWithFormat(NSLocalizedString("%d photo(s)", comment: ""), 1))
-
 //        // FIXME: Test code
 //        onSelectGalleryCategory(.photo)
     }

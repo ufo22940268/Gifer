@@ -50,11 +50,11 @@ enum ShareType {
     var label: String {
         switch self {
         case .wechat:
-            return "微信"
+            return NSLocalizedString("Wechat", comment: "")
         case .photo:
-            return "相册"
+            return NSLocalizedString("Library", comment: "")
         case .wechatSticker:
-            return "表情"
+            return NSLocalizedString("Sticker", comment: "")
         }
     }
     
@@ -109,7 +109,7 @@ class ShareCell: DarkTableCell {
     lazy var stackView: UIStackView =  {
         let view = UIStackView().useAutoLayout()
         view.axis = .horizontal
-        view.spacing = 16
+        view.spacing = 20
         view.isLayoutMarginsRelativeArrangement = true
         view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 16, right: 16)
         return view
@@ -147,6 +147,8 @@ class ShareCell: DarkTableCell {
         button.imageView?.tintColor = .white
         button.setTitle(label, for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: -2)
+        button.sizeToFit()
         button.alignTextUnderImage()
         
         let height = button.heightAnchor.constraint(equalToConstant: 90)
@@ -354,13 +356,13 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == ShareConfig.videoSize.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "videoSize", for: indexPath)
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = "尺寸"
+            cell.textLabel?.text = NSLocalizedString("Size", comment: "")
             cell.detailTextLabel?.text = videoSize.label
             return cell
         } else if indexPath.row == ShareConfig.loopCount.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "loopCount", for: indexPath)
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = "循环次数"
+            cell.textLabel?.text = NSLocalizedString("Loop Count", comment: "")
             cell.detailTextLabel?.text = loopCount.description
             return cell
         } else if indexPath.row == ShareConfig.shareCell.rawValue {

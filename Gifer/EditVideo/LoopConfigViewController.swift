@@ -15,12 +15,8 @@ enum LoopCount: Int, CustomStringConvertible, CaseIterable {
         switch self {
         case .infinite:
             return "∞"
-        case .one:
-            return "1次"
-        case .three:
-            return "3次"
-        case .five:
-            return "5次"
+        default:
+            return String.localizedStringWithFormat(NSLocalizedString("%d time(s)", comment: ""), self.rawValue)
         }
     }
     

@@ -17,13 +17,13 @@ enum VideoSize: CaseIterable {
     var label: String {
         switch self {
         case .auto:
-            return "自动"
+            return NSLocalizedString("Automatic", comment: "")
         case .large:
-            return "大"
+            return NSLocalizedString("Large", comment: "")
         case .middle:
-            return "中"
+            return NSLocalizedString("Medium", comment: "")
         case .small:
-            return "小"
+            return NSLocalizedString("Small", comment: "")
         }
     }
     

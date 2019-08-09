@@ -21,3 +21,17 @@
 "Sticker" = "贴纸";
 "Forward" = "正向";
 "Backward" = "反向";
+
+"Loop Count" = "循环次数";
+"Size" = "尺寸";
+"Library" = "相册";
+"Wechat" = "微信";
+"Sticker" = "表情";
+
+"Automatic" = "自动";
+"Large" = "大";
+"Medium" = "中";
+"Small" = "小";
+
+"Loop %d" = "%d 次";
+//"" =
