@@ -1,0 +1,11 @@
+/* 
+  Localized.strings
+  Gifer
+
+  Created by Frank Cheng on 2019/8/9.
+  Copyright © 2019 Frank Cheng. All rights reserved.
+*/
+"Albums" = "相册";
+"Video" = "视频";
+"Photo" = "图片";
+"Live Photo" = "实况照片";

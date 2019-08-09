@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1EF22FD38EC00F17EEE /* Localizable.strings */; };
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
 		420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
@@ -155,6 +156,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4205D1EA22FCF3C700F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		4205D1F022FD38ED00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
@@ -561,29 +564,30 @@
 		42F2D56F219403B100113A10 /* Gifer */ = {
 			isa = PBXGroup;
 			children = (
-				422F539B22E7034500C0989D /* Model */,
-				42F2D570219403B100113A10 /* AppDelegate.swift */,
-				42F2D574219403B100113A10 /* Main.storyboard */,
-				42F2D577219403B300113A10 /* Assets.xcassets */,
-				42F2D579219403B300113A10 /* LaunchScreen.storyboard */,
 				42F2D57C219403B300113A10 /* Info.plist */,
-				42D7F282224B4CC000E7E504 /* Helper */,
+				428C9D0022F8533600C5EB2F /* Album.storyboard */,
+				42E879B022D4B57D0098D43B /* Edit.storyboard */,
+				42E3C8BC22C758CC008C82FE /* Frame.storyboard */,
+				422F539322E6DCCD00C0989D /* Sticker.storyboard */,
+				42491E5C21ED7C45002FECDE /* Test.storyboard */,
+				428C9D0222F8575600C5EB2F /* AlbumViewController.swift */,
+				42F2D570219403B100113A10 /* AppDelegate.swift */,
+				4234786C22CAE46A007F9E05 /* Config.swift */,
+				42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */,
+				4218D4EC22C75980001CAD81 /* Storyboards.swift */,
 				42EE13D9219641B400724611 /* Test.swift */,
+				42D7F287224B831200E7E504 /* TestViewController.swift */,
+				42F2D577219403B300113A10 /* Assets.xcassets */,
+				4284D43C227588D600886513 /* CommonUI */,
 				4284D43A2275885E00886513 /* EditVideo */,
 				4284D43B2275889600886513 /* Gallery */,
-				4284D43C227588D600886513 /* CommonUI */,
-				42491E5C21ED7C45002FECDE /* Test.storyboard */,
-				42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */,
-				4284D43D2275895E00886513 /* VideoRange */,
+				42D7F282224B4CC000E7E504 /* Helper */,
+				42F2D579219403B300113A10 /* LaunchScreen.storyboard */,
+				42F2D574219403B100113A10 /* Main.storyboard */,
+				422F539B22E7034500C0989D /* Model */,
 				42D7F294224F580B00E7E504 /* Overlay */,
-				42D7F287224B831200E7E504 /* TestViewController.swift */,
-				42E3C8BC22C758CC008C82FE /* Frame.storyboard */,
-				4218D4EC22C75980001CAD81 /* Storyboards.swift */,
-				4234786C22CAE46A007F9E05 /* Config.swift */,
-				42E879B022D4B57D0098D43B /* Edit.storyboard */,
-				422F539322E6DCCD00C0989D /* Sticker.storyboard */,
-				428C9D0022F8533600C5EB2F /* Album.storyboard */,
-				428C9D0222F8575600C5EB2F /* AlbumViewController.swift */,
+				4284D43D2275895E00886513 /* VideoRange */,
+				4205D1EF22FD38EC00F17EEE /* Localizable.strings */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -703,6 +707,7 @@
 				42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */,
 				426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
+				4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */,
 				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
 				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
@@ -895,11 +900,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4205D1EF22FD38EC00F17EEE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4205D1F022FD38ED00F17EEE /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		42F2D574219403B100113A10 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				42F2D575219403B100113A10 /* Base */,
 				42EDFF0B2238FE14004E8868 /* zh-Hans */,
+				4205D1EA22FCF3C700F17EEE /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

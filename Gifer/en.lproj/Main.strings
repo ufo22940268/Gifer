@@ -1,0 +1,18 @@
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "SeZ-9q-LC8"; */
+"SeZ-9q-LC8.title" = "Item";
+
+/* Class = "UINavigationItem"; title = "Gifer"; ObjectID = "X0g-Vx-SJc"; */
+"X0g-Vx-SJc.title" = "Gifer";
+
+/* Class = "UIBarButtonItem"; title = "制作"; ObjectID = "aT1-Nt-WRc"; */
+"aT1-Nt-WRc.title" = "Make";
+
+/* Class = "UICollectionViewController"; title = "Gifer"; ObjectID = "bz0-X4-CgO"; */
+"bz0-X4-CgO.title" = "Gifer";
+
+/* Class = "UIBarButtonItem"; title = "取消选择全部"; ObjectID = "bzd-15-taj"; */
+"bzd-15-taj.title" = "Cancel All";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "sTJ-o7-8aF"; */
+"sTJ-o7-8aF.normalTitle" = "Button";

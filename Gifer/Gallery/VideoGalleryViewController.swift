@@ -76,7 +76,6 @@ class VideoGalleryViewController: UICollectionViewController {
         let view = GallerySwitcher(type: .custom)
         view.sizeToFit()
         view.delegate = self
-        view.frame.size.width = 100
         return view
     }()
     
@@ -107,7 +106,7 @@ class VideoGalleryViewController: UICollectionViewController {
             switcher.category = .video
         }
         navigationItem.titleView = switcher
-        let openAlbumsItem = UIBarButtonItem(title: "相册", style: .plain, target: self, action: #selector(onOpenAlbums))
+        let openAlbumsItem = UIBarButtonItem(title: NSLocalizedString("Albums", comment: "Albums item in navigation controller"), style: .plain, target: self, action: #selector(onOpenAlbums))
         openAlbumsItem.tintColor = UIColor.yellowActiveColor
         navigationItem.leftBarButtonItem = openAlbumsItem
         

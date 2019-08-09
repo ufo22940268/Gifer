@@ -17,11 +17,11 @@ enum GalleryCategory: CaseIterable {
     var title: String {
         switch self {
         case .video:
-            return "视频"
+            return NSLocalizedString("Video", comment: "Video item in category selector")
         case .livePhoto:
-            return "实况照片"
+            return NSLocalizedString("Live Photo", comment: "Live Photo item in category selector")
         case .photo:
-            return "照片"
+            return NSLocalizedString("Photo", comment: "Photo item in category selector")
         }
     }
     
@@ -66,6 +66,7 @@ class GallerySwitcher: UIButton {
     var category: GalleryCategory! {
         didSet {
             setTitle(category.title, for: .normal)
+            sizeToFit()
         }
     }
     
@@ -94,12 +95,15 @@ class GallerySwitcher: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
+        titleLabel?.textAlignment = .center
         tintColor = .yellowActiveColor
         setTitleColor(.yellowActiveColor, for: .normal)
         setImage(#imageLiteral(resourceName: "chevron-square-up.png"), for: .normal)
         imageView?.contentMode = .center
         semanticContentAttribute = .forceRightToLeft
-        titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+        titleEdgeInsets = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 4)
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -4)
+        imageEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         imageView?.transform = CGAffineTransform(rotationAngle: .pi)
 
         addTarget(self, action: #selector(onClick), for: .touchUpInside)
