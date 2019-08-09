@@ -10,3 +10,14 @@
 "Photo" = "图片";
 "Live Photo" = "实况照片";
 "photo" = "图片";
+"Edit" = "编辑";
+"Loading..." = "加载中...";
+"%.1fs/%d frames" = "%.1f秒/%d张";
+
+"Speed" = "速度";
+"Crop" = "剪裁";
+"Filter" = "滤镜";
+"Text" = "文本";
+"Sticker" = "贴纸";
+"Forward" = "正向";
+"Backward" = "反向";

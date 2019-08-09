@@ -64,15 +64,15 @@ enum ToolbarItem {
     var viewInfo: (UIImage, String) {
         switch self {
         case .playSpeed:
-            return (#imageLiteral(resourceName: "clock-outline.png"), "速度")
+            return (#imageLiteral(resourceName: "clock-outline.png"), NSLocalizedString("Speed", comment: ""))
         case .crop:
-            return (#imageLiteral(resourceName: "crop-outline.png"), "剪裁")
+            return (#imageLiteral(resourceName: "crop-outline.png"), NSLocalizedString("Crop", comment: ""))
         case .filters:
-            return (#imageLiteral(resourceName: "flash-outline.png"), "滤镜")
+            return (#imageLiteral(resourceName: "flash-outline.png"), NSLocalizedString("Filter", comment: ""))
         case .font:
-            return (#imageLiteral(resourceName: "pen-fancy-solid.png"), "文本")
+            return (#imageLiteral(resourceName: "pen-fancy-solid.png"), NSLocalizedString("Text", comment: ""))
         case .sticker:
-            return (#imageLiteral(resourceName: "smile-wink-regular.png"), "贴纸")
+            return (#imageLiteral(resourceName: "smile-wink-regular.png"), NSLocalizedString("Sticker", comment: ""))
         case .direction(let playDirection):
             return playDirection.viewInfo
         }
@@ -91,9 +91,9 @@ enum PlayDirection {
     var viewInfo: (UIImage, String) {
         switch self {
         case .forward:
-            return (#imageLiteral(resourceName: "arrow-forward-outline.png"), "正向")
+            return (#imageLiteral(resourceName: "arrow-forward-outline.png"), NSLocalizedString("Forward", comment: ""))
         case .backward:
-            return (#imageLiteral(resourceName: "arrow-back-outline.png"), "反向")
+            return (#imageLiteral(resourceName: "arrow-back-outline.png"), NSLocalizedString("Backward", comment: ""))
         }
     }
 }
@@ -270,7 +270,7 @@ class EditViewController: UIViewController {
         
         view.tintColor = .mainColor
         
-        setSubTitle("加载中")
+        setSubTitleWhenLoading()
         setupVideoContainer()
         setupControlToolbar()
         setupVideoController()
@@ -296,8 +296,8 @@ class EditViewController: UIViewController {
     private func enableVideoContainer(_ enable: Bool) {
     }
     
-    private func setSubTitle(_ text: String) {
-        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: "加载中...")
+    private func setSubTitleWhenLoading() {
+        navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: "Title in EditViewController"), lineTwo: NSLocalizedString("Loading...", comment: "Loading in navigation title of EditViewController"))
     }
 
     private func updateSubTitle() {
@@ -305,7 +305,7 @@ class EditViewController: UIViewController {
         let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
         let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
-        navigationItem.setTwoLineTitle(lineOne: "编辑", lineTwo: String(format: "%.1f秒/%d张", duration.seconds, toIndex - fromIndex + 1))
+        navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: ""), lineTwo: String.localizedStringWithFormat("%.1fs/%d frames", duration.seconds, toIndex - fromIndex + 1))
     }
     
     func setupVideoContainer() {
