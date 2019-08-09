@@ -106,7 +106,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b81-vf-jhe"/>
                     </view>
-                    <navigationItem key="navigationItem" title="图片帧" id="sQL-z0-fM8"/>
+                    <navigationItem key="navigationItem" title="Frames" id="sQL-z0-fM8"/>
                     <connections>
                         <outlet property="collectionView" destination="5c3-AP-EDh" id="HrK-Or-3i7"/>
                     </connections>

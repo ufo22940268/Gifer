@@ -46,6 +46,7 @@
 		42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */; };
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
+		424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930DC22FE3A5300C169CA /* Frame.storyboard */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9927228ABA5100952440 /* ConfigViewController.swift */; };
@@ -114,7 +115,6 @@
 		42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */; };
 		42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A12251EA9100E7E504 /* TextRender.swift */; };
 		42D7F2A42252284900E7E504 /* EditTextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F2A32252284900E7E504 /* EditTextInfo.swift */; };
-		42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E3C8BC22C758CC008C82FE /* Frame.storyboard */; };
 		42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */; };
 		42E5C348221D4CBA00D18CA6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */; };
 		42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */; };
@@ -200,6 +200,8 @@
 		42462B202202F8DE0064FE56 /* VideoControllerGallerySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerGallerySlider.swift; sourceTree = "<group>"; };
 		42491E5A21ED7C22002FECDE /* GridRulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerView.swift; sourceTree = "<group>"; };
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
+		424930DB22FE3A5300C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Frame.storyboard; sourceTree = "<group>"; };
+		424930DE22FE3A6300C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Frame.strings"; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		424F9927228ABA5100952440 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
@@ -268,7 +270,6 @@
 		42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentRender.swift; sourceTree = "<group>"; };
 		42D7F2A12251EA9100E7E504 /* TextRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRender.swift; sourceTree = "<group>"; };
 		42D7F2A32252284900E7E504 /* EditTextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextInfo.swift; sourceTree = "<group>"; };
-		42E3C8BC22C758CC008C82FE /* Frame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Frame.storyboard; sourceTree = "<group>"; };
 		42E5C345221D287300D18CA6 /* ConfirmToDismissDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmToDismissDialog.swift; sourceTree = "<group>"; };
 		42E5C347221D4CBA00D18CA6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		42E5C349221D6C2100D18CA6 /* SelectGifDurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGifDurationViewController.swift; sourceTree = "<group>"; };
@@ -571,7 +572,7 @@
 				42F2D57C219403B300113A10 /* Info.plist */,
 				428C9D0022F8533600C5EB2F /* Album.storyboard */,
 				42E879B022D4B57D0098D43B /* Edit.storyboard */,
-				42E3C8BC22C758CC008C82FE /* Frame.storyboard */,
+				424930DC22FE3A5300C169CA /* Frame.storyboard */,
 				422F539322E6DCCD00C0989D /* Sticker.storyboard */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
 				428C9D0222F8575600C5EB2F /* AlbumViewController.swift */,
@@ -716,7 +717,7 @@
 				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
 				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
-				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
+				424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */,
 				422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,
 				42F2D576219403B100113A10 /* Main.storyboard in Resources */,
@@ -922,6 +923,15 @@
 				4205D1F722FD5DC800F17EEE /* en */,
 			);
 			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+		424930DC22FE3A5300C169CA /* Frame.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424930DB22FE3A5300C169CA /* Base */,
+				424930DE22FE3A6300C169CA /* zh-Hans */,
+			);
+			name = Frame.storyboard;
 			sourceTree = "<group>";
 		};
 		42F2D574219403B100113A10 /* Main.storyboard */ = {

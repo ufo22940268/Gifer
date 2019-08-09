@@ -77,7 +77,6 @@ class GallerySwitcher: UIButton {
     var category: GalleryCategory! {
         didSet {
             setTitle(category.title, for: .normal)
-            sizeToFit()
         }
     }
     

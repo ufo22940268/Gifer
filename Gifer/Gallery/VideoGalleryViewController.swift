@@ -74,7 +74,7 @@ class VideoGalleryViewController: UICollectionViewController {
     var videoResult:PHFetchResult<PHAsset>?
     lazy var switcher: GallerySwitcher = {
         let view = GallerySwitcher(type: .custom)
-        view.sizeToFit()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         return view
     }()
