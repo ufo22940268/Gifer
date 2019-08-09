@@ -305,7 +305,7 @@ class EditViewController: UIViewController {
         let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
         let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
-        navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: ""), lineTwo: String.localizedStringWithFormat("%.1fs/%d frames", duration.seconds, toIndex - fromIndex + 1))
+        navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: ""), lineTwo: String.localizedStringWithFormat(NSLocalizedString("%.1fs/%d frames", comment: "Subtitle metrics in EditViewController"), duration.seconds, toIndex - fromIndex + 1))
     }
     
     func setupVideoContainer() {

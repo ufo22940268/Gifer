@@ -27,7 +27,7 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>other</key>
-			<string>%d 个照片</string>
+			<string>%d个照片</string>
 		</dict>
 	</dict>
 	<key>%d video(s)</key>
@@ -41,7 +41,7 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>other</key>
-			<string>%d 个视频</string>
+			<string>%d个视频</string>
 		</dict>
 	</dict>
 	<key>%d live photo(s)</key>
@@ -55,7 +55,7 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>other</key>
-			<string>%d 个实况照片</string>
+			<string>%d个实况照片</string>
 		</dict>
 	</dict>
 </dict>
