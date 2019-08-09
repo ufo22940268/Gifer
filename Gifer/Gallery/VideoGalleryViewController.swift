@@ -150,6 +150,9 @@ class VideoGalleryViewController: UICollectionViewController {
         
         selectPhotoView.customDelegate = self
         
+        print(String.localizedStringWithFormat(NSLocalizedString("%d photo(s)", comment: ""), 2))
+        print(String.localizedStringWithFormat(NSLocalizedString("%d photo(s)", comment: ""), 1))
+
 //        // FIXME: Test code
 //        onSelectGalleryCategory(.photo)
     }
@@ -301,7 +304,7 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer", for: indexPath) as! GalleryBottomInfoView
-        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.title, collectionTitle: fetchOptions.localizedTitle)
+        footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.bottomLabel, collectionTitle: fetchOptions.localizedTitle)
         return footer
     }
     

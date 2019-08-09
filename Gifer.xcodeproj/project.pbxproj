@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1EF22FD38EC00F17EEE /* Localizable.strings */; };
+		4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */; };
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
 		420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
@@ -158,6 +159,8 @@
 /* Begin PBXFileReference section */
 		4205D1EA22FCF3C700F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		4205D1F022FD38ED00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		4205D1F422FD5D9B00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
+		4205D1F722FD5DC800F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
@@ -588,6 +591,7 @@
 				42D7F294224F580B00E7E504 /* Overlay */,
 				4284D43D2275895E00886513 /* VideoRange */,
 				4205D1EF22FD38EC00F17EEE /* Localizable.strings */,
+				4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -709,6 +713,7 @@
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
 				4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */,
 				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
+				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
 				42E3C8BD22C758CC008C82FE /* Frame.storyboard in Resources */,
 				422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */,
@@ -906,6 +911,15 @@
 				4205D1F022FD38ED00F17EEE /* zh-Hans */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4205D1F422FD5D9B00F17EEE /* zh-Hans */,
+				4205D1F722FD5DC800F17EEE /* en */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 		42F2D574219403B100113A10 /* Main.storyboard */ = {

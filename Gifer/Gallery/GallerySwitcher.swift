@@ -25,6 +25,17 @@ enum GalleryCategory: CaseIterable {
         }
     }
     
+    var bottomLabel: String {
+        switch self {
+        case .video:
+            return NSLocalizedString("%d video(s)", comment: "")
+        case .photo:
+            return NSLocalizedString("%d photo(s)", comment: "")
+        case .livePhoto:
+            return NSLocalizedString("%d live photo(s)", comment: "")
+        }
+    }
+    
     var icon: UIImage {
         switch self {
         case .video:

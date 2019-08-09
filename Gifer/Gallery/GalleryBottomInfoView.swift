@@ -34,7 +34,7 @@ class GalleryBottomInfoView: UICollectionReusableView {
             isHidden = true
         } else {
             isHidden = false
-            videoInfoView.text = "\(collectionTitle ?? ""), \(count)个\(category)"
+            videoInfoView.text = "\(collectionTitle ?? ""), \(String.localizedStringWithFormat(category, count))"
         }
     }
 }
