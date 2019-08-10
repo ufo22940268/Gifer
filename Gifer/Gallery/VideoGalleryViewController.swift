@@ -236,7 +236,7 @@ class VideoGalleryViewController: UICollectionViewController {
             enableFooterView(true)
         } else {
             enableFooterView(false)
-            self.collectionView.setEmptyMessage("\(fetchOptions.localizedTitle ?? "")中未找到\(galleryCategory.title)")
+            self.collectionView.setEmptyMessage(String.localizedStringWithFormat(NSLocalizedString("No %@ Found in %@", comment: ""), fetchOptions.localizedTitle ?? "", galleryCategory.title))
         }
         
         if scrollToBottom {
