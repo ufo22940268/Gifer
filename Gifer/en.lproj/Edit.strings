@@ -1,0 +1,15 @@
+
+/* Class = "UINavigationItem"; title = "说明"; ObjectID = "17i-r3-SC5"; */
+"17i-r3-SC5.title" = "说明";
+
+/* Class = "UILabel"; text = "微信分享"; ObjectID = "mgO-wa-7NM"; */
+"mgO-wa-7NM.text" = "微信分享";
+
+/* Class = "UIButton"; normalTitle = "好的"; ObjectID = "uPA-tk-AKx"; */
+"uPA-tk-AKx.normalTitle" = "好的";
+
+/* Class = "UILabel"; text = "由于微信客户端的限制，微信分享只支持时长为3秒内GIF，并且会自动调整分辨率文件大小不超过限制。"; ObjectID = "uU3-5B-gS4"; */
+"uU3-5B-gS4.text" = "由于微信客户端的限制，微信分享只支持时长为3秒内GIF，并且会自动调整分辨率文件大小不超过限制。";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "xl5-J3-KRu"; */
+"xl5-J3-KRu.title" = "Item";

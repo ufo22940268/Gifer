@@ -47,6 +47,8 @@
 		42491E5B21ED7C22002FECDE /* GridRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42491E5A21ED7C22002FECDE /* GridRulerView.swift */; };
 		42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42491E5C21ED7C45002FECDE /* Test.storyboard */; };
 		424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930DC22FE3A5300C169CA /* Frame.storyboard */; };
+		424930DF22FE63CD00C169CA /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930E122FE63CD00C169CA /* Edit.storyboard */; };
+		424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424930E822FE64AD00C169CA /* PlaySpeedView.xib */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9927228ABA5100952440 /* ConfigViewController.swift */; };
@@ -63,7 +65,6 @@
 		4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */; };
 		426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
-		426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C537D21D4C6020018DE80 /* PlaySpeedView.xib */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
 		4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* ControllerTrim.swift */; };
@@ -131,7 +132,6 @@
 		42E879AB22D2B9E90098D43B /* StickerResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */; };
 		42E879AD22D2BBA00098D43B /* StickerResourceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */; };
 		42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */; };
-		42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E879B022D4B57D0098D43B /* Edit.storyboard */; };
 		42E879B322D4C6690098D43B /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E879B222D4C6690098D43B /* CropViewController.swift */; };
 		42EE13D62195C22900724611 /* GifGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D52195C22900724611 /* GifGenerator.swift */; };
 		42EE13DA219641B400724611 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE13D9219641B400724611 /* Test.swift */; };
@@ -202,6 +202,10 @@
 		42491E5C21ED7C45002FECDE /* Test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		424930DB22FE3A5300C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Frame.storyboard; sourceTree = "<group>"; };
 		424930DE22FE3A6300C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Frame.strings"; sourceTree = "<group>"; };
+		424930E022FE63CD00C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Edit.storyboard; sourceTree = "<group>"; };
+		424930E522FE63D500C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Edit.strings"; sourceTree = "<group>"; };
+		424930E722FE64AD00C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlaySpeedView.xib; sourceTree = "<group>"; };
+		424930EA22FE64B000C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PlaySpeedView.strings"; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		424F9927228ABA5100952440 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
@@ -218,7 +222,6 @@
 		4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPreviewView.swift; sourceTree = "<group>"; };
 		426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDialog.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
-		426C537D21D4C6020018DE80 /* PlaySpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaySpeedView.xib; sourceTree = "<group>"; };
 		427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressLoadingIndicator.swift; sourceTree = "<group>"; };
 		4284D44022768F5F00886513 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* ControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerTrim.swift; sourceTree = "<group>"; };
@@ -286,7 +289,6 @@
 		42E879AA22D2B9E90098D43B /* StickerResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceManager.swift; sourceTree = "<group>"; };
 		42E879AC22D2BBA00098D43B /* StickerResourceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerResourceCategory.swift; sourceTree = "<group>"; };
 		42E879AE22D31DDB0098D43B /* FramePreviewTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramePreviewTransitioning.swift; sourceTree = "<group>"; };
-		42E879B022D4B57D0098D43B /* Edit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Edit.storyboard; sourceTree = "<group>"; };
 		42E879B222D4C6690098D43B /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		42EDFF0B2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		42EDFF0C2238FE14004E8868 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -462,7 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */,
-				426C537D21D4C6020018DE80 /* PlaySpeedView.xib */,
+				424930E822FE64AD00C169CA /* PlaySpeedView.xib */,
 				42AC7D882223862300AD3681 /* ControlToolbar.swift */,
 				42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */,
 				4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */,
@@ -571,7 +573,7 @@
 			children = (
 				42F2D57C219403B300113A10 /* Info.plist */,
 				428C9D0022F8533600C5EB2F /* Album.storyboard */,
-				42E879B022D4B57D0098D43B /* Edit.storyboard */,
+				424930E122FE63CD00C169CA /* Edit.storyboard */,
 				424930DC22FE3A5300C169CA /* Frame.storyboard */,
 				422F539322E6DCCD00C0989D /* Sticker.storyboard */,
 				42491E5C21ED7C45002FECDE /* Test.storyboard */,
@@ -711,10 +713,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */,
-				426C537E21D4C6020018DE80 /* PlaySpeedView.xib in Resources */,
+				424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
 				4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */,
-				42E879B122D4B57D0098D43B /* Edit.storyboard in Resources */,
+				424930DF22FE63CD00C169CA /* Edit.storyboard in Resources */,
 				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
 				424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */,
@@ -932,6 +934,24 @@
 				424930DE22FE3A6300C169CA /* zh-Hans */,
 			);
 			name = Frame.storyboard;
+			sourceTree = "<group>";
+		};
+		424930E122FE63CD00C169CA /* Edit.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424930E022FE63CD00C169CA /* Base */,
+				424930E522FE63D500C169CA /* zh-Hans */,
+			);
+			name = Edit.storyboard;
+			sourceTree = "<group>";
+		};
+		424930E822FE64AD00C169CA /* PlaySpeedView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424930E722FE64AD00C169CA /* Base */,
+				424930EA22FE64B000C169CA /* zh-Hans */,
+			);
+			name = PlaySpeedView.xib;
 			sourceTree = "<group>";
 		};
 		42F2D574219403B100113A10 /* Main.storyboard */ = {
