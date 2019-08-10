@@ -466,11 +466,11 @@ class EditViewController: UIViewController {
                 })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
-                    let alert = UIAlertController(title: nil, message: "保存成功", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "前往相册", style: .default, handler: { (_) in
+                    let alert = UIAlertController(title: nil, message: NSLocalizedString("Export success", comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Go to Library", comment: ""), style: .default, handler: { (_) in
                         UIApplication.shared.open(URL(string:"photos-redirect://")!)
                     }))
-                    alert.addAction(UIAlertAction(title: "返回", style: .default, handler: { (_) in
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""), style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
                         self.promotion()
                         self.onShareDialogDimissed()
@@ -498,7 +498,7 @@ class EditViewController: UIViewController {
     }
     
     private func showLoadingWhenExporting(_ show: Bool) {
-        showLoading(show, label: "导出中...")
+        showLoading(show, label: NSLocalizedString("Exporting...", comment: ""))
     }
     
     private func showPlayLoading(_ show: Bool) {
