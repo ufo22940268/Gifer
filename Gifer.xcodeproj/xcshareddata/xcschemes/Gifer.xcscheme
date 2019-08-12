@@ -112,14 +112,17 @@
             ReferencedContainer = "container:Gifer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "CG_CONTEXT_SHOW_BACKTRACE"
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "MallocStackLogging"
             value = ""
             isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
-      <AdditionalOptions>
+         </AdditionalOption>
+         <AdditionalOption
+            key = "PrefersMallocStackLoggingLite"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction

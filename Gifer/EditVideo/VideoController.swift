@@ -385,6 +385,7 @@ class VideoController: UIStackView {
     
     func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         
+        print(playerItem.status.rawValue)
         guard playerItem.asset.duration.value > 0 else {
             return
         }

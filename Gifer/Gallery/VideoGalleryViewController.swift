@@ -320,7 +320,9 @@ class VideoGalleryViewController: UICollectionViewController {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
+            kdebug_signpost_start(1, 0, 0, 0, 0)
         } else {
+            kdebug_signpost_start(2, 0, 0, 0, 0)
             let editVC = storyboard!.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
             editVC.previewImage = previewImage
             if galleryCategory == .video {

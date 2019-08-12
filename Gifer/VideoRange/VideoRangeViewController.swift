@@ -104,28 +104,36 @@ class VideoRangeViewController: UIViewController {
         options.deliveryMode = .fastFormat
         options.progressHandler = self.onDownloadVideoProgressChanged
         kdebug_signpost_start(1, 0, 0, 0, 0)
-        manager.requestPlayerItem(forVideo: previewAsset, options: options) { (playerItem, _) in
+        manager.requestPlayerItem(forVideo: self.previewAsset, options: options) { (playerItem, _) in
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
-                self.loadPreview(playerItem: playerItem)
+                self.previewController.player = AVPlayer(playerItem: playerItem)
+                self.registerObservers()
             }
         }
     }
 
-    private func loadPreview(playerItem: AVPlayerItem) {
-        self.previewController.player = AVPlayer(playerItem: playerItem)
+    private func loadPreview() {
+        let targetSize = AVMakeRect(aspectRatio: CGSize(width: self.previewAsset.pixelWidth, height: self.previewAsset.pixelHeight), insideRect: self.videoPreviewSection.bounds).size
+        self.previewController.view.constraints.findById(id: "width").constant = targetSize.width
+        self.previewController.view.constraints.findById(id: "height").constant = targetSize.height
         self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.videoController.load(playerItem: playerItem, gifMaxDuration: 20, completion: {
+        self.videoController.load(playerItem: currentItem, gifMaxDuration: 20, completion: {
             self.setSubtitle(position: self.trimPosition)
             self.doneItemButton.isEnabled = true
             self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
+            
+
+            self.registerPlayObserver()
+            
             self.player.volume = 0
             self.player.play()
+            
+            
+            kdebug_signpost_end(1, 0, 0, 0, 0)
         })
-        self.registerObservers()
-        kdebug_signpost_end(1, 0, 0, 0, 0)
     }
     
     private func setSubtitle(_ subTitle: String) {
@@ -143,12 +151,14 @@ class VideoRangeViewController: UIViewController {
 
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
         currentItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp), options: [.new], context: nil)
-
+    }
+    
+    func registerPlayObserver() {
         let interval = UIDevice.isSimulator ? 0.5 : 0.01
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: interval, preferredTimescale: 600),
-                                                            queue: .main) {
-                                                                [weak self] time in
-                                                                self?.observePlayProgress(progress: time)
+                                                           queue: .main) {
+                                                            [weak self] time in
+                                                            self?.observePlayProgress(progress: time)
         }
         
         loopObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using:observerPlayToTheEnd)
@@ -193,12 +203,13 @@ class VideoRangeViewController: UIViewController {
         }
     }
     
+    var isPreviewInited = false
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
-            if case AVPlayer.Status.readyToPlay = player.status {
-                let targetSize = AVMakeRect(aspectRatio: CGSize(width: previewAsset.pixelWidth, height: previewAsset.pixelHeight), insideRect: videoPreviewSection.bounds).size
-                previewController.view.constraints.findById(id: "width").constant = targetSize.width
-                previewController.view.constraints.findById(id: "height").constant = targetSize.height
+            if case AVPlayer.Status.readyToPlay = player.status, !isPreviewInited {
+                loadPreview()
+                isPreviewInited = true
             }
         } else if keyPath == #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp) {
             print("likely to keepup: \(currentItem.isPlaybackLikelyToKeepUp)")
@@ -214,6 +225,11 @@ class VideoRangeViewController: UIViewController {
             player.play()
         }
         registerObservers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        kdebug_signpost_end(1, 0, 0, 0, 0)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -599,6 +599,7 @@ extension EditViewController: ImagePlayerDelegate {
     }
     
     func onVideoReady(playerItem: ImagePlayerItem) {
+        kdebug_signpost_end(2, 0, 0, 0, 0)
         shareBarItem.isEnabled = true
         frameBarItem.isEnabled = true
         self.playerItem = playerItem
