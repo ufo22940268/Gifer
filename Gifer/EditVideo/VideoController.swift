@@ -91,6 +91,13 @@ struct VideoTrimPosition: CustomStringConvertible {
     func rightPercent(in duration: CMTime) -> CGFloat {
         return CGFloat(rightTrim.seconds/duration.seconds)
     }
+    
+    func update(by playerItem: ImagePlayerItem) -> VideoTrimPosition {
+        var trimPosition = self
+        trimPosition.leftTrim = playerItem.activeFrames.first!.time
+        trimPosition.rightTrim = playerItem.activeFrames.last!.time
+        return trimPosition
+    }
 }
 
 struct GalleryRangePosition: CustomStringConvertible {

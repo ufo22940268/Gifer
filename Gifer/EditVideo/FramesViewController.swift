@@ -17,9 +17,7 @@ class FramesViewController: UIViewController {
     
     var playerItem: ImagePlayerItem!
     var frames: [ImagePlayerFrame] {
-        let from = playerItem.nearestIndex(time: trimPosition.leftTrim)
-        let to = playerItem.nearestIndex(time: trimPosition.rightTrim)
-        return Array(playerItem.allFrames[from...to])
+        return Array(playerItem.allFrames)
     }
     @IBOutlet weak var collectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
@@ -114,6 +112,7 @@ extension FramesViewController: UICollectionViewDelegate {
         frame.isActive = false
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
         updateVisibleCells()
+        customDelegate?.onUpdatePlayerItem(playerItem)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -121,6 +120,7 @@ extension FramesViewController: UICollectionViewDelegate {
         frame.isActive = true
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
         updateVisibleCells()
+        customDelegate?.onUpdatePlayerItem(playerItem)
     }
 }
 
@@ -142,5 +142,6 @@ extension FramesViewController: FramePreviewDelegate {
     func onCheck(index: Int, actived: Bool) {
         let frame = frames[index]
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!].isActive = actived
+        customDelegate?.onUpdatePlayerItem(playerItem)
     }
 }

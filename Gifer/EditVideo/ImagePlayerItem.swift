@@ -237,6 +237,16 @@ class ImagePlayerItem {
         let toIndex = self.nearestActiveIndex(time: trimPosition.rightTrim)
         return CMTime(seconds: self.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
     }
+    
+    /// Mark the frame which is not in trim postition range as inactive.
+    func update(byTrimPosition trimPosition: VideoTrimPosition) {
+        let left = nearestIndex(time: trimPosition.leftTrim)
+        let right = nearestIndex(time: trimPosition.rightTrim)
+        for i in 0..<allFrames.count where i < left || i > right {
+            allFrames[i].isActive = false
+        }        
+    }
+    
 }
 
 class MakePlayerItemFromPhotosTask {

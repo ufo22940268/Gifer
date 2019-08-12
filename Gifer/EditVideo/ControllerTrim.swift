@@ -267,7 +267,7 @@ class ControllerTrim: UIControl {
     }
     
     func updateMainColor(duration: CMTime? = nil, taptic: Bool = false) {
-        let duration = duration ?? trimPosition.galleryDuration
+        _ = duration ?? trimPosition.galleryDuration
         
         let mode: Mode!
         if let playerItem = playerItem, changeBackgroundWhenNeeded && Wechat.canBeShared(playerItem: playerItem, trimPosition: trimPosition) {
@@ -365,6 +365,7 @@ class ControllerTrim: UIControl {
     
     /// Caused by external action. Such as high resolution button is tapped.
     func updateRange(trimPosition: VideoTrimPosition) {
+        leftTrimLeadingConstraint.constant = sliderThresholdGuide.layoutFrame.width*CGFloat(trimPosition.leftTrim.seconds/duration.seconds)
         rightTrimTrailingConstraint.constant = -sliderThresholdGuide.layoutFrame.width*CGFloat(1 - trimPosition.rightTrim.seconds/duration.seconds)
         updateMainColor(duration: trimPosition.galleryDuration)
     }

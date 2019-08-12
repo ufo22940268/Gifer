@@ -410,6 +410,7 @@ class EditViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "frames" {
+            updatePlayerByTrim()
             let vc = segue.destination as! FramesViewController
             vc.playerItem = playerItem
             videoController.playerItem = playerItem
@@ -598,6 +599,10 @@ extension EditViewController: ImagePlayerDelegate {
         return imagePlayerView.playDirection
     }
     
+    fileprivate func updatePlayerByTrim() {
+        self.playerItem?.update(byTrimPosition: self.trimPosition)
+    }
+    
     func onVideoReady(playerItem: ImagePlayerItem) {
         kdebug_signpost_end(2, 0, 0, 0, 0)
         shareBarItem.isEnabled = true
@@ -618,10 +623,14 @@ extension EditViewController: ImagePlayerDelegate {
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
             self.onTrimChangedByTrimer(trimPosition: self.videoController.trimPosition, state: .initial, side: nil)
+            
+            //Trim position Updated
             self.defaultGifOptions = self.currentGifOption
             self.updateSubTitle()
+            self.updatePlayerByTrim()
         }
     }
+    
     
     private func enableControlOptions() {
     }
@@ -661,12 +670,6 @@ extension EditViewController: VideoControllerDelegate {
     
     /// Update trim info to views except video controller.
     private func updateTrim(position: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
-//        if Wechat.canBeShared(duration: position.galleryDuration) {
-//            highResButton.isEnabled = false
-//        } else {
-//            highResButton.isEnabled = true
-//        }
-        
         var fixedSide: ControllerTrim.Side!
         if side == nil {
             fixedSide = playDirection == .forward ? .left : .right
@@ -891,6 +894,9 @@ extension EditViewController: CropContainerDelegate {
 extension EditViewController: FramesDelegate {
     func onUpdatePlayerItem(_ playerItem: ImagePlayerItem) {
         self.playerItem = playerItem
+        let newTrimPosition = trimPosition.update(by: playerItem)
+        videoController.updateRange(trimPosition: newTrimPosition)
+        updateTrim(position: newTrimPosition, state: .initial, side: .left)
     }
 }
 
