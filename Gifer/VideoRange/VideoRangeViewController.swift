@@ -93,7 +93,7 @@ class VideoRangeViewController: UIViewController {
         if isDebug {
             previewAsset = getTestVideo()
         }
-        setSubtitle("加载中...")
+        setSubtitle(NSLocalizedString("Loading...", comment: ""))
         loadAsset()
     }
     
@@ -124,7 +124,6 @@ class VideoRangeViewController: UIViewController {
             self.setSubtitle(position: self.trimPosition)
             self.doneItemButton.isEnabled = true
             self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration
-            
 
             self.registerPlayObserver()
             
@@ -137,7 +136,7 @@ class VideoRangeViewController: UIViewController {
     }
     
     private func setSubtitle(_ subTitle: String) {
-        navigationItem.setTwoLineTitle(lineOne: "修剪", lineTwo: subTitle)
+        navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Clip", comment: ""), lineTwo: subTitle)
     }
 
     private func setupVideoController() {
