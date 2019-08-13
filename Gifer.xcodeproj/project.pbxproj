@@ -49,6 +49,7 @@
 		424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930DC22FE3A5300C169CA /* Frame.storyboard */; };
 		424930DF22FE63CD00C169CA /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930E122FE63CD00C169CA /* Edit.storyboard */; };
 		424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424930E822FE64AD00C169CA /* PlaySpeedView.xib */; };
+		424930EC2302DE7300C169CA /* UIKItLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424930EB2302DE7300C169CA /* UIKItLocalizedString.swift */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9927228ABA5100952440 /* ConfigViewController.swift */; };
@@ -206,6 +207,7 @@
 		424930E522FE63D500C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Edit.strings"; sourceTree = "<group>"; };
 		424930E722FE64AD00C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlaySpeedView.xib; sourceTree = "<group>"; };
 		424930EA22FE64B000C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PlaySpeedView.strings"; sourceTree = "<group>"; };
+		424930EB2302DE7300C169CA /* UIKItLocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKItLocalizedString.swift; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		424F9927228ABA5100952440 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				422F539E22E83EEE00C0989D /* PromotionManager.swift */,
 				42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */,
 				42CA13C822FB9C1C003DD910 /* CGSizeExtension.swift */,
+				424930EB2302DE7300C169CA /* UIKItLocalizedString.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				42E5C34A221D6C2100D18CA6 /* SelectGifDurationViewController.swift in Sources */,
 				4260DA8E222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift in Sources */,
 				42611DBE22CDD4A0009A7188 /* GallerySwitcher.swift in Sources */,
+				424930EC2302DE7300C169CA /* UIKItLocalizedString.swift in Sources */,
 				428C9D0322F8575600C5EB2F /* AlbumViewController.swift in Sources */,
 				42A1AFE721EF186C00CF8018 /* CropContainer.swift in Sources */,
 				42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */,

@@ -21,7 +21,11 @@ class Overlay: UIView {
     
     weak var delegate: OverlayDelegate?
     var componentIdSequence: ComponentId = 0
-    var clipTrimPosition: VideoTrimPosition!
+    var clipTrimPosition: VideoTrimPosition! {
+        didSet {
+            components.forEach { $0.trimPosition = clipTrimPosition }
+        }
+    }
     var pinchRecognizer: UIPinchGestureRecognizer!
     var rotateRecognizer: UIRotationGestureRecognizer!
 

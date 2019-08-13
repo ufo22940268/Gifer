@@ -86,6 +86,11 @@ class VideoControllerAttachView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func resetTrim() {
+        trimView.leftTrimLeadingConstraint.constant = 0
+        trimView.rightTrimTrailingConstraint.constant = 0
+    }
+    
     func load(image: UIImage, component: OverlayComponent) {
         self.component = component
         galleryView.subviews.forEach { $0.removeFromSuperview() }

@@ -370,6 +370,7 @@ class VideoController: UIStackView {
         self.galleryView.galleryDuration = duration
         self.galleryView.duration = duration
         self.attachView.duration = duration
+        self.attachView.trimView.playerItem = playerItem
     }
     
     func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {

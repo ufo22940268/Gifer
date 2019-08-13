@@ -926,9 +926,10 @@ extension EditViewController: FramesDelegate {
         updateTrim(position: playerItem.allRangeTrimPosition, state: .initial, side: .left)
         videoController.updateRange(trimPosition: playerItem.allRangeTrimPosition)
         
-        /// FIXME: update overlay settings.
-//        stickerOverlay.clipTrimPosition = trimPosition
-//        editTextOverlay.clipTrimPosition = trimPosition
+        // FIXME: update overlay settings.
+        videoController.attachView.resetTrim()
+        stickerOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
+        editTextOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
     }
 }
 
@@ -956,5 +957,29 @@ extension EditViewController: UIGestureRecognizerDelegate {
 extension EditViewController: CropDelegate {
     func onChange(cropArea: CGRect?) {
         imagePlayerView.cropArea = cropArea
+    }
+}
+
+extension EditViewController: UINavigationBarDelegate {
+    
+    
+    func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+        var isChanged: Bool!
+        if defaultGifOptions == nil {
+            isChanged = false
+        } else {
+            isChanged = !(currentGifOption == defaultGifOptions)
+        }
+        print("isChanged: \(isChanged)")
+        
+        if isChanged {
+            let alertController = UIAlertController(title: nil, message: NSLocalizedString("If you go back, your edits will be discarded?", comment: ""), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.ok, style: .default, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .destructive, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        }
+        return !isChanged
     }
 }
