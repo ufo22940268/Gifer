@@ -67,11 +67,14 @@ struct ImagePlayerFrame: Equatable {
     }
     
 
+    static func == (_ lhs: ImagePlayerFrame, _ rhs: ImagePlayerFrame) -> Bool {
+        return lhs.path == rhs.path
+    }
 }
 
-func == (_ l: ImagePlayerFrame, _ r: ImagePlayerFrame) -> Bool {
-    return l.path == r.path
-}
+//func == (_ l: ImagePlayerFrame, _ r: ImagePlayerFrame) -> Bool {
+//    return l.path == r.path
+//}
 
 class ImagePlayerItem {
     var activeFrames: [ImagePlayerFrame] {

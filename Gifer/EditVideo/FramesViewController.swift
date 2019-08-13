@@ -15,30 +15,38 @@ protocol FramesDelegate: class {
 
 class FramesViewController: UIViewController {
     
-    var frames: [ImagePlayerFrame]! {
-        didSet{
-            playerItem = ImagePlayerItem(frames: frames, duration: frames.last!.time)
-        }
-    }
-    
     var playerItem: ImagePlayerItem!
     @IBOutlet weak var collectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
+    
+    var frames: [ImagePlayerFrame] {
+        get {
+            return playerItem.allFrames
+        }
+        
+        set {
+            playerItem.allFrames = newValue
+        }
+    }
+    
+    func setFrames(_ frames: [ImagePlayerFrame]) {
+        playerItem = ImagePlayerItem(frames: frames, duration: frames.last!.time)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         DarkMode.enable(in: self)
         
-        if frames == nil {
+        if playerItem == nil {
             let directory = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
             let paths = (try! FileManager.default.contentsOfDirectory(atPath: directory.path)).map { (file: String) -> URL in
                 var path = directory
                 path.appendPathComponent(file)
                 return path
             }
-            frames = paths.map { (path: URL) -> ImagePlayerFrame in
+            let frames = paths.map { (path: URL) -> ImagePlayerFrame in
                 var frame = ImagePlayerFrame(time: .zero)
                 frame.path = path
                 return frame
@@ -105,23 +113,21 @@ extension FramesViewController: UICollectionViewDelegate {
         let newFrames = frames
         collectionView.visibleCells.forEach { cell in
             let cell = cell as! FrameCell
-            let frame: ImagePlayerFrame = newFrames![cell.index]
+            let frame: ImagePlayerFrame = newFrames[cell.index]
             cell.sequence = playerItem.getActiveSequence(of: frame)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var frame = frames[indexPath.row]
-        frame.isActive = false
-        playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
+        let frame = frames[indexPath.row]
+        frames[indexPath.row].isActive = false
         updateVisibleCells()
         customDelegate?.onUpdateFrames(playerItem.allFrames)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        var frame = frames[indexPath.row]
-        frame.isActive = true
-        playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!] = frame
+        let frame = frames[indexPath.row]
+        frames[indexPath.row].isActive = true
         updateVisibleCells()
         customDelegate?.onUpdateFrames(playerItem.allFrames)
     }

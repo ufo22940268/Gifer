@@ -422,15 +422,23 @@ class EditViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "frames" {
-            guard var rootFrames = rootFrames else { return }
+            guard var rootFrames = rootFrames, let playerItem = playerItem else { return }
             let vc = segue.destination as! FramesViewController
             let left = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.leftTrim))
             let right = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.rightTrim))
             
-            for i in 0..<rootFrames.count where i < left || i > right {
-                rootFrames[i].isActive = false
+            for i in 0..<rootFrames.count {
+                if i < left || i > right {
+                    rootFrames[i].isActive = false
+                } else {
+                    if let playerFrame = (playerItem.allFrames.first { $0 == rootFrames[i] }) {
+                        rootFrames[i].isActive = playerFrame.isActive
+                    } else {
+                        rootFrames[i].isActive = false
+                    }
+                }
             }
-            vc.frames = rootFrames
+            vc.setFrames(rootFrames)
             vc.trimPosition = trimPosition
             vc.customDelegate = self
         }
@@ -907,6 +915,7 @@ extension EditViewController: CropContainerDelegate {
 extension EditViewController: FramesDelegate {
     func onUpdateFrames(_ frames: [ImagePlayerFrame]) {
         guard let playerItem = playerItem else { return }
+        print(frames.filter { !$0.isActive }.map { $0.time.seconds })
         let activeFrames = frames.filter { $0.isActive }
         playerItem.allFrames = activeFrames
         playerItem.resetAllFrameTimes()
