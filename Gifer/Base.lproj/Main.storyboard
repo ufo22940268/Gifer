@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1RV-aB-bfW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHl-ZP-FEy">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -158,12 +158,13 @@
                     <navigationItem key="navigationItem" id="3Bk-jO-jWT">
                         <rightBarButtonItems>
                             <barButtonItem enabled="NO" style="done" systemItem="action" id="SsH-Bk-dko">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="wechatColor"/>
                                 <connections>
                                     <action selector="onShare:" destination="Dvh-Lh-bNF" id="Cdx-5r-76I"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem enabled="NO" title="Item" image="layer-group" id="SeZ-9q-LC8">
+                                <color key="tintColor" name="wechatColor"/>
                                 <connections>
                                     <segue destination="xUn-aB-490" kind="show" identifier="frames" id="9UE-iq-AdG"/>
                                 </connections>
@@ -526,6 +527,9 @@
         </namedColor>
         <namedColor name="darkContentColor">
             <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="wechatColor">
+            <color red="0.51372549019607838" green="0.85882352941176465" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="yellowColor">
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
