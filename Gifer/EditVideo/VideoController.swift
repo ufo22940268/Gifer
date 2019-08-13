@@ -362,23 +362,28 @@ class VideoController: UIStackView {
         stickToSide = side
     }
     
-    func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
+    func updatePlayerItem(_ playerItem: ImagePlayerItem) {
         let duration = playerItem.duration
         self.videoTrim.duration = duration
         self.videoSlider.duration = duration
+        self.videoTrim.galleryDuration = duration
+        self.galleryView.galleryDuration = duration
+        self.galleryView.duration = duration
+        self.attachView.duration = duration
+    }
+    
+    func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
+        let duration = playerItem.duration
+        
+        updatePlayerItem(playerItem)
         
         gallerySlider.alpha = 1.0
         let thumbernailCount = min(10, playerItem.activeFrames.count)
-        let galleryDuration: CMTime = playerItem.duration
-        self.videoTrim.galleryDuration = galleryDuration
         self.videoTrim.onVideoReady()
-        self.galleryView.galleryDuration = galleryDuration
-        self.galleryView.duration = duration
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
         self.galleryView.prepareImageViews(thumbernailCount)
         self.galleryView.bringSubviewToFront(self.videoSlider)
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
-        self.attachView.duration = duration
         completion()
         
         let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))

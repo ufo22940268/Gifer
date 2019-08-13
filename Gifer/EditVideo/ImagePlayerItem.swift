@@ -216,6 +216,13 @@ class ImagePlayerItem {
         return id
     }
     
+    func resetAllFrameTimes() {
+        let interval = duration.seconds/Double(allFrames.count)
+        for (index, _) in allFrames.enumerated() {
+            allFrames[index].time = (Double(index)*interval).toTime()
+        }
+    }
+    
     func cancel(taskId: RequestId) {
         tasks[taskId]?.cancel()
         tasks.removeValue(forKey: taskId)

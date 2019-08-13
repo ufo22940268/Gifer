@@ -128,7 +128,12 @@ class EditViewController: UIViewController {
     }
     
     var playerItem: ImagePlayerItem?
-    var rootFrames: [ImagePlayerFrame]?
+    var rootFrames: [ImagePlayerFrame]? {
+        didSet {
+            rootTimes = rootFrames?.map { $0.time }
+        }
+    }
+    var rootTimes: [CMTime]?
     
     /// Use photos to make player item.
     var photoIdentifiers: [String]?
@@ -348,7 +353,7 @@ class EditViewController: UIViewController {
     func loadAsset() {
         getAVAsset { (asset) in
             if let asset = asset {
-                self.loadVideo(for: asset)
+                self.makePlayerItem(avAsset: asset)
             }
         }
     }
@@ -398,10 +403,10 @@ class EditViewController: UIViewController {
         onVideoReady(playerItem: playerItem)
     }
     
-    private func loadVideo(for asset: AVAsset) {
+    private func makePlayerItem(avAsset: AVAsset) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: asset, trimPosition: initTrimPosition!)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!)
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -410,12 +415,17 @@ class EditViewController: UIViewController {
         }
     }
     
+    private func convertToRootTime(playItemTime time: CMTime) -> CMTime {
+        let frame = playerItem!.nearestActiveFrame(time: time)
+        return rootTimes![rootFrames!.firstIndex(of: frame)!]
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "frames" {
             guard var rootFrames = rootFrames else { return }
             let vc = segue.destination as! FramesViewController
-            let left = rootFrames.nearestIndex(time: trimPosition.leftTrim)
-            let right = rootFrames.nearestIndex(time: trimPosition.rightTrim)
+            let left = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.leftTrim))
+            let right = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.rightTrim))
             
             for i in 0..<rootFrames.count where i < left || i > right {
                 rootFrames[i].isActive = false
@@ -899,7 +909,17 @@ extension EditViewController: FramesDelegate {
         guard let playerItem = playerItem else { return }
         let activeFrames = frames.filter { $0.isActive }
         playerItem.allFrames = activeFrames
+        playerItem.resetAllFrameTimes()
+        playerItem.duration = playerItem.allFrames.last!.time
+        videoController.playerItem = playerItem
+        videoController.updatePlayerItem(playerItem)
+        imagePlayerView.updatePlayerItem(playerItem)
         updateTrim(position: playerItem.allRangeTrimPosition, state: .initial, side: .left)
+        videoController.updateRange(trimPosition: playerItem.allRangeTrimPosition)
+        
+        /// FIXME: update overlay settings.
+//        stickerOverlay.clipTrimPosition = trimPosition
+//        editTextOverlay.clipTrimPosition = trimPosition
     }
 }
 

@@ -54,7 +54,6 @@ class ImagePlayerItemGenerator {
     }
     
     func extract(complete: @escaping (ImagePlayerItem) -> Void) {
-        let began = Date()
         let times = splitTimes()
         
         var timeSegments = [[NSValue]]()

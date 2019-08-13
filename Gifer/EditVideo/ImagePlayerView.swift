@@ -94,6 +94,11 @@ class ImagePlayerView: UIView {
         play()
     }
     
+    func updatePlayerItem(_ playerItem: ImagePlayerItem) {
+        self.playerItem = playerItem
+        trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
+    }
+    
     func applyFilter(_ image: UIImage) -> UIImage {
         guard let filter = filter  else { return image }
         var ciImage = CIImage(image: image)!
