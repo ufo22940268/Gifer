@@ -254,7 +254,7 @@ class EditViewController: UIViewController {
             } else {
                 view.tintAdjustmentMode = .automatic
                 navigationItem.rightBarButtonItems?.forEach({ (item) in
-                    item.tintColor = UIColor.lightText
+                    item.tintColor = UIColor.yellowActiveColor
                 })
             }
             
