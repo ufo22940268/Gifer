@@ -54,6 +54,10 @@ struct VideoTrimPosition: CustomStringConvertible {
     var leftTrim: CMTime
     var rightTrim: CMTime
     
+    static var zero: VideoTrimPosition {
+        return VideoTrimPosition(leftTrim: .zero, rightTrim: .zero)
+    }
+    
     @available(*, deprecated, renamed: "galleryDuration")
     var range: CMTime {
         return rightTrim - leftTrim
@@ -92,10 +96,10 @@ struct VideoTrimPosition: CustomStringConvertible {
         return CGFloat(rightTrim.seconds/duration.seconds)
     }
     
-    func update(by playerItem: ImagePlayerItem) -> VideoTrimPosition {
+    func update(by frames: [ImagePlayerFrame]) -> VideoTrimPosition {
         var trimPosition = self
-        trimPosition.leftTrim = playerItem.activeFrames.first!.time
-        trimPosition.rightTrim = playerItem.activeFrames.last!.time
+        trimPosition.leftTrim = frames.first!.time
+        trimPosition.rightTrim = frames.last!.time
         return trimPosition
     }
 }

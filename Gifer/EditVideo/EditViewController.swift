@@ -128,6 +128,7 @@ class EditViewController: UIViewController {
     }
     
     var playerItem: ImagePlayerItem?
+    var rootFrames: [ImagePlayerFrame]?
     
     /// Use photos to make player item.
     var photoIdentifiers: [String]?
@@ -265,7 +266,6 @@ class EditViewController: UIViewController {
         isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil
         if isDebug {
             videoAsset = getTestVideo()
-            initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         
         view.tintColor = .mainColor
@@ -341,7 +341,6 @@ class EditViewController: UIViewController {
         makePlayerItemFromPhotosTask?.run { playerItem in
             guard let playerItem = playerItem else  { return }
             self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
-            self.playerItem = playerItem
             self.setupPlayerItem(playerItem)
         }
     }
@@ -367,6 +366,9 @@ class EditViewController: UIViewController {
         
         if let videoAsset = videoAsset {
             downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { (avAsset, _, _) in
+                if self.isDebug {
+                    self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration)
+                }
                 completion(avAsset)
             }
         } else if let livePhotoAsset = livePhotoAsset {
@@ -410,10 +412,15 @@ class EditViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "frames" {
-            updatePlayerByTrim()
+            guard var rootFrames = rootFrames else { return }
             let vc = segue.destination as! FramesViewController
-            vc.playerItem = playerItem
-            videoController.playerItem = playerItem
+            let left = rootFrames.nearestIndex(time: trimPosition.leftTrim)
+            let right = rootFrames.nearestIndex(time: trimPosition.rightTrim)
+            
+            for i in 0..<rootFrames.count where i < left || i > right {
+                rootFrames[i].isActive = false
+            }
+            vc.frames = rootFrames
             vc.trimPosition = trimPosition
             vc.customDelegate = self
         }
@@ -599,15 +606,12 @@ extension EditViewController: ImagePlayerDelegate {
         return imagePlayerView.playDirection
     }
     
-    fileprivate func updatePlayerByTrim() {
-        self.playerItem?.update(byTrimPosition: self.trimPosition)
-    }
-    
     func onVideoReady(playerItem: ImagePlayerItem) {
         kdebug_signpost_end(2, 0, 0, 0, 0)
         shareBarItem.isEnabled = true
         frameBarItem.isEnabled = true
         self.playerItem = playerItem
+        self.rootFrames = playerItem.allFrames
         self.videoController.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
         imagePlayerView.customDelegate = self
@@ -627,7 +631,6 @@ extension EditViewController: ImagePlayerDelegate {
             //Trim position Updated
             self.defaultGifOptions = self.currentGifOption
             self.updateSubTitle()
-            self.updatePlayerByTrim()
         }
     }
     
@@ -892,11 +895,11 @@ extension EditViewController: CropContainerDelegate {
 }
 
 extension EditViewController: FramesDelegate {
-    func onUpdatePlayerItem(_ playerItem: ImagePlayerItem) {
-        self.playerItem = playerItem
-        let newTrimPosition = trimPosition.update(by: playerItem)
-        videoController.updateRange(trimPosition: newTrimPosition)
-        updateTrim(position: newTrimPosition, state: .initial, side: .left)
+    func onUpdateFrames(_ frames: [ImagePlayerFrame]) {
+        guard let playerItem = playerItem else { return }
+        let activeFrames = frames.filter { $0.isActive }
+        playerItem.allFrames = activeFrames
+        updateTrim(position: playerItem.allRangeTrimPosition, state: .initial, side: .left)
     }
 }
 

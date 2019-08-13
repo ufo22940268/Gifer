@@ -104,7 +104,7 @@ class ImagePlayerItemGenerator {
         }
         
         group.notify(queue: .main) {
-            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration, size: size))
+            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
         }
     }
     

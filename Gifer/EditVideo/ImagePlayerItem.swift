@@ -103,12 +103,8 @@ class ImagePlayerItem {
     
     var queue = DispatchQueue(label: "cache")
     
-    /// Size of frame
-    var size: CGSize
-    
-    init(frames: [ImagePlayerFrame], duration: CMTime, size: CGSize) {
+    init(frames: [ImagePlayerFrame], duration: CMTime) {
         self.allFrames = frames
-        self.size = size
         self.duration = duration
     }
     
@@ -247,6 +243,22 @@ class ImagePlayerItem {
         }        
     }
     
+    var allRangeTrimPosition: VideoTrimPosition {
+        if allFrames.count < 2 {
+            return .zero
+        }
+        return VideoTrimPosition(leftTrim: allFrames.first!.time, rightTrim: allFrames.last!.time)
+    }
+}
+
+extension Array where Element == ImagePlayerFrame {
+    func nearestIndex(time: CMTime) -> Int {
+        return (self.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
+    }
+    
+//    func nearestActiveIndex(time: CMTime) -> Int {
+//        return (self.filter { $0.isActive }.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
+//    }
 }
 
 class MakePlayerItemFromPhotosTask {
@@ -293,7 +305,7 @@ class MakePlayerItemFromPhotosTask {
                 let frame = ImagePlayerFrame(time: time, image: image!)
                 frames.append(frame)
             }
-            let playerItem = ImagePlayerItem(frames: frames, duration: CMTimeMultiply(Double(1).toTime(), multiplier: Int32(frames.count)), size: frames.first!.uiImage.size)
+            let playerItem = ImagePlayerItem(frames: frames, duration: CMTimeMultiply(Double(1).toTime(), multiplier: Int32(frames.count)))
             complete(playerItem)
         }
     }

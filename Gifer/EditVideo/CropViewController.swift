@@ -27,7 +27,7 @@ extension UIImage: Croppable {
 
 extension ImagePlayerItem: Croppable {
     var contentSize: CGSize {
-        return size
+        return allFrames.first!.uiImage.size
     }
 }
 
