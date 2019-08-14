@@ -118,7 +118,6 @@ class ImagePlayerView: UIView {
     
     private func createTimer(with interval: TimeInterval) -> Timer {
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
-            print("timer")
             guard !self.paused else { return }
             
             switch self.playDirection {
