@@ -12,8 +12,9 @@ import ImageIO
 import MobileCoreServices
 import Photos
 import MonkeyKing
+import MessageUI
 
-class ShareManager {
+class ShareManager: NSObject {
     var options: GifGenerator.Options!
     var playerItem: ImagePlayerItem!
     
@@ -93,5 +94,19 @@ class ShareManager {
             PHAssetCreationRequest.forAsset().addResource(with: .photo, data: gifData, options: nil)
             complete(true)
         })
+    }
+    
+    func shareToEmail(gif: URL, from hostVC: UIViewController) {
+        let vc = MFMailComposeViewController()
+        vc.delegate = self
+        let gifData = try! Data(contentsOf: gif)
+        vc.addAttachmentData(gifData, mimeType: "image/gif", fileName: "one.gif")
+        hostVC.present(vc, animated: true, completion: nil)
+    }
+}
+
+extension ShareManager: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

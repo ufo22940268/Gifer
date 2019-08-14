@@ -524,6 +524,8 @@ class EditViewController: UIViewController {
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }
+            case .email:
+                shareManager.shareToEmail(gif: gif, from: self)
             }
         }
     }

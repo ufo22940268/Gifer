@@ -14,7 +14,7 @@ typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize, _ loopCount
 typealias DismissHandler = () -> Void
 
 enum ShareType {
-    case wechat, photo, wechatSticker
+    case wechat, photo, wechatSticker, email
     
     var initialGifSize: CGSize {
         switch self {
@@ -29,7 +29,7 @@ enum ShareType {
         switch self {
         case .wechat:
             return 5
-        case .photo:
+        case .photo, .email:
             return 40
         case .wechatSticker:
             return 0.5
@@ -44,6 +44,8 @@ enum ShareType {
             return #imageLiteral(resourceName: "folder-color.png")
         case .wechatSticker:
             return #imageLiteral(resourceName: "emoji-color.png")
+        case .email:
+            return #imageLiteral(resourceName: "share-email.png")
         }
     }
     
@@ -55,6 +57,8 @@ enum ShareType {
             return NSLocalizedString("Library", comment: "")
         case .wechatSticker:
             return NSLocalizedString("Sticker", comment: "")
+        case .email:
+            return NSLocalizedString("Email", comment: "")
         }
     }
     
@@ -221,6 +225,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         types.append(.photo)
         types.append(.wechat)
         types.append(.wechatSticker)
+        types.append(.email)
         return types
     }
     
