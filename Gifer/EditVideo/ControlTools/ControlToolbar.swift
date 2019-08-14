@@ -19,10 +19,12 @@ class ControlToolbar: UICollectionView {
     override func awakeFromNib() {
         guard let superview = superview else { return  }
         backgroundColor = UIColor(named: "darkBackgroundColor")
+        
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             ])
+        bounces = false
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
