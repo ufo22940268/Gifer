@@ -58,6 +58,6 @@ class VideoCache {
     }
     
     func destroy() {
-        exportSession?.cancelExport()
+        exportSession?.cancelExport()        
     }
 }

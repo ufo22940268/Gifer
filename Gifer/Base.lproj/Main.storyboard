@@ -31,185 +31,6 @@
             </objects>
             <point key="canvasLocation" x="-1560" y="-860.00000000000011"/>
         </scene>
-        <!--Edit View Controller-->
-        <scene sceneID="62a-J1-d3d">
-            <objects>
-                <viewController storyboardIdentifier="editViewController" id="Dvh-Lh-bNF" customClass="EditViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ftF-yN-3cp">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RiW-qn-5H2">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
-                                <subviews>
-                                    <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kUt-Bn-rUc">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-Sz-8yt" userLabel="Controller Container" customClass="VideoControllerContainer" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
-                                                <subviews>
-                                                    <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-6n-Zfh" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="16" y="0.0" width="343" height="76"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="76" placeholder="YES" id="1p6-JA-5ko"/>
-                                                        </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="from" value="edit"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" name="darkBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailingMargin" id="Eeh-u9-1UH"/>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="bottom" secondItem="MxJ-Sz-8yt" secondAttribute="bottom" id="HQ3-rB-Cku"/>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="top" secondItem="MxJ-Sz-8yt" secondAttribute="top" id="fPG-4n-XnW"/>
-                                                    <constraint firstItem="g6t-6n-Zfh" firstAttribute="leading" secondItem="MxJ-Sz-8yt" secondAttribute="leadingMargin" id="ziF-DU-PmU"/>
-                                                </constraints>
-                                                <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
-                                            </view>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="FsJ-7O-eCM" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="76" width="375" height="585.66666666666663"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyg-ee-PwN" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="359" height="569.66666666666663"/>
-                                                        <gestureRecognizers/>
-                                                        <connections>
-                                                            <outletCollection property="gestureRecognizers" destination="Z7A-bG-jhN" appends="YES" id="6wP-t3-Zci"/>
-                                                            <outletCollection property="gestureRecognizers" destination="b2b-sN-9Zv" appends="YES" id="RoC-pM-fGK"/>
-                                                            <outletCollection property="gestureRecognizers" destination="ST1-ZV-Vai" appends="YES" id="97R-yf-2SQ"/>
-                                                            <outletCollection property="gestureRecognizers" destination="L28-aA-eLo" appends="YES" id="EFN-uo-GtQ"/>
-                                                        </connections>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwc-EM-3TJ" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yBF-sw-Pud" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="585.66666666666663"/>
-                                                    </view>
-                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-gB-b8R">
-                                                        <rect key="frame" x="169" y="274.33333333333331" width="37" height="37"/>
-                                                    </activityIndicatorView>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <gestureRecognizers/>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="gwc-EM-3TJ" secondAttribute="bottom" id="2cv-sa-MPZ"/>
-                                                    <constraint firstItem="gwc-EM-3TJ" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="4d4-EG-sAC"/>
-                                                    <constraint firstAttribute="trailing" secondItem="yBF-sw-Pud" secondAttribute="trailing" id="9P6-gH-DBb"/>
-                                                    <constraint firstAttribute="trailingMargin" secondItem="pyg-ee-PwN" secondAttribute="trailing" id="Fhi-18-BJj"/>
-                                                    <constraint firstItem="yBF-sw-Pud" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leading" id="MOR-4F-n90"/>
-                                                    <constraint firstAttribute="bottom" secondItem="yBF-sw-Pud" secondAttribute="bottom" id="Opu-Rs-gaQ"/>
-                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerX" secondItem="FsJ-7O-eCM" secondAttribute="centerX" id="TfQ-bm-4A7"/>
-                                                    <constraint firstAttribute="bottomMargin" secondItem="pyg-ee-PwN" secondAttribute="bottom" id="a6H-9J-MFh"/>
-                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="topMargin" id="cmr-Rr-xDI"/>
-                                                    <constraint firstItem="gwc-EM-3TJ" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="ee3-Sg-xyl"/>
-                                                    <constraint firstItem="yBF-sw-Pud" firstAttribute="top" secondItem="FsJ-7O-eCM" secondAttribute="top" id="hHB-IB-ktl"/>
-                                                    <constraint firstItem="pyg-ee-PwN" firstAttribute="leading" secondItem="FsJ-7O-eCM" secondAttribute="leadingMargin" id="tb6-LE-4xJ"/>
-                                                    <constraint firstAttribute="trailing" secondItem="gwc-EM-3TJ" secondAttribute="trailing" id="v3D-nB-lI8"/>
-                                                    <constraint firstItem="yzy-gB-b8R" firstAttribute="centerY" secondItem="FsJ-7O-eCM" secondAttribute="centerY" id="wej-kP-aqU"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oh6-HI-gqg" userLabel="Bottom Toolbar Container" customClass="BottomToolbarContainer" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="661.66666666666663" width="375" height="72.333333333333371"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IvV-GZ-4bw" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.33333333333337123" width="375" height="72"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="72" id="vvF-Fl-w1c"/>
-                                                        </constraints>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="IvV-GZ-4bw" secondAttribute="bottom" id="2O9-0I-MpC"/>
-                                                    <constraint firstItem="IvV-GZ-4bw" firstAttribute="leading" secondItem="oh6-HI-gqg" secondAttribute="leading" id="8p2-RG-xBY"/>
-                                                    <constraint firstItem="IvV-GZ-4bw" firstAttribute="top" secondItem="oh6-HI-gqg" secondAttribute="top" constant="0.5" id="K7r-ZT-WYG"/>
-                                                    <constraint firstAttribute="trailing" secondItem="IvV-GZ-4bw" secondAttribute="trailing" id="wyd-zt-q6m"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="MxJ-Sz-8yt" firstAttribute="leading" secondItem="kUt-Bn-rUc" secondAttribute="leading" id="U6d-qp-PVe"/>
-                                            <constraint firstAttribute="trailing" secondItem="MxJ-Sz-8yt" secondAttribute="trailing" id="mc7-LJ-vBn"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" name="darkContentColor"/>
-                                <constraints>
-                                    <constraint firstItem="kUt-Bn-rUc" firstAttribute="leading" secondItem="RiW-qn-5H2" secondAttribute="leading" id="7wF-ki-axu"/>
-                                    <constraint firstAttribute="trailing" secondItem="kUt-Bn-rUc" secondAttribute="trailing" id="eoA-DV-dqI"/>
-                                    <constraint firstItem="kUt-Bn-rUc" firstAttribute="top" secondItem="RiW-qn-5H2" secondAttribute="top" id="uPf-8y-pkJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="kUt-Bn-rUc" secondAttribute="bottom" id="z0j-x4-WPg"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="jX4-i4-5ip" firstAttribute="trailing" secondItem="RiW-qn-5H2" secondAttribute="trailing" id="1MJ-Ca-2Ns"/>
-                            <constraint firstItem="jX4-i4-5ip" firstAttribute="bottom" secondItem="RiW-qn-5H2" secondAttribute="bottom" id="bOe-mp-mZv"/>
-                            <constraint firstItem="RiW-qn-5H2" firstAttribute="top" secondItem="jX4-i4-5ip" secondAttribute="top" id="d9c-9M-m1A"/>
-                            <constraint firstItem="RiW-qn-5H2" firstAttribute="leading" secondItem="jX4-i4-5ip" secondAttribute="leading" id="jQ8-QG-Bam"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="jX4-i4-5ip"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="3Bk-jO-jWT">
-                        <rightBarButtonItems>
-                            <barButtonItem enabled="NO" style="done" systemItem="action" id="SsH-Bk-dko">
-                                <color key="tintColor" name="darkYellowColor"/>
-                                <connections>
-                                    <action selector="onShare:" destination="Dvh-Lh-bNF" id="Cdx-5r-76I"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem enabled="NO" title="Item" image="layer-group" id="SeZ-9q-LC8">
-                                <color key="tintColor" name="darkYellowColor"/>
-                                <connections>
-                                    <segue destination="xUn-aB-490" kind="show" identifier="frames" id="9UE-iq-AdG"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="controlToolbar" destination="IvV-GZ-4bw" id="NeD-cQ-hkZ"/>
-                        <outlet property="editTextOverlay" destination="yBF-sw-Pud" id="fTT-yl-a1x"/>
-                        <outlet property="frameBarItem" destination="SeZ-9q-LC8" id="ORb-mg-8Nb"/>
-                        <outlet property="imagePlayerView" destination="pyg-ee-PwN" id="9lg-sJ-w1L"/>
-                        <outlet property="pinchGesture" destination="b2b-sN-9Zv" id="ugO-ga-dEm"/>
-                        <outlet property="rotationGesture" destination="ST1-ZV-Vai" id="mm2-s0-kmU"/>
-                        <outlet property="shareBarItem" destination="SsH-Bk-dko" id="Qsj-rO-jyP"/>
-                        <outlet property="stackView" destination="kUt-Bn-rUc" id="WD2-WH-xRw"/>
-                        <outlet property="stickerOverlay" destination="gwc-EM-3TJ" id="DMd-1p-8sD"/>
-                        <outlet property="videoController" destination="g6t-6n-Zfh" id="Geu-tK-noa"/>
-                        <outlet property="videoLoadingIndicator" destination="yzy-gB-b8R" id="5rt-5g-I6X"/>
-                        <outlet property="videoPlayerSection" destination="FsJ-7O-eCM" id="yf5-Yg-0xx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IQt-Li-XlD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Z7A-bG-jhN">
-                    <connections>
-                        <action selector="onTap:" destination="Dvh-Lh-bNF" id="6br-W4-Egb"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pinchGestureRecognizer id="b2b-sN-9Zv">
-                    <connections>
-                        <action selector="onPinchToScaleOverlayComponent:" destination="Dvh-Lh-bNF" id="qzT-JT-G56"/>
-                    </connections>
-                </pinchGestureRecognizer>
-                <rotationGestureRecognizer id="ST1-ZV-Vai">
-                    <connections>
-                        <action selector="onRotateOverlayComponent:" destination="Dvh-Lh-bNF" id="0at-ch-Y2U"/>
-                    </connections>
-                </rotationGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="L28-aA-eLo">
-                    <connections>
-                        <action selector="onPanToMoveOverlayComponent:" destination="Dvh-Lh-bNF" id="VGX-us-Gb7"/>
-                    </connections>
-                </panGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="1991" y="-870"/>
-        </scene>
         <!--Gallery-->
         <scene sceneID="UpH-Xu-b0G">
             <objects>
@@ -246,7 +67,6 @@
                         <outlet property="galleryCategoryView" destination="21p-aq-q3s" id="9ah-gY-wkm"/>
                         <outlet property="scrollToBottomButton" destination="cCC-xK-9g2" id="fJe-K5-wKC"/>
                         <outlet property="selectPhotoView" destination="YZL-QF-fDG" id="ZWu-5I-TgQ"/>
-                        <segue destination="Dvh-Lh-bNF" kind="show" identifier="editVideo" id="Dk3-Gl-eiE"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50B-eb-NUp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -378,9 +198,6 @@
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <connections>
-                        <segue destination="Dvh-Lh-bNF" kind="relationship" relationship="rootViewController" id="a5x-Jh-9PN"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6JT-xS-VXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -438,7 +255,6 @@
                         <outlet property="overlayRenderer" destination="Mu8-UJ-Ysz" id="HBS-3c-AS0"/>
                         <outlet property="trashTopConstraint" destination="xt6-nS-rRY" id="5Vt-2H-5JZ"/>
                         <outlet property="trashView" destination="rZJ-6E-Tgn" id="kab-lk-piN"/>
-                        <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="iNs-gq-NHO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ew-Fl-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -495,7 +311,7 @@
                     <navigationItem key="navigationItem" id="S5x-0M-hbg">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="TS0-Bl-4XN">
                             <connections>
-                                <segue destination="Dvh-Lh-bNF" kind="show" identifier="edit" id="6tk-uY-oMN"/>
+                                <segue destination="L53-K8-6jk" kind="show" identifier="edit" id="xDe-h7-QUR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -510,32 +326,32 @@
             </objects>
             <point key="canvasLocation" x="1649" y="-98"/>
         </scene>
-        <!--frames-->
+        <!--Frames-->
         <scene sceneID="lkj-Xe-qcT">
             <objects>
-                <viewControllerPlaceholder storyboardName="Frame" referencedIdentifier="frames" id="xUn-aB-490" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Frame" referencedIdentifier="frames" id="xUn-aB-490" userLabel="Frames" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WCt-4m-naT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--Edit View Controller Reference-->
+        <scene sceneID="jR3-gx-HpM">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Edit" referencedIdentifier="editViewController" id="L53-K8-6jk" userLabel="Edit View Controller Reference" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pb9-5J-bDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
     <resources>
         <image name="Scroll To Button Arrow" width="32" height="32"/>
-        <image name="layer-group" width="26" height="26"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="darkContentColor">
             <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="darkYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="yellowColor">
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="6tk-uY-oMN"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainColor"/>
 </document>

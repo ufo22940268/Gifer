@@ -135,6 +135,7 @@ class EditViewController: UIViewController {
     }
     var rootTimes: [CMTime]?
     
+    @IBOutlet weak var cancelItemButton: UIBarButtonItem!
     /// Use photos to make player item.
     var photoIdentifiers: [String]?
     var makePlayerItemFromPhotosTask: MakePlayerItemFromPhotosTask?
@@ -350,6 +351,26 @@ class EditViewController: UIViewController {
         }
     }
     
+    @IBAction func onDismiss(_ sender: Any) {
+        var isChanged: Bool!
+        if defaultGifOptions == nil {
+            isChanged = false
+        } else {
+            isChanged = !(currentGifOption == defaultGifOptions)
+        }
+        
+        if isChanged {
+            let alertController = UIAlertController(title: nil, message: NSLocalizedString("If you go back, your edits will be discarded?", comment: ""), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.ok, style: .destructive, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .cancel, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func loadAsset() {
         getAVAsset { (asset) in
             if let asset = asset {
@@ -551,18 +572,6 @@ class EditViewController: UIViewController {
         imagePlayerView.paused = true
     }
     
-    @IBAction func onDismiss(_ sender: Any) {
-        if defaultGifOptions == nil || defaultGifOptions! == currentGifOption {
-            navigationController?.popViewController(animated: true)
-            destroy()
-        } else {
-            ConfirmToDismissDialog().present(by: self) {
-                self.navigationController?.popViewController(animated: true)
-                self.destroy()
-            }
-        }
-    }
-    
     @IBAction func onHighResTapped(_ sender: UIBarButtonItem) {
         var trim = trimPosition
         let delta = min(trim.galleryDuration.seconds, Wechat.maxShareDuration)
@@ -611,6 +620,8 @@ class EditViewController: UIViewController {
             self.downloadTaskId = nil
         }
         videoCache = nil
+        
+        imagePlayerView.destroy()
     }
 }
 

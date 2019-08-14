@@ -110,7 +110,7 @@ class VideoRangeViewController: UIViewController {
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
                 self.previewController.player = AVPlayer(playerItem: playerItem)
-                self.registerObservers()
+                self.registerCurrentItemObbservers()
             }
         }
     }
@@ -143,8 +143,8 @@ class VideoRangeViewController: UIViewController {
         videoController.delegate = self
     }
     
-    private func registerObservers() {
-        guard previewController.player != nil && timeObserverToken == nil else {
+    private func registerCurrentItemObbservers() {
+        guard previewController.player != nil, !isMovingFromParent else {
             return
         }
 
@@ -154,13 +154,17 @@ class VideoRangeViewController: UIViewController {
     
     func registerPlayObserver() {
         let interval = UIDevice.isSimulator ? 0.5 : 0.01
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: interval, preferredTimescale: 600),
-                                                           queue: .main) {
-                                                            [weak self] time in
-                                                            self?.observePlayProgress(progress: time)
+        if  timeObserverToken == nil {
+            timeObserverToken = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: interval, preferredTimescale: 600),
+                                                               queue: .main) {
+                                                                [weak self] time in
+                                                                self?.observePlayProgress(progress: time)
+            }
         }
         
-        loopObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using:observerPlayToTheEnd)
+        if loopObserverToken == nil {
+            loopObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using:observerPlayToTheEnd)
+        }
     }
     
     
@@ -186,11 +190,11 @@ class VideoRangeViewController: UIViewController {
             loadingIndicator.show()
         }
     }
-        
+    
     private func unregisterObservers() {
-        guard timeObserverToken != nil else { return }
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         currentItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp))
+        
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
@@ -223,7 +227,6 @@ class VideoRangeViewController: UIViewController {
         if previewController.player != nil {
             player.play()
         }
-        registerObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -236,17 +239,13 @@ class VideoRangeViewController: UIViewController {
         if let player = player {
             player.pause()
         }
-        unregisterObservers()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         videoCache = nil
         if isMovingFromParent {
-            destroy()
+            unregisterObservers()
         }
-    }
-    
-    func destroy() {
     }
     
     func setupPreview() {
@@ -387,6 +386,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
         if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
             editVC.initTrimPosition = trimPosition
             editVC.videoAsset = previewAsset
+            editVC.navigationItem.leftBarButtonItems = nil
         }
     }
 }

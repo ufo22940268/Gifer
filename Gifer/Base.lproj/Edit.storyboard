@@ -232,11 +232,200 @@
             </objects>
             <point key="canvasLocation" x="3378" y="-866"/>
         </scene>
+        <!--Edit View Controller-->
+        <scene sceneID="MXp-8W-Yr5">
+            <objects>
+                <viewController storyboardIdentifier="editViewController" id="ZCx-9J-s5F" customClass="EditViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XPC-Rf-qZS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWQ-rG-lBC">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDQ-yG-uLo">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ttU-Bb-WwM" userLabel="Controller Container" customClass="VideoControllerContainer" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
+                                                <subviews>
+                                                    <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-PJ-qvs" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="16" y="0.0" width="382" height="76"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="76" placeholder="YES" id="spy-Xf-EQc"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="from" value="edit"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" name="darkBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="eaq-PJ-qvs" firstAttribute="trailing" secondItem="ttU-Bb-WwM" secondAttribute="trailingMargin" id="BWu-aH-TmE"/>
+                                                    <constraint firstItem="eaq-PJ-qvs" firstAttribute="bottom" secondItem="ttU-Bb-WwM" secondAttribute="bottom" id="HBd-Qw-Kby"/>
+                                                    <constraint firstItem="eaq-PJ-qvs" firstAttribute="leading" secondItem="ttU-Bb-WwM" secondAttribute="leadingMargin" id="dCg-jb-GTn"/>
+                                                    <constraint firstItem="eaq-PJ-qvs" firstAttribute="top" secondItem="ttU-Bb-WwM" secondAttribute="top" id="yUH-97-N8i"/>
+                                                </constraints>
+                                                <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
+                                            </view>
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="UIf-0e-Ej7" userLabel="Video Player Container" customClass="VideoPlayerSection" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="76" width="414" height="669.5"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0MZ-nh-kAY" customClass="ImagePlayerView" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="398" height="653.5"/>
+                                                        <gestureRecognizers/>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="Ovz-dd-xnA" appends="YES" id="XFg-0x-yfj"/>
+                                                            <outletCollection property="gestureRecognizers" destination="ZKd-ED-Ai3" appends="YES" id="E6c-r5-RP1"/>
+                                                            <outletCollection property="gestureRecognizers" destination="hCz-8h-0EH" appends="YES" id="I04-Qn-ulR"/>
+                                                            <outletCollection property="gestureRecognizers" destination="26q-P9-we9" appends="YES" id="xz0-MZ-0ET"/>
+                                                        </connections>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fBC-cd-dpG" customClass="StickerOverlay" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="669.5"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAX-sr-zY7" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="669.5"/>
+                                                    </view>
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yec-sv-y5L">
+                                                        <rect key="frame" x="188.5" y="316.5" width="37" height="37"/>
+                                                    </activityIndicatorView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstItem="yec-sv-y5L" firstAttribute="centerY" secondItem="UIf-0e-Ej7" secondAttribute="centerY" id="8Jz-of-Chs"/>
+                                                    <constraint firstItem="fBC-cd-dpG" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leading" id="BHt-SO-5xX"/>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="0MZ-nh-kAY" secondAttribute="trailing" id="E3y-H3-UTj"/>
+                                                    <constraint firstAttribute="bottom" secondItem="fBC-cd-dpG" secondAttribute="bottom" id="Fka-Jc-aG7"/>
+                                                    <constraint firstAttribute="trailing" secondItem="QAX-sr-zY7" secondAttribute="trailing" id="GYI-Iz-93p"/>
+                                                    <constraint firstItem="0MZ-nh-kAY" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="topMargin" id="Kds-sJ-ZhM"/>
+                                                    <constraint firstItem="0MZ-nh-kAY" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leadingMargin" id="NPd-dF-TRc"/>
+                                                    <constraint firstItem="fBC-cd-dpG" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="top" id="QVS-fc-R2l"/>
+                                                    <constraint firstItem="QAX-sr-zY7" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leading" id="R2b-22-BcQ"/>
+                                                    <constraint firstAttribute="bottomMargin" secondItem="0MZ-nh-kAY" secondAttribute="bottom" id="lht-RA-i4T"/>
+                                                    <constraint firstItem="yec-sv-y5L" firstAttribute="centerX" secondItem="UIf-0e-Ej7" secondAttribute="centerX" id="oew-M9-k4l"/>
+                                                    <constraint firstAttribute="trailing" secondItem="fBC-cd-dpG" secondAttribute="trailing" id="rAY-20-VWo"/>
+                                                    <constraint firstAttribute="bottom" secondItem="QAX-sr-zY7" secondAttribute="bottom" id="tEN-Gk-KJD"/>
+                                                    <constraint firstItem="QAX-sr-zY7" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="top" id="tqH-mA-DCu"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKd-ib-HIK" userLabel="Bottom Toolbar Container" customClass="BottomToolbarContainer" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="745.5" width="414" height="72.5"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4pc-L6-6nQ" customClass="ControlToolbar" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.5" width="414" height="72"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="72" id="I8X-dC-1Gy"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="4pc-L6-6nQ" firstAttribute="top" secondItem="wKd-ib-HIK" secondAttribute="top" constant="0.5" id="7ve-yo-lFh"/>
+                                                    <constraint firstItem="4pc-L6-6nQ" firstAttribute="leading" secondItem="wKd-ib-HIK" secondAttribute="leading" id="I4M-ka-hs3"/>
+                                                    <constraint firstAttribute="trailing" secondItem="4pc-L6-6nQ" secondAttribute="trailing" id="Zel-UO-n0x"/>
+                                                    <constraint firstAttribute="bottom" secondItem="4pc-L6-6nQ" secondAttribute="bottom" id="xY1-rx-FvV"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="ttU-Bb-WwM" firstAttribute="leading" secondItem="HDQ-yG-uLo" secondAttribute="leading" id="Hss-Gh-bU2"/>
+                                            <constraint firstAttribute="trailing" secondItem="ttU-Bb-WwM" secondAttribute="trailing" id="W32-c9-Qc2"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="darkContentColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="HDQ-yG-uLo" secondAttribute="bottom" id="8vv-MM-FFo"/>
+                                    <constraint firstItem="HDQ-yG-uLo" firstAttribute="top" secondItem="UWQ-rG-lBC" secondAttribute="top" id="OGb-hI-vN4"/>
+                                    <constraint firstItem="HDQ-yG-uLo" firstAttribute="leading" secondItem="UWQ-rG-lBC" secondAttribute="leading" id="aeP-JM-al7"/>
+                                    <constraint firstAttribute="trailing" secondItem="HDQ-yG-uLo" secondAttribute="trailing" id="fBI-4A-viR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ekF-SS-kAS" firstAttribute="bottom" secondItem="UWQ-rG-lBC" secondAttribute="bottom" id="KsK-md-gD2"/>
+                            <constraint firstItem="UWQ-rG-lBC" firstAttribute="leading" secondItem="ekF-SS-kAS" secondAttribute="leading" id="Ute-Zk-Kon"/>
+                            <constraint firstItem="ekF-SS-kAS" firstAttribute="trailing" secondItem="UWQ-rG-lBC" secondAttribute="trailing" id="VBu-VW-wWK"/>
+                            <constraint firstItem="UWQ-rG-lBC" firstAttribute="top" secondItem="ekF-SS-kAS" secondAttribute="top" id="jXu-8w-Kwg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ekF-SS-kAS"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YWr-en-eLL">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="O66-2V-Lyk">
+                            <connections>
+                                <action selector="onDismiss:" destination="ZCx-9J-s5F" id="HEH-3N-T4l"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem enabled="NO" style="done" systemItem="action" id="6xU-LF-jsp">
+                                <color key="tintColor" name="darkYellowColor"/>
+                                <connections>
+                                    <action selector="onShare:" destination="ZCx-9J-s5F" id="fbE-mE-DZb"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Item" image="layer-group" id="OiS-IM-Me6">
+                                <color key="tintColor" name="darkYellowColor"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelItemButton" destination="O66-2V-Lyk" id="6HA-h6-1NN"/>
+                        <outlet property="controlToolbar" destination="4pc-L6-6nQ" id="qAv-Oh-nGL"/>
+                        <outlet property="editTextOverlay" destination="QAX-sr-zY7" id="V2w-GA-08c"/>
+                        <outlet property="frameBarItem" destination="OiS-IM-Me6" id="huu-m3-ZWa"/>
+                        <outlet property="imagePlayerView" destination="0MZ-nh-kAY" id="YhX-g6-7Mz"/>
+                        <outlet property="pinchGesture" destination="ZKd-ED-Ai3" id="cS9-Ab-uL6"/>
+                        <outlet property="rotationGesture" destination="hCz-8h-0EH" id="dnx-em-YIi"/>
+                        <outlet property="shareBarItem" destination="6xU-LF-jsp" id="sR5-81-6ZT"/>
+                        <outlet property="stackView" destination="HDQ-yG-uLo" id="6vH-Jz-3GY"/>
+                        <outlet property="stickerOverlay" destination="fBC-cd-dpG" id="lk5-Bx-qmA"/>
+                        <outlet property="videoController" destination="eaq-PJ-qvs" id="1UX-xV-Ie2"/>
+                        <outlet property="videoLoadingIndicator" destination="yec-sv-y5L" id="CBB-z1-FTQ"/>
+                        <outlet property="videoPlayerSection" destination="UIf-0e-Ej7" id="MV2-JW-cUk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Skj-8Q-QEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Ovz-dd-xnA">
+                    <connections>
+                        <action selector="onTap:" destination="ZCx-9J-s5F" id="7MN-El-qjI"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pinchGestureRecognizer id="ZKd-ED-Ai3">
+                    <connections>
+                        <action selector="onPinchToScaleOverlayComponent:" destination="ZCx-9J-s5F" id="x4U-Ic-WdK"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="hCz-8h-0EH">
+                    <connections>
+                        <action selector="onRotateOverlayComponent:" destination="ZCx-9J-s5F" id="yiB-9f-d3Q"/>
+                    </connections>
+                </rotationGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="26q-P9-we9">
+                    <connections>
+                        <action selector="onPanToMoveOverlayComponent:" destination="ZCx-9J-s5F" id="rMd-vr-EPd"/>
+                    </connections>
+                </panGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1991" y="-870"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="layer-group" width="26" height="26"/>
         <image name="undo" width="25" height="25"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="darkContentColor">
+            <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="darkYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="yellowColor">
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
