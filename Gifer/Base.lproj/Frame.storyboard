@@ -107,6 +107,11 @@
                         <viewLayoutGuide key="safeArea" id="b81-vf-jhe"/>
                     </view>
                     <navigationItem key="navigationItem" title="Frames" id="sQL-z0-fM8">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="AEw-z5-Vww">
+                            <connections>
+                                <action selector="onDismiss:" destination="biD-4K-Q56" id="c1o-dS-ksV"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="bB2-Vb-rsf">
                             <connections>
                                 <action selector="onDone:" destination="biD-4K-Q56" id="XUR-5K-APr"/>

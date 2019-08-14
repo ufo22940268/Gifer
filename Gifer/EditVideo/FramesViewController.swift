@@ -77,6 +77,10 @@ class FramesViewController: UIViewController {
         customDelegate?.onUpdateFrames(playerItem.allFrames)
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func onDismiss(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension FramesViewController: UICollectionViewDataSource {
