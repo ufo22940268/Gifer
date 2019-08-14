@@ -14,6 +14,8 @@ import Photos
 import MonkeyKing
 import MessageUI
 
+typealias ShareEmailSourceViewController = UIViewController & MFMailComposeViewControllerDelegate
+
 class ShareManager: NSObject {
     var options: GifGenerator.Options!
     var playerItem: ImagePlayerItem!
@@ -96,17 +98,12 @@ class ShareManager: NSObject {
         })
     }
     
-    func shareToEmail(gif: URL, from hostVC: UIViewController) {
+    func shareToEmail(gif: URL, from hostVC: ShareEmailSourceViewController) {
         let vc = MFMailComposeViewController()
-        vc.delegate = self
         let gifData = try! Data(contentsOf: gif)
         vc.addAttachmentData(gifData, mimeType: "image/gif", fileName: "one.gif")
+        vc.mailComposeDelegate = hostVC
         hostVC.present(vc, animated: true, completion: nil)
     }
 }
 
-extension ShareManager: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-}

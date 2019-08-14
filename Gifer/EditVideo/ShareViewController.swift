@@ -223,9 +223,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var shareTypes: [ShareType] {
         var types = [ShareType]()
         types.append(.photo)
+        types.append(.email)
         types.append(.wechat)
         types.append(.wechatSticker)
-        types.append(.email)
         return types
     }
     

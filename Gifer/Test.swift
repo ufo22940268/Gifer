@@ -11,6 +11,8 @@ import Photos
 import UIKit
 
 func getTestVideo() -> PHAsset {
-    let assets: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: .video, options: nil)
-    return assets.firstObject!
+    let options = PHFetchOptions()
+    options.predicate = NSPredicate(format: "isFavorite = true")
+    let assets: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: .video, options: options)
+    return assets.lastObject!
 }
