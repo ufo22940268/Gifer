@@ -33,8 +33,6 @@ class ControlToolbar: UICollectionView {
         
         let gap = (bounds.width - flowLayout.itemSize.width*(CGFloat(displayPropertyCount) + 0.3))/(CGFloat(displayPropertyCount) + 1)
         flowLayout.minimumInteritemSpacing = gap
-        contentInset = UIEdgeInsets(top: 0, left: gap, bottom: 0, right: 0)
-        
         showsHorizontalScrollIndicator = false
         
         dataSource = self
