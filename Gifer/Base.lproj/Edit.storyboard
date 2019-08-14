@@ -232,6 +232,14 @@
             </objects>
             <point key="canvasLocation" x="3378" y="-866"/>
         </scene>
+        <!--frames-->
+        <scene sceneID="yKu-yr-rT3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Frame" referencedIdentifier="frames" id="wNF-bs-M0x" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O3R-Q9-oKQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2728" y="-785"/>
+        </scene>
         <!--Edit View Controller-->
         <scene sceneID="MXp-8W-Yr5">
             <objects>
@@ -371,6 +379,9 @@
                             </barButtonItem>
                             <barButtonItem enabled="NO" title="Item" image="layer-group" id="OiS-IM-Me6">
                                 <color key="tintColor" name="darkYellowColor"/>
+                                <connections>
+                                    <segue destination="wNF-bs-M0x" kind="presentation" identifier="frames" id="HM2-T2-7tF"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>

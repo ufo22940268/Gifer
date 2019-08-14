@@ -72,6 +72,11 @@ class FramesViewController: UIViewController {
             .forEach { collectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
         collectionView.contentOffset = .zero
     }
+    
+    @IBAction func onDone(_ sender: Any) {
+        customDelegate?.onUpdateFrames(playerItem.allFrames)
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension FramesViewController: UICollectionViewDataSource {
@@ -122,14 +127,12 @@ extension FramesViewController: UICollectionViewDelegate {
         let frame = frames[indexPath.row]
         frames[indexPath.row].isActive = false
         updateVisibleCells()
-        customDelegate?.onUpdateFrames(playerItem.allFrames)
-    }
+   }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let frame = frames[indexPath.row]
         frames[indexPath.row].isActive = true
         updateVisibleCells()
-        customDelegate?.onUpdateFrames(playerItem.allFrames)
     }
 }
 
@@ -151,6 +154,5 @@ extension FramesViewController: FramePreviewDelegate {
     func onCheck(index: Int, actived: Bool) {
         let frame = frames[index]
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!].isActive = actived
-        customDelegate?.onUpdateFrames(playerItem.allFrames)
     }
 }

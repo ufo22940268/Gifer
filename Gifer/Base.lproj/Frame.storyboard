@@ -14,7 +14,7 @@
         <!--Frames View Controller-->
         <scene sceneID="LpK-M6-gUH">
             <objects>
-                <viewController storyboardIdentifier="frames" id="biD-4K-Q56" userLabel="Frames View Controller" customClass="FramesViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="biD-4K-Q56" userLabel="Frames View Controller" customClass="FramesViewController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Vn-MW-uE5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -106,7 +106,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b81-vf-jhe"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Frames" id="sQL-z0-fM8"/>
+                    <navigationItem key="navigationItem" title="Frames" id="sQL-z0-fM8">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="bB2-Vb-rsf">
+                            <connections>
+                                <action selector="onDone:" destination="biD-4K-Q56" id="XUR-5K-APr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="5c3-AP-EDh" id="HrK-Or-3i7"/>
                     </connections>
@@ -209,13 +215,13 @@
         <!--Navigation Controller-->
         <scene sceneID="2XJ-6p-zSW">
             <objects>
-                <navigationController id="5YU-Xy-IFY" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="frames" id="5YU-Xy-IFY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="c8H-0N-xKc">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="biD-4K-Q56" kind="relationship" relationship="rootViewController" id="h7z-sH-ACd"/>
+                        <segue destination="biD-4K-Q56" kind="relationship" relationship="rootViewController" id="7Rc-qP-YiG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHa-dD-0AT" userLabel="First Responder" sceneMemberID="firstResponder"/>

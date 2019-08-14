@@ -444,7 +444,7 @@ class EditViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "frames" {
             guard var rootFrames = rootFrames, let playerItem = playerItem else { return }
-            let vc = segue.destination as! FramesViewController
+            let vc = (segue.destination as! UINavigationController).topViewController as! FramesViewController
             let left = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.leftTrim))
             let right = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.rightTrim))
             
