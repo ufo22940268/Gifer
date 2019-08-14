@@ -66,7 +66,11 @@ class TrimButton: UIView {
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let newArea: CGRect!
-        newArea = bounds.insetBy(dx: -20, dy: 0)
+        if direction == .left {
+            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 0))
+        } else {
+            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20))
+        }
         return newArea.contains(point)
     }
 }
