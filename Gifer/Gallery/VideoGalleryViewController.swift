@@ -323,7 +323,8 @@ class VideoGalleryViewController: UICollectionViewController {
             kdebug_signpost_start(1, 0, 0, 0, 0)
         } else {
             kdebug_signpost_start(2, 0, 0, 0, 0)
-            let editVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+            let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
+            let editVC = navVC.topViewController as! EditViewController
             editVC.previewImage = previewImage
             if galleryCategory == .video {
                 editVC.videoAsset = videoAsset
@@ -331,7 +332,6 @@ class VideoGalleryViewController: UICollectionViewController {
             } else {
                 editVC.livePhotoAsset = videoAsset
             }
-            let navVC = UINavigationController(rootViewController: editVC)
             present(navVC, animated: true, completion: nil)
         }
     }
@@ -402,9 +402,10 @@ class VideoGalleryViewController: UICollectionViewController {
             self.selectPhotoView.removeFromSuperview()
             self.collectionView.reloadData()
         }
-        let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+        let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
+        let vc = nvc.topViewController as! EditViewController
         vc.photoIdentifiers = identifiers
-        self.navigationController?.pushViewController(vc, animated: true)
+        present(nvc, animated: true, completion: nil)
     }
 }
 

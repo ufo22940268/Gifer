@@ -374,7 +374,7 @@ class EditViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
         } else {
             self.dismiss(animated: true, completion: nil)
-        }
+        }    
     }
     
     func loadAsset() {
