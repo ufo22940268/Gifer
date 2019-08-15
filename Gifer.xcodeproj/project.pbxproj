@@ -50,6 +50,7 @@
 		424930DF22FE63CD00C169CA /* Edit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424930E122FE63CD00C169CA /* Edit.storyboard */; };
 		424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424930E822FE64AD00C169CA /* PlaySpeedView.xib */; };
 		424930EC2302DE7300C169CA /* UIKItLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424930EB2302DE7300C169CA /* UIKItLocalizedString.swift */; };
+		424930F62304F5E100C169CA /* FPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424930F52304F5E000C169CA /* FPS.swift */; };
 		424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424CAA4121D711DE001E795A /* EditViewBarItem.swift */; };
 		424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F16AE222FB50300F94BCF /* StickerMenuView.swift */; };
 		424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F9927228ABA5100952440 /* ConfigViewController.swift */; };
@@ -208,6 +209,7 @@
 		424930E722FE64AD00C169CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlaySpeedView.xib; sourceTree = "<group>"; };
 		424930EA22FE64B000C169CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PlaySpeedView.strings"; sourceTree = "<group>"; };
 		424930EB2302DE7300C169CA /* UIKItLocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKItLocalizedString.swift; sourceTree = "<group>"; };
+		424930F52304F5E000C169CA /* FPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPS.swift; sourceTree = "<group>"; };
 		424CAA4121D711DE001E795A /* EditViewBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewBarItem.swift; sourceTree = "<group>"; };
 		424F16AE222FB50300F94BCF /* StickerMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerMenuView.swift; sourceTree = "<group>"; };
 		424F9927228ABA5100952440 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 				4260DA8D222513C4000B16D4 /* ControlToolbarConfirmPrompt.swift */,
 				4260DA9122255B7C000B16D4 /* ConfirmExtraButton.swift */,
 				42D4E52222C058B000EDD3B7 /* BottomToolbarContainer.swift */,
+				424930F52304F5E000C169CA /* FPS.swift */,
 			);
 			path = ControlTools;
 			sourceTree = "<group>";
@@ -880,6 +883,7 @@
 				42D4E52322C058B000EDD3B7 /* BottomToolbarContainer.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
 				420C9CE322E3259200A272DE /* EditStickerTransition.swift in Sources */,
+				424930F62304F5E100C169CA /* FPS.swift in Sources */,
 				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
 				422F539F22E83EEE00C0989D /* PromotionManager.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,

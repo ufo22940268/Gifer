@@ -55,27 +55,6 @@ struct ToolbarItemStyle {
     }
 }
 
-enum FPSFigure: Int {
-    case f7 = 7
-    case f24 = 24
-    case f30 = 30
-    
-    //The fps label size should be 30x30.
-    var image: UIImage {
-        let label = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
-        label.adjustsFontSizeToFitWidth = true
-        label.text = String(self.rawValue)
-        label.textColor = .lightText
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 25, weight: .semibold)
-        label.sizeToFit()
-        let canvasRect: CGRect = CGRect(origin: .zero, size: CGSize(width: 30, height: 30))
-        return UIGraphicsImageRenderer(bounds: canvasRect).image { context in
-            label.drawText(in: canvasRect)
-        }
-    }
-}
-
 enum ControlToolbarItem {
     case playSpeed
     case crop
@@ -899,6 +878,12 @@ extension EditViewController: ControlToolbarDelegate {
     func onDirectionItemClicked(direction: PlayDirection) {
         imagePlayerView.playDirection = direction
     }
+    
+    func onFPSItemclicked(cell: ControlToolbarItemView) {
+        FPSFigure.showSelectionDialog(from: self) { (fps) in
+            cell.updateImage(fps.image)
+        }
+    }
 }
 
 extension EditViewController: VideoCacheDelegate {    
@@ -1029,4 +1014,3 @@ extension EditViewController: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-

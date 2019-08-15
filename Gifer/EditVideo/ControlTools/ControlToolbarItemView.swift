@@ -43,6 +43,10 @@ class ControlToolbarItemView: UICollectionViewCell {
         button.sizeToFit()
     }
     
+    func updateImage(_ image: UIImage) {
+        button.setImage(image, for: .normal)
+    }
+    
     override func tintColorDidChange() {        
         button.setTitleColor(tintColor, for: .normal)
     }

@@ -119,7 +119,7 @@ extension ControlToolbar: UICollectionViewDelegate {
             collectionView.reloadData()
             toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
         case .fps:
-            fatalError()
+            toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView)
         }
     }
 }
@@ -131,4 +131,5 @@ protocol ControlToolbarDelegate: class {
     func onPlaySpeedItemClicked()
     func onStickerItemClicked()
     func onDirectionItemClicked(direction: PlayDirection)
+    func onFPSItemclicked(cell: ControlToolbarItemView)
 }
