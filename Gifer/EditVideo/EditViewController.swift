@@ -13,6 +13,7 @@ import AVKit
 import Photos
 import StoreKit
 import MessageUI
+import MonkeyKing
 
 enum ToolbarItemState {
     case normal, highlight
