@@ -16,6 +16,7 @@ class ImagePlayerItemGenerator {
     var isDestroyed = false
     
     let generatorParallelNumber: Int = 4
+    var fps: FPSFigure?
     
     lazy var generators:[AVAssetImageGenerator]  = {
         return (0..<self.generatorParallelNumber).map { _ in
@@ -23,9 +24,10 @@ class ImagePlayerItemGenerator {
         }
     }()
     
-    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition) {
+    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil) {
         self.asset = avAsset
         self.trimPosition = trimPosition
+        self.fps = fps
     }
     
     func createAssetGenerator() -> AVAssetImageGenerator {
@@ -39,7 +41,12 @@ class ImagePlayerItemGenerator {
     
     func splitTimes() -> [NSValue] {
         var t = trimPosition.leftTrim
-        let interval = CMTime(seconds: 0.2, preferredTimescale: 600)
+        var interval: CMTime
+        if let fps = fps {
+            interval = CMTime(seconds: 1/Double(fps.rawValue), preferredTimescale: 600)
+        } else {
+            interval = CMTime(seconds: 0.2, preferredTimescale: 600)
+        }
         var ar = [NSValue]()
         while t + interval < trimPosition.rightTrim {
             t = t + interval

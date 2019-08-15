@@ -353,7 +353,7 @@ class EditViewController: UIViewController {
         makePlayerItemFromPhotosTask?.run { playerItem in
             guard let playerItem = playerItem else  { return }
             self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
-            self.setupPlayerItem(playerItem)
+            self.initPlayerItem(playerItem)
         }
     }
     
@@ -378,26 +378,28 @@ class EditViewController: UIViewController {
     }
     
     func loadAsset() {
-        getAVAsset { (asset) in
+        loadAVAsset { (asset) in
             if let asset = asset {
-                self.makePlayerItem(avAsset: asset)
+                self.makePlayerItem(avAsset: asset) { playerItem in
+                    self.initPlayerItem(playerItem)
+                }
             }
         }
     }
     
     var videoCache: VideoCache?
     
-    private func getAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
+    private func loadAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .mediumQualityFormat
-        options.progressHandler = onDownloadVideoProgressChanged
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
         
         if let videoAsset = videoAsset {
-            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { (avAsset, _, _) in
+            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { [weak self] (avAsset, _, _) in
+                guard let self = self else { return }
                 if self.isDebug {
                     self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration)
                 }
@@ -416,7 +418,8 @@ class EditViewController: UIViewController {
                 try? FileManager.default.removeItem(at: url)
                 let options = PHAssetResourceRequestOptions()
                 options.isNetworkAccessAllowed = true
-                PHAssetResourceManager.default().writeData(for: PHAssetResource.assetResources(for: photo!).first { $0.type == PHAssetResourceType.pairedVideo }!, toFile: url, options: options, completionHandler: { (error) in
+                PHAssetResourceManager.default().writeData(for: PHAssetResource.assetResources(for: photo!).first { $0.type == PHAssetResourceType.pairedVideo }!, toFile: url, options: options, completionHandler: { [weak self] (error) in
+                    guard let self = self else { return }
                     let asset: AVAsset = AVAsset(url: url)
                     self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: asset.duration)
                     completion(asset)
@@ -425,19 +428,18 @@ class EditViewController: UIViewController {
         }
     }
     
-    fileprivate func setupPlayerItem(_ playerItem: ImagePlayerItem) {
+    fileprivate func initPlayerItem(_ playerItem: ImagePlayerItem) {
         optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
         onVideoReady(playerItem: playerItem)
     }
     
-    private func makePlayerItem(avAsset: AVAsset) {
+    private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, complete: @escaping (ImagePlayerItem) -> Void) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps)
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupPlayerItem(playerItem)
+                complete(playerItem)
             }
         }
     }
@@ -573,24 +575,11 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func play() {
-        imagePlayerView.paused = false
+        imagePlayerView.isPaused = false
     }
     
     fileprivate func pause() {
-        imagePlayerView.paused = true
-    }
-    
-    @IBAction func onHighResTapped(_ sender: UIBarButtonItem) {
-        var trim = trimPosition
-        let delta = min(trim.galleryDuration.seconds, Wechat.maxShareDuration)
-        trim.rightTrim = trim.leftTrim + delta.toTime()
-        
-        UIView.animate(withDuration: 0.3) {
-            self.videoController.updateRange(trimPosition: trim)
-            self.videoController.layoutIfNeeded()
-        }
-        
-        updateTrim(position: trim, state: .initial, side: .left)
+        imagePlayerView.isPaused = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -599,7 +588,7 @@ class EditViewController: UIViewController {
             updateSubTitle()
         }
         
-        imagePlayerView.paused = false
+        imagePlayerView.isPaused = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -610,7 +599,7 @@ class EditViewController: UIViewController {
         super.viewDidDisappear(animated)
         loadingDialog?.dismiss(animated: false)
 
-        imagePlayerView.paused = true
+        imagePlayerView.isPaused = true
         
         makePlayerItemFromPhotosTask?.release()
         if isMovingFromParent {
@@ -737,9 +726,9 @@ extension EditViewController: VideoControllerDelegate {
         
         switch state {
         case .started:
-            imagePlayerView.paused = true
+            imagePlayerView.isPaused = true
         case .finished(_):
-            imagePlayerView.paused = false
+            imagePlayerView.isPaused = false
         default:
             break
         }
@@ -830,7 +819,7 @@ extension EditViewController: ControlToolbarDelegate {
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = customTransitionDelegate
         present(vc, animated: true, completion: {
-            self.imagePlayerView.paused = true
+            self.imagePlayerView.isPaused = true
         })
     }
     
@@ -863,12 +852,12 @@ extension EditViewController: ControlToolbarDelegate {
         vc.transitioningDelegate = vc.customTransitionDelegate
         vc.stickerInfoForEdit = stickerInfo
         present(vc, animated: true, completion: {
-            self.imagePlayerView.paused = true
+            self.imagePlayerView.isPaused = true
         })
     }
     
     func onDismissed(of viewController: UIViewController) {
-        self.imagePlayerView.paused = false
+        self.imagePlayerView.isPaused = false
     }
     
     func onStickerItemClicked() {
@@ -882,15 +871,19 @@ extension EditViewController: ControlToolbarDelegate {
     func onFPSItemclicked(cell: ControlToolbarItemView) {
         FPSFigure.showSelectionDialog(from: self) { (fps) in
             cell.updateImage(fps.image)
+            self.pause()
+            
+            self.loadAVAsset { [weak self] (asset) in
+                guard let self = self else { return }
+                if let asset = asset {
+                    self.makePlayerItem(avAsset: asset, fps: fps) { [weak self] playerItem in
+                        guard let self = self else { return }
+                        self.syncPlayerItemChanges(playerItem)
+                        self.play()
+                    }
+                }
+            }
         }
-    }
-}
-
-extension EditViewController: VideoCacheDelegate {    
-    func onParsingProgressChanged(progress: CGFloat) {
-    }
-    
-    func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
     }
 }
 
@@ -938,23 +931,27 @@ extension EditViewController: CropContainerDelegate {
 }
 
 extension EditViewController: FramesDelegate {
-    func onUpdateFrames(_ frames: [ImagePlayerFrame]) {
-        guard let playerItem = playerItem else { return }
-        print(frames.filter { !$0.isActive }.map { $0.time.seconds })
-        let activeFrames = frames.filter { $0.isActive }
-        playerItem.allFrames = activeFrames
-        playerItem.resetAllFrameTimes()
-        playerItem.duration = playerItem.allFrames.last!.time
+    
+    func syncPlayerItemChanges(_ playerItem: ImagePlayerItem) {
+        self.playerItem = playerItem
         videoController.playerItem = playerItem
         videoController.updatePlayerItem(playerItem)
         imagePlayerView.updatePlayerItem(playerItem)
         updateTrim(position: playerItem.allRangeTrimPosition, state: .initial, side: .left)
         videoController.updateRange(trimPosition: playerItem.allRangeTrimPosition)
         
-        // FIXME: update overlay settings.
         videoController.attachView.resetTrim()
         stickerOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
         editTextOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
+    }
+    
+    func onUpdateFrames(_ frames: [ImagePlayerFrame]) {
+        guard let playerItem = playerItem else { return }
+        let activeFrames = frames.filter { $0.isActive }
+        playerItem.allFrames = activeFrames
+        playerItem.resetAllFrameTimes()
+        playerItem.duration = playerItem.allFrames.last!.time
+        syncPlayerItemChanges(playerItem)
     }
 }
 

@@ -62,7 +62,7 @@ class ImagePlayerView: UIView {
     }
     
     var timer: Timer!
-    var paused = true
+    var isPaused = true
     var trimPosition: VideoTrimPosition!
     var playDirection: PlayDirection = .forward {
         didSet {
@@ -108,17 +108,17 @@ class ImagePlayerView: UIView {
     }
     
     private func play() {
-        paused = false
+        isPaused = false
         if timer != nil {
             fatalError("stop first")
         }
         
         timer = createTimer(with: interval)
     }
-    
+        
     private func createTimer(with interval: TimeInterval) -> Timer {
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
-            guard !self.paused else { return }
+            guard !self.isPaused else { return }
             
             switch self.playDirection {
             case .forward:
