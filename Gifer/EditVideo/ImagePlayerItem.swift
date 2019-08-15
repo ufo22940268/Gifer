@@ -81,7 +81,11 @@ class ImagePlayerItem {
         return allFrames.filter { $0.isActive }
     }
     
-    var allFrames: [ImagePlayerFrame]
+    var allFrames: [ImagePlayerFrame] {
+        didSet {
+            updateFrameInterval()
+        }
+    }
     var duration: CMTime
     lazy var playCache: NSCache<NSNumber, UIImage> = {
         let cache = NSCache<NSNumber, UIImage>()
@@ -99,16 +103,18 @@ class ImagePlayerItem {
     
     typealias RequestId = Int
     
-    //Frame interval in seconds
-    var frameInterval: Double {
-        return (allFrames[1].time - allFrames[0].time).seconds
-    }
+    var frameInterval: Double!
     
     var queue = DispatchQueue(label: "cache")
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
         self.allFrames = frames
         self.duration = duration
+        updateFrameInterval()
+    }
+    
+    func updateFrameInterval() {
+        frameInterval = duration.seconds/Double(activeFrames.count)
     }
     
     func getActiveSequence(of frame: ImagePlayerFrame) -> Int? {
