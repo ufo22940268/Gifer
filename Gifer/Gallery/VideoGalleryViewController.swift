@@ -149,9 +149,6 @@ class VideoGalleryViewController: UICollectionViewController {
             ])
         
         selectPhotoView.customDelegate = self
-        
-//        // FIXME: Test code
-//        onSelectGalleryCategory(.photo)
     }
     
     override func viewWillAppear(_ animated: Bool) {
