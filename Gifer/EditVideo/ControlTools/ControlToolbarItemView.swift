@@ -11,7 +11,7 @@ import UIKit
 
 class ControlToolbarItemView: UICollectionViewCell {
 
-    var type: ToolbarItem!
+    var type: ControlToolbarItem!
     var icon: UIImageView!
     var titleView: UILabel!
     
@@ -36,7 +36,7 @@ class ControlToolbarItemView: UICollectionViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
-    func setup(type: ToolbarItem, image: UIImage, title: String) {
+    func setup(type: ControlToolbarItem, image: UIImage, title: String) {
         button.setImage(image, for: .normal)
         button.setTitle(title, for: .normal)        
         button.alignTextUnderImage()

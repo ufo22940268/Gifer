@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ConfirmPromptDelegate: class {
-    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool)
+    func onPromptDismiss(toolbarItem: ControlToolbarItem, commitChange: Bool)
 }
 
 protocol Transaction {
@@ -26,9 +26,9 @@ class ControlToolbarConfirmPrompt: UIStackView {
     weak var customDelegate: ConfirmPromptDelegate?
     
     var contentView: TransactionView!
-    var toolbarItem: ToolbarItem!
+    var toolbarItem: ControlToolbarItem!
 
-    init(contentView: TransactionView, toolbarItem: ToolbarItem) {
+    init(contentView: TransactionView, toolbarItem: ControlToolbarItem) {
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical

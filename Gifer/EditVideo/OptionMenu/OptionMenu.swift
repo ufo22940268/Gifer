@@ -22,7 +22,7 @@ class OptionMenu: UIView {
     var filtersView: FiltersView!
     var filtersViewContainer: ControlToolbarConfirmPrompt!
     
-    var activeItem: ToolbarItem?
+    var activeItem: ControlToolbarItem?
     
     func setPreviewImage(_ image: UIImage) {
         filtersView.previewImage = image
@@ -42,7 +42,7 @@ class OptionMenu: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func attach(menuType: ToolbarItem) {
+    func attach(menuType: ControlToolbarItem) {
         activeItem = menuType
         subviews.forEach { (subview) in
             subview.removeFromSuperview()
@@ -65,6 +65,8 @@ class OptionMenu: UIView {
             filtersViewContainer.customDelegate = delegate
             contentView = filtersViewContainer
         case .direction:
+            return
+        case .fps:
             return
         }
         

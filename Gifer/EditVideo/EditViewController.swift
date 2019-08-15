@@ -55,13 +55,35 @@ struct ToolbarItemStyle {
     }
 }
 
-enum ToolbarItem {
+enum FPSFigure: Int {
+    case f7 = 7
+    case f24 = 24
+    case f30 = 30
+    
+    //The fps label size should be 30x30.
+    var image: UIImage {
+        let label = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 30)))
+        label.adjustsFontSizeToFitWidth = true
+        label.text = String(self.rawValue)
+        label.textColor = .lightText
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 25, weight: .semibold)
+        label.sizeToFit()
+        let canvasRect: CGRect = CGRect(origin: .zero, size: CGSize(width: 30, height: 30))
+        return UIGraphicsImageRenderer(bounds: canvasRect).image { context in
+            label.drawText(in: canvasRect)
+        }
+    }
+}
+
+enum ControlToolbarItem {
     case playSpeed
     case crop
     case filters
     case font
     case sticker
     case direction(playDirection: PlayDirection)
+    case fps(rate: FPSFigure)
     
     var viewInfo: (UIImage, String) {
         switch self {
@@ -77,10 +99,13 @@ enum ToolbarItem {
             return (#imageLiteral(resourceName: "smile-wink-regular.png"), NSLocalizedString("Sticker", comment: ""))
         case .direction(let playDirection):
             return playDirection.viewInfo
+        case .fps(let rate):
+            //The fps label size should be 30x30.
+            return (rate.image, NSLocalizedString("FPS", comment: ""))
         }
     }
     
-    static var initialAllCases: [ToolbarItem] {
+    static var initialAllCases: [ControlToolbarItem] {
         return [
             .playSpeed, .crop, .filters, .font, .sticker, .direction(playDirection: .forward)
         ]
@@ -101,7 +126,7 @@ enum PlayDirection {
 }
 
 struct ToolbarItemInfo {
-    var index: ToolbarItem
+    var index: ControlToolbarItem
     var state: ToolbarItemState
     var barItem: UIBarButtonItem
 }
@@ -769,7 +794,7 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
         return [editTextOverlay, stickerOverlay]
     }
     
-    func onPromptDismiss(toolbarItem: ToolbarItem, commitChange: Bool) {
+    func onPromptDismiss(toolbarItem: ControlToolbarItem, commitChange: Bool) {
         enableVideoContainer(false)
         switch toolbarItem {
         case .crop:
@@ -805,7 +830,7 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
 
 extension EditViewController: ControlToolbarDelegate {
     
-    func showOptionMenu(for toolbarItem: ToolbarItem) {
+    func showOptionMenu(for toolbarItem: ControlToolbarItem) {
         optionMenu.isHidden = false
         optionMenu.attach(menuType: toolbarItem)
         optionMenu.layoutIfNeeded()

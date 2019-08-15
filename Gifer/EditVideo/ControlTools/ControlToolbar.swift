@@ -14,7 +14,11 @@ class ControlToolbar: UICollectionView {
     
     let displayPropertyCount = 4
     
-    var allItems = ToolbarItem.initialAllCases
+    lazy var allItems: [ControlToolbarItem] = {
+        var commonItems = ControlToolbarItem.initialAllCases
+        commonItems.append(.fps(rate: .f24))
+        return commonItems
+    }()
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -40,7 +44,6 @@ class ControlToolbar: UICollectionView {
         
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
-    
 }
 
 extension ControlToolbar: UICollectionViewDataSource {
@@ -115,6 +118,8 @@ extension ControlToolbar: UICollectionViewDelegate {
             reverseDirection()
             collectionView.reloadData()
             toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
+        case .fps:
+            fatalError()
         }
     }
 }
