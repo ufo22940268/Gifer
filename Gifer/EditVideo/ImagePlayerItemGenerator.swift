@@ -49,8 +49,8 @@ class ImagePlayerItemGenerator {
         }
         var ar = [NSValue]()
         while t + interval < trimPosition.rightTrim {
-            t = t + interval
             ar.append(NSValue(time: t))
+            t = t + interval
         }
 
         if ar.last!.timeValue != trimPosition.rightTrim {
