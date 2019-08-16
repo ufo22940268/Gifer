@@ -112,7 +112,7 @@ class PlaySpeedScrollView: UIScrollView {
 }
 
 protocol PlaySpeedViewDelegate: class {
-    func onRateChanged(_ rate: Float)
+    func onSpeedChanged(_ rate: Float)
 }
 
 class PlaySpeedView: UIStackView {
@@ -162,7 +162,7 @@ extension PlaySpeedView: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.onRateChanged(Float(currentSpeed))
+        delegate?.onSpeedChanged(Float(currentSpeed))
         updateSpeedView()
         currentSpeedSnapshot = currentSpeed
     }

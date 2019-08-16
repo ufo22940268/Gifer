@@ -140,6 +140,10 @@ class EditViewController: UIViewController {
         return playerItem != nil
     }
     
+    var speed: Double {
+        return Double(playSpeedView.currentSpeed)
+    }
+    
     var playerItem: ImagePlayerItem?
     var rootFrames: [ImagePlayerFrame]? {
         didSet {
@@ -301,7 +305,7 @@ class EditViewController: UIViewController {
         
         view.tintColor = .mainColor
         
-        setSubTitleWhenLoading()
+        updateSubTitleWhenLoading()
         setupVideoContainer()
         setupControlToolbar()
         setupVideoController()
@@ -327,15 +331,15 @@ class EditViewController: UIViewController {
     private func enableVideoContainer(_ enable: Bool) {
     }
     
-    private func setSubTitleWhenLoading() {
+    private func updateSubTitleWhenLoading() {
         navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: "Title in EditViewController"), lineTwo: NSLocalizedString("Loading...", comment: "Loading in navigation title of EditViewController"))
     }
 
-    private func updateSubTitle() {
+    private func updateSubtitleWithDuration() {
         guard let playerItem = playerItem else { return }
         let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
-        let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
+        let duration = CMTime(seconds: playerItem.frameInterval/speed*Double(toIndex - fromIndex), preferredTimescale: 600)
         navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: ""), lineTwo: String.localizedStringWithFormat(NSLocalizedString("%.1fs/%d frames", comment: "Subtitle metrics in EditViewController"), duration.seconds, toIndex - fromIndex + 1))
     }
     
@@ -602,7 +606,7 @@ class EditViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isVideoLoaded {
-            updateSubTitle()
+            updateSubtitleWithDuration()
         }
         
         imagePlayerView.isPaused = false
@@ -673,7 +677,7 @@ extension EditViewController: ImagePlayerDelegate {
             
             //Trim position Updated
             self.defaultGifOptions = self.currentGifOption
-            self.updateSubTitle()
+            self.updateSubtitleWithDuration()
         }
     }
     
@@ -751,7 +755,7 @@ extension EditViewController: VideoControllerDelegate {
         }
         
         videoController.videoTrim.updateMainColor(duration: playerItem!.calibarateTrimPositionDuration(trimPosition), taptic: true)
-        updateSubTitle()
+        updateSubtitleWithDuration()
     }
     
     func onSlideVideo(state: SlideState, progress: CMTime!) {
@@ -808,8 +812,9 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
         imagePlayerView.filter = filter
     }
     
-    func onRateChanged(_ rate: Float) {
+    func onSpeedChanged(_ rate: Float) {
         imagePlayerView.rate = rate
+        updateSubtitleWithDuration()
     }
 }
 
@@ -891,7 +896,7 @@ extension EditViewController: ControlToolbarDelegate {
             cell.updateImage(fps.image)
             self.pause()
             self.showPlayLoading(true)
-            self.setSubTitleWhenLoading()
+            self.updateSubTitleWhenLoading()
             self.imagePlayerView.useBlankImage()
             
             self.loadAVAsset { [weak self] (asset) in
