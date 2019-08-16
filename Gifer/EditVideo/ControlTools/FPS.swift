@@ -44,7 +44,7 @@ enum FPSFigure: Int, CaseIterable {
                 vc.preferredAction = vc.actions.last!
             }
         }
-        vc.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .cancel, handler: { _ in host.play() }))
+        vc.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in host.play() }))
         host.present(vc, animated: true, completion: nil)
     }
 }
