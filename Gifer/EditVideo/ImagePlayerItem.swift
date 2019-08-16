@@ -72,10 +72,6 @@ struct ImagePlayerFrame: Equatable {
     }
 }
 
-//func == (_ l: ImagePlayerFrame, _ r: ImagePlayerFrame) -> Bool {
-//    return l.path == r.path
-//}
-
 class ImagePlayerItem {
     var activeFrames: [ImagePlayerFrame] {
         return allFrames.filter { $0.isActive }

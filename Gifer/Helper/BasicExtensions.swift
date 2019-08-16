@@ -69,6 +69,14 @@ extension UIDevice {
         return TARGET_OS_SIMULATOR != 0
     }
     
+    static var isDebug: Bool {
+        #if DEBUG
+        return true
+        #else
+        return false
+        #endif
+    }
+    
     /// 在有 Taptic Engine 的设备上触发一个轻微的振动
     ///
     /// - Parameter params: level  (number)  0 ~ 3 表示振动等级

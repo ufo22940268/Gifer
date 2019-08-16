@@ -91,11 +91,15 @@ class ShareManager: NSObject {
     }
     
     func saveToPhoto(gif: URL, complete: @escaping ShareHandler) {
-        let gifData = try! Data(contentsOf: gif)
-        PHPhotoLibrary.shared().performChanges({
-            PHAssetCreationRequest.forAsset().addResource(with: .photo, data: gifData, options: nil)
+        if UIDevice.isDebug && UIDevice.isSimulator {
             complete(true)
-        })
+        } else {
+            let gifData = try! Data(contentsOf: gif)
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetCreationRequest.forAsset().addResource(with: .photo, data: gifData, options: nil)
+                complete(true)
+            })
+        }
     }
     
     func shareToEmail(gif: URL, from hostVC: ShareEmailSourceViewController) {

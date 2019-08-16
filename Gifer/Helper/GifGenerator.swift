@@ -250,9 +250,10 @@ public class GifGenerator {
 
         for (index, frame) in generateFrames.enumerated() {
             var image: CGImage = frame.uiImage.cgImage!.resize(inSize: gifSize)
-            let time = CMTime(seconds: Double(index)*playerItem.frameInterval, preferredTimescale: 600)
+            let interval = playerItem.frameInterval/Double(options.speed)
+            let time = CMTime(seconds: Double(index)*interval, preferredTimescale: 600)
             
-            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): playerItem.frameInterval]] as CFDictionary
+            let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): interval]] as CFDictionary
             
             if let filter = self.options.filter {
                 image = applyFilter(image, filter: filter, in: ciContext)
