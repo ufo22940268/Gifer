@@ -26,18 +26,15 @@ enum UserDefaultKeys: String {
         // Override point for customization after application launch.
         initUserDefaults()
         
-        #if DEBUG
-        
+        #if DEBUG        
         let debugStoryboard =
-//            AppStoryboard.Main
+            AppStoryboard.Main
 //            AppStoryboard.Album
-            AppStoryboard.Edit
+//            AppStoryboard.Edit
 //            AppStoryboard.Sticker
         let rootVC = debugStoryboard.instance.instantiateInitialViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
-        
-        
         #else
         //Don't touch here
         let rootVC = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root")

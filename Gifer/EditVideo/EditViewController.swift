@@ -112,6 +112,13 @@ struct ToolbarItemInfo {
 
 class EditViewController: UIViewController {
     
+    enum Mode {
+        case photo
+        case video
+        case livePhoto
+        case unknown
+    }
+    
     var shareVC: ShareViewController!
     @IBOutlet weak var videoController: VideoController!
     
@@ -173,6 +180,18 @@ class EditViewController: UIViewController {
 
     @IBOutlet weak var stickerOverlay: StickerOverlay!
     @IBOutlet weak var editTextOverlay: EditTextOverlay!
+    
+    var mode: Mode {
+        if videoAsset != nil {
+            return .video
+        } else if livePhotoAsset != nil {
+            return .livePhoto
+        } else if photoIdentifiers != nil {
+            return .photo
+        } else {
+            return .unknown
+        }
+    }
     
     var validPHAsset: PHAsset! {
         return videoAsset ?? livePhotoAsset
@@ -293,7 +312,7 @@ class EditViewController: UIViewController {
         if let photoIdentifiers = photoIdentifiers {
             loadPlayerItem(fromPhotos: photoIdentifiers)
         } else {
-            loadAsset()
+            load()
         }
     }
     
@@ -340,7 +359,8 @@ class EditViewController: UIViewController {
             optionMenuTopConstraint
             ])
         optionMenu.delegate = self
-        controlToolbar.toolbarDelegate = self                
+        controlToolbar.toolbarDelegate = self
+        controlToolbar.setupAllItems(for: mode)
     }
     
     var displayVideoRect: CGRect {
@@ -377,7 +397,7 @@ class EditViewController: UIViewController {
         }
     }
     
-    func loadAsset() {
+    func load() {
         loadAVAsset { (asset) in
             if let asset = asset {
                 self.makePlayerItem(avAsset: asset) { playerItem in

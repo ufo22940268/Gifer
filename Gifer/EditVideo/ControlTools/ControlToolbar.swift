@@ -15,11 +15,7 @@ class ControlToolbar: UICollectionView {
     let displayPropertyCount = 4
     var fps: FPSFigure = .f5
     
-    lazy var allItems: [ControlToolbarItem] = {
-        var commonItems = ControlToolbarItem.initialAllCases
-        commonItems.append(.fps(rate: .f5))
-        return commonItems
-    }()
+    lazy var allItems: [ControlToolbarItem] = [ControlToolbarItem]()
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -44,6 +40,15 @@ class ControlToolbar: UICollectionView {
         delegate = self
         
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    func setupAllItems(for mode: EditViewController.Mode) {
+        var commonItems = ControlToolbarItem.initialAllCases
+        if mode != .photo {
+            commonItems.append(.fps(rate: .f5))
+        }
+        allItems = commonItems
+        reloadData()
     }
 }
 

@@ -12,7 +12,9 @@ import UIKit
 enum FPSFigure: Int, CaseIterable {
     case f5 = 5
     case f10 = 10
-    case f24 = 24
+    case f15 = 15
+    case f20 = 20
+    case f25 = 25
     case f30 = 30
     
     //The fps label size should be 30x30.
