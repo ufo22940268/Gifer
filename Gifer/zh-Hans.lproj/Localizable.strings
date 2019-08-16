@@ -5,6 +5,10 @@
   Created by Frank Cheng on 2019/8/9.
   Copyright © 2019 Frank Cheng. All rights reserved.
 */
+
+"Ok" = "确定";
+"Cancel" = "取消";
+
 "Albums" = "相册";
 "Video" = "视频";
 "Photo" = "图片";
@@ -42,3 +46,5 @@
 "Clip" = "修剪";
 "If you go back, your edits will be discarded?" = "返回将会丢失所有改动";
 "Email" = "邮件";
+
+"Select FPS" = "选择 FPS";

@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+@available(*, deprecated)
 class UIKitLocalizedString {
     static let bundle = Bundle(identifier: "com.apple.UIKit")
     class var ok: String {
@@ -24,6 +24,6 @@ class UIKitLocalizedString {
         return localizedStringForKey("Done")
     }
     static func localizedStringForKey(_ key: String) -> String {
-        return bundle?.localizedString(forKey: key, value: key, table: nil) ?? key
+        return NSLocalizedString("Cancel", comment: "")
     }
 }

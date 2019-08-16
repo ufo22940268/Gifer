@@ -365,7 +365,10 @@
                         <viewLayoutGuide key="safeArea" id="ekF-SS-kAS"/>
                     </view>
                     <navigationItem key="navigationItem" id="YWr-en-eLL">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="O66-2V-Lyk">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="O66-2V-Lyk" propertyAccessControl="localizable">
+                            <attributedString key="userComments">
+                                <fragment content="asdfasdf"/>
+                            </attributedString>
                             <connections>
                                 <action selector="onDismiss:" destination="ZCx-9J-s5F" id="HEH-3N-T4l"/>
                             </connections>
@@ -442,4 +445,5 @@
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <color key="tintColor" name="yellowColor"/>
 </document>
