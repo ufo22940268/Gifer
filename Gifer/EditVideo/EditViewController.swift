@@ -555,14 +555,7 @@ class EditViewController: UIViewController {
     }
     
     private func showLoadingWhenExporting(_ show: Bool) {
-        showLoading(show, label: NSLocalizedString("Exporting...", comment: ""))
-    }
-    
-    private func showPlayLoading(_ show: Bool) {
-        videoLoadingIndicator.isHidden = !show
-    }
-
-    private func showLoading(_ show: Bool, label: String = "") {
+        let label = NSLocalizedString("Exporting...", comment: "")
         guard !isBeingDismissed else { return }
         if (show) {
             if loadingDialog == nil || !(loadingDialog!.isShowing)  {
@@ -574,11 +567,15 @@ class EditViewController: UIViewController {
         }
     }
     
-    fileprivate func play() {
+    private func showPlayLoading(_ show: Bool) {
+        videoLoadingIndicator.isHidden = !show
+    }
+    
+    func play() {
         imagePlayerView.isPaused = false
     }
     
-    fileprivate func pause() {
+    func pause() {
         imagePlayerView.isPaused = true
     }
     
@@ -868,10 +865,14 @@ extension EditViewController: ControlToolbarDelegate {
         imagePlayerView.playDirection = direction
     }
     
-    func onFPSItemclicked(cell: ControlToolbarItemView) {
-        FPSFigure.showSelectionDialog(from: self) { (fps) in
+    func onFPSItemclicked(cell: ControlToolbarItemView, currentFPS: FPSFigure) {
+        FPSFigure.showSelectionDialog(from: self, currentFPS: currentFPS) { (fps) in
+            self.controlToolbar.fps = fps
             cell.updateImage(fps.image)
             self.pause()
+            self.showPlayLoading(true)
+            self.setSubTitleWhenLoading()
+            self.imagePlayerView.useBlankImage()
             
             self.loadAVAsset { [weak self] (asset) in
                 guard let self = self else { return }
@@ -879,6 +880,7 @@ extension EditViewController: ControlToolbarDelegate {
                     self.makePlayerItem(avAsset: asset, fps: fps) { [weak self] playerItem in
                         guard let self = self else { return }
                         self.syncPlayerItemChanges(playerItem)
+                        self.showPlayLoading(false)
                         self.play()
                     }
                 }
@@ -943,6 +945,8 @@ extension EditViewController: FramesDelegate {
         videoController.attachView.resetTrim()
         stickerOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
         editTextOverlay.clipTrimPosition = playerItem.allRangeTrimPosition
+        
+        imagePlayerView.currentTime = .zero
     }
     
     func onUpdateFrames(_ frames: [ImagePlayerFrame]) {

@@ -115,7 +115,7 @@ class ImagePlayerView: UIView {
         
         timer = createTimer(with: interval)
     }
-        
+    
     private func createTimer(with interval: TimeInterval) -> Timer {
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.isPaused else { return }
@@ -139,6 +139,10 @@ class ImagePlayerView: UIView {
         timer.tolerance = interval*0.1
         RunLoop.main.add(timer, forMode: .common)
         return timer
+    }
+    
+    func useBlankImage() {
+        self.imageView.image = nil
     }
     
     func destroy() {

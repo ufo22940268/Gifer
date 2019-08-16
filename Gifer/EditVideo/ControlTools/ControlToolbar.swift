@@ -13,10 +13,11 @@ class ControlToolbar: UICollectionView {
     weak var toolbarDelegate: ControlToolbarDelegate?
     
     let displayPropertyCount = 4
+    var fps: FPSFigure = .f5
     
     lazy var allItems: [ControlToolbarItem] = {
         var commonItems = ControlToolbarItem.initialAllCases
-        commonItems.append(.fps(rate: .f24))
+        commonItems.append(.fps(rate: .f5))
         return commonItems
     }()
     
@@ -119,7 +120,7 @@ extension ControlToolbar: UICollectionViewDelegate {
             collectionView.reloadData()
             toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
         case .fps:
-            toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView)
+            toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView, currentFPS: fps)
         }
     }
 }
@@ -131,5 +132,5 @@ protocol ControlToolbarDelegate: class {
     func onPlaySpeedItemClicked()
     func onStickerItemClicked()
     func onDirectionItemClicked(direction: PlayDirection)
-    func onFPSItemclicked(cell: ControlToolbarItemView)
+    func onFPSItemclicked(cell: ControlToolbarItemView, currentFPS: FPSFigure)
 }

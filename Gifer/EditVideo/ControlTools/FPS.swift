@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 enum FPSFigure: Int, CaseIterable {
-    case f7 = 7
+    case f5 = 5
+    case f10 = 10
     case f24 = 24
     case f30 = 30
     
@@ -21,7 +22,7 @@ enum FPSFigure: Int, CaseIterable {
         label.text = String(self.rawValue)
         label.textColor = .lightText
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 25, weight: .semibold)
+        label.font = .systemFont(ofSize: 25, weight: .regular)
         label.sizeToFit()
         let canvasRect: CGRect = CGRect(origin: .zero, size: CGSize(width: 30, height: 30))
         return UIGraphicsImageRenderer(bounds: canvasRect).image { context in
@@ -29,14 +30,19 @@ enum FPSFigure: Int, CaseIterable {
         }
     }
     
-    static func showSelectionDialog(from host: UIViewController, completion: @escaping (FPSFigure) -> Void) {
+    static func showSelectionDialog(from host: EditViewController, currentFPS: FPSFigure, completion: @escaping (FPSFigure) -> Void) {
+        host.pause()
         let vc = UIAlertController(title: NSLocalizedString("Select FPS", comment: ""), message: nil, preferredStyle: .alert)
         for figure in FPSFigure.allCases {
-            vc.addAction(UIAlertAction(title: "\(figure.rawValue)FPS", style: .default, handler: { (_) in
+            vc.addAction(UIAlertAction(title: "\(figure.rawValue) FPS", style: .default, handler: { (_) in
                 completion(figure)
             }))
+            
+            if figure == currentFPS {
+                vc.preferredAction = vc.actions.last!
+            }
         }
-        
+        vc.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .cancel, handler: { _ in host.play() }))
         host.present(vc, animated: true, completion: nil)
     }
 }
