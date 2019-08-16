@@ -126,6 +126,8 @@ extension ControlToolbar: UICollectionViewDelegate {
             toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
         case .fps:
             toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView, currentFPS: fps)
+        case .adjust:
+            toolbarDelegate?.onAdjustItemClicked()
         }
     }
 }
@@ -138,4 +140,5 @@ protocol ControlToolbarDelegate: class {
     func onStickerItemClicked()
     func onDirectionItemClicked(direction: PlayDirection)
     func onFPSItemclicked(cell: ControlToolbarItemView, currentFPS: FPSFigure)
+    func onAdjustItemClicked()
 }

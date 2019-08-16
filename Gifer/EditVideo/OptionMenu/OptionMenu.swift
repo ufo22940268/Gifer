@@ -66,7 +66,7 @@ class OptionMenu: UIView {
             contentView = filtersViewContainer
         case .direction:
             return
-        case .fps:
+        case .fps, .adjust:
             return
         }
         

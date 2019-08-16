@@ -63,6 +63,7 @@ enum ControlToolbarItem {
     case sticker
     case direction(playDirection: PlayDirection)
     case fps(rate: FPSFigure)
+    case adjust
     
     var viewInfo: (UIImage, String) {
         switch self {
@@ -81,12 +82,15 @@ enum ControlToolbarItem {
         case .fps(let rate):
             //The fps label size should be 30x30.
             return (rate.image, NSLocalizedString("FPS", comment: ""))
+        case .adjust:
+            return (#imageLiteral(resourceName: "control-toolbar-adjust.png"), NSLocalizedString("Adjust", comment: ""))
         }
     }
     
     static var initialAllCases: [ControlToolbarItem] {
         return [
-            .playSpeed, .crop, .filters, .font, .sticker, .direction(playDirection: .forward)
+            .playSpeed, .crop, .filters, .font, .sticker, .direction(playDirection: .forward),
+            .adjust
         ]
     }
 }
@@ -391,10 +395,10 @@ class EditViewController: UIViewController {
         
         if isChanged {
             let alertController = UIAlertController(title: nil, message: NSLocalizedString("If you go back, your edits will be discarded?", comment: ""), preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.ok, style: .destructive, handler: { _ in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .destructive, handler: { _ in
                 self.dismiss(animated: true, completion: nil)
             }))
-            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
             present(alertController, animated: true, completion: nil)
         } else {
             self.dismiss(animated: true, completion: nil)
@@ -849,6 +853,10 @@ extension EditViewController: ControlToolbarDelegate {
         showEditTextViewController()
     }
     
+    func onAdjustItemClicked() {
+        
+    }
+    
     func onCropItemClicked() {
         guard let playerItem = playerItem else { return }
         let vc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "crop") as! CropViewController
@@ -1021,14 +1029,13 @@ extension EditViewController: UINavigationBarDelegate {
         } else {
             isChanged = !(currentGifOption == defaultGifOptions)
         }
-        print("isChanged: \(isChanged)")
         
         if isChanged {
             let alertController = UIAlertController(title: nil, message: NSLocalizedString("If you go back, your edits will be discarded?", comment: ""), preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.ok, style: .default, handler: { _ in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: { _ in
                 self.navigationController?.popViewController(animated: true)
             }))
-            alertController.addAction(UIAlertAction(title: UIKitLocalizedString.cancel, style: .destructive, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .destructive, handler: nil))
             present(alertController, animated: true, completion: nil)
         }
         return !isChanged
