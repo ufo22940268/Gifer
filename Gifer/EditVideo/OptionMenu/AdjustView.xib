@@ -28,6 +28,9 @@
                     <subviews>
                         <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="QWK-RT-MZO">
                             <rect key="frame" x="18" y="16.5" width="312" height="31"/>
+                            <connections>
+                                <action selector="onSliderChanged:" destination="-1" eventType="valueChanged" id="Bzs-Xa-D99"/>
+                            </connections>
                         </slider>
                     </subviews>
                     <constraints>

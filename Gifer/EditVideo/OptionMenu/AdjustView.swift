@@ -67,10 +67,20 @@ enum AdjustType: CaseIterable {
 }
 
 struct AdjustConfig {
-    var value: Double = 0.5
-    
+    var value: Float = 0.5
+    var type: AdjustType
     mutating func reset() {
         value = 0.5
+    }
+    
+    init(type: AdjustType) {
+        self.type = type
+    }
+    
+    var filter: CIFilter {
+        let brightness = (value - 0.5)*2
+        let filter = CIFilter(name: "CIColorControls", parameters: ["inputBrightness": brightness])!
+        return filter
     }
 }
 
@@ -78,9 +88,15 @@ class AdjustView: UIStackView, Transaction {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionLayout: UICollectionViewFlowLayout!
-    var config = AdjustConfig()
-    var activatedType: AdjustType?
+    var activeType: AdjustType?
+    var activeIndex: Int? {
+        return configs.firstIndex { $0.type == activeType }
+    }
     @IBOutlet weak var slider: UISlider!
+    
+    lazy var configs: [AdjustConfig] = {
+        return  AdjustType.allCases.map { AdjustConfig(type: $0) }
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,15 +121,11 @@ class AdjustView: UIStackView, Transaction {
         
     }
     
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    @IBAction func onSliderChanged(_ sender: UISlider) {
+        if let activeIndex = activeIndex {
+            configs[activeIndex].value = sender.value
+        }
     }
-    */
-
 }
 
 extension AdjustView: UICollectionViewDataSource {
@@ -138,9 +150,11 @@ extension AdjustView: UICollectionViewDataSource {
 extension AdjustView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let type = types[indexPath.row]
-        guard activatedType != type else { return }
-        activatedType = type
+        guard activeType != type else { return }
+        activeType = type
+        
+        let config = configs[indexPath.row]
         slider.isEnabled = true
-        slider.value = 0.5
+        slider.value = config.value
     }
 }
