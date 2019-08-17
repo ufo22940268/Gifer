@@ -65,7 +65,10 @@
 		4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB4221B93540098BA5E /* FiltersView.swift */; };
 		4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */; };
 		426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */; };
+		426C282523069F530088B620 /* AdjustView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C282423069F530088B620 /* AdjustView.xib */; };
+		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
+		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
 		4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* ControllerTrim.swift */; };
@@ -223,7 +226,10 @@
 		4269ADB4221B93540098BA5E /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPreviewView.swift; sourceTree = "<group>"; };
 		426C244321CCC9A700EFE7A4 /* LoadingDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDialog.swift; sourceTree = "<group>"; };
+		426C282423069F530088B620 /* AdjustView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdjustView.xib; sourceTree = "<group>"; };
+		426C28262306A0280088B620 /* AdjustView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustView.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
+		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
 		427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressLoadingIndicator.swift; sourceTree = "<group>"; };
 		4284D44022768F5F00886513 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* ControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerTrim.swift; sourceTree = "<group>"; };
@@ -346,12 +352,15 @@
 		4260DA932226A72B000B16D4 /* OptionMenu */ = {
 			isa = PBXGroup;
 			children = (
+				426C282423069F530088B620 /* AdjustView.xib */,
 				42265B5C21F95587005D2710 /* OptionMenu.swift */,
 				42265B5E21F98F41005D2710 /* CropMenuView.swift */,
 				4269ADB4221B93540098BA5E /* FiltersView.swift */,
 				4269ADB6221BD4FE0098BA5E /* FilterPreviewView.swift */,
 				424F16AE222FB50300F94BCF /* StickerMenuView.swift */,
 				42444A61226DBD60004F26A3 /* FilterSlider.swift */,
+				426C28262306A0280088B620 /* AdjustView.swift */,
+				4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */,
 			);
 			path = OptionMenu;
 			sourceTree = "<group>";
@@ -717,9 +726,11 @@
 			files = (
 				42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */,
 				424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */,
+				427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
 				4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */,
 				424930DF22FE63CD00C169CA /* Edit.storyboard in Resources */,
+				426C282523069F530088B620 /* AdjustView.xib in Resources */,
 				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
 				424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */,
@@ -841,6 +852,7 @@
 				4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
 				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
+				426C28272306A0280088B620 /* AdjustView.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
 				42CA13C922FB9C1C003DD910 /* CGSizeExtension.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,

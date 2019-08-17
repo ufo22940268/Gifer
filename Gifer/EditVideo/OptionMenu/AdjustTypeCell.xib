@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="anB-MX-A2e" customClass="AdjustTypeCell" customModule="Gifer" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWI-GG-IPH">
+                        <rect key="frame" x="0.0" y="44" width="200" height="122"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Eod-BR-z6I">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="122"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nty-Me-FnM">
+                                        <rect key="frame" x="85" y="0.0" width="30" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="Ydz-pF-WvG"/>
+                                            <constraint firstAttribute="height" priority="250" constant="30" id="k9r-8O-25C"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPE-wG-Yii">
+                                        <rect key="frame" x="83.5" y="52" width="33" height="70"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Eod-BR-z6I" firstAttribute="top" secondItem="EWI-GG-IPH" secondAttribute="top" id="Rtf-dX-oBZ"/>
+                            <constraint firstAttribute="bottom" secondItem="Eod-BR-z6I" secondAttribute="bottom" id="Vzb-jH-hAZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Eod-BR-z6I" secondAttribute="trailing" id="c3e-wx-O20"/>
+                            <constraint firstItem="Eod-BR-z6I" firstAttribute="width" secondItem="EWI-GG-IPH" secondAttribute="width" id="t6R-bR-Flt"/>
+                            <constraint firstItem="Eod-BR-z6I" firstAttribute="leading" secondItem="EWI-GG-IPH" secondAttribute="leading" id="taS-qx-HKL"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="QOt-T3-ne7" firstAttribute="bottom" secondItem="EWI-GG-IPH" secondAttribute="bottom" id="feE-1d-cEr"/>
+                <constraint firstItem="EWI-GG-IPH" firstAttribute="leading" secondItem="QOt-T3-ne7" secondAttribute="leading" id="ptR-Uu-vjx"/>
+                <constraint firstItem="QOt-T3-ne7" firstAttribute="trailing" secondItem="EWI-GG-IPH" secondAttribute="trailing" id="vwH-Dh-DEo"/>
+                <constraint firstItem="EWI-GG-IPH" firstAttribute="top" secondItem="QOt-T3-ne7" secondAttribute="top" id="vwO-Fd-WSY"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="QOt-T3-ne7"/>
+            <size key="customSize" width="78" height="78"/>
+            <connections>
+                <outlet property="imageView" destination="Nty-Me-FnM" id="7VE-sP-R8X"/>
+                <outlet property="titleView" destination="wPE-wG-Yii" id="rkw-f2-zgR"/>
+            </connections>
+            <point key="canvasLocation" x="555" y="95"/>
+        </collectionViewCell>
+    </objects>
+</document>

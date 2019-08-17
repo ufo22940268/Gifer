@@ -322,6 +322,10 @@ class EditViewController: UIViewController {
         } else {
             load()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showOptionMenu(for: .adjust)
+        }
     }
     
     private func setupVideoController() {
@@ -854,7 +858,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onAdjustItemClicked() {
-        
+        showOptionMenu(for: .adjust)
     }
     
     func onCropItemClicked() {

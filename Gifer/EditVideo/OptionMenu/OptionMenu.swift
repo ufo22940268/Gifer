@@ -22,6 +22,9 @@ class OptionMenu: UIView {
     var filtersView: FiltersView!
     var filtersViewContainer: ControlToolbarConfirmPrompt!
     
+    var adjustView: AdjustView!
+    var adjustViewContainer: ControlToolbarConfirmPrompt!
+    
     var activeItem: ControlToolbarItem?
     
     func setPreviewImage(_ image: UIImage) {
@@ -36,6 +39,7 @@ class OptionMenu: UIView {
 
         setupPlaySpeedView()
         setupFiltersView()
+        setupAdjustView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,19 +58,13 @@ class OptionMenu: UIView {
             playSpeedView.delegate = delegate
             playSpeedViewContainer.customDelegate = delegate
             contentView = playSpeedViewContainer
-        case .font:
-            return
-        case .crop:
-            return
-        case .sticker:
-            return
         case .filters:
             filtersView.customDelegate = delegate
             filtersViewContainer.customDelegate = delegate
             contentView = filtersViewContainer
-        case .direction:
-            return
-        case .fps, .adjust:
+        case .adjust:
+            contentView = adjustViewContainer
+        default:
             return
         }
         
@@ -87,6 +85,12 @@ class OptionMenu: UIView {
     func setupFiltersView() {
         filtersView = FiltersView()
         filtersViewContainer = ControlToolbarConfirmPrompt(contentView: filtersView!, toolbarItem: .filters)
+    }
+    
+    func setupAdjustView() {
+//        adjustView = Bundle.main.loadNibNamed("AdjustView", owner: nil, options: nil)!.first as! AdjustView
+        adjustView = AdjustView()
+        adjustViewContainer = ControlToolbarConfirmPrompt(contentView: adjustView, toolbarItem: .adjust)
     }
     
     override func draw(_ rect: CGRect) {
