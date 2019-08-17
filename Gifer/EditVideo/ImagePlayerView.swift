@@ -70,6 +70,7 @@ class ImagePlayerView: UIView {
     }
     var filter: YPFilter?
     var context: CIContext!
+    var adjustFilters: [CIFilter]?
     
     var rate: Float = Config.defaultRate {
         didSet {
@@ -91,7 +92,7 @@ class ImagePlayerView: UIView {
         self.playerItem = playerItem
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         currentTime = playerItem.activeFrames.first!.time
-        play()
+//        play()
     }
     
     func updatePlayerItem(_ playerItem: ImagePlayerItem) {
@@ -100,11 +101,29 @@ class ImagePlayerView: UIView {
     }
     
     func applyFilter(_ image: UIImage) -> UIImage {
-        guard let filter = filter  else { return image }
+        if filter == nil && adjustFilters == nil { return image }
+        
         var ciImage = CIImage(image: image)!
-        ciImage = filter.applyFilter(image: ciImage)
+        if let filter = filter {
+            ciImage = filter.applyFilter(image: ciImage)
+        }
+        
+        if let adjustFilters = adjustFilters {
+            for filter in adjustFilters {
+                filter.setValue(ciImage, forKey: kCIInputImageKey)
+                if let outputImage = filter.outputImage {
+                    ciImage = outputImage
+                }
+            }
+        }
+        
         let image = UIImage(cgImage: context.createCGImage(ciImage, from: ciImage.extent)!)
         return image
+    }
+    
+    func refresh() {
+        let t = currentTime
+        self.currentTime = t
     }
     
     private func play() {

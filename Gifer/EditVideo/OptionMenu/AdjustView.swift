@@ -44,6 +44,7 @@ class AdjustTypeCell: UICollectionViewCell {
 enum AdjustType: CaseIterable {
     case brightness
     case contrast
+    case saturation
     
     var title: String {
         switch self {
@@ -51,6 +52,8 @@ enum AdjustType: CaseIterable {
             return NSLocalizedString("Brightness", comment: "")
         case .contrast:
             return NSLocalizedString("Contrast", comment: "")
+        case .saturation:
+            return NSLocalizedString("Saturation", comment: "")
         }
     }
     
@@ -60,10 +63,42 @@ enum AdjustType: CaseIterable {
             return #imageLiteral(resourceName: "adjust-brightness.png")
         case .contrast:
             return #imageLiteral(resourceName: "adjust-contrast.png")
+        case .saturation:
+            return #imageLiteral(resourceName: "adjust-saturation.png")
         }
     }
     
+    func makeFilter(with progress: Float) -> CIFilter {
+        switch self {
+        case .brightness:
+            return brightnessFilter(with: progress)
+        case .contrast:
+            return contrastFilter(with: progress)
+        case .saturation:
+            return saturationFilter(with: progress)
+        }
+    }
+}
+
+extension AdjustType {
     
+    func brightnessFilter(with progress: Float) -> CIFilter {
+        let brightness = (progress - 0.5)/4
+        let filter = CIFilter(name: "CIColorControls", parameters: ["inputBrightness": brightness])!
+        return filter
+    }
+    
+    func contrastFilter(with progress: Float) -> CIFilter {
+        let contrast = (progress - 0.5)/2 + 1
+        let filter = CIFilter(name: "CIColorControls", parameters: ["inputContrast": contrast])!
+        return filter
+    }
+    
+    func saturationFilter(with progress: Float) -> CIFilter {
+        let contrast = (progress - 0.5)/2 + 1
+        let filter = CIFilter(name: "CIColorControls", parameters: ["inputSaturation": contrast])!
+        return filter
+    }
 }
 
 struct AdjustConfig {
@@ -77,11 +112,14 @@ struct AdjustConfig {
         self.type = type
     }
     
-    var filter: CIFilter {
-        let brightness = (value - 0.5)*2
-        let filter = CIFilter(name: "CIColorControls", parameters: ["inputBrightness": brightness])!
-        return filter
+    var filter: CIFilter? {
+        guard value != 0.5 else { return nil }
+        return type.makeFilter(with: value)
     }
+}
+
+protocol AdjustViewDelegate: class {
+    func onAdjustFilterChanged(filters: [CIFilter])
 }
 
 class AdjustView: UIStackView, Transaction {
@@ -95,8 +133,14 @@ class AdjustView: UIStackView, Transaction {
     @IBOutlet weak var slider: UISlider!
     
     lazy var configs: [AdjustConfig] = {
-        return  AdjustType.allCases.map { AdjustConfig(type: $0) }
+        return AdjustType.allCases.map { AdjustConfig(type: $0) }
     }()
+    
+    var filters: [CIFilter] {
+        return configs.compactMap { $0.filter }
+    }
+    
+    weak var customDelegate: AdjustViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -125,6 +169,7 @@ class AdjustView: UIStackView, Transaction {
         if let activeIndex = activeIndex {
             configs[activeIndex].value = sender.value
         }
+        customDelegate?.onAdjustFilterChanged(filters: filters)
     }
 }
 

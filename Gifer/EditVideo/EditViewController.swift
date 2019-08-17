@@ -791,6 +791,11 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
         return [editTextOverlay, stickerOverlay]
     }
     
+    func onAdjustFilterChanged(filters: [CIFilter]) {
+        imagePlayerView.adjustFilters = filters
+        imagePlayerView.refresh()
+    }
+    
     func onPromptDismiss(toolbarItem: ControlToolbarItem, commitChange: Bool) {
         enableVideoContainer(false)
         switch toolbarItem {

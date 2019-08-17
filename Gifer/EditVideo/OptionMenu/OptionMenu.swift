@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionMenuDelegate: PlaySpeedViewDelegate, FiltersViewDelegate, ConfirmPromptDelegate {}
+protocol OptionMenuDelegate: PlaySpeedViewDelegate, FiltersViewDelegate, ConfirmPromptDelegate, AdjustViewDelegate {}
 
 class OptionMenu: UIView {
     
@@ -63,6 +63,7 @@ class OptionMenu: UIView {
             filtersViewContainer.customDelegate = delegate
             contentView = filtersViewContainer
         case .adjust:
+            adjustView.customDelegate = delegate
             contentView = adjustViewContainer
         default:
             return
@@ -88,7 +89,6 @@ class OptionMenu: UIView {
     }
     
     func setupAdjustView() {
-//        adjustView = Bundle.main.loadNibNamed("AdjustView", owner: nil, options: nil)!.first as! AdjustView
         adjustView = AdjustView()
         adjustViewContainer = ControlToolbarConfirmPrompt(contentView: adjustView, toolbarItem: .adjust)
     }
