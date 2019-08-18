@@ -114,6 +114,7 @@ public class GifGenerator {
         var speed: Float
         var cropArea: CGRect
         var filter: YPFilter?
+        var adjustFilters: [CIFilter]?
         var stickers: [StickerInfo]
         var direction: PlayDirection
         var exportType: ShareType?
@@ -121,7 +122,7 @@ public class GifGenerator {
         var videoSize: VideoSize = .auto
         var loopCount: LoopCount = .infinite
         
-        init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo]) {
+        init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo], adjustFilters: [CIFilter]?) {
             self.start = start
             self.end = end
             self.speed = speed
@@ -131,6 +132,7 @@ public class GifGenerator {
             self.direction = direction
             self.exportType = exportType
             self.texts = texts
+            self.adjustFilters = adjustFilters
         }
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
@@ -255,9 +257,14 @@ public class GifGenerator {
             
             let frameProperties: CFDictionary = [kCGImagePropertyGIFDictionary as String: [(kCGImagePropertyGIFUnclampedDelayTime as String): interval]] as CFDictionary
             
+            var ciImage = CIImage(cgImage: image)
             if let filter = self.options.filter {
-                image = applyFilter(image, filter: filter, in: ciContext)
+                ciImage = filter.applyFilter(image: ciImage)
             }
+            if let adjustFilters = self.options.adjustFilters {
+                ciImage = adjustFilters.applyToImage(ciImage)
+            }
+            image = ciContext.createCGImage(ciImage, from: ciImage.extent)!
             
             if labelViewCaches == nil {
                 labelViewCaches = self.cacheLabelViewsForExport(image: image)

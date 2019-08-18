@@ -517,7 +517,8 @@ class EditViewController: UIViewController {
             stickers: stickerOverlay.getStickerInfosForExport(imageView: imagePlayerView.imageView),
             direction: playDirection,
             exportType: nil,
-            texts: editTextOverlay.getTextInfosForExport(imageView: imagePlayerView.imageView)
+            texts: editTextOverlay.getTextInfosForExport(imageView: imagePlayerView.imageView),
+            adjustFilters: imagePlayerView.adjustFilters
         )
     }
     

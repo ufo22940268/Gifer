@@ -41,6 +41,19 @@ class AdjustTypeCell: UICollectionViewCell {
     }
 }
 
+extension Array where Element: CIFilter {
+    func applyToImage(_ image: CIImage) -> CIImage {
+        var image = image
+        for filter in self {
+            filter.setValue(image, forKey: kCIInputImageKey)
+            if let outputImage = filter.outputImage {
+                image = outputImage
+            }
+        }
+        return image
+    }
+}
+
 enum AdjustType: CaseIterable {
     case brightness
     case contrast
@@ -131,7 +144,7 @@ extension AdjustType {
     }
     
     func vibranceFilter(with progress: Float) -> CIFilter {
-        let contrast = (progress - 0.5)/2 + 1
+        let contrast = (progress - 0.5) + 1
         let filter = CIFilter(name: "CIVibrance", parameters: ["inputAmount": contrast])!
         return filter
     }
