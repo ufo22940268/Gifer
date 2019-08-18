@@ -518,7 +518,7 @@ class EditViewController: UIViewController {
             direction: playDirection,
             exportType: nil,
             texts: editTextOverlay.getTextInfosForExport(imageView: imagePlayerView.imageView),
-            adjustFilters: imagePlayerView.adjustFilters
+            adjustFilterAppliers: imagePlayerView.adjustFilterAppliers
         )
     }
     
@@ -788,8 +788,8 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
         return [editTextOverlay, stickerOverlay]
     }
     
-    func onAdjustFilterChanged(filters: [CIFilter]) {
-        imagePlayerView.adjustFilters = filters
+    func onAdjustFilterChanged(filterAppliers: [FilterApplier]) {
+        imagePlayerView.adjustFilterAppliers = filterAppliers
         imagePlayerView.refresh()
     }
     

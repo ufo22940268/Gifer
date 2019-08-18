@@ -9,11 +9,11 @@
 import UIKit
 import CoreImage
 
-public typealias FilterApplierType = ((_ image: CIImage) -> CIImage?)
+public typealias FilterApplier = ((_ image: CIImage) -> CIImage?)
 
 public struct YPFilter {
     var name = ""
-    private var applier: FilterApplierType?
+    private var applier: FilterApplier?
     var progress: Double = 1.0
     
     /// The normal filter doesn't have applier.
@@ -31,14 +31,14 @@ public struct YPFilter {
         self.applier = YPFilter.coreImageFilter(name: coreImageFilterName)
     }
     
-    public init(name: String, applier: FilterApplierType?) {
+    public init(name: String, applier: FilterApplier?) {
         self.name = name
         self.applier = applier
     }
 }
 
 extension YPFilter {
-    public static func coreImageFilter(name: String) -> FilterApplierType {
+    public static func coreImageFilter(name: String) -> FilterApplier {
         return { (image: CIImage) -> CIImage? in
             let filter = CIFilter(name: name)
             filter?.setValue(image, forKey: kCIInputImageKey)

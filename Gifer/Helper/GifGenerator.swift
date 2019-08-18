@@ -114,7 +114,7 @@ public class GifGenerator {
         var speed: Float
         var cropArea: CGRect
         var filter: YPFilter?
-        var adjustFilters: [CIFilter]?
+        var adjustFilterAppliers: [FilterApplier]?
         var stickers: [StickerInfo]
         var direction: PlayDirection
         var exportType: ShareType?
@@ -122,7 +122,7 @@ public class GifGenerator {
         var videoSize: VideoSize = .auto
         var loopCount: LoopCount = .infinite
         
-        init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo], adjustFilters: [CIFilter]?) {
+        init(start: CMTime, end: CMTime, speed: Float, cropArea: CGRect, filter: YPFilter?, stickers: [StickerInfo], direction: PlayDirection, exportType: ShareType?, texts: [EditTextInfo], adjustFilterAppliers: [FilterApplier]?) {
             self.start = start
             self.end = end
             self.speed = speed
@@ -132,7 +132,7 @@ public class GifGenerator {
             self.direction = direction
             self.exportType = exportType
             self.texts = texts
-            self.adjustFilters = adjustFilters
+            self.adjustFilterAppliers = adjustFilterAppliers
         }
 
         static func == (lhs: GifGenerator.Options, rhs: GifGenerator.Options) -> Bool {
@@ -261,8 +261,8 @@ public class GifGenerator {
             if let filter = self.options.filter {
                 ciImage = filter.applyFilter(image: ciImage)
             }
-            if let adjustFilters = self.options.adjustFilters {
-                ciImage = adjustFilters.applyToImage(ciImage)
+            if let adjustFilters = self.options.adjustFilterAppliers {
+                ciImage = applyFilterAppliersToImage(adjustFilters, image: ciImage)
             }
             image = ciContext.createCGImage(ciImage, from: ciImage.extent)!
             

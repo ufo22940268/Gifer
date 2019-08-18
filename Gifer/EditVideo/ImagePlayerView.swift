@@ -70,7 +70,7 @@ class ImagePlayerView: UIView {
     }
     var filter: YPFilter?
     var context: CIContext!
-    var adjustFilters: [CIFilter]?
+    var adjustFilterAppliers: [FilterApplier]?
     
     var rate: Float = Config.defaultRate {
         didSet {
@@ -95,6 +95,7 @@ class ImagePlayerView: UIView {
         if !UIDevice.isDebug {
             play()
         }
+//        play()
     }
     
     func updatePlayerItem(_ playerItem: ImagePlayerItem) {
@@ -103,20 +104,15 @@ class ImagePlayerView: UIView {
     }
     
     func applyFilter(_ image: UIImage) -> UIImage {
-        if filter == nil && adjustFilters == nil { return image }
+        if filter == nil && adjustFilterAppliers == nil { return image }
         
         var ciImage = CIImage(image: image)!
         if let filter = filter {
             ciImage = filter.applyFilter(image: ciImage)
         }
         
-        if let adjustFilters = adjustFilters {
-            for filter in adjustFilters {
-                filter.setValue(ciImage, forKey: kCIInputImageKey)
-                if let outputImage = filter.outputImage {
-                    ciImage = outputImage
-                }
-            }
+        if let adjustFilters = adjustFilterAppliers {
+            ciImage = applyFilterAppliersToImage(adjustFilters, image: ciImage)
         }
         
         let image = UIImage(cgImage: context.createCGImage(ciImage, from: ciImage.extent)!)

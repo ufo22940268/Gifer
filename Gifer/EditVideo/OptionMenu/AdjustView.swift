@@ -41,17 +41,14 @@ class AdjustTypeCell: UICollectionViewCell {
     }
 }
 
-extension Array where Element: CIFilter {
-    func applyToImage(_ image: CIImage) -> CIImage {
-        var image = image
-        for filter in self {
-            filter.setValue(image, forKey: kCIInputImageKey)
-            if let outputImage = filter.outputImage {
-                image = outputImage
-            }
+func applyFilterAppliersToImage(_ appliers: [FilterApplier], image: CIImage) -> CIImage {
+    var image = image
+    for applier in appliers {
+        if let newImage = applier(image) {
+            image = newImage
         }
-        return image
     }
+    return image
 }
 
 enum AdjustType: CaseIterable {
@@ -88,6 +85,17 @@ enum AdjustType: CaseIterable {
             return #imageLiteral(resourceName: "adjust-warmth.png")
         case .vibrance:
             return #imageLiteral(resourceName: "adjust-vibrance.png")
+        }
+    }
+    
+    func makeFilterApplier(with progress: Float) -> FilterApplier {
+        return wrapFilter(makeFilter(with: progress))
+    }
+    
+    func wrapFilter(_ filter: CIFilter) -> FilterApplier {
+        return {(image: CIImage)  in
+            filter.setValue(image, forKey: kCIInputImageKey)
+            return filter.outputImage
         }
     }
     
@@ -129,18 +137,12 @@ extension AdjustType {
     
     func warmthFilter(with progress: Float) -> CIFilter {
         let v = CGFloat((progress - 0.5)/0.5)
-        var neutral: CIVector
-        var targetNeutral: CIVector
         if v < 0 {
-            neutral = CIVector(x: 16000*abs(v), y: 1000*abs(v))
-            targetNeutral = CIVector(x: 1000*abs(v), y: 500*abs(v))
+            return CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": CIVector(x: 2500 + (6500 - 2500)*v, y: 0)])!
         } else {
-            neutral = CIVector(x: 6500*abs(v), y: 500*abs(v))
-            targetNeutral = CIVector(x: 1000*abs(v), y: 630*abs(v))
+            return CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": CIVector(x: 6500 + (9500 - 6500)*v, y: 0)])!
         }
-
-        let filter = CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": neutral, "inputTargetNeutral": targetNeutral])!
-        return filter
+        
     }
     
     func vibranceFilter(with progress: Float) -> CIFilter {
@@ -161,6 +163,11 @@ struct AdjustConfig {
         self.type = type
     }
     
+    var filterApplier: FilterApplier? {
+        guard value != 0.5 else { return nil }
+        return type.makeFilterApplier(with: value)
+    }
+    
     var filter: CIFilter? {
         guard value != 0.5 else { return nil }
         return type.makeFilter(with: value)
@@ -168,7 +175,7 @@ struct AdjustConfig {
 }
 
 protocol AdjustViewDelegate: class {
-    func onAdjustFilterChanged(filters: [CIFilter])
+    func onAdjustFilterChanged(filterAppliers: [FilterApplier])
 }
 
 class AdjustView: UIStackView, Transaction {
@@ -186,8 +193,8 @@ class AdjustView: UIStackView, Transaction {
         return AdjustType.allCases.map { AdjustConfig(type: $0) }
     }()
     
-    var filters: [CIFilter] {
-        return configs.compactMap { $0.filter }
+    var filterAppliers: [FilterApplier] {
+        return configs.compactMap { $0.filterApplier }
     }
     
     weak var customDelegate: AdjustViewDelegate?
@@ -212,7 +219,7 @@ class AdjustView: UIStackView, Transaction {
             self.slider.setValue(0.5, animated: true)
         }, completion: nil)
         configs[activeIndex!].value = 0.5
-        customDelegate?.onAdjustFilterChanged(filters: filters)
+        customDelegate?.onAdjustFilterChanged(filterAppliers: filterAppliers)
     }
     
     func commitChange() {
@@ -220,20 +227,20 @@ class AdjustView: UIStackView, Transaction {
     }
     
     func rollbackChange() {
-        customDelegate?.onAdjustFilterChanged(filters: [])
+        customDelegate?.onAdjustFilterChanged(filterAppliers: [])
     }
     
     @IBAction func onSliderChanged(_ sender: UISlider) {
         if let activeIndex = activeIndex {
             configs[activeIndex].value = sender.value
         }
-        customDelegate?.onAdjustFilterChanged(filters: filters)
+        customDelegate?.onAdjustFilterChanged(filterAppliers: filterAppliers)
     }
 }
 
 extension AdjustView: UICollectionViewDataSource {
     var types: [AdjustType]  {
-        return AdjustType.allCases.filter { $0 != .warmth }
+        return AdjustType.allCases
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -248,7 +255,6 @@ extension AdjustView: UICollectionViewDataSource {
         return cell
     }
 }
-
 
 extension AdjustView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
