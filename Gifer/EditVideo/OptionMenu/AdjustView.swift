@@ -45,6 +45,8 @@ enum AdjustType: CaseIterable {
     case brightness
     case contrast
     case saturation
+    case warmth
+    case vibrance
     
     var title: String {
         switch self {
@@ -54,6 +56,10 @@ enum AdjustType: CaseIterable {
             return NSLocalizedString("Contrast", comment: "")
         case .saturation:
             return NSLocalizedString("Saturation", comment: "")
+        case .warmth:
+            return NSLocalizedString("Warmth", comment: "")
+        case .vibrance:
+            return NSLocalizedString("Vibrance", comment: "")
         }
     }
     
@@ -65,6 +71,10 @@ enum AdjustType: CaseIterable {
             return #imageLiteral(resourceName: "adjust-contrast.png")
         case .saturation:
             return #imageLiteral(resourceName: "adjust-saturation.png")
+        case .warmth:
+            return #imageLiteral(resourceName: "adjust-warmth.png")
+        case .vibrance:
+            return #imageLiteral(resourceName: "adjust-vibrance.png")
         }
     }
     
@@ -76,6 +86,10 @@ enum AdjustType: CaseIterable {
             return contrastFilter(with: progress)
         case .saturation:
             return saturationFilter(with: progress)
+        case .warmth:
+            return warmthFilter(with: progress)
+        case .vibrance:
+            return vibranceFilter(with: progress)
         }
     }
 }
@@ -97,6 +111,28 @@ extension AdjustType {
     func saturationFilter(with progress: Float) -> CIFilter {
         let contrast = (progress - 0.5)/2 + 1
         let filter = CIFilter(name: "CIColorControls", parameters: ["inputSaturation": contrast])!
+        return filter
+    }
+    
+    func warmthFilter(with progress: Float) -> CIFilter {
+        let v = CGFloat((progress - 0.5)/0.5)
+        var neutral: CIVector
+        var targetNeutral: CIVector
+        if v < 0 {
+            neutral = CIVector(x: 16000*abs(v), y: 1000*abs(v))
+            targetNeutral = CIVector(x: 1000*abs(v), y: 500*abs(v))
+        } else {
+            neutral = CIVector(x: 6500*abs(v), y: 500*abs(v))
+            targetNeutral = CIVector(x: 1000*abs(v), y: 630*abs(v))
+        }
+
+        let filter = CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": neutral, "inputTargetNeutral": targetNeutral])!
+        return filter
+    }
+    
+    func vibranceFilter(with progress: Float) -> CIFilter {
+        let contrast = (progress - 0.5)/2 + 1
+        let filter = CIFilter(name: "CIVibrance", parameters: ["inputAmount": contrast])!
         return filter
     }
 }
@@ -132,6 +168,7 @@ class AdjustView: UIStackView, Transaction {
     }
     @IBOutlet weak var slider: UISlider!
     
+    @IBOutlet weak var restoreButton: UIButton!
     lazy var configs: [AdjustConfig] = {
         return AdjustType.allCases.map { AdjustConfig(type: $0) }
     }()
@@ -157,6 +194,14 @@ class AdjustView: UIStackView, Transaction {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @IBAction func onRestoreSlider(_ sender: Any) {
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.slider.setValue(0.5, animated: true)
+        }, completion: nil)
+        configs[activeIndex!].value = 0.5
+        customDelegate?.onAdjustFilterChanged(filters: filters)
+    }
+    
     func commitChange() {
         
     }
@@ -175,7 +220,7 @@ class AdjustView: UIStackView, Transaction {
 
 extension AdjustView: UICollectionViewDataSource {
     var types: [AdjustType]  {
-        return AdjustType.allCases
+        return AdjustType.allCases.filter { $0 != .warmth }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -201,5 +246,6 @@ extension AdjustView: UICollectionViewDelegate {
         let config = configs[indexPath.row]
         slider.isEnabled = true
         slider.value = config.value
+        restoreButton.isEnabled = true
     }
 }

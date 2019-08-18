@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="collectionLayout" destination="yA9-AV-Una" id="cse-h3-zQa"/>
                 <outlet property="collectionView" destination="7hL-g6-9R5" id="OWP-Tt-fD3"/>
+                <outlet property="restoreButton" destination="EYc-x4-Z1k" id="Fej-no-KVN"/>
                 <outlet property="slider" destination="QWK-RT-MZO" id="dxU-FS-Dqg"/>
             </connections>
         </placeholder>
@@ -23,25 +24,51 @@
             <rect key="frame" x="0.0" y="0.0" width="348" height="153"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MHv-PU-GxR">
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PeJ-aG-bmy">
                     <rect key="frame" x="0.0" y="0.0" width="348" height="63"/>
                     <subviews>
-                        <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="QWK-RT-MZO">
-                            <rect key="frame" x="18" y="16.5" width="312" height="31"/>
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYc-x4-Z1k">
+                            <rect key="frame" x="0.0" y="6.5" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="dCh-wF-zgT"/>
+                                <constraint firstAttribute="height" constant="50" id="r8i-tw-dwe"/>
+                            </constraints>
+                            <state key="normal" image="undo"/>
                             <connections>
-                                <action selector="onSliderChanged:" destination="-1" eventType="valueChanged" id="Bzs-Xa-D99"/>
+                                <action selector="onRestoreSlider:" destination="-1" eventType="touchUpInside" id="brD-Hb-2h5"/>
                             </connections>
-                        </slider>
+                        </button>
+                        <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xq9-54-Jdk">
+                            <rect key="frame" x="50" y="16.5" width="1" height="30"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="1" id="gOh-My-JJK"/>
+                                <constraint firstAttribute="height" constant="30" id="nUJ-ce-bLV"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jFh-Jb-cjM">
+                            <rect key="frame" x="51" y="0.0" width="297" height="63"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="QWK-RT-MZO">
+                                    <rect key="frame" x="14" y="16" width="269" height="32"/>
+                                    <edgeInsets key="layoutMargins" top="8" left="17" bottom="8" right="8"/>
+                                    <connections>
+                                        <action selector="onSliderChanged:" destination="-1" eventType="valueChanged" id="Bzs-Xa-D99"/>
+                                    </connections>
+                                </slider>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="QWK-RT-MZO" firstAttribute="top" secondItem="jFh-Jb-cjM" secondAttribute="top" constant="16" id="Cdl-WG-a5n"/>
+                                <constraint firstItem="QWK-RT-MZO" firstAttribute="trailing" secondItem="jFh-Jb-cjM" secondAttribute="trailingMargin" constant="-8" id="P96-y8-uCV"/>
+                                <constraint firstItem="QWK-RT-MZO" firstAttribute="leading" secondItem="jFh-Jb-cjM" secondAttribute="leadingMargin" constant="8" id="bef-uy-Dwx"/>
+                                <constraint firstItem="QWK-RT-MZO" firstAttribute="centerY" secondItem="jFh-Jb-cjM" secondAttribute="centerY" id="vxT-Fj-qyv"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="leadingMargin" secondItem="QWK-RT-MZO" secondAttribute="leading" id="8hX-MB-Nws"/>
-                        <constraint firstItem="QWK-RT-MZO" firstAttribute="centerX" secondItem="MHv-PU-GxR" secondAttribute="centerX" id="URf-hL-SQW"/>
-                        <constraint firstAttribute="height" priority="250" constant="60" id="euP-0w-HWP"/>
-                        <constraint firstItem="QWK-RT-MZO" firstAttribute="centerY" secondItem="MHv-PU-GxR" secondAttribute="centerY" id="ifc-BO-QEG"/>
-                        <constraint firstAttribute="trailingMargin" secondItem="QWK-RT-MZO" secondAttribute="trailing" id="rXF-rb-fEg"/>
+                        <constraint firstAttribute="height" priority="250" constant="60" id="5jr-su-0Ic"/>
                     </constraints>
-                    <edgeInsets key="layoutMargins" top="8" left="20" bottom="8" right="20"/>
-                </view>
+                </stackView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7hL-g6-9R5">
                     <rect key="frame" x="0.0" y="63" width="348" height="90"/>
                     <color key="backgroundColor" name="darkBackgroundColor"/>
@@ -52,7 +79,7 @@
                         <size key="itemSize" width="70" height="60"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="ogE-90-CgY"/>
@@ -63,13 +90,14 @@
             <color key="tintColor" name="yellowColor"/>
             <constraints>
                 <constraint firstItem="7hL-g6-9R5" firstAttribute="width" secondItem="Q8F-ar-xQA" secondAttribute="width" id="2PO-HY-yrb"/>
-                <constraint firstItem="MHv-PU-GxR" firstAttribute="width" secondItem="Q8F-ar-xQA" secondAttribute="width" id="uuL-gm-9au"/>
+                <constraint firstItem="PeJ-aG-bmy" firstAttribute="width" secondItem="Q8F-ar-xQA" secondAttribute="width" id="eCv-Yc-kW3"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="H0Y-6O-qyy"/>
             <point key="canvasLocation" x="217.39130434782609" y="204.57589285714286"/>
         </stackView>
     </objects>
     <resources>
+        <image name="undo" width="22" height="22"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
