@@ -318,13 +318,9 @@ class EditViewController: UIViewController {
         rotationGesture.delegate = self
         
         if let photoIdentifiers = photoIdentifiers {
-            loadPlayerItem(fromPhotos: photoIdentifiers)
+            load(fromPhotos: photoIdentifiers)
         } else {
             load()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showOptionMenu(for: .adjust)
         }
     }
     
@@ -380,7 +376,7 @@ class EditViewController: UIViewController {
         return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
     }
     
-    func loadPlayerItem(fromPhotos identifiers: [String]) {
+    func load(fromPhotos identifiers: [String]) {
         makePlayerItemFromPhotosTask = MakePlayerItemFromPhotosTask(identifiers: identifiers)
         makePlayerItemFromPhotosTask?.run { playerItem in
             guard let playerItem = playerItem else  { return }

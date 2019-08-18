@@ -64,6 +64,7 @@ class OptionMenu: UIView {
             contentView = filtersViewContainer
         case .adjust:
             adjustView.customDelegate = delegate
+            adjustViewContainer.customDelegate = delegate
             contentView = adjustViewContainer
         default:
             return

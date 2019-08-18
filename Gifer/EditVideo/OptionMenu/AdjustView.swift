@@ -207,7 +207,7 @@ class AdjustView: UIStackView, Transaction {
     }
     
     func rollbackChange() {
-        
+        customDelegate?.onAdjustFilterChanged(filters: [])
     }
     
     @IBAction func onSliderChanged(_ sender: UISlider) {
