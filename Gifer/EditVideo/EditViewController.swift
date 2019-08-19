@@ -332,9 +332,6 @@ class EditViewController: UIViewController {
         videoController.isUserInteractionEnabled = enable
     }
     
-    private func enableVideoContainer(_ enable: Bool) {
-    }
-    
     private func updateSubTitleWhenLoading() {
         navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: "Title in EditViewController"), lineTwo: NSLocalizedString("Loading...", comment: "Loading in navigation title of EditViewController"))
     }
@@ -349,8 +346,6 @@ class EditViewController: UIViewController {
     
     func setupVideoContainer() {
         showPlayLoading(true)
-        enableVideoContainer(false)
-        
         editTextOverlay.delegate = self
         stickerOverlay.delegate = self
     }    
@@ -621,6 +616,11 @@ class EditViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         loadingDialog?.dismiss(animated: false)
@@ -794,7 +794,7 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
     }
     
     func onPromptDismiss(toolbarItem: ControlToolbarItem, commitChange: Bool) {
-        enableVideoContainer(false)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         switch toolbarItem {
         case .crop:
             break
@@ -831,10 +831,11 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
 extension EditViewController: ControlToolbarDelegate {
     
     func showOptionMenu(for toolbarItem: ControlToolbarItem) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
         optionMenu.isHidden = false
         optionMenu.attach(menuType: toolbarItem)
         optionMenu.layoutIfNeeded()
-        UIView.animate(withDuration: 0.175, delay: 0, options: [.curveEaseIn, .transitionCrossDissolve], animations: {
+        UIView.animate(withDuration: Double(UINavigationController.hideShowBarDuration), delay: 0, options: [.curveEaseIn, .transitionCrossDissolve], animations: {
             self.optionMenuTopConstraint.isActive = false
             self.optionMenuBottomConstraint.isActive = true
             let heightChanges = self.optionMenu.bounds.height - self.controlToolbar.bounds.height
@@ -931,7 +932,7 @@ extension EditViewController: ControlToolbarDelegate {
 extension EditViewController: EditTextDelegate {
     func onAddEditText(info: EditTextInfo) {
         let component = editTextOverlay.addTextComponent(textInfo: info)
-        videoController.attachView.load(image: component.editTextRender!.renderImage, component: component)
+        videoController.attachView.load(text: component.editTextRender!.attachText, component: component)
     }
     
     func onUpdateEditText(info: EditTextInfo, componentId: ComponentId) {
@@ -1026,7 +1027,6 @@ extension EditViewController: CropDelegate {
 }
 
 extension EditViewController: UINavigationBarDelegate {
-    
     
     func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
         var isChanged: Bool!

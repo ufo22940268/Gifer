@@ -106,6 +106,22 @@ class VideoControllerAttachView: UIView {
         trimView.update(trimPosition: component.trimPosition)
     }
     
+    func load(text: String?, component: OverlayComponent) {
+        self.component = component
+        galleryView.subviews.forEach { $0.removeFromSuperview() }
+        for _ in 0..<8 {
+            let label = UILabel().useAutoLayout()
+            label.text = text
+            label.font = .preferredFont(forTextStyle: .footnote)
+            label.textColor = .white
+            galleryView.addArrangedSubview(label)
+            NSLayoutConstraint.activate([
+                label.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
+                ])
+        }
+        trimView.update(trimPosition: component.trimPosition)
+    }
+    
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: trimView)
         trimView.move(by: translation.x)

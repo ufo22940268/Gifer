@@ -16,6 +16,14 @@ class TextRender: UILabel, OverlayComponentRenderable {
         return renderToImage(afterScreenUpdates: true)
     }
     
+    var attachText: String? {
+        if let text = text, text.count > 3 {
+            return String(text.prefix(3))
+        } else {
+            return text
+        }
+    }
+    
     var info: EditTextInfo! {
         didSet {
             text = info.text
