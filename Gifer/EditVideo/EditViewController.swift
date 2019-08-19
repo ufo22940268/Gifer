@@ -790,7 +790,7 @@ extension EditViewController: OptionMenuDelegate, EditStickerDelegate {
     
     func onAdjustFilterChanged(filterAppliers: [FilterApplier]) {
         imagePlayerView.adjustFilterAppliers = filterAppliers
-        imagePlayerView.refresh()
+        imagePlayerView.refreshIfNotPlaying()
     }
     
     func onPromptDismiss(toolbarItem: ControlToolbarItem, commitChange: Bool) {

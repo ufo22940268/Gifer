@@ -56,7 +56,7 @@ enum AdjustType: CaseIterable {
     case contrast
     case saturation
     case warmth
-    case vibrance
+    case sharpen
     
     var title: String {
         switch self {
@@ -68,8 +68,8 @@ enum AdjustType: CaseIterable {
             return NSLocalizedString("Saturation", comment: "")
         case .warmth:
             return NSLocalizedString("Warmth", comment: "")
-        case .vibrance:
-            return NSLocalizedString("Vibrance", comment: "")
+        case .sharpen:
+            return NSLocalizedString("Sharpen", comment: "")
         }
     }
     
@@ -83,7 +83,7 @@ enum AdjustType: CaseIterable {
             return #imageLiteral(resourceName: "adjust-saturation.png")
         case .warmth:
             return #imageLiteral(resourceName: "adjust-warmth.png")
-        case .vibrance:
+        case .sharpen:
             return #imageLiteral(resourceName: "adjust-vibrance.png")
         }
     }
@@ -109,8 +109,8 @@ enum AdjustType: CaseIterable {
             return saturationFilter(with: progress)
         case .warmth:
             return warmthFilter(with: progress)
-        case .vibrance:
-            return vibranceFilter(with: progress)
+        case .sharpen:
+            return sharpenFilter(with: progress)
         }
     }
 }
@@ -138,16 +138,22 @@ extension AdjustType {
     func warmthFilter(with progress: Float) -> CIFilter {
         let v = CGFloat((progress - 0.5)/0.5)
         if v < 0 {
-            return CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": CIVector(x: 2500 + (6500 - 2500)*v, y: 0)])!
+            return CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": CIVector(x: 6500 + (6500 - 3500)*v, y: 0)])!
         } else {
             return CIFilter(name: "CITemperatureAndTint", parameters: ["inputNeutral": CIVector(x: 6500 + (9500 - 6500)*v, y: 0)])!
         }
         
     }
     
-    func vibranceFilter(with progress: Float) -> CIFilter {
-        let contrast = (progress - 0.5) + 1
-        let filter = CIFilter(name: "CIVibrance", parameters: ["inputAmount": contrast])!
+    func sharpenFilter(with progress: Float) -> CIFilter {
+        var v = (progress - 0.5)/0.5
+        if v < 0 {
+            v = 0.4 + v*1.2
+        } else {
+            v = 0.4 + v*0.6
+        }
+        
+        let filter = CIFilter(name: "CISharpenLuminance", parameters: ["inputSharpness": v])!
         return filter
     }
 }

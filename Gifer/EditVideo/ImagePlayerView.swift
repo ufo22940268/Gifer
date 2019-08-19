@@ -92,10 +92,12 @@ class ImagePlayerView: UIView {
         self.playerItem = playerItem
         trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
         currentTime = playerItem.activeFrames.first!.time
-        if !UIDevice.isDebug {
-            play()
-        }
-//        play()
+        //Used when develop filter.
+//        if !UIDevice.isDebug {
+//            play()
+//        }
+        
+        play()
     }
     
     func updatePlayerItem(_ playerItem: ImagePlayerItem) {
@@ -119,9 +121,11 @@ class ImagePlayerView: UIView {
         return image
     }
     
-    func refresh() {
-        let t = currentTime
-        self.currentTime = t
+    func refreshIfNotPlaying() {
+        if timer == nil || !timer.isValid {
+            let t = currentTime
+            self.currentTime = t
+        }
     }
     
     private func play() {
