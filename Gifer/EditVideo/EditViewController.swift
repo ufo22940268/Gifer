@@ -593,6 +593,13 @@ class EditViewController: UIViewController {
     
     private func showPlayLoading(_ show: Bool) {
         videoLoadingIndicator.isHidden = !show
+        if let editOverlay = editTextOverlay {
+            editOverlay.isHidden = show
+        }
+        
+        if let stickerOverlay = stickerOverlay {
+            stickerOverlay.isHidden = show
+        }
     }
     
     func play() {
