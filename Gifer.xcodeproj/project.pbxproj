@@ -68,7 +68,6 @@
 		426C282523069F530088B620 /* AdjustView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C282423069F530088B620 /* AdjustView.xib */; };
 		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
-		426D57A6230B708C00F7856B /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 426D57A5230B708C00F7856B /* TwitterCore.framework */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
@@ -88,7 +87,6 @@
 		42A4335A22DD22C1008C45AC /* ShareTransitioningAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A4335922DD22C1008C45AC /* ShareTransitioningAnimator.swift */; };
 		42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D882223862300AD3681 /* ControlToolbar.swift */; };
 		42AC7D8C222394AF00AD3681 /* ControlToolbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC7D8B222394AF00AD3681 /* ControlToolbarItemView.swift */; };
-		42AD6A84230B66C90066D83E /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AD6A83230B66C90066D83E /* TwitterKit.framework */; };
 		42B4DD0922818A720085BF46 /* VideoSizeConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0822818A720085BF46 /* VideoSizeConfigViewController.swift */; };
 		42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
@@ -329,9 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				429CE3E121C22F360004D3F2 /* MonkeyKing.framework in Frameworks */,
-				426D57A6230B708C00F7856B /* TwitterCore.framework in Frameworks */,
 				422F539822E7032300C0989D /* RealmSwift.framework in Frameworks */,
-				42AD6A84230B66C90066D83E /* TwitterKit.framework in Frameworks */,
 				422F539A22E7032600C0989D /* Realm.framework in Frameworks */,
 				42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */,
 			);
@@ -770,8 +766,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/TwitterKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/TwitterCore.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -779,8 +773,6 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MonkeyKing.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Realm.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/RealmSwift.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/TwitterCore.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/TwitterKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

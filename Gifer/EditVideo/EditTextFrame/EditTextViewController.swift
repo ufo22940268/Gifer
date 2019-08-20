@@ -121,6 +121,7 @@ extension EditTextViewController {
         } else {
             delegate?.onAddEditText(info: editField.textInfo)
         }
+        editField.textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
         delegate?.onDismissed(of: self)
     }

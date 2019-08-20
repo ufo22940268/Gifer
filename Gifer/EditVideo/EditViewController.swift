@@ -340,7 +340,13 @@ class EditViewController: UIViewController {
         guard let playerItem = playerItem else { return }
         let fromIndex = playerItem.nearestActiveIndex(time: trimPosition.leftTrim)
         let toIndex = playerItem.nearestActiveIndex(time: trimPosition.rightTrim)
-        let duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
+        var duration: CMTime!
+        // FIXEME: Change fps will cause the subtitle duration to change.
+        if fromIndex == 0 && toIndex == playerItem.activeFrames.count {
+            duration = playerItem.duration
+        } else {
+            duration = CMTime(seconds: playerItem.frameInterval*Double(toIndex - fromIndex), preferredTimescale: 600)
+        }
         navigationItem.setTwoLineTitle(lineOne: NSLocalizedString("Edit", comment: ""), lineTwo: String.localizedStringWithFormat(NSLocalizedString("%.1fs/%d frames", comment: "Subtitle metrics in EditViewController"), duration.seconds, toIndex - fromIndex + 1))
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 import MonkeyKing
-import TwitterKit
+//import TwitterKit
 
 
 enum UserDefaultKeys: String {
@@ -27,7 +27,7 @@ enum UserDefaultKeys: String {
         // Override point for customization after application launch.
         initUserDefaults()
         
-        TWTRTwitter.sharedInstance().start(withConsumerKey: "GSDzoSGZFepLtEbc6JwjLw", consumerSecret: "DAJi4q8cuaVKKnr7eOpRy6u5R1DflBa7O9M4yBlI4")
+//        TWTRTwitter.sharedInstance().start(withConsumerKey: "GSDzoSGZFepLtEbc6JwjLw", consumerSecret: "DAJi4q8cuaVKKnr7eOpRy6u5R1DflBa7O9M4yBlI4")
         
         #if DEBUG        
         let debugStoryboard =

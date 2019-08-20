@@ -26,20 +26,20 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                         <items>
                                             <barButtonItem style="plain" systemItem="cancel" id="iy1-Ee-eag">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="yellowColor"/>
                                                 <connections>
                                                     <action selector="onCancel:" destination="ZOA-RP-8i6" id="mrl-bw-g59"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="1Eo-BG-zTi"/>
                                             <barButtonItem title="Item" image="undo" id="xl5-J3-KRu" userLabel="Undo">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="yellowColor"/>
                                                 <connections>
                                                     <action selector="onResetCrop:" destination="ZOA-RP-8i6" id="Bjo-2h-Xlm"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="done" systemItem="done" id="3tv-LA-Pud">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" name="yellowColor"/>
                                                 <connections>
                                                     <action selector="onDone:" destination="ZOA-RP-8i6" id="bhM-et-FEJ"/>
                                                 </connections>

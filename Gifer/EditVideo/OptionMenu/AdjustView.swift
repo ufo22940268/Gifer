@@ -214,6 +214,13 @@ class AdjustView: UIStackView, Transaction {
         rootView.useSameSizeAsParent()
         
         collectionView.register(UINib(nibName: "AdjustTypeCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        
+        defer {
+            activeType = types.first!
+            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .left)
+            slider.isEnabled = true
+            restoreButton.isEnabled = true
+        }
     }
     
     required init(coder: NSCoder) {
