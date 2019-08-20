@@ -1,2 +1,5 @@
 github "https://github.com/ufo22940268/MonkeyKing.git" "master"
 github "realm/realm-cocoa"
+binary "https://ton.twimg.com/syndication/twitterkit/ios/TwitterKit.json"
+binary "https://ton.twimg.com/syndication/twitterkit/ios/TwitterCore.json"
+

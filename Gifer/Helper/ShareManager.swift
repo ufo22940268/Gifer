@@ -13,6 +13,9 @@ import MobileCoreServices
 import Photos
 import MonkeyKing
 import MessageUI
+import Social
+import TwitterKit
+import TwitterCore
 
 typealias ShareEmailSourceViewController = UIViewController & MFMailComposeViewControllerDelegate
 
@@ -63,6 +66,20 @@ class ShareManager: NSObject {
 //
 //        }
 //    }
+    
+    func shareToTwitter(video: URL, from host: UIViewController, complete: @escaping ShareHandler) {
+        // Swift
+        let composer = TWTRComposer()
+        
+        composer.setText("just setting up my Twitter Kit")
+        
+        // Called from a UIViewController
+//        composer.show(from: host.navigationController!) { (_) in
+//            print("finished")
+//            complete(true)
+//        }
+    }
+
 
     func shareToWechat(video: URL, complete: @escaping ShareHandler) {
         guard !UIDevice.isSimulator else {

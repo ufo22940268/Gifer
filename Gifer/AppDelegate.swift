@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import MonkeyKing
+import TwitterKit
 
 
 enum UserDefaultKeys: String {
@@ -25,6 +26,8 @@ enum UserDefaultKeys: String {
         MonkeyKing.registerAccount(.weChat(appID: "wx842039e20182b59f", appKey: "735d250087f7f9ba0c3797595995e981", miniAppID: nil))
         // Override point for customization after application launch.
         initUserDefaults()
+        
+        TWTRTwitter.sharedInstance().start(withConsumerKey: "GSDzoSGZFepLtEbc6JwjLw", consumerSecret: "DAJi4q8cuaVKKnr7eOpRy6u5R1DflBa7O9M4yBlI4")
         
         #if DEBUG        
         let debugStoryboard =

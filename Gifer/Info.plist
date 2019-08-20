@@ -30,14 +30,22 @@
 				<string>wx842039e20182b59f</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>twitterkit-GSDzoSGZFepLtEbc6JwjLw</string>
+                </array>
+            </dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1054</string>
+	<string>1055</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
+        <string>twitter</string> 
+        <string>twitterauth</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
