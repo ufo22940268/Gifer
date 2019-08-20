@@ -934,7 +934,7 @@ extension EditViewController: ControlToolbarDelegate {
                         guard let self = self else { return }
                         self.syncPlayerItemChanges(playerItem)
                         self.showPlayLoading(false)
-                        self.play()
+                        self.imagePlayerView.restartPlay()
                     }
                 }
             }
@@ -1009,6 +1009,7 @@ extension EditViewController: FramesDelegate {
         playerItem.resetAllFrameTimes()
         playerItem.duration = playerItem.allFrames.last!.time
         syncPlayerItemChanges(playerItem)
+        imagePlayerView.restartPlay()
     }
 }
 

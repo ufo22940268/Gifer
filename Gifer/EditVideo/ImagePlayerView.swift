@@ -137,6 +137,11 @@ class ImagePlayerView: UIView {
         timer = createTimer(with: interval)
     }
     
+    func restartPlay() {
+        stopTimer()
+        play()
+    }
+    
     private func createTimer(with interval: TimeInterval) -> Timer {
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             guard !self.isPaused else { return }
@@ -166,11 +171,15 @@ class ImagePlayerView: UIView {
         self.imageView.image = nil
     }
     
-    func destroy() {
+    fileprivate func stopTimer() {
         if timer != nil {
             timer.invalidate()
             timer = nil
         }
+    }
+    
+    func destroy() {
+        stopTimer()
     }
     
     private func canStep(by delta: Int) -> Bool {
