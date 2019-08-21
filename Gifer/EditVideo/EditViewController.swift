@@ -465,9 +465,9 @@ class EditViewController: UIViewController {
     private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, complete: @escaping (ImagePlayerItem) -> Void) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: false)
         playerItemGenerator?.extract { playerItem in
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
                 complete(playerItem)
             }
         }
@@ -938,6 +938,7 @@ extension EditViewController: ControlToolbarDelegate {
                 if let asset = asset {
                     self.makePlayerItem(avAsset: asset, fps: fps) { [weak self] playerItem in
                         guard let self = self else { return }
+                        self.rootFrames = playerItem.allFrames
                         self.syncPlayerItemChanges(playerItem)
                         self.showPlayLoading(false)
                         self.imagePlayerView.restartPlay()

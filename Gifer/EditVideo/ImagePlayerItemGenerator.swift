@@ -17,6 +17,7 @@ class ImagePlayerItemGenerator {
     
     let generatorParallelNumber: Int = 4
     var fps: FPSFigure?
+    let shouldCleanDirectory: Bool
     
     lazy var generators:[AVAssetImageGenerator]  = {
         return (0..<self.generatorParallelNumber).map { _ in
@@ -24,10 +25,11 @@ class ImagePlayerItemGenerator {
         }
     }()
     
-    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil) {
+    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil, shouldCleanDirectory: Bool = true) {
         self.asset = avAsset
         self.trimPosition = trimPosition
         self.fps = fps
+        self.shouldCleanDirectory = shouldCleanDirectory
     }
     
     func createAssetGenerator() -> AVAssetImageGenerator {
@@ -75,7 +77,9 @@ class ImagePlayerItemGenerator {
             frameSegments.append([ImagePlayerFrame]())
         }
         
-        ImagePlayerFrame.initDirectory()
+        if shouldCleanDirectory {
+            ImagePlayerFrame.initDirectory()
+        }
         
         let group = DispatchGroup()
         var size: CGSize!
