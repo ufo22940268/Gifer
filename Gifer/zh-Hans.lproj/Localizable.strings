@@ -31,6 +31,7 @@
 "Library" = "相册";
 "Wechat" = "微信";
 "Sticker" = "表情";
+"Other" = "其他";
 
 "Automatic" = "自动";
 "Large" = "大";
@@ -55,3 +56,4 @@
 "Saturation" = "饱和度";
 "Warmth" = "色温";
 "Sharpen" = "锐度";
+

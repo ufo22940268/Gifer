@@ -549,6 +549,12 @@ class EditViewController: UIViewController {
                     self.promotion()
                     self.play()
                 })
+            case .system:
+                shareManager.shareBySystem(gif: gif, host: self, complete: { (success) in
+                    self.dismiss(animated: true, completion: nil)
+                    self.promotion()
+                    self.play()
+                })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
                     let alert = UIAlertController(title: nil, message: NSLocalizedString("Export success", comment: ""), preferredStyle: .alert)

@@ -79,6 +79,15 @@ class ShareManager: NSObject {
 ////            complete(true)
 ////        }
 //    }
+    
+    func shareBySystem(gif: URL, host: UIViewController, complete: @escaping ShareHandler) {
+        if let gifData = try? Data(contentsOf: gif) {
+            let vc = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
+            host.present(vc, animated: true, completion: nil)
+        } else {
+            complete(false)
+        }
+    }
 
 
     func shareToWechat(video: URL, complete: @escaping ShareHandler) {

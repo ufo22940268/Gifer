@@ -12,5 +12,10 @@ import Photos
 class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let gifURL = GifGenerator.animatedGifFilePath!
+        let gifData = try! Data(contentsOf: gifURL)
+        let activityVC = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
+        present(activityVC, animated: true, completion: nil)
     }
 }

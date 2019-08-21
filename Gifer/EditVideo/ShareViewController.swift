@@ -14,7 +14,7 @@ typealias ShareHandler = (_ type: ShareType, _ videoSize: VideoSize, _ loopCount
 typealias DismissHandler = () -> Void
 
 enum ShareType {
-    case wechat, photo, wechatSticker, email
+    case wechat, photo, wechatSticker, email, system
     
     var initialGifSize: CGSize {
         switch self {
@@ -29,7 +29,7 @@ enum ShareType {
         switch self {
         case .wechat:
             return 5
-        case .photo, .email:
+        case .photo, .email, .system:
             return 40
         case .wechatSticker:
             return 0.5
@@ -46,6 +46,8 @@ enum ShareType {
             return #imageLiteral(resourceName: "emoji-color.png")
         case .email:
             return #imageLiteral(resourceName: "share-email.png")
+        case .system:
+            return #imageLiteral(resourceName: "share-system.png")
         }
     }
     
@@ -59,6 +61,8 @@ enum ShareType {
             return NSLocalizedString("Sticker", comment: "")
         case .email:
             return NSLocalizedString("Email", comment: "")
+        case .system:
+            return NSLocalizedString("Other", comment: "")
         }
     }
     
@@ -111,12 +115,14 @@ extension UIColor {
 class ShareCell: DarkTableCell {
     
     lazy var stackView: UIStackView =  {
-        let view = UIStackView().useAutoLayout()
-        view.axis = .horizontal
-        view.spacing = 20
-        view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 16, right: 16)
-        return view
+        let stackView = makeStackView()
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    lazy var altStackView: UIStackView = {
+        let stackView = makeStackView()
+        return stackView
     }()
     
     var shareHandler: ((_ shareType: ShareType) -> Void)!
@@ -135,7 +141,14 @@ class ShareCell: DarkTableCell {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+            ])
+        
+        contentView.addSubview(altStackView)
+        NSLayoutConstraint.activate([
+            altStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            altStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             ])
         
         contentView.addSubview(questionButton)
@@ -143,6 +156,15 @@ class ShareCell: DarkTableCell {
             questionButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -8),
             questionButton.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -24)
             ])
+    }
+    
+    func makeStackView() -> UIStackView {
+        let view = UIStackView().useAutoLayout()
+        view.axis = .horizontal
+        view.spacing = 20
+        view.isLayoutMarginsRelativeArrangement = true
+        view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 16, right: 16)
+        return view
     }
     
     func buildItemView(icon: UIImage, label: String) -> UIButton {
@@ -155,7 +177,7 @@ class ShareCell: DarkTableCell {
         button.sizeToFit()
         button.alignTextUnderImage()
         
-        let height = button.heightAnchor.constraint(equalToConstant: 90)
+        let height = button.heightAnchor.constraint(equalToConstant: 80)
         height.priority = .defaultHigh
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 60),
@@ -187,7 +209,11 @@ class ShareCell: DarkTableCell {
             })
             itemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(sender:))))
             itemView.tag = index
-            stackView.addArrangedSubview(itemView)
+            if item != .system {
+                stackView.addArrangedSubview(itemView)
+            } else {
+                altStackView.addArrangedSubview(itemView)
+            }
             
             if [ShareType.wechat, ShareType.wechatSticker].contains(item) && !wechatEnabled {
                 itemView.isEnabled = false
@@ -226,6 +252,7 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         types.append(.email)
         types.append(.wechat)
         types.append(.wechatSticker)
+        types.append(.system)
         return types
     }
     

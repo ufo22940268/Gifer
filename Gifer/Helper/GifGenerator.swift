@@ -205,6 +205,8 @@ public class GifGenerator {
         })
     }
     
+    static let animatedGifFilePath: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("animated.gif")
+    
     var gifFilePath: URL? {
         get {
             let documentsDirectoryURL: URL? = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
