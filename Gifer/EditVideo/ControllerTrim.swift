@@ -19,6 +19,7 @@ class TrimButton: UIView {
     var backgroundLayer: CALayer!
     fileprivate var iconLayer: CAShapeLayer!
     var direction: Direction!
+    var shouldEnlargeTouchArea = false
     
     init(direction: Direction) {
         super.init(frame: CGRect.zero)
@@ -66,10 +67,12 @@ class TrimButton: UIView {
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let newArea: CGRect!
+        
+        let innerSideInset: CGFloat = shouldEnlargeTouchArea ? -20 : 0
         if direction == .left {
-            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 0))
+            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: -20, bottom: 0, right: innerSideInset))
         } else {
-            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20))
+            newArea = bounds.inset(by: UIEdgeInsets(top: 0, left: innerSideInset, bottom: 0, right: -20))
         }
         return newArea.contains(point)
     }
@@ -268,6 +271,12 @@ class ControllerTrim: UIControl {
         guard let topLine = topLine, let bottomLine = bottomLine else { return }
         topLine.backgroundColor = tintColor
         bottomLine.backgroundColor = tintColor
+    }
+    
+    override func layoutSubviews() {
+        let enlarge = innerFrame.width > 150
+        leftTrim.shouldEnlargeTouchArea = enlarge
+        rightTrim.shouldEnlargeTouchArea = enlarge
     }
     
     func updateMainColor(duration: CMTime? = nil, taptic: Bool = false) {
