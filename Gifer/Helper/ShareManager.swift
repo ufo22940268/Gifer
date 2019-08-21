@@ -83,6 +83,7 @@ class ShareManager: NSObject {
     func shareBySystem(gif: URL, host: UIViewController, complete: @escaping ShareHandler) {
         if let gifData = try? Data(contentsOf: gif) {
             let vc = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
+            vc.excludedActivityTypes = [UIActivity.ActivityType("com.tencent.xin.sharetimeline")]
             host.present(vc, animated: true, completion: nil)
         } else {
             complete(false)
