@@ -16,7 +16,10 @@ class TestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        loadingView.type = .ballPulseSync
-        loadingView.startAnimating()
+        startAnimating(message: "adsfadfs")
     }
+}
+
+extension TestViewController: NVActivityIndicatorViewable {
+    
 }
