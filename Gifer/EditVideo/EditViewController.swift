@@ -524,12 +524,16 @@ class EditViewController: UIViewController {
         )
     }
     
-    func promotion() {
+    func showPromotionDialog() {
         let manager = PromotionManager.default
-        manager.increaseShareTimes()
         if manager.shouldShowDialog() {
             manager.showDialog()
         }
+    }
+    
+    func increasePromotionCount() {
+        let manager = PromotionManager.default
+        manager.increaseShareTimes()
     }
     
     private func startSharing(for type: ShareType, videoSize: VideoSize, loopCount: LoopCount) {
@@ -547,14 +551,14 @@ class EditViewController: UIViewController {
             case .wechat, .wechatSticker:
                 shareManager.shareToWechat(video: gif, complete: { (success) in
                     self.dismiss(animated: true, completion: nil)
-                    self.promotion()
                     self.play()
+                    self.increasePromotionCount()
                 })
             case .system:
                 shareManager.shareBySystem(gif: gif, host: self, complete: { (success) in
                     self.dismiss(animated: true, completion: nil)
-                    self.promotion()
                     self.play()
+                    self.increasePromotionCount()
                 })
             case .photo:
                 shareManager.saveToPhoto(gif: gif) {success in
@@ -564,10 +568,10 @@ class EditViewController: UIViewController {
                     }))
                     alert.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""), style: .default, handler: { (_) in
                         self.dismiss(animated: true, completion: nil)
-                        self.promotion()
                         self.onShareDialogDimissed()
                     }))
                     self.present(alert, animated: true, completion: nil)
+                    self.increasePromotionCount()
                 }
             case .email:
                 shareManager.shareToEmail(gif: gif, from: self)
@@ -581,6 +585,7 @@ class EditViewController: UIViewController {
     
     @IBAction func onShare(_ sender: Any) {
         pause()
+        showPromotionDialog()
         shareVC = ShareViewController(wechatEnabled: Wechat.canBeShared(playerItem: playerItem!, trimPosition: trimPosition), shareHandler: startSharing, cancelHandler: onShareDialogDimissed)
         shareVC.present(by: self)
     }

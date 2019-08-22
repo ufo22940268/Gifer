@@ -163,7 +163,7 @@ class ShareCell: DarkTableCell {
         view.axis = .horizontal
         view.spacing = 20
         view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 16, right: 16)
+        view.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 16, right: 16)
         return view
     }
     

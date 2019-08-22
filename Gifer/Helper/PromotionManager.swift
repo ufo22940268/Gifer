@@ -19,7 +19,7 @@ class PromotionManager {
     }
     
     func shouldShowDialog() -> Bool {
-        return UserDefaults.standard.integer(forKey: UserDefaultKeys.shareTimes.rawValue) == 3
+        return UserDefaults.standard.integer(forKey: UserDefaultKeys.shareTimes.rawValue) % 3 == 0
     }
     
     func showDialog() {
