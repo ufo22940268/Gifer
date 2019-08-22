@@ -8,14 +8,15 @@
 
 import UIKit
 import Photos
+import NVActivityIndicatorView
 
 class TestViewController: UIViewController {
+    
+    @IBOutlet weak var loadingView: NVActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let gifURL = GifGenerator.animatedGifFilePath!
-        let gifData = try! Data(contentsOf: gifURL)
-        let activityVC = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
-        present(activityVC, animated: true, completion: nil)
+//        loadingView.type = .ballPulseSync
+        loadingView.startAnimating()
     }
 }

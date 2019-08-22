@@ -146,6 +146,7 @@
 		42F2D578219403B300113A10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D577219403B300113A10 /* Assets.xcassets */; };
 		42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F2D579219403B300113A10 /* LaunchScreen.storyboard */; };
 		42F2D586219403B300113A10 /* GiferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2D585219403B300113A10 /* GiferTests.swift */; };
+		42F6F632230D79300035F00A /* NVActivityIndicatorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42F6F631230D79300035F00A /* NVActivityIndicatorView.framework */; };
 		42FF4D2E2264514700EEF49C /* GifSizeEstimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */; };
 		42FF4D30226467AF00EEF49C /* GifConfigCalibrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */; };
 /* End PBXBuildFile section */
@@ -317,6 +318,7 @@
 		42F2D587219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42F2D590219403B300113A10 /* GiferUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiferUITests.swift; sourceTree = "<group>"; };
 		42F2D592219403B300113A10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42F6F631230D79300035F00A /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NVActivityIndicatorView.framework; path = Carthage/Build/iOS/NVActivityIndicatorView.framework; sourceTree = "<group>"; };
 		42FF4D2D2264514700EEF49C /* GifSizeEstimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSizeEstimatorTest.swift; sourceTree = "<group>"; };
 		42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifConfigCalibrator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -330,6 +332,7 @@
 				422F539822E7032300C0989D /* RealmSwift.framework in Frameworks */,
 				422F539A22E7032600C0989D /* Realm.framework in Frameworks */,
 				42D4E51D22BC4B8F00EDD3B7 /* StoreKit.framework in Frameworks */,
+				42F6F632230D79300035F00A /* NVActivityIndicatorView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +467,7 @@
 		429CE3DF21C22F350004D3F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42F6F631230D79300035F00A /* NVActivityIndicatorView.framework */,
 				426D57A5230B708C00F7856B /* TwitterCore.framework */,
 				42AD6A83230B66C90066D83E /* TwitterKit.framework */,
 				422F539922E7032600C0989D /* Realm.framework */,
@@ -766,6 +770,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/NVActivityIndicatorView.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -773,6 +778,7 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MonkeyKing.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Realm.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/RealmSwift.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/NVActivityIndicatorView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

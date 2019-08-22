@@ -296,14 +296,18 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAX-sr-zY7" customClass="EditTextOverlay" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="625.5"/>
                                                     </view>
-                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yec-sv-y5L">
-                                                        <rect key="frame" x="188.5" y="294.5" width="37" height="37"/>
-                                                    </activityIndicatorView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KaL-QO-Mbn" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                                        <rect key="frame" x="177" y="283" width="60" height="60"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="bzD-PA-b7f"/>
+                                                            <constraint firstAttribute="width" constant="60" id="mwa-38-FHf"/>
+                                                        </constraints>
+                                                    </view>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstItem="yec-sv-y5L" firstAttribute="centerY" secondItem="UIf-0e-Ej7" secondAttribute="centerY" id="8Jz-of-Chs"/>
                                                     <constraint firstItem="fBC-cd-dpG" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leading" id="BHt-SO-5xX"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="0MZ-nh-kAY" secondAttribute="trailing" id="E3y-H3-UTj"/>
                                                     <constraint firstAttribute="bottom" secondItem="fBC-cd-dpG" secondAttribute="bottom" id="Fka-Jc-aG7"/>
@@ -311,9 +315,10 @@
                                                     <constraint firstItem="0MZ-nh-kAY" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="topMargin" id="Kds-sJ-ZhM"/>
                                                     <constraint firstItem="0MZ-nh-kAY" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leadingMargin" id="NPd-dF-TRc"/>
                                                     <constraint firstItem="fBC-cd-dpG" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="top" id="QVS-fc-R2l"/>
+                                                    <constraint firstItem="KaL-QO-Mbn" firstAttribute="centerX" secondItem="UIf-0e-Ej7" secondAttribute="centerX" id="R1F-aR-cIz"/>
                                                     <constraint firstItem="QAX-sr-zY7" firstAttribute="leading" secondItem="UIf-0e-Ej7" secondAttribute="leading" id="R2b-22-BcQ"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="0MZ-nh-kAY" secondAttribute="bottom" id="lht-RA-i4T"/>
-                                                    <constraint firstItem="yec-sv-y5L" firstAttribute="centerX" secondItem="UIf-0e-Ej7" secondAttribute="centerX" id="oew-M9-k4l"/>
+                                                    <constraint firstItem="KaL-QO-Mbn" firstAttribute="centerY" secondItem="UIf-0e-Ej7" secondAttribute="centerY" id="mqL-bS-CWq"/>
                                                     <constraint firstAttribute="trailing" secondItem="fBC-cd-dpG" secondAttribute="trailing" id="rAY-20-VWo"/>
                                                     <constraint firstAttribute="bottom" secondItem="QAX-sr-zY7" secondAttribute="bottom" id="tEN-Gk-KJD"/>
                                                     <constraint firstItem="QAX-sr-zY7" firstAttribute="top" secondItem="UIf-0e-Ej7" secondAttribute="top" id="tqH-mA-DCu"/>
@@ -400,7 +405,7 @@
                         <outlet property="stackView" destination="HDQ-yG-uLo" id="6vH-Jz-3GY"/>
                         <outlet property="stickerOverlay" destination="fBC-cd-dpG" id="lk5-Bx-qmA"/>
                         <outlet property="videoController" destination="eaq-PJ-qvs" id="1UX-xV-Ie2"/>
-                        <outlet property="videoLoadingIndicator" destination="yec-sv-y5L" id="CBB-z1-FTQ"/>
+                        <outlet property="videoLoadingIndicator" destination="KaL-QO-Mbn" id="BOB-r5-CO1"/>
                         <outlet property="videoPlayerSection" destination="UIf-0e-Ej7" id="MV2-JW-cUk"/>
                     </connections>
                 </viewController>
@@ -426,7 +431,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1991" y="-870"/>
+            <point key="canvasLocation" x="1989.8550724637682" y="-870.53571428571422"/>
         </scene>
     </scenes>
     <resources>

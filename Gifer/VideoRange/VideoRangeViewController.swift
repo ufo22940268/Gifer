@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import Photos
+import NVActivityIndicatorView
 
 extension CMTime {
     func formatTime() -> String {
@@ -68,10 +69,9 @@ class VideoRangeViewController: UIViewController {
     var chaseRightTrim: CMTime?
     var initialLoadingDialog: LoadingDialog?
     @IBOutlet weak var doneItemButton: UIBarButtonItem!
-    var loadingIndicator: VideoLoadingIndicator = {
-        let indicator = VideoLoadingIndicator()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
+    var loadingIndicator: NVActivityIndicatorView = {
+        let view = NVActivityIndicatorView(frame: .zero).useAutoLayout()
+        return view
     }()
     
     var trimPosition: VideoTrimPosition {
@@ -110,7 +110,7 @@ class VideoRangeViewController: UIViewController {
                 self.view.tintAdjustmentMode = .automatic
                 self.videoPreviewSection.alpha = 1.0
                 self.previewController.player = AVPlayer(playerItem: playerItem)
-                self.registerCurrentItemObbservers()
+                self.registerCurrentItemObservers()
             }
         }
     }
@@ -143,7 +143,7 @@ class VideoRangeViewController: UIViewController {
         videoController.delegate = self
     }
     
-    private func registerCurrentItemObbservers() {
+    private func registerCurrentItemObservers() {
         guard previewController.player != nil, !isMovingFromParent else {
             return
         }
@@ -185,9 +185,11 @@ class VideoRangeViewController: UIViewController {
         }
         
         if currentItem != nil && currentItem.isPlaybackLikelyToKeepUp {
-            loadingIndicator.dismiss()
+//            loadingIndicator.stopAnimating()
         } else {
-            loadingIndicator.show()
+            if !loadingIndicator.isAnimating {
+                loadingIndicator.startAnimating()
+            }
         }
     }
     
@@ -264,11 +266,12 @@ class VideoRangeViewController: UIViewController {
         
         videoPreviewSection.addSubview(loadingIndicator)
         NSLayoutConstraint.activate([
-            loadingIndicator.widthAnchor.constraint(equalTo: videoPreviewSection.widthAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: videoPreviewSection.heightAnchor),
+            loadingIndicator.widthAnchor.constraint(equalToConstant: 60),
+            loadingIndicator.heightAnchor.constraint(equalToConstant: 60),
             loadingIndicator.centerXAnchor.constraint(equalTo: videoPreviewSection.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: videoPreviewSection.centerYAnchor)
             ])
+        loadingIndicator.startAnimating()
     }
 }
 

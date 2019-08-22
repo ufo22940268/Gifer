@@ -14,6 +14,7 @@ import Photos
 import StoreKit
 import MessageUI
 import MonkeyKing
+import NVActivityIndicatorView
 
 enum ToolbarItemState {
     case normal, highlight
@@ -135,7 +136,7 @@ class EditViewController: UIViewController {
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var videoLoadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var videoLoadingIndicator: NVActivityIndicatorView!
     var videoAsset: PHAsset!
     var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
@@ -604,7 +605,11 @@ class EditViewController: UIViewController {
     }
     
     private func showPlayLoading(_ show: Bool) {
-        videoLoadingIndicator.isHidden = !show
+        if show {
+            videoLoadingIndicator.startAnimating()
+        } else {
+            videoLoadingIndicator.stopAnimating()
+        }
         if let editOverlay = editTextOverlay {
             editOverlay.isHidden = show
         }
