@@ -13,10 +13,16 @@ import NVActivityIndicatorView
 class TestViewController: UIViewController {
     
     @IBOutlet weak var loadingView: NVActivityIndicatorView!
+    var customTransitionDelegate = OverlayTransitionAnimator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startAnimating(message: "adsfadfs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root")
+            vc.transitioningDelegate = self.customTransitionDelegate
+            vc.modalPresentationStyle = .custom
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 

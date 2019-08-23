@@ -70,6 +70,7 @@
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
+		427D5204230E655B00679CE3 /* OverlayTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427D5203230E655B00679CE3 /* OverlayTransitionAnimator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
 		4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9C21A8C34600913466 /* ControllerTrim.swift */; };
 		4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */; };
@@ -79,6 +80,7 @@
 		428C542521A8E96E003A44A0 /* VideoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */; };
 		428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428C9D0022F8533600C5EB2F /* Album.storyboard */; };
 		428C9D0322F8575600C5EB2F /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C9D0222F8575600C5EB2F /* AlbumViewController.swift */; };
+		428E5481230E8E1E00C80CB2 /* OverlayTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428E5480230E8E1E00C80CB2 /* OverlayTopView.xib */; };
 		4294CCB822C4498700FD4917 /* ImagePlayerFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */; };
 		4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */; };
 		4294CCBC22C6D20200FD4917 /* FrameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294CCBB22C6D20200FD4917 /* FrameCell.swift */; };
@@ -233,6 +235,7 @@
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
 		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
 		427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressLoadingIndicator.swift; sourceTree = "<group>"; };
+		427D5203230E655B00679CE3 /* OverlayTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTransitionAnimator.swift; sourceTree = "<group>"; };
 		4284D44022768F5F00886513 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		4285BF9C21A8C34600913466 /* ControllerTrim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerTrim.swift; sourceTree = "<group>"; };
 		4285BF9E21A8C37A00913466 /* VideoControllerSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerSlider.swift; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 		428C542421A8E96E003A44A0 /* VideoGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGalleryCell.swift; sourceTree = "<group>"; };
 		428C9D0022F8533600C5EB2F /* Album.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Album.storyboard; sourceTree = "<group>"; };
 		428C9D0222F8575600C5EB2F /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		428E5480230E8E1E00C80CB2 /* OverlayTopView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverlayTopView.xib; sourceTree = "<group>"; };
 		4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrameView.swift; sourceTree = "<group>"; };
 		4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesViewController.swift; sourceTree = "<group>"; };
 		4294CCBB22C6D20200FD4917 /* FrameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCell.swift; sourceTree = "<group>"; };
@@ -422,6 +426,8 @@
 				420C9CE422E5573400A272DE /* CropVideoViewController.swift */,
 				4215736A22E6A24500D9183B /* CropImageViewController.swift */,
 				4215736C22E6AE1800D9183B /* EditStickerFileCollectionViewController.swift */,
+				427D5203230E655B00679CE3 /* OverlayTransitionAnimator.swift */,
+				428E5480230E8E1E00C80CB2 /* OverlayTopView.xib */,
 			);
 			path = EditVideo;
 			sourceTree = "<group>";
@@ -741,6 +747,7 @@
 				426C282523069F530088B620 /* AdjustView.xib in Resources */,
 				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
+				428E5481230E8E1E00C80CB2 /* OverlayTopView.xib in Resources */,
 				424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */,
 				422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,
@@ -911,6 +918,7 @@
 				42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
 				4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */,
+				427D5204230E655B00679CE3 /* OverlayTransitionAnimator.swift in Sources */,
 				42E879AB22D2B9E90098D43B /* StickerResourceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
