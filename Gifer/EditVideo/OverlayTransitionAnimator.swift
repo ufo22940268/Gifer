@@ -12,11 +12,15 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     
     @IBOutlet var overlayContainer: UIView!
     var overlayStackView: UIView!
+    @IBOutlet weak var overlayTopBar: UIView!
     
     override init() {
         super.init()
         overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as! UIView
         overlayStackView.useAutoLayout()
+        overlayTopBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        overlayTopBar.layer.cornerRadius = 12
+        overlayTopBar.clipsToBounds = true
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
