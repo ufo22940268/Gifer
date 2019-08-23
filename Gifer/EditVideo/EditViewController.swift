@@ -410,7 +410,7 @@ class EditViewController: UIViewController {
     func load() {
         loadAVAsset { (asset) in
             if let asset = asset {
-                self.makePlayerItem(avAsset: asset) { playerItem in
+                self.makePlayerItem(avAsset: asset, isInit: true) { playerItem in
                     self.initPlayerItem(playerItem)
                 }
             }
@@ -459,14 +459,16 @@ class EditViewController: UIViewController {
     }
     
     fileprivate func initPlayerItem(_ playerItem: ImagePlayerItem) {
-        optionMenu.setPreviewImage(playerItem.activeFrames.first!.uiImage.resizeImage(60, opaque: false))
-        onVideoReady(playerItem: playerItem)
+        if let previewImage = playerItem.activeFrames.first?.uiImage {
+            optionMenu.setPreviewImage(previewImage.resizeImage(60, opaque: false))
+            onVideoReady(playerItem: playerItem)
+        }
     }
     
-    private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, complete: @escaping (ImagePlayerItem) -> Void) {
+    private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: false)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
         playerItemGenerator?.extract { playerItem in
             DispatchQueue.main.async {
                 complete(playerItem)
@@ -946,7 +948,7 @@ extension EditViewController: ControlToolbarDelegate {
             self.loadAVAsset { [weak self] (asset) in
                 guard let self = self else { return }
                 if let asset = asset {
-                    self.makePlayerItem(avAsset: asset, fps: fps) { [weak self] playerItem in
+                    self.makePlayerItem(avAsset: asset, fps: fps, isInit: false) { [weak self] playerItem in
                         guard let self = self else { return }
                         self.rootFrames = playerItem.allFrames
                         self.syncPlayerItemChanges(playerItem)
