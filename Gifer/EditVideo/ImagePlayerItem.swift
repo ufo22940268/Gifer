@@ -19,7 +19,7 @@ struct ImagePlayerFrame: Equatable {
     var isActive = true
     
     var uiImage: UIImage! {
-        if let data = try? Data(contentsOf: path!) {
+        if let path = path, let data = try? Data(contentsOf: path) {
             return UIImage(data: data)
         } else {
             return nil
