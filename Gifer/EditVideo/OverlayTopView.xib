@@ -18,11 +18,11 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" id="xeD-aD-9CQ">
+        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" id="xeD-aD-9CQ" customClass="OverlayStackView" customModule="Gifer" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="270" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J" customClass="OverlayTopBar" customModule="Gifer" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HAi-Om-Nwt">
@@ -48,6 +48,7 @@
                     </constraints>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="9B7-mP-dEo" appends="YES" id="9vM-CB-QIN"/>
+                        <outletCollection property="gestureRecognizers" destination="Ka0-hK-FpU" appends="YES" id="3nw-gz-Jx0"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-Jw-iO8">
@@ -62,11 +63,16 @@
             <viewLayoutGuide key="safeArea" id="CKw-dS-qNQ"/>
             <point key="canvasLocation" x="-252.17391304347828" y="355.58035714285711"/>
         </stackView>
-        <tapGestureRecognizer id="9B7-mP-dEo">
+        <tapGestureRecognizer enabled="NO" id="9B7-mP-dEo">
             <connections>
                 <action selector="onTapToDimiss:" destination="-1" id="XI0-1A-0OC"/>
             </connections>
         </tapGestureRecognizer>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="Ka0-hK-FpU">
+            <connections>
+                <action selector="onPanToDismiss:" destination="-1" id="h3S-IT-HWm"/>
+            </connections>
+        </panGestureRecognizer>
     </objects>
     <resources>
         <namedColor name="darkBackgroundColor">

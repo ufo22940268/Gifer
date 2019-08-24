@@ -8,20 +8,39 @@
 
 import UIKit
 
+class OverlayTopBar: UIView {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: -40, right: 0)).contains(point)
+    }
+}
+
+class OverlayStackView: UIStackView {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let topBar = arrangedSubviews.first, let hitView = topBar.hitTest(topBar.convert(point, from: self), with: event) {
+            return hitView
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+}
+
 class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     @IBOutlet var overlayContainer: UIView!
     var overlayStackView: UIView!
     @IBOutlet weak var overlayTopBar: UIView!
     weak var toVC: UIViewController?
+    var interactiveTransition = UIPercentDrivenInteractiveTransition()
+    var triggerDismissByPan = false
     
     override init() {
         super.init()
-        overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as! UIView
+        overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as? UIView
         overlayStackView.useAutoLayout()
         overlayTopBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         overlayTopBar.layer.cornerRadius = 12
         overlayTopBar.clipsToBounds = true
+        interactiveTransition.wantsInteractiveStart = true
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -31,6 +50,11 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
     }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactiveTransition
+    }
+    
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return PresentController(presentedViewController: presented, presenting: presenting)
@@ -62,8 +86,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
             fromView.clipsToBounds = true
             fromView.layer.cornerRadius = 16
             self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height - self.overlayStackView.bounds.height)
-        }) { (_) in
-            transitionContext.completeTransition(true)
+        }) { (_) in            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
@@ -71,12 +94,14 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         let galleryVC = transitionContext.viewController(forKey: .from)
         let fromVC = transitionContext.viewController(forKey: .to)
         
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: self.overlayStackView.transform.ty + self.overlayStackView.bounds.height)
             fromVC?.view.transform = .identity
-        }) { (_) in
-            self.overlayStackView.removeFromSuperview()
-            transitionContext.completeTransition(true)
+        }) { _ in
+            if !transitionContext.transitionWasCancelled {
+                self.overlayStackView.removeFromSuperview()
+                transitionContext.completeTransition(true)
+            }
         }
     }
 
@@ -91,6 +116,27 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     
     @IBAction func onTapToDimiss(_ sender: Any) {
         toVC?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onPanToDismiss(_ sender: UIPanGestureRecognizer) {
+        guard let toVC = toVC else { return }
+        
+        let percent = max(min(sender.translation(in: overlayStackView).y/100, 1), 0)
+        switch sender.state {
+        case .began:
+            triggerDismissByPan = false
+            toVC.dismiss(animated: true, completion: nil)
+        case .changed:
+            interactiveTransition.update(percent)
+        case .ended:
+            if percent > 1 {
+                interactiveTransition.finish()
+            }
+        case .cancelled:
+            interactiveTransition.cancel()
+        default:
+            break
+        }
     }
     
     class PresentController: UIPresentationController {
