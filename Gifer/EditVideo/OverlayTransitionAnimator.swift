@@ -13,6 +13,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     @IBOutlet var overlayContainer: UIView!
     var overlayStackView: UIView!
     @IBOutlet weak var overlayTopBar: UIView!
+    weak var toVC: UIViewController?
     
     override init() {
         super.init()
@@ -26,6 +27,10 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
     }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return self
+    }
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return PresentController(presentedViewController: presented, presenting: presenting)
@@ -35,11 +40,13 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         return 0.3
     }
     
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func animateTransitionForPresent(in transitionContext: UIViewControllerContextTransitioning) {
         let fromVC = transitionContext.viewController(forKey: .from)!
         let toVC = transitionContext.viewController(forKey: .to)!
         let toView = transitionContext.view(forKey: .to)!.useAutoLayout()
         let fromView = fromVC.view!
+        
+        self.toVC = toVC
         
         overlayContainer.addSubview(toView)
         toView.useSameSizeAsParent()
@@ -58,6 +65,32 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         }) { (_) in
             transitionContext.completeTransition(true)
         }
+    }
+    
+    fileprivate func animateTransitionForDismissal(in transitionContext: UIViewControllerContextTransitioning) {
+        let galleryVC = transitionContext.viewController(forKey: .from)
+        let fromVC = transitionContext.viewController(forKey: .to)
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseInOut, animations: {
+            self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: self.overlayStackView.transform.ty + self.overlayStackView.bounds.height)
+            fromVC?.view.transform = .identity
+        }) { (_) in
+            self.overlayStackView.removeFromSuperview()
+            transitionContext.completeTransition(true)
+        }
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let isPresent = (transitionContext.viewController(forKey: .to) as? UINavigationController)?.topViewController is VideoGalleryViewController
+        if isPresent {
+            animateTransitionForPresent(in: transitionContext)
+        } else {
+            animateTransitionForDismissal(in: transitionContext)
+        }
+    }
+    
+    @IBAction func onTapToDimiss(_ sender: Any) {
+        toVC?.dismiss(animated: true, completion: nil)
     }
     
     class PresentController: UIPresentationController {

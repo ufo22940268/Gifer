@@ -185,7 +185,7 @@ class VideoRangeViewController: UIViewController {
         }
         
         if currentItem != nil && currentItem.isPlaybackLikelyToKeepUp {
-//            loadingIndicator.stopAnimating()
+            loadingIndicator.stopAnimating()
         } else {
             if !loadingIndicator.isAnimating {
                 loadingIndicator.startAnimating()
