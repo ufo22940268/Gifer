@@ -31,7 +31,6 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     @IBOutlet weak var overlayTopBar: UIView!
     weak var toVC: UIViewController?
     var interactiveTransition = UIPercentDrivenInteractiveTransition()
-    var triggerDismissByPan = false
     
     override init() {
         super.init()
@@ -72,6 +71,8 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         
         self.toVC = toVC
         
+        (toVC as! UINavigationController).navigationBar.shadowImage = UIImage()
+        (toVC as! UINavigationController).navigationBar.setBackgroundImage(UIImage(), for: .default)
         overlayContainer.addSubview(toView)
         toView.useSameSizeAsParent()
         NSLayoutConstraint.activate([
@@ -94,14 +95,14 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         let galleryVC = transitionContext.viewController(forKey: .from)
         let fromVC = transitionContext.viewController(forKey: .to)
         
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: transitionDuration(using: transitionContext),  animations: {
             self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: self.overlayStackView.transform.ty + self.overlayStackView.bounds.height)
             fromVC?.view.transform = .identity
         }) { _ in
             if !transitionContext.transitionWasCancelled {
                 self.overlayStackView.removeFromSuperview()
-                transitionContext.completeTransition(true)
             }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
 
@@ -121,16 +122,17 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     @IBAction func onPanToDismiss(_ sender: UIPanGestureRecognizer) {
         guard let toVC = toVC else { return }
         
-        let percent = max(min(sender.translation(in: overlayStackView).y/100, 1), 0)
+        let percent = max(min(sender.translation(in: overlayStackView).y/overlayStackView.bounds.height, 1), 0)
         switch sender.state {
         case .began:
-            triggerDismissByPan = false
             toVC.dismiss(animated: true, completion: nil)
         case .changed:
             interactiveTransition.update(percent)
         case .ended:
-            if percent > 1 {
+            if percent > 0.3 {
                 interactiveTransition.finish()
+            } else {
+                interactiveTransition.cancel()
             }
         case .cancelled:
             interactiveTransition.cancel()
