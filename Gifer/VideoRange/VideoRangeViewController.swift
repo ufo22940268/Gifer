@@ -386,10 +386,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "edit", let editVC = (segue.destination as? UINavigationController)?.topViewController as? EditViewController {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
             editVC.initTrimPosition = trimPosition
             editVC.videoAsset = previewAsset
-            editVC.navigationItem.leftBarButtonItems = nil
+            editVC.source = .range
         }
     }
 }
