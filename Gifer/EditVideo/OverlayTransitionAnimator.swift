@@ -8,22 +8,6 @@
 
 import UIKit
 
-class OverlayTopBar: UIView {
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: -40, right: 0)).contains(point)
-    }
-}
-
-class OverlayStackView: UIStackView {
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let topBar = arrangedSubviews.first, let hitView = topBar.hitTest(topBar.convert(point, from: self), with: event) {
-            return hitView
-        }
-        
-        return super.hitTest(point, with: event)
-    }
-}
-
 class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     @IBOutlet var overlayContainer: UIView!
@@ -152,5 +136,11 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         override var shouldPresentInFullscreen: Bool {
             return false
         }
+    }
+}
+
+extension OverlayTransitionAnimator: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer.location(in: overlayStackView).y < 70
     }
 }

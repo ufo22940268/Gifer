@@ -18,11 +18,11 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" id="xeD-aD-9CQ" customClass="OverlayStackView" customModule="Gifer" customModuleProvider="target">
+        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" id="xeD-aD-9CQ">
             <rect key="frame" x="0.0" y="0.0" width="270" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J" customClass="OverlayTopBar" customModule="Gifer" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HAi-Om-Nwt">
@@ -46,10 +46,6 @@
                         <constraint firstItem="HAi-Om-Nwt" firstAttribute="centerX" secondItem="6eh-sj-b3J" secondAttribute="centerX" id="Mwl-rb-yTL"/>
                         <constraint firstItem="HAi-Om-Nwt" firstAttribute="centerY" secondItem="6eh-sj-b3J" secondAttribute="centerY" id="yRV-qz-Aqh"/>
                     </constraints>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="9B7-mP-dEo" appends="YES" id="9vM-CB-QIN"/>
-                        <outletCollection property="gestureRecognizers" destination="Ka0-hK-FpU" appends="YES" id="3nw-gz-Jx0"/>
-                    </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-Jw-iO8">
                     <rect key="frame" x="0.0" y="50" width="270" height="150"/>
@@ -60,7 +56,11 @@
                     <viewLayoutGuide key="safeArea" id="t3g-HY-DN1"/>
                 </view>
             </subviews>
+            <gestureRecognizers/>
             <viewLayoutGuide key="safeArea" id="CKw-dS-qNQ"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="Dfd-9M-KVX" appends="YES" id="28U-n9-Tag"/>
+            </connections>
             <point key="canvasLocation" x="-252.17391304347828" y="355.58035714285711"/>
         </stackView>
         <tapGestureRecognizer enabled="NO" id="9B7-mP-dEo">
@@ -68,9 +68,10 @@
                 <action selector="onTapToDimiss:" destination="-1" id="XI0-1A-0OC"/>
             </connections>
         </tapGestureRecognizer>
-        <panGestureRecognizer minimumNumberOfTouches="1" id="Ka0-hK-FpU">
+        <panGestureRecognizer minimumNumberOfTouches="1" id="Dfd-9M-KVX">
             <connections>
-                <action selector="onPanToDismiss:" destination="-1" id="h3S-IT-HWm"/>
+                <action selector="onPanToDismiss:" destination="-1" id="0gL-Or-nPP"/>
+                <outlet property="delegate" destination="xeD-aD-9CQ" id="WAD-T2-7ga"/>
             </connections>
         </panGestureRecognizer>
     </objects>

@@ -167,6 +167,11 @@ class VideoGalleryViewController: UICollectionViewController {
                 ])
         }
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        selectPhotoView.removeFromSuperview()
+    }
     
     @objc func onOpenAlbums() {
         let nvc = AppStoryboard.Album.instance.instantiateViewController(withIdentifier: "albumNavigation") as! UINavigationController
@@ -407,7 +412,7 @@ class VideoGalleryViewController: UICollectionViewController {
             self.selectPhotoView.removeFromSuperview()
             self.collectionView.reloadData()
         }
-        let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
+        let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
         let vc = nvc.topViewController as! EditViewController
         vc.photoIdentifiers = identifiers
         present(nvc, animated: true, completion: nil)
