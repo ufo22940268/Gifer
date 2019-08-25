@@ -41,5 +41,7 @@ class RootNavigationController: UINavigationController {
 
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
         print("complete selecting \(asset)")
+        (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
+        dismiss(animated: true, completion: nil)
     }
 }

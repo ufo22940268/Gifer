@@ -125,6 +125,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         let percent = max(min(sender.translation(in: overlayStackView).y/overlayStackView.bounds.height, 1), 0)
         switch sender.state {
         case .began:
+            interactiveTransition.wantsInteractiveStart = true
             toVC.dismiss(animated: true, completion: nil)
         case .changed:
             interactiveTransition.update(percent)
