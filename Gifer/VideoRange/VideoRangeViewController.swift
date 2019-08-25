@@ -231,12 +231,11 @@ class VideoRangeViewController: UIViewController {
     
     @IBAction func onDone(_ sender: Any) {
         if navRoot.mode == .normal {
-            let nVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
-            let editVC = nVC.topViewController as! EditViewController
+            let editVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
             editVC.initTrimPosition = trimPosition
             editVC.videoAsset = previewAsset
             editVC.navigationItem.leftBarButtonItems = nil
-            present(nVC, animated: true, completion: nil)
+            present(editVC, animated: true, completion: nil)
         } else if navRoot.mode == .append {
             navRoot.completeSelectVideo(asset: previewAsset, trimPosition: trimPosition)
         }
