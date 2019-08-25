@@ -174,11 +174,10 @@ class VideoGalleryViewController: UICollectionViewController {
     }
     
     @objc func onOpenAlbums() {
-        let nvc = AppStoryboard.Album.instance.instantiateViewController(withIdentifier: "albumNavigation") as! UINavigationController
-        let vc = nvc.topViewController as! AlbumViewController
+        let vc = AppStoryboard.Album.instance.instantiateViewController(withIdentifier: "album") as! AlbumViewController
         vc.customDelegate = self
         vc.initialCollectionIdentifier = fetchOptions.localIdentifier
-        navigationController?.present(nvc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func showSelectPhotoView(_ show: Bool, afterSelect index: IndexPath? = nil, complete: (() -> Void)? = nil) {

@@ -139,6 +139,6 @@ class AlbumViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let col = collections![indexPath.row]
         self.customDelegate?.onUpdateFetchOptions(localIdentifier: col.localIdentifier, localizedTitle: col.localizedTitle)
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 }

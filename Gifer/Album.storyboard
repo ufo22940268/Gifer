@@ -68,15 +68,7 @@
                             <outlet property="delegate" destination="W5F-M9-GVC" id="kcp-cI-5aC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="相册选择" id="ScL-8J-Dxy">
-                        <barButtonItem key="backBarButtonItem" title="取消" id="eef-EV-rp6"/>
-                        <barButtonItem key="leftBarButtonItem" title="取消" id="aNd-qO-bHD">
-                            <color key="tintColor" name="yellowColor"/>
-                            <connections>
-                                <action selector="onDismiss:" destination="W5F-M9-GVC" id="7aQ-hr-RTL"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="相册选择" id="ScL-8J-Dxy"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHn-sx-G80" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
