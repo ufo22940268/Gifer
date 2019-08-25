@@ -401,6 +401,14 @@ extension VideoRangeViewController: VideoControllerDelegate {
             break
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
+            editVC.initTrimPosition = trimPosition
+            editVC.videoAsset = previewAsset
+            editVC.source = .range
+        }
+    }
 }
 
 extension VideoRangeViewController: VideoCacheDelegate {

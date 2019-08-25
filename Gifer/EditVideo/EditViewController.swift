@@ -124,6 +124,13 @@ class EditViewController: UIViewController {
         case unknown
     }
     
+    enum Source {
+        case gallery
+        case range
+    }
+    
+    var source = Source.gallery
+    
     var shareVC: ShareViewController!
     @IBOutlet weak var videoController: VideoController!
     
@@ -309,6 +316,10 @@ class EditViewController: UIViewController {
         }
         
         view.tintColor = .mainColor
+
+        if source == .range {            
+            navigationItem.leftBarButtonItem = nil
+        }
         
         updateSubTitleWhenLoading()
         setupVideoContainer()
