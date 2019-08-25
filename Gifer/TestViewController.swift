@@ -18,9 +18,10 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root")
+            let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root") as! RootNavigationController
             vc.transitioningDelegate = self.customTransitionDelegate
             vc.modalPresentationStyle = .custom
+            vc.mode = .append
             self.present(vc, animated: true, completion: nil)
         }
     }

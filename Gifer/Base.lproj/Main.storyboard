@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Root Navigation Controller-->
         <scene sceneID="zJ4-14-LlL">
             <objects>
-                <navigationController storyboardIdentifier="root" toolbarHidden="NO" id="sHl-ZP-FEy" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="root" toolbarHidden="NO" id="sHl-ZP-FEy" customClass="RootNavigationController" customModule="Gifer" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yrp-4z-FUM">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

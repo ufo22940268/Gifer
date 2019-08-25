@@ -71,6 +71,10 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
+    var navRoot: RootNavigationController {
+        return navigationController as! RootNavigationController
+    }
+    
     var videoResult:PHFetchResult<PHAsset>?
     lazy var switcher: GallerySwitcher = {
         let view = GallerySwitcher(type: .custom)
@@ -317,19 +321,23 @@ class VideoGalleryViewController: UICollectionViewController {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
-            kdebug_signpost_start(1, 0, 0, 0, 0)
         } else {
-            kdebug_signpost_start(2, 0, 0, 0, 0)
-            let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
-            let editVC = navVC.topViewController as! EditViewController
-            editVC.previewImage = previewImage
-            if galleryCategory == .video {
-                editVC.videoAsset = videoAsset
-                editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
-            } else {
-                editVC.livePhotoAsset = videoAsset
+            if navRoot.mode == .normal {
+                let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
+                let editVC = navVC.topViewController as! EditViewController
+                editVC.previewImage = previewImage
+                if galleryCategory == .video {
+                    editVC.videoAsset = videoAsset
+                    editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
+                } else {
+                    editVC.livePhotoAsset = videoAsset
+                }
+                present(navVC, animated: true, completion: nil)
+            } else if navRoot.mode == .append {
+                if galleryCategory == .video {
+                    navRoot.completeSelectVideo(asset: videoAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600)))
+                }
             }
-            present(navVC, animated: true, completion: nil)
         }
     }
     

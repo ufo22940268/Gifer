@@ -32,6 +32,7 @@
 		4234786D22CAE46A007F9E05 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4234786C22CAE46A007F9E05 /* Config.swift */; };
 		42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBA21F024A300970A5C /* GridRulerCornerView.swift */; };
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
+		4239A67923120203005E8226 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4239A67823120203005E8226 /* RootNavigationController.swift */; };
 		423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */; };
 		423C282E22C34E0A00D58376 /* ImagePlayerItemGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */; };
 		423C283022C3904F00D58376 /* ImagePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282F22C3904F00D58376 /* ImagePlayerView.swift */; };
@@ -193,6 +194,7 @@
 		4234786C22CAE46A007F9E05 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42362EBA21F024A300970A5C /* GridRulerCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerCornerView.swift; sourceTree = "<group>"; };
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
+		4239A67823120203005E8226 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressCircle.swift; sourceTree = "<group>"; };
 		423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerItemGenerator.swift; sourceTree = "<group>"; };
 		423C282F22C3904F00D58376 /* ImagePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerView.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 				4284D43D2275895E00886513 /* VideoRange */,
 				4205D1EF22FD38EC00F17EEE /* Localizable.strings */,
 				4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */,
+				4239A67823120203005E8226 /* RootNavigationController.swift */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */,
 				42462B212202F8DE0064FE56 /* VideoControllerGallerySlider.swift in Sources */,
 				4218D4ED22C75980001CAD81 /* Storyboards.swift in Sources */,
+				4239A67923120203005E8226 /* RootNavigationController.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
