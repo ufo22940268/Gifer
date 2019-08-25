@@ -130,7 +130,7 @@
                                         <barButtonItem enabled="NO" title="制作" id="aT1-Nt-WRc">
                                             <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                             <connections>
-                                                <action selector="onMakeGifFromPhotos:" destination="bz0-X4-CgO" id="anQ-yQ-G4O"/>
+                                                <action selector="onCompleteSelectPhotos:" destination="bz0-X4-CgO" id="anQ-yQ-G4O"/>
                                             </connections>
                                         </barButtonItem>
                                     </items>

@@ -44,4 +44,10 @@ class RootNavigationController: UINavigationController {
         (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
         dismiss(animated: true, completion: nil)
     }
+    
+    func completeSelectPhotos(identifiers: [String]) {
+        print("complete selecting photos \(identifiers)")
+        (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
+        dismiss(animated: true, completion: nil)
+    }
 }

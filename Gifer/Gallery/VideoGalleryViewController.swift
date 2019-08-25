@@ -71,7 +71,7 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
-    var navRoot: RootNavigationController {
+    var rootNav: RootNavigationController {
         return navigationController as! RootNavigationController
     }
     
@@ -327,7 +327,7 @@ class VideoGalleryViewController: UICollectionViewController {
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
         } else {
-            if navRoot.mode == .normal {
+            if rootNav.mode == .normal {
                 let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
                 let editVC = navVC.topViewController as! EditViewController
                 editVC.previewImage = previewImage
@@ -338,9 +338,9 @@ class VideoGalleryViewController: UICollectionViewController {
                     editVC.livePhotoAsset = videoAsset
                 }
                 present(navVC, animated: true, completion: nil)
-            } else if navRoot.mode == .append {
+            } else if rootNav.mode == .append {
                 if galleryCategory == .video {
-                    navRoot.completeSelectVideo(asset: videoAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600)))
+                    rootNav.completeSelectVideo(asset: videoAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600)))
                 }
             }
         }
@@ -404,7 +404,7 @@ class VideoGalleryViewController: UICollectionViewController {
         showScrollToBottomButton(offsetToTheBottom > 300)
     }
     
-    @IBAction func onMakeGifFromPhotos(_ sender: UIBarButtonItem) {
+    @IBAction func onCompleteSelectPhotos(_ sender: UIBarButtonItem) {
         let identifiers = selectPhotoView.selectedIdentifiers
         self.showSelectPhotoView(false) {
             self.selectPhotoView.items.removeAll()
@@ -412,10 +412,15 @@ class VideoGalleryViewController: UICollectionViewController {
             self.selectPhotoView.removeFromSuperview()
             self.collectionView.reloadData()
         }
-        let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
-        let vc = nvc.topViewController as! EditViewController
-        vc.photoIdentifiers = identifiers
-        present(nvc, animated: true, completion: nil)
+        
+        if rootNav.mode == .normal  {
+            let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
+            let vc = nvc.topViewController as! EditViewController
+            vc.photoIdentifiers = identifiers
+            present(nvc, animated: true, completion: nil)
+        } else if rootNav.mode == .append {
+            rootNav.completeSelectPhotos(identifiers: identifiers)
+        }
     }
 }
 
