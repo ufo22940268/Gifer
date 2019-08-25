@@ -159,7 +159,7 @@
         <!--Edit View Navigation Controller-->
         <scene sceneID="Lvj-ki-vif">
             <objects>
-                <navigationController storyboardIdentifier="editViewController" id="xdc-mZ-5uB" userLabel="Edit View Navigation Controller" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="editNav" id="xdc-mZ-5uB" userLabel="Edit View Navigation Controller" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q1r-ou-1C8">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

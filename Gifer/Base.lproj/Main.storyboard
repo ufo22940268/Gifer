@@ -311,7 +311,7 @@
                     <navigationItem key="navigationItem" id="S5x-0M-hbg">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="TS0-Bl-4XN">
                             <connections>
-                                <segue destination="L53-K8-6jk" kind="show" identifier="edit" id="xDe-h7-QUR"/>
+                                <action selector="onDone:" destination="aqC-5D-Bi7" id="ETz-Se-KKQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -331,13 +331,6 @@
             <objects>
                 <viewControllerPlaceholder storyboardName="Frame" referencedIdentifier="frames" id="xUn-aB-490" userLabel="Frames" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WCt-4m-naT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
-        <!--Edit View Controller Reference-->
-        <scene sceneID="jR3-gx-HpM">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Edit" referencedIdentifier="editViewController" id="L53-K8-6jk" userLabel="Edit View Controller Reference" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pb9-5J-bDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>

@@ -64,6 +64,10 @@ class VideoRangeViewController: UIViewController {
     var loopObserverToken: Any?
     var isDebug:Bool!
     
+    var navRoot: RootNavigationController {
+        return navigationController as! RootNavigationController
+    }
+    
     var isSeeking = false
     var chaseTime: CMTime!
     var chaseRightTrim: CMTime?
@@ -225,6 +229,19 @@ class VideoRangeViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func onDone(_ sender: Any) {
+        if navRoot.mode == .normal {
+            let nVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
+            let editVC = nVC.topViewController as! EditViewController
+            editVC.initTrimPosition = trimPosition
+            editVC.videoAsset = previewAsset
+            editVC.navigationItem.leftBarButtonItems = nil
+            present(nVC, animated: true, completion: nil)
+        } else if navRoot.mode == .append {
+            navRoot.completeSelectVideo(asset: previewAsset, trimPosition: trimPosition)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         if previewController.player != nil {
             player.play()
@@ -382,14 +399,6 @@ extension VideoRangeViewController: VideoControllerDelegate {
             seekToAndPlay(position: progress)
         case .end:
             break
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "edit", let editVC = (segue.destination as? UINavigationController)?.topViewController as? EditViewController {
-            editVC.initTrimPosition = trimPosition
-            editVC.videoAsset = previewAsset
-            editVC.navigationItem.leftBarButtonItems = nil
         }
     }
 }
