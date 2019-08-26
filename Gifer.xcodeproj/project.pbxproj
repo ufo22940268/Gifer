@@ -70,6 +70,7 @@
 		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
+		4275DBAA23135AE500FA095C /* FrameLabelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */; };
 		427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */; };
 		427D5204230E655B00679CE3 /* OverlayTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427D5203230E655B00679CE3 /* OverlayTransitionAnimator.swift */; };
 		4284D44122768F5F00886513 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4284D44022768F5F00886513 /* ShareViewController.swift */; };
@@ -236,6 +237,7 @@
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
 		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
+		4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameLabelCollectionView.swift; sourceTree = "<group>"; };
 		427A5647224246E900F0CA3E /* VideoProgressLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressLoadingIndicator.swift; sourceTree = "<group>"; };
 		427D5203230E655B00679CE3 /* OverlayTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTransitionAnimator.swift; sourceTree = "<group>"; };
 		4284D44022768F5F00886513 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4294CCB722C4498700FD4917 /* ImagePlayerFrameView.swift */,
 				4294CCB922C6C8CA00FD4917 /* FramesViewController.swift */,
+				4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */,
 				42491E5A21ED7C22002FECDE /* GridRulerView.swift */,
 				42A1AFE621EF186C00CF8018 /* CropContainer.swift */,
 				42362EBA21F024A300970A5C /* GridRulerCornerView.swift */,
@@ -920,6 +923,7 @@
 				420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */,
 				42E5C34C221E415F00D18CA6 /* GalleryBottomInfoView.swift in Sources */,
 				42D7F2A22251EA9100E7E504 /* TextRender.swift in Sources */,
+				4275DBAA23135AE500FA095C /* FrameLabelCollectionView.swift in Sources */,
 				4285BFA121A8C3AE00913466 /* VideoControllerGallery.swift in Sources */,
 				4218D4EF22C75F72001CAD81 /* FramePreviewViewController.swift in Sources */,
 				427D5204230E655B00679CE3 /* OverlayTransitionAnimator.swift in Sources */,

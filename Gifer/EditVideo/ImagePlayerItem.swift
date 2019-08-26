@@ -36,6 +36,12 @@ struct ImagePlayerFrame: Equatable {
         self.isActive = true
     }
     
+    var previewLoader: ImagePlayerItemLabel.PreviewLoader {
+        return { () in
+            return self.uiImage
+        }
+    }
+    
     static var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
     
     static func saveToDirectory(cgImage: CGImage, frame: inout ImagePlayerFrame) {
@@ -102,11 +108,21 @@ class ImagePlayerItem {
     var frameInterval: Double!
     
     var queue = DispatchQueue(label: "cache")
+    var labelSequence: Int = 0
+    var labels = [ImagePlayerItemLabel]()
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
         self.allFrames = frames
         self.duration = duration
         updateFrameInterval()
+        
+        labels.append(createLabel(first: frames.first!))
+    }
+    
+    func createLabel(first frame: ImagePlayerFrame) -> ImagePlayerItemLabel {
+        let label = ImagePlayerItemLabel(previewLoader: frame.previewLoader, sequence: labelSequence)
+        labelSequence += 1
+        return label
     }
     
     func updateFrameInterval() {
@@ -271,6 +287,17 @@ extension Array where Element == ImagePlayerFrame {
 //    func nearestActiveIndex(time: CMTime) -> Int {
 //        return (self.filter { $0.isActive }.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
 //    }
+}
+
+class ImagePlayerItemLabel {
+    typealias PreviewLoader = () -> UIImage
+    var previewLoader: PreviewLoader
+    var sequence: Int
+    
+    internal init(previewLoader: @escaping ImagePlayerItemLabel.PreviewLoader, sequence: Int) {
+        self.previewLoader = previewLoader
+        self.sequence = sequence
+    }
 }
 
 class MakePlayerItemFromPhotosTask {
