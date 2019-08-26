@@ -327,7 +327,7 @@ class VideoGalleryViewController: UICollectionViewController {
             navigationController?.pushViewController(rangeVC, animated: true)
         } else {
             if rootNav.mode == .normal {
-                let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! UINavigationController
+                let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
                 let editVC = navVC.topViewController as! EditViewController
                 editVC.previewImage = previewImage
                 if galleryCategory == .video {

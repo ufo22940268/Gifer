@@ -175,7 +175,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" name="darkContentColor"/>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Smm-fd-Xgj" firstAttribute="top" secondItem="b81-vf-jhe" secondAttribute="top" id="Eac-4y-xYL"/>
                             <constraint firstItem="Smm-fd-Xgj" firstAttribute="leading" secondItem="b81-vf-jhe" secondAttribute="leading" id="GRN-pd-93l"/>

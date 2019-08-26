@@ -512,6 +512,7 @@ class EditViewController: UIViewController {
                     }
                 }
             }
+            let _ = vc.view
             vc.playerItem = playerItem
             vc.trimPosition = trimPosition
             vc.customDelegate = self

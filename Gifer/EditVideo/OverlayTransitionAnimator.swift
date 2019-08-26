@@ -44,7 +44,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return 0.4
     }
     
     fileprivate func animateTransitionForPresent(in transitionContext: UIViewControllerContextTransitioning) {
@@ -66,7 +66,8 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         transitionContext.containerView.addSubview(overlayStackView)
         overlayStackView.layoutIfNeeded()
         overlayStackView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height)
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseIn, animations: {
+        fromView.backgroundColor = #colorLiteral(red: 0.06274509804, green: 0.06274509804, blue: 0.06274509804, alpha: 1)
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseOut, animations: {
             fromView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             fromView.clipsToBounds = true
             fromView.layer.cornerRadius = 16
@@ -130,12 +131,8 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
 
         override func presentationTransitionWillBegin() {
             guard let presentedView = presentedView else { return }
-            presentedView.frame = presentedView.frame.inset(by: UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0))
-        }
-        
-        override var shouldPresentInFullscreen: Bool {
-            return false
-        }
+            presentedView.frame = presentedView.frame.inset(by: UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
+        }        
     }
 }
 
