@@ -28,7 +28,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="51" id="2K1-HU-ixy"/>
                                         </constraints>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dlR-v1-sh4">
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="4" id="dlR-v1-sh4">
                                             <size key="itemSize" width="70" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
