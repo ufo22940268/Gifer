@@ -125,6 +125,11 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         var overlayStackView: UIView!
         @IBOutlet weak var overlayTopBar: UIView!
         
+        lazy var dimmingView: UIView = {
+            let view = UIView().useAutoLayout()
+            view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+            return view
+        }()
 
         override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
             super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
@@ -150,6 +155,20 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         override func presentationTransitionWillBegin() {
             guard let presentedView = presentedView else { return }
             presentedView.frame = presentedView.frame.inset(by: UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
+            containerView?.insertSubview(dimmingView, at: 0)
+            dimmingView.useSameSizeAsParent()
+            dimmingView.alpha = 0
+            presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (context) in
+                
+                //No animations. Can't figure out why.
+//                self.dimmingView.alpha = 1
+            }, completion: nil)
+        }
+        
+        override func presentationTransitionDidEnd(_ completed: Bool) {
+            if !completed {
+                dimmingView.removeFromSuperview()
+            }
         }
     }
 }
