@@ -21,6 +21,7 @@ class RootNavigationController: UINavigationController {
     }
     
     var mode = Mode.normal
+    weak var customDelegate: RootNavigationControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,21 +29,11 @@ class RootNavigationController: UINavigationController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
         print("complete selecting \(asset)")
         (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
         dismiss(animated: true, completion: nil)
+        customDelegate?.completeSelectVideo(asset: asset, trimPosition: trimPosition)
     }
     
     func completeSelectPhotos(identifiers: [String]) {
@@ -50,4 +41,8 @@ class RootNavigationController: UINavigationController {
         (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
         dismiss(animated: true, completion: nil)
     }
+}
+
+protocol RootNavigationControllerDelegate: class {
+    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition)
 }

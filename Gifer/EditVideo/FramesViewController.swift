@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import Photos
 
 protocol FramesDelegate: class {
     func onUpdateFrames(_ frames: [ImagePlayerFrame])
@@ -20,7 +21,7 @@ class FramesViewController: UIViewController {
             frameLabelCollectionView.playerItem = playerItem
         }
     }
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var frameCollectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
     var customTransitionDelegate = OverlayTransitionAnimator()
@@ -59,22 +60,22 @@ class FramesViewController: UIViewController {
         }
         
         frameLabelCollectionView.customDelegate = self
-        let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let flowLayout = frameCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let gap = CGFloat(2)
         let width: CGFloat = (view.bounds.width - 3*gap)/4
         flowLayout.minimumLineSpacing = gap
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.itemSize = CGSize(width: width, height: width)
         
-        collectionView.allowsMultipleSelection = true
+        frameCollectionView.allowsMultipleSelection = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
+        frameCollectionView.reloadData()
         rootFrames.enumerated()
             .filter { !$0.element.isActive }.map { $0.offset }
-            .forEach { collectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
-        collectionView.contentOffset = .zero
+            .forEach { frameCollectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
+        frameCollectionView.contentOffset = .zero
     }
     
     @IBAction func onDone(_ sender: Any) {
@@ -124,7 +125,7 @@ extension FramesViewController: UICollectionViewDelegate {
     
     fileprivate func updateVisibleCells() {
         let newFrames = rootFrames
-        collectionView.visibleCells.forEach { cell in
+        frameCollectionView.visibleCells.forEach { cell in
             let cell = cell as! FrameCell
             let frame: ImagePlayerFrame = newFrames[cell.index]
             cell.sequence = playerItem.getActiveSequence(of: frame)
@@ -170,7 +171,24 @@ extension FramesViewController: AppendPlayerItemDelegate {
         let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root") as! RootNavigationController
         vc.transitioningDelegate = self.customTransitionDelegate
         vc.modalPresentationStyle = .custom
+        vc.customDelegate = self
         vc.mode = .append
         self.present(vc, animated: true, completion: nil)
     }        
+}
+
+extension FramesViewController: RootNavigationControllerDelegate {
+    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
+            guard let avAsset = avAsset else { return }
+            let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
+            playerItemGenerator.extract { playerItem in
+                self.playerItem.concat(playerItem)
+                self.frameLabelCollectionView.animateAfterInsertItem()
+                self.frameCollectionView.reloadData()
+            }
+        }
+    }
 }

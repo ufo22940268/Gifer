@@ -39,6 +39,10 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
             return cell
         }
     }
+    
+    func animateAfterInsertItem() {
+        insertItems(at: [IndexPath(row: labels.count - 1, section: 0)])
+    }
 }
 
 protocol AppendPlayerItemDelegate: class {

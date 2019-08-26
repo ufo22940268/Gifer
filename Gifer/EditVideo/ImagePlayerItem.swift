@@ -10,74 +10,6 @@ import UIKit
 import AVKit
 import Photos
 
-class ImagePlayerFrame: Equatable {
-    var time: CMTime
-    var path: URL?
-    var key: NSNumber {
-        return NSNumber(value: time.seconds)
-    }
-    var isActive = true
-    
-    var uiImage: UIImage! {
-        if let path = path, let data = try? Data(contentsOf: path) {
-            return UIImage(data: data)
-        } else {
-            return nil
-        }
-    }
-    
-    init(time: CMTime) {
-        self.time = time
-    }
-    
-    convenience init(time: CMTime, image: UIImage) {
-        self.init(time: time)
-        saveToDirectory(uiImage: image)
-        self.isActive = true
-    }
-    
-    var previewLoader: ImagePlayerItemLabel.PreviewLoader {
-        return { () in
-            return self.uiImage
-        }
-    }
-    
-    static var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
-    
-    func saveToDirectory(cgImage: CGImage) {
-        let directory = ImagePlayerFrame.directory
-        let filePath = directory.appendingPathComponent(self.time.seconds.description)
-        do {
-            try UIImage(cgImage: cgImage).jpegData(compressionQuality: 1)?.write(to: filePath)
-            self.path = filePath
-        } catch {
-            print("error: \(error)")
-        }
-    }
-    
-    func saveToDirectory(uiImage: UIImage) {
-        let directory = ImagePlayerFrame.directory
-        let filePath = directory.appendingPathComponent(self.time.seconds.description)
-        do {
-            try uiImage.jpegData(compressionQuality: 1)?.write(to: filePath)
-            self.path = filePath
-        } catch {
-            print("error: \(error)")
-        }
-    }
-
-    static func initDirectory() {
-        let directory = ImagePlayerFrame.directory
-        try? FileManager.default.removeItem(at: directory)
-        try! FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-    }
-    
-
-    static func == (_ lhs: ImagePlayerFrame, _ rhs: ImagePlayerFrame) -> Bool {
-        return lhs.path == rhs.path
-    }
-}
-
 class ImagePlayerItem {
     var activeFrames: [ImagePlayerFrame] {
         return allFrames.filter { $0.isActive }
@@ -280,6 +212,12 @@ class ImagePlayerItem {
             return .zero
         }
         return VideoTrimPosition(leftTrim: allFrames.first!.time, rightTrim: allFrames.last!.time)
+    }
+    
+    func concat(_ playerItem: ImagePlayerItem) {
+        allFrames.append(contentsOf: playerItem.allFrames)
+        rootFrames.append(contentsOf: playerItem.rootFrames)
+        labels.append(createLabel(first: playerItem.allFrames.first!))
     }
 }
 
