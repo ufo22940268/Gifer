@@ -102,7 +102,7 @@ class ImagePlayerItemGenerator {
                     }
                     var frames = frameSegments[index]
                     var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
-                    ImagePlayerFrame.saveToDirectory(cgImage: image, frame: &frame)
+                    frame.saveToDirectory(cgImage: image)
                     frames.append(frame)
                     frameSegments[index] = frames
                     

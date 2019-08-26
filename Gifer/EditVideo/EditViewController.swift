@@ -158,11 +158,13 @@ class EditViewController: UIViewController {
     
     var playerItem: ImagePlayerItem?
     var rootFrames: [ImagePlayerFrame]? {
-        didSet {
-            rootTimes = rootFrames?.map { $0.time }
+        get {
+            return playerItem?.rootFrames
         }
     }
-    var rootTimes: [CMTime]?
+    var rootTimes: [CMTime]? {
+        return rootFrames?.map { $0.time }
+    }
     
     @IBOutlet weak var cancelItemButton: UIBarButtonItem!
     /// Use photos to make player item.
@@ -510,7 +512,7 @@ class EditViewController: UIViewController {
                     }
                 }
             }
-            vc.setFrames(rootFrames)
+            vc.playerItem = playerItem
             vc.trimPosition = trimPosition
             vc.customDelegate = self
         }
@@ -705,7 +707,6 @@ extension EditViewController: ImagePlayerDelegate {
         shareBarItem.isEnabled = true
         frameBarItem.isEnabled = true
         self.playerItem = playerItem
-        self.rootFrames = playerItem.allFrames
         self.videoController.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
         imagePlayerView.customDelegate = self
@@ -961,7 +962,6 @@ extension EditViewController: ControlToolbarDelegate {
                 if let asset = asset {
                     self.makePlayerItem(avAsset: asset, fps: fps, isInit: false) { [weak self] playerItem in
                         guard let self = self else { return }
-                        self.rootFrames = playerItem.allFrames
                         self.syncPlayerItemChanges(playerItem)
                         self.showPlayLoading(false)
                         self.imagePlayerView.restartPlay()

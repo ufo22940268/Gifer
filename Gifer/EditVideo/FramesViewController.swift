@@ -15,23 +15,25 @@ protocol FramesDelegate: class {
 
 class FramesViewController: UIViewController {
     
-    var playerItem: ImagePlayerItem!
+    var playerItem: ImagePlayerItem! {
+        didSet {
+            frameLabelCollectionView.playerItem = playerItem
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
     
-    var frames: [ImagePlayerFrame] {
+    @IBOutlet weak var frameLabelCollectionView: FrameLabelCollectionView!
+    
+    var rootFrames: [ImagePlayerFrame] {
         get {
-            return playerItem.allFrames
+            return playerItem.rootFrames
         }
         
         set {
-            playerItem.allFrames = newValue
+            playerItem.rootFrames = newValue
         }
-    }
-    
-    func setFrames(_ frames: [ImagePlayerFrame]) {
-        playerItem = ImagePlayerItem(frames: frames, duration: frames.last!.time)
     }
     
     override func viewDidLoad() {
@@ -51,7 +53,6 @@ class FramesViewController: UIViewController {
                 frame.path = path
                 return frame
             }
-            setFrames(frames)
             playerItem = ImagePlayerItem(frames: frames, duration: CMTime(seconds: 3, preferredTimescale: 600))
             trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
@@ -68,7 +69,7 @@ class FramesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
-        frames.enumerated()
+        rootFrames.enumerated()
             .filter { !$0.element.isActive }.map { $0.offset }
             .forEach { collectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
         collectionView.contentOffset = .zero
@@ -86,12 +87,12 @@ class FramesViewController: UIViewController {
 
 extension FramesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return playerItem != nil ? frames.count : 0
+        return playerItem != nil ? rootFrames.count : 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FrameCell
-        let frame = frames[indexPath.row]
+        let frame = rootFrames[indexPath.row]
         
         if cell.tag != 0 {
             playerItem.cancel(taskId: cell.tag)
@@ -111,7 +112,7 @@ extension FramesViewController: UICollectionViewDataSource {
 
 extension FramesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if frames[indexPath.row].isActive && (frames.filter { $0.isActive }.count == 1) {
+        if rootFrames[indexPath.row].isActive && (rootFrames.filter { $0.isActive }.count == 1) {
             makeToast(message: "最少选择一个图片")
             return false
         } else {
@@ -120,7 +121,7 @@ extension FramesViewController: UICollectionViewDelegate {
     }
     
     fileprivate func updateVisibleCells() {
-        let newFrames = frames
+        let newFrames = rootFrames
         collectionView.visibleCells.forEach { cell in
             let cell = cell as! FrameCell
             let frame: ImagePlayerFrame = newFrames[cell.index]
@@ -129,14 +130,14 @@ extension FramesViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let frame = frames[indexPath.row]
-        frames[indexPath.row].isActive = false
+        let frame = rootFrames[indexPath.row]
+        rootFrames[indexPath.row].isActive = false
         updateVisibleCells()
    }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let frame = frames[indexPath.row]
-        frames[indexPath.row].isActive = true
+        let frame = rootFrames[indexPath.row]
+        rootFrames[indexPath.row].isActive = true
         updateVisibleCells()
     }
 }
@@ -157,7 +158,7 @@ extension FramesViewController: FrameCellDelegate {
 
 extension FramesViewController: FramePreviewDelegate {
     func onCheck(index: Int, actived: Bool) {
-        let frame = frames[index]
+        let frame = rootFrames[index]
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!].isActive = actived
     }
 }

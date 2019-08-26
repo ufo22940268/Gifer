@@ -182,6 +182,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="5c3-AP-EDh" id="HrK-Or-3i7"/>
+                        <outlet property="frameLabelCollectionView" destination="nWS-QP-fGf" id="OQV-nR-v2g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-qL-JG6" userLabel="First Responder" sceneMemberID="firstResponder"/>

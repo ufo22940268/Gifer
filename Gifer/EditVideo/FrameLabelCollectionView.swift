@@ -10,13 +10,10 @@ import UIKit
 
 class FrameLabelCollectionView: UICollectionView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    var playerItem: ImagePlayerItem!
+    var labels: [ImagePlayerItemLabel] {
+        return playerItem.labels
     }
-    */
     
     override func awakeFromNib() {
         dataSource = self
@@ -25,11 +22,11 @@ class FrameLabelCollectionView: UICollectionView {
 
 extension FrameLabelCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return labels.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < 2 {
+        if indexPath.row < labels.count {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath)
         } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath)

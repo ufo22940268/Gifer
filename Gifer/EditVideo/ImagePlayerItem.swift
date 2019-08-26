@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 import Photos
 
-struct ImagePlayerFrame: Equatable {
+class ImagePlayerFrame: Equatable {
     var time: CMTime
     var path: URL?
     var key: NSNumber {
@@ -30,9 +30,9 @@ struct ImagePlayerFrame: Equatable {
         self.time = time
     }
     
-    init(time: CMTime, image: UIImage) {
+    convenience init(time: CMTime, image: UIImage) {
         self.init(time: time)
-        ImagePlayerFrame.saveToDirectory(uiImage: image, frame: &self)
+        saveToDirectory(uiImage: image)
         self.isActive = true
     }
     
@@ -44,23 +44,23 @@ struct ImagePlayerFrame: Equatable {
     
     static var directory: URL = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
     
-    static func saveToDirectory(cgImage: CGImage, frame: inout ImagePlayerFrame) {
+    func saveToDirectory(cgImage: CGImage) {
         let directory = ImagePlayerFrame.directory
-        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
+        let filePath = directory.appendingPathComponent(self.time.seconds.description)
         do {
             try UIImage(cgImage: cgImage).jpegData(compressionQuality: 1)?.write(to: filePath)
-            frame.path = filePath
+            self.path = filePath
         } catch {
             print("error: \(error)")
         }
     }
     
-    static func saveToDirectory(uiImage: UIImage, frame: inout ImagePlayerFrame) {
+    func saveToDirectory(uiImage: UIImage) {
         let directory = ImagePlayerFrame.directory
-        let filePath = directory.appendingPathComponent(frame.time.seconds.description)
+        let filePath = directory.appendingPathComponent(self.time.seconds.description)
         do {
             try uiImage.jpegData(compressionQuality: 1)?.write(to: filePath)
-            frame.path = filePath
+            self.path = filePath
         } catch {
             print("error: \(error)")
         }
@@ -88,6 +88,9 @@ class ImagePlayerItem {
             updateFrameInterval()
         }
     }
+    
+    var rootFrames: [ImagePlayerFrame]!
+    
     var duration: CMTime
     lazy var playCache: NSCache<NSNumber, UIImage> = {
         let cache = NSCache<NSNumber, UIImage>()
@@ -113,6 +116,7 @@ class ImagePlayerItem {
     
     init(frames: [ImagePlayerFrame], duration: CMTime) {
         self.allFrames = frames
+        self.rootFrames = frames
         self.duration = duration
         updateFrameInterval()
         
