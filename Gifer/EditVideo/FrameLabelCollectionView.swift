@@ -15,12 +15,15 @@ class FrameLabelCollectionView: UICollectionView {
         return playerItem.labels
     }
     
+    weak var customDelegate: AppendPlayerItemDelegate?
+
     override func awakeFromNib() {
         dataSource = self
     }
 }
 
 extension FrameLabelCollectionView: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return labels.count + 1
     }
@@ -31,9 +34,15 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
             cell.loadImage(with: labels[indexPath.row].previewLoader)
             return cell
         } else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath) as! FrameLabelAppendCell
+            cell.customDelegate = customDelegate
+            return cell
         }
     }
+}
+
+protocol AppendPlayerItemDelegate: class {
+    func onAppendPlayerItem()
 }
 
 class FrameLabelPreviewCell: UICollectionViewCell {
@@ -42,5 +51,14 @@ class FrameLabelPreviewCell: UICollectionViewCell {
     
     func loadImage(with loader: ImagePlayerItemLabel.PreviewLoader) {
         imageView.image = loader()
+    }
+    
+}
+
+class FrameLabelAppendCell: UICollectionViewCell {
+    weak var customDelegate: AppendPlayerItemDelegate?
+
+    @IBAction func onAppendPlayerItem(_ sender: Any) {
+        customDelegate?.onAppendPlayerItem()
     }
 }

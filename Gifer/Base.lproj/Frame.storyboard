@@ -64,7 +64,7 @@
                                                     <outlet property="imageView" destination="qUN-j6-Hxv" id="5zA-c1-Mww"/>
                                                 </connections>
                                             </collectionViewCell>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="add" id="BiW-1n-OJA" userLabel="Add">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="add" id="BiW-1n-OJA" userLabel="Add" customClass="FrameLabelAppendCell" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="86" y="0.0" width="70" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -82,6 +82,10 @@
                                                                     <integer key="value" value="5"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="onAppendPlayerItem:" destination="5U7-oi-oh7" eventType="touchUpInside" id="gRJ-jF-mDV"/>
+                                                                <action selector="onAppendPlayerItem:" destination="BiW-1n-OJA" eventType="touchUpInside" id="vdv-Mv-Gh7"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                 </view>
@@ -198,6 +202,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-qL-JG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="5U7-oi-oh7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1131.8840579710145" y="728.57142857142856"/>
         </scene>

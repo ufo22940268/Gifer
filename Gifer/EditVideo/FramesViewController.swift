@@ -23,7 +23,8 @@ class FramesViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
-    
+    var customTransitionDelegate = OverlayTransitionAnimator()
+
     @IBOutlet weak var frameLabelCollectionView: FrameLabelCollectionView!
     
     var rootFrames: [ImagePlayerFrame] {
@@ -49,7 +50,7 @@ class FramesViewController: UIViewController {
                 return path
             }
             let frames = paths.map { (path: URL) -> ImagePlayerFrame in
-                var frame = ImagePlayerFrame(time: .zero)
+                let frame = ImagePlayerFrame(time: .zero)
                 frame.path = path
                 return frame
             }
@@ -57,6 +58,7 @@ class FramesViewController: UIViewController {
             trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         
+        frameLabelCollectionView.customDelegate = self
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let gap = CGFloat(2)
         let width: CGFloat = (view.bounds.width - 3*gap)/4
@@ -130,13 +132,13 @@ extension FramesViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let frame = rootFrames[indexPath.row]
+        _ = rootFrames[indexPath.row]
         rootFrames[indexPath.row].isActive = false
         updateVisibleCells()
    }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let frame = rootFrames[indexPath.row]
+        _ = rootFrames[indexPath.row]
         rootFrames[indexPath.row].isActive = true
         updateVisibleCells()
     }
@@ -161,4 +163,14 @@ extension FramesViewController: FramePreviewDelegate {
         let frame = rootFrames[index]
         playerItem.allFrames[playerItem.allFrames.firstIndex(of: frame)!].isActive = actived
     }
+}
+
+extension FramesViewController: AppendPlayerItemDelegate {
+    func onAppendPlayerItem() {
+        let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root") as! RootNavigationController
+        vc.transitioningDelegate = self.customTransitionDelegate
+        vc.modalPresentationStyle = .custom
+        vc.mode = .append
+        self.present(vc, animated: true, completion: nil)
+    }        
 }
