@@ -27,13 +27,20 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row < labels.count {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "preview", for: indexPath) as! FrameLabelPreviewCell
+            cell.loadImage(with: labels[indexPath.row].previewLoader)
+            return cell
         } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath)
         }
     }
-    
-    
 }
 
-
+class FrameLabelPreviewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
+    func loadImage(with loader: ImagePlayerItemLabel.PreviewLoader) {
+        imageView.image = loader()
+    }
+}
