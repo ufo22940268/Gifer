@@ -10,19 +10,11 @@ import UIKit
 
 class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
-    @IBOutlet var overlayContainer: UIView!
-    var overlayStackView: UIView!
-    @IBOutlet weak var overlayTopBar: UIView!
     weak var toVC: UIViewController?
     var interactiveTransition = UIPercentDrivenInteractiveTransition()
-    
+
     override init() {
         super.init()
-        overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as? UIView
-        overlayStackView.useAutoLayout()
-        overlayTopBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        overlayTopBar.layer.cornerRadius = 12
-        overlayTopBar.clipsToBounds = true
         interactiveTransition.wantsInteractiveStart = true
     }
     
@@ -50,28 +42,30 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     fileprivate func animateTransitionForPresent(in transitionContext: UIViewControllerContextTransitioning) {
         let fromVC = transitionContext.viewController(forKey: .from)!
         let toVC = transitionContext.viewController(forKey: .to)!
-        let toView = transitionContext.view(forKey: .to)!.useAutoLayout()
+        let overlayView = transitionContext.view(forKey: .to)!.useAutoLayout()
         let fromView = fromVC.view!
         
         self.toVC = toVC
         
         (toVC as! UINavigationController).navigationBar.shadowImage = UIImage()
         (toVC as! UINavigationController).navigationBar.setBackgroundImage(UIImage(), for: .default)
-        overlayContainer.addSubview(toView)
-        toView.useSameSizeAsParent()
+        transitionContext.containerView.addSubview(overlayView)
         NSLayoutConstraint.activate([
-            overlayStackView.widthAnchor.constraint(equalToConstant: toView.bounds.width),
-            toView.heightAnchor.constraint(equalToConstant: toView.bounds.height)
+            overlayView.topAnchor.constraint(equalTo: transitionContext.containerView.topAnchor),
+            overlayView.centerXAnchor.constraint(equalTo: transitionContext.containerView.centerXAnchor),
+            overlayView.heightAnchor.constraint(equalToConstant: transitionContext.containerView.bounds.height - 80),
             ])
-        transitionContext.containerView.addSubview(overlayStackView)
-        overlayStackView.layoutIfNeeded()
-        overlayStackView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height)
+        overlayView.layoutIfNeeded()
+        let panGesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(onPanToDismiss(_:)))
+        overlayView.addGestureRecognizer(panGesture)
+        panGesture.delegate = self
+        overlayView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height)
         fromView.backgroundColor = #colorLiteral(red: 0.06274509804, green: 0.06274509804, blue: 0.06274509804, alpha: 1)
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseOut, animations: {
             fromView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             fromView.clipsToBounds = true
             fromView.layer.cornerRadius = 16
-            self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height - self.overlayStackView.bounds.height)
+            overlayView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height - overlayView.bounds.height)
         }) { (_) in            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
@@ -79,13 +73,14 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     fileprivate func animateTransitionForDismissal(in transitionContext: UIViewControllerContextTransitioning) {
         let galleryVC = transitionContext.viewController(forKey: .from)
         let fromVC = transitionContext.viewController(forKey: .to)
+        let overlayView = transitionContext.view(forKey: .from)!
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext),  animations: {
-            self.overlayStackView.transform = CGAffineTransform(translationX: 0, y: self.overlayStackView.transform.ty + self.overlayStackView.bounds.height)
+            overlayView.transform = CGAffineTransform(translationX: 0, y: overlayView.transform.ty + overlayView.bounds.height)
             fromVC?.view.transform = .identity
         }) { _ in
             if !transitionContext.transitionWasCancelled {
-                self.overlayStackView.removeFromSuperview()
+                overlayView.removeFromSuperview()
             }
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
@@ -100,13 +95,10 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         }
     }
     
-    @IBAction func onTapToDimiss(_ sender: Any) {
-        toVC?.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func onPanToDismiss(_ sender: UIPanGestureRecognizer) {
         guard let toVC = toVC else { return }
-        
+
+        let overlayStackView = sender.view!
         let percent = max(min(sender.translation(in: overlayStackView).y/overlayStackView.bounds.height, 1), 0)
         switch sender.state {
         case .began:
@@ -128,16 +120,46 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     }
     
     class PresentController: UIPresentationController {
+        
+        @IBOutlet var overlayContainer: UIView!
+        var overlayStackView: UIView!
+        @IBOutlet weak var overlayTopBar: UIView!
+        
+
+        override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+            super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+            overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as? UIView
+            overlayStackView.useAutoLayout()
+            overlayTopBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            overlayTopBar.layer.cornerRadius = 12
+            overlayTopBar.clipsToBounds = true
+            
+            overlayContainer.addSubview(super.presentedViewController.view)
+            super.presentedViewController.view.setContentHuggingPriority(.defaultLow, for: .vertical)
+            super.presentedViewController.view.useAutoLayout()
+            super.presentedViewController.view.useSameSizeAsParent()
+            NSLayoutConstraint.activate([
+                overlayStackView.widthAnchor.constraint(equalToConstant: super.presentedViewController.view.bounds.width)
+                ])
+        }
+        
+        override var presentedView: UIView? {
+            return overlayStackView
+        }
 
         override func presentationTransitionWillBegin() {
             guard let presentedView = presentedView else { return }
             presentedView.frame = presentedView.frame.inset(by: UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
-        }        
+        }
     }
 }
 
 extension OverlayTransitionAnimator: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer.location(in: overlayStackView).y < 70
+        guard let toVC = toVC else {
+            return false
+        }
+        return gestureRecognizer.location(in: toVC.view).y < 50
     }
 }
+
