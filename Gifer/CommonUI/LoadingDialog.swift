@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import NVActivityIndicatorView
 
 protocol Dialog {
     func show(by viewController: UIViewController)
@@ -70,7 +71,7 @@ class LoadingView: UIStackView {
     }()
     
     lazy var loadingIndicator: UIView = {
-        let view = UIActivityIndicatorView(style: .whiteLarge)
+        let view = NVActivityIndicatorView(frame: CGRect(origin: .zero, size: CGSize(width: 44, height: 44)), type: nil, color: .white, padding: 0)
         view.startAnimating()
         return view
     }()

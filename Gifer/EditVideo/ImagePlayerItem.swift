@@ -242,7 +242,7 @@ class ImagePlayerItemLabel {
     
     var color: UIColor {
         var colors = [UIColor.yellowActiveColor]
-        colors.append(contentsOf: [Palette.DeepPurple, Palette.Amber, Palette.Blue])
+        colors.append(contentsOf: [Palette.LightGreen, Palette.Blue])
         return colors[sequence%colors.count]
     }
     

@@ -25,6 +25,8 @@ class FramesViewController: UIViewController {
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
     var customTransitionDelegate = OverlayTransitionAnimator()
+    
+    var loadingDialog = LoadingDialog(label: "加载中...")
 
     @IBOutlet weak var frameLabelCollectionView: FrameLabelCollectionView!
     
@@ -176,15 +178,19 @@ extension FramesViewController: AppendPlayerItemDelegate {
 
 extension FramesViewController: RootNavigationControllerDelegate {
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
+        loadingDialog.show(by: self)
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
             guard let avAsset = avAsset else { return }
             let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
             playerItemGenerator.run { playerItem in
+                let originCount = self.rootFrames.count
                 self.playerItem.concat(playerItem)
                 self.frameLabelCollectionView.animateAfterInsertItem()
-                self.frameCollectionView.reloadData()
+                self.frameCollectionView.insertItems(at: (originCount..<(originCount + playerItem.allFrames.count)).map { IndexPath(row: $0, section: 0) })
+                self.frameCollectionView.scrollToItem(at: IndexPath(row: originCount, section: 0), at: .top, animated: true)
+                self.loadingDialog.dismiss()
             }
         }
     }
