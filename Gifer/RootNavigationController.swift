@@ -40,9 +40,11 @@ class RootNavigationController: UINavigationController {
         print("complete selecting photos \(identifiers)")
         (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
         dismiss(animated: true, completion: nil)
+        customDelegate?.completeSelectPhotos(identifiers: identifiers)
     }
 }
 
 protocol RootNavigationControllerDelegate: class {
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition)
+    func completeSelectPhotos(identifiers: [String])
 }

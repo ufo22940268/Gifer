@@ -177,6 +177,14 @@ extension FramesViewController: AppendPlayerItemDelegate {
 }
 
 extension FramesViewController: RootNavigationControllerDelegate {
+    fileprivate func appendPlayerItem(_ playerItem: ImagePlayerItem) {
+        let originCount = self.rootFrames.count
+        self.playerItem.concat(playerItem)
+        self.frameLabelCollectionView.animateAfterInsertItem()
+        self.frameCollectionView.insertItems(at: (originCount..<(originCount + playerItem.allFrames.count)).map { IndexPath(row: $0, section: 0) })
+        self.frameCollectionView.scrollToItem(at: IndexPath(row: originCount, section: 0), at: .top, animated: true)
+    }
+    
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
         loadingDialog.show(by: self)
         let options = PHVideoRequestOptions()
@@ -185,13 +193,21 @@ extension FramesViewController: RootNavigationControllerDelegate {
             guard let avAsset = avAsset else { return }
             let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
             playerItemGenerator.run { playerItem in
-                let originCount = self.rootFrames.count
-                self.playerItem.concat(playerItem)
-                self.frameLabelCollectionView.animateAfterInsertItem()
-                self.frameCollectionView.insertItems(at: (originCount..<(originCount + playerItem.allFrames.count)).map { IndexPath(row: $0, section: 0) })
-                self.frameCollectionView.scrollToItem(at: IndexPath(row: originCount, section: 0), at: .top, animated: true)
+                self.appendPlayerItem(playerItem)
                 self.loadingDialog.dismiss()
             }
         }
+    }
+    
+    func completeSelectPhotos(identifiers: [String]) {
+        loadingDialog.show(by: self)
+        let makePlayerItemFromPhotosTask = MakePlayerItemFromPhotosTask(identifiers: identifiers)
+        makePlayerItemFromPhotosTask.run { playerItem in
+            if let playerItem = playerItem {
+                self.appendPlayerItem(playerItem)
+            }
+            self.loadingDialog.dismiss()
+        }
+
     }
 }
