@@ -52,7 +52,9 @@ class ImagePlayerItem {
         self.duration = duration
         updateFrameInterval()
         
-        labels.append(createLabel(first: frames.first!))
+        let newLabel: ImagePlayerItemLabel = createLabel(first: frames.first!)
+        labels.append(newLabel)
+        frames.forEach { $0.label = newLabel }
     }
     
     func createLabel(first frame: ImagePlayerFrame) -> ImagePlayerItemLabel {
@@ -217,7 +219,9 @@ class ImagePlayerItem {
     func concat(_ playerItem: ImagePlayerItem) {
         allFrames.append(contentsOf: playerItem.allFrames)
         rootFrames.append(contentsOf: playerItem.rootFrames)
-        labels.append(createLabel(first: playerItem.allFrames.first!))
+        let newLabel: ImagePlayerItemLabel = createLabel(first: playerItem.allFrames.first!)
+        labels.append(newLabel)
+        playerItem.allFrames.forEach { $0.label = newLabel }
     }
 }
 
@@ -235,6 +239,12 @@ class ImagePlayerItemLabel {
     typealias PreviewLoader = () -> UIImage
     var previewLoader: PreviewLoader
     var sequence: Int
+    
+    var color: UIColor {
+        var colors = [UIColor.yellowActiveColor]
+        colors.append(contentsOf: [Palette.DeepPurple, Palette.Amber, Palette.Blue])
+        return colors[sequence%colors.count]
+    }
     
     internal init(previewLoader: @escaping ImagePlayerItemLabel.PreviewLoader, sequence: Int) {
         self.previewLoader = previewLoader

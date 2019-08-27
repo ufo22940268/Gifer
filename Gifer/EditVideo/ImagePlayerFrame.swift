@@ -22,6 +22,7 @@ class ImagePlayerFrame: Equatable {
         return NSNumber(value: time.seconds)
     }
     var isActive = true
+    weak var label: ImagePlayerItemLabel?
     
     var uiImage: UIImage! {
         if let path = path, let data = try? Data(contentsOf: path) {

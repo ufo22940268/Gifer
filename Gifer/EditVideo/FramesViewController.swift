@@ -101,6 +101,9 @@ extension FramesViewController: UICollectionViewDataSource {
         
         cell.tag = id
         cell.sequence = playerItem.getActiveSequence(of: frame)
+        if let color = frame.label?.color {
+            cell.sequenceView.backgroundColor = color
+        }
         cell.delegate = self
         cell.index = indexPath.row
         return cell
