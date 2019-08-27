@@ -19,6 +19,13 @@ class FrameLabelCollectionView: UICollectionView {
 
     override func awakeFromNib() {
         dataSource = self
+        delegate = self
+    }
+}
+
+extension FrameLabelCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return (labels?.count ?? 0) > 1
     }
 }
 
