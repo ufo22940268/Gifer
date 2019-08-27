@@ -10,9 +10,9 @@ import UIKit
 
 class FrameLabelCollectionView: UICollectionView {
 
-    var playerItem: ImagePlayerItem!
-    var labels: [ImagePlayerItemLabel] {
-        return playerItem.labels
+    var playerItem: ImagePlayerItem?
+    var labels: [ImagePlayerItemLabel]? {
+        return playerItem?.labels
     }
     
     weak var customDelegate: AppendPlayerItemDelegate?
@@ -25,10 +25,12 @@ class FrameLabelCollectionView: UICollectionView {
 extension FrameLabelCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let labels = labels else { return 0 }
         return labels.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let labels = labels else { fatalError() }
         if indexPath.row < labels.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "preview", for: indexPath) as! FrameLabelPreviewCell
             cell.loadImage(with: labels[indexPath.row].previewLoader)
@@ -41,6 +43,7 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     }
     
     func animateAfterInsertItem() {
+        guard let labels = labels else { return }
         insertItems(at: [IndexPath(row: labels.count - 1, section: 0)])
     }
 }

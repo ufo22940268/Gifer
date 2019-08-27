@@ -16,3 +16,21 @@ func getTestVideo() -> PHAsset {
     let assets: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: .video, options: options)
     return assets.lastObject!
 }
+
+func getTestAVAsset(complete: @escaping (AVAsset) -> Void) {
+    let asset = getTestVideo()
+    let options = PHVideoRequestOptions()
+    options.isNetworkAccessAllowed = true
+    PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, ni, nil) in
+        complete(asset!)
+    }
+}
+
+func getTestPlayerItem(complete: @escaping (ImagePlayerItem) -> Void) {
+    getTestAVAsset { (avAsset) in
+        ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
+            .run(complete: { (item) in
+                complete(item)
+            })
+    }
+}

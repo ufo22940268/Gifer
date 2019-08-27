@@ -120,7 +120,7 @@ class CropViewController: UIViewController {
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
             DispatchQueue.main.async {
-                ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).extract(complete: { (playerItem) in
+                ImagePlayerItemGenerator(avAsset: avAsset!, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: 1.toTime())).run(complete: { (playerItem) in
                     self.type = .video(imagePlayerItem: playerItem)
                     self.onResourceReady()
                 })

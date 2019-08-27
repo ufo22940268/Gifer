@@ -482,7 +482,7 @@ class EditViewController: UIViewController {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
         playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
-        playerItemGenerator?.extract { playerItem in
+        playerItemGenerator?.run { playerItem in
             DispatchQueue.main.async {
                 complete(playerItem)
             }

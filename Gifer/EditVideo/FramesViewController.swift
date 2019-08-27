@@ -44,19 +44,12 @@ class FramesViewController: UIViewController {
         DarkMode.enable(in: self)
         
         if playerItem == nil {
-            let directory = (try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)).appendingPathComponent("imagePlayer")
-            let paths = (try! FileManager.default.contentsOfDirectory(atPath: directory.path)).map { (file: String) -> URL in
-                var path = directory
-                path.appendPathComponent(file)
-                return path
+            getTestPlayerItem { (playerItem) in
+                self.playerItem = ImagePlayerItem(frames: playerItem.allFrames, duration: CMTime(seconds: 3, preferredTimescale: 600))
+                self.trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
+                self.frameCollectionView.reloadData()
+                self.frameLabelCollectionView.reloadData()
             }
-            let frames = paths.map { (path: URL) -> ImagePlayerFrame in
-                let frame = ImagePlayerFrame(time: .zero)
-                frame.path = path
-                return frame
-            }
-            playerItem = ImagePlayerItem(frames: frames, duration: CMTime(seconds: 3, preferredTimescale: 600))
-            trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
         }
         
         frameLabelCollectionView.customDelegate = self
@@ -71,6 +64,7 @@ class FramesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        guard playerItem != nil else { return }
         frameCollectionView.reloadData()
         rootFrames.enumerated()
             .filter { !$0.element.isActive }.map { $0.offset }
@@ -101,7 +95,7 @@ extension FramesViewController: UICollectionViewDataSource {
             playerItem.cancel(taskId: cell.tag)
         }
         
-        let id = playerItem.requestImage(frame: frame, complete: { (image) in
+        let id = playerItem.requestImage(frame: frame, size: CGSize(width: 200, height: 200), complete: { (image) in
             cell.image.image = image
         })
         
@@ -184,7 +178,7 @@ extension FramesViewController: RootNavigationControllerDelegate {
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
             guard let avAsset = avAsset else { return }
             let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
-            playerItemGenerator.extract { playerItem in
+            playerItemGenerator.run { playerItem in
                 self.playerItem.concat(playerItem)
                 self.frameLabelCollectionView.animateAfterInsertItem()
                 self.frameCollectionView.reloadData()

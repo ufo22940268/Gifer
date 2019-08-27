@@ -73,9 +73,21 @@ class ImagePlayerFrame: Equatable {
     
     static func initDirectory() {
         let directory = ImagePlayerFrame.directory
-//        try? FileManager.default.removeItem(at: directory)
-        if !FileManager.default.fileExists(atPath: directory.absoluteString) {            
+        if !FileManager.default.fileExists(atPath: directory.absoluteString) {
             try! FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let fileCountLimit = 1000
+        if let files = try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.creationDateKey]), files.count > fileCountLimit {
+            let filesToDelete = files.sorted(by: { (u1, u2) in
+                if let date1 = try? u1.resourceValues(forKeys: [.creationDateKey]).creationDate, let date2 = try? u2.resourceValues(forKeys: [.creationDateKey]).creationDate {
+                    return date1 < date2
+                } else {
+                    return false
+                }
+            })[0..<(files.count - fileCountLimit)]
+            
+            filesToDelete.forEach { try? FileManager.default.removeItem(at: $0) }
         }
     }
     
