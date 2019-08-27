@@ -33,7 +33,7 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
         guard let labels = labels else { fatalError() }
         if indexPath.row < labels.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "preview", for: indexPath) as! FrameLabelPreviewCell
-            cell.loadImage(with: labels[indexPath.row].previewLoader)
+            cell.label = labels[indexPath.row]
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "add", for: indexPath) as! FrameLabelAppendCell
@@ -56,10 +56,27 @@ class FrameLabelPreviewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    var label: ImagePlayerItemLabel? {
+        didSet {
+            guard let label = label else { return }
+            loadImage(with: label.previewLoader)
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            if let label = label, isSelected {
+                imageView.layer.borderWidth = 2
+                imageView.layer.borderColor = label.color.cgColor
+            } else {
+                imageView.layer.borderWidth = 0
+            }
+        }
+    }
+    
     func loadImage(with loader: ImagePlayerItemLabel.PreviewLoader) {
         imageView.image = loader()
     }
-    
 }
 
 class FrameLabelAppendCell: UICollectionViewCell {
