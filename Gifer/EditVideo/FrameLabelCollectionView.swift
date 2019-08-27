@@ -21,6 +21,12 @@ class FrameLabelCollectionView: UICollectionView {
         dataSource = self
         delegate = self
     }
+    
+    func dismissSelection() {
+        visibleCells.forEach { deselectItem(at: self.indexPath(for: $0)!, animated: false) }
+        
+        // TODO: Dismiss popup
+    }
 }
 
 extension FrameLabelCollectionView: UICollectionViewDelegate {

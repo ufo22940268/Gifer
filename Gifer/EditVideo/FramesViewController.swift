@@ -82,6 +82,20 @@ class FramesViewController: UIViewController {
     @IBAction func onDismiss(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
+    @IBAction func onTapRootView(_ sender: Any) {
+        print("onTapRootView")
+        frameLabelCollectionView.dismissSelection()
+    }
+}
+
+extension FramesViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return !frameLabelCollectionView.visibleCells.contains { (cell) -> Bool in
+            return cell.point(inside: gestureRecognizer.location(in: cell), with: nil)
+        }
+    }
 }
 
 extension FramesViewController: UICollectionViewDataSource {
@@ -208,6 +222,5 @@ extension FramesViewController: RootNavigationControllerDelegate {
             }
             self.loadingDialog.dismiss()
         }
-
     }
 }

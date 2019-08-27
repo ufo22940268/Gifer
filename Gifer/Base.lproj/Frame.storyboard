@@ -169,12 +169,14 @@
                                         </connections>
                                     </collectionView>
                                 </subviews>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="nWS-QP-fGf" firstAttribute="width" secondItem="Smm-fd-Xgj" secondAttribute="width" id="2sU-K7-PoZ"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" name="darkBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Smm-fd-Xgj" firstAttribute="top" secondItem="b81-vf-jhe" secondAttribute="top" id="Eac-4y-xYL"/>
                             <constraint firstItem="Smm-fd-Xgj" firstAttribute="leading" secondItem="b81-vf-jhe" secondAttribute="leading" id="GRN-pd-93l"/>
@@ -182,6 +184,9 @@
                             <constraint firstItem="Smm-fd-Xgj" firstAttribute="bottom" secondItem="b81-vf-jhe" secondAttribute="bottom" id="d6O-hZ-p8R"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b81-vf-jhe"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="neZ-RR-rPY" appends="YES" id="ziJ-zm-zzT"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Frames" id="sQL-z0-fM8">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="AEw-z5-Vww">
@@ -202,6 +207,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-qL-JG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5U7-oi-oh7" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="neZ-RR-rPY">
+                    <connections>
+                        <action selector="onTapRootView:" destination="biD-4K-Q56" id="Lfc-Qh-gce"/>
+                        <outlet property="delegate" destination="biD-4K-Q56" id="fx3-DV-CPp"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1131.8840579710145" y="728.57142857142856"/>
         </scene>
