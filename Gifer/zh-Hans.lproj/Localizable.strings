@@ -38,6 +38,8 @@
 "Medium" = "中";
 "Small" = "小";
 
+"Too much frames" = "帧数超过了限制，你最多可以添加200张图片";
+
 "No %@ Found in %@" = "%2$@中未找到%1$@";
 "Exporting..." = "导出中...";
 "Export success" = "导出成功";

@@ -7,3 +7,4 @@
 */
 "Loop %d" = "%d";
 //"" =
+"Too much frames" = "Frame count exceed limit. You can only add 200 frames at most.";

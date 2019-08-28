@@ -11,6 +11,8 @@ import AVKit
 import AVFoundation
 import Photos
 
+let frameCountLimitation = 20
+
 class RootNavigationController: UINavigationController {
     
     enum Mode {
@@ -21,12 +23,28 @@ class RootNavigationController: UINavigationController {
     }
     
     var mode = Mode.normal
+    var appendFPS: FPSFigure?
+    var currentFrameCount: Int?
     weak var customDelegate: RootNavigationControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func isExceedFrameLimit(asset: PHAsset) -> Bool {
+        guard let fps = appendFPS, let currentCount = currentFrameCount else { fatalError() }
+        let duration = asset.duration
+        return currentCount + Int(duration/(1/Double(fps.rawValue))) <= frameCountLimitation
+    }
+    
+    func isExceedFrameLimit(newFrames: Int) -> Bool {
+        return currentFrameCount! + newFrames <= frameCountLimitation
+    }
+    
+    func promptForExceedFrameLimit() {
+        makeToast(message: NSLocalizedString("Too much frames", comment: ""))
     }
     
     func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {

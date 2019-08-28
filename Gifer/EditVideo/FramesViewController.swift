@@ -194,6 +194,8 @@ extension FramesViewController: FrameLabelCollectionViewDelegate {
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.customDelegate = self
         vc.mode = .append
+        vc.appendFPS = FPSFigure.build(fromInterval: playerItem.frameInterval)
+        vc.currentFrameCount = playerItem.rootFrames.count
         self.present(vc, animated: true, completion: nil)
     }
     

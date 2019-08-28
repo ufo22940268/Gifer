@@ -340,7 +340,11 @@ class VideoGalleryViewController: UICollectionViewController {
                 present(navVC, animated: true, completion: nil)
             } else if rootNav.mode == .append {
                 if galleryCategory == .video {
-                    rootNav.completeSelectVideo(asset: videoAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600)))
+                    if rootNav.isExceedFrameLimit(asset: videoAsset) {
+                        rootNav.promptForExceedFrameLimit()
+                    } else {
+                        rootNav.completeSelectVideo(asset: videoAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600)))
+                    }
                 }
             }
         }
@@ -419,7 +423,11 @@ class VideoGalleryViewController: UICollectionViewController {
             vc.photoIdentifiers = identifiers
             present(nvc, animated: true, completion: nil)
         } else if rootNav.mode == .append {
-            rootNav.completeSelectPhotos(identifiers: identifiers)
+            if rootNav.isExceedFrameLimit(newFrames: identifiers.count) {
+                rootNav.promptForExceedFrameLimit()
+            } else {                
+                rootNav.completeSelectPhotos(identifiers: identifiers)
+            }
         }
     }
 }
