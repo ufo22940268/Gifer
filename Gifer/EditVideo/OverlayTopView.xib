@@ -13,7 +13,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OverlayTransitionAnimator" customModule="Gifer" customModuleProvider="target">
             <connections>
-                <outlet property="overlayContainer" destination="Uay-Jw-iO8" id="Mkq-yM-KVD"/>
                 <outlet property="overlayTopBar" destination="6eh-sj-b3J" id="Cbe-fL-0ZP"/>
             </connections>
         </placeholder>
@@ -22,11 +21,11 @@
             <rect key="frame" x="0.0" y="0.0" width="270" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <view contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J">
-                    <rect key="frame" x="0.0" y="0.0" width="270" height="20"/>
+                <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-sj-b3J">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="200"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HAi-Om-Nwt">
-                            <rect key="frame" x="107.5" y="7" width="55" height="6"/>
+                            <rect key="frame" x="107.5" y="97" width="55" height="6"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="6" id="EDg-Tc-12A"/>
@@ -47,9 +46,9 @@
                         <constraint firstItem="HAi-Om-Nwt" firstAttribute="centerY" secondItem="6eh-sj-b3J" secondAttribute="centerY" id="yRV-qz-Aqh"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-Jw-iO8">
-                    <rect key="frame" x="0.0" y="20" width="270" height="180"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-Jw-iO8">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="0.0"/>
+                    <color key="backgroundColor" name="wechatColor"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="250" constant="151.5" id="9bB-5Z-Uvc"/>
                     </constraints>
@@ -78,6 +77,9 @@
     <resources>
         <namedColor name="darkBackgroundColor">
             <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="wechatColor">
+            <color red="0.51372549019607838" green="0.85882352941176465" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

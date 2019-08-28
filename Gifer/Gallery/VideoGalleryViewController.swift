@@ -139,6 +139,7 @@ class VideoGalleryViewController: UICollectionViewController {
 
         galleryCategoryView.customDelegate = self
         galleryCategoryView.sizeToFit()
+        galleryCategoryView.isHidden = true
         galleryCategoryView.frame.size.width = view.frame.size.width
         galleryCategoryView.autoresizingMask = [.flexibleWidth]
         galleryCategoryView.transform = CGAffineTransform(translationX: 0, y: -galleryCategoryView.frame.height)
@@ -460,9 +461,10 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
 // MARK: - Gallery switcher and panel features
 extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDelegate {
     
-    func slideDownPanel(_ slideDown: Bool) {
+    func slideDownGallerySelectView(_ slideDown: Bool) {
         let duration = toggleGalleryCategoryAnimationDuration
         if slideDown {
+            self.galleryCategoryView.isHidden = false
             UIView.animate(withDuration: duration) {
                 self.galleryCategoryView.transform = .identity
             }
@@ -478,11 +480,11 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     }
     
     func onToggleGalleryPanel(slideDown: Bool) {
-        slideDownPanel(slideDown)
+        slideDownGallerySelectView(slideDown)
     }
     
     func onSelectGalleryCategory(_ galleryCategory: GalleryCategory) {
-        slideDownPanel(false)
+        slideDownGallerySelectView(false)
         self.galleryCategory = galleryCategory
         switcher.setSelected(false, anim: true)
         fetchOptions.mediaSubtype = galleryCategory.mediaSubtype
@@ -493,7 +495,7 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
     }
     
     @objc func onDimClicked(sender: UITapGestureRecognizer) {
-        slideDownPanel(false)
+        slideDownGallerySelectView(false)
         switcher.setSelected(false, anim: true)
     }
 }

@@ -191,6 +191,7 @@ extension FramesViewController: FrameLabelCollectionViewDelegate {
         let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root") as! RootNavigationController
         vc.transitioningDelegate = self.customTransitionDelegate
         vc.modalPresentationStyle = .custom
+        vc.modalPresentationCapturesStatusBarAppearance = true
         vc.customDelegate = self
         vc.mode = .append
         self.present(vc, animated: true, completion: nil)

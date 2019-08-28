@@ -51,21 +51,23 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         (toVC as! UINavigationController).navigationBar.setBackgroundImage(UIImage(), for: .default)
         transitionContext.containerView.addSubview(overlayView)
         NSLayoutConstraint.activate([
-            overlayView.topAnchor.constraint(equalTo: transitionContext.containerView.topAnchor),
-            overlayView.centerXAnchor.constraint(equalTo: transitionContext.containerView.centerXAnchor),
-            overlayView.heightAnchor.constraint(equalToConstant: transitionContext.containerView.bounds.height - 80),
+            overlayView.topAnchor.constraint(equalTo: transitionContext.containerView.topAnchor, constant: 80),
+            overlayView.leadingAnchor.constraint(equalTo: transitionContext.containerView.leadingAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: transitionContext.containerView.bottomAnchor),
+            overlayView.widthAnchor.constraint(equalTo: transitionContext.containerView.widthAnchor),
             ])
-        overlayView.layoutIfNeeded()
+        transitionContext.containerView.layoutIfNeeded()
         let panGesture: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(onPanToDismiss(_:)))
         overlayView.addGestureRecognizer(panGesture)
         panGesture.delegate = self
-        overlayView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height)
+        overlayView.transform = CGAffineTransform(translationX: 0, y: overlayView.bounds.height)
         fromView.backgroundColor = #colorLiteral(red: 0.06274509804, green: 0.06274509804, blue: 0.06274509804, alpha: 1)
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveEaseOut, animations: {
             fromView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             fromView.clipsToBounds = true
             fromView.layer.cornerRadius = 16
-            overlayView.transform = CGAffineTransform(translationX: 0, y: transitionContext.containerView.bounds.height - overlayView.bounds.height)
+            overlayView.transform = .identity
+            overlayView.superview?.layoutIfNeeded()
         }) { (_) in            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
@@ -121,8 +123,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     
     class PresentController: UIPresentationController {
         
-        @IBOutlet var overlayContainer: UIView!
-        var overlayStackView: UIView!
+        var overlayStackView: UIStackView!
         @IBOutlet weak var overlayTopBar: UIView!
         
         lazy var dimmingView: UIView = {
@@ -133,19 +134,21 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
 
         override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
             super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-            overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as? UIView
+            overlayStackView = Bundle.main.loadNibNamed("OverlayTopView", owner: self, options: nil)?.first as? UIStackView
             overlayStackView.useAutoLayout()
             overlayTopBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             overlayTopBar.layer.cornerRadius = 12
             overlayTopBar.clipsToBounds = true
             
-            overlayContainer.addSubview(super.presentedViewController.view)
-            super.presentedViewController.view.setContentHuggingPriority(.defaultLow, for: .vertical)
-            super.presentedViewController.view.useAutoLayout()
-            super.presentedViewController.view.useSameSizeAsParent()
+            let galleryView = super.presentedViewController.view!
+            galleryView.backgroundColor = .orange
+            galleryView.useAutoLayout()
+            overlayStackView.addArrangedSubview(galleryView)
             NSLayoutConstraint.activate([
-                overlayStackView.widthAnchor.constraint(equalToConstant: super.presentedViewController.view.bounds.width)
+                overlayStackView.widthAnchor.constraint(equalTo: galleryView.widthAnchor)
                 ])
+            
+            overlayStackView.layoutIfNeeded()
         }
         
         override var presentedView: UIView? {
@@ -154,7 +157,6 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
 
         override func presentationTransitionWillBegin() {
             guard let presentedView = presentedView else { return }
-            presentedView.frame = presentedView.frame.inset(by: UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
             containerView?.insertSubview(dimmingView, at: 0)
             dimmingView.useSameSizeAsParent()
             dimmingView.alpha = 0
