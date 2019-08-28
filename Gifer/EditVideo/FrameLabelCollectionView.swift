@@ -15,30 +15,15 @@ class FrameLabelCollectionView: UICollectionView {
         return playerItem?.labels
     }
     
-    weak var customDelegate: AppendPlayerItemDelegate?
+    weak var customDelegate: FrameLabelCollectionViewDelegate?
     
     override func awakeFromNib() {
         dataSource = self
         delegate = self
-        
-        let editMenuItem = UIMenuItem(title: "Edit", action: NSSelectorFromString("editCollection"))
-
-        UIMenuController.shared.menuItems = [editMenuItem]
-        UIMenuController.shared.arrowDirection = .down
     }
     
     func dismissSelection() {
         visibleCells.forEach { deselectItem(at: self.indexPath(for: $0)!, animated: false) }
-        
-        // TODO: Dismiss popup
-    }
-    
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return true
     }
 }
 
@@ -50,9 +35,8 @@ extension FrameLabelCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)!
-        cell.becomeFirstResponder()
-        UIMenuController.shared.arrowDirection = .up
-        UIMenuController.shared.setTargetRect(cell.bounds.offsetBy(dx: 0, dy: -15), in: cell)
+        becomeFirstResponder()
+        UIMenuController.shared.setTargetRect(cell.frame.offsetBy(dx: 0, dy: -15), in: self)
         UIMenuController.shared.setMenuVisible(true, animated: true)
     }
 }
@@ -80,6 +64,20 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     func animateAfterInsertItem() {
         guard let labels = labels else { return }
         insertItems(at: [IndexPath(row: labels.count - 1, section: 0)])
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return action == #selector(delete(_:))
+    }
+    
+    override func delete(_ sender: Any?) {
+        if let selectedIndex = indexPathsForSelectedItems?.first, let selectedLabel = playerItem?.labels[selectedIndex.row] {
+            customDelegate?.onDeleteLabel(selectedLabel)
+        }
     }
 }
 
@@ -113,13 +111,6 @@ class FrameLabelPreviewCell: UICollectionViewCell {
         imageView.image = loader()
     }
     
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return true
-    }
 }
 
 class FrameLabelAppendCell: UICollectionViewCell {
@@ -129,7 +120,9 @@ class FrameLabelAppendCell: UICollectionViewCell {
         customDelegate?.onAppendPlayerItem()
     }
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return true
-    }
+}
+
+
+protocol FrameLabelCollectionViewDelegate: AppendPlayerItemDelegate {
+    func onDeleteLabel(_ label: ImagePlayerItemLabel)
 }

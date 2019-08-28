@@ -178,7 +178,15 @@ extension FramesViewController: FramePreviewDelegate {
     }
 }
 
-extension FramesViewController: AppendPlayerItemDelegate {
+extension FramesViewController: FrameLabelCollectionViewDelegate {
+    func onDeleteLabel(_ label: ImagePlayerItemLabel) {
+        let labelIndexesToDelete: [IndexPath] = [IndexPath(row: playerItem.labels.firstIndex { $0 === label }!, section: 0)]
+        let frameIndexesToDelete: [IndexPath] = rootFrames.enumerated().filter { $0.1.label === label }.map { IndexPath(row: $0.0, section: 0) }
+        playerItem.deleteLabel(label)
+        frameLabelCollectionView.deleteItems(at: labelIndexesToDelete)
+        frameCollectionView.deleteItems(at: frameIndexesToDelete)
+    }
+    
     func onAppendPlayerItem() {
         let vc = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "root") as! RootNavigationController
         vc.transitioningDelegate = self.customTransitionDelegate

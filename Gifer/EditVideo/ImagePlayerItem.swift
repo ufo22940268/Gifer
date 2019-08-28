@@ -209,6 +209,12 @@ class ImagePlayerItem {
         }        
     }
     
+    func deleteLabel(_ label: ImagePlayerItemLabel) {
+        labels.removeAll { $0 === label }
+        allFrames.removeAll { $0.label === label }
+        rootFrames.removeAll { $0.label === label }
+    }
+    
     var allRangeTrimPosition: VideoTrimPosition {
         if allFrames.count < 2 {
             return .zero
