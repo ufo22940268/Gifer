@@ -194,7 +194,12 @@ extension FramesViewController: FrameLabelCollectionViewDelegate {
         vc.customDelegate = self
         vc.mode = .append
         self.present(vc, animated: true, completion: nil)
-    }        
+    }
+    
+    func onLabelSelected(_ label: ImagePlayerItemLabel) {
+        let firstIndex = rootFrames.firstIndex { $0.label === label }
+        frameCollectionView.scrollToItem(at: IndexPath(row: firstIndex!, section: 0), at: .top, animated: true)
+    }
 }
 
 extension FramesViewController: RootNavigationControllerDelegate {

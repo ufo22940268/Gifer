@@ -29,8 +29,7 @@ class FrameLabelCollectionView: UICollectionView {
 
 extension FrameLabelCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-//        return (labels?.count ?? 0) > 1
-        return true
+        return (labels?.count ?? 0) > 1
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -38,6 +37,8 @@ extension FrameLabelCollectionView: UICollectionViewDelegate {
         becomeFirstResponder()
         UIMenuController.shared.setTargetRect(cell.frame.offsetBy(dx: 0, dy: -15), in: self)
         UIMenuController.shared.setMenuVisible(true, animated: true)
+        
+        customDelegate?.onLabelSelected(labels![indexPath.row])
     }
 }
 
@@ -125,4 +126,5 @@ class FrameLabelAppendCell: UICollectionViewCell {
 
 protocol FrameLabelCollectionViewDelegate: AppendPlayerItemDelegate {
     func onDeleteLabel(_ label: ImagePlayerItemLabel)
+    func onLabelSelected(_ label: ImagePlayerItemLabel)
 }
