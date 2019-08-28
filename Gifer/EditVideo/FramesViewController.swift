@@ -85,7 +85,6 @@ class FramesViewController: UIViewController {
     
     
     @IBAction func onTapRootView(_ sender: Any) {
-        print("onTapRootView")
         frameLabelCollectionView.dismissSelection()
     }
 }

@@ -16,10 +16,15 @@ class FrameLabelCollectionView: UICollectionView {
     }
     
     weak var customDelegate: AppendPlayerItemDelegate?
-
+    
     override func awakeFromNib() {
         dataSource = self
         delegate = self
+        
+        let editMenuItem = UIMenuItem(title: "Edit", action: NSSelectorFromString("editCollection"))
+
+        UIMenuController.shared.menuItems = [editMenuItem]
+        UIMenuController.shared.arrowDirection = .down
     }
     
     func dismissSelection() {
@@ -27,11 +32,28 @@ class FrameLabelCollectionView: UICollectionView {
         
         // TODO: Dismiss popup
     }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return true
+    }
 }
 
 extension FrameLabelCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return (labels?.count ?? 0) > 1
+//        return (labels?.count ?? 0) > 1
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)!
+        cell.becomeFirstResponder()
+        UIMenuController.shared.arrowDirection = .up
+        UIMenuController.shared.setTargetRect(cell.bounds.offsetBy(dx: 0, dy: -15), in: cell)
+        UIMenuController.shared.setMenuVisible(true, animated: true)
     }
 }
 
@@ -90,6 +112,14 @@ class FrameLabelPreviewCell: UICollectionViewCell {
     func loadImage(with loader: ImagePlayerItemLabel.PreviewLoader) {
         imageView.image = loader()
     }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return true
+    }
 }
 
 class FrameLabelAppendCell: UICollectionViewCell {
@@ -97,5 +127,9 @@ class FrameLabelAppendCell: UICollectionViewCell {
 
     @IBAction func onAppendPlayerItem(_ sender: Any) {
         customDelegate?.onAppendPlayerItem()
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return true
     }
 }
