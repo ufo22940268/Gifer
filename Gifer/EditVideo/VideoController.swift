@@ -400,6 +400,21 @@ class VideoController: UIStackView {
         self.attachView.trimView.playerItem = playerItem
     }
     
+    func loadGalleryImagesFromPlayerItem() {
+        let thumbernailCount = galleryView.arrangedSubviews.count
+        let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
+        var galleryIndex = 0
+        for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
+            if galleryIndex >= thumbernailCount {
+                break
+            }
+            
+            let frame = playerItem.activeFrames[i]
+            galleryView.setImage(frame.uiImage, on: galleryIndex)
+            galleryIndex += 1
+        }
+    }
+    
     func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
         let duration = playerItem.duration
         
@@ -415,22 +430,10 @@ class VideoController: UIStackView {
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
         completion()
         
-        let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
-        var galleryIndex = 0
-        for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
-            if galleryIndex >= thumbernailCount {
-                break
-            }
-            
-            let frame = playerItem.activeFrames[i]
-            self.loadGallery(withImage: frame.uiImage, index: galleryIndex)
-            galleryIndex += 1
-        }
+        loadGalleryImagesFromPlayerItem()
     }
     
     func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
-        
-        print(playerItem.status.rawValue)
         guard playerItem.asset.duration.value > 0 else {
             return
         }

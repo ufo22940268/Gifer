@@ -1047,6 +1047,7 @@ extension EditViewController: FramesDelegate {
         playerItem.resetAllFrameTimes()
         playerItem.duration = playerItem.allFrames.last!.time
         syncPlayerItemChanges(playerItem)
+        videoController.loadGalleryImagesFromPlayerItem()
         imagePlayerView.restartPlay()
         
         controlToolbar.setupAllItems(for: mode, labelCount: playerItem.labels.count)
