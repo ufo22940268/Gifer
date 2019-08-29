@@ -234,12 +234,25 @@ class ImagePlayerItem {
         labels.append(newLabel)
         playerItem.allFrames.forEach { $0.label = newLabel }
     }
+    
+    private func replace(frames: inout [ImagePlayerFrame], with newFrames: [ImagePlayerFrame], on label: ImagePlayerItemLabel) {
+        let all = frames.enumerated().filter { $0.element.label === label }.map { $0.offset }.sorted(by: < )
+        frames.replaceSubrange(all.first!...all.last!, with: newFrames.map {
+            $0.label = label
+            return $0
+        })
+    }
+    
+    func replace(with playerItem: ImagePlayerItem, on label: ImagePlayerItemLabel) {
+        replace(frames: &allFrames, with: playerItem.allFrames, on: label)
+        replace(frames: &rootFrames, with: playerItem.rootFrames, on: label)
+    }
 }
 
 extension Array where Element == ImagePlayerFrame {
     func nearestIndex(time: CMTime) -> Int {
         return (self.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
-    }    
+    }
 }
 
 class ImagePlayerItemLabel {

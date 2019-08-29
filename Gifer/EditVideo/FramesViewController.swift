@@ -206,6 +206,22 @@ extension FramesViewController: FrameLabelCollectionViewDelegate {
         let firstIndex = rootFrames.firstIndex { $0.label === label }
         frameCollectionView.scrollToItem(at: IndexPath(row: firstIndex!, section: 0), at: .top, animated: true)
     }
+    
+    func onClipLabel(_ label: ImagePlayerItemLabel) {
+        let rangeVC = AppStoryboard.Main.instance.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
+        rangeVC.previewAsset = label.videoAsset
+        
+        let nvc = RootNavigationController(rootViewController: rangeVC)
+        nvc.transitioningDelegate = self.customTransitionDelegate
+        nvc.modalPresentationStyle = .custom
+        nvc.modalPresentationCapturesStatusBarAppearance = true
+        nvc.customDelegate = self
+        nvc.mode = .append
+        nvc.appendFPS = FPSFigure.build(fromInterval: playerItem.frameInterval)
+        nvc.editLabel = label
+        nvc.currentFrameCount = playerItem.rootFrames.count
+        self.present(nvc, animated: true, completion: nil)
+    }
 }
 
 extension FramesViewController: RootNavigationControllerDelegate {
@@ -217,7 +233,12 @@ extension FramesViewController: RootNavigationControllerDelegate {
         self.frameCollectionView.scrollToItem(at: IndexPath(row: originCount, section: 0), at: .top, animated: true)
     }
     
-    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition) {
+    fileprivate func replacePlayerItem(with playerItem: ImagePlayerItem, on label: ImagePlayerItemLabel) {
+        self.playerItem.replace(with: playerItem, on: label)
+        self.frameCollectionView.reloadData()
+    }
+    
+    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition, label: ImagePlayerItemLabel?) {
         loadingDialog.show(by: self)
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
@@ -225,7 +246,11 @@ extension FramesViewController: RootNavigationControllerDelegate {
             guard let avAsset = avAsset else { return }
             let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, asset: asset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
             playerItemGenerator.run { playerItem in
-                self.appendPlayerItem(playerItem)
+                if let label = label {
+                    self.replacePlayerItem(with: playerItem, on: label)
+                } else {
+                    self.appendPlayerItem(playerItem)
+                }
                 self.loadingDialog.dismiss()
             }
         }

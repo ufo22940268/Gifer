@@ -236,7 +236,7 @@ class VideoRangeViewController: UIViewController {
             editVC.videoAsset = previewAsset
             editVC.navigationItem.leftBarButtonItems = nil
             present(editVC, animated: true, completion: nil)
-        } else if navRoot.mode == .append {
+        } else {
             if navRoot.isExceedFrameLimit(asset: previewAsset) {
                 navRoot.promptForExceedFrameLimit()
             } else {

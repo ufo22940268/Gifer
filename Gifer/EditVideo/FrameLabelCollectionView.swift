@@ -95,7 +95,9 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     }
     
     @objc func clip() {
-        
+        if let label = playerItem?.labels[indexToBeSelected!.row] {
+            customDelegate?.onClipLabel(label)
+        }
     }
 }
 
@@ -144,4 +146,5 @@ class FrameLabelAppendCell: UICollectionViewCell {
 protocol FrameLabelCollectionViewDelegate: AppendPlayerItemDelegate {
     func onDeleteLabel(_ label: ImagePlayerItemLabel)
     func onLabelSelected(_ label: ImagePlayerItemLabel)
+    func onClipLabel(_ label: ImagePlayerItemLabel)
 }

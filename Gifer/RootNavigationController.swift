@@ -20,10 +20,12 @@ class RootNavigationController: UINavigationController {
         
         // Append new frames to current gif.
         case append
+        case edit
     }
     
     var mode = Mode.normal
     var appendFPS: FPSFigure?
+    var editLabel: ImagePlayerItemLabel?
     var currentFrameCount: Int?
     weak var customDelegate: RootNavigationControllerDelegate?
 
@@ -51,7 +53,7 @@ class RootNavigationController: UINavigationController {
         print("complete selecting \(asset)")
         (transitioningDelegate as! OverlayTransitionAnimator).interactiveTransition.wantsInteractiveStart = false
         dismiss(animated: true, completion: nil)
-        customDelegate?.completeSelectVideo(asset: asset, trimPosition: trimPosition)
+        customDelegate?.completeSelectVideo(asset: asset, trimPosition: trimPosition, label: editLabel)
     }
     
     func completeSelectPhotos(identifiers: [String]) {
@@ -63,6 +65,6 @@ class RootNavigationController: UINavigationController {
 }
 
 protocol RootNavigationControllerDelegate: class {
-    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition)
+    func completeSelectVideo(asset: PHAsset, trimPosition: VideoTrimPosition, label: ImagePlayerItemLabel?)
     func completeSelectPhotos(identifiers: [String])
 }

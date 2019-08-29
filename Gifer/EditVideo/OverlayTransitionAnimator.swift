@@ -90,7 +90,8 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let isPresent = (transitionContext.viewController(forKey: .to) as? UINavigationController)?.topViewController is VideoGalleryViewController
+        let topVC: UIViewController? = (transitionContext.viewController(forKey: .to) as? UINavigationController)?.topViewController
+        let isPresent = topVC is VideoGalleryViewController || topVC is VideoRangeViewController
         if isPresent {
             animateTransitionForPresent(in: transitionContext)
         } else {

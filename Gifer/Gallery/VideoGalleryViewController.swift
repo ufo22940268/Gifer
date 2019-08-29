@@ -338,7 +338,7 @@ class VideoGalleryViewController: UICollectionViewController {
                     editVC.livePhotoAsset = videoAsset
                 }
                 present(navVC, animated: true, completion: nil)
-            } else if rootNav.mode == .append {
+            } else {
                 if galleryCategory == .video {
                     if rootNav.isExceedFrameLimit(asset: videoAsset) {
                         rootNav.promptForExceedFrameLimit()
@@ -422,7 +422,7 @@ class VideoGalleryViewController: UICollectionViewController {
             let vc = nvc.topViewController as! EditViewController
             vc.photoIdentifiers = identifiers
             present(nvc, animated: true, completion: nil)
-        } else if rootNav.mode == .append {
+        } else {
             if rootNav.isExceedFrameLimit(newFrames: identifiers.count) {
                 rootNav.promptForExceedFrameLimit()
             } else {                
