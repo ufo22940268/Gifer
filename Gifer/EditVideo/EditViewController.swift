@@ -481,7 +481,7 @@ class EditViewController: UIViewController {
     private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
+        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, asset: videoAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
         playerItemGenerator?.run { playerItem in
             DispatchQueue.main.async {
                 complete(playerItem)

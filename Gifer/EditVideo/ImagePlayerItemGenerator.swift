@@ -8,10 +8,12 @@
 
 import AVKit
 import UIKit
+import  Photos
 
 class ImagePlayerItemGenerator {
     
-    var asset: AVAsset
+    var avAsset: AVAsset
+    var asset: PHAsset
     var trimPosition: VideoTrimPosition
     var isDestroyed = false
     
@@ -25,15 +27,16 @@ class ImagePlayerItemGenerator {
         }
     }()
     
-    internal init(avAsset: AVAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil, shouldCleanDirectory: Bool = true) {
-        self.asset = avAsset
+    internal init(avAsset: AVAsset, asset: PHAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil, shouldCleanDirectory: Bool = true) {
+        self.avAsset = avAsset
+        self.asset = asset
         self.trimPosition = trimPosition
         self.fps = fps
         self.shouldCleanDirectory = shouldCleanDirectory
     }
     
     func createAssetGenerator() -> AVAssetImageGenerator {
-        let generator = AVAssetImageGenerator(asset: asset)
+        let generator = AVAssetImageGenerator(asset: avAsset)
         generator.maximumSize = CGSize(width: 1200, height: 1200)
         generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceAfter = CMTime(seconds: 0.1, preferredTimescale: 600)
@@ -114,7 +117,7 @@ class ImagePlayerItemGenerator {
         }
         
         group.notify(queue: .main) {
-            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration))
+            complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration, videoAsset: self.asset))
         }
     }
     

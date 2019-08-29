@@ -57,6 +57,11 @@ class ImagePlayerItem {
         frames.forEach { $0.label = newLabel }
     }
     
+    convenience init(frames: [ImagePlayerFrame], duration: CMTime, videoAsset: PHAsset) {
+        self.init(frames: frames, duration: duration)
+        labels.last!.videoAsset = videoAsset
+    }
+    
     func createLabel(first frame: ImagePlayerFrame) -> ImagePlayerItemLabel {
         let label = ImagePlayerItemLabel(previewLoader: frame.previewLoader, sequence: labelSequence)
         labelSequence += 1
@@ -234,17 +239,14 @@ class ImagePlayerItem {
 extension Array where Element == ImagePlayerFrame {
     func nearestIndex(time: CMTime) -> Int {
         return (self.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
-    }
-    
-//    func nearestActiveIndex(time: CMTime) -> Int {
-//        return (self.filter { $0.isActive }.enumerated().min(by: { abs(($0.1.time - time).seconds) < abs(($1.1.time - time).seconds) }))!.0
-//    }
+    }    
 }
 
 class ImagePlayerItemLabel {
     typealias PreviewLoader = () -> UIImage
     var previewLoader: PreviewLoader
     var sequence: Int
+    var videoAsset: PHAsset?
     
     var color: UIColor {
         var colors = [UIColor.yellowActiveColor]

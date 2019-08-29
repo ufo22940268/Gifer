@@ -15,11 +15,14 @@ class FrameLabelCollectionView: UICollectionView {
         return playerItem?.labels
     }
     
+    var indexToBeSelected: IndexPath?
+    
     weak var customDelegate: FrameLabelCollectionViewDelegate?
     
     override func awakeFromNib() {
         dataSource = self
         delegate = self
+        UIMenuController.shared.menuItems = [UIMenuItem(title: NSLocalizedString("Clip", comment: ""), action: #selector(clip))]
     }
     
     func dismissSelection() {
@@ -29,13 +32,18 @@ class FrameLabelCollectionView: UICollectionView {
 
 extension FrameLabelCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        #if DEBUG
+        return true
+        #else
         return (labels?.count ?? 0) > 1
+        #endif
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)!
         becomeFirstResponder()
-        UIMenuController.shared.setTargetRect(cell.frame.offsetBy(dx: 0, dy: -15), in: self)
+        indexToBeSelected = indexPath
+        UIMenuController.shared.setTargetRect(cell.frame.offsetBy(dx: 0, dy: -17), in: self)
         UIMenuController.shared.setMenuVisible(true, animated: true)
         
         customDelegate?.onLabelSelected(labels![indexPath.row])
@@ -72,13 +80,22 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return action == #selector(delete(_:))
+        guard let index = indexToBeSelected, let labels = labels  else { return false }
+        if labels[index.row].videoAsset != nil {
+            return [#selector(delete(_:)), #selector(clip)].contains(action)
+        } else {
+            return [#selector(delete(_:))].contains(action)
+        }
     }
     
     override func delete(_ sender: Any?) {
         if let selectedIndex = indexPathsForSelectedItems?.first, let selectedLabel = playerItem?.labels[selectedIndex.row] {
             customDelegate?.onDeleteLabel(selectedLabel)
         }
+    }
+    
+    @objc func clip() {
+        
     }
 }
 

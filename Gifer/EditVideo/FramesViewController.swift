@@ -48,8 +48,8 @@ class FramesViewController: UIViewController {
         DarkMode.enable(in: self)
         
         if playerItem == nil {
-            getTestPlayerItem { (playerItem) in
-                self.playerItem = ImagePlayerItem(frames: playerItem.allFrames, duration: CMTime(seconds: 3, preferredTimescale: 600))
+            getTestPlayerItem { (playerItem, asset) in
+                self.playerItem = ImagePlayerItem(frames: playerItem.allFrames, duration: CMTime(seconds: 3, preferredTimescale: 600), videoAsset: asset)
                 self.trimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: 2, preferredTimescale: 600))
                 self.frameCollectionView.reloadData()
                 self.frameLabelCollectionView.reloadData()
@@ -223,7 +223,7 @@ extension FramesViewController: RootNavigationControllerDelegate {
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
             guard let avAsset = avAsset else { return }
-            let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
+            let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, asset: asset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
             playerItemGenerator.run { playerItem in
                 self.appendPlayerItem(playerItem)
                 self.loadingDialog.dismiss()

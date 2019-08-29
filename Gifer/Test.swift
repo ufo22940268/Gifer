@@ -17,20 +17,20 @@ func getTestVideo() -> PHAsset {
     return assets.lastObject!
 }
 
-func getTestAVAsset(complete: @escaping (AVAsset) -> Void) {
+func getTestAVAsset(complete: @escaping (AVAsset, PHAsset) -> Void) {
     let asset = getTestVideo()
     let options = PHVideoRequestOptions()
     options.isNetworkAccessAllowed = true
-    PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, ni, nil) in
-        complete(asset!)
+    PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
+        complete(avAsset!, asset)
     }
 }
 
-func getTestPlayerItem(complete: @escaping (ImagePlayerItem) -> Void) {
-    getTestAVAsset { (avAsset) in
-        ImagePlayerItemGenerator(avAsset: avAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
+func getTestPlayerItem(complete: @escaping (ImagePlayerItem, PHAsset) -> Void) {
+    getTestAVAsset { (avAsset, phAsset) in
+        ImagePlayerItemGenerator(avAsset: avAsset, asset: phAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
             .run(complete: { (item) in
-                complete(item)
+                complete(item, phAsset)
             })
     }
 }
