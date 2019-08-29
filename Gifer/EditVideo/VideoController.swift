@@ -406,7 +406,8 @@ class VideoController: UIStackView {
         updatePlayerItem(playerItem)
         
         gallerySlider.alpha = 1.0
-        let thumbernailCount = min(10, playerItem.activeFrames.count)
+        let expectThumbernailCount = Int(self.galleryView.bounds.width/40)
+        let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
         self.videoTrim.onVideoReady()
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
         self.galleryView.prepareImageViews(thumbernailCount)
