@@ -11,7 +11,7 @@ import AVKit
 import AVFoundation
 import Photos
 
-let frameCountLimitation = 20
+let frameCountLimitation = 200
 
 class RootNavigationController: UINavigationController {
     
@@ -36,11 +36,11 @@ class RootNavigationController: UINavigationController {
     func isExceedFrameLimit(asset: PHAsset) -> Bool {
         guard let fps = appendFPS, let currentCount = currentFrameCount else { fatalError() }
         let duration = asset.duration
-        return currentCount + Int(duration/(1/Double(fps.rawValue))) <= frameCountLimitation
+        return currentCount + Int(duration/(1/Double(fps.rawValue))) > frameCountLimitation
     }
     
     func isExceedFrameLimit(newFrames: Int) -> Bool {
-        return currentFrameCount! + newFrames <= frameCountLimitation
+        return currentFrameCount! + newFrames > frameCountLimitation
     }
     
     func promptForExceedFrameLimit() {

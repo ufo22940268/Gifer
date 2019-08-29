@@ -239,7 +239,7 @@ class VideoRangeViewController: UIViewController {
         } else if navRoot.mode == .append {
             if navRoot.isExceedFrameLimit(asset: previewAsset) {
                 navRoot.promptForExceedFrameLimit()
-            } else {                
+            } else {
                 navRoot.completeSelectVideo(asset: previewAsset, trimPosition: trimPosition)
             }
         }

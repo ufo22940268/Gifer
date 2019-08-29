@@ -18,7 +18,9 @@ class FramesViewController: UIViewController {
     
     var playerItem: ImagePlayerItem! {
         didSet {
-            frameLabelCollectionView.playerItem = playerItem
+            if isViewLoaded {
+                frameLabelCollectionView.playerItem = playerItem
+            }
         }
     }
     @IBOutlet weak var frameCollectionView: UICollectionView!
@@ -54,6 +56,7 @@ class FramesViewController: UIViewController {
             }
         }
         
+        frameLabelCollectionView.playerItem = playerItem
         frameLabelCollectionView.customDelegate = self
         let flowLayout = frameCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let gap = CGFloat(2)

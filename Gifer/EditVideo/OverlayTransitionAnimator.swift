@@ -68,7 +68,8 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
             fromView.layer.cornerRadius = 16
             overlayView.transform = .identity
             overlayView.superview?.layoutIfNeeded()
-        }) { (_) in            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) { (_) in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
@@ -156,22 +157,21 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
         }
 
         override func presentationTransitionWillBegin() {
-            guard let presentedView = presentedView else { return }
+            dimmingView.removeFromSuperview()
             containerView?.insertSubview(dimmingView, at: 0)
             dimmingView.useSameSizeAsParent()
             dimmingView.alpha = 0
             presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (context) in
-                
-                //No animations. Can't figure out why.
-//                self.dimmingView.alpha = 1
+                self.dimmingView.alpha = 1
             }, completion: nil)
         }
         
-        override func presentationTransitionDidEnd(_ completed: Bool) {
-            if !completed {
-                dimmingView.removeFromSuperview()
-            }
-        }
+        override func dismissalTransitionWillBegin() {
+            dimmingView.alpha = 1
+            presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (context) in
+                self.dimmingView.alpha = 0
+            }, completion: nil)
+        }        
     }
 }
 

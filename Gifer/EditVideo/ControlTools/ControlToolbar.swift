@@ -42,9 +42,9 @@ class ControlToolbar: UICollectionView {
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
     
-    func setupAllItems(for mode: EditViewController.Mode) {
+    func setupAllItems(for mode: EditViewController.Mode, labelCount: Int) {
         var commonItems = ControlToolbarItem.initialAllCases
-        if mode != .photo {
+        if mode != .photo && labelCount == 1 {
             commonItems.append(.fps(rate: .f5))
         }
         allItems = commonItems

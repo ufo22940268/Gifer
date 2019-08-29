@@ -383,7 +383,7 @@ class EditViewController: UIViewController {
             ])
         optionMenu.delegate = self
         controlToolbar.toolbarDelegate = self
-        controlToolbar.setupAllItems(for: mode)
+        controlToolbar.setupAllItems(for: mode, labelCount: 1)
     }
     
     var displayVideoRect: CGRect {
@@ -512,7 +512,6 @@ class EditViewController: UIViewController {
                     }
                 }
             }
-            let _ = vc.view
             vc.playerItem = playerItem
             vc.trimPosition = trimPosition
             vc.customDelegate = self
@@ -1041,6 +1040,8 @@ extension EditViewController: FramesDelegate {
         playerItem.duration = playerItem.allFrames.last!.time
         syncPlayerItemChanges(playerItem)
         imagePlayerView.restartPlay()
+        
+        controlToolbar.setupAllItems(for: mode, labelCount: playerItem.labels.count)
     }
 }
 
