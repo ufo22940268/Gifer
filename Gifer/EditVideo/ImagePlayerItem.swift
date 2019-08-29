@@ -154,7 +154,7 @@ class ImagePlayerItem {
     
     @discardableResult
     func requestImage(frame: ImagePlayerFrame, size: CGSize? = nil, complete: @escaping (UIImage) -> Void) -> RequestId {
-        let id = allFrames.firstIndex(of: frame)!
+        let id = rootFrames.firstIndex(of: frame)!
         let workItem = DispatchWorkItem {
             if let image = self.commonCache.object(forKey: NSNumber(value: id)) {
                 DispatchQueue.main.async {                    
