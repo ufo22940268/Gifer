@@ -36,8 +36,9 @@ class VideoControllerGallery: UIStackView {
             topAnchor.constraint(equalTo: superview!.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
             heightAnchor.constraint(equalTo: superview!.heightAnchor),
-            superview!.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
+        layer.cornerRadius = 4
+        clipsToBounds = true
     }
     
     var itemSize: CGSize {

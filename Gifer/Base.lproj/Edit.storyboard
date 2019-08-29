@@ -407,6 +407,7 @@
                         <outlet property="videoController" destination="eaq-PJ-qvs" id="1UX-xV-Ie2"/>
                         <outlet property="videoLoadingIndicator" destination="KaL-QO-Mbn" id="BOB-r5-CO1"/>
                         <outlet property="videoPlayerSection" destination="UIf-0e-Ej7" id="MV2-JW-cUk"/>
+                        <segue destination="wNF-bs-M0x" kind="presentation" identifier="addNewPlayerItem" animates="NO" id="XHt-Sk-hKV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Skj-8Q-QEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -450,5 +451,8 @@
             <color red="1" green="0.83921568627450982" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="XHt-Sk-hKV"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" name="yellowColor"/>
 </document>

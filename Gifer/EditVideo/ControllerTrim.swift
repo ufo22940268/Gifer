@@ -169,7 +169,7 @@ class ControllerTrim: UIControl {
     
     var mode: Mode = .normal
 
-    func setup(galleryView: UIView) {
+    func setup(galleryView: UIView, hasAppendButton: Bool = false) {
         guard let superview = superview else {
             return
         }
@@ -180,7 +180,7 @@ class ControllerTrim: UIControl {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             topAnchor.constraint(equalTo: superview.topAnchor),
-            trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: hasAppendButton ? -40 : 0),
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
         
         //Setup trims

@@ -23,6 +23,9 @@ class FramesViewController: UIViewController {
             }
         }
     }
+    
+    var openAddPlayerItemPage = false
+    
     @IBOutlet weak var frameCollectionView: UICollectionView!
     weak var customDelegate: FramesDelegate?
     var trimPosition: VideoTrimPosition!
@@ -69,12 +72,17 @@ class FramesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard playerItem != nil else { return }
         frameCollectionView.reloadData()
         rootFrames.enumerated()
             .filter { !$0.element.isActive }.map { $0.offset }
             .forEach { frameCollectionView.selectItem(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .left)}
         frameCollectionView.contentOffset = .zero
+        
+        if openAddPlayerItemPage {
+            onAppendPlayerItem()
+        }
     }
     
     @IBAction func onDone(_ sender: Any) {

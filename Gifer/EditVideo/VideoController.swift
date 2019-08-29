@@ -139,6 +139,7 @@ struct VideoControllerConstants {
 }
 
 protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
+    func onAddNewPlayerItem()
 }
 
 enum VideoControllerScrollReason {
@@ -269,6 +270,18 @@ class VideoController: UIStackView {
         return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.maxX)))
     }
     
+    lazy var appendPlayerButton: UIButton = {
+        let button = UIButton(type: .custom).useAutoLayout()
+        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        button.layer.cornerRadius = 6
+        button.clipsToBounds = true
+        button.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6)
+        button.tintColor = .white
+        button.setImage(#imageLiteral(resourceName: "edit-plus.png"), for: .normal)
+        button.addTarget(self, action: #selector(onAddNewPlayerItem), for: .touchUpInside)
+        return button
+    }()
+    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -300,8 +313,18 @@ class VideoController: UIStackView {
         
         videoTrim = VideoControllerTrim()
         galleryContainer.addSubview(videoTrim)
-        videoTrim.setup(galleryView: galleryView)
-        
+        videoTrim.setup(galleryView: galleryView, hasAppendButton: from == "edit")
+        NSLayoutConstraint.activate([
+            videoTrim.widthAnchor.constraint(equalTo: galleryView.widthAnchor)
+            ])
+        galleryContainer.addSubview(appendPlayerButton)
+        NSLayoutConstraint.activate([
+            appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
+            appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
+            appendPlayerButton.centerYAnchor.constraint(equalTo: videoTrim.centerYAnchor),
+            appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
+            ])
+
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
@@ -314,6 +337,10 @@ class VideoController: UIStackView {
         let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
         scrollRecognizer.delegate = self
         videoTrim.addGestureRecognizer(scrollRecognizer)
+    }
+    
+    @objc func onAddNewPlayerItem() {
+        delegate?.onAddNewPlayerItem()
     }
     
     private func setupForEditViewController() {

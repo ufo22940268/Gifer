@@ -495,11 +495,15 @@ class EditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "frames" {
+        if segue.identifier == "frames" || segue.identifier == "addNewPlayerItem" {
             guard var rootFrames = rootFrames, let playerItem = playerItem else { return }
             let vc = (segue.destination as! UINavigationController).topViewController as! FramesViewController
             let left = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.leftTrim))
             let right = rootFrames.nearestIndex(time: convertToRootTime(playItemTime: trimPosition.rightTrim))
+            
+            if segue.identifier == "addNewPlayerItem" {
+                vc.openAddPlayerItemPage = true
+            }
             
             for i in 0..<rootFrames.count {
                 if i < left || i > right {
@@ -752,6 +756,10 @@ extension EditViewController: ImagePlayerDelegate {
 extension EditViewController: VideoControllerDelegate {
     func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition) {
         component.trimPosition = trimPosition
+    }
+    
+    func onAddNewPlayerItem() {
+        performSegue(withIdentifier: "addNewPlayerItem", sender: nil)
     }
     
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {

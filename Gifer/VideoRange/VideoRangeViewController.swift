@@ -301,6 +301,10 @@ extension VideoRangeViewController: VideoControllerDelegate {
         
     }
     
+    func onAddNewPlayerItem() {
+        
+    }
+    
     private func setSubtitle(position: VideoTrimPosition) {
         let text = position.leftTrim.formatTime() + " ~ " + position.rightTrim.formatTime()
         setSubtitle(text)
