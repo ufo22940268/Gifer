@@ -129,8 +129,7 @@ class FrameLabelPreviewCell: UICollectionViewCell {
     
     func loadImage(with loader: ImagePlayerItemLabel.PreviewLoader) {
         imageView.image = loader()
-    }
-    
+    }    
 }
 
 class FrameLabelAppendCell: UICollectionViewCell {
@@ -139,12 +138,11 @@ class FrameLabelAppendCell: UICollectionViewCell {
     @IBAction func onAppendPlayerItem(_ sender: Any) {
         customDelegate?.onAppendPlayerItem()
     }
-    
 }
-
 
 protocol FrameLabelCollectionViewDelegate: AppendPlayerItemDelegate {
     func onDeleteLabel(_ label: ImagePlayerItemLabel)
     func onLabelSelected(_ label: ImagePlayerItemLabel)
     func onClipLabel(_ label: ImagePlayerItemLabel)
 }
+

@@ -317,13 +317,16 @@ class VideoController: UIStackView {
         NSLayoutConstraint.activate([
             videoTrim.widthAnchor.constraint(equalTo: galleryView.widthAnchor)
             ])
-        galleryContainer.addSubview(appendPlayerButton)
-        NSLayoutConstraint.activate([
-            appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
-            appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
-            appendPlayerButton.centerYAnchor.constraint(equalTo: videoTrim.centerYAnchor),
-            appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
-            ])
+        
+        if from == "edit" {            
+            galleryContainer.addSubview(appendPlayerButton)
+            NSLayoutConstraint.activate([
+                appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
+                appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
+                appendPlayerButton.centerYAnchor.constraint(equalTo: videoTrim.centerYAnchor),
+                appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
+                ])
+        }
 
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
