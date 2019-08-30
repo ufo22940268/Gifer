@@ -175,10 +175,10 @@ extension FramesViewController: UICollectionViewDelegate {
 }
 
 extension FramesViewController: FrameCellDelegate {
-    func onOpenPreview(index: Int) {
+    func onOpenPreview(frame: ImagePlayerFrame) {
         let nvc = storyboard?.instantiateViewController(withIdentifier: "framePreview") as! UINavigationController
         let vc = nvc.topViewController as! FramePreviewViewController
-        vc.currentIndex = index
+        vc.currentIndex = rootFrames.firstIndex { $0 === frame}!
         vc.playerItem = playerItem
         vc.delegate = self
         nvc.modalTransitionStyle = .coverVertical

@@ -9,7 +9,13 @@
 import UIKit
 
 protocol FrameCellDelegate: class {
-    func onOpenPreview(index: Int)
+    func onOpenPreview(frame: ImagePlayerFrame)
+}
+
+class FrameCellLabel: UILabel {
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: super.intrinsicContentSize.width + 8, height: super.intrinsicContentSize.height)
+    }
 }
 
 class FrameCell: UICollectionViewCell {
@@ -41,7 +47,6 @@ class FrameCell: UICollectionViewCell {
     }
 
     @IBAction func onOpenPreview(_ sender: Any) {
-        //TODO: Implement
-        delegate?.onOpenPreview(index: 0)
+        delegate?.onOpenPreview(frame: imageFrame)
     }
 }
