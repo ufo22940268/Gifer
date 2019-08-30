@@ -32,6 +32,10 @@ class FrameLabelCollectionView: UICollectionView {
 
 extension FrameLabelCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == labels?.count {
+            return false
+        }
+        
         #if DEBUG
         return true
         #else
@@ -80,7 +84,8 @@ extension FrameLabelCollectionView: UICollectionViewDataSource {
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        guard let index = indexToBeSelected, let labels = labels  else { return false }
+        guard let index = indexToBeSelected, let labels = labels, index.row < labels.count else { return false }
+        
         if labels[index.row].videoAsset != nil {
             return [#selector(delete(_:)), #selector(clip)].contains(action)
         } else {

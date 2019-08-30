@@ -126,12 +126,12 @@ extension FramesViewController: UICollectionViewDataSource {
         })
         
         cell.tag = id
-        cell.sequence = playerItem.getActiveSequence(of: frame)
+        cell.imageFrame = frame
+        cell.sequence = sequence(for: frame)
         if let color = frame.label?.color {
             cell.sequenceView.backgroundColor = color
         }
         cell.delegate = self
-        cell.index = indexPath.row
         return cell
     }
 }
@@ -146,25 +146,31 @@ extension FramesViewController: UICollectionViewDelegate {
         }
     }
     
-    fileprivate func updateVisibleCells() {
-        let newFrames = rootFrames
+    fileprivate func updateSequences() {
         frameCollectionView.visibleCells.forEach { cell in
             let cell = cell as! FrameCell
-            let frame: ImagePlayerFrame = newFrames[cell.index]
-            cell.sequence = playerItem.getActiveSequence(of: frame)
+            cell.sequence = sequence(for: cell.imageFrame)
+        }
+    }
+    
+    fileprivate func sequence(for frame: ImagePlayerFrame) -> Int? {
+        if let seq = (rootFrames.filter { $0.isActive }.enumerated().first { $0.element == frame}.map { $0.offset }) {
+            return seq + 1
+        } else {
+            return nil
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         _ = rootFrames[indexPath.row]
         rootFrames[indexPath.row].isActive = false
-        updateVisibleCells()
+        updateSequences()
    }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         _ = rootFrames[indexPath.row]
         rootFrames[indexPath.row].isActive = true
-        updateVisibleCells()
+        updateSequences()
     }
 }
 
@@ -196,6 +202,7 @@ extension FramesViewController: FrameLabelCollectionViewDelegate {
         playerItem.deleteLabel(label)
         frameLabelCollectionView.deleteItems(at: labelIndexesToDelete)
         frameCollectionView.deleteItems(at: frameIndexesToDelete)
+        updateSequences()
     }
     
     func onAppendPlayerItem() {

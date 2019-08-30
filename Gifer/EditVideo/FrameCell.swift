@@ -17,14 +17,15 @@ class FrameCell: UICollectionViewCell {
     @IBOutlet weak var sequenceView: UILabel!
     @IBOutlet weak var coverView: UIView!
     @IBOutlet weak var magnifierView: UIButton!
-    var index: Int!
     weak var delegate: FrameCellDelegate?
+    var imageFrame: ImagePlayerFrame!
     
     var sequence: Int? {
         didSet {
             if let sequence = sequence {
                 sequenceView.text = String(sequence)
             }
+            sequenceView.sizeToFit()
         }
     }
     
@@ -40,6 +41,7 @@ class FrameCell: UICollectionViewCell {
     }
 
     @IBAction func onOpenPreview(_ sender: Any) {
-        delegate?.onOpenPreview(index: index)
+        //TODO: Implement
+        delegate?.onOpenPreview(index: 0)
     }
 }
