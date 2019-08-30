@@ -318,7 +318,7 @@ class VideoController: UIStackView {
             videoTrim.widthAnchor.constraint(equalTo: galleryView.widthAnchor)
             ])
         
-        if from == "edit" {            
+        if from == "edit" {
             galleryContainer.addSubview(appendPlayerButton)
             NSLayoutConstraint.activate([
                 appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
@@ -413,7 +413,11 @@ class VideoController: UIStackView {
             }
             
             let frame = playerItem.activeFrames[i]
-            galleryView.setImage(frame.uiImage, on: galleryIndex)
+            let index = galleryIndex
+            playerItem.requestImage(frame: frame) { [weak self] (image) in
+                guard let self = self else { return }
+                self.galleryView.setImage(image, on: index)
+            }
             galleryIndex += 1
         }
     }

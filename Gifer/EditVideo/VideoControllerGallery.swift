@@ -63,13 +63,6 @@ class VideoControllerGallery: UIStackView {
         return galleryImages.count
     }
     
-    func getImageViewWidth(totalImageCount: Int) -> CGFloat {
-        let superviewWidth = self.superview!.bounds.width
-        let contentWidth = superviewWidth*CGFloat(duration.seconds)/CGFloat(galleryDuration.seconds)
-        
-        return contentWidth/CGFloat(totalImageCount)
-    }
-    
     fileprivate func addImageView(totalImageCount: Int) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
