@@ -17,7 +17,7 @@ enum FPSFigure: Int, CaseIterable {
     case f30 = 30
     
     static func build(fromInterval: Double) -> FPSFigure {
-        return FPSFigure.allCases.min { abs(Double($0.rawValue) - fromInterval) < abs(Double($1.rawValue) - fromInterval) }!
+        return FPSFigure.allCases.min { abs(1/Double($0.rawValue) - fromInterval) < abs(1/Double($1.rawValue) - fromInterval) }!
     }
     
     //The fps label size should be 30x30.

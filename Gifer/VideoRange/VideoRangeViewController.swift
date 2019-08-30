@@ -237,7 +237,7 @@ class VideoRangeViewController: UIViewController {
             editVC.navigationItem.leftBarButtonItems = nil
             present(editVC, animated: true, completion: nil)
         } else {
-            if navRoot.isExceedFrameLimit(asset: previewAsset) {
+            if navRoot.isExceedFrameLimit(videoTrim: trimPosition) {
                 navRoot.promptForExceedFrameLimit()
             } else {
                 navRoot.completeSelectVideo(asset: previewAsset, trimPosition: trimPosition)

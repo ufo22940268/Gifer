@@ -41,6 +41,11 @@ class RootNavigationController: UINavigationController {
         return currentCount + Int(duration/(1/Double(fps.rawValue))) > frameCountLimitation
     }
     
+    func isExceedFrameLimit(videoTrim: VideoTrimPosition) -> Bool {
+        guard let fps = appendFPS, let currentCount = currentFrameCount else { fatalError() }
+        return currentCount + Int(videoTrim.galleryDuration.seconds/(1/Double(fps.rawValue))) > frameCountLimitation
+    }
+    
     func isExceedFrameLimit(newFrames: Int) -> Bool {
         return currentFrameCount! + newFrames > frameCountLimitation
     }
