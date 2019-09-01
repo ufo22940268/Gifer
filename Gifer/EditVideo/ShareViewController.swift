@@ -348,10 +348,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-//        view.removeGestureRecognizer(panGesture)
-    }
-    
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -400,6 +396,9 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else if indexPath.row == ShareConfig.shareCell.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "share") as! ShareCell
             let handler = {(shareType: ShareType) in
+                if let presentController = self.navigationController?.presentationController as? SharePresentationController {
+                    presentController.dismissedByCancel = false
+                }
                 self.dismissImediately()
                 self.shareHandler(shareType, self.videoSize, self.loopCount)
             }
@@ -422,7 +421,6 @@ class ShareViewController: UIViewController, UITableViewDelegate, UITableViewDat
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {

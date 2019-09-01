@@ -31,7 +31,6 @@ class FrameCell: UICollectionViewCell {
             if let sequence = sequence {
                 sequenceView.text = String(sequence)
             }
-            sequenceView.sizeToFit()
         }
     }
     

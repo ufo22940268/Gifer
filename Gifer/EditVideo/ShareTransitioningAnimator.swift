@@ -21,6 +21,8 @@ class SharePresentationController: UIPresentationController {
         return view
     } ()
     
+    var dismissedByCancel = true
+    
     var dismissHandler: DismissHandler?
     var interactiveAnimator: UIPercentDrivenInteractiveTransition!
     
@@ -69,7 +71,7 @@ class SharePresentationController: UIPresentationController {
     
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         super.dismissalTransitionDidEnd(completed)
-        if completed {
+        if completed && dismissedByCancel {
             dismissHandler?()
         }
     }
