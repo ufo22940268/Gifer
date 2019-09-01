@@ -18,11 +18,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="fEg-yc-D5u"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="6Am-hd-p2y" appends="YES" id="d8y-Ie-CAP"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="PQ2-Dk-mGf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Azy-va-8QQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="6Am-hd-p2y">
+                    <connections>
+                        <action selector="onTapRootView:" destination="kyN-1N-0Uk" id="BQJ-oD-dUa"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="0.80000000000000004" y="181.25937031484258"/>
         </scene>

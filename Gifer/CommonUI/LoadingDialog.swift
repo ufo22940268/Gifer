@@ -97,6 +97,16 @@ class LoadingView: UIStackView {
     }
 }
 
+fileprivate class DimmingView: UIView {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if alpha == 1 {
+            return self
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+}
+
 class LoadingViewPresentationConstroller: UIPresentationController {
     
     override var frameOfPresentedViewInContainerView: CGRect {
@@ -109,30 +119,34 @@ class LoadingViewPresentationConstroller: UIPresentationController {
     }
     
     override var shouldPresentInFullscreen: Bool {
-        return false
+        return true
     }
     
     lazy var dimmingView: UIView = {
-        let view = UIView()
+        let view = DimmingView()
         view.alpha = 0.0
         view.frame = self.containerView!.bounds
+        view.isUserInteractionEnabled = true
         return view
     }()
     
     override func presentationTransitionWillBegin() {
         self.containerView?.isUserInteractionEnabled = false
-//        self.containerView?.addSubview(dimmingView)
-//        dimmingView.addSubview(presentedView!)
-//        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-//        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
-//            self.dimmingView.alpha = 1.0
-//        }, completion: nil)
+        self.containerView?.addSubview(dimmingView)
+        dimmingView.addSubview(presentedView!)
+        dimmingView.alpha = 0
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
+            self.dimmingView.alpha = 1.0
+        }, completion: nil)
     }
     
-    override func presentationTransitionDidEnd(_ completed: Bool) {
-//        if !completed {
-//            dimmingView.removeFromSuperview()
-//        }
+    override func dismissalTransitionWillBegin() {
+        presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (_) in
+            self.dimmingView.alpha = 0
+        }, completion: { (_) in
+            self.dimmingView.removeFromSuperview()
+        })
     }
 }
 
@@ -146,12 +160,6 @@ class LoadingDialog: Dialog {
     lazy var alertController: UIViewController = {
         let vc: LoadingViewController = LoadingViewController(label: label) as LoadingViewController
         return vc
-    }()
-    
-    lazy var activityIndicator: UIView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        return indicator
     }()
     
     init(label: String) {

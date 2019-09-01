@@ -15,8 +15,17 @@ class TestViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startAnimating(message: "message", padding: 10, backgroundColor: .green)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let dialog: LoadingDialog = LoadingDialog(label: "show loading dialog")
+            dialog.show(by: self)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                dialog.dismiss()
+            }
+        }
     }
     
-    
+    @IBAction func onTapRootView(_ sender: Any) {
+        print("onTapRootView")
+    }
 }

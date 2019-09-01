@@ -450,13 +450,12 @@ class VideoController: UIStackView {
         
         gallerySlider.alpha = 1.0
         
-        var thumbernailCount: Int
+        let thumbernailCount: Int = Int(self.galleryView.bounds.width/40)
+
         var galleryDuration: CMTime
         if duration.seconds > gifMaxDuration {
-            thumbernailCount = Int(duration.seconds/gifMaxDuration * Double(videoControllerGalleryImageCountPerGroup))
             galleryDuration = CMTime(seconds: gifMaxDuration, preferredTimescale: duration.timescale)
         } else {
-            thumbernailCount = videoControllerGalleryImageCountPerGroup
             galleryDuration = duration
         }
         
