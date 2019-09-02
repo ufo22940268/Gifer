@@ -18,14 +18,13 @@ class EditTextPreviewer: UIView {
     lazy var textField: UITextField = {
         let textView = UITextField(frame: CGRect.zero).useAutoLayout()
         textView.textColor = .white
-        textView.font = UIFont.systemFont(ofSize: UIFont.systemFontSize + 8)
         textView.textAlignment = .center
         textView.keyboardAppearance = .dark
         textView.delegate = self
         return textView
     }()
     
-    let textSize = CGFloat(20)
+    let textSize = CGFloat(30)
     
     let placeholderText = "触摸可编辑"
     var enablePlaceholder = false
