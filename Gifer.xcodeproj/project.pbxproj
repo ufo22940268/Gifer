@@ -70,6 +70,8 @@
 		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
+		426F4CCB231CE65300591932 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426F4CCA231CE65300591932 /* Camera.storyboard */; };
+		426F4CCD231CE9DF00591932 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCC231CE9DF00591932 /* CameraViewController.swift */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		4275DBAA23135AE500FA095C /* FrameLabelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */; };
 		4275DBAC2313D74700FA095C /* ImagePlayerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */; };
@@ -239,6 +241,8 @@
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
 		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		426F4CCA231CE65300591932 /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
+		426F4CCC231CE9DF00591932 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
 		4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameLabelCollectionView.swift; sourceTree = "<group>"; };
 		4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrame.swift; sourceTree = "<group>"; };
@@ -380,6 +384,15 @@
 				4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */,
 			);
 			path = OptionMenu;
+			sourceTree = "<group>";
+		};
+		426F4CC9231CE62900591932 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				426F4CCA231CE65300591932 /* Camera.storyboard */,
+				426F4CCC231CE9DF00591932 /* CameraViewController.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		4284D43A2275885E00886513 /* EditVideo */ = {
@@ -608,6 +621,7 @@
 		42F2D56F219403B100113A10 /* Gifer */ = {
 			isa = PBXGroup;
 			children = (
+				426F4CC9231CE62900591932 /* Camera */,
 				42F2D57C219403B300113A10 /* Info.plist */,
 				428C9D0022F8533600C5EB2F /* Album.storyboard */,
 				424930E122FE63CD00C169CA /* Edit.storyboard */,
@@ -751,6 +765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42491E5D21ED7C45002FECDE /* Test.storyboard in Resources */,
+				426F4CCB231CE65300591932 /* Camera.storyboard in Resources */,
 				424930E622FE64AD00C169CA /* PlaySpeedView.xib in Resources */,
 				427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */,
 				42F2D57B219403B300113A10 /* LaunchScreen.storyboard in Resources */,
@@ -898,6 +913,7 @@
 				4294CCBA22C6C8CA00FD4917 /* FramesViewController.swift in Sources */,
 				42D7F28C224C690600E7E504 /* FontsPanel.swift in Sources */,
 				424F9928228ABA5100952440 /* ConfigViewController.swift in Sources */,
+				426F4CCD231CE9DF00591932 /* CameraViewController.swift in Sources */,
 				42CA13C722FB9BAD003DD910 /* PHAssetExtension.swift in Sources */,
 				420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */,
 				42CA13C522FA9F32003DD910 /* GallerySelectPhotoView.swift in Sources */,

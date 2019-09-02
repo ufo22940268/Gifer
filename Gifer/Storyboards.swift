@@ -15,6 +15,7 @@ enum AppStoryboard: String {
     case Edit
     case Sticker
     case Album
+    case Camera
     case Test
 
     var instance: UIStoryboard {
