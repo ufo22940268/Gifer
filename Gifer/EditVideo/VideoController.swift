@@ -222,7 +222,6 @@ class VideoController: UIStackView {
     
     lazy var attachView: VideoControllerAttachView = {
         let attach = VideoControllerAttachView().useAutoLayout()
-        attach.isHidden = true
         return attach
     }()
     
@@ -282,6 +281,12 @@ class VideoController: UIStackView {
         return button
     }()
     
+    lazy var attachContainer: UIView = {
+        let attachContainer = UIView().useAutoLayout()
+        attachContainer.isHidden = true
+        return attachContainer
+    }()
+    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -297,7 +302,13 @@ class VideoController: UIStackView {
             galleryContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             galleryContainer.heightAnchor.constraint(equalToConstant: 48).with(identifier: "height")])
 
-        addArrangedSubview(attachView)
+        addArrangedSubview(attachContainer)
+        attachContainer.addSubview(attachView)
+        NSLayoutConstraint.activate([
+            attachView.leadingAnchor.constraint(equalTo: attachContainer.leadingAnchor),
+            attachView.heightAnchor.constraint(equalTo: attachContainer.heightAnchor),
+            attachView.widthAnchor.constraint(equalTo: attachContainer.widthAnchor, constant: -40)
+            ])
         attachView.customDelegate = delegate
         
         gallerySlider = VideoControllerGallerySlider()
@@ -323,7 +334,7 @@ class VideoController: UIStackView {
             NSLayoutConstraint.activate([
                 appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
                 appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
-                appendPlayerButton.centerYAnchor.constraint(equalTo: videoTrim.centerYAnchor),
+                appendPlayerButton.centerYAnchor.constraint(equalTo: centerYAnchor),
                 appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
                 ])
         }
@@ -422,7 +433,7 @@ class VideoController: UIStackView {
         }
     }
     
-    func load(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
+    func loadInEditVideo(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
         let duration = playerItem.duration
         
         updatePlayerItem(playerItem)
@@ -440,7 +451,7 @@ class VideoController: UIStackView {
         loadGalleryImagesFromPlayerItem()
     }
     
-    func load(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
+    func loadInVideoRange(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
@@ -515,13 +526,13 @@ class VideoController: UIStackView {
     }
         
     func onActive(component: OverlayComponent) {
-        attachView.isHidden = false
+        attachContainer.isHidden = false
         attachView.load(image: component.image, component: component)
         layoutSize = .half
     }
     
     func onDeactiveComponents() {
-        attachView.isHidden = true
+        attachContainer.isHidden = true
         layoutSize = .full
     }
     

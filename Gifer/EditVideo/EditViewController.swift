@@ -721,7 +721,7 @@ extension EditViewController: ImagePlayerDelegate {
         loadingDialog = nil
         self.videoController.delegate = self
         showPlayLoading(false)        
-        self.videoController.load(playerItem: playerItem) {
+        self.videoController.loadInEditVideo(playerItem: playerItem) {
             self.enableVideoController(true)
             self.enableControlOptions()
             self.videoController.layoutIfNeeded()
