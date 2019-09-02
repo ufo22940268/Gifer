@@ -69,6 +69,7 @@
 		426C282523069F530088B620 /* AdjustView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C282423069F530088B620 /* AdjustView.xib */; };
 		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
+		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		4275DBAA23135AE500FA095C /* FrameLabelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */; };
 		4275DBAC2313D74700FA095C /* ImagePlayerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */; };
@@ -237,6 +238,7 @@
 		426C28262306A0280088B620 /* AdjustView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustView.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
+		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
 		4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameLabelCollectionView.swift; sourceTree = "<group>"; };
 		4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrame.swift; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 				422F539E22E83EEE00C0989D /* PromotionManager.swift */,
 				42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */,
 				42CA13C822FB9C1C003DD910 /* CGSizeExtension.swift */,
+				426F4CC7231C993B00591932 /* UIDeviceExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -834,6 +837,7 @@
 				42E879A722D2B5C40098D43B /* EditStickerTitlePanel.swift in Sources */,
 				42E5C34E2220B0D900D18CA6 /* GifOverlayRenderer.swift in Sources */,
 				42D7F293224F559B00E7E504 /* EditTextOverlay.swift in Sources */,
+				426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */,
 				42EEACE321996641009A3BB8 /* VideoController.swift in Sources */,
 				42D7F27E224B1C1600E7E504 /* EditTextViewController.swift in Sources */,
 				424CAA4221D711DE001E795A /* EditViewBarItem.swift in Sources */,

@@ -43,7 +43,7 @@
                         <constraint firstItem="h1Z-oz-FYq" firstAttribute="leading" secondItem="zYU-f2-RVT" secondAttribute="leadingMargin" constant="8" id="pbE-XX-Q8t"/>
                     </constraints>
                 </view>
-                <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6z-6a-nYD" customClass="PlaySpeedScrollView" customModule="Gifer" customModuleProvider="target">
+                <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g6z-6a-nYD" customClass="PlaySpeedScrollView" customModule="Gifer" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="30" width="260" height="170"/>
                     <subviews>
                         <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJ2-dj-x3E" customClass="PlaySpeedRulerView" customModule="Gifer" customModuleProvider="target">
@@ -64,6 +64,7 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="x6d-Qq-zuL"/>
             <connections>
+                <outlet property="rulerView" destination="OJ2-dj-x3E" id="OLz-Jx-AC6"/>
                 <outlet property="scrollView" destination="g6z-6a-nYD" id="he2-Bc-FGI"/>
                 <outlet property="speedView" destination="Ag7-Hy-pEw" id="Rrp-Fb-v8d"/>
             </connections>
