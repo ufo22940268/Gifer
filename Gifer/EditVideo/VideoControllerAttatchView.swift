@@ -109,11 +109,12 @@ class VideoControllerAttachView: UIView {
     func load(text: String?, component: OverlayComponent) {
         self.component = component
         galleryView.subviews.forEach { $0.removeFromSuperview() }
-        for _ in 0..<8 {
+        for _ in 0..<5 {
             let label = UILabel().useAutoLayout()
             label.text = text
             label.font = .preferredFont(forTextStyle: .footnote)
             label.textColor = .white
+            label.lineBreakMode = .byTruncatingTail
             galleryView.addArrangedSubview(label)
             NSLayoutConstraint.activate([
                 label.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
