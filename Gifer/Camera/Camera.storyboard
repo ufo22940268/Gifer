@@ -41,7 +41,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="474"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="M82-rd-MId" userLabel="Bottom Panel">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M82-rd-MId" userLabel="Bottom Panel">
                                         <rect key="frame" x="0.0" y="474" width="414" height="300"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PMc-ht-z7n">
@@ -87,8 +87,26 @@
                                                     <outlet property="delegate" destination="ib6-sJ-ZHz" id="yCX-lV-YM3"/>
                                                 </connections>
                                             </collectionView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="maq-b8-jnb">
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="maq-b8-jnb">
                                                 <rect key="frame" x="0.0" y="60" width="414" height="240"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rvP-Lv-G69">
+                                                        <rect key="frame" x="0.0" y="56" width="50" height="128"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" priority="250" constant="30" id="DlQ-31-drD"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="DyF-Hj-534" userLabel="Shot Button" customClass="ShotView" customModule="Gifer" customModuleProvider="target">
+                                                        <rect key="frame" x="50" y="0.0" width="80" height="240"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nK-3g-5d4">
+                                                        <rect key="frame" x="130" y="56" width="284" height="128"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" priority="250" constant="30" id="ZE5-r7-YMu"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
                                             </stackView>
                                         </subviews>

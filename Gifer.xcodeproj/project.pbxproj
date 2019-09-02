@@ -72,6 +72,7 @@
 		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
 		426F4CCB231CE65300591932 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426F4CCA231CE65300591932 /* Camera.storyboard */; };
 		426F4CCD231CE9DF00591932 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCC231CE9DF00591932 /* CameraViewController.swift */; };
+		426F4CCF231D09D600591932 /* ShotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCE231D09D600591932 /* ShotView.swift */; };
 		427263602306C6D3002A45B9 /* AdjustTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */; };
 		4275DBAA23135AE500FA095C /* FrameLabelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */; };
 		4275DBAC2313D74700FA095C /* ImagePlayerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */; };
@@ -243,6 +244,7 @@
 		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		426F4CCA231CE65300591932 /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		426F4CCC231CE9DF00591932 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		426F4CCE231D09D600591932 /* ShotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotView.swift; sourceTree = "<group>"; };
 		4272635F2306C6D3002A45B9 /* AdjustTypeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustTypeCell.xib; sourceTree = "<group>"; };
 		4275DBA923135AE500FA095C /* FrameLabelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameLabelCollectionView.swift; sourceTree = "<group>"; };
 		4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerFrame.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 			children = (
 				426F4CCA231CE65300591932 /* Camera.storyboard */,
 				426F4CCC231CE9DF00591932 /* CameraViewController.swift */,
+				426F4CCE231D09D600591932 /* ShotView.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				422F539D22E7035B00C0989D /* StickerFileModel.swift in Sources */,
 				42D7F284224B4CE400E7E504 /* BasicExtensions.swift in Sources */,
 				4285BF9F21A8C37A00913466 /* VideoControllerSlider.swift in Sources */,
+				426F4CCF231D09D600591932 /* ShotView.swift in Sources */,
 				42E879A122D1D5C30098D43B /* EditStickerViewController.swift in Sources */,
 				42B4DD0922818A720085BF46 /* VideoSizeConfigViewController.swift in Sources */,
 				42E5C3512220B14700D18CA6 /* GifOverlayEditView.swift in Sources */,
