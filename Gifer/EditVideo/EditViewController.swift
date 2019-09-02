@@ -230,6 +230,8 @@ class EditViewController: UIViewController {
         return label
     }()
     
+    var previousScale = CGFloat(1)
+
     @IBAction func onTap(_ sender: UITapGestureRecognizer) {
         if let hitComponent = editTextOverlay.getHitComponent(point: sender.location(in: editTextOverlay)) ?? stickerOverlay.getHitComponent(point: sender.location(in: stickerOverlay)) {
             hitComponent.activeByTap()
@@ -249,8 +251,6 @@ class EditViewController: UIViewController {
             }
         }
     }
-    
-    var previousScale = CGFloat(1)
     
     @IBAction func onPinchToScaleOverlayComponent(_ sender: UIPinchGestureRecognizer) {
         if let activeComponent = stickerOverlay.activeComponent ?? editTextOverlay.activeComponent {
