@@ -88,11 +88,17 @@ class ShotView: UIView {
             timer.invalidate()
         }
         
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
             self.progress = min(self.progress + 0.1, 1)
         }
         RunLoop.main.add(timer!, forMode: .common)
     }
+    
+    func resetRecording() {
+        timer?.invalidate()
+        progress = 0
+    }
+    
     
     @objc func onShot(sender: UILongPressGestureRecognizer) {
         switch sender.state {
@@ -115,6 +121,7 @@ class ShotView: UIView {
                 self.progressView.isActive = false
                 self.layoutIfNeeded()
             }, completion: nil)
+            resetRecording()
         default:
             break
         }
@@ -140,7 +147,8 @@ class ShotView: UIView {
         
         var progress: CGFloat = 0 {
             didSet {
-                ringLayer.strokeStart = 0.4
+                ringLayer.strokeStart = 0
+                ringLayer.strokeEnd = progress
             }
         }
         
@@ -150,9 +158,9 @@ class ShotView: UIView {
             didSet {
                 guard let isActive = isActive else { return }
                 if isActive {
-                    transform = .identity
+                    transform = CGAffineTransform(rotationAngle: -.pi/2)
                 } else {
-                    transform = CGAffineTransform(scaleX: (bounds.width - 20)/bounds.width, y: (bounds.height - 20)/bounds.height)
+                    transform = CGAffineTransform(scaleX: (bounds.width - 20)/bounds.width, y: (bounds.height - 20)/bounds.height).rotated(by: -.pi/2)
                 }
             }
         }
