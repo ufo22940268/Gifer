@@ -146,8 +146,9 @@ class ShotView: UIView {
         
         let ringWidth = CGFloat(10)
         
-        var isActive: Bool = false {
+        var isActive: Bool? {
             didSet {
+                guard let isActive = isActive else { return }
                 if isActive {
                     transform = .identity
                 } else {
@@ -174,6 +175,12 @@ class ShotView: UIView {
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func layoutSubviews() {
+            if isActive == nil {
+                isActive = false
+            }
         }
     }
 }
