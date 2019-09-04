@@ -37,9 +37,23 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Tzr-cW-1U0">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YbY-sY-UgS" userLabel="Camera Preview">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5a-qk-WDI">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="524"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YbY-sY-UgS" userLabel="Camera Preview" customClass="CameraPreviewView" customModule="Gifer" customModuleProvider="target">
+                                                <rect key="frame" x="207" y="262" width="0.0" height="0.0"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="OgS-QL-Jrh"/>
+                                                    <constraint firstAttribute="width" id="Uoe-BG-4bb"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="YbY-sY-UgS" firstAttribute="centerX" secondItem="g5a-qk-WDI" secondAttribute="centerX" id="3Je-Iv-vvK"/>
+                                            <constraint firstItem="YbY-sY-UgS" firstAttribute="centerY" secondItem="g5a-qk-WDI" secondAttribute="centerY" id="V7z-me-Lvj"/>
+                                        </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M82-rd-MId" userLabel="Bottom Panel">
                                         <rect key="frame" x="0.0" y="524" width="414" height="250"/>
@@ -90,7 +104,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWb-3I-TPS">
                                                 <rect key="frame" x="0.0" y="60" width="414" height="190"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="maq-b8-jnb">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="maq-b8-jnb">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="190"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rvP-Lv-G69">
@@ -115,11 +129,11 @@
                                                                     <constraint firstItem="iK0-8O-Q85" firstAttribute="leading" secondItem="rvP-Lv-G69" secondAttribute="leading" id="rzc-U8-oEQ"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DyF-Hj-534" userLabel="Shot Button" customClass="ShotView" customModule="Gifer" customModuleProvider="target">
+                                                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="DyF-Hj-534" userLabel="Shot Button" customClass="ShotView" customModule="Gifer" customModuleProvider="target">
                                                                 <rect key="frame" x="80" y="0.0" width="80" height="190"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4nK-3g-5d4">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nK-3g-5d4">
                                                                 <rect key="frame" x="190" y="31" width="224" height="128"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" priority="250" constant="30" id="ZE5-r7-YMu"/>
@@ -171,7 +185,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cameraHeightConstraint" destination="OgS-QL-Jrh" id="iA8-4S-l8q"/>
+                        <outlet property="cameraWidthConstraint" destination="Uoe-BG-4bb" id="pAJ-uc-4bt"/>
                         <outlet property="labelCollectionView" destination="PMc-ht-z7n" id="ceh-Xa-vVK"/>
+                        <outlet property="previewView" destination="YbY-sY-UgS" id="wCM-Vd-XS2"/>
                         <outlet property="shotView" destination="DyF-Hj-534" id="8yk-L1-7y1"/>
                     </connections>
                 </viewController>

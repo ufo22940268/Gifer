@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AVFoundation
 
 class CameraViewController: UIViewController {
     
@@ -15,10 +15,67 @@ class CameraViewController: UIViewController {
 
     @IBOutlet weak var labelCollectionView: UICollectionView!
     @IBOutlet weak var shotView: ShotView!
+    @IBOutlet weak var previewView: CameraPreviewView!
+    @IBOutlet weak var cameraHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cameraWidthConstraint: NSLayoutConstraint!
+    
+    lazy var captureSession: AVCaptureSession = {
+        return AVCaptureSession()
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         DarkMode.enable(in: self)
+        
+        captureSession.beginConfiguration()
+        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                  for: .video, position: .unspecified)
+        guard
+            let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
+            captureSession.canAddInput(videoDeviceInput)
+            else { return }
+        captureSession.addInput(videoDeviceInput)
+        let videoOutput = AVCaptureVideoDataOutput()
+        captureSession.sessionPreset = .medium
+        captureSession.addOutput(videoOutput)
+        captureSession.commitConfiguration()
+        
+        
+        previewView.videoPreviewLayer.session = self.captureSession
+        captureSession.startRunning()
+        let captureSize = getCaptureResolution()
+        let previewContainerSize = previewView.superview!.bounds.size
+        if captureSize.width/previewContainerSize.width > captureSize.height/previewContainerSize.height {
+            cameraHeightConstraint.constant = previewContainerSize.height
+            cameraWidthConstraint.constant = captureSize.width/captureSize.height*previewContainerSize.height
+        } else {
+            cameraWidthConstraint.constant = previewContainerSize.width
+            cameraHeightConstraint.constant = captureSize.height/captureSize.width*previewContainerSize.width
+        }
+    }
+    
+    private func getCaptureResolution() -> CGSize {
+        // Define default resolution
+        var resolution = CGSize(width: 0, height: 0)
+        
+        // Get cur video device
+        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                  for: .video, position: .unspecified)
+        // Set if video portrait orientation
+//        let portraitOrientation = orientation == .Portrait || orientation == .PortraitUpsideDown
+        let portraitOrientation = true
+
+        // Get video dimensions
+        if let formatDescription = videoDevice?.activeFormat.formatDescription {
+            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+            resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
+            if (portraitOrientation) {
+                resolution = CGSize(width: resolution.height, height: resolution.width)
+            }
+        }
+        
+        // Return resolution
+        return resolution
     }
     
     override func viewDidAppear(_ animated: Bool) {
