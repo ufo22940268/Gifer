@@ -42,13 +42,8 @@ class CameraViewController: UIViewController {
         shotView.customDelegate = self
         
         captureSession.beginConfiguration()
-        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                  for: .video, position: .unspecified)
-        guard
-            let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
-            captureSession.canAddInput(videoDeviceInput)
-            else { return }
-        captureSession.addInput(videoDeviceInput)
+        guard let deviceInput = buildDeviceInput(on: .back) else  { return }
+        captureSession.addInput(deviceInput)
         captureSession.sessionPreset = .medium
         captureSession.addOutput(videoOutput)
         captureSession.commitConfiguration()
@@ -64,6 +59,12 @@ class CameraViewController: UIViewController {
             cameraWidthConstraint.constant = previewContainerSize.width
             cameraHeightConstraint.constant = captureSize.height/captureSize.width*previewContainerSize.width
         }
+    }
+    
+    func buildDeviceInput(on position: AVCaptureDevice.Position) -> AVCaptureDeviceInput? {
+        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                  for: .video, position: position)
+        return try? AVCaptureDeviceInput(device: videoDevice!)
     }
     
     private func getCaptureResolution() -> CGSize {
@@ -120,6 +121,20 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onDone(_ sender: Any) {
+    }
+    
+    @IBAction func onToggleCamera(_ sender: Any) {
+        guard let input = captureSession.inputs.first as? AVCaptureDeviceInput else { return }
+        captureSession.removeInput(input)
+        let newPosition: AVCaptureDevice.Position
+        if input.device.position == .back {
+            newPosition = .front
+        } else {
+            newPosition = .back
+        }
+        if let newInput = buildDeviceInput(on: newPosition) {
+            captureSession.addInput(newInput)
+        }
     }
 }
 
