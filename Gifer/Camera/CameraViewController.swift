@@ -23,9 +23,22 @@ class CameraViewController: UIViewController {
         return AVCaptureSession()
     }()
     
+    lazy var videoOutput: AVCaptureMovieFileOutput = {
+        let output = AVCaptureMovieFileOutput()
+        output.maxRecordedDuration = Double(20).toTime()
+        return output
+    }()
+    
+    lazy var outputURL: URL? = {
+       let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("capture.mov")
+        return url
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DarkMode.enable(in: self)
+        
+        shotView.customDelegate = self
         
         captureSession.beginConfiguration()
         let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
@@ -35,11 +48,9 @@ class CameraViewController: UIViewController {
             captureSession.canAddInput(videoDeviceInput)
             else { return }
         captureSession.addInput(videoDeviceInput)
-        let videoOutput = AVCaptureVideoDataOutput()
         captureSession.sessionPreset = .medium
         captureSession.addOutput(videoOutput)
         captureSession.commitConfiguration()
-        
         
         previewView.videoPreviewLayer.session = self.captureSession
         captureSession.startRunning()
@@ -134,6 +145,27 @@ extension CameraViewController: UICollectionViewDelegate {
     }
 }
 
+extension CameraViewController: ShotViewDelegate {
+    func onStartRecordingByUser() {
+        guard let outputURL  = outputURL else { return }
+        do {
+            try FileManager.default.removeItem(at: outputURL)
+        } catch {
+            
+        }
+        videoOutput.startRecording(to: outputURL, recordingDelegate: self)
+    }
+    
+    func onStopRecordingByUser() {
+        videoOutput.stopRecording()
+    }
+}
+
+extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        print("writing to file ...")
+    }
+}
 
 enum CameraType: CaseIterable {
     case video

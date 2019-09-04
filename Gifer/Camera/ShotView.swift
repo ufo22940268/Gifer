@@ -49,6 +49,8 @@ class ShotView: UIView {
     }
     var timer: Timer?
 
+    weak var customDelegate: ShotViewDelegate?
+
     override func awakeFromNib() {
         backgroundColor = .clear
         
@@ -84,6 +86,8 @@ class ShotView: UIView {
     
     
     func startRecording() {
+        customDelegate?.onStartRecordingByUser()
+        
         if let timer = timer {
             timer.invalidate()
         }
@@ -95,6 +99,7 @@ class ShotView: UIView {
     }
     
     func stopRecording() {
+        customDelegate?.onStopRecordingByUser()
         timer?.invalidate()
     }
     
@@ -202,4 +207,9 @@ class ShotView: UIView {
             CATransaction.commit()
         }
     }
+}
+
+protocol ShotViewDelegate: class {
+    func onStartRecordingByUser()
+    func onStopRecordingByUser()
 }
