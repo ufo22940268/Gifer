@@ -92,8 +92,9 @@ class ShotView: UIView {
             timer.invalidate()
         }
         
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
-            self.progress = min(self.progress + 0.02, 1)
+        let interval = 0.1
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
+            self.progress = min(self.progress + CGFloat(interval/maxCaptureVideoLength.seconds), 1)
         }
         RunLoop.main.add(timer!, forMode: .common)
     }

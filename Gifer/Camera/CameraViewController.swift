@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+let maxCaptureVideoLength = Double(20).toTime()
 class CameraViewController: UIViewController {
     
     var types: [CameraType] = CameraType.allCases
@@ -151,7 +152,6 @@ extension CameraViewController: ShotViewDelegate {
         do {
             try FileManager.default.removeItem(at: outputURL)
         } catch {
-            
         }
         videoOutput.startRecording(to: outputURL, recordingDelegate: self)
     }
