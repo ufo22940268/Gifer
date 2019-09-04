@@ -14,6 +14,7 @@ class CameraViewController: UIViewController {
     var types: [CameraType] = CameraType.allCases
 
     @IBOutlet weak var labelCollectionView: UICollectionView!
+    @IBOutlet weak var shotView: ShotView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,26 @@ class CameraViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         let itemWidth = (labelCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         labelCollectionView.contentInset = .init(top: 0, left: (view.bounds.width - itemWidth)/2, bottom: 0, right: (view.bounds.width - itemWidth)/2)
+    }
+    
+    func nothingChanges() -> Bool {
+        return true
+    }
+    
+    @IBAction func onResetCamera(_ sender: Any) {
+        print("onResetCamera")
+        shotView.resetRecording()
+    }
+    
+    @IBAction func onCancel(_ sender: Any) {
+        if nothingChanges() {
+            dismiss(animated: true, completion: nil)
+        } else {
+            // TODO: Prompt for dimissing changes.
+        }
+    }
+    
+    @IBAction func onDone(_ sender: Any) {
     }
 }
 

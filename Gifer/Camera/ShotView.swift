@@ -89,17 +89,20 @@ class ShotView: UIView {
         }
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (timer) in
-            self.progress = min(self.progress + 0.1, 1)
+            self.progress = min(self.progress + 0.02, 1)
         }
         RunLoop.main.add(timer!, forMode: .common)
     }
     
-    func resetRecording() {
+    func stopRecording() {
         timer?.invalidate()
-        progress = 0
     }
     
-    
+    func resetRecording() {
+        timer?.invalidate()
+        progressView.setProgressWithoutAnimation(0)
+    }
+        
     @objc func onShot(sender: UILongPressGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -121,7 +124,7 @@ class ShotView: UIView {
                 self.progressView.isActive = false
                 self.layoutIfNeeded()
             }, completion: nil)
-            resetRecording()
+            stopRecording()
         default:
             break
         }
@@ -189,6 +192,14 @@ class ShotView: UIView {
             if isActive == nil {
                 isActive = false
             }
+        }
+        
+        func setProgressWithoutAnimation(_ progress: CGFloat) {
+            // FIXME: Can't disable layer action.
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            self.progress = 0
+            CATransaction.commit()
         }
     }
 }
