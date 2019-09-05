@@ -227,12 +227,12 @@ extension CameraViewController: UICollectionViewDelegate {
 // MARK: Shot view delegation
 extension CameraViewController: ShotViewDelegate {
     func onStartRecordingByUser() {
-        guard let outputURL  = outputURL else { return }
+        guard let outputURL  = outputURL, !UIDevice.isSimulator else { return }
         do {
             try FileManager.default.removeItem(at: outputURL)
         } catch {
         }
-        videoOutput.startRecording(to: outputURL, recordingDelegate: self)
+        videoOutput.startRecording(to: outputURL, recordingDelegate: self)        
     }
     
     func onStopRecordingByUser() {

@@ -51,6 +51,7 @@ class ShotView: UIView {
                 shotPhotosGesture.isEnabled = true
             }
             
+            circleView.isVideoRecording = false
             circleView.mode = mode
         }
     }
@@ -106,6 +107,9 @@ class ShotView: UIView {
     
     func startRecording() {
         customDelegate?.onStartRecordingByUser()
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.circleView.isVideoRecording = true
+        }, completion: nil)
         
         if let timer = timer {
             timer.invalidate()
@@ -119,6 +123,9 @@ class ShotView: UIView {
     }
     
     func stopRecording() {
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.circleView.isVideoRecording = false
+        }, completion: nil)
         customDelegate?.onStopRecordingByUser()
         timer?.invalidate()
     }
@@ -133,7 +140,16 @@ class ShotView: UIView {
     }
     
     @objc func onShotPhotos(sender: UITapGestureRecognizer) {
-        animateWhenShotPhoto()
+        UIDevice.current.taptic(level: 1)
+        UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [], animations: {
+            let originTransform = self.circleView.transform
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+                self.circleView.transform = self.circleView.transform.scaledBy(x: 0.9, y: 0.9)
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
+                self.circleView.transform = originTransform
+            })
+        }, completion: nil)
         customDelegate?.onTakePhoto(self)
     }
         
@@ -164,22 +180,13 @@ class ShotView: UIView {
         }
     }
     
-    fileprivate func animateWhenShotPhoto() {
-        UIDevice.current.taptic(level: 1)
-        UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [], animations: {
-            let originTransform = self.circleView.transform
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
-                self.circleView.transform = self.circleView.transform.scaledBy(x: 0.9, y: 0.9)
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
-                self.circleView.transform = originTransform
-            })
-        }, completion: nil)
-    }
-    
     class CircleView: UIView {
 
-        var isVideoRecording: Bool?
+        var isVideoRecording: Bool? {
+            didSet {
+                updateShape()
+            }
+        }
         
         var mode: CameraMode! {
             didSet {
@@ -205,7 +212,7 @@ class ShotView: UIView {
             fatalError("init(coder:) has not been implemented")
         }
         
-        override func layoutSubviews() {
+        fileprivate func updateShape() {
             switch mode! {
             case .video:
                 if isVideoRecording == true {
@@ -216,6 +223,10 @@ class ShotView: UIView {
             case .photos:
                 layer.cornerRadius = bounds.width/2
             }
+        }
+        
+        override func layoutSubviews() {
+            updateShape()
         }
     }
     
