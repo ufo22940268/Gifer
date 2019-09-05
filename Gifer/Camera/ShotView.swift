@@ -40,7 +40,7 @@ class ShotView: UIView {
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 100, height: 100)
     }
-    
+        
     var mode: CameraMode! {
         didSet {
             if mode == .video {

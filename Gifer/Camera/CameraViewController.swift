@@ -20,6 +20,8 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var previewView: CameraPreviewView!
     @IBOutlet weak var cameraHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var cameraWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomPanel: UIStackView!
+    @IBOutlet weak var contentStackView: UIStackView!
     
     lazy var captureSession: AVCaptureSession = {
         return AVCaptureSession()
@@ -42,6 +44,11 @@ class CameraViewController: UIViewController {
         }
     }
     
+    lazy var shotPhotoCountView: ShotPhotoCountView = {
+        let view = ShotPhotoCountView().useAutoLayout()
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DarkMode.enable(in: self)
@@ -49,24 +56,32 @@ class CameraViewController: UIViewController {
         mode = .photos
         shotView.customDelegate = self
         
-        captureSession.beginConfiguration()
-        guard let deviceInput = buildDeviceInput(on: .back) else  { return }
-        captureSession.addInput(deviceInput)
-        captureSession.sessionPreset = .medium
-        captureSession.addOutput(videoOutput)
-        captureSession.commitConfiguration()
-        
-        previewView.videoPreviewLayer.session = self.captureSession
-        captureSession.startRunning()
-        let captureSize = getCaptureResolution()
-        let previewContainerSize = previewView.superview!.bounds.size
-        if captureSize.width/previewContainerSize.width > captureSize.height/previewContainerSize.height {
-            cameraHeightConstraint.constant = previewContainerSize.height
-            cameraWidthConstraint.constant = captureSize.width/captureSize.height*previewContainerSize.height
-        } else {
-            cameraWidthConstraint.constant = previewContainerSize.width
-            cameraHeightConstraint.constant = captureSize.height/captureSize.width*previewContainerSize.width
+        if !UIDevice.isSimulator {
+            captureSession.beginConfiguration()
+            guard let deviceInput = buildDeviceInput(on: .back) else  { return }
+            captureSession.addInput(deviceInput)
+            captureSession.sessionPreset = .medium
+            captureSession.addOutput(videoOutput)
+            captureSession.commitConfiguration()
+            
+            previewView.videoPreviewLayer.session = self.captureSession
+            captureSession.startRunning()
+            let captureSize = getCaptureResolution()
+            let previewContainerSize = previewView.superview!.bounds.size
+            if captureSize.width/previewContainerSize.width > captureSize.height/previewContainerSize.height {
+                cameraHeightConstraint.constant = previewContainerSize.height
+                cameraWidthConstraint.constant = captureSize.width/captureSize.height*previewContainerSize.height
+            } else {
+                cameraWidthConstraint.constant = previewContainerSize.width
+                cameraHeightConstraint.constant = captureSize.height/captureSize.width*previewContainerSize.width
+            }
         }
+        
+        contentStackView.addSubview(shotPhotoCountView)
+        NSLayoutConstraint.activate([
+            shotPhotoCountView.bottomAnchor.constraint(equalTo: bottomPanel.topAnchor, constant: -80),
+            shotPhotoCountView.centerXAnchor.constraint(equalTo: bottomPanel.centerXAnchor),
+            ])
     }
     
     func buildDeviceInput(on position: AVCaptureDevice.Position) -> AVCaptureDeviceInput? {

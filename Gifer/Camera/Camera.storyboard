@@ -187,8 +187,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomPanel" destination="M82-rd-MId" id="QUz-9G-6fe"/>
                         <outlet property="cameraHeightConstraint" destination="OgS-QL-Jrh" id="iA8-4S-l8q"/>
                         <outlet property="cameraWidthConstraint" destination="Uoe-BG-4bb" id="pAJ-uc-4bt"/>
+                        <outlet property="contentStackView" destination="Tzr-cW-1U0" id="zHh-2s-hWO"/>
                         <outlet property="labelCollectionView" destination="PMc-ht-z7n" id="ceh-Xa-vVK"/>
                         <outlet property="previewView" destination="YbY-sY-UgS" id="wCM-Vd-XS2"/>
                         <outlet property="shotView" destination="DyF-Hj-534" id="8yk-L1-7y1"/>
