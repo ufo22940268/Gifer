@@ -126,6 +126,10 @@ class ShotView: UIView {
         progressView.setProgressWithoutAnimation(0)
     }
     
+    func updateProgress(byPhotoCount photoCount: Int) {
+        progress = min(CGFloat(photoCount)/CGFloat(CameraMode.maxPhotoCount), 1)
+    }
+    
     @objc func onShotPhotos(sender: UITapGestureRecognizer) {
         animateWhenShotPhoto()
         customDelegate?.onTakePhoto(self)

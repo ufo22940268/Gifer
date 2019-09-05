@@ -211,6 +211,7 @@ extension CameraViewController: ShotViewDelegate {
         if !UIDevice.isSimulator {
             photoOutput.capturePhoto(with: AVCapturePhotoSettings(format: nil), delegate: self)
         }
+        shotView.updateProgress(byPhotoCount: photos.count)
         shotPhotoCountView.updateCount(photos.count)
     }
 }
@@ -264,4 +265,6 @@ class CameraTypeCell: UICollectionViewCell {
 enum CameraMode {
     case video
     case photos
+    
+    static let maxPhotoCount = 200
 }
