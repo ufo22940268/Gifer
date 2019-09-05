@@ -73,7 +73,7 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         DarkMode.enable(in: self)
         
-        mode = .photos
+        mode = .video
         shotView.customDelegate = self
         
         if !UIDevice.isSimulator {

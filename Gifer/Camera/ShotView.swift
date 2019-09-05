@@ -11,7 +11,7 @@ import UIKit
 class ShotView: UIView {
     
     lazy var circleView: CircleView = {
-        let view = CircleView().useAutoLayout()
+        let view = CircleView(mode: .video).useAutoLayout()
         view.backgroundColor = .clear
         return view
     }()
@@ -50,6 +50,8 @@ class ShotView: UIView {
                 shotVideoGesture.isEnabled = false
                 shotPhotosGesture.isEnabled = true
             }
+            
+            circleView.mode = mode
         }
     }
     
@@ -176,10 +178,44 @@ class ShotView: UIView {
     }
     
     class CircleView: UIView {
-        override func draw(_ rect: CGRect) {
-            let path = UIBezierPath(ovalIn: rect)
-            UIColor.white.setFill()
-            path.fill()
+
+        var isVideoRecording: Bool?
+        
+        var mode: CameraMode! {
+            didSet {
+                switch mode! {
+                case .video:
+                    backgroundColor = #colorLiteral(red: 0.9543388486, green: 0.197738409, blue: 0.2006814182, alpha: 1)
+                case .photos:
+                    backgroundColor = .white
+                }
+            }
+        }
+        
+        convenience init(mode: CameraMode) {
+            self.init(frame: .zero)
+            self.mode = mode
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func layoutSubviews() {
+            switch mode! {
+            case .video:
+                if isVideoRecording == true {
+                    layer.cornerRadius = 4
+                } else {
+                    layer.cornerRadius = bounds.width/2
+                }
+            case .photos:
+                layer.cornerRadius = bounds.width/2
+            }
         }
     }
     
