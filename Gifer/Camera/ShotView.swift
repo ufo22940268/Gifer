@@ -41,7 +41,17 @@ class ShotView: UIView {
         return CGSize(width: 100, height: 100)
     }
     
-    var mode: CameraMode!
+    var mode: CameraMode! {
+        didSet {
+            if mode == .video {
+                shotVideoGesture.isEnabled = true
+                shotPhotosGesture.isEnabled = false
+            } else {
+                shotVideoGesture.isEnabled = false
+                shotPhotosGesture.isEnabled = true
+            }
+        }
+    }
     
     var ringWidthConstraint: NSLayoutConstraint!
     var ringHeightConstraint: NSLayoutConstraint!
@@ -86,7 +96,8 @@ class ShotView: UIView {
         progressView.useSameSizeAsParent()
         
         addGestureRecognizer(shotVideoGesture)
-        
+        addGestureRecognizer(shotPhotosGesture)
+
         progress = 0
     }
     
@@ -116,7 +127,7 @@ class ShotView: UIView {
     }
     
     @objc func onShotPhotos(sender: UITapGestureRecognizer) {
-        
+        animateWhenShotPhoto()
     }
         
     @objc func onRecordVideo(sender: UILongPressGestureRecognizer) {
@@ -144,6 +155,19 @@ class ShotView: UIView {
         default:
             break
         }
+    }
+    
+    fileprivate func animateWhenShotPhoto() {
+        UIDevice.current.taptic(level: 1)
+        UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [], animations: {
+            let originTransform = self.circleView.transform
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+                self.circleView.transform = self.circleView.transform.scaledBy(x: 0.9, y: 0.9)
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 1, animations: {
+                self.circleView.transform = originTransform
+            })
+        }, completion: nil)
     }
     
     class CircleView: UIView {

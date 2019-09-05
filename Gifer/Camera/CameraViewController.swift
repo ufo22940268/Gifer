@@ -38,7 +38,7 @@ class CameraViewController: UIViewController {
     
     var mode: CameraMode! {
         didSet {
-            shotView.mode = self.mode
+            shotView.mode = self.mode            
         }
     }
     
