@@ -14,7 +14,11 @@ let maxCaptureVideoLength = Double(20).toTime()
 class CameraViewController: UIViewController {
     
     var types: [CameraType] = CameraType.allCases
-    var photos: [URL] = [URL]()
+    var photos: [URL] = [URL]() {
+        didSet {
+            updateButtonsStatus()
+        }
+    }
 
     @IBOutlet weak var labelCollectionView: UICollectionView!
     @IBOutlet weak var shotView: ShotView!
@@ -23,6 +27,14 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var cameraWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomPanel: UIStackView!
     @IBOutlet weak var contentStackView: UIStackView!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
+    var recordedVideoDuration: CMTime? {
+        didSet {
+            updateButtonsStatus()
+        }
+    }
     
     lazy var captureSession: AVCaptureSession = {
         return AVCaptureSession()
@@ -46,7 +58,8 @@ class CameraViewController: UIViewController {
     
     var mode: CameraMode! {
         didSet {
-            shotView.mode = self.mode            
+            shotView.mode = self.mode
+            updateButtonsStatus()
         }
     }
     
@@ -90,6 +103,19 @@ class CameraViewController: UIViewController {
             shotPhotoCountView.bottomAnchor.constraint(equalTo: bottomPanel.topAnchor, constant: -40),
             shotPhotoCountView.centerXAnchor.constraint(equalTo: bottomPanel.centerXAnchor),
             ])
+        
+        updateButtonsStatus()
+    }
+    
+    func updateButtonsStatus() {
+        switch mode! {
+        case .video:
+            resetButton.isEnabled = (recordedVideoDuration?.seconds ?? 0) > 0
+            doneButton.isEnabled = (recordedVideoDuration?.seconds ?? 0) > 0
+        case .photos:
+            resetButton.isEnabled = photos.count > 0
+            doneButton.isEnabled = photos.count > 0
+        }
     }
     
     func buildDeviceInput(on position: AVCaptureDevice.Position) -> AVCaptureDeviceInput? {
@@ -225,7 +251,7 @@ extension CameraViewController: ShotViewDelegate {
 // MARK: Video output delegation
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        print("writing to file ...")
+        recordedVideoDuration = output.recordedDuration
     }
 }
 

@@ -165,7 +165,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" name="darkContentColor"/>
+                        <color key="backgroundColor" name="darkBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Tzr-cW-1U0" firstAttribute="bottom" secondItem="81S-68-QXj" secondAttribute="bottom" id="4vv-9l-HYV"/>
                             <constraint firstItem="Tzr-cW-1U0" firstAttribute="leading" secondItem="zhy-Dk-YTA" secondAttribute="leading" id="LHo-8z-KQv"/>
@@ -191,8 +191,10 @@
                         <outlet property="cameraHeightConstraint" destination="OgS-QL-Jrh" id="iA8-4S-l8q"/>
                         <outlet property="cameraWidthConstraint" destination="Uoe-BG-4bb" id="pAJ-uc-4bt"/>
                         <outlet property="contentStackView" destination="Tzr-cW-1U0" id="zHh-2s-hWO"/>
+                        <outlet property="doneButton" destination="DSd-qa-NOO" id="QnY-M4-9ro"/>
                         <outlet property="labelCollectionView" destination="PMc-ht-z7n" id="ceh-Xa-vVK"/>
                         <outlet property="previewView" destination="YbY-sY-UgS" id="wCM-Vd-XS2"/>
+                        <outlet property="resetButton" destination="iK0-8O-Q85" id="Itj-Le-JG4"/>
                         <outlet property="shotView" destination="DyF-Hj-534" id="8yk-L1-7y1"/>
                     </connections>
                 </viewController>
@@ -205,9 +207,6 @@
         <image name="camera-toggle" width="31" height="26"/>
         <namedColor name="darkBackgroundColor">
             <color red="0.062745098039215685" green="0.062745098039215685" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="darkContentColor">
-            <color red="0.031372549019607843" green="0.031372549019607843" blue="0.031372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
