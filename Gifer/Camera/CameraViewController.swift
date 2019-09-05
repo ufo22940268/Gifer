@@ -139,8 +139,14 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onResetCamera(_ sender: Any) {
-        print("onResetCamera")
-        shotView.resetRecording()
+        switch mode! {
+        case .video:
+            shotView.resetRecording()
+        case .photos:
+            photos.removeAll()
+            shotPhotoCountView.alpha = 0
+        }
+        shotView.progress = 0
     }
     
     @IBAction func onCancel(_ sender: Any) {
