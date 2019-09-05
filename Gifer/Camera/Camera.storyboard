@@ -58,9 +58,10 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M82-rd-MId" userLabel="Bottom Panel">
                                         <rect key="frame" x="0.0" y="554" width="414" height="220"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PMc-ht-z7n">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PMc-ht-z7n">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                                 <color key="backgroundColor" name="darkBackgroundColor"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="B53-BF-zUt"/>
                                                 </constraints>
@@ -99,6 +100,7 @@
                                                 <connections>
                                                     <outlet property="dataSource" destination="ib6-sJ-ZHz" id="CGL-vJ-nI6"/>
                                                     <outlet property="delegate" destination="ib6-sJ-ZHz" id="yCX-lV-YM3"/>
+                                                    <outletCollection property="gestureRecognizers" destination="ChH-WF-RtZ" appends="YES" id="nmq-Zj-Uig"/>
                                                 </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWb-3I-TPS">
@@ -193,12 +195,18 @@
                         <outlet property="contentStackView" destination="Tzr-cW-1U0" id="zHh-2s-hWO"/>
                         <outlet property="doneButton" destination="DSd-qa-NOO" id="QnY-M4-9ro"/>
                         <outlet property="labelCollectionView" destination="PMc-ht-z7n" id="ceh-Xa-vVK"/>
+                        <outlet property="labelsPanGesture" destination="ChH-WF-RtZ" id="um6-Nr-6Gm"/>
                         <outlet property="previewView" destination="YbY-sY-UgS" id="wCM-Vd-XS2"/>
                         <outlet property="resetButton" destination="iK0-8O-Q85" id="Itj-Le-JG4"/>
                         <outlet property="shotView" destination="DyF-Hj-534" id="8yk-L1-7y1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="das-QH-42J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="ChH-WF-RtZ">
+                    <connections>
+                        <action selector="onPanLabelCollection:" destination="ib6-sJ-ZHz" id="TP3-Hv-tTK"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-857.97101449275374" y="101.78571428571428"/>
         </scene>

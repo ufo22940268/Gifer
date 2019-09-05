@@ -29,6 +29,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet var labelsPanGesture: UIPanGestureRecognizer!
     
     var recordedVideoDuration: CMTime? {
         didSet {
@@ -202,6 +203,33 @@ class CameraViewController: UIViewController {
         }
         if let newInput = buildDeviceInput(on: newPosition) {
             captureSession.addInput(newInput)
+        }
+    }
+    
+    @IBAction func onPanLabelCollection(_ sender: UIPanGestureRecognizer) {
+        if sender.state == .changed {
+            let translate = sender.translation(in: labelCollectionView)
+            if abs(translate.x) > 20 {
+                if translate.x > 0 {
+                    moveLabel(by: -1)
+                } else {
+                    moveLabel(by: 1)
+                }
+            }
+        }
+    }
+    
+    func moveLabel(by deltaIndex: Int) {
+        let currentIndex = modes.enumerated().first { $0.element == mode }!.offset
+        if (currentIndex == 0 && deltaIndex < 0) || (currentIndex == modes.count - 1 && deltaIndex > 0) {
+            return
+        }
+        
+        labelsPanGesture.isEnabled = false
+        mode = modes.enumerated().first { $0.offset == currentIndex + deltaIndex }!.element
+        labelCollectionView.selectItem(at: IndexPath(row: currentIndex + deltaIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.labelsPanGesture.isEnabled = true
         }
     }
 }
