@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		42053E1F231F7D3D00AB63AD /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42053E1E231F7D3D00AB63AD /* CameraPreviewView.swift */; };
 		42053E212320947E00AB63AD /* ShotPhotoCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42053E202320947E00AB63AD /* ShotPhotoCountView.swift */; };
+		42053E232320E1E300AB63AD /* CameraPhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42053E222320E1E300AB63AD /* CameraPhotoStorage.swift */; };
 		4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1EF22FD38EC00F17EEE /* Localizable.strings */; };
 		4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */; };
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
@@ -175,6 +176,7 @@
 /* Begin PBXFileReference section */
 		42053E1E231F7D3D00AB63AD /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		42053E202320947E00AB63AD /* ShotPhotoCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotPhotoCountView.swift; sourceTree = "<group>"; };
+		42053E222320E1E300AB63AD /* CameraPhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPhotoStorage.swift; sourceTree = "<group>"; };
 		4205D1EA22FCF3C700F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		4205D1F022FD38ED00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4205D1F422FD5D9B00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				426F4CCE231D09D600591932 /* ShotView.swift */,
 				42053E1E231F7D3D00AB63AD /* CameraPreviewView.swift */,
 				42053E202320947E00AB63AD /* ShotPhotoCountView.swift */,
+				42053E222320E1E300AB63AD /* CameraPhotoStorage.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				42E5C3532220B18100D18CA6 /* GifOverlayViewController.swift in Sources */,
 				42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */,
 				423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */,
+				42053E232320E1E300AB63AD /* CameraPhotoStorage.swift in Sources */,
 				42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,

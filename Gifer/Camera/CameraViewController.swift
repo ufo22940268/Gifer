@@ -14,6 +14,7 @@ let maxCaptureVideoLength = Double(20).toTime()
 class CameraViewController: UIViewController {
     
     var types: [CameraType] = CameraType.allCases
+    var photos: [URL] = [URL]()
 
     @IBOutlet weak var labelCollectionView: UICollectionView!
     @IBOutlet weak var shotView: ShotView!
@@ -33,6 +34,11 @@ class CameraViewController: UIViewController {
         return output
     }()
     
+    lazy var photoOutput: AVCapturePhotoOutput = {
+        let output = AVCapturePhotoOutput()
+        return output
+    }()
+    
     lazy var outputURL: URL? = {
        let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("capture.mov")
         return url
@@ -43,8 +49,6 @@ class CameraViewController: UIViewController {
             shotView.mode = self.mode            
         }
     }
-    
-    var photoCount = 0
     
     lazy var shotPhotoCountView: ShotPhotoCountView = {
         let view = ShotPhotoCountView().useAutoLayout()
@@ -65,6 +69,7 @@ class CameraViewController: UIViewController {
             captureSession.addInput(deviceInput)
             captureSession.sessionPreset = .medium
             captureSession.addOutput(videoOutput)
+            captureSession.addOutput(photoOutput)
             captureSession.commitConfiguration()
             
             previewView.videoPreviewLayer.session = self.captureSession
@@ -203,14 +208,31 @@ extension CameraViewController: ShotViewDelegate {
     }
     
     func onTakePhoto(_ shotView: ShotView) {
-        photoCount += 1
-        shotPhotoCountView.updateCount(photoCount)
+        if !UIDevice.isSimulator {
+            photoOutput.capturePhoto(with: AVCapturePhotoSettings(format: nil), delegate: self)
+        }
+        shotPhotoCountView.updateCount(photos.count)
     }
 }
 
+// MARK: Video output delegation
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("writing to file ...")
+    }
+}
+
+// MARK: Photo output delegation
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if photos.count == 0 {
+            CameraPhotoStorage.instance.clear()
+        }
+        let data = photo.fileDataRepresentation()
+        if let url = CameraPhotoStorage.instance.save(data) {
+            photos.append(url)
+        }
+
     }
 }
 
