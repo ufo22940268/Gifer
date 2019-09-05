@@ -40,7 +40,7 @@ class ShotView: UIView {
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 100, height: 100)
     }
-        
+    
     var mode: CameraMode! {
         didSet {
             if mode == .video {
@@ -128,6 +128,7 @@ class ShotView: UIView {
     
     @objc func onShotPhotos(sender: UITapGestureRecognizer) {
         animateWhenShotPhoto()
+        customDelegate?.onTakePhoto(self)
     }
         
     @objc func onRecordVideo(sender: UILongPressGestureRecognizer) {
@@ -247,4 +248,5 @@ class ShotView: UIView {
 protocol ShotViewDelegate: class {
     func onStartRecordingByUser()
     func onStopRecordingByUser()
+    func onTakePhoto(_ shotView: ShotView)
 }

@@ -14,9 +14,12 @@ class ShotPhotoCountView: UIView {
         let view = UILabel().useAutoLayout()
         view.adjustsFontSizeToFitWidth = true
         view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.textAlignment = .center
         view.textColor = .lightGray
         return view
     }()
+    
+    var delayHideTask: DispatchWorkItem?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +32,6 @@ class ShotPhotoCountView: UIView {
             countView.widthAnchor.constraint(equalTo: layoutMarginsGuide.widthAnchor),
             countView.heightAnchor.constraint(equalTo: layoutMarginsGuide.heightAnchor),
             ])
-        countView.text = "10"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,5 +40,23 @@ class ShotPhotoCountView: UIView {
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 30, height: 30)
+    }
+    
+    func updateCount(_ count: Int) {
+        UIView.transition(with: countView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.countView.text = String(count)
+        }, completion: nil)
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.alpha = 1
+        }) { (_) in
+            if let originTask = self.delayHideTask { originTask.cancel() }
+            self.delayHideTask = DispatchWorkItem(block: {
+                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                    self.alpha = 0
+                })
+            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: self.delayHideTask!)
+        }
     }
 }

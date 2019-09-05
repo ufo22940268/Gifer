@@ -44,8 +44,11 @@ class CameraViewController: UIViewController {
         }
     }
     
+    var photoCount = 0
+    
     lazy var shotPhotoCountView: ShotPhotoCountView = {
         let view = ShotPhotoCountView().useAutoLayout()
+        view.alpha = 0
         return view
     }()
     
@@ -184,6 +187,7 @@ extension CameraViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: Shot view delegation
 extension CameraViewController: ShotViewDelegate {
     func onStartRecordingByUser() {
         guard let outputURL  = outputURL else { return }
@@ -196,6 +200,11 @@ extension CameraViewController: ShotViewDelegate {
     
     func onStopRecordingByUser() {
         videoOutput.stopRecording()
+    }
+    
+    func onTakePhoto(_ shotView: ShotView) {
+        photoCount += 1
+        shotPhotoCountView.updateCount(photoCount)
     }
 }
 
