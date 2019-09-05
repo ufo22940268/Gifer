@@ -13,7 +13,7 @@ let maxCaptureVideoLength = Double(20).toTime()
 
 class CameraViewController: UIViewController {
     
-    var types: [CameraType] = CameraType.allCases
+    var modes: [CameraMode] = CameraMode.allCases
     var photos: [URL] = [URL]() {
         didSet {
             updateButtonsStatus()
@@ -55,6 +55,11 @@ class CameraViewController: UIViewController {
        let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("capture.mov")
         return url
     }()
+    
+    var currentLabelIndex: IndexPath? {
+        return labelCollectionView.indexPathForItem(at: CGPoint(x: labelCollectionView.contentOffset.x + labelCollectionView.frame.width/2, y: labelCollectionView.frame.height/2))
+    }
+
     
     var mode: CameraMode! {
         didSet {
@@ -203,24 +208,28 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return types.count
+        return modes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CameraTypeCell
-        let type = types[indexPath.row]
+        let type = modes[indexPath.row]
         cell.labelView.text = type.title
         return cell
     }
 }
 
+// MARK: Label collection delegate
 extension CameraViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentIndex = labelCollectionView.indexPathForItem(at: CGPoint(x: labelCollectionView.contentOffset.x + labelCollectionView.frame.width/2, y: labelCollectionView.frame.height/2))
         labelCollectionView.visibleCells.forEach { (cell) in
             let cell = cell as! CameraTypeCell
-            cell.isHighlighted = labelCollectionView.indexPath(for: cell) == currentIndex
+            cell.isHighlighted = labelCollectionView.indexPath(for: cell) == currentLabelIndex
         }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.mode = modes[currentLabelIndex!.row]
     }
 }
 
@@ -269,20 +278,6 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     }
 }
 
-enum CameraType: CaseIterable {
-    case video
-    case photos
-    
-    var title: String {
-        switch self {
-        case .video:
-            return NSLocalizedString("camera_video", comment: "")
-        case .photos:
-            return NSLocalizedString("camera_photos", comment: "")
-        }
-    }
-}
-
 class CameraTypeCell: UICollectionViewCell {
     
     @IBOutlet weak var labelView: UILabel!
@@ -294,9 +289,18 @@ class CameraTypeCell: UICollectionViewCell {
     }
 }
 
-enum CameraMode {
+enum CameraMode: CaseIterable {
     case video
     case photos
     
+    var title: String {
+        switch self {
+        case .video:
+            return NSLocalizedString("camera_video", comment: "")
+        case .photos:
+            return NSLocalizedString("camera_photos", comment: "")
+        }
+    }
+
     static let maxPhotoCount = 200
 }
