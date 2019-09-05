@@ -28,14 +28,20 @@ class ShotView: UIView {
         return view
     }()
     
-    lazy var shotGesture: UILongPressGestureRecognizer = {
-        let ges = UILongPressGestureRecognizer(target: self, action: #selector(onShot(sender:)))
+    lazy var shotVideoGesture: UILongPressGestureRecognizer = {
+        let ges = UILongPressGestureRecognizer(target: self, action: #selector(onRecordVideo(sender:)))
         return ges
+    }()
+    
+    lazy var shotPhotosGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(onShotPhotos(sender:)))
     }()
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 100, height: 100)
     }
+    
+    var mode: CameraMode!
     
     var ringWidthConstraint: NSLayoutConstraint!
     var ringHeightConstraint: NSLayoutConstraint!
@@ -79,7 +85,7 @@ class ShotView: UIView {
         addSubview(progressView)
         progressView.useSameSizeAsParent()
         
-        addGestureRecognizer(shotGesture)
+        addGestureRecognizer(shotVideoGesture)
         
         progress = 0
     }
@@ -108,8 +114,12 @@ class ShotView: UIView {
         timer?.invalidate()
         progressView.setProgressWithoutAnimation(0)
     }
+    
+    @objc func onShotPhotos(sender: UITapGestureRecognizer) {
         
-    @objc func onShot(sender: UILongPressGestureRecognizer) {
+    }
+        
+    @objc func onRecordVideo(sender: UILongPressGestureRecognizer) {
         switch sender.state {
         case .began:
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {

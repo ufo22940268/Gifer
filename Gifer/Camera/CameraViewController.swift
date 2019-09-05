@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 
 let maxCaptureVideoLength = Double(20).toTime()
+
 class CameraViewController: UIViewController {
     
     var types: [CameraType] = CameraType.allCases
@@ -35,10 +36,17 @@ class CameraViewController: UIViewController {
         return url
     }()
     
+    var mode: CameraMode! {
+        didSet {
+            shotView.mode = self.mode
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DarkMode.enable(in: self)
         
+        mode = .photos
         shotView.customDelegate = self
         
         captureSession.beginConfiguration()
@@ -205,4 +213,9 @@ class CameraTypeCell: UICollectionViewCell {
             labelView.textColor = isHighlighted ? .white : .lightText
         }
     }
+}
+
+enum CameraMode {
+    case video
+    case photos
 }

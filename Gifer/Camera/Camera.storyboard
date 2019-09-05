@@ -38,10 +38,10 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5a-qk-WDI">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="524"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="554"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YbY-sY-UgS" userLabel="Camera Preview" customClass="CameraPreviewView" customModule="Gifer" customModuleProvider="target">
-                                                <rect key="frame" x="207" y="262" width="0.0" height="0.0"/>
+                                                <rect key="frame" x="207" y="277" width="0.0" height="0.0"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="OgS-QL-Jrh"/>
@@ -56,7 +56,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M82-rd-MId" userLabel="Bottom Panel">
-                                        <rect key="frame" x="0.0" y="524" width="414" height="250"/>
+                                        <rect key="frame" x="0.0" y="554" width="414" height="220"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PMc-ht-z7n">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
@@ -102,13 +102,13 @@
                                                 </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWb-3I-TPS">
-                                                <rect key="frame" x="0.0" y="60" width="414" height="190"/>
+                                                <rect key="frame" x="0.0" y="60" width="414" height="160"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="maq-b8-jnb">
-                                                        <rect key="frame" x="96.5" y="0.0" width="221" height="190"/>
+                                                        <rect key="frame" x="96.5" y="0.0" width="221" height="160"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rvP-Lv-G69">
-                                                                <rect key="frame" x="0.0" y="31" width="50" height="128"/>
+                                                                <rect key="frame" x="0.0" y="16" width="50" height="128"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK0-8O-Q85">
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="128"/>
@@ -130,11 +130,11 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="DyF-Hj-534" userLabel="Shot Button" customClass="ShotView" customModule="Gifer" customModuleProvider="target">
-                                                                <rect key="frame" x="80" y="0.0" width="80" height="190"/>
+                                                                <rect key="frame" x="80" y="0.0" width="80" height="160"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oqn-WU-7Oh" userLabel="Front/Back Camera">
-                                                                <rect key="frame" x="190" y="82" width="31" height="26"/>
+                                                                <rect key="frame" x="190" y="67" width="31" height="26"/>
                                                                 <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                                                 <state key="normal" image="camera-toggle"/>
                                                                 <connections>
@@ -155,8 +155,8 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="pWb-3I-TPS" firstAttribute="width" secondItem="M82-rd-MId" secondAttribute="width" id="SPF-cp-AfJ"/>
+                                            <constraint firstAttribute="height" constant="220" id="e6U-4b-3rM"/>
                                             <constraint firstItem="PMc-ht-z7n" firstAttribute="width" secondItem="M82-rd-MId" secondAttribute="width" id="pRn-rR-dXI"/>
-                                            <constraint firstAttribute="height" constant="250" id="uWw-zG-SOa"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
