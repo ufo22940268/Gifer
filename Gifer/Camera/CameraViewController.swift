@@ -79,7 +79,7 @@ class CameraViewController: UIViewController {
         
         contentStackView.addSubview(shotPhotoCountView)
         NSLayoutConstraint.activate([
-            shotPhotoCountView.bottomAnchor.constraint(equalTo: bottomPanel.topAnchor, constant: -80),
+            shotPhotoCountView.bottomAnchor.constraint(equalTo: bottomPanel.topAnchor, constant: -40),
             shotPhotoCountView.centerXAnchor.constraint(equalTo: bottomPanel.centerXAnchor),
             ])
     }
