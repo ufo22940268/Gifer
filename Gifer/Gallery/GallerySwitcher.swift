@@ -13,7 +13,8 @@ enum GalleryCategory: CaseIterable {
     case video
     case livePhoto
     case photo
-    
+    case camera
+
     var title: String {
         switch self {
         case .video:
@@ -22,6 +23,8 @@ enum GalleryCategory: CaseIterable {
             return NSLocalizedString("Live Photo", comment: "Live Photo item in category selector")
         case .photo:
             return NSLocalizedString("Photo", comment: "Photo item in category selector")
+        case .camera:
+            return NSLocalizedString("Camera", comment: "")
         }
     }
     
@@ -33,6 +36,8 @@ enum GalleryCategory: CaseIterable {
             return NSLocalizedString("%d photo(s)", comment: "")
         case .livePhoto:
             return NSLocalizedString("%d live photo(s)", comment: "")
+        case .camera:
+            return ""
         }
     }
     
@@ -44,6 +49,8 @@ enum GalleryCategory: CaseIterable {
             return #imageLiteral(resourceName: "livephoto.png")
         case .photo:
             return #imageLiteral(resourceName: "Image Category.png")
+        case .camera:
+            return #imageLiteral(resourceName: "gallery-camera.png")
         }
     }
     
@@ -64,6 +71,8 @@ enum GalleryCategory: CaseIterable {
             return .video
         case .photo:
             return .image
+        case .camera:
+            return nil
         }
     }
 }

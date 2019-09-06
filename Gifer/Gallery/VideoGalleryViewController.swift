@@ -167,6 +167,10 @@ class VideoGalleryViewController: UICollectionViewController {
                 selectPhotoView.topAnchor.constraint(equalTo: navRootView.safeAreaLayoutGuide.topAnchor)
                 ])
         }
+        
+        galleryCategoryView.bounds.size.height = galleryCategoryView.visibleCells.reduce(0, { (r, cell) -> CGFloat in
+            return r + cell.bounds.height
+        })
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -380,6 +384,8 @@ class VideoGalleryViewController: UICollectionViewController {
             onSelectPlayableItem(at: indexPath)
         case .photo:
             onSelectPhotoItem(at: indexPath)
+        default:
+            break
         }
     }
     

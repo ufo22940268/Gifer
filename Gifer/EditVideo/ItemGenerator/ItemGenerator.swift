@@ -8,7 +8,7 @@
 
 import AVKit
 import UIKit
-import  Photos
+import Photos
 
 protocol ItemGenerator {
     func run(complete: @escaping (ImagePlayerItem) -> Void)
