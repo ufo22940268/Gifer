@@ -64,7 +64,9 @@ class CameraViewController: UIViewController {
     
     var mode: CameraMode! {
         didSet {
-            shotView.mode = self.mode
+            UIView.transition(with: shotView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.shotView.mode = self.mode
+            }, completion: nil)
             updateButtonsStatus()
         }
     }
@@ -189,7 +191,15 @@ class CameraViewController: UIViewController {
         }
     }
     
-    @IBAction func onDone(_ sender: Any) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toEdit", let editVC = segue.destination as? EditViewController {
+            switch mode! {
+            case .video:
+                fatalError()
+            case .photos:
+                editVC.generator = ItemGeneratorWithPhotoFiles(photos: photos)
+            }
+        }
     }
     
     @IBAction func onToggleCamera(_ sender: Any) {
@@ -280,8 +290,6 @@ extension CameraViewController: ShotViewDelegate {
         if !UIDevice.isSimulator {
             photoOutput.capturePhoto(with: AVCapturePhotoSettings(format: nil), delegate: self)
         }
-        shotView.updateProgress(byPhotoCount: photos.count)
-        shotPhotoCountView.updateCount(photos.count)
     }
 }
 
@@ -302,7 +310,9 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         if let url = CameraPhotoStorage.instance.save(data) {
             photos.append(url)
         }
-
+        
+        shotView.updateProgress(byPhotoCount: photos.count)
+        shotPhotoCountView.updateCount(photos.count)
     }
 }
 

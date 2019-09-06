@@ -28,7 +28,7 @@ func getTestAVAsset(complete: @escaping (AVAsset, PHAsset) -> Void) {
 
 func getTestPlayerItem(complete: @escaping (ImagePlayerItem, PHAsset) -> Void) {
     getTestAVAsset { (avAsset, phAsset) in
-        ImagePlayerItemGenerator(avAsset: avAsset, asset: phAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
+        ItemGeneratorWithAVAsset(avAsset: avAsset, asset: phAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
             .run(complete: { (item) in
                 complete(item, phAsset)
             })

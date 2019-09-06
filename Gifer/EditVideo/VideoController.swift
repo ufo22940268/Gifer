@@ -439,7 +439,8 @@ class VideoController: UIStackView {
         updatePlayerItem(playerItem)
         
         gallerySlider.alpha = 1.0
-        let expectThumbernailCount = Int(self.galleryView.bounds.width/40)
+        // TODO: When image player item generate process is synchronize, the gallery view width is 0.
+        let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
         let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
         self.videoTrim.onVideoReady()
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)

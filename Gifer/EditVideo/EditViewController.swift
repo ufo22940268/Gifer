@@ -134,11 +134,13 @@ class EditViewController: UIViewController {
     var shareVC: ShareViewController!
     @IBOutlet weak var videoController: VideoController!
     
+    var generator: ItemGenerator?
+    
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
     
     var downloadTaskId: PHImageRequestID?
-    var playerItemGenerator: ImagePlayerItemGenerator?
+    var playerItemGenerator: ItemGeneratorWithAVAsset?
     
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
@@ -312,7 +314,7 @@ class EditViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil
+        isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil && generator == nil
         if isDebug {
             videoAsset = getTestVideo()
         }
@@ -333,6 +335,8 @@ class EditViewController: UIViewController {
         
         if let photoIdentifiers = photoIdentifiers {
             load(fromPhotos: photoIdentifiers)
+        } else if let generator = generator {
+            load(with: generator)
         } else {
             load()
         }
@@ -395,6 +399,13 @@ class EditViewController: UIViewController {
         makePlayerItemFromPhotosTask = MakePlayerItemFromPhotosTask(identifiers: identifiers)
         makePlayerItemFromPhotosTask?.run { playerItem in
             guard let playerItem = playerItem else  { return }
+            self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
+            self.initPlayerItem(playerItem)
+        }
+    }
+    
+    func load(with generator: ItemGenerator) {
+        generator.run { (playerItem) in
             self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
             self.initPlayerItem(playerItem)
         }
@@ -481,7 +492,7 @@ class EditViewController: UIViewController {
     private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, asset: videoAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
+        playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: videoAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
         playerItemGenerator?.run { playerItem in
             DispatchQueue.main.async {
                 complete(playerItem)

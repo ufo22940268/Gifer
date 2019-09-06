@@ -12,6 +12,8 @@
 		42053E232320E1E300AB63AD /* CameraPhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42053E222320E1E300AB63AD /* CameraPhotoStorage.swift */; };
 		4205D1ED22FD38EC00F17EEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1EF22FD38EC00F17EEE /* Localizable.strings */; };
 		4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */; };
+		420AD0322321DB120033E1EB /* ItemGeneratorWithAVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */; };
+		420AD0352321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */; };
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
 		420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
@@ -37,7 +39,7 @@
 		42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */; };
 		4239A67923120203005E8226 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4239A67823120203005E8226 /* RootNavigationController.swift */; };
 		423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */; };
-		423C282E22C34E0A00D58376 /* ImagePlayerItemGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */; };
+		423C282E22C34E0A00D58376 /* ItemGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282D22C34E0A00D58376 /* ItemGenerator.swift */; };
 		423C283022C3904F00D58376 /* ImagePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C282F22C3904F00D58376 /* ImagePlayerView.swift */; };
 		423C283222C3A40700D58376 /* ImagePlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C283122C3A40700D58376 /* ImagePlayerItem.swift */; };
 		42444A62226DBD61004F26A3 /* FilterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42444A61226DBD60004F26A3 /* FilterSlider.swift */; };
@@ -182,6 +184,8 @@
 		4205D1F422FD5D9B00F17EEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
 		4205D1F722FD5DC800F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		4205D1F822FDA29B00F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithAVAsset.swift; sourceTree = "<group>"; };
+		420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithPhotoFiles.swift; sourceTree = "<group>"; };
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
@@ -208,7 +212,7 @@
 		42362EBC21F024FB00970A5C /* GridRulerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRulerEdgeView.swift; sourceTree = "<group>"; };
 		4239A67823120203005E8226 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		423C282B22C30BEC00D58376 /* VideoProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressCircle.swift; sourceTree = "<group>"; };
-		423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerItemGenerator.swift; sourceTree = "<group>"; };
+		423C282D22C34E0A00D58376 /* ItemGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGenerator.swift; sourceTree = "<group>"; };
 		423C282F22C3904F00D58376 /* ImagePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerView.swift; sourceTree = "<group>"; };
 		423C283122C3A40700D58376 /* ImagePlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlayerItem.swift; sourceTree = "<group>"; };
 		42444A61226DBD60004F26A3 /* FilterSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSlider.swift; sourceTree = "<group>"; };
@@ -370,6 +374,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		420AD0332321DBD00033E1EB /* ItemGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				423C282D22C34E0A00D58376 /* ItemGenerator.swift */,
+				420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */,
+				420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */,
+			);
+			path = ItemGenerator;
+			sourceTree = "<group>";
+		};
 		422F539B22E7034500C0989D /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,7 +446,7 @@
 				42444A63226EDBFC004F26A3 /* VideoControllerTrim.swift */,
 				42444A65226EEB28004F26A3 /* VideoControllerAttatchView.swift */,
 				424F9929228ABAA800952440 /* LoopConfigViewController.swift */,
-				423C282D22C34E0A00D58376 /* ImagePlayerItemGenerator.swift */,
+				420AD0332321DBD00033E1EB /* ItemGenerator */,
 				423C282F22C3904F00D58376 /* ImagePlayerView.swift */,
 				423C283122C3A40700D58376 /* ImagePlayerItem.swift */,
 				4275DBAB2313D74700FA095C /* ImagePlayerFrame.swift */,
@@ -895,6 +909,7 @@
 				4285BFA321A8D22E00913466 /* VideoGalleryViewController.swift in Sources */,
 				42053E212320947E00AB63AD /* ShotPhotoCountView.swift in Sources */,
 				42362EBB21F024A300970A5C /* GridRulerCornerView.swift in Sources */,
+				420AD0322321DB120033E1EB /* ItemGeneratorWithAVAsset.swift in Sources */,
 				4224B22021F7104A0001E494 /* VideoPlayerSection.swift in Sources */,
 				4269ADB7221BD4FE0098BA5E /* FilterPreviewView.swift in Sources */,
 				424F992A228ABAA800952440 /* LoopConfigViewController.swift in Sources */,
@@ -918,7 +933,7 @@
 				42CA13C922FB9C1C003DD910 /* CGSizeExtension.swift in Sources */,
 				427A5648224246E900F0CA3E /* VideoProgressLoadingIndicator.swift in Sources */,
 				423C283222C3A40700D58376 /* ImagePlayerItem.swift in Sources */,
-				423C282E22C34E0A00D58376 /* ImagePlayerItemGenerator.swift in Sources */,
+				423C282E22C34E0A00D58376 /* ItemGenerator.swift in Sources */,
 				42FF4D30226467AF00EEF49C /* GifConfigCalibrator.swift in Sources */,
 				42D7F28E224CA08B00E7E504 /* Palette.swift in Sources */,
 				42444A64226EDBFC004F26A3 /* VideoControllerTrim.swift in Sources */,
@@ -958,6 +973,7 @@
 				42D4E51F22BEFF3600EDD3B7 /* EditTextTransitionDelegate.swift in Sources */,
 				422F539F22E83EEE00C0989D /* PromotionManager.swift in Sources */,
 				42D7F288224B831200E7E504 /* TestViewController.swift in Sources */,
+				420AD0352321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift in Sources */,
 				42053E1F231F7D3D00AB63AD /* CameraPreviewView.swift in Sources */,
 				42EE13D62195C22900724611 /* GifGenerator.swift in Sources */,
 				420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */,

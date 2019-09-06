@@ -259,7 +259,7 @@ extension FramesViewController: RootNavigationControllerDelegate {
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (avAsset, _, _) in
             guard let avAsset = avAsset else { return }
-            let playerItemGenerator = ImagePlayerItemGenerator(avAsset: avAsset, asset: asset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
+            let playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: asset, trimPosition: trimPosition, fps: .f5, shouldCleanDirectory: false)
             playerItemGenerator.run { playerItem in
                 if let label = label {
                     self.replacePlayerItem(with: playerItem, on: label)

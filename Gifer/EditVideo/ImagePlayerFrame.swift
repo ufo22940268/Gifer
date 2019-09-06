@@ -42,6 +42,11 @@ class ImagePlayerFrame: Equatable {
         self.isActive = true
     }
     
+    init(time: CMTime, url: URL) {
+        self.path = url
+        self.time = time
+    }
+    
     var previewLoader: ImagePlayerItemLabel.PreviewLoader {
         return { () in
             return self.uiImage

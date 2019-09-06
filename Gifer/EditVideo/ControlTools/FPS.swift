@@ -16,6 +16,12 @@ enum FPSFigure: Int, CaseIterable {
     case f20 = 20
     case f30 = 30
     
+    static let `default` = FPSFigure.f5
+    
+    var interval: Double {
+        return 1/Double(self.rawValue)
+    }
+    
     static func build(fromInterval: Double) -> FPSFigure {
         return FPSFigure.allCases.min { abs(1/Double($0.rawValue) - fromInterval) < abs(1/Double($1.rawValue) - fromInterval) }!
     }

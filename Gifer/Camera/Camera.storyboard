@@ -184,7 +184,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="DSd-qa-NOO">
                             <connections>
-                                <action selector="onDone:" destination="ib6-sJ-ZHz" id="erW-wA-G0l"/>
+                                <segue destination="dMN-MN-7AA" kind="presentation" id="hXL-is-wTx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -209,6 +209,13 @@
                 </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-857.97101449275374" y="101.78571428571428"/>
+        </scene>
+        <!--editNav-->
+        <scene sceneID="lZc-Xg-Izy">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="editNav" storyboardName="Edit" referencedIdentifier="editNav" id="dMN-MN-7AA" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3kn-xU-juC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

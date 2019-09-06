@@ -1,16 +1,16 @@
 //
-//  ImagePlayerItem.swift
+//  ItemGeneratorWithAVAsset.swift
 //  Gifer
 //
-//  Created by Frank Cheng on 2019/6/26.
+//  Created by Frank Cheng on 2019/9/6.
 //  Copyright © 2019 Frank Cheng. All rights reserved.
 //
 
 import AVKit
 import UIKit
-import  Photos
+import Photos
 
-class ImagePlayerItemGenerator {
+class ItemGeneratorWithAVAsset: ItemGenerator {
     
     var avAsset: AVAsset
     var asset: PHAsset
@@ -57,7 +57,7 @@ class ImagePlayerItemGenerator {
             ar.append(NSValue(time: t))
             t = t + interval
         }
-
+        
         if ar.last!.timeValue != trimPosition.rightTrim {
             ar[ar.count - 1] = NSValue(time: trimPosition.rightTrim)
         }
