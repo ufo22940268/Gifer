@@ -272,11 +272,16 @@ class ShotView: UIView {
             layer.strokeColor = #colorLiteral(red: 0.3533350229, green: 0.7218242288, blue: 0.3300692737, alpha: 1).cgColor
             layer.lineWidth = 10
             layer.backgroundColor = UIColor.clear.cgColor
-            let path = UIBezierPath(ovalIn: CGRect(origin: .zero, size: CGSize(width: 80, height: 80)).insetBy(dx: ringWidth/2, dy: ringWidth/2))
-            layer.path = path.cgPath
             layer.fillColor = UIColor.clear.cgColor
             return layer
         }()
+
+        override var bounds: CGRect {
+            didSet {
+                let path = UIBezierPath(ovalIn: CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height)).insetBy(dx: ringWidth/2, dy: ringWidth/2))
+                ringLayer.path = path.cgPath
+            }
+        }
         
         override init(frame: CGRect) {
             super.init(frame: frame)
