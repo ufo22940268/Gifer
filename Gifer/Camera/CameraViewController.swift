@@ -55,10 +55,6 @@ class CameraViewController: UIViewController {
         return url
     }()
     
-    var currentLabelIndex: IndexPath? {
-        return labelCollectionView.indexPathForItem(at: CGPoint(x: labelCollectionView.contentOffset.x + labelCollectionView.frame.width/2, y: labelCollectionView.frame.height/2))
-    }
-
     
     var mode: CameraMode! {
         didSet {
@@ -112,6 +108,13 @@ class CameraViewController: UIViewController {
             ])
         
         updateButtonsStatus()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if labelCollectionView.indexPathsForSelectedItems?.count == 0 {            
+            labelCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+        }
     }
     
     func updateButtonsStatus() {
@@ -212,6 +215,7 @@ class CameraViewController: UIViewController {
         } else {
             newPosition = .back
         }
+        
         if let newInput = buildDeviceInput(on: newPosition) {
             captureSession.addInput(newInput)
         }
@@ -260,15 +264,9 @@ extension CameraViewController: UICollectionViewDataSource {
 
 // MARK: Label collection delegate
 extension CameraViewController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        labelCollectionView.visibleCells.forEach { (cell) in
-            let cell = cell as! CameraTypeCell
-            cell.isHighlighted = labelCollectionView.indexPath(for: cell) == currentLabelIndex
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.mode = modes[currentLabelIndex!.row]
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        mode = modes[indexPath.row]
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 
@@ -338,9 +336,9 @@ class CameraTypeCell: UICollectionViewCell {
     
     @IBOutlet weak var labelView: UILabel!
     
-    override var isHighlighted: Bool {
+    override var isSelected: Bool {
         didSet {
-            labelView.textColor = isHighlighted ? .white : .lightText
+            labelView.textColor = isSelected ? .white : .lightText
         }
     }
 }
