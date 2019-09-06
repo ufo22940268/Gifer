@@ -11,6 +11,6 @@ import UIKit
 import  Photos
 
 protocol ItemGenerator {
-    func destroy()
     func run(complete: @escaping (ImagePlayerItem) -> Void)
+    func destroy()
 }

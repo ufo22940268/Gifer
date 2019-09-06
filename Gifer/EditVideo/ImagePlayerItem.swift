@@ -46,7 +46,7 @@ class ImagePlayerItem {
     var labelSequence: Int = 0
     var labels = [ImagePlayerItemLabel]()
     
-    init(frames: [ImagePlayerFrame], duration: CMTime) {
+    init(frames: [ImagePlayerFrame], duration: CMTime, videoAsset: PHAsset? = nil) { 
         self.allFrames = frames
         self.rootFrames = frames
         self.duration = duration
@@ -55,12 +55,11 @@ class ImagePlayerItem {
         let newLabel: ImagePlayerItemLabel = createLabel(first: frames.first!)
         labels.append(newLabel)
         frames.forEach { $0.label = newLabel }
-    }
-    
-    convenience init(frames: [ImagePlayerFrame], duration: CMTime, videoAsset: PHAsset) {
-        self.init(frames: frames, duration: duration)
-        labels.last!.videoAsset = videoAsset
-    }
+        
+        if let videoAsset = videoAsset {
+            labels.last!.videoAsset = videoAsset
+        }
+    }    
     
     func createLabel(first frame: ImagePlayerFrame) -> ImagePlayerItemLabel {
         let label = ImagePlayerItemLabel(previewLoader: frame.previewLoader, sequence: labelSequence)

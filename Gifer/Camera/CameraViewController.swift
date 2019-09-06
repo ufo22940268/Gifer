@@ -191,10 +191,12 @@ class CameraViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toEdit", let editVC = segue.destination as? EditViewController {
+        if segue.identifier == "toEdit", let editVC = (segue.destination as? UINavigationController)?.topViewController as? EditViewController {
             switch mode! {
             case .video:
-                fatalError()
+                if let outputURL = outputURL {
+                    editVC.generator = ItemGeneratorWithVideoFile(url: outputURL)
+                }
             case .photos:
                 editVC.generator = ItemGeneratorWithPhotoFiles(photos: photos)
             }

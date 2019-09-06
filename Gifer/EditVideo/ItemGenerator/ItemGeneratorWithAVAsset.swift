@@ -13,7 +13,7 @@ import Photos
 class ItemGeneratorWithAVAsset: ItemGenerator {
     
     var avAsset: AVAsset
-    var asset: PHAsset
+    var asset: PHAsset?
     var trimPosition: VideoTrimPosition
     var isDestroyed = false
     
@@ -27,7 +27,7 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
         }
     }()
     
-    internal init(avAsset: AVAsset, asset: PHAsset, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil, shouldCleanDirectory: Bool = true) {
+    internal init(avAsset: AVAsset, asset: PHAsset? = nil, trimPosition: VideoTrimPosition, fps: FPSFigure? = nil, shouldCleanDirectory: Bool = true) {
         self.avAsset = avAsset
         self.asset = asset
         self.trimPosition = trimPosition

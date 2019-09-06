@@ -14,6 +14,7 @@
 		4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */; };
 		420AD0322321DB120033E1EB /* ItemGeneratorWithAVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */; };
 		420AD0352321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */; };
+		420AD037232224C60033E1EB /* ItemGeneratorWithVideoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */; };
 		420C9CDD22E15BE000A272DE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDC22E15BDF00A272DE /* StringExtensions.swift */; };
 		420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */; };
 		420C9CE122E1B9A600A272DE /* EditStickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */; };
@@ -186,6 +187,7 @@
 		4205D1F822FDA29B00F17EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithAVAsset.swift; sourceTree = "<group>"; };
 		420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithPhotoFiles.swift; sourceTree = "<group>"; };
+		420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithVideoFile.swift; sourceTree = "<group>"; };
 		420C9CDC22E15BDF00A272DE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		420C9CDE22E1B80C00A272DE /* EditStickerPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerPageViewController.swift; sourceTree = "<group>"; };
 		420C9CE022E1B9A600A272DE /* EditStickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStickerCollectionViewController.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				423C282D22C34E0A00D58376 /* ItemGenerator.swift */,
 				420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */,
 				420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */,
+				420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */,
 			);
 			path = ItemGenerator;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				424F16AF222FB50300F94BCF /* StickerMenuView.swift in Sources */,
 				42EEACE121995DEE009A3BB8 /* EditViewController.swift in Sources */,
 				4269ADB5221B93540098BA5E /* FiltersView.swift in Sources */,
+				420AD037232224C60033E1EB /* ItemGeneratorWithVideoFile.swift in Sources */,
 				42D7F296224F582F00E7E504 /* Overlay.swift in Sources */,
 				422BC3B321F1B9F400948A32 /* CommonConstraints.swift in Sources */,
 				42265B5D21F95587005D2710 /* OptionMenu.swift in Sources */,

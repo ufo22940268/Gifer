@@ -184,7 +184,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="DSd-qa-NOO">
                             <connections>
-                                <segue destination="dMN-MN-7AA" kind="presentation" id="hXL-is-wTx"/>
+                                <segue destination="dMN-MN-7AA" kind="presentation" identifier="toEdit" id="hXL-is-wTx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
