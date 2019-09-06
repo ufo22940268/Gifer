@@ -10,8 +10,8 @@ import UIKit
 
 class ShotView: UIView {
     
-    lazy var circleView: CircleView = {
-        let view = CircleView(mode: .video).useAutoLayout()
+    lazy var circleView: CenterView = {
+        let view = CenterView(mode: .video).useAutoLayout()
         view.backgroundColor = .clear
         return view
     }()
@@ -79,6 +79,8 @@ class ShotView: UIView {
         circleHeightConstraint = circleView.heightAnchor.constraint(equalTo: heightAnchor, constant: -40)
         circleWidthConstraint = circleView.widthAnchor.constraint(equalTo: widthAnchor, constant: -40)
         
+        layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
         addSubview(ringView)
         NSLayoutConstraint.activate([
             ringWidthConstraint,
@@ -96,8 +98,13 @@ class ShotView: UIView {
             ])
         
         addSubview(progressView)
-        progressView.useSameSizeAsParent()
-        
+        NSLayoutConstraint.activate([
+            progressView.widthAnchor.constraint(equalTo: layoutMarginsGuide.widthAnchor),
+            progressView.heightAnchor.constraint(equalTo: layoutMarginsGuide.heightAnchor),
+            progressView.centerXAnchor.constraint(equalTo: layoutMarginsGuide.centerXAnchor),
+            progressView.centerYAnchor.constraint(equalTo: layoutMarginsGuide.centerYAnchor),
+            ])
+
         addGestureRecognizer(shotVideoGesture)
         addGestureRecognizer(shotPhotosGesture)
 
@@ -180,7 +187,7 @@ class ShotView: UIView {
         }
     }
     
-    class CircleView: UIView {
+    class CenterView: UIView {
 
         var isVideoRecording: Bool? {
             didSet {
@@ -233,7 +240,7 @@ class ShotView: UIView {
     class RingView: UIView {
         override func draw(_ rect: CGRect) {
             let path = UIBezierPath(ovalIn: rect)
-            UIColor.white.withAlphaComponent(0.5).setFill()
+            UIColor.white.withAlphaComponent(0.7).setFill()
             path.fill()
         }
     }
@@ -253,19 +260,19 @@ class ShotView: UIView {
             didSet {
                 guard let isActive = isActive else { return }
                 if isActive {
-                    transform = CGAffineTransform(rotationAngle: -.pi/2)
+                    transform = CGAffineTransform(scaleX: (bounds.width + 20)/bounds.width, y: (bounds.height + 20)/bounds.height).rotated(by: -.pi/2)
                 } else {
-                    transform = CGAffineTransform(scaleX: (bounds.width - 20)/bounds.width, y: (bounds.height - 20)/bounds.height).rotated(by: -.pi/2)
+                    transform = CGAffineTransform(rotationAngle: -.pi/2)
                 }
             }
         }
         
         lazy var ringLayer: CAShapeLayer = {
             let layer = CAShapeLayer()
-            layer.strokeColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
+            layer.strokeColor = #colorLiteral(red: 0.3533350229, green: 0.7218242288, blue: 0.3300692737, alpha: 1).cgColor
             layer.lineWidth = 10
             layer.backgroundColor = UIColor.clear.cgColor
-            let path = UIBezierPath(ovalIn: CGRect(origin: .zero, size: CGSize(width: 100, height: 100)).insetBy(dx: ringWidth/2, dy: ringWidth/2))
+            let path = UIBezierPath(ovalIn: CGRect(origin: .zero, size: CGSize(width: 80, height: 80)).insetBy(dx: ringWidth/2, dy: ringWidth/2))
             layer.path = path.cgPath
             layer.fillColor = UIColor.clear.cgColor
             return layer
