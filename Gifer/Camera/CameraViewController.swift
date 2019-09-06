@@ -9,8 +9,6 @@
 import UIKit
 import AVFoundation
 
-let maxCaptureVideoLength = Double(20).toTime()
-
 class CameraViewController: UIViewController {
     
     var modes: [CameraMode] = CameraMode.allCases
@@ -68,6 +66,7 @@ class CameraViewController: UIViewController {
                 self.shotView.mode = self.mode
             }, completion: nil)
             updateButtonsStatus()
+            updateProgress()
         }
     }
     
@@ -286,17 +285,34 @@ extension CameraViewController: ShotViewDelegate {
         videoOutput.stopRecording()
     }
     
+    func onRecording(_ shotView: ShotView) {
+        print(videoOutput.recordedDuration.seconds)
+        shotView.updateProgress(byVideoDuration: videoOutput.recordedDuration)
+    }
+    
     func onTakePhoto(_ shotView: ShotView) {
         if !UIDevice.isSimulator {
             photoOutput.capturePhoto(with: AVCapturePhotoSettings(format: nil), delegate: self)
+        }
+    }
+    
+    func updateProgress() {
+        switch mode! {
+        case .video:
+            if let recordedVideoDuration = recordedVideoDuration {
+                shotView.updateProgress(byVideoDuration: recordedVideoDuration)
+            }
+        case .photos:
+            shotView.updateProgress(byPhotoCount: photos.count)
         }
     }
 }
 
 // MARK: Video output delegation
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         recordedVideoDuration = output.recordedDuration
+        updateProgress()
     }
 }
 
@@ -341,4 +357,5 @@ enum CameraMode: CaseIterable {
     }
 
     static let maxPhotoCount = 200
+    static let maxVideoDuration = Double(20).toTime()
 }

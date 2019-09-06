@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 class ShotView: UIView {
     
@@ -123,8 +124,9 @@ class ShotView: UIView {
         }
         
         let interval = 0.1
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
-            self.progress = min(self.progress + CGFloat(interval/maxCaptureVideoLength.seconds), 1)
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] (timer) in
+            guard let self = self else { return }
+            self.customDelegate?.onRecording(self)
         }
         RunLoop.main.add(timer!, forMode: .common)
     }
@@ -144,6 +146,10 @@ class ShotView: UIView {
     
     func updateProgress(byPhotoCount photoCount: Int) {
         progress = min(CGFloat(photoCount)/CGFloat(CameraMode.maxPhotoCount), 1)
+    }
+    
+    func updateProgress(byVideoDuration duration: CMTime) {
+        progress = min(CGFloat(duration.seconds/CameraMode.maxVideoDuration.seconds), 1)
     }
     
     @objc func onShotPhotos(sender: UITapGestureRecognizer) {
@@ -310,6 +316,7 @@ class ShotView: UIView {
 
 protocol ShotViewDelegate: class {
     func onStartRecordingByUser()
+    func onRecording(_ shotView: ShotView)
     func onStopRecordingByUser()
     func onTakePhoto(_ shotView: ShotView)
 }
