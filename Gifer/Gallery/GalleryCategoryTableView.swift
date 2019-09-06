@@ -34,10 +34,6 @@ class GalleryCategoryCell: UITableViewCell {
     }
 }
 
-protocol GalleryCategoryDelegate: class {
-    func onSelectGalleryCategory(_ galleryCategory: GalleryCategory)
-}
-
 class GalleryCategoryTableView: UITableView {
     let items = GalleryCategory.allCases
     weak var customDelegate: GalleryCategoryDelegate?
@@ -86,7 +82,25 @@ extension GalleryCategoryTableView: UITableViewDataSource {
 }
 
 extension GalleryCategoryTableView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        customDelegate?.onSelectGalleryCategory(items[indexPath.row])
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if items[indexPath.row] != .camera {
+            return indexPath
+        } else {
+            customDelegate?.onNavigateToCamera(self)
+            return nil
+        }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = items[indexPath.row]
+        if item != .camera {
+            customDelegate?.onSelectGalleryCategory(item)
+        }
+    }
+}
+
+protocol GalleryCategoryDelegate: class {
+    func onSelectGalleryCategory(_ galleryCategory: GalleryCategory)
+    func onNavigateToCamera(_ galleryView: GalleryCategoryTableView)
 }

@@ -473,7 +473,7 @@ extension VideoGalleryViewController: PHPhotoLibraryChangeObserver {
 }
 
 // MARK: - Gallery switcher and panel features
-extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDelegate {
+extension VideoGalleryViewController: GallerySwitcherDelegate {
     
     func slideDownGallerySelectView(_ slideDown: Bool) {
         let duration = toggleGalleryCategoryAnimationDuration
@@ -497,6 +497,13 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         slideDownGallerySelectView(slideDown)
     }
     
+    @objc func onDimClicked(sender: UITapGestureRecognizer) {
+        slideDownGallerySelectView(false)
+        switcher.setSelected(false, anim: true)
+    }
+}
+
+extension VideoGalleryViewController: GalleryCategoryDelegate {
     func onSelectGalleryCategory(_ galleryCategory: GalleryCategory) {
         slideDownGallerySelectView(false)
         self.galleryCategory = galleryCategory
@@ -507,10 +514,13 @@ extension VideoGalleryViewController: GallerySwitcherDelegate, GalleryCategoryDe
         
         switcher.category = galleryCategory
     }
-    
-    @objc func onDimClicked(sender: UITapGestureRecognizer) {
-        slideDownGallerySelectView(false)
-        switcher.setSelected(false, anim: true)
+
+    func onNavigateToCamera(_ galleryView: GalleryCategoryTableView) {
+        let vc = AppStoryboard.Camera.instance.instantiateViewController(withIdentifier: "cameraNav")
+        navigationController?.present(vc, animated: true) {
+            self.slideDownGallerySelectView(false)
+            self.switcher.setSelected(false, anim: true)
+        }
     }
 }
 
