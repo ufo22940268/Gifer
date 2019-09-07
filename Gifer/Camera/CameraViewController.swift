@@ -30,31 +30,25 @@ class CameraViewController: UIViewController {
     @IBOutlet var labelsPanGesture: UIPanGestureRecognizer!
     
     var recordedVideoDuration: CMTime? {
-        didSet {
-            updateButtonsStatus()
-        }
+        return videoComposer.duration
     }
     
     lazy var captureSession: AVCaptureSession = {
         return AVCaptureSession()
     }()
     
-    lazy var videoOutput: AVCaptureMovieFileOutput = {
-        let output = AVCaptureMovieFileOutput()
-        output.maxRecordedDuration = Double(20).toTime()
-        return output
-    }()
+//    lazy var videoOutput: AVCaptureMovieFileOutput = {
+//        let output = AVCaptureMovieFileOutput()
+//        output.maxRecordedDuration = Double(20).toTime()
+//        return output
+//    }()
+    
+    let videoComposer = VideoOuputComposer()
     
     lazy var photoOutput: AVCapturePhotoOutput = {
         let output = AVCapturePhotoOutput()
         return output
     }()
-    
-    lazy var outputURL: URL? = {
-       let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("capture.mov")
-        return url
-    }()
-    
     
     var mode: CameraMode! {
         didSet {
@@ -84,7 +78,7 @@ class CameraViewController: UIViewController {
             guard let deviceInput = buildDeviceInput(on: .back) else  { return }
             captureSession.addInput(deviceInput)
             captureSession.sessionPreset = .medium
-            captureSession.addOutput(videoOutput)
+            captureSession.addOutput(videoComposer.createNewOutput())
             captureSession.addOutput(photoOutput)
             captureSession.commitConfiguration()
             
@@ -112,7 +106,7 @@ class CameraViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if labelCollectionView.indexPathsForSelectedItems?.count == 0 {            
+        if labelCollectionView.indexPathsForSelectedItems?.count == 0 {
             labelCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
         }
     }
@@ -197,9 +191,11 @@ class CameraViewController: UIViewController {
         if segue.identifier == "toEdit", let editVC = (segue.destination as? UINavigationController)?.topViewController as? EditViewController {
             switch mode! {
             case .video:
-                if let outputURL = outputURL {
-                    editVC.generator = ItemGeneratorWithVideoFile(url: outputURL)
-                }
+                // TODO: implement
+//                if let outputURL = outputURL {
+//                    editVC.generator = ItemGeneratorWithVideoFile(url: outputURL)
+//                }
+                break
             case .photos:
                 editVC.generator = ItemGeneratorWithPhotoFiles(photos: photos)
             }
@@ -273,21 +269,15 @@ extension CameraViewController: UICollectionViewDelegate {
 // MARK: Shot view delegation
 extension CameraViewController: ShotViewDelegate {
     func onStartRecordingByUser() {
-        guard let outputURL  = outputURL, !UIDevice.isSimulator else { return }
-        do {
-            try FileManager.default.removeItem(at: outputURL)
-        } catch {
-        }
-        videoOutput.startRecording(to: outputURL, recordingDelegate: self)        
+        videoComposer.startRecording(delegate: self, in: captureSession)
     }
     
     func onStopRecordingByUser() {
-        videoOutput.stopRecording()
+        videoComposer.pauseRecording()
     }
     
     func onRecording(_ shotView: ShotView) {
-        print(videoOutput.recordedDuration.seconds)
-        shotView.updateProgress(byVideoDuration: videoOutput.recordedDuration)
+        shotView.updateProgress(byVideoDuration: videoComposer.duration)
     }
     
     func onTakePhoto(_ shotView: ShotView) {
@@ -310,8 +300,8 @@ extension CameraViewController: ShotViewDelegate {
 
 // MARK: Video output delegation
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
-        func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        recordedVideoDuration = output.recordedDuration
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        updateButtonsStatus()
         updateProgress()
     }
 }
