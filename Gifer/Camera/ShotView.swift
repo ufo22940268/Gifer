@@ -31,6 +31,7 @@ class ShotView: UIView {
     
     lazy var shotVideoGesture: UILongPressGestureRecognizer = {
         let ges = UILongPressGestureRecognizer(target: self, action: #selector(onRecordVideo(sender:)))
+        ges.minimumPressDuration = 0
         return ges
     }()
     

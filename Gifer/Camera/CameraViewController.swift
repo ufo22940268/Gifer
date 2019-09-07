@@ -92,6 +92,8 @@ class CameraViewController: UIViewController {
                 cameraWidthConstraint.constant = previewContainerSize.width
                 cameraHeightConstraint.constant = captureSize.height/captureSize.width*previewContainerSize.width
             }
+            
+            videoComposer.clearFiles()
         }
         
         contentStackView.addSubview(shotPhotoCountView)
@@ -170,12 +172,13 @@ class CameraViewController: UIViewController {
     @IBAction func onResetCamera(_ sender: Any) {
         switch mode! {
         case .video:
+            videoComposer.resetRecording(on: captureSession)
             shotView.resetRecording()
         case .photos:
             photos.removeAll()
             shotPhotoCountView.alpha = 0
+            shotView.progress = 0
         }
-        shotView.progress = 0
     }
     
     @IBAction func onCancel(_ sender: Any) {

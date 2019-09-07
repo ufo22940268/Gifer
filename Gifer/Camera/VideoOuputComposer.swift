@@ -73,9 +73,18 @@ class VideoOuputComposer {
         session.removeOutput(outputs.last!)
     }
     
+    func clearFiles() {
+        if let urls = FileManager.default.enumerator(atPath: directory.path) {
+            for filename in urls {
+                try? FileManager.default.removeItem(at: directory.appendingPathComponent(filename as! String))
+            }
+        }
+    }
     
-    func reset() {
-        
+    func resetRecording(on session: AVCaptureSession) {
+        clearFiles()
+        session.outputs.forEach { session.removeOutput($0) }
+        recordedDurations.removeAll()
     }
     
     func compose() {

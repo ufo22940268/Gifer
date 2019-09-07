@@ -148,4 +148,9 @@ class GiferTests: XCTestCase {
         let fonts = UIFont.listAllFonts()
         print(fonts.map {$0.fontName})
     }
+    
+    func testDeleteImagePlayerFrame() {
+        let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("imagePlayer")
+        try? FileManager.default.removeItem(at: url!)
+    }
 }
