@@ -20,7 +20,6 @@ class VideoOuputComposer {
     }
     
     var duration: CMTime {
-        print(outputs.map { $0.recordedDuration.seconds })
         let outputDuration = outputs.reduce(CMTime.zero, { (t, output) -> CMTime in
             t + output.recordedDuration
         })
@@ -65,12 +64,13 @@ class VideoOuputComposer {
         output.startRecording(to: getOutputURL(for: output), recordingDelegate: delegate)
     }
     
-    func pauseRecording() {
+    func pauseRecording(session: AVCaptureSession) {
         if let last = outputs.last {
             recordedDurations.append(last.recordedDuration)
         }
         
         outputs.forEach { $0.stopRecording() }
+        session.removeOutput(outputs.last!)
     }
     
     

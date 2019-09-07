@@ -78,7 +78,6 @@ class CameraViewController: UIViewController {
             guard let deviceInput = buildDeviceInput(on: .back) else  { return }
             captureSession.addInput(deviceInput)
             captureSession.sessionPreset = .medium
-            captureSession.addOutput(videoComposer.createNewOutput())
             captureSession.addOutput(photoOutput)
             captureSession.commitConfiguration()
             
@@ -273,7 +272,7 @@ extension CameraViewController: ShotViewDelegate {
     }
     
     func onStopRecordingByUser() {
-        videoComposer.pauseRecording()
+        videoComposer.pauseRecording(session: captureSession)
     }
     
     func onRecording(_ shotView: ShotView) {
