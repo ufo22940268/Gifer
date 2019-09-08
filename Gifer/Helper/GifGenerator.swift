@@ -253,7 +253,7 @@ public class GifGenerator {
         }
 
         for (index, frame) in generateFrames.enumerated() {
-            var image: CGImage = frame.uiImage.cgImage!.resize(inSize: gifSize)
+            var image = frame.uiImage.resize(inSize: gifSize).cgImage!
             let interval = playerItem.frameInterval/Double(options.speed)
             let time = CMTime(seconds: Double(index)*interval, preferredTimescale: 600)
             

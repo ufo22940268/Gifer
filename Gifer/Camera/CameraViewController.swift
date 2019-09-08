@@ -194,6 +194,8 @@ class CameraViewController: UIViewController {
             switch mode! {
             case .video:
                 // TODO: implement
+                let avAsset = videoComposer.compose()
+                editVC.generator = ItemGeneratorWithAVAsset(avAsset: avAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
 //                if let outputURL = outputURL {
 //                    editVC.generator = ItemGeneratorWithVideoFile(url: outputURL)
 //                }

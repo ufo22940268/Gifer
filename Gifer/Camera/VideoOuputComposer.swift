@@ -13,6 +13,9 @@ class VideoOuputComposer {
     
     var outputs = [AVCaptureMovieFileOutput]()
     var outputURLs = [URL]()
+    var outputAssets: [AVAsset] {
+        return outputURLs.map { AVAsset(url: $0) }
+    }
     var recordedDurations = [CMTime]()
     
     var activeOutput: AVCaptureMovieFileOutput? {
@@ -35,7 +38,7 @@ class VideoOuputComposer {
         
         var t = ObjCBool(true)
         if !FileManager.default.fileExists(atPath: url.absoluteString, isDirectory: &t) {
-            try!     FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         }
         
         return url
@@ -50,7 +53,7 @@ class VideoOuputComposer {
     }
     
     func createOutputURL() -> URL {
-        return directory.appendingPathComponent(String.random(length: 10))
+        return directory.appendingPathComponent(String.random(length: 10) + ".mov")
     }
     
     func getOutputURL(for output: AVCaptureMovieFileOutput)  -> URL {
@@ -87,7 +90,20 @@ class VideoOuputComposer {
         recordedDurations.removeAll()
     }
     
-    func compose() {
+    func compose() -> AVAsset {
+        let composition = AVMutableComposition()
+        let compositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
         
+        var t = CMTime.zero
+        guard outputAssets.count > 0 else { fatalError() }
+        
+        for asset in outputAssets.reversed() {
+            if let videoTrack = asset.tracks(withMediaType: .video).first {
+                try? compositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: asset.duration), of: videoTrack, at: .zero)
+                compositionTrack?.preferredTransform = videoTrack.preferredTransform
+                t = t + asset.duration
+            }
+        }
+        return composition
     }
 }
