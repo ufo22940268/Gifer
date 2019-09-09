@@ -150,9 +150,6 @@ class EditViewController: UIViewController {
     var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     @IBOutlet weak var highResButton: UIBarButtonItem!
-    var isVideoLoaded: Bool {
-        return playerItem != nil
-    }
     
     var speed: Double {
         return Double(playSpeedView.currentSpeed)
@@ -303,6 +300,9 @@ class EditViewController: UIViewController {
                     item.tintColor = UIColor.yellowActiveColor
                 })
             }
+            
+            shareBarItem.isEnabled = !isLoadingVideo
+            frameBarItem.isEnabled = !isLoadingVideo
             
             controlToolbar.isUserInteractionEnabled = !isLoadingVideo
         }
@@ -490,11 +490,17 @@ class EditViewController: UIViewController {
     }
     
     private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
+        if !isInit {
+            DispatchQueue.main.async {
+                self.isLoadingVideo = true
+            }
+        }
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
         playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: videoAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
         playerItemGenerator?.run { playerItem in
             DispatchQueue.main.async {
+                self.isLoadingVideo = false
                 complete(playerItem)
             }
         }
@@ -664,7 +670,7 @@ class EditViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isVideoLoaded {
+        if playerItem != nil {
             updateSubtitleWithDuration()
         }
         
@@ -718,9 +724,6 @@ extension EditViewController: ImagePlayerDelegate {
     }
     
     func onVideoReady(playerItem: ImagePlayerItem) {
-        kdebug_signpost_end(2, 0, 0, 0, 0)
-        shareBarItem.isEnabled = true
-        frameBarItem.isEnabled = true
         self.playerItem = playerItem
         self.videoController.playerItem = playerItem
         imagePlayerView.load(playerItem: playerItem)
