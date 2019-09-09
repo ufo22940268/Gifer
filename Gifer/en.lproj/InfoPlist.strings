@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Gifer
+
+  Created by Frank Cheng on 2019/9/9.
+  Copyright © 2019 Frank Cheng. All rights reserved.
+*/
+"NSPhotoLibraryUsageDescription" = "Used to make GIF";
+"NSCameraUsageDescription" = "Record video to make GIF";
