@@ -1,23 +1,56 @@
-# Gifer
-Let your convert video to gif. And you can use this gif to share to WeChat.
+## [fastlane match](https://docs.fastlane.tools/actions/match/)
 
-## Features
+This repository contains all your certificates and provisioning profiles needed to build and sign your applications. They are encrypted using OpenSSL via a passphrase.
 
-1. Select videos from photo.
-2. Trim videos.
-3. Video can be replay after trimed.
-4. Export to GIF.
-5. GIF file can be shared to Wechat and webo.
+**Important:** Make sure this repository is set to private and only your team members have access to this repo.
 
-## Copy resources
+Do not modify this file, as it gets overwritten every time you run _match_.
 
-### Icon ###
+### Installation
 
-- https://akveo.github.io/eva-icons/#/
-- https://www.emojious.com/freebies#freebies
-- https://github.com/WhatsApp/stickers/tree/master/iOS
-- https://github.com/zhaoolee/ChineseBQB
+Make sure you have the latest version of the Xcode command line tools installed:
 
-### Design ###
+```
+xcode-select --install
+```
 
-- iOS photo app.
+Install _fastlane_ using
+
+```
+[sudo] gem install fastlane -NV
+```
+
+or alternatively using `brew cask install fastlane`
+
+### Usage
+
+Navigate to your project folder and run
+
+```
+fastlane match appstore
+```
+```
+fastlane match adhoc
+```
+```
+fastlane match development
+```
+```
+fastlane match enterprise
+```
+
+For more information open [fastlane match git repo](https://docs.fastlane.tools/actions/match/)
+
+### Content
+
+#### certs
+
+This directory contains all your certificates with their private keys
+
+#### profiles
+
+This directory contains all provisioning profiles
+
+------------------------------------
+
+For more information open [fastlane match git repo](https://docs.fastlane.tools/actions/match/)
