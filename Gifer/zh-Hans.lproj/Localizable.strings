@@ -59,4 +59,7 @@
 "Warmth" = "色温";
 "Sharpen" = "锐度";
 
+"camera_video" = "视频";
+"camera_photos" = "连拍";
+
 "Video duration too short" = "视频长度太短";
