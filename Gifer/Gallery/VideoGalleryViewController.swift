@@ -330,6 +330,8 @@ class VideoGalleryViewController: UICollectionViewController {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
+        } else if videoAsset.duration < 1 {
+            promptVideoDurationTooShort()
         } else {
             if rootNav.mode == .normal {
                 let navVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
@@ -352,6 +354,10 @@ class VideoGalleryViewController: UICollectionViewController {
                 }
             }
         }
+    }
+    
+    func promptVideoDurationTooShort() {
+        self.makeToast(message: NSLocalizedString("Video duration too short", comment: ""))
     }
     
     func refreshPhotoCells(afterSelect index: IndexPath? = nil) {
