@@ -46,7 +46,7 @@ class ImagePlayerItem {
     var labelSequence: Int = 0
     var labels = [ImagePlayerItemLabel]()
     
-    init(frames: [ImagePlayerFrame], duration: CMTime, videoAsset: PHAsset? = nil) { 
+    init(frames: [ImagePlayerFrame], duration: CMTime, videoAsset: PHAsset? = nil) {
         self.allFrames = frames
         self.rootFrames = frames
         self.duration = duration

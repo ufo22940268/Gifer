@@ -37,12 +37,6 @@ class CameraViewController: UIViewController {
         return AVCaptureSession()
     }()
     
-//    lazy var videoOutput: AVCaptureMovieFileOutput = {
-//        let output = AVCaptureMovieFileOutput()
-//        output.maxRecordedDuration = Double(20).toTime()
-//        return output
-//    }()
-    
     let videoComposer = VideoOuputComposer()
     
     lazy var photoOutput: AVCapturePhotoOutput = {
@@ -77,7 +71,7 @@ class CameraViewController: UIViewController {
             captureSession.beginConfiguration()
             guard let deviceInput = buildDeviceInput(on: .back) else  { return }
             captureSession.addInput(deviceInput)
-            captureSession.sessionPreset = .medium
+            captureSession.sessionPreset = .cif352x288
             captureSession.addOutput(photoOutput)
             captureSession.commitConfiguration()
             
@@ -193,12 +187,8 @@ class CameraViewController: UIViewController {
         if segue.identifier == "toEdit", let editVC = (segue.destination as? UINavigationController)?.topViewController as? EditViewController {
             switch mode! {
             case .video:
-                // TODO: implement
                 let avAsset = videoComposer.compose()
                 editVC.generator = ItemGeneratorWithAVAsset(avAsset: avAsset, trimPosition: VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset.duration))
-//                if let outputURL = outputURL {
-//                    editVC.generator = ItemGeneratorWithVideoFile(url: outputURL)
-//                }
                 break
             case .photos:
                 editVC.generator = ItemGeneratorWithPhotoFiles(photos: photos)
