@@ -107,6 +107,7 @@
 		42B4DD0B2282C0CA0085BF46 /* DarkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4DD0A2282C0CA0085BF46 /* DarkTable.swift */; };
 		42C54D2D21C1F5D100BECC5C /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C54D2C21C1F5D100BECC5C /* ShareManager.swift */; };
 		42C7CC2B2325D86400BB344E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42C7CC2D2325D86400BB344E /* InfoPlist.strings */; };
+		42C7CC302326310100BB344E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C7CC2F2326310100BB344E /* Launch Screen.storyboard */; };
 		42CA13C122FA64F1003DD910 /* ScrollToBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */; };
 		42CA13C522FA9F32003DD910 /* GallerySelectPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C422FA9F32003DD910 /* GallerySelectPhotoView.swift */; };
 		42CA13C722FB9BAD003DD910 /* PHAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */; };
@@ -290,6 +291,7 @@
 		42C54D2C21C1F5D100BECC5C /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		42C7CC2C2325D86400BB344E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		42C7CC2E2325D86500BB344E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		42C7CC2F2326310100BB344E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		42CA13C022FA64F1003DD910 /* ScrollToBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollToBottomButton.swift; sourceTree = "<group>"; };
 		42CA13C422FA9F32003DD910 /* GallerySelectPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySelectPhotoView.swift; sourceTree = "<group>"; };
 		42CA13C622FB9BAD003DD910 /* PHAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAssetExtension.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 				4205D1F522FD5D9B00F17EEE /* Localizable.stringsdict */,
 				4239A67823120203005E8226 /* RootNavigationController.swift */,
 				42C7CC2D2325D86400BB344E /* InfoPlist.strings */,
+				42C7CC2F2326310100BB344E /* Launch Screen.storyboard */,
 			);
 			path = Gifer;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				4205D1F322FD5D9B00F17EEE /* Localizable.stringsdict in Resources */,
 				428C9D0122F8533600C5EB2F /* Album.storyboard in Resources */,
 				428E5481230E8E1E00C80CB2 /* OverlayTopView.xib in Resources */,
+				42C7CC302326310100BB344E /* Launch Screen.storyboard in Resources */,
 				424930DA22FE3A5300C169CA /* Frame.storyboard in Resources */,
 				422F539422E6DCCD00C0989D /* Sticker.storyboard in Resources */,
 				42F2D578219403B300113A10 /* Assets.xcassets in Resources */,

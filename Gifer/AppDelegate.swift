@@ -27,13 +27,11 @@ enum UserDefaultKeys: String {
         // Override point for customization after application launch.
         initUserDefaults()
         
-//        TWTRTwitter.sharedInstance().start(withConsumerKey: "GSDzoSGZFepLtEbc6JwjLw", consumerSecret: "DAJi4q8cuaVKKnr7eOpRy6u5R1DflBa7O9M4yBlI4")
-        
         #if DEBUG        
         let debugStoryboard =
-//            AppStoryboard.Main
+            AppStoryboard.Main
 //            AppStoryboard.Album
-             AppStoryboard.Edit
+//             AppStoryboard.Edit
 //            AppStoryboard.Sticker
 //            AppStoryboard.Test
 //            AppStoryboard.Frame
