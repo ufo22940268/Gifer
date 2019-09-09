@@ -62,7 +62,11 @@ class VideoOuputComposer {
     
     func startRecording(delegate: AVCaptureFileOutputRecordingDelegate, in session: AVCaptureSession) {
         let output = createNewOutput()
-        session.outputs.forEach { session.removeOutput($0) }
+        session.outputs.forEach { output in
+            if output is AVCaptureMovieFileOutput {
+                session.removeOutput(output)
+            }
+        }
         session.addOutput(output)
         output.startRecording(to: getOutputURL(for: output), recordingDelegate: delegate)
     }
