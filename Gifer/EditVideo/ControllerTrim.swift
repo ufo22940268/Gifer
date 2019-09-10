@@ -145,7 +145,6 @@ class ControllerTrim: UIControl {
     static let defaultMainColor = UIColor(named: "yellowColor")!
     static let wechatMainColor = UIColor(named: "wechatColor")!
     
-    var galleryView: UIView!
     private var sliderThresholdGuide: UILayoutGuide!
     
     /// Range from leading of left trim to trailing of right trim.
@@ -169,12 +168,11 @@ class ControllerTrim: UIControl {
     
     var mode: Mode = .normal
 
-    func setup(galleryView: UIView, hasAppendButton: Bool = false) {
+    func setup(hasAppendButton: Bool = false) {
         guard let superview = superview else {
             return
         }
         
-        self.galleryView = galleryView
         isOpaque = false
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
