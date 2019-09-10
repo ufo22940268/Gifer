@@ -326,7 +326,7 @@ class VideoController: UIStackView {
         galleryContainer.addSubview(videoTrim)
         videoTrim.setup(galleryView: galleryView, hasAppendButton: from == "edit")
         NSLayoutConstraint.activate([
-            videoTrim.widthAnchor.constraint(equalTo: galleryView.widthAnchor)
+            videoTrim.widthAnchor.constraint(equalTo: galleryView.widthAnchor, constant: 2*VideoControllerConstants.trimWidth)
             ])
         
         if from == "edit" {

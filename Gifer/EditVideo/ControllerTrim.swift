@@ -226,7 +226,7 @@ class ControllerTrim: UIControl {
         //Faders
         addSubview(leftFader)
         NSLayoutConstraint.activate([
-            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor),
+            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth),
             leftFader.topAnchor.constraint(equalTo: topAnchor),
             leftFader.bottomAnchor.constraint(equalTo: bottomAnchor),
             leftFader.trailingAnchor.constraint(equalTo: leftTrim.leadingAnchor)
@@ -234,7 +234,7 @@ class ControllerTrim: UIControl {
         
         addSubview(rightFader)
         NSLayoutConstraint.activate([
-            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth),
             rightFader.topAnchor.constraint(equalTo: topAnchor),
             rightFader.bottomAnchor.constraint(equalTo: bottomAnchor),
             rightFader.leadingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
@@ -244,8 +244,8 @@ class ControllerTrim: UIControl {
         
         sliderThresholdGuide = UILayoutGuide()
         superview.addLayoutGuide(sliderThresholdGuide)
-        sliderThresholdGuide.leadingAnchor.constraint(equalTo: galleryView.leadingAnchor).isActive = true
-        sliderThresholdGuide.trailingAnchor.constraint(equalTo: galleryView.trailingAnchor).isActive = true
+        sliderThresholdGuide.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        sliderThresholdGuide.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
         sliderRangeGuide = UILayoutGuide()
         superview.addLayoutGuide(sliderRangeGuide)
