@@ -13,9 +13,35 @@ class ControlToolbar: UICollectionView {
     weak var toolbarDelegate: ControlToolbarDelegate?
     
     let displayPropertyCount = 4
-    var fps: FPSFigure = .f5
     
     lazy var allItems: [ControlToolbarItem] = [ControlToolbarItem]()
+    
+    private var fpsIndex: Int? {
+        return allItems.firstIndex { (item) -> Bool in
+            switch item {
+            case .fps(_):
+                return true
+            default:
+                return false
+            }}
+    }
+    
+    var fps: FPSFigure? {
+        set {
+            guard let fpsIndex = fpsIndex, let newValue = newValue else { return }
+            allItems[fpsIndex] = ControlToolbarItem.fps(rate: newValue)
+        }
+        
+        get {
+            guard let fpsIndex = fpsIndex else { return nil }
+            switch allItems[fpsIndex] {
+            case .fps(let fpsFigure):
+                return fpsFigure
+            default:
+                fatalError()
+            }
+        }
+    }
     
     override func awakeFromNib() {
         guard let superview = superview else { return  }
@@ -45,7 +71,11 @@ class ControlToolbar: UICollectionView {
     func setupAllItems(for mode: EditViewController.Mode, labelCount: Int) {
         var commonItems = ControlToolbarItem.initialAllCases
         if mode != .photo && labelCount == 1 {
-            commonItems.append(.fps(rate: .f5))
+            if let currentRate = fps {
+                commonItems.append(.fps(rate: currentRate))
+            } else {
+                commonItems.append(.fps(rate: .f5))
+            }
         }
         allItems = commonItems
         reloadData()
@@ -63,6 +93,13 @@ extension ControlToolbar: UICollectionViewDataSource {
         let item = allItems[indexPath.row]
         let (image, title) = item.viewInfo
         cell.setup(type: item, image: image, title: title)
+        
+        switch item {
+        case .fps(let rate):
+            cell.updateImage(rate.image)
+        default:
+            break
+        }
         return cell
     }
 }
@@ -125,7 +162,9 @@ extension ControlToolbar: UICollectionViewDelegate {
             collectionView.reloadData()
             toolbarDelegate?.onDirectionItemClicked(direction: playDirection)
         case .fps:
-            toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView, currentFPS: fps)
+            if let fps = fps {
+                toolbarDelegate?.onFPSItemclicked(cell: cellForItem(at: indexPath) as! ControlToolbarItemView, currentFPS: fps)
+            }
         case .adjust:
             toolbarDelegate?.onAdjustItemClicked()
         }
