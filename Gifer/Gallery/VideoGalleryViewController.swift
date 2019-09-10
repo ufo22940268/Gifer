@@ -253,11 +253,7 @@ class VideoGalleryViewController: UICollectionViewController {
         }
     }
     
-    func reload(scrollToBottom: Bool = false, animate: Bool = false) {
-        if animate {
-            showLoading(true)
-        }
-        
+    func reload(scrollToBottom: Bool = false) {
         if let localIdentifier = fetchOptions.localIdentifier {
             let col = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [localIdentifier], options: nil).firstObject!
             self.videoResult = PHAsset.fetchAssets(in: col, options: fetchOptions.phOptions)
@@ -274,10 +270,6 @@ class VideoGalleryViewController: UICollectionViewController {
         } else {
             enableFooterView(false)
             self.collectionView.setEmptyMessage(String.localizedStringWithFormat(NSLocalizedString("No %@ Found in %@", comment: ""), fetchOptions.localizedTitle ?? "", galleryCategory.title))
-        }
-        
-        if animate {
-            showLoading(false)
         }
         
         if scrollToBottom {
@@ -587,6 +579,10 @@ extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
 
 extension VideoGalleryViewController: GalleryBottomInfoViewDelegate {
     func onRefresh(_ bottomView: GalleryBottomInfoView) {
-        reload(scrollToBottom: true, animate: true)
+        showLoading(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.reload(scrollToBottom: true)
+            self.showLoading(false)
+        }
     }
 }
