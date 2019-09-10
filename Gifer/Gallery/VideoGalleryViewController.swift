@@ -102,7 +102,7 @@ class VideoGalleryViewController: UICollectionViewController {
         flowLayout.minimumLineSpacing = galleryGap*4
         let itemWidth = self.collectionView.bounds.width/3 - 2*galleryGap
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
-        flowLayout.footerReferenceSize = CGSize(width: self.collectionView.bounds.width, height: 60)
+        flowLayout.footerReferenceSize = CGSize(width: self.collectionView.bounds.width, height: 130)
         self.collectionView.collectionViewLayout = flowLayout
         self.collectionView.register(GalleryBottomInfoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer")
         
@@ -311,6 +311,7 @@ class VideoGalleryViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer", for: indexPath) as! GalleryBottomInfoView
+        footer.customDelegate = self
         footer.setVideoCount(self.collectionView(collectionView, numberOfItemsInSection: 0), category: galleryCategory.bottomLabel, collectionTitle: fetchOptions.localizedTitle)
         return footer
     }
@@ -442,6 +443,8 @@ class VideoGalleryViewController: UICollectionViewController {
             }
         }
     }
+
+    
 }
 
 extension VideoGalleryViewController: UINavigationControllerDelegate {
@@ -548,5 +551,11 @@ extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
     func onRemoveAllSelectedPhotos() {
         refreshPhotoCells()
         showSelectPhotoView(false)
+    }
+}
+
+extension VideoGalleryViewController: GalleryBottomInfoViewDelegate {
+    func onRefresh(_ bottomView: GalleryBottomInfoView) {
+        reload(scrollToBottom: true)
     }
 }

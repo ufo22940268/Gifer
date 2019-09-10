@@ -18,26 +18,42 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-	  ensure_git_status_clean
+	  #ensure_git_status_clean
+	  #
 	  # Increment the build number (not the version number)
 	  # Providing the xcodeproj is optional
-	  increment_build_number(xcodeproj: "Gifer.xcodeproj")
+	  #increment_build_number(xcodeproj: "Gifer.xcodeproj")
 
-	  # Commit the version bump
-	  commit_version_bump(xcodeproj: "Gifer.xcodeproj")
+	  ## Commit the version bump
+	  #commit_version_bump(xcodeproj: "Gifer.xcodeproj")
 
-	  # Add a git tag for this build. This will automatically
-	  # use an appropriate git tag name
-	  add_git_tag
+	  ## Add a git tag for this build. This will automatically
+	  ## use an appropriate git tag name
+	  #add_git_tag
 
-	  # Push the new commit and tag back to your git remote
-	  push_to_git_remote
+	  ## Push the new commit and tag back to your git remote
+	  #push_to_git_remote
+	
+	  sync_code_signing
+	  disable_automatic_code_signing(path: "Gifer.xcodeproj")
 	  build_app(scheme: "Gifer")
+	  enable_automatic_code_signing(path: "Gifer.xcodeproj")
+
 	  upload_to_testflight(
 		  "skip_waiting_for_build_processing": true,
 		  changelog: "Fix some video range selection bugs"
 	  )
   end
+
+  lane :tt do
+	  #sync_code_signing
+	  #disable_automatic_code_signing(path: "Gifer.xcodeproj")
+	  sync_code_signing(type: "appstore")
+	  build_app(scheme: "Gifer")
+	  #enable_automatic_code_signing(path: "Gifer.xcodeproj")
+	  upload_to_testflight
+  end
+
 
   lane :release do
     increment_build_number(xcodeproj: "Gifer.xcodeproj")
