@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import NVActivityIndicatorView
 
 private let reuseIdentifier = "Cell"
 private let galleryGap = CGFloat(0.5)
@@ -83,6 +84,11 @@ class VideoGalleryViewController: UICollectionViewController {
         return view
     }()
     
+    lazy var loadingView: NVActivityIndicatorView = {
+        let view = NVActivityIndicatorView(frame: .zero).useAutoLayout()
+        return view
+    }()
+    
     @IBOutlet var selectPhotoView: GallerySelectPhotoView!
     
     var galleryCategory: GalleryCategory = .video
@@ -128,6 +134,14 @@ class VideoGalleryViewController: UICollectionViewController {
                 }
             }
         }
+        
+        view.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            loadingView.widthAnchor.constraint(equalToConstant: 60),
+            loadingView.heightAnchor.constraint(equalTo: loadingView.widthAnchor),
+            ])
         
         view.addSubview(dimView)
         NSLayoutConstraint.activate([
@@ -229,8 +243,21 @@ class VideoGalleryViewController: UICollectionViewController {
         self.collectionView.scrollToItem(at: IndexPath(row: totalItemCount - 1, section: 0), at: UICollectionView.ScrollPosition.centeredVertically, animated: animated)
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            collectionView.isHidden = true
+            loadingView.startAnimating()
+        } else {
+            collectionView.isHidden = false
+            loadingView.stopAnimating()
+        }
+    }
     
-    func reload(scrollToBottom: Bool = false) {
+    func reload(scrollToBottom: Bool = false, animate: Bool = false) {
+        if animate {
+            showLoading(true)
+        }
+        
         if let localIdentifier = fetchOptions.localIdentifier {
             let col = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [localIdentifier], options: nil).firstObject!
             self.videoResult = PHAsset.fetchAssets(in: col, options: fetchOptions.phOptions)
@@ -247,6 +274,10 @@ class VideoGalleryViewController: UICollectionViewController {
         } else {
             enableFooterView(false)
             self.collectionView.setEmptyMessage(String.localizedStringWithFormat(NSLocalizedString("No %@ Found in %@", comment: ""), fetchOptions.localizedTitle ?? "", galleryCategory.title))
+        }
+        
+        if animate {
+            showLoading(false)
         }
         
         if scrollToBottom {
@@ -556,6 +587,6 @@ extension VideoGalleryViewController: GallerySelectPhotoViewDelegate {
 
 extension VideoGalleryViewController: GalleryBottomInfoViewDelegate {
     func onRefresh(_ bottomView: GalleryBottomInfoView) {
-        reload(scrollToBottom: true)
+        reload(scrollToBottom: true, animate: true)
     }
 }
