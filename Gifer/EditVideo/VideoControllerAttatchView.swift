@@ -74,7 +74,12 @@ class VideoControllerAttachView: UIView {
             heightAnchor.constraint(equalToConstant: 28)])
         
         addSubview(scrollView)
-        scrollView.useSameSizeAsParent()
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            ])
         addSubview(trimView)
         trimView.useSameSizeAsParent()
         trimView.setup(galleryView: galleryView)
