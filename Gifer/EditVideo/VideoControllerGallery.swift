@@ -14,7 +14,9 @@ let videoControllerGalleryImageCountPerGroup = 8
 
 class VideoControllerGallery: UIStackView {
 
-    var galleryImages = [UIImageView]()
+    var galleryImages: [UIImageView] {
+        return arrangedSubviews as! [UIImageView]
+    }
     var duration: CMTime!
     var galleryDuration: CMTime!
     
@@ -46,9 +48,10 @@ class VideoControllerGallery: UIStackView {
     }
     
     func prepareImageViews(_ count: Int) {
+        arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         for index in 0..<count {
             let imageView: UIImageView = addImageView(totalImageCount: count)
-            galleryImages.append(imageView)
             if index == 0 {
                 imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
                 imageView.layer.cornerRadius = 4

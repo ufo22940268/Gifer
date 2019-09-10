@@ -415,7 +415,10 @@ class VideoController: UIStackView {
     }
     
     func loadGalleryImagesFromPlayerItem() {
-        let thumbernailCount = galleryView.arrangedSubviews.count
+        let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
+        let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
+        self.galleryView.prepareImageViews(thumbernailCount)
+        
         let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
         var galleryIndex = 0
         for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
@@ -440,11 +443,8 @@ class VideoController: UIStackView {
         
         gallerySlider.alpha = 1.0
         // TODO: When image player item generate process is synchronize, the gallery view width is 0.
-        let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
-        let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
         self.videoTrim.onVideoReady()
         self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
-        self.galleryView.prepareImageViews(thumbernailCount)
         self.galleryView.bringSubviewToFront(self.videoSlider)
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
         completion()
