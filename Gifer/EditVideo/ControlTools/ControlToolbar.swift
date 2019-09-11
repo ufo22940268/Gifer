@@ -68,6 +68,28 @@ class ControlToolbar: UICollectionView {
         register(ControlToolbarItemView.self, forCellWithReuseIdentifier: "cell")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if contentOffset == .zero {
+            if frame.width > collectionViewLayout.collectionViewContentSize.width {
+                //For ipad
+                contentInset = UIEdgeInsets(top: 0, left: (frame.width - collectionViewLayout.collectionViewContentSize.width)/2, bottom: 0, right: 0)
+            } else {
+                //For iphone
+                let flowLayout: (UICollectionViewFlowLayout) = (collectionViewLayout as! UICollectionViewFlowLayout)
+                let itemWidth = flowLayout.itemSize.width
+                let allowedVisibleItemCounts: [CGFloat] = [4.5, 3.5]
+                for itemCount in allowedVisibleItemCounts {
+                    let gap = (frame.width - itemWidth*itemCount)/floor(itemCount)
+                    if gap > 0 {
+                        flowLayout.minimumLineSpacing = gap
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
     func setupAllItems(for mode: EditViewController.Mode, labelCount: Int) {
         var commonItems = ControlToolbarItem.initialAllCases
         if mode != .photo && labelCount == 1 {
