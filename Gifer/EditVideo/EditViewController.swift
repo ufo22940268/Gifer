@@ -316,7 +316,8 @@ class EditViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil && generator == nil
         if isDebug {
-            videoAsset = getTestVideo()
+            let testAsset = getTestVideo()
+            generator = ItemGeneratorWithPHVideoAsset(video: testAsset)
         }
         
         view.tintColor = .mainColor
