@@ -232,8 +232,7 @@ class VideoRangeViewController: UIViewController {
     @IBAction func onDone(_ sender: Any) {
         if navRoot.mode == .normal {
             let editVC = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-            editVC.initTrimPosition = trimPosition
-            editVC.videoAsset = previewAsset
+            editVC.generator = ItemGeneratorWithLibraryVideo(video: previewAsset, trimPosition: trimPosition)
             editVC.navigationItem.leftBarButtonItems = nil
             navigationController?.pushViewController(editVC, animated: true)
         } else {
@@ -411,8 +410,7 @@ extension VideoRangeViewController: VideoControllerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit", let editVC = segue.destination as? EditViewController {
-            editVC.initTrimPosition = trimPosition
-            editVC.videoAsset = previewAsset
+            editVC.generator = ItemGeneratorWithLibraryVideo(video: previewAsset, trimPosition: trimPosition)
             editVC.source = .range
         }
     }

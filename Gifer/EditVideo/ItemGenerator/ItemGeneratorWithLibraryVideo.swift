@@ -17,9 +17,11 @@ class ItemGeneratorWithLibraryVideo: ItemGenerator {
     var avGenerator: ItemGeneratorWithAVAsset?
     var avGeneratorPercent = CGFloat(0.3)
     var progressDelegate: GenerateProgressDelegate?
+    var trimPosition: VideoTrimPosition
     
-    init(video: PHAsset) {
+    init(video: PHAsset, trimPosition: VideoTrimPosition? = nil) {
         videoAsset = video
+        self.trimPosition = trimPosition ?? VideoTrimPosition(leftTrim: .zero, rightTrim: video.duration.toTime())
     }
     
     func run(complete: @escaping (ImagePlayerItem) -> Void) {
@@ -35,7 +37,7 @@ class ItemGeneratorWithLibraryVideo: ItemGenerator {
         
         downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { [weak self] (avAsset, _, _) in
             guard let self = self, let avAsset = avAsset else { return }
-            self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.videoAsset, trimPosition: avAsset.trimPosition)
+            self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.videoAsset, trimPosition: self.trimPosition)
             self.avGenerator?.progressDelegate = self
             self.avGenerator?.run(complete: complete)
         }

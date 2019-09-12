@@ -152,7 +152,6 @@ class EditViewController: UIViewController {
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var videoLoadingIndicator: VideoProgressLoadingIndicator!
-    var videoAsset: PHAsset!
     var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
     @IBOutlet weak var highResButton: UIBarButtonItem!
@@ -204,12 +203,8 @@ class EditViewController: UIViewController {
     var previousScale = CGFloat(1)
     
     var mode: Mode {
-        if videoAsset != nil {
-            return .video
-        } else if livePhotoAsset != nil {
-            return .livePhoto
-        } else if let generator = generator, generator is ItemGeneratorWithLibraryPhotos {
-            return .photo
+        if let generator = generator {
+            return generator.mode
         } else {
             return .unknown
         }
@@ -318,7 +313,7 @@ class EditViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        isDebug = videoAsset == nil && livePhotoAsset == nil && generator == nil
+        isDebug = livePhotoAsset == nil && generator == nil
         if isDebug {
             prepareTestData()
         }
@@ -423,9 +418,9 @@ class EditViewController: UIViewController {
     func load() {
         loadAVAsset { (asset) in
             if let asset = asset {
-                self.makePlayerItem(avAsset: asset, isInit: true) { playerItem in
-                    self.initPlayerItem(playerItem)
-                }
+//                self.makePlayerItem(avAsset: asset, isInit: true) { playerItem in
+//                    self.initPlayerItem(playerItem)
+//                }
             }
         }
     }
@@ -440,15 +435,7 @@ class EditViewController: UIViewController {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
         
-        if let videoAsset = videoAsset {
-            downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { [weak self] (avAsset, _, _) in
-                guard let self = self else { return }
-                if self.isDebug {
-                    self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: avAsset!.duration)
-                }
-                completion(avAsset)
-            }
-        } else if let livePhotoAsset = livePhotoAsset {
+        if let livePhotoAsset = livePhotoAsset {
             let options = PHLivePhotoRequestOptions()
             options.isNetworkAccessAllowed = true
             options.deliveryMode = .fastFormat
@@ -478,7 +465,7 @@ class EditViewController: UIViewController {
         }
     }
     
-    private func makePlayerItem(avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
+    private func makePlayerItem(asset: PHAsset, avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
         if !isInit {
             DispatchQueue.main.async {
                 self.isLoadingVideo = true
@@ -486,7 +473,7 @@ class EditViewController: UIViewController {
         }
         let options = PHVideoRequestOptions()
         options.deliveryMode = .fastFormat
-        playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: videoAsset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
+        playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: asset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
         playerItemGenerator?.run { playerItem in
             DispatchQueue.main.async {
                 self.isLoadingVideo = false
@@ -960,6 +947,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onFPSItemclicked(cell: ControlToolbarItemView, currentFPS: FPSFigure) {
+        guard let phAsset = (generator as? ItemGeneratorWithLibraryVideo)?.videoAsset else  { fatalError() }
         FPSFigure.showSelectionDialog(from: self, currentFPS: currentFPS) { (fps) in
             self.controlToolbar.fps = fps
             cell.updateImage(fps.image)
@@ -971,7 +959,8 @@ extension EditViewController: ControlToolbarDelegate {
             self.loadAVAsset { [weak self] (asset) in
                 guard let self = self else { return }
                 if let asset = asset {
-                    self.makePlayerItem(avAsset: asset, fps: fps, isInit: false) { [weak self] playerItem in
+                    self.makePlayerItem(asset: phAsset
+                    , avAsset: asset, fps: fps, isInit: false) { [weak self] playerItem in
                         guard let self = self else { return }
                         self.syncPlayerItemChanges(playerItem)
                         self.showPlayLoading(false)

@@ -11,11 +11,18 @@ import UIKit
 import Photos
 
 protocol ItemGenerator: class {
+    var mode: EditViewController.Mode { get }
     var progressDelegate: GenerateProgressDelegate? {
         get set
     }
     func run(complete: @escaping (ImagePlayerItem) -> Void)
     func destroy()
+}
+
+extension ItemGenerator {
+    var mode: EditViewController.Mode {
+        return .unknown
+    }
 }
 
 protocol GenerateProgressDelegate: class {

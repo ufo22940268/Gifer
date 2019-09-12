@@ -77,7 +77,7 @@
 		426C282523069F530088B620 /* AdjustView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426C282423069F530088B620 /* AdjustView.xib */; };
 		426C28272306A0280088B620 /* AdjustView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C28262306A0280088B620 /* AdjustView.swift */; };
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
-		426DCC0A2328E28F002B2159 /* ItemGeneratorWithPHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */; };
+		426DCC0A2328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */; };
 		426DCC0C2328E6F2002B2159 /* AVAssetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */; };
 		426DCC0E232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */; };
 		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
@@ -262,7 +262,7 @@
 		426C28262306A0280088B620 /* AdjustView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustView.swift; sourceTree = "<group>"; };
 		426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySpeedView.swift; sourceTree = "<group>"; };
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
-		426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithPHAsset.swift; sourceTree = "<group>"; };
+		426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryVideo.swift; sourceTree = "<group>"; };
 		426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtensions.swift; sourceTree = "<group>"; };
 		426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryPhotos.swift; sourceTree = "<group>"; };
 		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -397,7 +397,7 @@
 				420AD0312321DB120033E1EB /* ItemGeneratorWithAVAsset.swift */,
 				420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */,
 				420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */,
-				426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */,
+				426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */,
 				426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */,
 			);
 			path = ItemGenerator;
@@ -993,7 +993,7 @@
 				42D458F621F2866700AC142A /* GridRulerCoverView.swift in Sources */,
 				426C244421CCC9A700EFE7A4 /* LoadingDialog.swift in Sources */,
 				42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */,
-				426DCC0A2328E28F002B2159 /* ItemGeneratorWithPHAsset.swift in Sources */,
+				426DCC0A2328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift in Sources */,
 				42E5C346221D287300D18CA6 /* ConfirmToDismissDialog.swift in Sources */,
 				42D4E52322C058B000EDD3B7 /* BottomToolbarContainer.swift in Sources */,
 				42265B5F21F98F41005D2710 /* CropMenuView.swift in Sources */,
