@@ -79,6 +79,7 @@
 		426C537C21D4C3E20018DE80 /* PlaySpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C537B21D4C3E20018DE80 /* PlaySpeedView.swift */; };
 		426DCC0A2328E28F002B2159 /* ItemGeneratorWithPHAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */; };
 		426DCC0C2328E6F2002B2159 /* AVAssetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */; };
+		426DCC0E232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */; };
 		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
 		426F4CCD231CE9DF00591932 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCC231CE9DF00591932 /* CameraViewController.swift */; };
 		426F4CCF231D09D600591932 /* ShotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCE231D09D600591932 /* ShotView.swift */; };
@@ -263,6 +264,7 @@
 		426D57A5230B708C00F7856B /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TwitterCore.framework; path = Carthage/Build/iOS/TwitterCore.framework; sourceTree = "<group>"; };
 		426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithPHAsset.swift; sourceTree = "<group>"; };
 		426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtensions.swift; sourceTree = "<group>"; };
+		426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryPhotos.swift; sourceTree = "<group>"; };
 		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		426F4CCC231CE9DF00591932 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		426F4CCE231D09D600591932 /* ShotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotView.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 				420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */,
 				420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */,
 				426DCC092328E28F002B2159 /* ItemGeneratorWithPHAsset.swift */,
+				426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */,
 			);
 			path = ItemGenerator;
 			sourceTree = "<group>";
@@ -942,6 +945,7 @@
 				4239A67923120203005E8226 /* RootNavigationController.swift in Sources */,
 				42362EBD21F024FB00970A5C /* GridRulerEdgeView.swift in Sources */,
 				420C9CDF22E1B80C00A272DE /* EditStickerPageViewController.swift in Sources */,
+				426DCC0E232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift in Sources */,
 				42AC7D892223862300AD3681 /* ControlToolbar.swift in Sources */,
 				42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */,
 				42E879AF22D31DDB0098D43B /* FramePreviewTransitioning.swift in Sources */,

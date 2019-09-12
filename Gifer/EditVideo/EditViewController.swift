@@ -314,6 +314,19 @@ class EditViewController: UIViewController {
         }
     }
     
+    fileprivate func prepareTestData() {
+        //Video PHAsset
+//        let testAsset = getTestVideo()
+//        generator = ItemGeneratorWithPHVideoAsset(video: testAsset)
+        
+        //Photos
+        var identitifers = [String]()
+        PHAsset.fetchAssets(with: .image, options: nil).enumerateObjects { (asset, _, _) in
+            identitifers.append(asset.localIdentifier)
+        }
+        generator = ItemGeneratorWithLibraryPhotos(identifiers: identitifers)
+    }
+    
     override func viewDidLoad() {
         DarkMode.enable(in: self)
         isLoadingVideo = true
@@ -322,8 +335,7 @@ class EditViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil && generator == nil
         if isDebug {
-            let testAsset = getTestVideo()
-            generator = ItemGeneratorWithPHVideoAsset(video: testAsset)
+            prepareTestData()
         }
         
         view.tintColor = .mainColor
@@ -653,7 +665,9 @@ class EditViewController: UIViewController {
     }
     
     private func showPlayLoading(_ show: Bool) {
-        if show {            
+        //Because video loading indicator will hide by itself when progress is reached 100%,
+        //so nothing need to do here.
+        if show {
             videoLoadingIndicator.isHidden = !show
         }
         

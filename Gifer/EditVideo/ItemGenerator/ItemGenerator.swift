@@ -21,3 +21,9 @@ protocol ItemGenerator: class {
 protocol GenerateProgressDelegate: class {
     func onProgress(_ progress: CGFloat)
 }
+
+extension GenerateProgressDelegate {
+    func onComplete() {
+        onProgress(1)
+    }
+}

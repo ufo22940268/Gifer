@@ -41,7 +41,6 @@ class VideoProgressCircle: UIView {
         let radius: CGFloat = (bounds.width/2 - circleWidth)/2
         let rect = CGRect(origin: CGPoint(x: bounds.center.x - radius, y: bounds.center.y - radius), size: CGSize(width: 2*radius, height: 2*radius))
         let progressPath = UIBezierPath(ovalIn: rect)
-        print("bounds.size: \(bounds.size)")
         return progressPath.cgPath
     }
     
@@ -64,7 +63,6 @@ class VideoProgressCircle: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        print("rect.size: \(rect.size)")
         let circleCenter: CGPoint = CGPoint(x: rect.midX, y: rect.midY)
         let path = UIBezierPath(arcCenter: circleCenter, radius: (rect.width - circleWidth)/2, startAngle: 0, endAngle: .pi*2, clockwise: true)
         tintColor.setStroke()
