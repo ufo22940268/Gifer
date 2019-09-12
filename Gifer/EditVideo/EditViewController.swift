@@ -151,7 +151,7 @@ class EditViewController: UIViewController {
     var optionMenu: OptionMenu!
     var optionMenuTopConstraint: NSLayoutConstraint!
     var optionMenuBottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var videoLoadingIndicator: NVActivityIndicatorView!
+    @IBOutlet private weak var videoLoadingIndicator: VideoProgressLoadingIndicator!
     var videoAsset: PHAsset!
     var livePhotoAsset: PHAsset!
     var loadingDialog: LoadingDialog?
@@ -653,11 +653,8 @@ class EditViewController: UIViewController {
     }
     
     private func showPlayLoading(_ show: Bool) {
-        if show {
-            videoLoadingIndicator.startAnimating()
-        } else {
-            videoLoadingIndicator.stopAnimating()
-        }
+        videoLoadingIndicator.isHidden = !show
+        
         if let editOverlay = editTextOverlay {
             editOverlay.isHidden = show
         }
@@ -1134,6 +1131,7 @@ extension EditViewController: MFMailComposeViewControllerDelegate {
 // MARK: Loading progress delegate
 extension EditViewController: GenerateProgressDelegate {
     func onProgress(_ progress: CGFloat) {
+        videoLoadingIndicator.progress = progress
         print(progress)
     }
 }

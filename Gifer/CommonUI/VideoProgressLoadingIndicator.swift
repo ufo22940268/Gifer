@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VideoProgressLoadingIndicator: UIVisualEffectView {
+class VideoProgressLoadingIndicator: UIStackView {
 
     lazy var messageView: UILabel = {
         let label = UILabel()
@@ -16,16 +16,6 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
         label.textColor = tintColor
         label.backgroundColor = .clear
         return label
-    }()
-    
-    lazy var stackView: UIStackView = {
-        let view = UIStackView()
-        view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .horizontal
-        view.spacing = 8
-        return view
     }()
     
     lazy var circleView: VideoProgressCircle = {
@@ -50,32 +40,24 @@ class VideoProgressLoadingIndicator: UIVisualEffectView {
             }
         }
     }
-    
+
     override func awakeFromNib() {
         setup()
     }
     
     private func setup() {
+        isLayoutMarginsRelativeArrangement = true
+        layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        translatesAutoresizingMaskIntoConstraints = false
+        axis = .horizontal
+        spacing = 8
+        tintColor = .lightText
+        
         tintAdjustmentMode = .normal
         
-        layer.cornerRadius = 8
-        clipsToBounds = true
-        effect = UIBlurEffect(style: .regular)
-        tintColor = UIColor.darkGray
-        
-        contentView.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
-
-        stackView.addArrangedSubview(circleView)
-        stackView.addArrangedSubview(messageView)
+        addArrangedSubview(circleView)
+        addArrangedSubview(messageView)
         messageView.text = "正在下载视频"
         messageView.sizeToFit()
-        
-        NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            heightAnchor.constraint(equalTo: stackView.heightAnchor)
-            ])
     }
 }

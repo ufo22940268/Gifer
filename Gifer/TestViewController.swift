@@ -10,22 +10,22 @@ import UIKit
 import Photos
 import NVActivityIndicatorView
 
-class TestViewController: UIViewController, NVActivityIndicatorViewable {
+class TestViewController: UIViewController {
+    
+    @IBOutlet weak var progressView: VideoProgressLoadingIndicator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let dialog: LoadingDialog = LoadingDialog(label: "show loading dialog")
-            dialog.show(by: self)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                dialog.dismiss()
-            }
-        }
+        progressView.progress = 0
+        count()
     }
     
-    @IBAction func onTapRootView(_ sender: Any) {
-        print("onTapRootView")
+    func count() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if self.progressView.progress <= 1 {
+                self.progressView.progress = self.progressView.progress + 0.1
+                self.count()
+            }
+        }
     }
 }
