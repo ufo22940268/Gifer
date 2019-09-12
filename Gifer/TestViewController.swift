@@ -21,9 +21,9 @@ class TestViewController: UIViewController {
     }
     
     func count() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
             if self.progressView.progress <= 1 {
-                self.progressView.progress = self.progressView.progress + 0.1
+                self.progressView.progress = self.progressView.progress + 0.01
                 self.count()
             }
         }

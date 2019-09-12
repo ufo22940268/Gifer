@@ -23,6 +23,8 @@ class VideoProgressCircle: UIView {
         }
     }
     
+    weak var customDelegate: VideoProgressCircleDelegate?
+    
     lazy var progressLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
@@ -73,8 +75,13 @@ class VideoProgressCircle: UIView {
 
 extension VideoProgressCircle: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if let anim = anim as? CABasicAnimation, let progress = anim.toValue as? CGFloat {
-//            print("progress: \(progress)")
+        if progress == 1 {
+            customDelegate?.onStopped(self)
         }
     }
+}
+
+
+protocol VideoProgressCircleDelegate: class {
+    func onStopped(_ circleView: VideoProgressCircle)
 }

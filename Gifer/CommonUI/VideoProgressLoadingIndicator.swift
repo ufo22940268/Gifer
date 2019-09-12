@@ -24,6 +24,7 @@ class VideoProgressLoadingIndicator: UIStackView {
         NSLayoutConstraint.activate([
             view.widthAnchor.constraint(equalToConstant: 32),
             view.heightAnchor.constraint(equalToConstant: 32)])
+        view.customDelegate = self
         return view
     }()
     
@@ -59,5 +60,11 @@ class VideoProgressLoadingIndicator: UIStackView {
         addArrangedSubview(messageView)
         messageView.text = "正在下载视频"
         messageView.sizeToFit()
+    }
+}
+
+extension VideoProgressLoadingIndicator: VideoProgressCircleDelegate {
+    func onStopped(_ circleView: VideoProgressCircle) {
+        self.isHidden = true
     }
 }
