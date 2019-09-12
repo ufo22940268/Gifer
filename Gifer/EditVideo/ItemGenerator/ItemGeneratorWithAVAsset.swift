@@ -11,6 +11,7 @@ import UIKit
 import Photos
 
 class ItemGeneratorWithAVAsset: ItemGenerator {
+    var progressDelegate: GenerateProgressDelegate?
     
     var avAsset: AVAsset
     var asset: PHAsset?
@@ -84,6 +85,9 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
             ImagePlayerFrame.initDirectory()
         }
         
+        let progressStepCount = times.count + 1
+        var progressStep = 0
+        
         let group = DispatchGroup()
         var size: CGSize!
         for index in 0..<generatorParallelNumber {
@@ -93,6 +97,9 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
             generators[index].generateCGImagesAsynchronously(forTimes: times) { (time, image, _, result, error) in
                 processedCount = processedCount + 1
                 autoreleasepool {
+                    progressStep += 1
+                    self.progressDelegate?.onProgress(CGFloat(progressStep)/CGFloat(progressStepCount))
+                    
                     guard let image = image, error == nil, result == .succeeded, !self.isDestroyed else {
                         if processedCount == times.count {
                             group.leave()
@@ -104,7 +111,7 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
                         size = image.size
                     }
                     var frames = frameSegments[index]
-                    var frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
+                    let frame = ImagePlayerFrame(time: time - self.trimPosition.leftTrim)
                     frame.saveToDirectory(cgImage: image)
                     frames.append(frame)
                     frameSegments[index] = frames
@@ -117,6 +124,7 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
         }
         
         group.notify(queue: .main) {
+            self.progressDelegate?.onProgress(1)
             complete(ImagePlayerItem(frames: Array(frameSegments.joined()), duration: self.trimPosition.galleryDuration, videoAsset: self.asset))
         }
     }

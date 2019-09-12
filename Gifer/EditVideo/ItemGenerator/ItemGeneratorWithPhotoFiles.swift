@@ -10,6 +10,8 @@ import UIKit
 
 class ItemGeneratorWithPhotoFiles: ItemGenerator {
     
+    var progressDelegate: GenerateProgressDelegate?
+    
     var photos: [URL]
     
     init(photos: [URL]) {

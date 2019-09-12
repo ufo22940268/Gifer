@@ -134,7 +134,13 @@ class EditViewController: UIViewController {
     var shareVC: ShareViewController!
     @IBOutlet weak var videoController: VideoController!
     
-    var generator: ItemGenerator?
+    var generator: ItemGenerator? {
+        didSet {
+            if let generator = generator {
+                generator.progressDelegate = self
+            }
+        }
+    }
     
     var videoContainer: UIView!
     @IBOutlet var toolbar: UIToolbar!
@@ -336,7 +342,7 @@ class EditViewController: UIViewController {
         
         if let photoIdentifiers = photoIdentifiers {
             load(fromPhotos: photoIdentifiers)
-        } else if let generator = generator {
+        } else if var generator = generator {
             load(with: generator)
         } else {
             load()
@@ -1118,8 +1124,16 @@ extension EditViewController: UINavigationBarDelegate {
     }
 }
 
+// MARK: Email delegate
 extension EditViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: Loading progress delegate
+extension EditViewController: GenerateProgressDelegate {
+    func onProgress(_ progress: CGFloat) {
+        print(progress)
     }
 }

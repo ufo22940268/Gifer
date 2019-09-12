@@ -10,13 +10,13 @@ import AVKit
 import UIKit
 import Photos
 
-
-
 class ItemGeneratorWithPHVideoAsset: ItemGenerator {
     
     let videoAsset: PHAsset
     var downloadTaskId: PHImageRequestID?
     var avGenerator: ItemGeneratorWithAVAsset?
+    var avGeneratorPercent = CGFloat(0.3)
+    var progressDelegate: GenerateProgressDelegate?
     
     init(video: PHAsset) {
         videoAsset = video
@@ -29,10 +29,14 @@ class ItemGeneratorWithPHVideoAsset: ItemGenerator {
         if let downloadTaskId = downloadTaskId {
             PHImageManager.default().cancelImageRequest(downloadTaskId)
         }
+        options.progressHandler = { (progress, _, _, _) in
+            self.progressDelegate?.onProgress(CGFloat(progress)*(1 - self.avGeneratorPercent))
+        }
         
         downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { [weak self] (avAsset, _, _) in
             guard let self = self, let avAsset = avAsset else { return }
             self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.videoAsset, trimPosition: avAsset.trimPosition)
+            self.avGenerator?.progressDelegate = self
             self.avGenerator?.run(complete: complete)
         }
     }
@@ -43,3 +47,12 @@ class ItemGeneratorWithPHVideoAsset: ItemGenerator {
         }
     }
 }
+
+
+// MARK: Video download progress
+extension ItemGeneratorWithPHVideoAsset: GenerateProgressDelegate {
+    func onProgress(_ progress: CGFloat) {
+        progressDelegate?.onProgress(1 - avGeneratorPercent + progress*avGeneratorPercent)
+    }
+}
+

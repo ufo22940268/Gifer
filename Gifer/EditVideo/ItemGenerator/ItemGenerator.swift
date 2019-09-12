@@ -10,7 +10,14 @@ import AVKit
 import UIKit
 import Photos
 
-protocol ItemGenerator {
+protocol ItemGenerator: class {
+    var progressDelegate: GenerateProgressDelegate? {
+        get set
+    }
     func run(complete: @escaping (ImagePlayerItem) -> Void)
     func destroy()
+}
+
+protocol GenerateProgressDelegate: class {
+    func onProgress(_ progress: CGFloat)
 }
