@@ -10,7 +10,7 @@ import AVKit
 import UIKit
 import Photos
 
-class ItemGeneratorWithPHVideoAsset: ItemGenerator {
+class ItemGeneratorWithLibraryVideo: ItemGenerator {
     
     let videoAsset: PHAsset
     var downloadTaskId: PHImageRequestID?
@@ -50,7 +50,7 @@ class ItemGeneratorWithPHVideoAsset: ItemGenerator {
 
 
 // MARK: Video download progress
-extension ItemGeneratorWithPHVideoAsset: GenerateProgressDelegate {
+extension ItemGeneratorWithLibraryVideo: GenerateProgressDelegate {
     func onProgress(_ progress: CGFloat) {
         progressDelegate?.onProgress(1 - avGeneratorPercent + progress*avGeneratorPercent)
     }

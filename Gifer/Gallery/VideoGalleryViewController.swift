@@ -362,8 +362,7 @@ class VideoGalleryViewController: UICollectionViewController {
                 let editVC = navVC.topViewController as! EditViewController
                 editVC.previewImage = previewImage
                 if galleryCategory == .video {
-                    editVC.videoAsset = videoAsset
-                    editVC.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: CMTime(seconds: videoAsset.duration, preferredTimescale: 600))
+                    editVC.generator = ItemGeneratorWithLibraryVideo(video: videoAsset)
                 } else {
                     editVC.livePhotoAsset = videoAsset
                 }

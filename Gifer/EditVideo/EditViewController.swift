@@ -201,6 +201,8 @@ class EditViewController: UIViewController {
     @IBOutlet weak var stickerOverlay: StickerOverlay!
     @IBOutlet weak var editTextOverlay: EditTextOverlay!
     
+    var previousScale = CGFloat(1)
+    
     var mode: Mode {
         if videoAsset != nil {
             return .video
@@ -213,18 +215,6 @@ class EditViewController: UIViewController {
         }
     }
     
-    var validPHAsset: PHAsset! {
-        return videoAsset ?? livePhotoAsset
-    }
-    
-    var videoSize: CGSize {
-        return CGSize(width: validPHAsset.pixelWidth, height: validPHAsset.pixelHeight)
-    }
-    
-    override func loadView() {
-        super.loadView()
-    }
-    
     lazy var navigationTitleView: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -232,8 +222,6 @@ class EditViewController: UIViewController {
         return label
     }()
     
-    var previousScale = CGFloat(1)
-
     @IBAction func onTap(_ sender: UITapGestureRecognizer) {
         if let hitComponent = editTextOverlay.getHitComponent(point: sender.location(in: editTextOverlay)) ?? stickerOverlay.getHitComponent(point: sender.location(in: stickerOverlay)) {
             hitComponent.activeByTap()
@@ -404,10 +392,6 @@ class EditViewController: UIViewController {
         controlToolbar.setupAllItems(for: mode, labelCount: 1)
     }
     
-    var displayVideoRect: CGRect {
-        let rect = videoPlayerSection.bounds
-        return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
-    }
     
     func load(with generator: ItemGenerator) {
         generator.run { (playerItem) in
