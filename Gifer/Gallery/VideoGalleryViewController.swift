@@ -456,7 +456,7 @@ class VideoGalleryViewController: UICollectionViewController {
         if rootNav.mode == .normal  {
             let nvc = AppStoryboard.Edit.instance.instantiateViewController(withIdentifier: "editNav") as! UINavigationController
             let vc = nvc.topViewController as! EditViewController
-            vc.photoIdentifiers = identifiers
+            vc.generator = ItemGeneratorWithLibraryPhotos(identifiers: identifiers)
             present(nvc, animated: true, completion: nil)
         } else {
             if rootNav.isExceedFrameLimit(newFrames: identifiers.count) {

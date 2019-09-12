@@ -62,6 +62,8 @@
 "camera_video" = "视频";
 "camera_photos" = "连拍";
 
+"Camera" = "相机";
+
 "Video duration too short" = "视频长度太短";
 
 "Refresh" = "刷新";

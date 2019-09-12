@@ -172,9 +172,6 @@ class EditViewController: UIViewController {
     }
     
     @IBOutlet weak var cancelItemButton: UIBarButtonItem!
-    /// Use photos to make player item.
-    var photoIdentifiers: [String]?
-    var makePlayerItemFromPhotosTask: MakePlayerItemFromPhotosTask?
     
     var predefinedToolbarItemStyle = ToolbarItemStyle()
     var toolbarItemInfos = [ToolbarItemInfo]()
@@ -209,7 +206,7 @@ class EditViewController: UIViewController {
             return .video
         } else if livePhotoAsset != nil {
             return .livePhoto
-        } else if photoIdentifiers != nil {
+        } else if let generator = generator, generator is ItemGeneratorWithLibraryPhotos {
             return .photo
         } else {
             return .unknown
@@ -333,7 +330,7 @@ class EditViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "darkBackgroundColor")
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        isDebug = videoAsset == nil && livePhotoAsset == nil && photoIdentifiers == nil && generator == nil
+        isDebug = videoAsset == nil && livePhotoAsset == nil && generator == nil
         if isDebug {
             prepareTestData()
         }
@@ -352,9 +349,7 @@ class EditViewController: UIViewController {
         pinchGesture.delegate = self
         rotationGesture.delegate = self
         
-        if let photoIdentifiers = photoIdentifiers {
-            load(fromPhotos: photoIdentifiers)
-        } else if var generator = generator {
+        if let generator = generator {
             load(with: generator)
         } else {
             load()
@@ -412,15 +407,6 @@ class EditViewController: UIViewController {
     var displayVideoRect: CGRect {
         let rect = videoPlayerSection.bounds
         return AVMakeRect(aspectRatio: videoSize, insideRect: rect)
-    }
-    
-    func load(fromPhotos identifiers: [String]) {
-        makePlayerItemFromPhotosTask = MakePlayerItemFromPhotosTask(identifiers: identifiers)
-        makePlayerItemFromPhotosTask?.run { playerItem in
-            guard let playerItem = playerItem else  { return }
-            self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
-            self.initPlayerItem(playerItem)
-        }
     }
     
     func load(with generator: ItemGenerator) {
@@ -712,7 +698,6 @@ class EditViewController: UIViewController {
 
         imagePlayerView.isPaused = true
         
-        makePlayerItemFromPhotosTask?.release()
         if isMovingFromParent {
             destroy()
         }

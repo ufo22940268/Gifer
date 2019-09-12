@@ -273,11 +273,9 @@ extension FramesViewController: RootNavigationControllerDelegate {
     
     func completeSelectPhotos(identifiers: [String]) {
         loadingDialog.show(by: self)
-        let makePlayerItemFromPhotosTask = MakePlayerItemFromPhotosTask(identifiers: identifiers)
-        makePlayerItemFromPhotosTask.run { playerItem in
-            if let playerItem = playerItem {
-                self.appendPlayerItem(playerItem)
-            }
+        let generator = ItemGeneratorWithLibraryPhotos(identifiers: identifiers)
+        generator.run { (playerItem) in
+            self.appendPlayerItem(playerItem)
             self.loadingDialog.dismiss()
         }
     }

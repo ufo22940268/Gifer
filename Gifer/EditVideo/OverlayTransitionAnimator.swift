@@ -74,7 +74,7 @@ class OverlayTransitionAnimator: NSObject, UIViewControllerTransitioningDelegate
     }
     
     fileprivate func animateTransitionForDismissal(in transitionContext: UIViewControllerContextTransitioning) {
-        let galleryVC = transitionContext.viewController(forKey: .from)
+        _ = transitionContext.viewController(forKey: .from)
         let fromVC = transitionContext.viewController(forKey: .to)
         let overlayView = transitionContext.view(forKey: .from)!
         
