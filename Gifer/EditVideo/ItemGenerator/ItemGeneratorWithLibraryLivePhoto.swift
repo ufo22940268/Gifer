@@ -12,7 +12,7 @@ import AVKit
 import UIKit
 import Photos
 
-class ItemGeneratorWithLibraryLivePhoto: ItemGenerator {
+class ItemGeneratorWithLibraryLivePhoto: ItemGenerator, ItemGeneratorFPSAdjustable {
     
     let livePhotoAsset: PHAsset
     var downloadTaskId: PHImageRequestID?
@@ -24,6 +24,8 @@ class ItemGeneratorWithLibraryLivePhoto: ItemGenerator {
         return .livePhoto
     }
     
+    var fps: FPSFigure = .default
+
     init(livePhoto: PHAsset) {
         livePhotoAsset = livePhoto
     }
@@ -55,7 +57,7 @@ class ItemGeneratorWithLibraryLivePhoto: ItemGenerator {
                 
                 self.progressDelegate?.onProgress(1 - self.avGeneratorPercent)
                 
-                self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.livePhotoAsset, trimPosition: avAsset.trimPosition)
+                self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.livePhotoAsset, trimPosition: avAsset.trimPosition, fps: self.fps)
                 self.avGenerator?.progressDelegate = self
                 self.avGenerator?.run(complete: complete)
             })

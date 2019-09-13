@@ -10,7 +10,7 @@ import AVKit
 import UIKit
 import Photos
 
-class ItemGeneratorWithLibraryVideo: ItemGenerator {
+class ItemGeneratorWithLibraryVideo: ItemGenerator, ItemGeneratorFPSAdjustable {
     
     let videoAsset: PHAsset
     var downloadTaskId: PHImageRequestID?
@@ -21,6 +21,8 @@ class ItemGeneratorWithLibraryVideo: ItemGenerator {
     var mode: EditViewController.Mode {
         return .video
     }
+    
+    var fps: FPSFigure = .default
     
     init(video: PHAsset, trimPosition: VideoTrimPosition? = nil) {
         videoAsset = video
@@ -40,7 +42,7 @@ class ItemGeneratorWithLibraryVideo: ItemGenerator {
         
         downloadTaskId = PHImageManager.default().requestAVAsset(forVideo: videoAsset, options: options) { [weak self] (avAsset, _, _) in
             guard let self = self, let avAsset = avAsset else { return }
-            self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.videoAsset, trimPosition: self.trimPosition)
+            self.avGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: self.videoAsset, trimPosition: self.trimPosition, fps: self.fps)
             self.avGenerator?.progressDelegate = self
             self.avGenerator?.run(complete: complete)
         }

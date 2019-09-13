@@ -334,8 +334,6 @@ class EditViewController: UIViewController {
         
         if let generator = generator {
             load(with: generator)
-        } else {
-            load()
         }
     }
     
@@ -389,9 +387,11 @@ class EditViewController: UIViewController {
     
     
     func load(with generator: ItemGenerator) {
+        isLoadingVideo = true
         generator.run { (playerItem) in
             self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
             self.initPlayerItem(playerItem)
+            self.isLoadingVideo = false
         }
     }
     
@@ -415,70 +415,12 @@ class EditViewController: UIViewController {
         }
     }
     
-    func load() {
-        loadAVAsset { (asset) in
-            if let asset = asset {
-//                self.makePlayerItem(avAsset: asset, isInit: true) { playerItem in
-//                    self.initPlayerItem(playerItem)
-//                }
-            }
-        }
-    }
-    
     var videoCache: VideoCache?
-    
-    private func loadAVAsset(completion: @escaping (_ asset: AVAsset?) -> Void) {
-        let options = PHVideoRequestOptions()
-        options.isNetworkAccessAllowed = true
-        options.deliveryMode = .mediumQualityFormat
-        if let downloadTaskId = downloadTaskId {
-            PHImageManager.default().cancelImageRequest(downloadTaskId)
-        }
-        
-        if let livePhotoAsset = livePhotoAsset {
-            let options = PHLivePhotoRequestOptions()
-            options.isNetworkAccessAllowed = true
-            options.deliveryMode = .fastFormat
-            PHImageManager.default().requestLivePhoto(for: livePhotoAsset, targetSize: CGSize(width: 700, height: 700), contentMode: .aspectFit, options: options) { (photo, info) in
-                if let info = info, info[PHImageErrorKey] != nil {
-                    print("error: \(String(describing: info[PHImageErrorKey]))")
-                    return
-                }
-                let url = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("livePhoto.mov")
-                try? FileManager.default.removeItem(at: url)
-                let options = PHAssetResourceRequestOptions()
-                options.isNetworkAccessAllowed = true
-                PHAssetResourceManager.default().writeData(for: PHAssetResource.assetResources(for: photo!).first { $0.type == PHAssetResourceType.pairedVideo }!, toFile: url, options: options, completionHandler: { [weak self] (error) in
-                    guard let self = self else { return }
-                    let asset: AVAsset = AVAsset(url: url)
-                    self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: asset.duration)
-                    completion(asset)
-                })
-            }
-        }
-    }
     
     fileprivate func initPlayerItem(_ playerItem: ImagePlayerItem) {
         if let previewImage = playerItem.activeFrames.first?.uiImage {
             optionMenu.setPreviewImage(previewImage.resizeImage(60, opaque: false))
             onVideoReady(playerItem: playerItem)
-        }
-    }
-    
-    private func makePlayerItem(asset: PHAsset, avAsset: AVAsset, fps: FPSFigure? = nil, isInit: Bool, complete: @escaping (ImagePlayerItem) -> Void) {
-        if !isInit {
-            DispatchQueue.main.async {
-                self.isLoadingVideo = true
-            }
-        }
-        let options = PHVideoRequestOptions()
-        options.deliveryMode = .fastFormat
-        playerItemGenerator = ItemGeneratorWithAVAsset(avAsset: avAsset, asset: asset, trimPosition: initTrimPosition!, fps: fps, shouldCleanDirectory: isInit)
-        playerItemGenerator?.run { playerItem in
-            DispatchQueue.main.async {
-                self.isLoadingVideo = false
-                complete(playerItem)
-            }
         }
     }
     
@@ -947,7 +889,7 @@ extension EditViewController: ControlToolbarDelegate {
     }
     
     func onFPSItemclicked(cell: ControlToolbarItemView, currentFPS: FPSFigure) {
-        guard let phAsset = (generator as? ItemGeneratorWithLibraryVideo)?.videoAsset else  { fatalError() }
+        guard var generator = self.generator as? ItemGeneratorFPSAdjustable else { fatalError() }
         FPSFigure.showSelectionDialog(from: self, currentFPS: currentFPS) { (fps) in
             self.controlToolbar.fps = fps
             cell.updateImage(fps.image)
@@ -956,18 +898,11 @@ extension EditViewController: ControlToolbarDelegate {
             self.updateSubTitleWhenLoading()
             self.imagePlayerView.useBlankImage()
             
-            self.loadAVAsset { [weak self] (asset) in
-                guard let self = self else { return }
-                if let asset = asset {
-                    self.makePlayerItem(asset: phAsset
-                    , avAsset: asset, fps: fps, isInit: false) { [weak self] playerItem in
-                        guard let self = self else { return }
-                        self.syncPlayerItemChanges(playerItem)
-                        self.showPlayLoading(false)
-                        self.imagePlayerView.restartPlay()
-                    }
-                }
-            }
+            generator.updateFPS(fps, complete: { (playerItem) in
+                self.syncPlayerItemChanges(playerItem)
+                self.showPlayLoading(false)
+                self.imagePlayerView.restartPlay()
+            })
         }
     }
 }

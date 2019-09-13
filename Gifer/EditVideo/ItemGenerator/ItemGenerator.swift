@@ -19,6 +19,18 @@ protocol ItemGenerator: class {
     func destroy()
 }
 
+protocol ItemGeneratorFPSAdjustable {
+    var fps: FPSFigure { get set }
+    mutating func updateFPS(_ fps: FPSFigure, complete: @escaping (ImagePlayerItem) -> Void)
+}
+
+extension ItemGeneratorFPSAdjustable where Self: ItemGenerator {
+    mutating func updateFPS(_ fps: FPSFigure, complete: @escaping (ImagePlayerItem) -> Void) {
+        self.fps = fps
+        run(complete: complete)
+    }
+}
+
 protocol GenerateProgressDelegate: class {
     func onProgress(_ progress: CGFloat)
 }
