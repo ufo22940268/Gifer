@@ -107,7 +107,6 @@ class VideoRangeViewController: UIViewController {
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .fastFormat
         options.progressHandler = self.onDownloadVideoProgressChanged
-        kdebug_signpost_start(1, 0, 0, 0, 0)
         manager.requestPlayerItem(forVideo: self.previewAsset, options: options) { (playerItem, _) in
             guard let playerItem = playerItem else { return }
             DispatchQueue.main.async {
@@ -133,9 +132,6 @@ class VideoRangeViewController: UIViewController {
             
             self.player.volume = 0
             self.player.play()
-            
-            
-            kdebug_signpost_end(1, 0, 0, 0, 0)
         })
     }
     
@@ -422,6 +418,7 @@ extension VideoRangeViewController: VideoCacheDelegate {
     }
     
     func onDownloadVideoProgressChanged(_ progress: Double, e: Error?, p: UnsafeMutablePointer<ObjCBool>, i: [AnyHashable : Any]?) {
+        print("video range progress: \(progress)")
         view.tintAdjustmentMode = .dimmed
     }
 }
