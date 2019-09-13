@@ -13,7 +13,10 @@ class ItemGeneratorWithVideoFile: ItemGenerator {
     
     let url: URL
     var avAssetGenerator: ItemGeneratorWithAVAsset?
-    var progressDelegate: GenerateProgressDelegate?    
+    var progressDelegate: GenerateProgressDelegate?
+    var mode: EditViewController.Mode {
+        return .video
+    }
     
     init(url: URL) {
         self.url = url

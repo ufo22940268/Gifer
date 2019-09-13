@@ -18,6 +18,10 @@ class ItemGeneratorWithAVAsset: ItemGenerator {
     var trimPosition: VideoTrimPosition
     var isDestroyed = false
     
+    var mode: EditViewController.Mode {
+        return .unknown
+    }
+    
     let generatorParallelNumber: Int = 4
     var fps: FPSFigure?
     let shouldCleanDirectory: Bool

@@ -19,12 +19,6 @@ protocol ItemGenerator: class {
     func destroy()
 }
 
-extension ItemGenerator {
-    var mode: EditViewController.Mode {
-        return .unknown
-    }
-}
-
 protocol GenerateProgressDelegate: class {
     func onProgress(_ progress: CGFloat)
 }

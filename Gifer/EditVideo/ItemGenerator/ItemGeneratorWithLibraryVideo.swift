@@ -18,6 +18,9 @@ class ItemGeneratorWithLibraryVideo: ItemGenerator {
     var avGeneratorPercent = CGFloat(0.3)
     var progressDelegate: GenerateProgressDelegate?
     var trimPosition: VideoTrimPosition
+    var mode: EditViewController.Mode {
+        return .video
+    }
     
     init(video: PHAsset, trimPosition: VideoTrimPosition? = nil) {
         videoAsset = video

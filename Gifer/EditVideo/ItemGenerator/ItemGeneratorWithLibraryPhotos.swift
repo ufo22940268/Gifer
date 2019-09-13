@@ -15,6 +15,9 @@ class ItemGeneratorWithLibraryPhotos: ItemGenerator {
     var progressDelegate: GenerateProgressDelegate?
     let identifiers: [String]
     var requestIds: [Int32] = [Int32]()
+    var mode: EditViewController.Mode {
+        return .photo
+    }
 
     internal init(identifiers: [String]) {
         self.identifiers = identifiers

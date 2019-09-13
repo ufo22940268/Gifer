@@ -354,7 +354,7 @@ class VideoGalleryViewController: UICollectionViewController {
             let rangeVC = storyboard!.instantiateViewController(withIdentifier: "videoRange") as! VideoRangeViewController
             rangeVC.previewAsset = videoAsset
             navigationController?.pushViewController(rangeVC, animated: true)
-        } else if videoAsset.duration < 1 {
+        } else if galleryCategory != .livePhoto && videoAsset.duration < 1 {
             promptVideoDurationTooShort()
         } else {
             if rootNav.mode == .normal {
@@ -364,10 +364,11 @@ class VideoGalleryViewController: UICollectionViewController {
                 if galleryCategory == .video {
                     editVC.generator = ItemGeneratorWithLibraryVideo(video: videoAsset)
                 } else {
-                    editVC.livePhotoAsset = videoAsset
+                    editVC.generator = ItemGeneratorWithLibraryLivePhoto(livePhoto: videoAsset)
                 }
                 present(navVC, animated: true, completion: nil)
             } else {
+                //TODO: Should handle live photo.
                 if galleryCategory == .video {
                     if rootNav.isExceedFrameLimit(asset: videoAsset) {
                         rootNav.promptForExceedFrameLimit()

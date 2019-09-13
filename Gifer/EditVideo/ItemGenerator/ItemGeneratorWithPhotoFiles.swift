@@ -12,6 +12,9 @@ class ItemGeneratorWithPhotoFiles: ItemGenerator {
     
     var progressDelegate: GenerateProgressDelegate?
     
+    var mode: EditViewController.Mode {
+        return .photo
+    }    
     var photos: [URL]
     
     init(photos: [URL]) {

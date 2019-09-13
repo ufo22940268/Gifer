@@ -80,6 +80,7 @@
 		426DCC0A2328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */; };
 		426DCC0C2328E6F2002B2159 /* AVAssetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */; };
 		426DCC0E232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */; };
+		426DCC10232B0F6C002B2159 /* ItemGeneratorWithLibraryLivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426DCC0F232B0F6C002B2159 /* ItemGeneratorWithLibraryLivePhoto.swift */; };
 		426F4CC8231C993B00591932 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CC7231C993B00591932 /* UIDeviceExtension.swift */; };
 		426F4CCD231CE9DF00591932 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCC231CE9DF00591932 /* CameraViewController.swift */; };
 		426F4CCF231D09D600591932 /* ShotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F4CCE231D09D600591932 /* ShotView.swift */; };
@@ -265,6 +266,7 @@
 		426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryVideo.swift; sourceTree = "<group>"; };
 		426DCC0B2328E6F2002B2159 /* AVAssetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAssetExtensions.swift; sourceTree = "<group>"; };
 		426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryPhotos.swift; sourceTree = "<group>"; };
+		426DCC0F232B0F6C002B2159 /* ItemGeneratorWithLibraryLivePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGeneratorWithLibraryLivePhoto.swift; sourceTree = "<group>"; };
 		426F4CC7231C993B00591932 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		426F4CCC231CE9DF00591932 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		426F4CCE231D09D600591932 /* ShotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotView.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				420AD0342321DBE70033E1EB /* ItemGeneratorWithPhotoFiles.swift */,
 				420AD036232224C60033E1EB /* ItemGeneratorWithVideoFile.swift */,
 				426DCC092328E28F002B2159 /* ItemGeneratorWithLibraryVideo.swift */,
+				426DCC0F232B0F6C002B2159 /* ItemGeneratorWithLibraryLivePhoto.swift */,
 				426DCC0D232AF603002B2159 /* ItemGeneratorWithLibraryPhotos.swift */,
 			);
 			path = ItemGenerator;
@@ -955,6 +958,7 @@
 				42A4335A22DD22C1008C45AC /* ShareTransitioningAnimator.swift in Sources */,
 				4285BF9D21A8C34600913466 /* ControllerTrim.swift in Sources */,
 				42EE13DA219641B400724611 /* Test.swift in Sources */,
+				426DCC10232B0F6C002B2159 /* ItemGeneratorWithLibraryLivePhoto.swift in Sources */,
 				42E879B322D4C6690098D43B /* CropViewController.swift in Sources */,
 				426C28272306A0280088B620 /* AdjustView.swift in Sources */,
 				424596F022408B7000FCE599 /* VideoRangeViewController.swift in Sources */,
