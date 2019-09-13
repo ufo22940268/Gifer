@@ -1042,6 +1042,5 @@ extension EditViewController: MFMailComposeViewControllerDelegate {
 extension EditViewController: GenerateProgressDelegate {
     func onProgress(_ progress: CGFloat) {
         videoLoadingIndicator.progress = progress
-//        print(progress)
     }
 }

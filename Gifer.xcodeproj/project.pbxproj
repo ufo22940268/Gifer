@@ -136,7 +136,7 @@
 		42D7F293224F559B00E7E504 /* EditTextOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F292224F559B00E7E504 /* EditTextOverlay.swift */; };
 		42D7F296224F582F00E7E504 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F295224F582F00E7E504 /* Overlay.swift */; };
 		42D7F298224F58A500E7E504 /* OverlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F297224F58A500E7E504 /* OverlayComponent.swift */; };
-		42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F299224F605E00E7E504 /* Constraints.swift */; };
+		42D7F29A224F605E00E7E504 /* ConstraintsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F299224F605E00E7E504 /* ConstraintsExtensions.swift */; };
 		42D7F29C225021FD00E7E504 /* Graphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29B225021FD00E7E504 /* Graphic.swift */; };
 		42D7F29E2251E96B00E7E504 /* OverlayComponentCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */; };
 		42D7F2A02251EA1500E7E504 /* OverlayComponentRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */; };
@@ -324,7 +324,7 @@
 		42D7F292224F559B00E7E504 /* EditTextOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextOverlay.swift; sourceTree = "<group>"; };
 		42D7F295224F582F00E7E504 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		42D7F297224F58A500E7E504 /* OverlayComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponent.swift; sourceTree = "<group>"; };
-		42D7F299224F605E00E7E504 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		42D7F299224F605E00E7E504 /* ConstraintsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsExtensions.swift; sourceTree = "<group>"; };
 		42D7F29B225021FD00E7E504 /* Graphic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphic.swift; sourceTree = "<group>"; };
 		42D7F29D2251E96B00E7E504 /* OverlayComponentCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentCornerView.swift; sourceTree = "<group>"; };
 		42D7F29F2251EA1500E7E504 /* OverlayComponentRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayComponentRender.swift; sourceTree = "<group>"; };
@@ -597,7 +597,7 @@
 				4285BFA421A8D4DE00913466 /* VideoLibrary.swift */,
 				42D7F289224C649600E7E504 /* Font.swift */,
 				42D7F28D224CA08B00E7E504 /* Palette.swift */,
-				42D7F299224F605E00E7E504 /* Constraints.swift */,
+				42D7F299224F605E00E7E504 /* ConstraintsExtensions.swift */,
 				42D7F29B225021FD00E7E504 /* Graphic.swift */,
 				42FF4D2F226467AF00EEF49C /* GifConfigCalibrator.swift */,
 				4221A23422DD62730060B1BE /* Wechat.swift */,
@@ -887,7 +887,7 @@
 				42D4E52122BF4BD900EDD3B7 /* EditTextColorPickerView.swift in Sources */,
 				423C282C22C30BEC00D58376 /* VideoProgressCircle.swift in Sources */,
 				42053E232320E1E300AB63AD /* CameraPhotoStorage.swift in Sources */,
-				42D7F29A224F605E00E7E504 /* Constraints.swift in Sources */,
+				42D7F29A224F605E00E7E504 /* ConstraintsExtensions.swift in Sources */,
 				42462B1E2202F5770064FE56 /* VideoControllerGalleryContainer.swift in Sources */,
 				42CEB32F2259AB99000152E7 /* StickerOverlay.swift in Sources */,
 				4294CCB822C4498700FD4917 /* ImagePlayerFrameView.swift in Sources */,

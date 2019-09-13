@@ -224,7 +224,7 @@ class ControllerTrim: UIControl {
         //Faders
         addSubview(leftFader)
         NSLayoutConstraint.activate([
-            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            leftFader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth).with(priority: .defaultLow),
             leftFader.topAnchor.constraint(equalTo: topAnchor),
             leftFader.bottomAnchor.constraint(equalTo: bottomAnchor),
             leftFader.trailingAnchor.constraint(equalTo: leftTrim.leadingAnchor)
@@ -232,7 +232,7 @@ class ControllerTrim: UIControl {
         
         addSubview(rightFader)
         NSLayoutConstraint.activate([
-            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth),
+            rightFader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth).with(priority: .defaultLow),
             rightFader.topAnchor.constraint(equalTo: topAnchor),
             rightFader.bottomAnchor.constraint(equalTo: bottomAnchor),
             rightFader.leadingAnchor.constraint(equalTo: rightTrim.trailingAnchor)
