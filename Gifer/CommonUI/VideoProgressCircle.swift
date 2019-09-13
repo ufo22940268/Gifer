@@ -13,13 +13,16 @@ class VideoProgressCircle: UIView {
     let circleWidth = CGFloat(3)
     var progress: CGFloat = 0.1 {
         didSet {
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.duration = 0.15
-            animation.fromValue = progressLayer.strokeEnd
-            animation.toValue = progress
-            animation.delegate = self
-            progressLayer.add(animation, forKey: "strokeEnd")
-            progressLayer.strokeEnd = progress
+            DispatchQueue.main.async {                
+                let p = 0.3 + self.progress*0.7
+                let animation = CABasicAnimation(keyPath: "strokeEnd")
+                animation.duration = 0.15
+                animation.fromValue = self.progressLayer.strokeEnd
+                animation.toValue = p
+                animation.delegate = self
+                self.progressLayer.add(animation, forKey: "strokeEnd")
+                self.progressLayer.strokeEnd = p
+            }
         }
     }
     
@@ -78,7 +81,6 @@ extension VideoProgressCircle: CAAnimationDelegate {
         }
     }
 }
-
 
 protocol VideoProgressCircleDelegate: class {
     func onStopped(_ circleView: VideoProgressCircle)

@@ -388,6 +388,8 @@ class EditViewController: UIViewController {
     
     func load(with generator: ItemGenerator) {
         isLoadingVideo = true
+        videoLoadingIndicator.progress = 0
+        print("loading")
         generator.run { (playerItem) in
             self.initTrimPosition = VideoTrimPosition(leftTrim: .zero, rightTrim: playerItem.duration)
             self.initPlayerItem(playerItem)
@@ -1041,6 +1043,6 @@ extension EditViewController: MFMailComposeViewControllerDelegate {
 extension EditViewController: GenerateProgressDelegate {
     func onProgress(_ progress: CGFloat) {
         videoLoadingIndicator.progress = progress
-        print(progress)
+//        print(progress)
     }
 }
