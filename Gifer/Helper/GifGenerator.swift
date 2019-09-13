@@ -197,8 +197,6 @@ public class GifGenerator {
     }
     
     func calibrateSize(under memoryInMB: Double, videoSize: VideoSize, completion: @escaping (GifProcessConfig) -> Void) {
-        //TODO
-        
         let estimator = GifConfigCalibrator(options: options, playerItem: playerItem, processConfig: processConfig)
         estimator.calibrateSize(under: memoryInMB, completion: {(config: GifProcessConfig) in
             completion(config.ensure(videoSize: videoSize))
