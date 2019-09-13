@@ -15,7 +15,7 @@
         <scene sceneID="FEX-R3-XWi">
             <objects>
                 <navigationController id="YUr-xS-PsO" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="80G-bj-foc">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="80G-bj-foc">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="darkBackgroundColor"/>
@@ -32,7 +32,7 @@
             <objects>
                 <viewController id="EuZ-dA-RSS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kkD-gh-ikF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="darkContentColor"/>
                         <viewLayoutGuide key="safeArea" id="6ct-85-tcg"/>
@@ -41,6 +41,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ed1-4q-mQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="857" y="66"/>
         </scene>
     </scenes>
     <resources>
