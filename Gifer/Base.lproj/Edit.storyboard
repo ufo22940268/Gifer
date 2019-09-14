@@ -257,7 +257,7 @@
                                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ttU-Bb-WwM" userLabel="Controller Container" customClass="VideoControllerContainer" customModule="Gifer" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
                                                 <subviews>
-                                                    <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-PJ-qvs" customClass="VideoController" customModule="Gifer" customModuleProvider="target">
+                                                    <view verifyAmbiguity="off" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-PJ-qvs" customClass="VideoControllerForEdit" customModule="Gifer" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="0.0" width="382" height="76"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>

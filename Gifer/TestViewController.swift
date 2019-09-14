@@ -12,20 +12,17 @@ import NVActivityIndicatorView
 
 class TestViewController: UIViewController {
     
-    @IBOutlet weak var progressView: VideoProgressLoadingIndicator!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        progressView.progress = 0
-        count()
+    }
+}
+
+extension TestViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
     }
     
-    func count() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            if self.progressView.progress <= 1 {
-                self.progressView.progress = self.progressView.progress + 0.01
-                self.count()
-            }
-        }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
     }
 }

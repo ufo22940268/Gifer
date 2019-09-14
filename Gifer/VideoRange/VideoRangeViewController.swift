@@ -58,7 +58,7 @@ class VideoRangeViewController: UIViewController {
             return nil
         }
     }
-    @IBOutlet weak var videoController: VideoController!
+    @IBOutlet weak var videoController: VideoControllerForVideoRange!
     var previewAsset: PHAsset!
     var timeObserverToken: Any?
     var loopObserverToken: Any?
@@ -87,7 +87,7 @@ class VideoRangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        isDebug = false
+        isDebug = previewAsset == nil
         
         DarkMode.enable(in: self)
         setupPreview()
@@ -118,7 +118,7 @@ class VideoRangeViewController: UIViewController {
         }
     }
 
-    private func loadPreview() {
+    private func onVideoReady() {
         let targetSize = AVMakeRect(aspectRatio: CGSize(width: self.previewAsset.pixelWidth, height: self.previewAsset.pixelHeight), insideRect: self.videoPreviewSection.bounds).size
         self.previewController.view.constraints.findById(id: "width").constant = targetSize.width
         self.previewController.view.constraints.findById(id: "height").constant = targetSize.height
@@ -213,7 +213,7 @@ class VideoRangeViewController: UIViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
             if case AVPlayer.Status.readyToPlay = player.status, !isPreviewInited {
-                loadPreview()
+                onVideoReady()
                 isPreviewInited = true
             }
         } else if keyPath == #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp) {
@@ -320,11 +320,11 @@ extension VideoRangeViewController: VideoControllerDelegate {
         var position = trimPosition
         position.scrollBy(scrollTime)
         videoController.layoutIfNeeded()
-        var galleryRange = videoController.galleryRangeInSlider
-        galleryRange.scroll(by: scrollTime)
-        
-        videoController.galleryScrollTo(galleryRange: galleryRange)
-        updateTrimPosition(position: position, state: state)
+//        var galleryRange = videoController.galleryRangeInSlidver
+//        galleryRange.scroll(by: scrollTime)
+//
+//        videoController.galleryScrollTo(galleryRange: galleryRange)
+//        updateTrimPosition(position: position, state: state)
     }
     
     private func updateTrimPosition(position: VideoTrimPosition, state: UIGestureRecognizer.State) {

@@ -132,7 +132,7 @@ class EditViewController: UIViewController {
     var source = Source.gallery
     
     var shareVC: ShareViewController!
-    @IBOutlet weak var videoController: VideoController!
+    @IBOutlet weak var videoController: VideoControllerForEdit!
     
     var generator: ItemGenerator? {
         didSet {

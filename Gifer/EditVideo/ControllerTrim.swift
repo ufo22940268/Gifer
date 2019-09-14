@@ -95,7 +95,6 @@ class ControllerTrim: UIControl {
         return true
     }
     
-    var disableScroll = true
     var status: Status!
     
     var leftTrimLeadingConstraint: NSLayoutConstraint!
@@ -167,11 +166,14 @@ class ControllerTrim: UIControl {
     }
     
     var mode: Mode = .normal
+    var galleryView: UIView!
 
-    func setup(hasAppendButton: Bool = false) {
+    func setup(galleryView: UIView, hasAppendButton: Bool = false) {
         guard let superview = superview else {
             return
         }
+        
+        self.galleryView = galleryView
         
         isOpaque = false
         translatesAutoresizingMaskIntoConstraints = false
@@ -258,6 +260,12 @@ class ControllerTrim: UIControl {
         
         bringSubviewToFront(leftTrim)
         bringSubviewToFront(rightTrim)
+    }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard bounds.width > 150 else { return true }
+        let validRect = [leftTrim.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)), rightTrim.frame.inset(by: UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 0))]
+        return validRect.contains { $0.contains(point) }
     }
     
     func onVideoReady() {
@@ -351,18 +359,14 @@ class ControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
-        if sliderThresholdGuide.layoutFrame.size == CGSize.zero {
+        if galleryView.bounds.size.width == 0 {
             return VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration)
         }
         
-        let outer = sliderThresholdGuide.layoutFrame
-        let inner = sliderRangeGuide.layoutFrame
-        
-        let leftPercent = (inner.minX - outer.minX)/outer.width
+        let leftPercent = leftTrim.convert(CGPoint(x: leftTrim.bounds.maxX, y: 0), to: galleryView).x/galleryView.bounds.width
+        let rightPercent = rightTrim.convert(CGPoint(x: rightTrim.bounds.minX, y: 0), to: galleryView).x/galleryView.bounds.width
         let leftTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(leftPercent))
-        let rightPercent = (inner.maxX - outer.minX)/outer.width
         let rightTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(rightPercent))
-        
         return VideoTrimPosition(leftTrim: leftTrim, rightTrim: rightTrim)
     }
     

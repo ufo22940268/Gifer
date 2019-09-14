@@ -12,75 +12,97 @@ import AVKit
 
 let videoControllerGalleryImageCountPerGroup = 8
 
-class VideoControllerGallery: UIStackView {
+class VideoControllerGallery: UICollectionView {
 
-    var galleryImages: [UIImageView] {
-        return arrangedSubviews as! [UIImageView]
-    }
     var duration: CMTime!
     var galleryDuration: CMTime!
     
     init() {
-        super.init(frame: CGRect.zero)
+        let flowLayout = UICollectionViewFlowLayout()
+        super.init(frame: .zero, collectionViewLayout: flowLayout)
         translatesAutoresizingMaskIntoConstraints = false
-        axis = .horizontal
-        distribution = .fillEqually
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = .horizontal        
     }
     
     required init(coder: NSCoder) {
-        super.init(coder: coder)
+        super.init(coder: coder)!
     }
     
     func setup() {
-        alignment = .center
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: superview!.leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
+            trailingAnchor.constraint(equalTo: superview!.trailingAnchor),
             topAnchor.constraint(equalTo: superview!.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
-            heightAnchor.constraint(equalTo: superview!.heightAnchor),
+            heightAnchor.constraint(equalToConstant: 48),
             ])
         layer.cornerRadius = 4
         clipsToBounds = true
     }
     
-    var itemSize: CGSize {
-        return bounds.size
+    func setItemSize(_ size: CGSize) {
+        (collectionViewLayout as! UICollectionViewFlowLayout).itemSize = size
     }
     
-    func prepareImageViews(_ count: Int) {
-        arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        for index in 0..<count {
-            let imageView: UIImageView = addImageView(totalImageCount: count)
-            if index == 0 {
-                imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-                imageView.layer.cornerRadius = 4
-            } else if index == count - 1 {
-                imageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
-                imageView.layer.cornerRadius = 4
-            }
-        }
-    }
-    
-    var imageViewCount: Int {
-        return galleryImages.count
-    }
-    
-    fileprivate func addImageView(totalImageCount: Int) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        addArrangedSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: heightAnchor)
-            ])
-        imageView.contentMode = .scaleAspectFill
-
-        return imageView
-    }
-    
-    func setImage(_ image: UIImage, on index: Int) -> Void {
-        galleryImages[index].image = image
-    }
+//    var itemSize: CGSize {
+//        return bounds.size
+//    }
+//
+//    func prepareImageViews(_ count: Int) {
+//        arrangedSubviews.forEach { $0.removeFromSuperview() }
+//
+//        for index in 0..<count {
+//            let imageView: UIImageView = addImageView(totalImageCount: count)
+//            if index == 0 {
+//                imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+//                imageView.layer.cornerRadius = 4
+//            } else if index == count - 1 {
+//                imageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+//                imageView.layer.cornerRadius = 4
+//            }
+//        }
+//    }
+//
+//    fileprivate func addImageView(totalImageCount: Int) -> UIImageView {
+//        let imageView = UIImageView()
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.clipsToBounds = true
+//        addArrangedSubview(imageView)
+//        NSLayoutConstraint.activate([
+//            imageView.heightAnchor.constraint(equalTo: heightAnchor)
+//            ])
+//        imageView.contentMode = .scaleAspectFill
+//
+//        return imageView
+//    }
+//
+//    func setImage(_ image: UIImage, on index: Int) -> Void {
+//        galleryImages[index].image = image
+//    }
 }
 
+
+class VideoControllerGalleryImageCell: UICollectionViewCell {
+    
+    lazy var imageView: UIImageView = {
+        let view = UIImageView().useAutoLayout()
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+            ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
