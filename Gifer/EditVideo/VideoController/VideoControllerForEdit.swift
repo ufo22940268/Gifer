@@ -211,7 +211,6 @@ class VideoControllerForEdit: UIStackView {
         }
     }
     var galleryContainer: VideoControllerGalleryContainer!
-    var gallerySlider: VideoControllerGallerySlider!
     var duration: CMTime!
     
     var scrollReason: VideoControllerScrollReason = .other
@@ -312,11 +311,6 @@ class VideoControllerForEdit: UIStackView {
             ])
         attachView.customDelegate = delegate
         
-        gallerySlider = VideoControllerGallerySlider()
-        addArrangedSubview(gallerySlider)
-        gallerySlider.setup()
-        gallerySlider.alpha = 0
-
         setupScrollView()
 
         galleryView = VideoControllerGallery()
@@ -331,25 +325,20 @@ class VideoControllerForEdit: UIStackView {
 //            videoTrim.widthAnchor.constraint(equalTo: galleryScrollView.widthAnchor)
 //            ])
         
-        if from == "edit" {
-            galleryContainer.addSubview(appendPlayerButton)
-            NSLayoutConstraint.activate([
-                appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
-                appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
-                appendPlayerButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-                appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
-                ])
-        }
+        galleryContainer.addSubview(appendPlayerButton)
+        NSLayoutConstraint.activate([
+            appendPlayerButton.heightAnchor.constraint(equalToConstant: 48),
+            appendPlayerButton.widthAnchor.constraint(equalTo: appendPlayerButton.heightAnchor, constant:  -8),
+            appendPlayerButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            appendPlayerButton.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: 16),
+            ])
 
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
         
-        if from == "edit" {
-            setupForEditViewController()
-        } else {
-            setupForVideoRangeViewController()
-        }
+        galleryScrollView.isScrollEnabled = false
+
         let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
         scrollRecognizer.delegate = self
         videoTrim.addGestureRecognizer(scrollRecognizer)
@@ -358,15 +347,7 @@ class VideoControllerForEdit: UIStackView {
     @objc func onAddNewPlayerItem() {
         delegate?.onAddNewPlayerItem()
     }
-    
-    private func setupForEditViewController() {
-        galleryScrollView.isScrollEnabled = false
-    }
-    
-    private func setupForVideoRangeViewController() {
-        galleryScrollView.delegate = self
-    }
-    
+        
     @objc func onScroll(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: videoTrim)
         if videoTrim.move(by: translation.x) {
@@ -435,10 +416,8 @@ class VideoControllerForEdit: UIStackView {
         
         updatePlayerItem(playerItem)
         
-        gallerySlider.alpha = 1.0
         // TODO: When image player item generate process is synchronize, the gallery view width is 0.
         self.videoTrim.onVideoReady()
-        self.gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
         self.galleryView.bringSubviewToFront(self.videoSlider)
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
         completion()

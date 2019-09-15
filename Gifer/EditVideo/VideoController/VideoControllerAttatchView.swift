@@ -38,17 +38,8 @@ protocol VideoControllerAttachDelegate: class {
 
 class VideoControllerAttachView: UIView {
     
-    lazy var galleryView: UIStackView = {
-        let view = UIStackView().useAutoLayout()
-        view.axis = .horizontal
-        view.distribution = .fillEqually
-        return view
-    }()
-    
-    lazy var scrollView: UIScrollView = {
-        let view = UIScrollView().useAutoLayout()
-        view.addSubview(galleryView)
-        galleryView.useSameSizeAsParent()
+    lazy var galleryView: VideoControllerAttachGallery = {
+        let view = VideoControllerAttachGallery().useAutoLayout()
         return view
     }()
     
@@ -73,18 +64,18 @@ class VideoControllerAttachView: UIView {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 28)])
         
-        addSubview(scrollView)
+        addSubview(galleryView)
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth),
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            galleryView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            galleryView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -VideoControllerConstants.trimWidth),
+            galleryView.topAnchor.constraint(equalTo: topAnchor),
+            galleryView.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
         addSubview(trimView)
         trimView.useSameSizeAsParent()
         
         //TODO: uncomment following code
-//        trimView.setup(galleryView: galleryView)
+        trimView.setup(galleryView: galleryView)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onTrimPan(sender:))))
     }
@@ -99,35 +90,35 @@ class VideoControllerAttachView: UIView {
     }
     
     func load(image: UIImage, component: OverlayComponent) {
-        self.component = component
-        galleryView.subviews.forEach { $0.removeFromSuperview() }
-        for _ in 0..<8 {
-            let icon = UIImageView().useAutoLayout()
-            icon.image = image
-            icon.contentMode = .scaleAspectFit
-            galleryView.addArrangedSubview(icon)
-            NSLayoutConstraint.activate([
-                icon.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
-                ])
-        }
-        trimView.update(trimPosition: component.trimPosition)
+//        self.component = component
+//        galleryView.subviews.forEach { $0.removeFromSuperview() }
+//        for _ in 0..<8 {
+//            let icon = UIImageView().useAutoLayout()
+//            icon.image = image
+//            icon.contentMode = .scaleAspectFit
+//            galleryView.addArrangedSubview(icon)
+//            NSLayoutConstraint.activate([
+//                icon.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
+//                ])
+//        }
+//        trimView.update(trimPosition: component.trimPosition)
     }
     
     func load(text: String?, component: OverlayComponent) {
-        self.component = component
-        galleryView.subviews.forEach { $0.removeFromSuperview() }
-        for _ in 0..<5 {
-            let label = UILabel().useAutoLayout()
-            label.text = text
-            label.font = .preferredFont(forTextStyle: .footnote)
-            label.textColor = .white
-            label.lineBreakMode = .byTruncatingTail
-            galleryView.addArrangedSubview(label)
-            NSLayoutConstraint.activate([
-                label.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
-                ])
-        }
-        trimView.update(trimPosition: component.trimPosition)
+//        self.component = component
+//        galleryView.subviews.forEach { $0.removeFromSuperview() }
+//        for _ in 0..<5 {
+//            let label = UILabel().useAutoLayout()
+//            label.text = text
+//            label.font = .preferredFont(forTextStyle: .footnote)
+//            label.textColor = .white
+//            label.lineBreakMode = .byTruncatingTail
+//            galleryView.addArrangedSubview(label)
+//            NSLayoutConstraint.activate([
+//                label.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
+//                ])
+//        }
+//        trimView.update(trimPosition: component.trimPosition)
     }
     
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {

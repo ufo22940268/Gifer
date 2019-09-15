@@ -296,15 +296,15 @@ class EditViewController: UIViewController {
     
     fileprivate func prepareTestData() {
         //Video PHAsset
-//        let testAsset = getTestVideo()
-//        generator = ItemGeneratorWithPHVideoAsset(video: testAsset)
+        let testAsset = getTestVideo()
+        generator = ItemGeneratorWithLibraryVideo(video: testAsset)
         
         //Photos
-        var identitifers = [String]()
-        PHAsset.fetchAssets(with: .image, options: nil).enumerateObjects { (asset, _, _) in
-            identitifers.append(asset.localIdentifier)
-        }
-        generator = ItemGeneratorWithLibraryPhotos(identifiers: identitifers)
+//        var identitifers = [String]()
+//        PHAsset.fetchAssets(with: .image, options: nil).enumerateObjects { (asset, _, _) in
+//            identitifers.append(asset.localIdentifier)
+//        }
+//        generator = ItemGeneratorWithLibraryPhotos(identifiers: identitifers)
     }
     
     override func viewDidLoad() {

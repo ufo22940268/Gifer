@@ -43,7 +43,7 @@ class VideoControllerGallery: UICollectionView {
     
     func setItemSize(_ size: CGSize) {
         (collectionViewLayout as! UICollectionViewFlowLayout).itemSize = size
-    }    
+    }
 }
 
 
