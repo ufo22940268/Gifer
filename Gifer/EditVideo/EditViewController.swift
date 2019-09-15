@@ -663,6 +663,14 @@ extension EditViewController: ImagePlayerDelegate {
             //Trim position Updated
             self.defaultGifOptions = self.currentGifOption
             self.updateSubtitleWithDuration()
+            
+            //Test
+//            let image = #imageLiteral(resourceName: "folder-color.png")
+//            let component = self.stickerOverlay.addStickerComponent(StickerInfo(image: image))
+//            self.videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
+            
+            let component = self.editTextOverlay.addTextComponent(textInfo: EditTextInfo(text: "asdf", fontName: UIFont.familyNames.first!, textColor: .white))
+//            self.videoController.attachView.load(text: component.editTextRender!.attachText, component: component)
         }
     }
     
@@ -910,8 +918,7 @@ extension EditViewController: ControlToolbarDelegate {
 
 extension EditViewController: EditTextDelegate {
     func onAddEditText(info: EditTextInfo) {
-        let component = editTextOverlay.addTextComponent(textInfo: info)
-        videoController.attachView.load(text: component.editTextRender!.attachText, component: component)
+        editTextOverlay.addTextComponent(textInfo: info)
     }
     
     func onUpdateEditText(info: EditTextInfo, componentId: ComponentId) {

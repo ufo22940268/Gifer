@@ -40,8 +40,12 @@ class VideoControllerAttachView: UIView {
     
     lazy var galleryView: VideoControllerAttachGallery = {
         let view = VideoControllerAttachGallery().useAutoLayout()
+        view.dataSource = self
         return view
     }()
+    
+    var imageSticker: UIImage?
+    var textSticker: String?
     
     lazy var trimView: VideoControllerAttatchTrim = {
         let view = VideoControllerAttatchTrim().useAutoLayout()
@@ -56,6 +60,22 @@ class VideoControllerAttachView: UIView {
             trimView.duration = duration
             trimView.galleryDuration = duration
         }
+    }
+    
+    enum Mode {
+        case image, text
+    }
+    
+    var mode: Mode? {
+        if imageSticker != nil {
+            return .image
+        }
+        
+        if textSticker != nil {
+            return .text
+        }
+        
+        return nil
     }
     
     init() {
@@ -74,7 +94,9 @@ class VideoControllerAttachView: UIView {
         addSubview(trimView)
         trimView.useSameSizeAsParent()
         
-        //TODO: uncomment following code
+        galleryView.dataSource = self
+        galleryView.register(VideoControllerImageStickerCell.self, forCellWithReuseIdentifier: "image")
+        galleryView.register(VideoControllerTextStickerCell.self, forCellWithReuseIdentifier: "text")
         trimView.setup(galleryView: galleryView)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onTrimPan(sender:))))
@@ -90,35 +112,19 @@ class VideoControllerAttachView: UIView {
     }
     
     func load(image: UIImage, component: OverlayComponent) {
-//        self.component = component
-//        galleryView.subviews.forEach { $0.removeFromSuperview() }
-//        for _ in 0..<8 {
-//            let icon = UIImageView().useAutoLayout()
-//            icon.image = image
-//            icon.contentMode = .scaleAspectFit
-//            galleryView.addArrangedSubview(icon)
-//            NSLayoutConstraint.activate([
-//                icon.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
-//                ])
-//        }
-//        trimView.update(trimPosition: component.trimPosition)
+        self.imageSticker = image
+        self.textSticker = nil
+        (galleryView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = CGSize(width: 28, height: 28)
+        galleryView.reloadData()
+        trimView.update(trimPosition: component.trimPosition)
     }
     
     func load(text: String?, component: OverlayComponent) {
-//        self.component = component
-//        galleryView.subviews.forEach { $0.removeFromSuperview() }
-//        for _ in 0..<5 {
-//            let label = UILabel().useAutoLayout()
-//            label.text = text
-//            label.font = .preferredFont(forTextStyle: .footnote)
-//            label.textColor = .white
-//            label.lineBreakMode = .byTruncatingTail
-//            galleryView.addArrangedSubview(label)
-//            NSLayoutConstraint.activate([
-//                label.heightAnchor.constraint(equalTo: galleryView.heightAnchor)
-//                ])
-//        }
-//        trimView.update(trimPosition: component.trimPosition)
+        self.textSticker = text
+        self.imageSticker = nil
+        (galleryView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = CGSize(width: 40, height: 28)
+        galleryView.reloadData()
+        trimView.update(trimPosition: component.trimPosition)
     }
     
     @objc func onTrimPan(sender: UIPanGestureRecognizer) {
@@ -131,6 +137,34 @@ class VideoControllerAttachView: UIView {
     }
 }
 
+extension VideoControllerAttachView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch mode {
+        case .some(.image):
+            return 8
+        case .some(.text):
+            return 5
+        default:
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch mode {
+        case .some(.image):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! VideoControllerImageStickerCell
+            cell.imageView.image = imageSticker
+            return cell
+        case .some(.text):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "text", for: indexPath) as! VideoControllerTextStickerCell
+            cell.labelView.text = textSticker
+            return cell
+        default:
+            fatalError()
+        }
+    }
+}
+
 extension VideoControllerAttachView: VideoTrimDelegate {
     func onTrimChangedByTrimer(trimPosition: VideoTrimPosition, state: VideoTrimState, side: ControllerTrim.Side?) {
         customDelegate?.onAttachChanged(component: component, trimPosition: trimPosition)
@@ -139,3 +173,44 @@ extension VideoControllerAttachView: VideoTrimDelegate {
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
     }
 }
+
+class VideoControllerImageStickerCell: UICollectionViewCell {
+    
+    lazy var imageView: UIImageView = {
+        let view = UIImageView().useAutoLayout()
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageView)
+        imageView.useSameSizeAsParent()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class VideoControllerTextStickerCell: UICollectionViewCell {
+    
+    lazy var labelView: UILabel = {
+        let view = UILabel().useAutoLayout()
+        view.font = .preferredFont(forTextStyle: .footnote)
+        view.textColor = .white
+        view.lineBreakMode = .byTruncatingTail
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(labelView)
+        labelView.useSameSizeAsParent()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+

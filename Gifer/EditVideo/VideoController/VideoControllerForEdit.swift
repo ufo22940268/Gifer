@@ -401,7 +401,13 @@ class VideoControllerForEdit: UIStackView {
         
     func onActive(component: OverlayComponent) {
         attachContainer.isHidden = false
-        attachView.load(image: component.image, component: component)
+        switch component.info.type! {
+        case .sticker:
+            attachView.load(image: component.image, component: component)
+        case .text:
+            let textRender = component.render as! TextRender
+            attachView.load(text: textRender.info.text, component: component)
+        }
         layoutSize = .half
     }
     
