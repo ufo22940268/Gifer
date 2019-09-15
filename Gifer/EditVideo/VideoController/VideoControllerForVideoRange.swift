@@ -36,15 +36,13 @@ class VideoControllerForVideoRange: UIStackView {
         }
     }
     
-    weak var delegate: VideoControllerDelegate? {
+    weak var customDelegate: VideoControllerForVideoRangeDelegate? {
         didSet {
-            videoSlider.delegate = self.delegate
-            videoTrim.trimDelegate = self.delegate
-            attachView.customDelegate = self.delegate
+            videoSlider.delegate = self.customDelegate
+            videoTrim.trimDelegate = self.customDelegate
         }
     }
     
-    @IBInspectable var from: String = "range"
     var generator: AVAssetImageGenerator?
     var galleryDuration: CMTime {
         return videoTrim.trimPosition.galleryDuration
@@ -63,15 +61,6 @@ class VideoControllerForVideoRange: UIStackView {
     var currentTimeOnSlider: CMTime {
         return videoSlider.currentPosition
     }
-    
-    lazy var attachView: VideoControllerAttachView = {
-        let attach = VideoControllerAttachView().useAutoLayout()
-        return attach
-    }()
-    
-    lazy var attachGalleryView: UIView = {
-        return UIView().useAutoLayout()
-    }()
     
     var stickToSide: ControllerTrim.Side? {
         didSet {
@@ -114,24 +103,6 @@ class VideoControllerForVideoRange: UIStackView {
 //        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.maxX)))
     }
     
-    lazy var appendPlayerButton: UIButton = {
-        let button = UIButton(type: .custom).useAutoLayout()
-        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        button.layer.cornerRadius = 6
-        button.clipsToBounds = true
-        button.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6)
-        button.tintColor = .white
-        button.setImage(#imageLiteral(resourceName: "edit-plus.png"), for: .normal)
-        button.addTarget(self, action: #selector(onAddNewPlayerItem), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var attachContainer: UIView = {
-        let attachContainer = UIView().useAutoLayout()
-        attachContainer.isHidden = true
-        return attachContainer
-    }()
-    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -147,15 +118,6 @@ class VideoControllerForVideoRange: UIStackView {
             galleryContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             galleryContainer.heightAnchor.constraint(equalToConstant: 48).with(identifier: "height")])
         
-        addArrangedSubview(attachContainer)
-        attachContainer.addSubview(attachView)
-        NSLayoutConstraint.activate([
-            attachView.leadingAnchor.constraint(equalTo: attachContainer.leadingAnchor),
-            attachView.heightAnchor.constraint(equalTo: attachContainer.heightAnchor),
-            attachView.widthAnchor.constraint(equalTo: attachContainer.widthAnchor, constant: -40)
-            ])
-        attachView.customDelegate = delegate
-        
         gallerySlider = VideoControllerGallerySlider()
         addArrangedSubview(gallerySlider)
         gallerySlider.setup()
@@ -165,11 +127,12 @@ class VideoControllerForVideoRange: UIStackView {
         galleryView = VideoControllerGallery()
         galleryContainer.addSubview(galleryView)
         galleryView.dataSource = self
+        galleryView.delegate = self
         galleryView.setup()
         
         videoTrim = VideoControllerTrim()
         galleryContainer.addSubview(videoTrim)
-        videoTrim.setup(galleryView: galleryView, hasAppendButton: from == "edit")
+        videoTrim.setup(galleryView: galleryView, hasAppendButton: false)
         
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
@@ -178,10 +141,6 @@ class VideoControllerForVideoRange: UIStackView {
 //        let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
 //        scrollRecognizer.delegate = self
 //        videoTrim.addGestureRecognizer(scrollRecognizer)
-    }
-    
-    @objc func onAddNewPlayerItem() {
-        delegate?.onAddNewPlayerItem()
     }
     
     @objc func onScroll(sender: UIPanGestureRecognizer) {
@@ -236,7 +195,6 @@ class VideoControllerForVideoRange: UIStackView {
         gallerySlider.onVideoLoaded(galleryDuration: galleryDuration, duration: duration)
         galleryView.bringSubviewToFront(self.videoSlider)
         videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
-        attachView.duration = duration
         galleryView.reloadData()
         completion()
         
@@ -265,16 +223,12 @@ class VideoControllerForVideoRange: UIStackView {
     }
     
     func onActive(component: OverlayComponent) {
-        attachContainer.isHidden = false
-        attachView.load(image: component.image, component: component)
         layoutSize = .half
     }
     
     func onDeactiveComponents() {
-        attachContainer.isHidden = true
         layoutSize = .full
     }
-    
 }
 
 extension VideoControllerForVideoRange: UIGestureRecognizerDelegate {
@@ -321,10 +275,10 @@ extension VideoControllerForVideoRange: UICollectionViewDataSource {
 }
 
 // MARK: - Gallery scroll container
-extension VideoControllerForVideoRange: UIScrollViewDelegate {
+extension VideoControllerForVideoRange: UICollectionViewDelegate {
     
-    var inEditing: Bool {
-        return from == "edit"
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        customDelegate?.videoControllerGalleryDidScrolled(self)
     }
     
     func galleryScrollTo(galleryRange: GalleryRangePosition) {
@@ -335,10 +289,16 @@ extension VideoControllerForVideoRange: UIScrollViewDelegate {
     }
 }
 
-// M
+// MARK: - Gallery slider delegate
 extension VideoControllerForVideoRange: VideoControllerGallerySliderDelegate {
     
     func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat) {
         galleryView.contentOffset = CGPoint(x: galleryView.contentSize.width*leftPercentage, y: 0)
     }
 }
+
+protocol VideoControllerForVideoRangeDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerAttachDelegate {
+    
+    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange)
+}
+

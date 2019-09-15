@@ -140,7 +140,7 @@ class VideoRangeViewController: UIViewController {
     }
 
     private func setupVideoController() {
-        videoController.delegate = self
+        videoController.customDelegate = self
     }
     
     private func registerCurrentItemObservers() {
@@ -290,14 +290,14 @@ class VideoRangeViewController: UIViewController {
     }
 }
 
-extension VideoRangeViewController: VideoControllerDelegate {
+// MARK: - Video Controller delegate
+extension VideoRangeViewController: VideoControllerForVideoRangeDelegate {
     
     func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition) {
-        
     }
     
-    func onAddNewPlayerItem() {
-        
+    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange) {
+        print(videoController.trimPosition)
     }
     
     private func setSubtitle(position: VideoTrimPosition) {

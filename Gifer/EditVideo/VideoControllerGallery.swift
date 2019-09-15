@@ -31,8 +31,8 @@ class VideoControllerGallery: UICollectionView {
     
     func setup() {
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superview!.trailingAnchor),
+            leadingAnchor.constraint(equalTo: superview!.leadingAnchor, constant: VideoControllerConstants.trimWidth),
+            trailingAnchor.constraint(equalTo: superview!.trailingAnchor, constant: -VideoControllerConstants.trimWidth),
             topAnchor.constraint(equalTo: superview!.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
             heightAnchor.constraint(equalToConstant: 48),
