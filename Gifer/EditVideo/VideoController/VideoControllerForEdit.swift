@@ -200,7 +200,6 @@ class VideoControllerForEdit: UIStackView {
     }
     
     @IBInspectable var from: String = "range"
-    var galleryScrollView: UIScrollView!
     var generator: AVAssetImageGenerator?
     var galleryDuration: CMTime {
         return videoTrim.trimPosition.galleryDuration
@@ -222,6 +221,8 @@ class VideoControllerForEdit: UIStackView {
         let attach = VideoControllerAttachView().useAutoLayout()
         return attach
     }()
+    
+    var galleryFrames = [ImagePlayerFrame]()
     
     lazy var attachGalleryView: UIView = {
         return UIView().useAutoLayout()
@@ -254,20 +255,6 @@ class VideoControllerForEdit: UIStackView {
     }
     
     var thumbernailCount: Int?
-    
-    var galleryRangeInSlider: GalleryRangePosition {
-        guard let duration = duration else { fatalError() }
-        let scrollRect = galleryScrollView.contentSize
-        let outerFrame = galleryScrollView.convert(videoTrim.bounds, from: videoTrim)
-        let outer = outerFrame.applying(CGAffineTransform(scaleX: 1/scrollRect.width, y: 1/scrollRect.height))
-        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.maxX)))
-    }
-    
-    var galleryRangeInTrimer: GalleryRangePosition {
-        guard let duration = duration else { fatalError() }
-        let inner = videoTrim.innerFrame.applying(CGAffineTransform(scaleX: 1/galleryScrollView.contentSize.width, y: 1/galleryScrollView.contentSize.height))
-        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.maxX)))
-    }
     
     lazy var appendPlayerButton: UIButton = {
         let button = UIButton(type: .custom).useAutoLayout()
@@ -311,19 +298,15 @@ class VideoControllerForEdit: UIStackView {
             ])
         attachView.customDelegate = delegate
         
-        setupScrollView()
-
         galleryView = VideoControllerGallery()
-        galleryScrollView.addSubview(galleryView)
-//        galleryView.dataSource = self
-        galleryView.setup()
+        galleryContainer.addSubview(galleryView)
+        galleryView.dataSource = self
+        galleryView.setup(hasAppendButton: true)
+        galleryView.register(VideoControllerGalleryImageCell.self, forCellWithReuseIdentifier: "image")
         
         videoTrim = VideoControllerTrim()
         galleryContainer.addSubview(videoTrim)
-        videoTrim.setup(galleryView: galleryView, hasAppendButton: from == "edit")
-//        NSLayoutConstraint.activate([
-//            videoTrim.widthAnchor.constraint(equalTo: galleryScrollView.widthAnchor)
-//            ])
+        videoTrim.setup(galleryView: galleryView, hasAppendButton: true)
         
         galleryContainer.addSubview(appendPlayerButton)
         NSLayoutConstraint.activate([
@@ -337,8 +320,6 @@ class VideoControllerForEdit: UIStackView {
         galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
         
-        galleryScrollView.isScrollEnabled = false
-
         let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
         scrollRecognizer.delegate = self
         videoTrim.addGestureRecognizer(scrollRecognizer)
@@ -354,24 +335,6 @@ class VideoControllerForEdit: UIStackView {
             delegate?.onTrimChangedByScrollInGallery(trimPosition: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
         }
         sender.setTranslation(CGPoint.zero, in: videoTrim)
-    }
-    
-    func setupScrollView() {
-        galleryScrollView = UIScrollView()
-        galleryScrollView.translatesAutoresizingMaskIntoConstraints = false
-        galleryScrollView.layoutMargins.top = 0
-        galleryScrollView.layoutMargins.bottom = 0
-        galleryScrollView.layoutMargins.left = 0
-        galleryScrollView.layoutMargins.right = 0
-        galleryScrollView.alwaysBounceVertical = false
-        galleryScrollView.isScrollEnabled = false
-        
-        galleryContainer.addSubview(galleryScrollView)
-        NSLayoutConstraint.activate([
-            galleryScrollView.heightAnchor.constraint(equalTo: galleryContainer.heightAnchor),
-            galleryScrollView.topAnchor.constraint(equalTo: galleryContainer.topAnchor),
-            galleryScrollView.leadingAnchor.constraint(equalTo: galleryContainer.leadingAnchor, constant: VideoControllerConstants.trimWidth),
-            galleryScrollView.trailingAnchor.constraint(equalTo: galleryContainer.trailingAnchor, constant: -VideoControllerConstants.trimWidth)])
     }
     
     func stickTo(side: ControllerTrim.Side?) {
@@ -390,25 +353,24 @@ class VideoControllerForEdit: UIStackView {
     }
     
     func loadGalleryImagesFromPlayerItem() {
-//        let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
-//        let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
-//        self.galleryView.prepareImageViews(thumbernailCount)
-//
-//        let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
-//        var galleryIndex = 0
-//        for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
-//            if galleryIndex >= thumbernailCount {
-//                break
-//            }
-//
-//            let frame = playerItem.activeFrames[i]
-//            let index = galleryIndex
-//            playerItem.requestImage(frame: frame) { [weak self] (image) in
-//                guard let self = self else { return }
-//                self.galleryView.setImage(image, on: index)
-//            }
-//            galleryIndex += 1
-//        }
+        let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
+        let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
+        
+        let itemWidth = galleryView.frame.width/CGFloat(thumbernailCount)
+        galleryView.setItemSize(CGSize(width: itemWidth, height: galleryView.frame.height))
+
+        let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
+        var galleryIndex = 0
+        for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
+            if galleryIndex >= thumbernailCount {
+                break
+            }
+
+            let frame = playerItem.activeFrames[i]
+            galleryFrames.append(frame)
+            galleryIndex += 1
+        }
+        galleryView.reloadData()
     }
     
     func loadInEditVideo(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
@@ -452,16 +414,6 @@ class VideoControllerForEdit: UIStackView {
 
 // MARK: - Gallery scroll container
 extension VideoControllerForEdit: UIScrollViewDelegate {
-    
-    var inEditing: Bool {
-        return from == "edit"
-    }
-    
-    func galleryScrollTo(galleryRange: GalleryRangePosition) {
-        let leading = galleryRange.left.seconds/duration.seconds
-        let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
-        galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-    }
 }
 
 extension VideoControllerForEdit: UIGestureRecognizerDelegate {
@@ -476,5 +428,21 @@ extension VideoControllerForEdit: UIGestureRecognizerDelegate {
     }
 }
 
-
-
+extension VideoControllerForEdit: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return galleryFrames.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! VideoControllerGalleryImageCell
+        loadImage(at: indexPath, for: cell)
+        return cell
+    }
+    
+    func loadImage(at index: IndexPath, for cell: VideoControllerGalleryImageCell) {
+        let frame = galleryFrames[index.row]
+        playerItem.requestImage(frame: frame) { (image) in
+            cell.imageView.image = image
+        }
+    }
+}

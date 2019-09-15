@@ -22,17 +22,17 @@ class VideoControllerGallery: UICollectionView {
         super.init(frame: .zero, collectionViewLayout: flowLayout)
         translatesAutoresizingMaskIntoConstraints = false
         flowLayout.minimumLineSpacing = 0
-        flowLayout.scrollDirection = .horizontal        
+        flowLayout.scrollDirection = .horizontal
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)!
     }
     
-    func setup() {
+    func setup(hasAppendButton: Bool = false) {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: superview!.leadingAnchor, constant: VideoControllerConstants.trimWidth),
-            trailingAnchor.constraint(equalTo: superview!.trailingAnchor, constant: -VideoControllerConstants.trimWidth),
+            trailingAnchor.constraint(equalTo: superview!.trailingAnchor, constant: hasAppendButton ? -VideoControllerConstants.trimWidth - 40 : -VideoControllerConstants.trimWidth),
             topAnchor.constraint(equalTo: superview!.topAnchor),
             bottomAnchor.constraint(equalTo: superview!.bottomAnchor),
             heightAnchor.constraint(equalToConstant: 48),
@@ -45,7 +45,6 @@ class VideoControllerGallery: UICollectionView {
         (collectionViewLayout as! UICollectionViewFlowLayout).itemSize = size
     }
 }
-
 
 class VideoControllerGalleryImageCell: UICollectionViewCell {
     

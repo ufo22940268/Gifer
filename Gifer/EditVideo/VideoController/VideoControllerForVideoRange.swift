@@ -86,7 +86,7 @@ class VideoControllerForVideoRange: UIStackView {
     var thumbernailTimes: [NSValue]?
     
     var thumbernailCount: Int?
-        
+    
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -112,6 +112,7 @@ class VideoControllerForVideoRange: UIStackView {
         galleryContainer.addSubview(galleryView)
         galleryView.dataSource = self
         galleryView.delegate = self
+        galleryView.register(VideoControllerGalleryImageCell.self, forCellWithReuseIdentifier: "image")
         galleryView.setup()
         
         videoTrim = VideoControllerTrim()
@@ -138,7 +139,6 @@ class VideoControllerForVideoRange: UIStackView {
         
         gallerySlider.alpha = 1.0
         
-        galleryView.register(VideoControllerGalleryImageCell.self, forCellWithReuseIdentifier: "image")
         var galleryDuration: CMTime
         var thumbernailCount: Int
         var galleryWidth: CGFloat
