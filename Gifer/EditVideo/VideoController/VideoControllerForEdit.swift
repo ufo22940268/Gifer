@@ -138,7 +138,7 @@ struct VideoControllerConstants {
     static var sliderWidth = CGFloat(8)
 }
 
-protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerGallerySliderDelegate, VideoControllerAttachDelegate {
+protocol VideoControllerDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerAttachDelegate {
     func onAddNewPlayerItem()
 }
 
@@ -195,7 +195,6 @@ class VideoControllerForEdit: UIStackView {
         didSet {
             videoSlider.delegate = self.delegate
             videoTrim.trimDelegate = self.delegate
-            gallerySlider.delegate = self.delegate
             attachView.customDelegate = self.delegate
         }
     }

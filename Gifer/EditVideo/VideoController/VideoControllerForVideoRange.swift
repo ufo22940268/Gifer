@@ -40,7 +40,6 @@ class VideoControllerForVideoRange: UIStackView {
         didSet {
             videoSlider.delegate = self.delegate
             videoTrim.trimDelegate = self.delegate
-            gallerySlider.delegate = self.delegate
             attachView.customDelegate = self.delegate
         }
     }
@@ -161,6 +160,7 @@ class VideoControllerForVideoRange: UIStackView {
         addArrangedSubview(gallerySlider)
         gallerySlider.setup()
         gallerySlider.alpha = 0
+        gallerySlider.customDelegate = self
         
         galleryView = VideoControllerGallery()
         galleryContainer.addSubview(galleryView)
@@ -335,4 +335,10 @@ extension VideoControllerForVideoRange: UIScrollViewDelegate {
     }
 }
 
-
+// M
+extension VideoControllerForVideoRange: VideoControllerGallerySliderDelegate {
+    
+    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat) {
+        galleryView.contentOffset = CGPoint(x: galleryView.contentSize.width*leftPercentage, y: 0)
+    }
+}

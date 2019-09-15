@@ -9,10 +9,6 @@
 import UIKit
 import AVKit
 
-protocol VideoControllerGallerySliderDelegate: class {
-    func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat)
-}
-
 private class VideoControllerGallerySliderButton: UIView {
     
     init() {
@@ -47,7 +43,7 @@ private class VideoControllerGallerySliderButton: UIView {
     }
 }
 
-class VideoControllerGallerySlider: UIView {
+class VideoControllerGallerySlider: UIScrollView {
     
     let frameHeight = CGFloat(36)
     let dividerHeight = CGFloat(2)
@@ -57,9 +53,13 @@ class VideoControllerGallerySlider: UIView {
     var sliderCenterXConstraint: NSLayoutConstraint!
     var galleryDuration: CMTime?
     var slider: UIView!
+    lazy var sliderWrapper: UIView = {
+        let view = UIView().useAutoLayout()
+        return view
+    }()
     var duration: CMTime?
     
-    weak var delegate: VideoControllerGallerySliderDelegate?
+    weak var customDelegate: VideoControllerGallerySliderDelegate?
     
     func setup() {
         guard let superview = superview else { return }
@@ -69,43 +69,34 @@ class VideoControllerGallerySlider: UIView {
             heightAnchor.constraint(equalToConstant: frameHeight),
             ])
         
-        let background = UIView()
-        background.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(background)
-        NSLayoutConstraint.activate([
-            background.heightAnchor.constraint(equalToConstant: sliderHeight),
-            background.leadingAnchor.constraint(equalTo: leadingAnchor),
-            background.trailingAnchor.constraint(equalTo: trailingAnchor),
-            background.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ])
+        backgroundColor = .black
+        layer.cornerRadius = sliderHeight/2
         
-        background.backgroundColor = .black
-        background.layer.cornerRadius = sliderHeight/2
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        
+        bounces = false
+        delegate = self
         
         slider = VideoControllerGallerySliderButton()
         slider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(slider)
+        addSubview(sliderWrapper)
+        sliderWrapper.addSubview(slider)
         slider.backgroundColor = tintColor
         slider.layer.cornerRadius = sliderHeight/2
-        sliderWidthConstraint = slider.widthAnchor.constraint(equalToConstant: 0)
-        sliderCenterXConstraint = slider.centerXAnchor.constraint(equalTo: leadingAnchor)
+        sliderWidthConstraint = sliderWrapper.widthAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             sliderWidthConstraint,
-            sliderCenterXConstraint,
-            slider.heightAnchor.constraint(equalToConstant: sliderHeight),
-            slider.centerYAnchor.constraint(equalTo: centerYAnchor)
+            sliderWrapper.heightAnchor.constraint(equalTo: heightAnchor),
+            sliderWrapper.topAnchor.constraint(equalTo: topAnchor),
+            sliderWrapper.bottomAnchor.constraint(equalTo: bottomAnchor),
+            sliderWrapper.leadingAnchor.constraint(equalTo: leadingAnchor),
+            sliderWrapper.trailingAnchor.constraint(equalTo: trailingAnchor),
+            slider.leadingAnchor.constraint(equalTo: sliderWrapper.leadingAnchor),
+            slider.trailingAnchor.constraint(equalTo: sliderWrapper.trailingAnchor),
+            slider.centerYAnchor.constraint(equalTo: sliderWrapper.centerYAnchor),
+            slider.heightAnchor.constraint(equalToConstant: sliderHeight)
             ])
-        
-        slider.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onChangeSlider(sender:))))
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let rect = slider.frame.insetBy(dx: -30, dy: -(bounds.height - slider.frame.height)/2)
-        if slider.isUserInteractionEnabled && !slider.isHidden && rect.contains(point) {
-            return slider
-        } else {
-            return super.hitTest(point, with: event)
-        }
     }
     
     override func tintColorDidChange() {
@@ -120,32 +111,30 @@ class VideoControllerGallerySlider: UIView {
         updateSlider(begin: 0, end: CGFloat(galleryDuration.seconds/duration.seconds), duration: galleryDuration)
     }
     
-    var sliderWidth: CGFloat {
-        return sliderWidthConstraint.constant
-    }
-    
     func updateSlider(begin: CGFloat, end: CGFloat, duration: CMTime) {
         self.galleryDuration = duration
         let leading = begin*bounds.width
         let trailing = end*bounds.width
-        let centerX = (trailing + leading)/2
         let width = trailing - leading
-        sliderCenterXConstraint.constant = centerX
+        
+        contentInset = UIEdgeInsets(top: 0, left: bounds.width - width, bottom: 0, right: bounds.width - width)
+//        contentOffset = CGPoint(x: bounds.width - width, y: 0)
+        contentOffset = .zero
         sliderWidthConstraint.constant = width
     }
     
-    @objc func onChangeSlider(sender: UIPanGestureRecognizer) {
-        guard let duration = duration else { return }
-        let translation = sender.translation(in: self).x
-        let originCenterX = sliderCenterXConstraint.constant
-        let newCenterX = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
-        let scrollDistance = newCenterX - originCenterX
-        delegate?.onTrimChangedByGallerySlider(state: sender.state,
-                                               scrollTime: CMTimeMultiplyByFloat64(duration, multiplier: Double((newCenterX - originCenterX)/bounds.width)),
-                                               scrollDistance: scrollDistance)
-        sliderCenterXConstraint.constant = newCenterX
-        sender.setTranslation(CGPoint.zero, in: self)
-    }
+//    @objc func onChangeSlider(sender: UIPanGestureRecognizer) {
+//        guard let duration = duration else { return }
+//        let translation = sender.translation(in: self).x
+//        let originCenterX = sliderCenterXConstraint.constant
+//        let newCenterX = (sliderCenterXConstraint.constant + translation).clamped(to: sliderWidth/2...(bounds.width - sliderWidth/2))
+//        let scrollDistance = newCenterX - originCenterX
+//        customDelegate?.onTrimChangedByGallerySlider(state: sender.state,
+//                                               scrollTime: CMTimeMultiplyByFloat64(duration, multiplier: Double((newCenterX - originCenterX)/bounds.width)),
+//                                               scrollDistance: scrollDistance)
+//        sliderCenterXConstraint.constant = newCenterX
+//        sender.setTranslation(CGPoint.zero, in: self)
+//    }
     
     func sync(galleryRange: GalleryRangePosition) {
         guard let duration = duration else { return }
@@ -154,4 +143,17 @@ class VideoControllerGallerySlider: UIView {
         sliderCenterXConstraint.constant = bounds.width*CGFloat(center)
         sliderWidthConstraint.constant = bounds.width*CGFloat(width)
     }
+}
+
+//MARK: Gallery scroll delegate
+extension VideoControllerGallerySlider: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let duration = duration else { return }
+        let p = -contentOffset.x/frame.width
+        customDelegate?.onScroll(self, leftPercentage: p)
+    }
+}
+
+protocol VideoControllerGallerySliderDelegate: class {
+    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat)
 }
