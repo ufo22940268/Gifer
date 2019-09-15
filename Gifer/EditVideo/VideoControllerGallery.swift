@@ -43,43 +43,7 @@ class VideoControllerGallery: UICollectionView {
     
     func setItemSize(_ size: CGSize) {
         (collectionViewLayout as! UICollectionViewFlowLayout).itemSize = size
-    }
-    
-//    var itemSize: CGSize {
-//        return bounds.size
-//    }
-//
-//    func prepareImageViews(_ count: Int) {
-//        arrangedSubviews.forEach { $0.removeFromSuperview() }
-//
-//        for index in 0..<count {
-//            let imageView: UIImageView = addImageView(totalImageCount: count)
-//            if index == 0 {
-//                imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-//                imageView.layer.cornerRadius = 4
-//            } else if index == count - 1 {
-//                imageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
-//                imageView.layer.cornerRadius = 4
-//            }
-//        }
-//    }
-//
-//    fileprivate func addImageView(totalImageCount: Int) -> UIImageView {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.clipsToBounds = true
-//        addArrangedSubview(imageView)
-//        NSLayoutConstraint.activate([
-//            imageView.heightAnchor.constraint(equalTo: heightAnchor)
-//            ])
-//        imageView.contentMode = .scaleAspectFill
-//
-//        return imageView
-//    }
-//
-//    func setImage(_ image: UIImage, on index: Int) -> Void {
-//        galleryImages[index].image = image
-//    }
+    }    
 }
 
 

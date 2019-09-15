@@ -86,23 +86,7 @@ class VideoControllerForVideoRange: UIStackView {
     var thumbernailTimes: [NSValue]?
     
     var thumbernailCount: Int?
-    
-    var galleryRangeInSlider: GalleryRangePosition {
-        fatalError()
-//        guard let duration = duration else { fatalError() }
-//        let scrollRect = galleryScrollView.contentSize
-//        let outerFrame = galleryScrollView.convert(videoTrim.bounds, from: videoTrim)
-//        let outer = outerFrame.applying(CGAffineTransform(scaleX: 1/scrollRect.width, y: 1/scrollRect.height))
-//        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(outer.maxX)))
-    }
-    
-    var galleryRangeInTrimer: GalleryRangePosition {
-        fatalError()
-//        guard let duration = duration else { fatalError() }
-//        let inner = videoTrim.innerFrame.applying(CGAffineTransform(scaleX: 1/galleryScrollView.contentSize.width, y: 1/galleryScrollView.contentSize.height))
-//        return GalleryRangePosition(left: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.minX)), right: CMTimeMultiplyByFloat64(duration, multiplier: Float64(inner.maxX)))
-    }
-    
+        
     override func awakeFromNib() {
         axis = .vertical
         layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -137,26 +121,13 @@ class VideoControllerForVideoRange: UIStackView {
         videoSlider = VideoControllerSlider()
         galleryContainer.addSubview(videoSlider)
         videoSlider.setup(trimView: videoTrim)
-        
-//        let scrollRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.onScroll(sender:)))
-//        scrollRecognizer.delegate = self
-//        videoTrim.addGestureRecognizer(scrollRecognizer)
     }
-    
-    @objc func onScroll(sender: UIPanGestureRecognizer) {
-//        let translation = sender.translation(in: videoTrim)
-//        if videoTrim.move(by: translation.x) {
-//            delegate?.onTrimChangedByScrollInGallery(trimPosition: trimPosition, state: sender.videoTrimState, currentPosition: videoSlider.currentPosition)
-//        }
-//        sender.setTranslation(CGPoint.zero, in: videoTrim)
-    }
-    
     
     func stickTo(side: ControllerTrim.Side?) {
         stickToSide = side
     }
     
-    func loadInVideoRange(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
+    func onVideoReady(playerItem: AVPlayerItem, gifMaxDuration: Double = 8, completion: @escaping () -> Void) -> Void {
         guard playerItem.asset.duration.value > 0 else {
             return
         }
@@ -177,9 +148,6 @@ class VideoControllerForVideoRange: UIStackView {
             thumbernailCount = Int(CGFloat(8)/CGFloat(20)*CGFloat(duration.seconds))
             galleryWidth = CGFloat(thumbernailCount)*galleryView.frame.width/8
             galleryDuration = CMTime(seconds: gifMaxDuration, preferredTimescale: duration.timescale)
-            NSLayoutConstraint.activate([
-                galleryView.widthAnchor.constraint(equalToConstant: galleryWidth)
-                ])
         } else {
             thumbernailCount = Int(galleryView.frame.width/40)
             galleryWidth = galleryView.frame.width
@@ -283,14 +251,7 @@ extension VideoControllerForVideoRange: UICollectionViewDelegate {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         customDelegate?.videoControllerGalleryDidScrolled(self, didFinished: true)
-    }
-    
-    func galleryScrollTo(galleryRange: GalleryRangePosition) {
-//        let leading = galleryRange.left.seconds/duration.seconds
-//        let offsetX = CGFloat(leading)*galleryScrollView.contentSize.width
-//        galleryScrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-//        fatalError()
-    }
+    }    
 }
 
 // MARK: - Gallery slider delegate

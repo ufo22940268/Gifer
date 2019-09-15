@@ -123,7 +123,7 @@ class VideoRangeViewController: UIViewController {
         self.previewController.view.constraints.findById(id: "width").constant = targetSize.width
         self.previewController.view.constraints.findById(id: "height").constant = targetSize.height
         self.previewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.videoController.loadInVideoRange(playerItem: currentItem, gifMaxDuration: 20, completion: {
+        self.videoController.onVideoReady(playerItem: currentItem, gifMaxDuration: 20, completion: {
             self.setSubtitle(position: self.trimPosition)
             self.doneItemButton.isEnabled = true
             self.currentItem.forwardPlaybackEndTime = self.videoController.galleryDuration

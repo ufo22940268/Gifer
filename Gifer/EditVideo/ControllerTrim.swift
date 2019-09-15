@@ -166,9 +166,9 @@ class ControllerTrim: UIControl {
     }
     
     var mode: Mode = .normal
-    var galleryView: UICollectionView!
+    var galleryView: UIScrollView!
 
-    func setup(galleryView: UICollectionView, hasAppendButton: Bool = false) {
+    func setup(galleryView: UIScrollView, hasAppendButton: Bool = false) {
         guard let superview = superview else {
             return
         }
