@@ -166,9 +166,9 @@ class ControllerTrim: UIControl {
     }
     
     var mode: Mode = .normal
-    var galleryView: UIView!
+    var galleryView: UICollectionView!
 
-    func setup(galleryView: UIView, hasAppendButton: Bool = false) {
+    func setup(galleryView: UICollectionView, hasAppendButton: Bool = false) {
         guard let superview = superview else {
             return
         }
@@ -359,14 +359,15 @@ class ControllerTrim: UIControl {
     }
     
     var trimPosition: VideoTrimPosition {
-        if galleryView.bounds.size.width == 0 {
+        if galleryView.contentSize.width == 0 {
             return VideoTrimPosition(leftTrim: CMTime.zero, rightTrim: galleryDuration)
         }
         
-        let leftPercent = leftTrim.convert(CGPoint(x: leftTrim.bounds.maxX, y: 0), to: galleryView).x/galleryView.bounds.width
-        let rightPercent = rightTrim.convert(CGPoint(x: rightTrim.bounds.minX, y: 0), to: galleryView).x/galleryView.bounds.width
-        let leftTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(leftPercent))
-        let rightTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(rightPercent))
+        let leftX = leftTrim.convert(CGPoint(x: leftTrim.bounds.maxX, y: 0), to: galleryView).x
+        let rightX = rightTrim.convert(CGPoint(x: rightTrim.bounds.minX, y: 0), to: galleryView).x
+        
+        let leftTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(leftX/galleryView.contentSize.width))
+        let rightTrim = CMTimeMultiplyByFloat64(duration, multiplier: Float64(rightX/galleryView.contentSize.width))
         return VideoTrimPosition(leftTrim: leftTrim, rightTrim: rightTrim)
     }
     

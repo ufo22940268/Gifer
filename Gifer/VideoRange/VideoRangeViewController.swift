@@ -131,7 +131,7 @@ class VideoRangeViewController: UIViewController {
             self.registerPlayObserver()
             
             self.player.volume = 0
-            self.player.play()
+//            self.player.play()
         })
     }
     

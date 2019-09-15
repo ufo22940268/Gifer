@@ -82,7 +82,9 @@ class VideoControllerAttachView: UIView {
             ])
         addSubview(trimView)
         trimView.useSameSizeAsParent()
-        trimView.setup(galleryView: galleryView)
+        
+        //TODO: uncomment following code
+//        trimView.setup(galleryView: galleryView)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(onTrimPan(sender:))))
     }
