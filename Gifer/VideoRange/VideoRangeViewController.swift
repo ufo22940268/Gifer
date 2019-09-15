@@ -131,7 +131,7 @@ class VideoRangeViewController: UIViewController {
             self.registerPlayObserver()
             
             self.player.volume = 0
-//            self.player.play()
+            self.player.play()
         })
     }
     
@@ -296,8 +296,11 @@ extension VideoRangeViewController: VideoControllerForVideoRangeDelegate {
     func onAttachChanged(component: OverlayComponent, trimPosition: VideoTrimPosition) {
     }
     
-    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange) {
+    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange, didFinished: Bool) {
         print(videoController.trimPosition)
+        videoController.stickTo(side: .left)
+        let position = videoController.trimPosition
+        updateTrimPosition(position: position, trimState: didFinished ? .finished(true) : .moving(seekToSlider: true), forceSeek: position.leftTrim)
     }
     
     private func setSubtitle(position: VideoTrimPosition) {
@@ -310,16 +313,17 @@ extension VideoRangeViewController: VideoControllerForVideoRangeDelegate {
     }
     
     func onTrimChangedByScrollInGallery(trimPosition position: VideoTrimPosition, state: VideoTrimState, currentPosition: CMTime) {
-        videoController.gallerySlider.sync(galleryRange: videoController.galleryRangeInSlider)
-        videoController.stickTo(side: .left)
-        updateTrimPosition(position: position, trimState: state, forceSeek: position.leftTrim)
+//        videoController.stickTo(side: .left)
+//        updateTrimPosition(position: position, trimState: state, forceSeek: position.leftTrim)
     }
     
     /// Change be gallery slider
     func onTrimChangedByGallerySlider(state: UIGestureRecognizer.State, scrollTime: CMTime, scrollDistance: CGFloat) {
-        var position = trimPosition
-        position.scrollBy(scrollTime)
-        videoController.layoutIfNeeded()
+//        videoController.stickTo(side: .left)
+//        updateTrimPosition(position: position, trimState: state, forceSeek: position.leftTrim)
+//        var position = trimPosition
+//        position.scrollBy(scrollTime)
+//        videoController.layoutIfNeeded()
 //        var galleryRange = videoController.galleryRangeInSlidver
 //        galleryRange.scroll(by: scrollTime)
 //

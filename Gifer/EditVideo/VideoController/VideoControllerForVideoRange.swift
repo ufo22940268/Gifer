@@ -278,7 +278,11 @@ extension VideoControllerForVideoRange: UICollectionViewDataSource {
 extension VideoControllerForVideoRange: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        customDelegate?.videoControllerGalleryDidScrolled(self)
+        customDelegate?.videoControllerGalleryDidScrolled(self, didFinished: false)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        customDelegate?.videoControllerGalleryDidScrolled(self, didFinished: true)
     }
     
     func galleryScrollTo(galleryRange: GalleryRangePosition) {
@@ -291,14 +295,17 @@ extension VideoControllerForVideoRange: UICollectionViewDelegate {
 
 // MARK: - Gallery slider delegate
 extension VideoControllerForVideoRange: VideoControllerGallerySliderDelegate {
-    
-    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat) {
-        galleryView.contentOffset = CGPoint(x: galleryView.contentSize.width*leftPercentage, y: 0)
+    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat, didEndDragging: Bool) {
+        if didEndDragging {
+            customDelegate?.videoControllerGalleryDidScrolled(self, didFinished: true)
+        } else {
+            galleryView.contentOffset = CGPoint(x: galleryView.contentSize.width*leftPercentage, y: 0)
+        }
     }
 }
 
 protocol VideoControllerForVideoRangeDelegate: VideoTrimDelegate, SlideVideoProgressDelegate, VideoControllerAttachDelegate {
     
-    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange)
+    func videoControllerGalleryDidScrolled(_ videoController: VideoControllerForVideoRange, didFinished: Bool)
 }
 

@@ -148,12 +148,18 @@ class VideoControllerGallerySlider: UIScrollView {
 //MARK: Gallery scroll delegate
 extension VideoControllerGallerySlider: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let duration = duration else { return }
+        guard duration != nil else { return }
         let p = -contentOffset.x/frame.width
-        customDelegate?.onScroll(self, leftPercentage: p)
+        customDelegate?.onScroll(self, leftPercentage: p, didEndDragging: false)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard duration != nil else { return }
+        let p = -contentOffset.x/frame.width
+        customDelegate?.onScroll(self, leftPercentage: p, didEndDragging: true)
     }
 }
 
 protocol VideoControllerGallerySliderDelegate: class {
-    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat)
+    func onScroll(_ slider: VideoControllerGallerySlider, leftPercentage: CGFloat, didEndDragging: Bool)
 }
