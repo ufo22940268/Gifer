@@ -664,12 +664,12 @@ extension EditViewController: ImagePlayerDelegate {
             self.defaultGifOptions = self.currentGifOption
             self.updateSubtitleWithDuration()
             
-            //Test
+            //Test sticker
 //            let image = #imageLiteral(resourceName: "folder-color.png")
 //            let component = self.stickerOverlay.addStickerComponent(StickerInfo(image: image))
 //            self.videoController.attachView.load(image: component.stickerRender!.renderImage, component: component)
             
-            let component = self.editTextOverlay.addTextComponent(textInfo: EditTextInfo(text: "asdf", fontName: UIFont.familyNames.first!, textColor: .white))
+//            let component = self.editTextOverlay.addTextComponent(textInfo: EditTextInfo(text: "asdf", fontName: UIFont.familyNames.first!, textColor: .white))
 //            self.videoController.attachView.load(text: component.editTextRender!.attachText, component: component)
         }
     }

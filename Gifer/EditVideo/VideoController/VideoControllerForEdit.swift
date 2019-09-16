@@ -356,9 +356,10 @@ class VideoControllerForEdit: UIStackView {
         let expectThumbernailCount = max(Int(self.galleryView.bounds.width/40), 8)
         let thumbernailCount = min(expectThumbernailCount, playerItem.activeFrames.count)
         
-        let itemWidth = galleryView.frame.width/CGFloat(thumbernailCount)
+        var itemWidth = galleryView.frame.width/CGFloat(thumbernailCount)
         galleryView.setItemSize(CGSize(width: itemWidth, height: galleryView.frame.height))
 
+        galleryFrames.removeAll()
         let step = Int(floor(Double(playerItem.activeFrames.count)/Double(thumbernailCount)))
         var galleryIndex = 0
         for i in stride(from: 0, to: playerItem.activeFrames.count, by: step) {
@@ -374,11 +375,7 @@ class VideoControllerForEdit: UIStackView {
     }
     
     func loadInEditVideo(playerItem: ImagePlayerItem, completion: @escaping () -> Void) -> Void {
-        let duration = playerItem.duration
-        
         updatePlayerItem(playerItem)
-        
-        // TODO: When image player item generate process is synchronize, the gallery view width is 0.
         self.videoTrim.onVideoReady()
         self.galleryView.bringSubviewToFront(self.videoSlider)
         self.videoTrim.backgroundColor = UIColor(white: 0, alpha: 0)
