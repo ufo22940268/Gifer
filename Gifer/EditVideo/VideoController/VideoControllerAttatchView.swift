@@ -112,6 +112,7 @@ class VideoControllerAttachView: UIView {
     }
     
     func load(image: UIImage, component: OverlayComponent) {
+        self.component = component
         self.imageSticker = image
         self.textSticker = nil
         (galleryView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = CGSize(width: 28, height: 28)
@@ -120,6 +121,7 @@ class VideoControllerAttachView: UIView {
     }
     
     func load(text: String?, component: OverlayComponent) {
+        self.component = component
         self.textSticker = text
         self.imageSticker = nil
         (galleryView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = CGSize(width: 40, height: 28)
